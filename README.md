@@ -10,7 +10,7 @@ A Jeopardy question & answer practice application, along the lines of flash card
 
 ## API and Data Sample
 
-[jService.io](www.jService.io)
+[Jservice](www.jService.io)
 
 ```JSON
 
