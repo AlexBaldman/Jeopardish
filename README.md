@@ -50,8 +50,8 @@ Alex Trebek asks you a question when you press the button, press again to reveal
 
 - Post MVP, "Jeopardish" may evolve in a number of ways
 - Perhaps the button evolves into a vector of a hand holding the buzzer from the show
-- Adding in background music, fancier CSS, transitions, @media queries for responsive design, etc.
-- Add in box for more contextual information about each Question/Answer - i.e. category, question value, air-date of show it was asked on, etc.
+- Could add in background music, fancify styling, add transitions, @media queries for responsive design, etc.
+- May add box for more contextual information about each Question/Answer - i.e. category, question value, air-date of show it was asked on, etc.
 - Another Post-MVP idea to allow experimenting with implementing data from a second API, is to morph it into a second project, "JeopOrDad", which would allow the user to now receive EITHER a random Jeopardy question OR a random "Dad Joke" - because let's face it, Trebek is a corny dad joke kind of guy
 - This second API that I have in mind for the Dad jokes is [ICanHazDadJoke](icanhazdadjoke.com/api)
 
@@ -76,11 +76,12 @@ An estimate of the amount of time I'm planning to spend on each area of developm
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 |---|---|---|---|---|
-| Pseudocode & Basic HTML/CSS | M |  5hrs | TBD | TBD |
-| Fleshing Out Form | H | 5hrs| TBD | TBD |
+| Pseudocode | L |  2hrs | TBD | TBD |
+| Basic HTML/CSS | M |  4hrs | TBD | TBD |
 | Working with API | H | 4hrs| TBD | TBD |
-| Post-MVP Functionality & Beautification | H | 4hrs| TBD | TBD |
-| Total | H | 18hrs| TBD | TBD |
+| Customize Functionality w. Javascript | H | 5hrs| TBD | TBD |
+| Post-MVP Functionality & Beautification | L | 5hrs| TBD | TBD |
+| Total | --- | 20hrs| TBD | TBD |
 
 ## Code Snippet
 
