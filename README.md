@@ -76,6 +76,7 @@ Alex Trebek asks you a question when you press the button, press again to reveal
 An estimate of the amount of time I'm planning to spend on each area of development:
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
+|---|---|---|---|---|
 | Pseudocode & Basic HTML/CSS | M |  5hrs | TBD | TBD |
 | Fleshing Out Form | H | 5hrs| TBD | TBD |
 | Working with API | H | 4hrs| TBD | TBD |
