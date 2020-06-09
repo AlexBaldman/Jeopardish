@@ -35,7 +35,7 @@ A Jeopardy question & answer (answer & question) practice application along the 
 
 ## Wireframe
 
-![Wireframe](https://res.cloudinary.com/alexbaldman/image/upload/v1591716508/Jeopardish/wireframe_vtbolv.png)
+![Wireframe](https://res.cloudinary.com/alexbaldman/image/upload/v1591716508/Jeopardish/wireframe.png)
 Alex Trebek asks you a question when you press the button, press again to reveal answer.  May also include further context about each question in the further info box.
 
 #### MVP 
