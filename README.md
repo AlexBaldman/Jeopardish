@@ -68,7 +68,7 @@ Alex Trebek asks you a question when you press the button, press again to reveal
 |June 15| Present | Incomplete
 
 ## Priority Matrix
-![Priority Matrix](https://res.cloudinary.com/alexbaldman/image/upload/v1591719227/Jeopardish/priority-matrix.png)
+![Priority Matrix](https://res.cloudinary.com/alexbaldman/image/upload/c_scale,w_832/v1591720490/Jeopardish/priority-matrix.png)
 
 ## Timeframes
 
