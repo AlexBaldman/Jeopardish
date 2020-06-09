@@ -68,8 +68,7 @@ Alex Trebek asks you a question when you press the button, press again to reveal
 |June 15| Present | Incomplete
 
 ## Priority Matrix
-
-< PLACEHOLDER FOR PRIORITY MATRIX IMAGE >
+![Priority Matrix](https://res.cloudinary.com/alexbaldman/image/upload/v1591719227/Jeopardish/priority-matrix.png)
 
 ## Timeframes
 
