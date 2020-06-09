@@ -40,17 +40,18 @@ Alex Trebek asks you a question when you press the button, press again to reveal
 
 #### MVP 
 
+- Create basic page with Trebek in foreground, Jeopardy stage in the background
 - Pull random Jeopardy practice question/answer pairs - like flashcards for Jeopardy practice - from external API
-- Render data on page into a div
-- Style div so that question and answer appear in a word-bubble coming from our host, Mr. Alex Trebek
-- Create button to toggle question/answer
-- Another button to get next question
+- Render API data on page into a div
+- Style div so that question and answer appear in a word-bubble coming from our inimitable host
+- Create button to get question / reveal answer / get next question (may divide into separate buttons with different functionality)
 
 #### Post-MVP  
 
 - Post MVP, "Jeopardish" may evolve in a number of ways
 - Perhaps the button evolves into a vector of a hand holding the buzzer from the show
 - Could add in background music, fancify styling, add transitions, @media queries for responsive design, etc.
+- Depending on how the simpler stuff goes, could also make it into more of a game that actually keeps score, takes input to anwer the questions, keeps track of how many questions have been done, etc.
 - May add box for more contextual information about each Question/Answer - i.e. category, question value, air-date of show it was asked on, etc.
 - Another Post-MVP idea to allow experimenting with implementing data from a second API, is to morph it into a second project, "JeopOrDad", which would allow the user to now receive EITHER a random Jeopardy question OR a random "Dad Joke" - because let's face it, Trebek is a corny dad joke kind of guy
 - This second API that I have in mind for the Dad jokes is [ICanHazDadJoke](icanhazdadjoke.com/api)
@@ -89,8 +90,7 @@ Stay tuned to this section, where I'll include brief code snippets of functional
 
 ```
 function reverse(string) {
-	// As an example, here's some code I might use to reverse a string of text
-  // Exciting times!!!
+// As an example, here's some code I might use to reverse a string of text, though I probably won't be doing that here.
 }
 ```
 
