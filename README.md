@@ -81,7 +81,7 @@ An estimate of the amount of time I'm planning to spend on each area of developm
 | Working with API | H | 4hrs| TBD | TBD |
 | Customize Functionality w. Javascript | H | 5hrs| TBD | TBD |
 | Post-MVP Functionality & Beautification | L | 5hrs| TBD | TBD |
-| Total | --- | 20hrs| TBD | TBD |
+| Total |  | 20hrs| TBD | TBD |
 
 ## Code Snippet
 
