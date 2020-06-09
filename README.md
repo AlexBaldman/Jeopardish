@@ -6,7 +6,7 @@ Jeopardish
 
 ## Project Description
 
-A Jeopardy question & answer practice application, along the lines of flash cards for Jeopardy questions
+A Jeopardy question & answer (answer & question) practice application along the lines of flash cards for Jeopardy questions
 
 ## API and Data Sample
 
@@ -33,40 +33,36 @@ A Jeopardy question & answer practice application, along the lines of flash card
 }
 ```
 
-## Wireframes
+## Wireframe
 
-< PLACEHOLDER FOR WIREFRAMES >
-
-Upload images of your wireframes to an image hosting site or add them to an assets folder in your repo and link them here with a description of each specific wireframe.
-
-### MVP/PostMVP
-
-The functionality will then be divided into two separate lists: MPV and PostMVP.  Carefully decided what is placed into your MVP as the client will expect this functionality to be implemented upon project completion.  
+![Wireframe](https://res.cloudinary.com/alexbaldman/image/upload/v1591716508/Jeopardish/wireframe_vtbolv.png)
+Alex Trebek asks you a question when you press the button, press again to reveal answer.  May also include further context about each question in the further info box.
 
 #### MVP 
 
 - Pull random Jeopardy practice question/answer pairs - like flashcards for Jeopardy practice - from external API
-- Render data on page
-- Style displayed data so that it appears in a word-bubble coming from our host, Mr. Alex Trebek
+- Render data on page into a div
+- Style div so that question and answer appear in a word-bubble coming from our host, Mr. Alex Trebek
+- Create button to toggle question/answer
+- Another button to get next question
 
-NOTE - at first, may just be both the question and answer appearing together.
+#### Post-MVP  
 
+- Post MVP, "Jeopardish" may evolve in a number of ways
+- Perhaps the button evolves into a vector of a hand holding the buzzer from the show
+- Adding in background music, fancier CSS, transitions, @media queries for responsive design, etc.
+- Add in box for more contextual information about each Question/Answer - i.e. category, question value, air-date of show it was asked on, etc.
+- Another Post-MVP idea to allow experimenting with implementing data from a second API, is to morph it into a second project, "JeopOrDad", which would allow the user to now receive EITHER a random Jeopardy question OR a random "Dad Joke" - because let's face it, Trebek is a corny dad joke kind of guy
+- This second API that I have in mind for the Dad jokes is [ICanHazDadJoke](icanhazdadjoke.com/api)
 
-#### PostMVP  
-
-- Post MVP, "Jeopardish" may possibly evolve into "JeopOrDad" by integrating a second API
-- The core idea here is that the user now randomly receives EITHER a random Jeopardy question OR a random "Dad Joke" - because let's face it: Trebek is a corny Dad if there ever was one
-- This second API that I have in mind is [ICanHazDadJoke](icanhazdadjoke.com/api)
 
 ## Project Schedule
 
-You are **responsible** for scheduling time with your squad to seek approval for each deliverable by the end of the corresponding day, excluding `Saturday` and `Sunday`.
-
 |  Day | Deliverable | Status
 |---|---| ---|
-|June 8| Project Prompt | In Progress
-|June 9| Wireframes / Priority Matrix / Timeframes | Incomplete
-|June 10| Core Application Structure (HTML, CSS, etc.) | Incomplete
+|June 8| Project Prompt | Complete
+|June 9| Wireframes / Priority Matrix / Timeframes | Complete
+|June 10| Core App Structure (HTML, CSS, etc.) | Shall Begin When Approved
 |June 11| Initial Clickable Model  | Incomplete
 |June 12| MVP | Incomplete
 |June 15| Present | Incomplete
@@ -79,17 +75,16 @@ You are **responsible** for scheduling time with your squad to seek approval for
 
 An estimate of the amount of time I'm planning to spend on each area of development:
 
-Time frames are also key in the development cycle.  You have limited time to code all phases of the game.  Your estimates can then be used to evalute game possibilities based on time needed and the actual time you have before game must be submitted. It's always best to pad the time by a few hours so that you account for the unknown so add and additional hour or two to each component to play it safe. Throughout your project, keep track of your Time Invested and Actual Time and update your README regularly.
-
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
-| Pseudocode Site Functionality | M |  3hrs | TBD | TBD |
-| Adding Form | H | 5hrs| TBD | TBD |
+| Pseudocode & Basic HTML/CSS | M |  5hrs | TBD | TBD |
+| Fleshing Out Form | H | 5hrs| TBD | TBD |
 | Working with API | H | 4hrs| TBD | TBD |
-| Total | H | 12hrs| TBD | TBD |
+| Post-MVP Functionality & Beautification | H | 4hrs| TBD | TBD |
+| Total | H | 18hrs| TBD | TBD |
 
 ## Code Snippet
 
-Stay tuned to this section, where I'll include brief code snippets of functionality I was proud of and a brief description of each:
+Stay tuned to this section, where I'll include brief code snippets of functionality I was proud of:
 
 ```
 function reverse(string) {
