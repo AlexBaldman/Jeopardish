@@ -1,0 +1,88 @@
+body { 
+  display: flex;
+  align-content: center;
+  background-image: url("https://res.cloudinary.com/alexbaldman/image/upload/v1592211319/Jeopardish/background_z4jsr7.jpg");
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  /* padding: 0; */
+}
+
+h2 {
+  color: white; 
+  border: whitesmoke
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  /* background-color: rgb(41, 92, 231); */
+} 
+
+.title {
+  display: flexbox;
+  background-color: rgb(14, 36, 95)
+  margin:  auto auto;
+}
+
+.word-bubble {
+  display: flexbox;
+}
+
+.trebek {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  flex: 1 1 auto;
+}
+
+#questionBox {
+  display: flexbox;
+  height: 200px;
+  width: 200px;
+  bottom: 0;
+  background-color: rgb(228, 228, 158);
+  text-emphasis-color: white;
+  text-transform: capitalize;
+  text-align: center;
+  font-stretch: 1;
+  text-align: center;
+  justify-content: center;
+}
+
+#answerBox {
+  display: flexbox;
+  height: 200px;
+  width: 200px;
+  background-color: rgb(228, 228, 158);
+  text-emphasis-color: white;
+  text-transform: capitalize;
+  text-align: center;
+  font-stretch: 1;
+  text-align: center;
+  justify-content: center;
+}
+
+.button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 200px;
+  width: 200px;
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+    background-color: lightblue;
+    background-image: none;
+  }
+
+  .trebek {
+    height: 50%;
+    width: 50%;
+  }
+}

@@ -10,7 +10,7 @@ A Jeopardy question & answer (answer & question) practice application along the 
 
 ## API and Data Sample
 
-[Jservice](www.jService.io)
+[Jservice](http://www.jService.io)
 
 ```JSON
 
