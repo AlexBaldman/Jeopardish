@@ -4,7 +4,6 @@ const button = document.getElementById('button')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
-const child = document.createElement('p')
 
 const getQuestion = async () => {
   try {
