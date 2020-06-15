@@ -8,6 +8,10 @@ body {
   margin: 0 auto;
 }
 
+div {
+  display: flexbox;
+}
+
 h3 {
   color: white; 
   border: yellow;
@@ -21,6 +25,15 @@ h3 {
   flex-flow: row;
   justify-content: space-evenly;
 } 
+
+.button {
+  bottom: 0;
+  right: 0;
+  color: rgb(212, 99, 99);
+  text: white;
+  height: 200px;
+  width: 200px;
+}
 
 .title {
   display: flexbox;
@@ -58,19 +71,6 @@ h3 {
   font-stretch: 1;
   text-align: center;
   justify-content: space-around;
-}
-
-.button {
-  bottom: 0;
-  right: 0;
-  color: rgb(212, 99, 99);
-  text: white;
-  height: 200px;
-  width: 200px;
-}
-
-div {
-  display: flexbox;
 }
 
 @media only screen and (max-width: 800px) {
