@@ -1,4 +1,4 @@
-const url = "http://jservice.io/api/random"
+const url = "https://jservice.io/api/random"
 
 const button = document.getElementById('button')
 const questionBox = document.getElementById('questionBox')
