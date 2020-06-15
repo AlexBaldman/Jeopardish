@@ -9,18 +9,18 @@ body {
   /* padding: 0; */
 }
 
-h2 {
+h3 {
   color: white; 
-  border: whitesmoke
+  border: yellow;
+  text-transform: uppercase;
 }
 
 .container {
   display: flex;
   height: 100%;
   width: 100%;
-  flex-flow: row wrap;
+  flex-flow: row;
   justify-content: space-evenly;
-  /* background-color: rgb(41, 92, 231); */
 } 
 
 .title {
@@ -29,50 +29,49 @@ h2 {
   margin:  auto auto;
 }
 
-.word-bubble {
-  display: flexbox;
-}
-
 .trebek {
   position: absolute;
   left: 0;
   bottom: 0;
-  flex: 1 1 auto;
+  flex-shrink: 0 auto;
 }
 
 #questionBox {
-  display: flexbox;
-  height: 200px;
-  width: 200px;
-  bottom: 0;
+  display: inline-block;
+  min-height: 125px;
+  min-width: 125px;
   background-color: rgb(228, 228, 158);
   text-emphasis-color: white;
   text-transform: capitalize;
   text-align: center;
-  font-stretch: 1;
   text-align: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 #answerBox {
-  display: flexbox;
-  height: 200px;
-  width: 200px;
+  display: inline-block;
+  min-height: 125px;
+  min-width: 125px;
   background-color: rgb(228, 228, 158);
   text-emphasis-color: white;
   text-transform: capitalize;
   text-align: center;
   font-stretch: 1;
   text-align: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .button {
-  position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
+  color: rgb(212, 99, 99);
+  text: white;
   height: 200px;
   width: 200px;
+}
+
+div {
+  display: flexbox;
 }
 
 @media only screen and (max-width: 800px) {
@@ -81,8 +80,4 @@ h2 {
     background-image: none;
   }
 
-  .trebek {
-    height: 50%;
-    width: 50%;
-  }
 }

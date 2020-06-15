@@ -36,15 +36,16 @@ A Jeopardy question & answer (answer & question) practice application along the 
 ## Wireframe
 
 ![Wireframe](https://res.cloudinary.com/alexbaldman/image/upload/v1591716508/Jeopardish/wireframe.png)
-Alex Trebek asks you a question when you press the button, press again to reveal answer.  May also include further context about each question in the further info box.
+
+Alex Trebek provides a comforting presence as potential Jeopardy contestants can click a button to randomly generate question/answer pairs like flash cards.
 
 #### MVP 
 
 - Create basic page with Trebek in foreground, Jeopardy stage in the background
 - Pull random Jeopardy practice question/answer pairs - like flashcards for Jeopardy practice - from external API
-- Render API data on page into a div
-- Style div so that question and answer appear in a word-bubble coming from our inimitable host
-- Create button to get question / reveal answer / get next question (may divide into separate buttons with different functionality)
+- Render API data on page into a div or divs
+- Possibly style div so that question and answer appear in a word-bubble coming from our inimitable host, or otherwise display data so that it can be clearly read
+- Create button to get question & answer, and clear next question before populating next question when clicked again (possibly can divide into separate buttons with different functionality)
 
 #### Post-MVP  
 
@@ -53,8 +54,7 @@ Alex Trebek asks you a question when you press the button, press again to reveal
 - Could add in background music, fancify styling, add transitions, @media queries for responsive design, etc.
 - Depending on how the simpler stuff goes, could also make it into more of a game that actually keeps score, takes input to anwer the questions, keeps track of how many questions have been done, etc.
 - May add box for more contextual information about each Question/Answer - i.e. category, question value, air-date of show it was asked on, etc.
-- Another Post-MVP idea to allow experimenting with implementing data from a second API, is to morph it into a second project, "JeopOrDad", which would allow the user to now receive EITHER a random Jeopardy question OR a random "Dad Joke" - because let's face it, Trebek is a corny dad joke kind of guy
-- This second API that I have in mind for the Dad jokes is [ICanHazDadJoke](icanhazdadjoke.com/api)
+- The original idea "JeopOrDad", would allow the user to now receive EITHER a random Jeopardy question OR a random "Dad Joke" - because let's face it, Trebek is a corny dad joke kind of guy.  Original idea was a bit too ambitious so scaled back to focus on getting more comfortable with the fundamentals. That second API that I had in mind for the Dad jokes is [ICanHazDadJoke](icanhazdadjoke.com/api), so keeping in mind for future projects
 
 
 ## Project Schedule
@@ -63,10 +63,10 @@ Alex Trebek asks you a question when you press the button, press again to reveal
 |---|---| ---|
 |June 8| Project Prompt | Complete
 |June 9| Wireframes / Priority Matrix / Timeframes | Complete
-|June 10| Core App Structure (HTML, CSS, etc.) | Shall Begin When Approved
-|June 11| Initial Clickable Model  | Incomplete
-|June 12| MVP | Incomplete
-|June 15| Present | Incomplete
+|June 10| Core App Structure (HTML, CSS, etc.) | Complete
+|June 11| Initial Clickable Model  | Complete
+|June 12| MVP | Complete
+|June 15| Present | Partially complete
 
 ## Priority Matrix
 ![Priority Matrix](https://res.cloudinary.com/alexbaldman/image/upload/c_scale,w_832/v1591720490/Jeopardish/priority-matrix.png)
@@ -77,23 +77,21 @@ An estimate of the amount of time I'm planning to spend on each area of developm
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 |---|---|---|---|---|
-| Pseudocode | L |  2hrs | TBD | TBD |
-| Basic HTML/CSS | M |  4hrs | TBD | TBD |
-| Working with API | H | 4hrs| TBD | TBD |
-| Customize Functionality w. Javascript | H | 5hrs| TBD | TBD |
-| Post-MVP Functionality & Beautification | L | 5hrs| TBD | TBD |
-| Total |  | 20hrs| TBD | TBD |
+| Pseudocode | L |  2hrs | 1.5hrs | 2hrs |
+| Basic HTML/CSS | M |  4hrs | 3.5hrs | 3.5hrs |
+| Working with API | H | 4hrs| 5hrs | 5hrs |
+| Customize Functionality w. Javascript | H | 5hrs| 6hrs | 6hrs |
+| Post-MVP Functionality & Beautification | L | 5hrs| 5hrs | 5hrs |
+| Total |  | 20hrs| 21.5hrs | 21.5hrs |
 
 ## Code Snippet
 
 Stay tuned to this section, where I'll include brief code snippets of functionality I was proud of:
 
 ```
-function reverse(string) {
-// As an example, here's some code I might use to reverse a string of text, though I probably won't be doing that here.
-}
+Had a hard time getting some of this to work, so was happy to get this working via trial and error, 
+    questionBox.innerHTML += question;
+    answerBox.innerHTML += answer;
 ```
 
-## Change Log
- This section will be used to document changes that were made and the reasoning behind them.
  

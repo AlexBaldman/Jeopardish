@@ -29,8 +29,3 @@ const getQuestion = async () => {
 
 
 button.addEventListener('click', getQuestion)
-
-
-
-// trebek.addEventListener('click', clearBox)
-// const clearBox = 
