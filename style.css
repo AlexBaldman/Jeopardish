@@ -27,18 +27,19 @@ h3 {
 } 
 
 .button {
+  display: flexbox;
   bottom: 0;
   right: 0;
   color: rgb(212, 99, 99);
   text: white;
-  height: 200px;
-  width: 200px;
+  min-height: 200px;
+  min-width: 200px;
 }
 
 .title {
   display: flexbox;
   background-color: rgb(14, 36, 95)
-  margin:  auto auto;
+  margin:  0 auto;
 }
 
 .trebek {
@@ -78,5 +79,10 @@ h3 {
     background-color: lightblue;
     background-image: none;
   }
-
+  #questionBox {
+    display: column wrap;
+  }
+  #answerBox {
+    display: column wrap;
+  }
 }
