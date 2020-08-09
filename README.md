@@ -1,12 +1,8 @@
-# Project Overview
+# Jeopardish
 
-## Project Name
+## Overview
 
-Jeopardish
-
-## Project Description
-
-A Jeopardy question & answer (answer & question) practice application along the lines of flash cards for Jeopardy questions
+A Jeopardy question & answer (answer & question) practice trivia application along the lines of flash cards for Jeopardy questions.
 
 ## API and Data Sample
 
