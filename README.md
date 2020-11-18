@@ -2,6 +2,7 @@
 
 ## Overview
 
+A Jeopardy question & answer (answer & question) practice trivia application along the lines of flash cards for Jeopardy questio
 A 'Jeopardish' question/answer (answer/question?) practice application.  MVP intended to function initially
 like a random flash card generator, and to serve as a sandbox for testing various ideas regarding trivia-type game development.
 

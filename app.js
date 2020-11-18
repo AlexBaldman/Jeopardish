@@ -1,22 +1,9 @@
-// setting API url,
-// assigning variables to certain items, 
-// selected via DOM by Id / ClassnName:
-// ++++++++++++================================================-------------
-
 const url = 'https://jservice.io/api/random'
 
 const button = document.getElementById('button')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
-
-// +++++++++++================================================-------
-// clear out innerHTML from questionBox & answerBox 
-// before re-populating w. new question/answer pairs.
-// asynchronously grab API response
-// create variables for:
-// category, question, answer 
-// +++++======================================================---
 
 const getQuestion = async () => {
   try {
@@ -41,6 +28,22 @@ const getQuestion = async () => {
 
 button.addEventListener('click', getQuestion)
 
+// setting API url,
+// assigning variables to certain items, 
+// selected via DOM by Id / ClassnName:
+// ++++++++++++================================================-------------
+
+
+// +++++++++++================================================-------
+// clear out innerHTML from questionBox & answerBox 
+// before re-populating w. new question/answer pairs.
+// asynchronously grab API response
+// create variables for:
+// category, question, answer 
+// +++++======================================================---
+
+// trebek.addEventListener('click', clearBox)
+// const clearBox = 
 // ========================================
 // added EventListener 
 // to call getQuestion() function
