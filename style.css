@@ -23,7 +23,7 @@ h3 {
   height: 100%;
   width: 100%;
   flex-flow: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
 } 
 
 .button {
@@ -46,32 +46,39 @@ h3 {
   position: absolute;
   left: 0;
   bottom: 0;
-  flex-shrink: 0 auto;
+  flex-shrink: auto auto;
 }
 
 #questionBox {
-  display: inline-block;
-  min-height: 125px;
-  min-width: 125px;
+  display: flex;
+  min-height: 15vh;
+  min-width: 15vh;
   background-color: rgb(228, 228, 158);
   text-emphasis-color: white;
   text-transform: capitalize;
   text-align: center;
   text-align: center;
   justify-content: space-around;
+  padding: 5vh;
+  border-radius: 40px;
+  margin: 10vh;
 }
 
 #answerBox {
   display: inline-block;
-  min-height: 125px;
-  min-width: 125px;
+  min-height: 15vh;
+  min-width: 15vh;
   background-color: rgb(228, 228, 158);
   text-emphasis-color: white;
   text-transform: capitalize;
   text-align: center;
   font-stretch: 1;
-  text-align: center;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+  padding: 5vh;
+  border-radius: 40px;
+  margin: 10vh;
+
 }
 
 @media only screen and (max-width: 800px) {
