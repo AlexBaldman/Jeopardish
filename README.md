@@ -38,13 +38,7 @@ Users can practice for the show using the simple click of a button to randomly g
 }
 
 ```
-## Wireframe
 
-![Wireframe](https://res.cloudinary.com/alexbaldman/image/upload/v1591716508/Jeopardish/wireframe.png)
-
-## Priority Matrix
-
-![Jeopardish Priority Matrix](https://res.cloudinary.com/alexbaldman/image/upload/c_scale,w_832/v1591720490/Jeopardish/priority-matrix.png)
 
 ## MVP 
 
@@ -65,22 +59,28 @@ Post MVP, "Jeopardish" may evolve in a number of ways:
 - May add box for more contextual information about each Question/Answer - i.e. category, question value, air-date of show it was asked on, etc.
 - The original idea "JeopOrDad", would allow the user to now receive EITHER a random Jeopardy question OR a random "Dad Joke" - because let's face it, Trebek is a corny dad joke kind of guy.  Original idea was a bit too ambitious so scaled back to focus on getting more comfortable with the fundamentals. That second API that I had in mind for the Dad jokes is [ICanHazDadJoke](icanhazdadjoke.com/api), so keeping in mind for future projects
 
+## Wireframe
 
+![Wireframe](https://res.cloudinary.com/alexbaldman/image/upload/v1591716508/Jeopardish/wireframe.png)
+
+## Priority Matrix
+
+![Jeopardish Priority Matrix](https://res.cloudinary.com/alexbaldman/image/upload/c_scale,w_832/v1591720490/Jeopardish/priority-matrix.png)
 ## Project Schedule
 
 |  Day | Deliverable | Status |
 |---|---|---|
-|June 8| Project Prompt | Complete
-|June 9| Wireframes / Priority Matrix / Timeframes | Complete
-|June 10| Core App Structure (HTML, CSS, etc.) | Complete
-|June 11| Initial Clickable Model  | Complete
-|June 12| MVP | Complete
-|June 15| Present | Partially complete
+| Day 1 | Project Prompt | Complete |
+| Day 2 | Wireframes / Priority Matrix / Timeframes | Complete |
+| Day 3 | Core App Structure (HTML, CSS, etc.) | Complete |
+| Day 4 | Initial Clickable Model  | Complete |
+| Day 5 | MVP | Complete |
+| Day 6 | Present | Complete |
 
 
 ## Timeframes
 
-Estimated time on each area of development:
+Estimated time for each area of development:
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 |---|---|---|---|---|
@@ -93,7 +93,7 @@ Estimated time on each area of development:
 
 ## Code Highlights
 
-Repopoulating question & answerboxes from within API call function:
+Repopoulat question & answerboxes from within API call function:
 
 ```
   questionBox.innerHTML += question;
