@@ -3,13 +3,9 @@ body {
   align-content: center;
   background-image: url("https://res.cloudinary.com/alexbaldman/image/upload/v1592211319/Jeopardish/background_z4jsr7.jpg");
   background-repeat: no-repeat;
-  width: 100%;
+  width: 80%;
   height: 100%;
   margin: 0 auto;
-}
-
-div {
-  display: flexbox;
 }
 
 h3 {
@@ -50,7 +46,7 @@ h3 {
 }
 
 #questionBox {
-  display: flex;
+  display: inline-block;
   min-height: 15vh;
   min-width: 15vh;
   background-color: rgb(228, 228, 158);
@@ -58,7 +54,7 @@ h3 {
   text-transform: capitalize;
   text-align: center;
   text-align: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
   padding: 5vh;
   border-radius: 40px;
   margin: 10vh;
@@ -73,11 +69,14 @@ h3 {
   text-transform: capitalize;
   text-align: center;
   font-stretch: 1;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   padding: 5vh;
-  border-radius: 40px;
+  border-radius: 30px;
   margin: 10vh;
+  h3 {
+    justify-content: center;
+  }
 
 }
 

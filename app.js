@@ -10,6 +10,7 @@ const getQuestion = async () => {
     questionBox.innerHTML = ''
     answerBox.innerHTML = ''
     
+    
     let response = await axios.get(url)
     let category = response.data[0].category.title
     let question = response.data[0].question
@@ -27,7 +28,10 @@ const getQuestion = async () => {
   }
 }
 
+
+
 button.addEventListener('click', getQuestion)
+
 
 // set API url,
 // assign variables to certain items, 
