@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+  
+  <link id="favicon" rel="shortcut icon" type="image/svg" href="favicon.svg" />
 
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=5.0, minimum-scale=0.86">
     <link rel="stylesheet" href="style.css" type="text/css" media="screen">
     <script src="https://unpkg.com/axios/dist/axios.min"></script>
-    <script defer src="app.js"></script> 
+    <script defer src="app.js"></script>
     <title>Jeopardish!</title>
   </head>
   
   <body>
-    <div class = "title">
-      <img src = "https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt= "jeopardish">
-    </div>
-
-    <div class = "container">
-      
-     
-      <div class = "trebek">
-        <img src = "trebek-vector.png">
+    
+      <div class = "title">
+        <img src = "https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt= "jeopardish">
       </div>
 
-      <div id = "questionBox">   
-        <h3>question</h3>
-      </div>
+      <!-- <div class="container"> -->
+        
+        <div class="button-div">
+          <button id = "questionButton"> Get Random Question </button>
+          <button id = "answerButton"> Show / Hide Answer </button>
+        </div>
 
+        <div class = "bubble">
+          <div id="categoryBox"></div>
+          <p></p>
+          <div id="questionBox"></div>
+          <p></p>
+          <div id="answerBox"></div>
+        </div>
 
-      <div id = "answerBox">
-        <h3>answer</h3>
-      </div>
-      
-    </div>
+      <!-- </div> -->
 
-    <div className = "button-div">
-      <button id = "button"> New Random Question / Answer </button>
-    </div>
-
-    <div></div>
-
-
+        <div class = "trebek">
+          <img src = "trebek-vector.png">
+        </div>
+    
   </body>
 
 </html>
