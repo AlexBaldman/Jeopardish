@@ -18,6 +18,7 @@ const getQuestion = async () => {
     let category = response.data[0].category.title
     let question = response.data[0].question
     let answer = response.data[0].answer
+    // let image = respons.data[0].image
    
     categoryBox.innerHTML += category.toUpperCase();
     questionBox.innerHTML += question
