@@ -1,12 +1,11 @@
 body {
   display: block;
-  background-color: lightblue;
   text-rendering: optimizeLegibility;
 }
 
 .title {
   display: flex;
-  max-height: 20vh;
+  max-height: 10em;
   justify-content: center;
   background-color: white;  
   margin: 0 auto;
@@ -14,28 +13,58 @@ body {
 
 .button-div {
   display: flex;
-  border-bottom: 5px solid darkblue;
-  border-top: 3px solid black;
-  background-color: darkgrey;
+  height: 10vh;
+  border-bottom: 10px solid rgb(9, 53, 100);
+  border-top: 1vh solid rgb(9, 53, 96);
+  background-color: rgb(106, 106, 221);
   justify-content: space-evenly;
-  padding: 10px;
+  padding: 2vh;
   margin-bottom: 20px;
 }
 
-.bubble {
-  display: flex;
+#answerButton {
+  border-radius: 50px;
+  background-color: yellow;
+  width: 20vh;
+  color: rgb(34, 30, 30)42, 42);
+}
+
+#questionButton {
+  border-radius: 50px;
+  background-color: yellow;
+  width: 20vh;
+  color: rgb(30, 26, 26);
+}
+.speech-bubble {
+	position: relative;
+	background: #00aabb;
+  border-radius: .4em;
   padding: 50px auto;
-  drop-shadow: 10px;
   text-align: center;
   flex-flow: row wrap;
-  border-radius: 100px;
+  border-radius: 70px;
   margin: 0 auto;
   padding: 15px;
-  background-color: rgb(40, 40, 190);
   color: white;
   height: 50vh;
-  width: 50vw;
+  min-width: 20vw;
+  width: 60vw;
   justify-content: center;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 48px solid transparent;
+	border-top-color: #00aabb;
+	border-bottom: 0;
+	border-left: 0;
+	margin-left: -23.5px;
+	margin-bottom: -47px;
 }
 
 .trebek {
@@ -45,33 +74,36 @@ body {
   flex-shrink: 2;
   padding: 0;
     img {
-      position: absolute;
-      width: 50px;
+      height: 50%;
       bottom: 0;
   }
 }
 
 #categoryBox {
   flex-flow: row wrap;
-  /* padding: 20px; */
-  color: lightgrey;
+  padding: 20px;
+  color: rgb(249, 253, 129);
   padding: 10px;
-  margin: 20px auto;
+  margin: 5% auto;
+  font-size: 3vh;
 }
 
 #questionBox {
   flex-flow: row wrap;
-  margin: 0 auto;
+  margin: 15% 10%;
+  text-emphasis: bold;
+  font-size: 2.5vh;
 }
 
 #answerBox {
-  flex-flow: row wrap;
-  justify-content: center;
   display: none;
+  justify-content: center;
   flex-flow: row wrap;
-  text-emphasis: italic;
-  text-shadow: 0 1px 0;
-  color: rgba(244, 244, 37, 0.839);
+  margin: 13vh auto;
+  text-decoration-style: italic;
+  font-size: 3vh;
+  /* background-color: green; */
+  color: rgb(255, 202, 95);
 }
   
 @media only screen and (max-width: 900px) {
@@ -79,7 +111,7 @@ body {
     background-color:lightgrey;
   }
   .bubble {
-    width: 70%;
+    min-width: 100%;
   }
   .title {
     min-height: 100%;
@@ -98,55 +130,3 @@ body {
     min-height: 20vh;
   }
 }
-
-
-/* -- OLD & CHANGED, SAVING FOR REFERENCE:
-
-body { 
-  display: flexbox;
-  align-content: center;
-  background-image: url("https://res.cloudinary.com/alexbaldman/image/upload/v1592211319/Jeopardish/background_z4jsr7.jpg");
-  background-repeat: no-repeat;
-} 
-
-#questionBox {
-display: inline-block;
-min-height: 15vh;
-min-width: 15vh;
-background-color: rgb(228, 228, 158);
-text-emphasis-color: white;
-text-transform: capitalize;
-text-align: center;
-text-align: center;
-justify-content: space-evenly;
-padding: 5vh;
-border-radius: 40px;
-margin: 10vh;
-}
-
-#answerBox {
-display: none;
-min-height: 15vh;
-min-width: 15vh;
-background-color: rgb(228, 228, 158);
-text-emphasis-color: white;
-text-transform: capitalize;
-text-align: center;
-font-stretch: 1;
-justify-content: space-evenly;
-align-items: center;
-padding: 5vh;
-border-radius: 30px;
-margin: 10vh;
-  h3 {
-    justify-content: center;
-  }
-
-.container {
-  display: block;
-  background-color: lightblue;
-  height: 100%;
-  width: 100%;
-} 
-
-*/
