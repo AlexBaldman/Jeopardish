@@ -1,6 +1,8 @@
 body {
   display: block;
   text-rendering: optimizeLegibility;
+  height: 100%;
+  width: 100%;
 }
 
 .title {
@@ -9,6 +11,13 @@ body {
   justify-content: center;
   background-color: white;  
   margin: 0 auto;
+}
+
+.game-container {
+  height: 90%;
+  width: 90%;
+  background-color: darkgrey;
+  display: block;
 }
 
 .button-div {
