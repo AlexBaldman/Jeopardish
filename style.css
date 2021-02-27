@@ -1,6 +1,8 @@
 body {
   display: block;
   text-rendering: optimizeLegibility;
+  height: 100%;
+  width: 100%;
 }
 
 .title {
@@ -9,6 +11,13 @@ body {
   justify-content: center;
   background-color: white;  
   margin: 0 auto;
+}
+
+.game-container {
+  height: 90%;
+  width: 90%;
+  background-color: darkgrey;
+  display: block;
 }
 
 .button-div {
@@ -35,6 +44,7 @@ body {
   width: 20vh;
   color: rgb(30, 26, 26);
 }
+
 .speech-bubble {
 	position: relative;
 	background: #00aabb;
@@ -46,10 +56,11 @@ body {
   margin: 0 auto;
   padding: 15px;
   color: white;
-  height: 50vh;
+  height: 40vh;
   min-width: 20vw;
-  width: 60vw;
+  width: 55vw;
   justify-content: center;
+  align-content: stretch;
 }
 
 .speech-bubble:after {
@@ -67,6 +78,32 @@ body {
 	margin-bottom: -47px;
 }
 
+#categoryBox {
+  flex-flow: row wrap;
+  padding: 20px;
+  color: rgb(249, 253, 129);
+  padding: 10px;
+  margin: 5% auto;
+  font-size: 3vh;
+}
+
+#questionBox {
+  flex-flow: row wrap;
+  margin: auto auto;
+  text-emphasis: bold;
+  font-size: 2.5vh;
+}
+
+#answerBox {
+  display: none;
+  justify-content: center;
+  flex-flow: flex end;
+  margin: 6vh auto;
+  text-decoration-style: italic;
+  font-size: 3vh;
+  color: rgb(255, 202, 95);
+}
+
 .trebek {
   position: absolute;
   left: 0;
@@ -79,33 +116,18 @@ body {
   }
 }
 
-#categoryBox {
-  flex-flow: row wrap;
-  padding: 20px;
-  color: rgb(249, 253, 129);
-  padding: 10px;
-  margin: 5% auto;
-  font-size: 3vh;
+.input {
+  display : flex;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-right: 5vh;
+  height: 15vh;
+  align-items: center;
+  justify-content: bottom;
 }
 
-#questionBox {
-  flex-flow: row wrap;
-  margin: 15% 10%;
-  text-emphasis: bold;
-  font-size: 2.5vh;
-}
 
-#answerBox {
-  display: none;
-  justify-content: center;
-  flex-flow: row wrap;
-  margin: 13vh auto;
-  text-decoration-style: italic;
-  font-size: 3vh;
-  /* background-color: green; */
-  color: rgb(255, 202, 95);
-}
-  
 @media only screen and (max-width: 900px) {
   body {
     background-color:lightgrey;
