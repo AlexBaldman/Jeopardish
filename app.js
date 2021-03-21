@@ -7,7 +7,7 @@ const categoryBox = document.getElementById('categoryBox')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
-const userInput = document.getElementById('textInput');
+const userInput = document.getElementById('inputbox');
 let counter = 0
 
 const getQuestion = async() => {
@@ -44,16 +44,15 @@ answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
 
 function checkAnswer() {
-  // const userInput = document.getElementById("textInput").value;
   let answer = answerBox.innerHTML
-  if (userInput.value == answer) {
+  if (userInput.value == answer || userInput.value == answer.toLowerCase() ) {
       //user has inputted the correct string
       window.alert("I am delighted to report you are correct! You're the best!!");
       //streak counter increments
       counter++;
   } else {
       //user has inputted an incorrect string
-      window.alert("I'm sorry, that's either incorrect or the judges are...  It could be them, they're a little drunk..");
+      window.alert("I'm sorry, that's either incorrect or the judges are...  It could be them, they're a little drunk...");
       //reset streak counter
       counter = 0;
   }

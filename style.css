@@ -1,8 +1,20 @@
 body {
-  display: block;
-  text-rendering: optimizeLegibility;
-  height: 100%;
-  width: 100%;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  justify-content: stretch;
+  min-height: 600px;
+}
+
+.game-container {
+  display: table;
+  overflow-x: hidden;
+  min-width: 400px;
+  height: 100vh;
+  width: 100vw;
+  background-color: pink;
+  align-content: stretch;
 }
 
 .title {
@@ -13,22 +25,34 @@ body {
   margin: 0 auto;
 }
 
-.game-container {
-  height: 90%;
-  width: 90%;
-  background-color: darkgrey;
-  display: block;
-}
-
 .button-div {
   display: flex;
-  height: 10vh;
+  min-height: 5vh;
   border-bottom: 10px solid rgb(9, 53, 100);
   border-top: 1vh solid rgb(9, 53, 96);
   background-color: rgb(106, 106, 221);
   justify-content: space-evenly;
   padding: 2vh;
   margin-bottom: 20px;
+}
+
+.button {
+  background-color:rgb(9, 53, 96);
+  color: white;
+}
+
+.input-div {
+  display: flex;
+  background: rgba(65, 35, 175, 0.8)
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2vh;
+}
+
+#inputbox {
+  width: 50vw;
+  color: white;
+  background-color:rgb(106, 106, 221, 40%)
 }
 
 #answerButton {
@@ -48,21 +72,22 @@ body {
 .speech-bubble {
 	position: relative;
 	background: #00aabb;
+  text-rendering: optimizeLegibility;
   border-radius: .4em;
-  padding: 50px auto;
+  padding: auto auto;
   text-align: center;
   flex-flow: row wrap;
   border-radius: 70px;
+  border: yellow solid 4px;
   margin: 0 auto;
   padding: 15px;
   color: white;
   height: 40vh;
-  min-width: 20vw;
+  min-width: 40vw;
   width: 55vw;
-  justify-content: center;
+  justify-content: space-around;
   align-content: stretch;
 }
-
 .speech-bubble:after {
 	content: '';
 	position: absolute;
@@ -74,7 +99,7 @@ body {
 	border-top-color: #00aabb;
 	border-bottom: 0;
 	border-left: 0;
-	margin-left: -23.5px;
+	margin-left: -75px;
 	margin-bottom: -47px;
 }
 
@@ -91,16 +116,16 @@ body {
   flex-flow: row wrap;
   margin: auto auto;
   text-emphasis: bold;
-  font-size: 2.5vh;
+  font-size: 2vh;
 }
 
 #answerBox {
   display: none;
   justify-content: center;
   flex-flow: flex end;
-  margin: 6vh auto;
+  margin: 2vh auto;
   text-decoration-style: italic;
-  font-size: 3vh;
+  font-size: 2.5vh;
   color: rgb(255, 202, 95);
 }
 
@@ -108,47 +133,19 @@ body {
   position: absolute;
   left: 0;
   bottom: 0;
-  flex-shrink: 2;
+  flex-shrink: 1;
   padding: 0;
-    img {
-      height: 50%;
-      bottom: 0;
-  }
+  width: 30%;
 }
 
-.input {
-  display : flex;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  margin-right: 5vh;
-  height: 15vh;
-  align-items: center;
-  justify-content: bottom;
-}
-
-
-@media only screen and (max-width: 900px) {
-  body {
-    background-color:lightgrey;
-  }
+@media only screen and (max-width: 00px) {
   .bubble {
-    min-width: 100%;
-  }
-  .title {
-    min-height: 100%;
-  }
-  img {
-      height: 50%;
-      width: 50%;
+    min-width: 100vw;
   }
 }
 
 @media only screen and (max-height: 500px) {
   .bubble {
     width: 50%;
-  }
-  .title {
-    min-height: 20vh;
   }
 }
