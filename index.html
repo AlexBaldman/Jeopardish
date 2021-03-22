@@ -2,12 +2,12 @@
 
 <body lang="en">
   
-  <!-- <link id="favicon" rel="shortcut icon" type="image/svg" href="favicon.svg" /> -->
+  <link id="favicon" rel="shortcut icon" type="image/svg" href="favicon.svg" />
 
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width = device-width, initial-scale = 1.0" minimal-scale="1.0">
-    <link id="favicon" rel="shortcut icon" type="image/svg" href="favicon.svg" />
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0" minimum-scale = "1.0">
+    <link id="favicon" rel="shortcut icon" type="image/svg" href="/favicon.svg" />
     <link rel="stylesheet" href="style.css" type="text/css" media="screen">
     <script src="https://unpkg.com/axios/dist/axios.min"></script>
     <script defer src="app.js"></script>
@@ -17,30 +17,37 @@
 
       <div class="game-container">
 
-          <div class = "title">
-            <img src = "https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" 
-                 alt = "Jeopardish Game Title">
+          <div class= "title">
+            <img src= "https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" 
+                 alt= "Jeopardish Game Title">
           </div>
           
-          <div class="button-div">
-            <button id="questionButton" alt = "Question Button"> Get Random Question </button>
-            <button id="answerButton" alt = "Answer Button"> Show / Hide Answer </button>
+          <div class= "button-div">
+            <button id= "questionButton" alt= "Question Button" > RANDOM QUESTION </button>
+            <button id= "answerButton" alt= "Answer Button" > SHOW / HIDE ANSWER </button>
           </div>
-          <div class = "input-div">
-            <input type = "text" id= "inputbox" placeholder = "Enter answer here - spelling counts!"  />
+
+          <div class= "input-div">
+            <input type= "text" id= "inputbox" placeholder= "Enter answer here (spelling counts!)"  />
             <p></p>
-            <button class = "button" onclick = "checkAnswer();"> CHECK ANSWER </button>
+            <button type= "submit" id= "checkButton" onClick= "checkAnswer();"> CHECK ANSWER </button>
           </div>
-          <div class = "speech-bubble">
-            <div id="categoryBox"></div><p></p>
-            <div id="questionBox"></div><p></p>
-            <div id="answerBox"></div>
+
+          <div class= "speech-bubble">
+            <div id= "categoryBox"></div>
+            <p></p>
+            <div id= "questionBox"></div>
+            <p></p>
+            <div id= "answerBox"></div>
           </div>
-          <img  src = "https://res.cloudinary.com/alexbaldman/image/upload/v1609955507/trebek-vector.png"
-                alt = "Alex Trebek"
-                class = "trebek">
+
+          <img  class= "trebek"
+                alt= "Alex Trebek"
+                src= "https://res.cloudinary.com/alexbaldman/image/upload/v1609955507/trebek-vector.png" >
 
       </div>
+
+   
 
   </body>
 </html>
