@@ -20,7 +20,7 @@ body {
 
 .title {
   display: flex;
-  max-height: 10vh;
+  max-height: 8vh;
   justify-content: space-around;
   background-color: white;  
   margin: 0 auto;
@@ -95,7 +95,7 @@ body {
   flex-flow: row wrap;
   padding: 15px;
   color: white;
-  height: 40vh;
+  height: 30vh;
   width: 100vw;
   justify-content: space-evenly;
   align-content: stretch;
