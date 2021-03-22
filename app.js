@@ -1,6 +1,6 @@
 const url = 'https://jservice.io/api/random'
 
-const button = document.getElementById('button')
+const button = document.getElementById('checkButton')
 const answerButton = document.getElementById('answerButton')
 const questionButton = document.getElementById('questionButton')
 const categoryBox = document.getElementById('categoryBox')
@@ -8,6 +8,7 @@ const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
 const userInput = document.getElementById('inputbox');
+
 let counter = 0
 
 const getQuestion = async() => {
@@ -20,8 +21,6 @@ const getQuestion = async() => {
     let category = response.data[0].category.title
     let question = response.data[0].question
     let answer = response.data[0].answer
-
-
     categoryBox.innerHTML += category.toUpperCase();
     questionBox.innerHTML += question
     answerBox.innerHTML += answer;
@@ -36,11 +35,11 @@ function showHideAnswer() {
     answerBox.style.display = "flex";
     } else {
     answerBox.style.display = "none";
-  }
-} 
+  } // answer will be hidden until showHideAnswer() is called, revealing answer by changing display to flex,
+} // if answer already revealed, will re-hide
+
 
 answerButton.addEventListener('click', showHideAnswer)
-
 questionButton.addEventListener('click', getQuestion)
 
 function checkAnswer() {
