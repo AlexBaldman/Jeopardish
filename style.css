@@ -1,36 +1,56 @@
+html {
+  display: flex;
+}
+
 body {
+  top: -10px;
+  left: -10px;
+  display: flex;
   position: relative;
-  margin: 0 auto;
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-  justify-content: stretch;
-  min-height: 600px;
+  overflow-x; hidden;
+  overflow-y: hidden;
+  justify-content: center;
+  justify-self: center;
+  /* margin: 0 auto; */
+  /* padding: 0 auto; */
+  /* height: 95vh; */
+  /* width: 100vw;  */
+  /* top: -10; */ 
+  /* min-height: 100vh; */
 }
 
 .game-container {
   display: table;
-  overflow-x: hidden;
-  min-width: 400px;
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(135, 73, 193, 0.402);
-  align-content: stretch;
+  flex-flow: column;
+  bottom: -10px;
+  top: -20px;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: rgba(146, 223, 239, 0.882);
+  justify-content: center;
+  /* min-width: 400px; */
+  /* overflow-x: hidden; */
+  /* overflow-y: hidden; */
+  /* margin: 0 0; */
 }
-
+.title-div {
+  background-color: blue;
+  max-height: 10vh;
+}
 .title {
   display: flex;
-  max-height: 8vh;
+  max-height: 7vh;
   justify-content: space-around;
-  background-color: white;  
+  background-color: rgb(91, 88, 255);  
   margin: 0 auto;
+  border: dotted 5px yellow;
 }
 
 .button-div {
   display: flex;
   flex-flow: row;
   margin: 0 auto;
-  min-height: 8vh;
+  min-height: 6vh;
   border-bottom: 10px solid rgb(9, 53, 100, 75%);
   border-top: 1vh solid rgb(9, 53, 96);
   background-color: rgba(100, 173, 215, 0.957);
@@ -39,7 +59,7 @@ body {
 
 #questionButton {
   display: flex;
-  height: 5vh;
+  height: 6vh;
   color: white;
   text-align: center;
   justify-content: center;
@@ -51,7 +71,7 @@ body {
 
 #answerButton {
   display: flex;
-  height: 5vh;
+  height: 6vh;
   color: white;
   text-align: center;
   justify-content: center;
@@ -65,24 +85,28 @@ body {
 .input-div {
   display: flex;
   min-height: 6vh;
+  min-width: 100vw;
   background-color: rgba(65, 35, 175, 0.8)
-  align-items: center;
-  /* justify-content: space-around; */
   border-bottom: 10px solid rgb(9, 53, 100, 80%);
+  justify-content: center;
+  /* align-items: center; */
 }
 
 #inputbox {
-  width: 65%;
+  display: flex;
+  width: 60vw;
   color: white;
   text-align: center;
   text-decoration-style: bold;
-  background-color:rgb(106, 106, 221, 40%)
+  background-color:rgba(243, 146, 225, 0.546)
 }
 #checkButton {
   flex-flow: row wrap;
   background-color:rgb(9, 53, 96);
   color: white;
-  width: 35%;
+  flex-shrink: 1;
+  width: 50vw;
+  /* min-width: 40vw; */
 }
 
 .speech-bubble {
@@ -90,16 +114,17 @@ body {
 	background: #084dd6;
   text-rendering: optimizeLegibility;
   border-radius: .4em;
-  padding: auto auto;
   text-align: center;
   flex-flow: row wrap;
-  padding: 15px;
   color: white;
-  height: 30vh;
-  width: 100vw;
-  justify-content: space-evenly;
-  align-content: stretch;
+  min-height: 40vh;  
+  justify-content: center;
+  align-content: center;
   align-items: center;
+  padding: auto auto;
+  /* padding: 15px; */
+  /* max-height: 60vh;
+  min-width: 100vw; */
 }
 .speech-bubble:after {
 	content: '';
@@ -112,26 +137,29 @@ body {
 	border-top-color: #084dd6;
 	border-bottom: 0;
 	border-left: 0;
-	margin-left: -75px;
+	margin-left: -3 0px;
 	margin-bottom: -47px;
 }
 
 #categoryBox {
   flex-flow: row wrap;
-  padding: 20px;
+  padding: 3vh;
   color: rgb(249, 253, 129);
-  padding: 10px;
-  margin: auto auto;
+  margin: 0 auto;
   font-size: 3vh;
+  /* padding: 10px; */
 }
 
 #questionBox {
-  flex-flow: row wrap;
+  display: flex;
+  flex-flow: column wrap;
+  max-width: 80vw;
+  justify-content: space-around;
   margin: 0 auto;
-  margin-top: 7%;
-  padding: 3%;
+  margin-top: 2vh;
+  padding: 2%;
   text-emphasis: bold;
-  font-size: 2.5vh;
+  font-size: 3vh;
 }
 
 #answerBox {
@@ -139,33 +167,37 @@ body {
   justify-content: center;
   flex-flow: flex end;
   margin: 0 auto;
-  margin-top: 7%;
+  margin-top: 3vh;;
   text-decoration-style: italic;
-  font-size: 2.5vh;
+  font-size: 3.2vh;
   color: rgb(255, 202, 95);
 }
 
 .trebek {
   position: absolute;
-  left: 2;
-  bottom: 0;
+  left: 5vw;
+  bottom: -5px;
   flex-shrink: 1;
-  padding: 0;
-  width: 28vw;
-  max-width: 200px;
-  min-width: 100px;
+  max-width: 30vw;
+  min-width:15vw;
+  /* max-height: 30vh; */
+  /* min-height: 20vh; */
+  /* max-width: 190px; */
+  /* min-height: 50px; */
+  /* min-width: 100px; */
 }
 
-@media only screen and (min-width: 700px) {
+/* @media only screen and (min-width: 500px) { 
   .speech-bubble {
     width: 70vw;
+    height: 40vh;
     border-radius: 25px;
     border: yellow double 7px;
     margin: 0 auto;
     margin-top: 1em;
   }
   .input-div {
-    /* flex-flow: row wrap; */
+    flex-flow: column;
   }
 }
 
@@ -173,4 +205,4 @@ body {
   .speech-bubble:after {
     display: none;
   }
-}
+} */
