@@ -17,11 +17,14 @@ const getQuestion = async() => {
     questionBox.innerHTML = '';
     answerBox.innerHTML = '';
     userInput.value = '';
+
     let response = await axios.get(url)
     let category = response.data[0].category.title
     let question = response.data[0].question
     let answer = response.data[0].answer
-    categoryBox.innerHTML += category.toUpperCase();
+    let value = response.data[0].value
+
+    categoryBox.innerHTML += category.toUpperCase() + ' FOR $' + value;
     questionBox.innerHTML += question
     answerBox.innerHTML += answer;
     answerBox.style.display = "none";
@@ -38,15 +41,14 @@ function showHideAnswer() {
   } // answer will be hidden until showHideAnswer() is called, revealing answer by changing display to flex,
 } // if answer already revealed, will re-hide
 
-
 answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
 
 function checkAnswer() {
   let answer = answerBox.innerHTML
-  if (userInput.value == answer || userInput.value == answer.toLowerCase() ) {
+  if (userInput.value == answer || userInput.value.toLowerCase() == answer.toLowerCase()) {
       //user has inputted the correct string
-      window.alert("I am delighted to report you are correct! You're the best!!");
+      window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!");
       //streak counter increments
       counter++;
   } else {
