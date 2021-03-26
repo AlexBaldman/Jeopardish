@@ -1,7 +1,9 @@
 html, body {
   height: 100%;
-  
+  width: 100%;
   overflow: hidden;
+  margin: 0;
+  background-color: black;
   /*
   top: 0;
   left: 0; 
@@ -14,7 +16,8 @@ body {
   position: relative;
   justify-content: center;
   justify-self: center;
-  margin, padding: 0 auto;
+  margin, padding: 0;
+  border-radius: 20px;
   /* top: -10px; */
   /* left: -10px; */
   /* margin: 0 auto; */
@@ -27,11 +30,11 @@ body {
 .game-container {
   display: table;
   flex-flow: column;
-  bottom: -10px;
-  top: -20px;
+  /* bottom: -10px; */
+  /* top: -20px; */
   min-height: 100vh;
   min-width: 100vw;
-  background-color: rgba(146, 223, 239, 0.882);
+  background-color: rgba(234, 208, 147, 0.957);
   justify-content: center;
   margin: 0 auto;
   padding: 0 auto;
@@ -40,7 +43,7 @@ body {
   /* overflow-y: hidden; */
 }
 .title-div {
-  background-color: darkslategrey;  
+  background-color: rgb(39, 31, 91);  
   max-height: 15vh;
   /* border-top: double 1vh black; */
   /* border-bottom: double 5px fuchsia; */
@@ -50,8 +53,8 @@ body {
   background-color: blue;
   max-height: 6vh;
   padding: 10px;
-  border-radius: 30px;
-  margin: 0 auto;
+  border-radius: 10% / 50%;
+  margin: auto;
   border: dotted 1vw yellow;
 }
 .button-div {
@@ -67,6 +70,7 @@ body {
 #questionButton, #answerButton {
   display: flex;
   height: 6vh;
+  font-weight: bold;
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -99,6 +103,8 @@ body {
 }
 #checkButton {
   flex-flow: row wrap;
+  font-family: monospace;
+  font-weight: bold;
   background-color: black;
   color: red;
   flex-shrink: 1;
@@ -113,13 +119,15 @@ body {
 	position: relative;
 	background: #084dd6;
   text-rendering: optimizeLegibility;
-  border-radius: .4em;
-  margin-top: 10;
+  border-radius: 10% / 50%;
+  margin-top: 2vh;
+  /* margin-left: 22vw; */
   text-align: center;
   flex-flow: row wrap;
   color: white;
   border-bottom: 1vh ridge rgba(255, 255, 255, 0.649);
-  min-height: 36vh;
+  min-height: 38vh;
+  /* max-width: 85vw; */
   justify-content: center;
   align-content: center;
   align-items: center;
@@ -133,7 +141,7 @@ body {
 	content: '';
 	position: absolute;
 	bottom: 0;
-	left: 40vw;
+	left: 25vw;
 	width: 0;
 	height: 0;
 	border: 48px solid transparent;
@@ -158,8 +166,8 @@ body {
   max-width: 80vw;
   justify-content: space-around;
   margin: 0 auto;
-  margin-top: 2vh;
-  padding: 2%;
+  margin-top: 1vh;
+  padding: 1%;
   text-emphasis: bold;
   font-size: 2.3vh;
 }
@@ -168,7 +176,7 @@ body {
   justify-content: center;
   flex-flow: flex end;
   margin: 0 auto;
-  margin-top: 3vh;;
+  margin-top: 2vh;;
   text-decoration-style: italic;
   font-size: 3.2vh;
   color: rgb(255, 202, 95);
@@ -181,7 +189,6 @@ body {
   flex-shrink: 1;
   max-width: 33vw;
   min-width: 15vw;
-
   /* max-height: 30vh; */
   /* min-height: 20vh; */
   /* max-width: 190px; */
