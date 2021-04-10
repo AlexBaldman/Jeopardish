@@ -4,14 +4,19 @@ html, body {
   overflow: hidden;
   margin: 0;
   background-color: black;
+  * {
+    box-sizing: border-box;
+  }
 }
 body {
   display: flex;
+  align-self: center;
   position: relative;
   justify-content: center;
   justify-self: center;
   margin, padding: 0;
-  border-radius: 20px;
+  border-radius: 5vw;
+  /* border: 5 ridge grey; */
   /* top: -10px; */
   /* left: -10px; */
   /* margin: 0 auto; */
@@ -24,21 +29,21 @@ body {
 .game-container {
   display: block;
   flex-flow: column;
-  border: white;
   min-height: 100vh;
   min-width: 100vw;
   background-color: rgba(234, 208, 147, 0.957);
   justify-content: center;
   margin: 0 auto;
   padding: 0 auto;
-  /* min-width: 400px; */
-  /* overflow-x: hidden; */
-  /* overflow-y: hidden; */
+  overflow: hidden;
 }
 .title-div {
-  background-color: rgb(39, 31, 91);  
-  max-height: 15vh;
-  border-top: double 1vh grey;
+  background-color: rgb(134, 119, 227);  
+  min-height: 13vh;
+  align-items: center;
+  justify-content: space-around;
+  display: flex;
+  /* border-top: double 1vh rgb(96, 23, 156); */
   /* border-bottom: ridge 2vh black; */
 }
 .title-image {
@@ -47,17 +52,19 @@ body {
   max-height: 6vh;
   padding: 10px;
   border-radius: 10% / 50%;
-  margin: auto;
-  border: dotted 1vw yellow;
+  margin: auto auto;
+
+
+  /* padding-top: 20px; */
+  border: dotted .5vh yellow;
 }
 .button-div {
   display: flex;
   flex-flow: row;
   margin: 10 auto;
-  min-height: 6vh;
-  border-bottom: 10px solid rgba(5, 10, 15, 0.75);
-  border-top: 1vh solid rgb(9, 53, 96);
-  background-color: rgba(100, 173, 215, 0.957);
+  min-height: 8vh;
+  border-top: 1vh solid black;
+  background-color: lightyellow;
   align-items: center;
 }
 #questionButton, #answerButton {
@@ -71,6 +78,7 @@ body {
   background-color: lightblue;
   width: 50%;
   color: rgb(41, 30, 125)42, 42);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
 }
 #questionButton:hover, #answerButton:hover {
   background-color: rgb(231, 78, 78);
@@ -161,7 +169,7 @@ body {
 
 #categoryBox {
   flex-flow: row wrap;
-  padding: 3vh;
+  padding: 2vh;
   color: rgb(249, 253, 129);
   margin: 0 auto;
   font-size: 3vh;
@@ -170,10 +178,11 @@ body {
 #questionBox {
   display: flex;
   flex-flow: column wrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   max-width: 80vw;
   justify-content: space-around;
   margin: 0 auto;
-  margin-top: 1vh;
+  margin-top: .7vh;
   padding: 1%;
   text-emphasis: bold;
   font-size: 2.3vh;
@@ -185,7 +194,7 @@ body {
   margin: 0 auto;
   margin-top: 2vh;;
   text-decoration-style: italic;
-  font-size: 3.2vh;
+  font-size: 2.5vh;
   color: rgb(255, 202, 95);
 }
 
@@ -194,8 +203,9 @@ body {
   left: 5vw;
   bottom: -1px;
   flex-shrink: 1;
-  max-width: 33vw;
-  min-width: 15vw;
+  max-width: 30vw;
+  height: auto;
+  /* min-height: 25vh; */
   /* max-height: 30vh; */
   /* min-height: 20vh; */
   /* max-width: 190px; */
@@ -208,7 +218,8 @@ body {
     background-color: lightsalmon;
     max-width: 75vw;
   }.trebek {
-    max-width: 20vw;
+    max-width: 15vw;
+    /* max-height: 20vh; */
   }
   .input-div {
     max-height: 15vh;
