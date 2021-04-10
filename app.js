@@ -46,7 +46,7 @@ questionButton.addEventListener('click', getQuestion)
 
 function checkAnswer() {
   let answer = answerBox.innerHTML
-  if (userInput.value == answer || userInput.value.toLowerCase() == answer.toLowerCase()) {
+  if (userInput.value == answer.replace('\\', '') || userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
       //user has inputted the correct string
       window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!");
       //streak counter increments
@@ -58,6 +58,15 @@ function checkAnswer() {
       counter = 0;
   }
 }
+
+// const randomIndex = Math.floor(Math.random() * // INSERT ARRAY OF GIFS HERE TO GRAB A RANDOM GIF O)
+
+// NEED TO ADD ABILITY TO CHECK TO SEE IF PARTIAL ANSWER GIVEN 
+// ALSO REMOVE 'a ' or 'the ' so that they don't need to be in
+// || userInput.value.toLowerCase().includes(answer).toLowerCase().replace('\\', '')
+
+
+
 
 //-----------------------------------------------------------
 // MAY USE AS WELL FOR QUESTION INFORMATION BOX/CONTAINER:

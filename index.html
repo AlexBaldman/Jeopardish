@@ -13,7 +13,6 @@
   <body lang="en">
 
     <div class="game-container">
-
         <div class= "title-div">
           <img 
               class= "title-image"
@@ -27,9 +26,9 @@
         </div>
 
         <div class= "input-div">
-          <input type= "text" id= "inputbox" placeholder= "enter answer"  />
+          <input type= "text" id= "inputbox" placeholder= "enter answer" onsubmit="checkAnswer();" />
           <p></p>
-          <button type= "submit" id= "checkButton" onClick= "checkAnswer();"> check answer </button>
+          <button id= "checkButton" onClick= "checkAnswer();"> check answer </button>
         </div>
 
         <div class= "speech-bubble">
@@ -39,12 +38,12 @@
           <p></p>
           <div id= "answerBox"></div>
         </div>
-
+        
         <img  class= "trebek"
-              alt= "Alex Trebek"
+              alt= "Long Live Trebek"
               src= "https://res.cloudinary.com/alexbaldman/image/upload/v1609955507/trebek-vector.png" >
 
-     </div>
+    </div>
       
   </body>
 </html>
