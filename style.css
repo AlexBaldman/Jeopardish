@@ -204,7 +204,7 @@ body {
 .trebek {
   position: absolute;
   left: 5vw;
-  bottom: -1vh;
+  bottom: 2px;
   flex-shrink: 1;
   max-width: 27vw;
   height: auto;
