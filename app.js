@@ -24,7 +24,7 @@ const getQuestion = async() => {
     let answer = response.data[0].answer
     let value = response.data[0].value
 
-    categoryBox.innerHTML += category.toUpperCase() + `<br/> for $` + value;
+    categoryBox.innerHTML += category.toUpperCase() + `<br/> $` + value;
     questionBox.innerHTML += question
     answerBox.innerHTML += answer;
     answerBox.style.display = "none";
