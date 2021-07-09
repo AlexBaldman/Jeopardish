@@ -1,5 +1,7 @@
-const url = 'https://jservice.io/api/random'
+// IMPLEMENT RIGHT / WRONG COUNTER
 
+
+const url = 'https://jservice.io/api/random'
 const button = document.getElementById('checkButton')
 const answerButton = document.getElementById('answerButton')
 const questionButton = document.getElementById('questionButton')
