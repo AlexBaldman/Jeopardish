@@ -1,5 +1,5 @@
-// IMPLEMENT RIGHT / WRONG COUNTER
-
+// TO DO: 
+// - implement score counter
 
 const url = 'https://jservice.io/api/random'
 const button = document.getElementById('checkButton')
@@ -19,7 +19,9 @@ const getQuestion = async() => {
     questionBox.innerHTML = '';
     answerBox.innerHTML = '';
     userInput.value = '';
-
+// get question from api, api request gets array of questions, 
+// so currently just taking the first one in the array
+// at index 0 (response.data[0]):
     let response = await axios.get(url)
     let category = response.data[0].category.title
     let question = response.data[0].question
@@ -30,39 +32,46 @@ const getQuestion = async() => {
     questionBox.innerHTML += question
     answerBox.innerHTML += answer;
     answerBox.style.display = "none";
-  } catch(error) {
+    // answerBox set to display = "none" until user chooses to reveal answer
+  } 
+  catch(error) {
     console.log(`Question fetch failed: ${error}`)
   }
 }
 
+// answer will be hidden until showHideAnswer() is called, 
+// revealing answer by changing display from "none" to "flex",
+// if answer is already revealed, will re-hide by changing back to display "none":
 function showHideAnswer() {
   if (answerBox.style.display === "none") {
     answerBox.style.display = "flex";
-    } else {
+  } 
+  else {
     answerBox.style.display = "none";
-  } // answer will be hidden until showHideAnswer() is called, revealing answer by changing display to flex,
-} // if answer already revealed, will re-hide
+  } 
+} 
 
 answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
 
 function checkAnswer() {
   let answer = answerBox.innerHTML
-  if (userInput.value == answer.replace('\\', '') || userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
+  if (userInput.value == answer.replace('\\', '') || 
+      userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
       //user has inputted the correct string
       window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!");
       //streak counter increments
       counter++;
-  } else {
+  } 
+  else {
       //user has inputted an incorrect string
       window.alert("I'm sorry, that's either incorrect or the judges are...  It could be them, they're a little drunk...");
-      //reset streak counter
+      //reset streak counter:
       counter = 0;
   }
 }
 
-// const randomIndex = Math.floor(Math.random() * // INSERT ARRAY OF GIFS HERE TO GRAB A RANDOM GIF O)
-
+// const randomIndex = Math.floor(Math.random() * 
 // NEED TO ADD ABILITY TO CHECK TO SEE IF PARTIAL ANSWER GIVEN 
 // ALSO REMOVE 'a ' or 'the ' so that they don't need to be in
 // || userInput.value.toLowerCase().includes(answer).toLowerCase().replace('\\', '')
