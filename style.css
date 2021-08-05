@@ -121,13 +121,13 @@ body {
 }
 
 #checkButton {
-  /* flex-flow: row wrap; */
   font-family: monospace;
   font-weight: bold;
   background-color: blue;
   color: yellow;
   flex-shrink: 1;
   width: 50vw;
+  /* flex-flow: row wrap; */
 }
 #checkButton:hover{
   background-color: blue;
