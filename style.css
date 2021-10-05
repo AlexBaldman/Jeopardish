@@ -14,15 +14,6 @@ body {
   justify-content: center;
   align-content: center;
   margin, padding: 0;
-  /* border: 5 ridge grey; */
-  /* top: -10px; */
-  /* left: -10px; */
-  /* margin: 0 auto; */
-  /* padding: 0 auto; */
-  /* height: 95vh; */
-  /* width: 100vw;  */
-  /* top: -10; */ 
-  /* min-height: 100vh; */
 }
 .game-container {
   display: block;
@@ -108,18 +99,37 @@ body {
   /* border-bottom: .75vh ridge rgba(255, 68, 0, 0.738); */
   justify-content: center;
 }
-#inputbox {
+
+.input-div-bottom {
   display: flex;
+  position: absolute;
+  /* align-items: center; */
+  border-top: 5px solid blue;
+  z-index: 0;
+  bottom: 5px;
+  border-radius: 5px;
+  font-family: monospace, -apple-system;
+  min-height: 6vh;
+  width: 99vw;
+  /* margin-top: 10px; */
+  background-color: rgb(245, 248, 221);
+  /* border-top: .75vh ridge rgba(255, 68, 0, 0.738); */
+  /* border-bottom: .75vh ridge rgba(255, 68, 0, 0.738); */
+  justify-content: center;
+  align-content: center;
+}
+
+#inputbox {
+  /* display: flex; */
   /* border-radius: 20px; */
   width: 60vw;
-  border: 1vw grey;
+  border: 2vw grey;
   color: blue transparent;
   font-weight: bolder;
   text-align: center;
   text-decoration-style: bold;
   background-color: white;
 }
-
 #checkButton {
   font-family: monospace;
   font-weight: bold;
@@ -209,7 +219,7 @@ body {
 .trebek {
   position: absolute;
   left: 5vw;
-  bottom: 6px;
+  bottom: 5vh;
   flex-shrink: 1;
   max-width: 28vw;
   height: auto;
@@ -220,8 +230,7 @@ body {
     background-color: lightsalmon;
     max-width: 75vw;
   }.trebek {
-    max-width: 16vw;
-    /* max-height: 20vh; */
+    max-width: 25vw;
   }
   .input-div {
     max-height: 15vh;

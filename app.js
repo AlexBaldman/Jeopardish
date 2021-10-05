@@ -9,14 +9,20 @@ const trebek = document.getElementsByClassName('trebek')
 const userInput = document.getElementById('inputbox');
 let streak = 0
 
+
+// empty content from previous question
+// get new question from api
+// api GET request grabs an array of questions
+// currently just taking the first one in the array at index 0
+// display category, question value, and question
+// answerBox set to display = "none" until user chooses to reveal answer:
+
+// var datestring = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " +
+// d.getHours() + ":" + d.getMinutes()
+
+
 const getQuestion = async() => {
   try {
-    // empty content from previous question
-    // get new question from api
-    // api GET request grabs an array of questions
-    // currently just taking the first one in the array at index 0
-    // display category, question value, and question
-    // answerBox set to display = "none" until user chooses to reveal answer:
     categoryBox.innerHTML = '';
     questionBox.innerHTML = '';
     answerBox.innerHTML = '';
@@ -26,7 +32,9 @@ const getQuestion = async() => {
     let question = response.data[0].question
     let answer = response.data[0].answer
     let value = response.data[0].value
-    categoryBox.innerHTML += category.toUpperCase() + `<br/> $` + value;
+    let date = new Date(response.data[0].airdate)
+    let datestring = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
+    categoryBox.innerHTML += category.toUpperCase() + `<br/> for $` + value + `<br/>` + '(asked on: ' + datestring + ')';
     questionBox.innerHTML += question;
     answerBox.innerHTML += answer;
     answerBox.style.display = "none";
