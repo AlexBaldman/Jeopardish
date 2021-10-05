@@ -9,6 +9,12 @@ const trebek = document.getElementsByClassName('trebek')
 const userInput = document.getElementById('inputbox');
 let streak = 0
 
+//----------------
+// - remove the, a, an, ', ", \, \\ and (what else?)
+// - change alert to modal or just change text in word bubble
+//
+//________________
+
 const getQuestion = async() => {
   try {
     // empty content from previous question
