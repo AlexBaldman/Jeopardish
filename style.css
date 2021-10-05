@@ -35,7 +35,7 @@ body {
   padding: 0;
   overflow: hidden;
   border-radius: 5vw;
-  border: ridge 2px orangered;
+  border: ridge 6px orangered;
   left: 0;
 }
 .title-div {
@@ -160,9 +160,6 @@ body {
   padding: auto auto;
   align-self: right;
   box-shadow: 2vh #1b2d50;
-  /* padding: 15px; */
-  /* max-height: 60vh; */
-  /* min-width: 100vw; */
 }
 .speech-bubble:after {
 	content: '';
@@ -185,7 +182,6 @@ body {
   color: rgb(249, 253, 129);
   margin: 0 auto;
   font-size: 3vh;
-  /* padding: 10px; */
 }
 #questionBox {
   display: flex;
@@ -224,7 +220,7 @@ body {
     background-color: lightsalmon;
     max-width: 75vw;
   }.trebek {
-    max-width: 15vw;
+    max-width: 16vw;
     /* max-height: 20vh; */
   }
   .input-div {
