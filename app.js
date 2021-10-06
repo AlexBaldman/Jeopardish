@@ -17,13 +17,7 @@ let streak = 0
 
 const getQuestion = async() => {
   try {
-    // empty content from previous question
-    // get new question from api
-    // api GET request grabs an array of questions
-    // currently just taking the first one in the array at index 0
-    // display category, question value, and question
-    // answerBox set to display = "none" until user chooses to reveal answer:
-    categoryBox.innerHTML = '';
+    categoryBox.innerHTML = ''; // clear previous question/answer
     questionBox.innerHTML = '';
     answerBox.innerHTML = '';
     userInput.value = '';
@@ -31,8 +25,10 @@ const getQuestion = async() => {
     let category = response.data[0].category.title
     let question = response.data[0].question
     let answer = response.data[0].answer
-    let value = response.data[0].value
-    categoryBox.innerHTML += category.toUpperCase() + `<br/> $` + value;
+    let value = response.data[0].value || '$100'
+    let date = new Date(response.data[0].airdate)
+    let datestring = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
+    categoryBox.innerHTML += category.toUpperCase() + `<br/> for $` + value + `<br/>` + '( asked on ' + datestring + ' )';
     questionBox.innerHTML += question;
     answerBox.innerHTML += answer;
     answerBox.style.display = "none";
@@ -42,15 +38,10 @@ const getQuestion = async() => {
   }
 }
 
-// answer is hidden until showHideAnswer() is called, 
-// revealing answer by changing display from "none" to "flex"
-// if answer is already revealed, will re-hide by changing back to display "none"
-// add button functionality:
 const showHideAnswer = () => {
   if (answerBox.style.display === "none") {
-    answerBox.style.display = "flex";
-  } 
-  else {
+    answerBox.style.display = "flex"; 
+  } else {
     answerBox.style.display = "none";
   } 
 } 
@@ -58,22 +49,28 @@ const showHideAnswer = () => {
 answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
 
-// function to check input against answer:
 const checkAnswer = () => {
   let answer = answerBox.innerHTML
-  if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') 
-      || 
+  if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
       userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') ) {
-      window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!");
-      streak++; // if correct, alert success & streak counter increments
+        window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
+        streak++; // if correct, alert success & streak counter increments
       } else {  // if incorrect, user has inputted an incorrect string
-      window.alert("I'm sorry, that's either incorrect or the judges are...  It definitely could be them, they're a little drunk..."); //reset streak counter
-      streak = 0; // streak resets when incorrect
+        window.alert("I'm sorry, that's either incorrect or the judges are...  It definitely could be them, they're a little drunk..."); //reset streak counter
+        streak = 0; // streak resets when incorrect
   }
 }
 
-  // _____NEED TO:_____
-    // remove the from answer (also a, an, etc?)
+// empty content from previous question
+// get new question from api
+// api GET request grabs an array of questions
+// currently just taking first one in the array at index 0, 
+// could also randomize or minimize api calls by incrementing to other questions in array
+// display category, question value, and question
+// answerBox set to display = "none" until user chooses to reveal answer with showHideAnswer() function:
+
+// _____NEED TO:_____
+    // remove 'the' from answer (also a, an, etc?)
     // remove quotes
     // just use RegEx?
     // change window alert to modal
@@ -82,16 +79,12 @@ const checkAnswer = () => {
     // contained in the answer but not exactly correct word for word
 
 
+// RANDOM INDEX:
+  // const randomIndex = Math.floor(Math.random() * 1000)
 
-// const randomIndex = Math.floor(Math.random() * 
 // || userInput.value.toLowerCase().includes(answer).toLowerCase().replace('\\', '')
-
-//-----------------------------------------------------------
-// MAY USE AS WELL FOR QUESTION INFORMATION BOX/CONTAINER:
-      // let value = response.data[0].value
-      // let airdate = response.data[0].airdate
-      // --------------------------------------
-
+//----------------------------------------
+//---------------------------------------------
 // SAMPLE API RESPONSE:
       // "id": 6995,
       // "answer": "liberty",
@@ -109,4 +102,6 @@ const checkAnswer = () => {
       //   "created_at": "2014-02-11T22:50:54.061Z",
       //   "updated_at": "2014-02-11T22:50:54.061Z",
       //   "clues_count": 5
-      // -------------------------------------------
+      // }
+  // -------------------------------------------
+  //----------------------------------------

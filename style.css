@@ -13,16 +13,8 @@ body {
   position: relative;
   justify-content: center;
   align-content: center;
-  margin, padding: 0;
-  /* border: 5 ridge grey; */
-  /* top: -10px; */
-  /* left: -10px; */
-  /* margin: 0 auto; */
-  /* padding: 0 auto; */
-  /* height: 95vh; */
-  /* width: 100vw;  */
-  /* top: -10; */ 
-  /* min-height: 100vh; */
+  margin: 0;
+  padding: 0;
 }
 .game-container {
   display: block;
@@ -35,11 +27,11 @@ body {
   padding: 0;
   overflow: hidden;
   border-radius: 5vw;
-  border: ridge 6px orangered;
+  border: ridge 6px rgb(0, 106, 255);
   left: 0;
 }
 .title-div {
-  background-color: rgb(134, 119, 227);  
+  background-color: rgba(94, 180, 197, 0.944);  
   min-height: 13vh;
   align-items: center;
   justify-content: space-around;
@@ -49,23 +41,22 @@ body {
 }
 .title-image {
   display: flex;
-  background-color: darkblue;
+  background-color: rgba(27, 27, 193, 0.904);
   max-height: 6vh;
-  /* width: 44%; */
   padding: 15px;
   border-radius: 8% / 50%;
   margin: auto auto;
   padding-top: 20px;
-  border: dotted .5vh yellow;
+  border: dotted .75vw rgb(244, 244, 146);
 }
 .button-div {
   display: flex;
   flex-flow: space-around distribute;
   margin: 10 auto;
   min-height: 10vh;
-  /* border-top: 1vh solid black; */
-  /* border-bottom: 1vh solid orangered; */
-  background-color: rgb(43, 43, 171);
+  border-top: 1vh ridge rgb(45, 113, 180);
+  border-bottom: 1vh ridge rgb(20, 47, 168);
+  background-color: rgb(6, 6, 132);
   align-items: center;
   justify-content: space-evenly;
 }
@@ -78,14 +69,14 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
-  background-color: lightyellow;
+  background-color: rgb(241, 238, 66);
   width: 40%;
-  color: rgb(28, 28, 205);
-  box-shadow: 0 2px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
+  color: rgb(20, 31, 236);
+  box-shadow: 0 2px 3px rgba(246, 242, 11, 0.978), 0 2px 3px rgba(69, 163, 207, 0.616)
 }
 #questionButton:hover, #answerButton:hover {
   background-color: yellow;
-  /* color: white; */
+  color: blue;
   font-family: monospace;
   font-weight: bolder;
   transform: scale(1.05, 1.25)
@@ -93,8 +84,8 @@ body {
 #questionButton:active, #answerButton:active {
   background-color: blue;
   color: yellow;
-  font-size: 130%;
-  /* border: double 2px yellow; */
+  font-size: 120%;
+  border: double 2px rgb(255, 94, 0);
 }
 
 .input-div {
@@ -102,24 +93,37 @@ body {
   font-family: monospace, -apple-system;
   min-height: 6vh;
   min-width: 100vw;
-  /* margin-top: 10px; */
+  /* background-color: rgb(245, 248, 221); */
+  justify-content: center;
+  border-top: .75vh ridge rgb(0, 106, 255);
+  border-bottom: .75vh ridge rgb(0, 106, 255);
+}
+.input-div-bottom {
+  display: flex;
+  position: absolute;
+  border-top: 5px solid blue;
+  z-index: 0;
+  bottom: 5px;
+  border-radius: 5px;
+  font-family: monospace, -apple-system;
+  min-height: 6vh;
+  width: 99vw;
   background-color: rgb(245, 248, 221);
   /* border-top: .75vh ridge rgba(255, 68, 0, 0.738); */
   /* border-bottom: .75vh ridge rgba(255, 68, 0, 0.738); */
   justify-content: center;
+  align-content: center;
 }
 #inputbox {
-  display: flex;
-  /* border-radius: 20px; */
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   width: 60vw;
-  border: 1vw grey;
-  color: blue transparent;
+  /* border: 2vw grey; */
+  color: rgb(0, 55, 255);
   font-weight: bolder;
   text-align: center;
-  text-decoration-style: bold;
-  background-color: white;
+  text-decoration-style: bolder;
+  background-color: rgb(254, 254, 215);
 }
-
 #checkButton {
   font-family: monospace;
   font-weight: bold;
@@ -127,7 +131,6 @@ body {
   color: yellow;
   flex-shrink: 1;
   width: 50vw;
-  /* flex-flow: row wrap; */
 }
 #checkButton:hover{
   background-color: blue;
@@ -135,13 +138,12 @@ body {
   transform: scale(1.1, 1.3)
 }
 #checkButton:active {
-  background-color: yellow;
+  background-color: red;
   color: blue;
   font-size: 130%;
   border: double 10px black;
-  border-radius: 50px;
+  border-radius: 30px;
 } 
-
 .speech-bubble {
 	position: relative;
 	background: #084dd6;
@@ -151,9 +153,9 @@ body {
   text-align: center;
   flex-flow: row wrap;
   color: white;
-  border-top: .25em ridge rgba(33, 14, 88, 0.718);
-  border-bottom: 1vh ridge rgba(255, 255, 255, 0.649);
-  min-height: 38vh;
+  border-top: .25em ridge rgba(176, 218, 248, 0.911);
+  border-bottom: 1vh ridge rgba(38, 20, 115, 0.649);
+  min-height: 37vh;
   justify-content: center;
   align-content: center;
   align-items: center;
@@ -175,7 +177,6 @@ body {
 	margin-left: -3 0px;
 	margin-bottom: -47px;
 }
-
 #categoryBox {
   flex-flow: row wrap;
   padding: 2vh;
@@ -205,13 +206,12 @@ body {
   font-size: 2.5vh;
   color: rgb(255, 202, 95);
 }
-
 .trebek {
   position: absolute;
   left: 5vw;
-  bottom: 2px;
+  bottom: 6px;
   flex-shrink: 1;
-  max-width: 27vw;
+  max-width: 28vw;
   height: auto;
 }
 
@@ -220,8 +220,7 @@ body {
     background-color: lightsalmon;
     max-width: 75vw;
   }.trebek {
-    max-width: 16vw;
-    /* max-height: 20vh; */
+    max-width: 25vw;
   }
   .input-div {
     max-height: 15vh;
