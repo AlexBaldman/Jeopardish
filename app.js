@@ -9,20 +9,32 @@ const trebek = document.getElementsByClassName('trebek')
 const userInput = document.getElementById('inputbox');
 let streak = 0
 
+// model or speech bubble change as alternative to window.alert 
+
+// regex for checkAnswer to remove parentheses, allow for leaving out the, a, an, etc. parts, make lower case 
+
+// implement streak counter and perhaps other scoring - add/delete value from correct/incorrect answers to track score?
+
+// change date to nicer format for air-date (i.e. August 14, 1984)
+
 
 const getQuestion = async() => {
   try {
-    categoryBox.innerHTML = ''; // clear previous question/answer
+    // clear previous question data:
+    categoryBox.innerHTML = '';
     questionBox.innerHTML = '';
     answerBox.innerHTML = '';
     userInput.value = '';
+    // fetch data from api and assign to values for use in app
+    // will set to $100 as default question value in case null is returned by API due to missing data:
     let response = await axios.get(url)
     let category = response.data[0].category.title
     let question = response.data[0].question
-    let answer = response.data[0].answer
-    let value = response.data[0].value || '$100'
-    let date = new Date(response.data[0].airdate)
+    let answer = response.data[0].answer 
+    let value = response.data[0].value || '$100' 
+    let date = new Date(response.data[0].airdate) 
     let datestring = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
+    // place question/answer and other data into app:
     categoryBox.innerHTML += category.toUpperCase() + `<br/> for $` + value + `<br/>` + '( asked on ' + datestring + ' )';
     questionBox.innerHTML += question;
     answerBox.innerHTML += answer;
@@ -44,16 +56,32 @@ const showHideAnswer = () => {
 answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
 
+// TRANSFORMATIONS TO INCREASE ACCURACY
+// if first word in answer is 'a' 'the' 'an' remove that word
+// if first word is 'a' 'the' 'an' remove from userInput submission
+// if first word is 'a' 'the' 'an' remove from answer
+// 
+// once transformations are made 
+// then compare/check answer vs submission last
+// probably is best approach
+
 const checkAnswer = () => {
   let answer = answerBox.innerHTML
-  if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
-      userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') ) {
-        window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
-        streak++; // if correct, alert success & streak counter increments
+x  if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
+      userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
+        streak++; // if correct, alert success & streak counter increments +1
+        questionBox.innerHTML = "I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!  You are beautiful and well-liked by all..";
+        categoryBox.innerHTML = "CORRECT!!!";
+        answerBox.innerHTML = "Correct Answer Streak: " + streak;
+        // window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
       } else {  // if incorrect, user has inputted an incorrect string
-        window.alert("I'm sorry, that's either incorrect or the judges are...  It definitely could be them, they're a little drunk..."); //reset streak counter
+        categoryBox.innerHTML = "NOPE!!!";
+        questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...  It could be them, they're a bit drunk...";
+        answerBox.style.display = "flex"
+        answerBox.innerHTML = `Sorry, the correct answer is ` + answer + `".` + `<br/>` + `STREAK RESET!!!`;
+        // window.alert("I'm sorry, that's either incorrect or the judges are...  It definitely could be them, they're a little drunk..."); //reset streak counter
         streak = 0; // streak resets when incorrect
-  }
+      }
 }
 
 // empty content from previous question
