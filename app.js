@@ -67,7 +67,7 @@ questionButton.addEventListener('click', getQuestion)
 
 const checkAnswer = () => {
   let answer = answerBox.innerHTML
-x  if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
+    if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
       userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
         streak++; // if correct, alert success & streak counter increments +1
         questionBox.innerHTML = "I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!  You are beautiful and well-liked by all..";
