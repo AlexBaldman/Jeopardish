@@ -1,23 +1,23 @@
 const url = 'https://jservice.io/api/random'
+
 const button = document.getElementById('checkButton')
 const answerButton = document.getElementById('answerButton')
 const questionButton = document.getElementById('questionButton')
+const userInput = document.getElementById('inputbox');
 const categoryBox = document.getElementById('categoryBox')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
-const userInput = document.getElementById('inputbox');
-let streak = 0
 
+let streak = 0 // start correct-answer streak  at zero
+//______________________
+//-----------------------------------------------
 // model or speech bubble change as alternative to window.alert 
-
 // regex for checkAnswer to remove parentheses, allow for leaving out the, a, an, etc. parts, make lower case 
-
 // implement streak counter and perhaps other scoring - add/delete value from correct/incorrect answers to track score?
-
 // change date to nicer format for air-date (i.e. August 14, 1984)
-
-
+//-----------------------------------------
+//_____________________
 const getQuestion = async() => {
   try {
     // clear previous question data:
@@ -45,6 +45,9 @@ const getQuestion = async() => {
   }
 }
 
+// the showHideAnswer button is basically a TOGGLE to show you what the answer isArray
+// for now this is helping a lot with figuring out what needs to be modified
+// to increase accuracy of checkAnswer() function & eliminate undesired non-matches
 const showHideAnswer = () => {
   if (answerBox.style.display === "none") {
     answerBox.style.display = "flex"; 
@@ -60,29 +63,48 @@ questionButton.addEventListener('click', getQuestion)
 // if first word in answer is 'a' 'the' 'an' remove that word
 // if first word is 'a' 'the' 'an' remove from userInput submission
 // if first word is 'a' 'the' 'an' remove from answer
-// 
+// ----------------------------------
 // once transformations are made 
 // then compare/check answer vs submission last
 // probably is best approach
 
 const checkAnswer = () => {
+
   let answer = answerBox.innerHTML
-    if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
-      userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
-        streak++; // if correct, alert success & streak counter increments +1
+  let answerTrimmed = answer.trim() 
+console.log(answer)
+console.log(answerTrimmed)
+
+    if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') ||  userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
+        // if correct, alert success & streak counter increments +1
+        streak++; 
+console.log(streak)
         questionBox.innerHTML = "I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!  You are beautiful and well-liked by all..";
         categoryBox.innerHTML = "CORRECT!!!";
         answerBox.innerHTML = "Correct Answer Streak: " + streak;
         // window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
-      } else {  // if incorrect, user has inputted an incorrect string
+      } else {  
+
+        // if incorrect, user has inputted an incorrect string
         categoryBox.innerHTML = "NOPE!!!";
         questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...  It could be them, they're a bit drunk...";
         answerBox.style.display = "flex"
-        answerBox.innerHTML = `Sorry, the correct answer is ` + answer + `".` + `<br/>` + `STREAK RESET!!!`;
-        // window.alert("I'm sorry, that's either incorrect or the judges are...  It definitely could be them, they're a little drunk..."); //reset streak counter
-        streak = 0; // streak resets when incorrect
+        answerBox.innerHTML = `Sorry, the correct answer is ` + `<br/>` +
+                              `"` + answer + `".` + `<br/>` +
+                              `STREAK RESET!!!`;
+        // streak resets when incorrect
+        streak = 0; 
       }
+
 }
+
+// answer
+
+
+
+
+
+// window.alert("I'm sorry, that's either incorrect or the judges are...  It definitely could be them, they're a little drunk..."); //reset streak counter
 
 // empty content from previous question
 // get new question from api
@@ -128,3 +150,9 @@ const checkAnswer = () => {
       // }
   // -------------------------------------------
   //----------------------------------------
+
+// ADD AN EVENT LISTENER THAT FIRES WHEN A USER RESIZES THE WINDOW AND THE WINDOW
+//---------
+// window.addEventListener("resize", function(){
+//   document.getElementById("demo").innerHTML = sometext;
+// });
