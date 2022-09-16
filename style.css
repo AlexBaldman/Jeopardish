@@ -3,23 +3,15 @@ html, body {
   width: 100%;
   overflow: hidden;
   margin: 0;
-  background-color: rgb(226, 28, 117);
+  background-color: rgba(255, 31, 195, 0.828);
   justify-content: center;
   {
     box-sizing: border-box;
   }
 }
-/* body {
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-content: center;
-  margin: 0;
-  padding: 0;
-} */
 
 .game-container {
-  display: block;
+  /* display: block; */
   position: relative;
   /* flex-flow: column; */
   min-height: 95vh;
@@ -28,7 +20,7 @@ html, body {
   justify-content: center;
   justify-self: center;
   /* margin: 2vh 1vw; */
-  margin: 2vh auto;
+  margin: 3.3vw auto;
   /* padding: 0; */
   overflow: hidden;
   border-radius: 13vw;
@@ -103,7 +95,7 @@ html, body {
   color: rgb(255, 255, 255);
   font-size: 1.4em;
   transform: scale(0.9);
-  box-shadow: 3px 3px rgb(253, 243, 53), 0 2px 3px rgb(0, 0, 0);
+  /* box-shadow: 3px 3px rgb(253, 243, 53), 0 2px 3px rgb(0, 0, 0); */
     /* border-radius: 25px;  /* makes button turn oval on mouseover */
 }
 
@@ -112,7 +104,7 @@ html, body {
   color: yellow;
   font-weight: bolder;
   border-radius: 0px;
-  box-shadow: 5px 5px 5px 5px rgb(9, 9, 9), 3px 3px rgb(255, 247, 97);
+  /* box-shadow: 5px 5px 5px 5px rgb(9, 9, 9), 3px 3px rgb(255, 247, 97); */
   font-size: 120%;
   border: dotted 2px rgb(238, 255, 0);
 }
@@ -138,7 +130,7 @@ html, body {
   color: rgb(255, 255, 255);
   font-size: 1.4em;
   transform: scale(0.9);
-  box-shadow: 3px 3px rgb(253, 243, 53), 0 2px 3px rgb(0, 0, 0);
+  /* box-shadow: 3px 3px rgb(253, 243, 53), 0 2px 3px rgb(0, 0, 0); */
     /* border-radius: 25px;  /* makes button turn oval on mouseover */
 }
 #answerButton:active {
@@ -146,14 +138,12 @@ html, body {
   color: yellow;
   font-weight: bolder;
   border-radius: 0px;
-  box-shadow: 5px 5px 5px 5px rgb(9, 9, 9), 3px 3px rgb(255, 247, 97);
+  /* box-shadow: 5px 5px 5px 5px rgb(9, 9, 9), 3px 3px rgb(255, 247, 97); */
   font-size: 120%;
   border: dotted 2px rgb(238, 255, 0);
 }
 
-
 #checkButton {
-  border-radius: 1vh;
   color: rgb(251, 251, 251);
   flex-shrink: 1;
   width: 50vw;
@@ -162,7 +152,7 @@ html, body {
   font-family: monospace;
   font-weight: bolder;
   font-size: 2em;
-  border-radius: 0px;
+  /* border-radius: 0px 80px 80px 0px; */
   /* box-shadow: 5px 5px rgb(255, 116, 248), 3px 3px rgb(255, 247, 97); */
   font-size: 120%;
   /* border: dotted 2px rgb(238, 255, 0); */
@@ -171,11 +161,11 @@ html, body {
   background-color: rgb(52, 52, 154);
   color: rgb(251, 172, 243);
   font-family: Impact;
-  font-weight: bolder;
+  /* font-weight: bolder; */
   /* font-style: italic; */
-  border-radius: 0px;
+  /* border-radius: 0px; */
   /* box-shadow: 5px 5px rgb(255, 116, 248), 3px 3px rgb(255, 247, 97); */
-  font-size: 120%;
+  /* font-size: 120%; */
   border: dotted 2px rgb(238, 255, 0);
 }
 
@@ -183,7 +173,7 @@ html, body {
   background-color: rgb(55, 44, 62);
   color: rgb(255, 255, 255);
   font-weight: bolder;
-  border-radius: 0px;
+  /* border-radius: 0px; */
   /* box-shadow: 5px 5px rgb(255, 116, 248), 3px 3px rgb(255, 247, 97); */
   font-size: 1.75em;
   border: dotted 3px rgb(244, 255, 88);
@@ -369,3 +359,22 @@ html, body {
   font-size: 120%;
   border: dotted 2px rgb(238, 255, 0);
 }  */
+
+
+/* 
+
+BULLET TYPE SHAPE BUTTON (w. curve on right):
+
+border-radius: 0px 80px 80px 0px; 
+
+*/
+
+
+/* body {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-content: center;
+  margin: 0;
+  padding: 0;
+} */

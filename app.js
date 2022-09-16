@@ -71,32 +71,35 @@ questionButton.addEventListener('click', getQuestion)
 const checkAnswer = () => {
 
   let answer = answerBox.innerHTML
-  let answerTrimmed = answer.trim() 
+  let answerTrimmed = answer.trim()
 console.log(answer)
 console.log(answerTrimmed)
 
-    if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') ||  userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
-        // if correct, alert success & streak counter increments +1
+    if (userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') ||  
+        userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')) {
+// if correct, alert success & streak counter increments +1
         streak++; 
+
 console.log(streak)
+
         questionBox.innerHTML = "I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!  You are beautiful and well-liked by all..";
         categoryBox.innerHTML = "CORRECT!!!";
         answerBox.innerHTML = "Correct Answer Streak: " + streak;
-        // window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
+// window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
       } else {  
-
-        // if incorrect, user has inputted an incorrect string
+// if incorrect, user has inputted an incorrect string
         categoryBox.innerHTML = "NOPE!!!";
         questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...  It could be them, they're a bit drunk...";
         answerBox.style.display = "flex"
-        answerBox.innerHTML = `Sorry, the correct answer is ` + `<br/>` +
-                              `"` + answer + `".` + `<br/>` +
+        answerBox.innerHTML = `The correct answer is ` + `<br/>` + `<br/>` +
+                               + answer + `<br/>` + `<br/>` +
                               `STREAK RESET!!!`;
-        // streak resets when incorrect
+// streak resets when incorrect
         streak = 0; 
       }
 
 }
+
 
 // answer
 
