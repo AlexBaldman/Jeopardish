@@ -35,7 +35,7 @@ const getQuestion = async() => {
     let date = new Date(response.data[0].airdate) 
     let datestring = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
     // place question/answer and other data into app:
-    categoryBox.innerHTML += category.toUpperCase() + `<br/> for $` + value + `<br/>` + '( asked on ' + datestring + ' )';
+    categoryBox.innerHTML += category.toUpperCase() + `<br/> for $` + value + `<br/>` + '(asked on ' + datestring + ' )';
     questionBox.innerHTML += question;
     answerBox.innerHTML += answer;
     answerBox.style.display = "none";
@@ -71,7 +71,10 @@ questionButton.addEventListener('click', getQuestion)
 const checkAnswer = () => {
 
   let answer = answerBox.innerHTML
+
+  
   let answerTrimmed = answer.trim()
+
 console.log(answer)
 console.log(answerTrimmed)
 
@@ -91,8 +94,8 @@ console.log(streak)
         categoryBox.innerHTML = "NOPE!!!";
         questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...  It could be them, they're a bit drunk...";
         answerBox.style.display = "flex"
-        answerBox.innerHTML = `The correct answer is ` + `<br/>` + `<br/>` +
-                               + answer + `<br/>` + `<br/>` +
+        answerBox.innerHTML = `Correct answer:` + `<br/>` + `<br/>` +
+                               answer + `<br/>` + `<br/>` +
                               `STREAK RESET!!!`;
 // streak resets when incorrect
         streak = 0; 
@@ -100,8 +103,12 @@ console.log(streak)
 
 }
 
-
-// answer
+//
+//
+// Create variables for:
+// dialog = document.createElement("div");
+// wordBubble = document.createElement("div")
+// correct = document.createElement("div")
 
 
 
