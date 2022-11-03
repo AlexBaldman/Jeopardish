@@ -69,10 +69,7 @@ questionButton.addEventListener('click', getQuestion)
 // probably is best approach
 
 const checkAnswer = () => {
-
   let answer = answerBox.innerHTML
-
-  
   let answerTrimmed = answer.trim()
 
 console.log(answer)
@@ -102,6 +99,18 @@ console.log(streak)
       }
 
 }
+
+// create a SANITIZE function to clean up the correct answer from API
+// as well as USER INPUT, for final comparison.
+// THINGS THIS SHOULD DO ARE:
+  // if first word is 'the', 'an', 'a' or other articles like that, remove the first word
+  // trim any extra spaces from beginning or end, using TRIM (especially important because space will often be auto-added on mobile keyboards)
+  // remove any quotes or escape characters
+  // remove capitalization (already doing this)
+  // use some sort of regex to accomplish a bunch of these / removing special characters, etc.
+  
+
+
 
 //
 //
