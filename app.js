@@ -1,25 +1,21 @@
 // api url for random question::
 const url = 'https://jservice.io/api/random'
 
-
-
-
-
-
 // create buttons for basic functionality & user interaction
 const button = document.getElementById('checkButton')
 const answerButton = document.getElementById('answerButton')
 const questionButton = document.getElementById('questionButton')
 
-// create userInput box for entering answer 
+// create userInput box for entering answe
 const userInput = document.getElementById('inputbox');
+
+// use separate boxes to distribute data within word-bubble
 const categoryBox = document.getElementById('categoryBox')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
-// ----------------
 
-// initialize streak at zero
+// initialize correct Answer Streak at zero
 let streak = 0
 
 // clear data from previous question by resetting innerHTML for each box to an empty string
@@ -65,30 +61,31 @@ const showHideAnswer = () => {
     }
 } 
 
+// add event listeners to buttons to trigger functionality
 answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
-
 
 // if correct, alert success & streak counter increments +1
 // window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
 // if incorrect, user has inputted an incorrect string
 // streak resets when incorrect
-const checkAnswer = () => 
-  {
+const checkAnswer = () => {
   let answer = answerBox.innerHTML
-  let answerTrimmed = answer.trim()
+  let answerTrimmed = answer.trim
+  // CONSOLE LOGGING TO TEST
   console.log(answer)
   console.log(answerTrimmed)
 
   if 
     (
-      userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
-      userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')
+    userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
+    userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')
     ) 
       {
         //increment streak
         streak++
         console.log(streak)
+
         questionBox.innerHTML = "I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!  You are beautiful and well-liked by all..";
         categoryBox.innerHTML = "CORRECT!!!";
         answerBox.innerHTML = "Correct Answer Streak: " + streak;
@@ -112,13 +109,14 @@ const checkAnswer = () =>
 
 }
 
-// create a SANITIZE function to clean up the correct answer from API and USER INPUT for final comparison.
-// THINGS THIS SHOULD DO ARE:
-  // if first word is 'the', 'an', 'a' or other articles like that, remove the first word
-  // trim any extra spaces from beginning or end, using TRIM (especially important because space will often be auto-added on mobile keyboards)
-  // remove any quotes or escape characters
-  // remove capitalization (already doing this)
-  // use some sort of regex to accomplish a bunch of these / removing special characters, etc.
+// MISC NOTES...
+  //create a SANITIZE function to clean up the correct answer from API and USER INPUT for final comparison.
+  // THINGS THIS SHOULD DO ARE:
+    // if first word is 'the', 'an', 'a' or other articles like that, remove the first word
+    // trim any extra spaces from beginning or end, using TRIM (especially important because space will often be auto-added on mobile keyboards)
+    // remove any quotes or escape characters
+    // remove capitalization (already doing this)
+    // use some sort of regex to accomplish a bunch of these / removing special characters, etc.
 
   
 // Create variables for:
