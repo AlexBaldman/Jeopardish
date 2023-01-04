@@ -29,6 +29,7 @@ const getQuestion = async() => {
     questionBox.innerHTML = ''
     answerBox.innerHTML = ''
     userInput.value = ''
+
     let response = await axios.get(url)
     let category = response.data[0].category.title
     let question = response.data[0].question
@@ -36,6 +37,7 @@ const getQuestion = async() => {
     let value = response.data[0].value || '$100' 
     let date = new Date(response.data[0].airdate) 
     let datestring = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
+    
     categoryBox.innerHTML += category.toUpperCase() + `<br/> for $` + value + `<br/>` + '(asked on ' + datestring + ' )'
     questionBox.innerHTML += question
     answerBox.innerHTML += answer
@@ -65,10 +67,11 @@ const showHideAnswer = () => {
 answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
 
-// if correct, alert success & streak counter increments +1
-// window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
-// if incorrect, user has inputted an incorrect string
-// streak resets when incorrect
+// FUNCTION TO CHECK IF USER ANSWER MATCHES CORRECT ANSWER FROM API:
+  // if correct, alert success & streak counter increments +1
+  // window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
+  // if incorrect, user has inputted an incorrect string
+  // streak resets when incorrect
 const checkAnswer = () => {
   let answer = answerBox.innerHTML
   let answerTrimmed = answer.trim

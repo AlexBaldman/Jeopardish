@@ -11,21 +11,21 @@ html, body {
 }
 
 .game-container {
-  /* display: block; */
+  display: block;
   position: relative;
-  /* flex-flow: column; */
   min-height: 95vh;
   max-width: 98vw;
   background: linear-gradient(to top, rgb(100, 185, 255), rgb(211, 208, 219));
   justify-content: center;
   justify-self: center;
-  /* margin: 2vh 1vw; */
   margin: 3.3vw auto;
-  /* padding: 0; */
   overflow: hidden;
   border-radius: 13vw;
   border: ridge .666vh rgb(32, 26, 32);
   /* left: 0; */
+  /* padding: 0; */
+  /* margin: 2vh 1vw; */
+  /* flex-flow: column; */
 }
 
 .trebek{
@@ -40,13 +40,13 @@ html, body {
 }
 
 .title-div {
-  /* background-color: rgb(255, 145, 191);  */
   background-color: rgb(41, 49, 56);
   min-height: 13vh;
   align-items: center;
   justify-content: space-around;
   display: flex;
   border-bottom: 2vh darkblue;
+  /* background-color: rgb(255, 145, 191);  */ 
 }
 
 .title-image {
@@ -68,17 +68,16 @@ html, body {
   margin: 10 auto;
   min-height: 10vh;
   border-top: 0.6vh single rgb(255, 255, 255);
+  align-items: center;
   /* border-bottom: 0.3vh dotted rgb(235, 248, 55); */
   /* border-bottom: 1vh ridge rgb(20, 47, 168); */
   /* background-color: rgb(16, 133, 229); */
-  align-items: center;
 }
 
 #questionButton{
   display: flex;
   font-family: monospace;
   height: 6vh;
-  /* border-radius: 25px; */
   font-size: 1.3em;
   font-weight: bold;
   text-align: center;
@@ -88,6 +87,8 @@ html, body {
   width: 40%;
   color: rgb(226, 28, 117);
   /* box-shadow: 0 2px 3px rgba(246, 11, 215, 0.978), 0 2px 3px rgb(180, 255, 215) */
+  /* border-radius: 25px; */
+
 }
 
 #questionButton:hover {
@@ -104,9 +105,9 @@ html, body {
   color: yellow;
   font-weight: bolder;
   border-radius: 0px;
-  /* box-shadow: 5px 5px 5px 5px rgb(9, 9, 9), 3px 3px rgb(255, 247, 97); */
   font-size: 120%;
   border: dotted 2px rgb(238, 255, 0);
+  /* box-shadow: 5px 5px 5px 5px rgb(9, 9, 9), 3px 3px rgb(255, 247, 97); */
 }
 
 #answerButton {
@@ -131,16 +132,17 @@ html, body {
   font-size: 1.4em;
   transform: scale(0.9);
   /* box-shadow: 3px 3px rgb(253, 243, 53), 0 2px 3px rgb(0, 0, 0); */
-    /* border-radius: 25px;  /* makes button turn oval on mouseover */
+  /* border-radius: 25px;  /* makes button turn oval on mouseover */
 }
+
 #answerButton:active {
   background-color: rgb(99, 99, 238);
   color: yellow;
   font-weight: bolder;
   border-radius: 0px;
-  /* box-shadow: 5px 5px 5px 5px rgb(9, 9, 9), 3px 3px rgb(255, 247, 97); */
   font-size: 120%;
   border: dotted 2px rgb(238, 255, 0);
+  /* box-shadow: 5px 5px 5px 5px rgb(9, 9, 9), 3px 3px rgb(255, 247, 97); */
 }
 
 #checkButton {
@@ -152,11 +154,12 @@ html, body {
   font-family: monospace;
   font-weight: bolder;
   font-size: 2em;
-  /* border-radius: 0px 80px 80px 0px; */
-  /* box-shadow: 5px 5px rgb(255, 116, 248), 3px 3px rgb(255, 247, 97); */
   font-size: 120%;
   /* border: dotted 2px rgb(238, 255, 0); */
+  /* border-radius: 0px 80px 80px 0px; */
+  /* box-shadow: 5px 5px rgb(255, 116, 248), 3px 3px rgb(255, 247, 97); */
 }
+
 #checkButton:hover{
   background-color: rgb(52, 52, 154);
   color: rgb(251, 172, 243);
@@ -173,10 +176,11 @@ html, body {
   background-color: rgb(55, 44, 62);
   color: rgb(255, 255, 255);
   font-weight: bolder;
-  /* border-radius: 0px; */
-  /* box-shadow: 5px 5px rgb(255, 116, 248), 3px 3px rgb(255, 247, 97); */
   font-size: 1.75em;
   border: dotted 3px rgb(244, 255, 88);
+  /* border-radius: 0px; */
+  /* box-shadow: 5px 5px rgb(255, 116, 248), 3px 3px rgb(255, 247, 97); */
+
 } 
 
 .input-div {
@@ -188,23 +192,6 @@ html, body {
   /* border-top: .75vh ridge rgb(0, 106, 255); */
   /* border-bottom: .75vh ridge rgb(4, 7, 11); */
 }
-
-/* .input-div-bottom {
-  display: flex;
-  position: absolute; */
-  /* border-top: 5px solid blue; */
-  /* z-index: 0;
-  bottom: 5px;
-  border-radius: 5px;
-  font-family: -apple-system;
-  min-height: 6vh;
-  width: 99vw; */
-  /* background-color: rgb(245, 248, 221); */
-  /* border-top: .75vh ridge rgba(255, 68, 0, 0.738); */
-  /* border-bottom: .75vh ridge rgba(255, 68, 0, 0.738); */
-  /* justify-content: center;
-  align-content: center;
-} */
 
 #inputbox {
   font-family: -apple-system;
@@ -236,6 +223,7 @@ html, body {
   align-self: right;
   box-shadow: 2vh #1b2d50;
 }
+
 .speech-bubble:after {
 	content: '';
 	position: absolute;
@@ -286,9 +274,9 @@ html, body {
   margin-top: 3vh;;
   text-decoration-style: italic;
   font-size: 2.5vh;
+  color: rgb(255, 203, 98);
   /* text-transform: uppercase; */
   /* text-shadow: 5px; */
-  color: rgb(255, 203, 98);
 }
 
 #databox{
@@ -301,22 +289,44 @@ html, body {
 }
 
 @media (orientation: landscape) {
-  .game-container {
+  .game-container 
+    {
     background-color: lightsalmon;
     max-width: 75vw;
-  }.trebek {
+    }
+  .trebek 
+    {
     max-width: 25vw;
-  }
-  .input-div {
+    }
+  .input-div 
+    {
     max-height: 15vh;
-  }
-  .speech-bubble {
+    }
+  .speech-bubble 
+    {
     max-width: 60vw;
     margin: 3vh auto;
     align-self: center;
-  }
+    }
 }
 
+
+/* .input-div-bottom {
+  display: flex;
+  position: absolute; */
+  /* border-top: 5px solid blue; */
+  /* z-index: 0;
+  bottom: 5px;
+  border-radius: 5px;
+  font-family: -apple-system;
+  min-height: 6vh;
+  width: 99vw; */
+  /* background-color: rgb(245, 248, 221); */
+  /* border-top: .75vh ridge rgba(255, 68, 0, 0.738); */
+  /* border-bottom: .75vh ridge rgba(255, 68, 0, 0.738); */
+  /* justify-content: center;
+  align-content: center;
+} */
 
 /* @media only screen and (min-width: 500px) { 
   .speech-bubble {
