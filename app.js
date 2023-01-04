@@ -18,10 +18,10 @@ const trebek = document.getElementsByClassName('trebek')
 // initialize correct Answer Streak at zero
 let streak = 0
 
-// clear data from previous question by resetting innerHTML for each box to an empty string
-// fetch data from api and assign values to our variables for use in app
-// will set to $100 as default question value in case null is returned by API due to missing data
-// place question/answer and other data into app:
+  // clear data from previous question by resetting innerHTML for each box to an empty string
+  // fetch data from api and assign values to our variables for use in app
+  // will set to $100 as default question value in case null is returned by API due to missing data
+  // place question/answer and other data into app:
 const getQuestion = async() => {
   try 
     {
@@ -37,7 +37,7 @@ const getQuestion = async() => {
     let value = response.data[0].value || '$100' 
     let date = new Date(response.data[0].airdate) 
     let datestring = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
-    
+
     categoryBox.innerHTML += category.toUpperCase() + `<br/> for $` + value + `<br/>` + '(asked on ' + datestring + ' )'
     questionBox.innerHTML += question
     answerBox.innerHTML += answer
