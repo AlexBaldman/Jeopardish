@@ -1,12 +1,23 @@
+// api url for random question::
 const url = 'https://jservice.io/api/random'
+
+
+
+
+
+
+// create buttons for basic functionality & user interaction
 const button = document.getElementById('checkButton')
 const answerButton = document.getElementById('answerButton')
 const questionButton = document.getElementById('questionButton')
+
+// create userInput box for entering answer 
 const userInput = document.getElementById('inputbox');
 const categoryBox = document.getElementById('categoryBox')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
+// ----------------
 
 // initialize streak at zero
 let streak = 0
@@ -15,11 +26,9 @@ let streak = 0
 // fetch data from api and assign values to our variables for use in app
 // will set to $100 as default question value in case null is returned by API due to missing data
 // place question/answer and other data into app:
-
-const getQuestion = async() => 
-{
+const getQuestion = async() => {
   try 
-  {
+    {
     categoryBox.innerHTML = ''
     questionBox.innerHTML = ''
     answerBox.innerHTML = ''
@@ -35,65 +44,72 @@ const getQuestion = async() =>
     questionBox.innerHTML += question
     answerBox.innerHTML += answer
     answerBox.style.display = "none"
-  } 
+    } 
   catch(error) 
-  {
-    console.log(`Question fetch failed: ${error}`)
-  }
+    {
+      console.log(`Question fetch failed: ${error}`)
+    }
 }
 
-// the showHideAnswer button is basically a TOGGLE to show you what the answer isArray
+// the showHideAnswer button TOGGLES to show you what the answer isArray
 // for now this is helping a lot with figuring out what needs to be modified
 // to increase accuracy of checkAnswer() function & eliminate undesired non-matches
-const showHideAnswer = () => 
-{
+const showHideAnswer = () => {
   if (answerBox.style.display === "none") 
-  {
+    {
     answerBox.style.display = "flex"; 
-  } 
+    } 
   else 
-  {
+    {
     answerBox.style.display = "none";
-  } 
+    }
 } 
 
 answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
+
 
 // if correct, alert success & streak counter increments +1
 // window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
 // if incorrect, user has inputted an incorrect string
 // streak resets when incorrect
 const checkAnswer = () => 
-{
+  {
   let answer = answerBox.innerHTML
   let answerTrimmed = answer.trim()
   console.log(answer)
   console.log(answerTrimmed)
 
   if 
-  (  
-  userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
-  userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')
-  ) 
-    {
-      streak++
-      console.log(streak)
-      questionBox.innerHTML = "I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!  You are beautiful and well-liked by all..";
-      categoryBox.innerHTML = "CORRECT!!!";
-      answerBox.innerHTML = "Correct Answer Streak: " + streak;
-    } 
+    (
+      userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
+      userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')
+    ) 
+      {
+        //increment streak
+        streak++
+        console.log(streak)
+        questionBox.innerHTML = "I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!  You are beautiful and well-liked by all..";
+        categoryBox.innerHTML = "CORRECT!!!";
+        answerBox.innerHTML = "Correct Answer Streak: " + streak;
+      } 
     else 
-    {  
-      categoryBox.innerHTML = "NOPE!!!";
-      questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...  It could be them, they're a bit drunk...";
-      answerBox.style.display = "flex"
-      answerBox.innerHTML = `Correct answer:` + `<br/>` + `<br/>` +
-                              answer + `<br/>` + `<br/>` +
-                            `STREAK RESET!!!`;
+      {  
+        categoryBox.innerHTML = "NOPE!!!";
+        questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...  It could be them, they're a bit drunk...";
+        answerBox.style.display = "flex"
+        answerBox.innerHTML = `Correct answer:` + `<br/>` + `<br/>` +
+                                answer + `<br/>` + `<br/>` +
+                              `STREAK RESET!!!`;
+        // reset streak
+        streak = 0; 
+      }
 
-      streak = 0; 
-    }
+
+
+
+
+
 }
 
 // create a SANITIZE function to clean up the correct answer from API and USER INPUT for final comparison.
