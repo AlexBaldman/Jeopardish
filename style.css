@@ -4,8 +4,7 @@ html, body {
   overflow: hidden;
   margin: 0;
   background-color: rgba(255, 31, 195, 0.828);
-  justify-content: center;
-  {
+  justify-content: center; {
     box-sizing: border-box;
   }
 }
@@ -13,7 +12,7 @@ html, body {
 .game-container {
   display: block;
   position: relative;
-  min-height: 95vh;
+  min-height: 90vh;
   max-width: 98vw;
   background: linear-gradient(to top, rgb(100, 185, 255), rgb(211, 208, 219));
   justify-content: center;
@@ -204,6 +203,17 @@ html, body {
   background-color: rgba(255, 255, 255, 0.848);
 }
 
+#answerform{
+  font-family: -apple-system;
+  width: 70vw;
+  /* border: 2vw rgb(10, 8, 8); */
+  color: rgb(81, 0, 255);
+  font-size: 1.2em;
+  text-align: center;
+  text-decoration-style: bold;
+  background-color: rgba(255, 255, 255, 0.848);
+}
+
 .speech-bubble {
 	position: relative;
 	background: #10347c;
@@ -289,21 +299,17 @@ html, body {
 }
 
 @media (orientation: landscape) {
-  .game-container 
-    {
+  .game-container {
     background-color: lightsalmon;
     max-width: 75vw;
     }
-  .trebek 
-    {
+  .trebek {
     max-width: 25vw;
     }
-  .input-div 
-    {
+  .input-div {
     max-height: 15vh;
     }
-  .speech-bubble 
-    {
+  .speech-bubble {
     max-width: 60vw;
     margin: 3vh auto;
     align-self: center;
@@ -348,7 +354,6 @@ html, body {
   }
 } */
 
-
 /* #answerButton:hover {
   background-color: rgb(255, 158, 242);
   color: rgb(255, 255, 253);
@@ -360,6 +365,7 @@ html, body {
   transform: scale(1.05);
   box-shadow: 3px 3px rgb(253, 243, 53), 0 2px 3px rgb(0, 0, 0);
 } */
+
 /* #answerButton:active {
   background-color: rgb(99, 99, 238);
   color: yellow;
