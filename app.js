@@ -1,5 +1,6 @@
 // api url for random question::
-const url = 'https://jservice.io/api/random'
+const random = 'https://jservice.io/api/random'
+
 
 // create buttons for basic functionality & user interaction
 const button = document.getElementById('checkButton')
@@ -31,20 +32,24 @@ console.log("HAVE FUN YA MANIAC!")
 // function to grab question from api:
 const getQuestion = async() => {
   try {
+    // reset word bubble to empty, removing any previous content
     categoryBox.innerHTML = ''
     questionBox.innerHTML = ''
     answerBox.innerHTML = ''
     userInput.value = ''
-    // grab data:
-    let response = await axios.get(url)
-    console.log("question grabbed: ")
+
+    // grab question from api
+    let response = await axios.get(random)
+    console.log(`--new random Jeopardy question pulled from API `)
     console.log(response.data[0])
+
     // set variables for the info to display in word-bubble
     let category = response.data[0].category.title
     let question = response.data[0].question
     let answer = response.data[0].answer 
     let value = response.data[0].value || '$100' 
     let date = new Date(response.data[0].airdate)
+  
     // interpolating date data into a string
     let datestring = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
     // display in word-bubble
