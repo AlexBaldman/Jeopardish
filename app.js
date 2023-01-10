@@ -1,6 +1,6 @@
 // api url for random question::
 const random = 'https://jservice.io/api/random'
-
+const final = 'https://jservice.io/api/final'
 
 // create buttons for basic functionality & user interaction
 const button = document.getElementById('checkButton')
@@ -40,7 +40,7 @@ const getQuestion = async() => {
 
     // grab question from api
     let response = await axios.get(random)
-    console.log(`--new random Jeopardy question pulled from API `)
+    console.log(`--new random Jeopardy question-- `)
     console.log(response.data[0])
 
     // set variables for the info to display in word-bubble
@@ -51,7 +51,7 @@ const getQuestion = async() => {
     let date = new Date(response.data[0].airdate)
   
     // interpolating date data into a string
-    let datestring = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
+    let datestring = ( date.getMonth() + 1 ) + "/" + date.getDate() + "/" + date.getFullYear()
     // display in word-bubble
     categoryBox.innerHTML = category.toUpperCase() + `<br/> for $` + value + `<br/>` + '(asked on ' + datestring + ' )'
     questionBox.innerHTML = question
@@ -59,13 +59,11 @@ const getQuestion = async() => {
     // set answer as invisible until revealed
     answerBox.style.display = "none"
   } 
-  catch(error) {
-      console.log(`Question fetch failed: ${error}`)
+  catch (error) {
+      console.log(`question fetch failed: ${error}`)
   }
 }
-
-
-// answer reveal toggle switch 
+// reveal or hide answer
 const showHideAnswer = () => {
   if (answerBox.style.display === "none") 
     {
@@ -83,16 +81,12 @@ questionButton.addEventListener('click', getQuestion)
 // _____TO DO_____
 // need to add event listener for pressing enter in the text input field will submit, as well as the checkAnswer button
 
-// FUNCTION TO CHECK IF USER ANSWER MATCHES CORRECT ANSWER FROM API:
-  // if correct, alert success & streak counter increments +1
-  // window.alert("I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!");
-  // if incorrect, user has inputted an incorrect string
-  // streak resets when incorrect
+// checkAnswer function to check userInput against correct answer from the API
 const checkAnswer = () => {
   let answer = answerBox.innerHTML
   console.log( {answer} )
-  let answerTrimmed = answer.trim
-  console.log( {answerTrimmed} )
+  let answerTrimmed = answer.trim()
+  console.log( answerTrimmed )
 
   if 
     (
@@ -123,6 +117,39 @@ const checkAnswer = () => {
       }
 
 }
+
+// API Usage
+// /Clues Url: /api/clues
+// Options All options are optional:
+// value(int): the value of the clue in dollars
+// category(int): the id of the category you want to return
+// min_date(date): earliest date to show, based on original air date
+// max_date(date): latest date to show, based on original air date
+// offset(int): offsets the returned clues. Useful in pagination
+
+// /Random
+// Url: /api/random
+// Options:
+// count(int): amount of clues to return, limited to 100 at a time
+// /Final
+// Presents random final jeopardy question. Note: all final jeopardy questions have null value
+
+// Url: /api/final
+// Options:
+// count(int): amount of clues to return, limited to 100 at a time
+// /Categories
+// Url: /api/categories
+// Options:
+// count(int): amount of categories to return, limited to 100 at a time
+// offset(int): offsets the starting id of categories returned. Useful in pagination.
+// /Category
+// Url: /api/category
+// Options:
+// id(int): Required the ID of the category to return.
+
+
+
+
 
 // MISC NOTES...
   //create a SANITIZE function to clean up the correct answer from API and USER INPUT for final comparison.
