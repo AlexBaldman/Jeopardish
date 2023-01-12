@@ -16,8 +16,10 @@ const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
 
-// initialize correct Answer Streak at zero
+// initialize streak at zero
 let streak = 0
+
+// introduce the game to those following along in the console
 console.log(`Welcome to Jeopardish!!!`)
 console.log(`Click the "new question" button to grab a random Jeopardy question & test your knowledge.`)
 console.log(`Multiple correct answers in a row will start a streak...`)
@@ -25,11 +27,12 @@ console.log(`...but get one wrong & the streak will reset.`)
 console.log("Let's see how many correct answers you can string together! ")
 console.log(`Streak is currently at ` + streak )
 console.log("HAVE FUN YA MANIAC!")
-  // clear data from previous question by resetting innerHTML for each box to an empty string
-  // fetch data from api and assign values to our variables for use in app
-  // will set to $100 as default question value in case null is returned by API due to missing data
 
-// function to grab question from api:
+// clear data from previous question by resetting innerHTML for each box to an empty string
+// fetch data from api and assign values to our variables for use in app
+// will set to $100 as default question value in case null is returned by API due to missing data
+
+// function to grab question from api
 const getQuestion = async() => {
   try {
     // reset word bubble to empty, removing any previous content
@@ -40,7 +43,7 @@ const getQuestion = async() => {
 
     // grab question from api
     let response = await axios.get(random)
-    console.log(`--new random Jeopardy question-- `)
+    console.log(`--new random Jeopardy question--`)
     console.log(response.data[0])
 
     // set variables for the info to display in word-bubble
@@ -78,20 +81,25 @@ const showHideAnswer = () => {
 // add event listeners to buttons to trigger functionality
 answerButton.addEventListener('click', showHideAnswer)
 questionButton.addEventListener('click', getQuestion)
+userInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    checkAnswer();
+  }
+});
 // _____TO DO_____
 // need to add event listener for pressing enter in the text input field will submit, as well as the checkAnswer button
 
 // checkAnswer function to check userInput against correct answer from the API
 const checkAnswer = () => {
-  let answer = answerBox.innerHTML
-  console.log( {answer} )
-  let answerTrimmed = answer.trim()
-  console.log( answerTrimmed )
+  let correctAnswer = answerBox.innerHTML
+  console.log( {correctAnswer} )
+  let answerTrimmed = correctAnswer.trim()
+  console.log({answerTrimmed})
 
   if 
     (
-    userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '') || 
-    userInput.value.toLowerCase() == answer.toLowerCase().replace('\\', '')
+    userInput.value.toLowerCase() == correctAnswer.toLowerCase().replace('\\', '') || 
+    userInput.value.toLowerCase() == correctAnswer.toLowerCase().replace('\\', '')
     ) 
       {
         //increment streak
