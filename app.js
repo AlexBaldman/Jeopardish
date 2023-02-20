@@ -1,9 +1,11 @@
 // api url for random question::
 const random = 'https://jservice.io/api/random'
+
+//api url for final jeopardy questions:
 const final = 'https://jservice.io/api/final'
 
 // create buttons for basic functionality & user interaction
-const button = document.getElementById('checkButton')
+const checkButton = document.getElementById('checkButton')
 const answerButton = document.getElementById('answerButton')
 const questionButton = document.getElementById('questionButton')
 
@@ -15,7 +17,7 @@ const categoryBox = document.getElementById('categoryBox')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
-
+let category, question, answer, value, date = "";
 // initialize streak at zero
 let streak = 0
 
@@ -55,10 +57,12 @@ const getQuestion = async() => {
   
     // interpolating date data into a string
     let datestring = ( date.getMonth() + 1 ) + "/" + date.getDate() + "/" + date.getFullYear()
+
     // display in word-bubble
     categoryBox.innerHTML = category.toUpperCase() + `<br/> for $` + value + `<br/>` + '(asked on ' + datestring + ' )'
     questionBox.innerHTML = question
     answerBox.innerHTML = answer
+
     // set answer as invisible until revealed
     answerBox.style.display = "none"
   } 
@@ -66,15 +70,16 @@ const getQuestion = async() => {
       console.log(`question fetch failed: ${error}`)
   }
 }
-// reveal or hide answer
+
+// reveal or hide answer - answerBox div starts as hidden, 
 const showHideAnswer = () => {
   if (answerBox.style.display === "none") 
     {
-    answerBox.style.display = "flex"; 
+    answerBox.style.display = "flex"
     } 
   else 
     {
-    answerBox.style.display = "none";
+    answerBox.style.display = "none"
     }
 } 
 
@@ -85,43 +90,43 @@ userInput.addEventListener("keydown", function(event) {
   if (event.key === "Enter") {
     checkAnswer();
   }
-});
-// _____TO DO_____
-// need to add event listener for pressing enter in the text input field will submit, as well as the checkAnswer button
+})
 
-// checkAnswer function to check userInput against correct answer from the API
+// checkAnswer function checks userInput vs correctAnswer
 const checkAnswer = () => {
-  let correctAnswer = answerBox.innerHTML
+  let correctAnswer = answerBox.innerHTML.trim()
   console.log( {correctAnswer} )
-  let answerTrimmed = correctAnswer.trim()
-  console.log({answerTrimmed})
 
+  // SHOULD FIRST DO ALL TRANSFORMATIONS TO 
+  
+  // if userInput matches correct answer from api:
   if 
     (
+    userInput.value == correctAnswer ||
     userInput.value.toLowerCase() == correctAnswer.toLowerCase().replace('\\', '') || 
-    userInput.value.toLowerCase() == correctAnswer.toLowerCase().replace('\\', '')
+    userInput.value.toLowerCase() == correctAnswer.toLowerCase().replace('\\', '') 
     ) 
       {
         //increment streak
         streak++
-        console.log( {streak} )
-
-        questionBox.innerHTML = "I am Canadianly delighted to report you are correct, sir or madame! I like how you think!!!  You are beautiful and well-liked by all..";
-        categoryBox.innerHTML = "";
-        answerBox.innerHTML = "Correct Answer Streak: " + streak;
+        console.log( "Nice job! Answer correct & streak is now: ", {streak} )
+        // message when answer is correct
+        categoryBox.innerHTML = ""
+        questionBox.innerHTML = "I'm Canadianly delighted to report you're correct, sir or madame! I like how you think!!  You're beautiful & well-liked by all.."
+        answerBox.innerHTML = "Correct answer streak is now " + streak
       } 
     else 
       {  
         categoryBox.innerHTML = "";
-        questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...  It could be them, they're a bit drunk...";
+        questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...It could be them since they're drunk.";
         answerBox.style.display = "flex"
         answerBox.innerHTML = `The correct answer was..` + `<br/>` + `<br/>` +
-                                answer + `<br/>` + `<br/>` +
-                              `STREAK RESET TO ZERO!`;
+                                correctAnswer + `<br/>` + `<br/>` +
+                              `STREAK RESET!`;
         // reset streak
         streak = 0;
-        console.log("streak reset!")
-        console.log( {streak} )
+        console.log("streak reset to:", {streak})
+        
       }
 
 }
