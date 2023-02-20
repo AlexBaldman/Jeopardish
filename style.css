@@ -27,16 +27,7 @@ html, body {
   /* flex-flow: column; */
 }
 
-.trebek{
-  position: absolute;
-  left: 5vw;
-  bottom: 0px;
-  flex-shrink: 1;
-  max-height: 23%;
-  max-width: 28vw;
-  min-width: 15vw;
-  height: auto;
-}
+
 
 .title-div {
   background-color: rgb(41, 49, 56);
@@ -73,7 +64,7 @@ html, body {
   /* background-color: rgb(16, 133, 229); */
 }
 
-#questionButton{
+#questionButton {
   display: flex;
   font-family: monospace;
   height: 6vh;
@@ -159,7 +150,7 @@ html, body {
   /* box-shadow: 5px 5px rgb(255, 116, 248), 3px 3px rgb(255, 247, 97); */
 }
 
-#checkButton:hover{
+#checkButton:hover {
   background-color: rgb(52, 52, 154);
   color: rgb(251, 172, 243);
   font-family: Impact;
@@ -203,7 +194,7 @@ html, body {
   background-color: rgba(255, 255, 255, 0.848);
 }
 
-#answerform{
+#answerform {
   font-family: -apple-system;
   width: 70vw;
   /* border: 2vw rgb(10, 8, 8); */
@@ -289,13 +280,25 @@ html, body {
   /* text-shadow: 5px; */
 }
 
-#databox{
-  background-color: white;
-  color: darkgrey;
+.trebek {
+  position: absolute;
+  left: 5vw;
+  bottom: 0px;
+  flex-shrink: 1;
+  max-height: 23%;
+  max-width: 28vw;
+  min-width: 15vw;
   height: auto;
+}
+
+#databox {
+  background-color: white;
+  position: absolute;
+  color: darkgrey;
+  height: 10vh;
   width: 10vw;
-  right: 5vw;
-  bottom: 5vh;
+  right: 3vw;
+  bottom: 0px;
 }
 
 @media (orientation: landscape) {

@@ -9,7 +9,7 @@ const checkButton = document.getElementById('checkButton')
 const answerButton = document.getElementById('answerButton')
 const questionButton = document.getElementById('questionButton')
 
-// create userInput box for entering answe
+// create userInput box for entering answer
 const userInput = document.getElementById('inputbox');
 
 // use separate boxes to distribute data within word-bubble
