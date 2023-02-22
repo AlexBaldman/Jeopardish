@@ -1,3 +1,9 @@
+// TO DO ITEMS
+// - display streak in dataBox
+// - figure out what other info to display there as well
+
+
+
 // api url for random question::
 const random = 'https://jservice.io/api/random'
 
@@ -110,6 +116,7 @@ const checkAnswer = () => {
         //increment streak
         streak++
         console.log( "Nice job! Answer correct & streak is now: ", {streak} )
+        
         // message when answer is correct
         categoryBox.innerHTML = ""
         questionBox.innerHTML = "I'm Canadianly delighted to report you're correct, sir or madame! I like how you think!!  You're beautiful & well-liked by all.."

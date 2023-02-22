@@ -292,13 +292,14 @@ html, body {
 }
 
 #databox {
-  background-color: white;
+  background-color: hotpink;
   position: absolute;
-  color: darkgrey;
-  height: 10vh;
-  width: 10vw;
+  color: white;
+  height: 12vh;
+  width: 20vw;
   right: 3vw;
   bottom: 0px;
+  border-radius: px;
 }
 
 @media (orientation: landscape) {
