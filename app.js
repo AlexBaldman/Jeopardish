@@ -3,7 +3,6 @@
 // - figure out what other info to display there as well
 
 
-
 // api url for random question::
 const random = 'https://jservice.io/api/random'
 
@@ -23,7 +22,11 @@ const categoryBox = document.getElementById('categoryBox')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
-let category, question, answer, value, date = "";
+const dataBox = document.getElementsById('dataBox')
+
+// set certain variables as empty strings, to be updated after API calls
+let category, question, answer, value, date, data = "";
+
 // initialize streak at zero
 let streak = 0
 
@@ -113,14 +116,15 @@ const checkAnswer = () => {
     userInput.value.toLowerCase() == correctAnswer.toLowerCase().replace('\\', '') 
     ) 
       {
-        //increment streak
-        streak++
-        console.log( "Nice job! Answer correct & streak is now: ", {streak} )
-        
-        // message when answer is correct
-        categoryBox.innerHTML = ""
-        questionBox.innerHTML = "I'm Canadianly delighted to report you're correct, sir or madame! I like how you think!!  You're beautiful & well-liked by all.."
-        answerBox.innerHTML = "Correct answer streak is now " + streak
+      //increment streak
+      streak++
+      dataBox.innerHTML = streak
+      console.log( "Nice job! Answer correct & streak is now: ", {streak} )
+      
+      // message when answer is correct
+      categoryBox.innerHTML = ""
+      questionBox.innerHTML = "I'm Canadianly delighted to report you're correct, sir or madame! I like how you think!!  You're beautiful & well-liked by all.."
+      answerBox.innerHTML = "Correct answer streak is now " + streak
       } 
     else 
       {  
@@ -130,29 +134,34 @@ const checkAnswer = () => {
         answerBox.innerHTML = `The correct answer was..` + `<br/>` + `<br/>` +
                                 correctAnswer + `<br/>` + `<br/>` +
                               `STREAK RESET!`;
+
         // reset streak
         streak = 0;
-        console.log("streak reset to:", {streak})
-        
+        console.log("streak reset to:", {streak}) 
       }
 
 }
 
-// API Usage
-// /Clues Url: /api/clues
-// Options All options are optional:
+// API NOTES:
+
+// CLUES URL:
+// api/clues
+// ---------------
+// OPTIONS:
 // value(int): the value of the clue in dollars
 // category(int): the id of the category you want to return
 // min_date(date): earliest date to show, based on original air date
 // max_date(date): latest date to show, based on original air date
 // offset(int): offsets the returned clues. Useful in pagination
-
-// /Random
-// Url: /api/random
+// ---------------
+// RANDOM URL:
+// api/random
+//
 // Options:
 // count(int): amount of clues to return, limited to 100 at a time
-// /Final
-// Presents random final jeopardy question. Note: all final jeopardy questions have null value
+//
+// Final Jeopardy:
+// presents random final jeopardy question. Note: all final-jeopardy questions have null value
 
 // Url: /api/final
 // Options:

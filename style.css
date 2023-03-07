@@ -13,18 +13,17 @@ html, body {
   display: block;
   position: relative;
   min-height: 90vh;
-  max-width: 98vw;
+  max-width: 475px;
   background: linear-gradient(to top, rgb(100, 185, 255), rgb(211, 208, 219));
-  justify-content: center;
-  justify-self: center;
-  margin: 3.3vw auto;
+  /* justify-content: center;
+  justify-self: center; */
+  margin: 3.75vh auto;
   overflow: hidden;
   border-radius: 13vw;
   border: ridge .666vh rgb(32, 26, 32);
-  /* left: 0; */
-  /* padding: 0; */
-  /* margin: 2vh 1vw; */
-  /* flex-flow: column; */
+  left: 0;
+  padding: 0;
+  flex-flow: column;
 }
 
 
@@ -284,31 +283,29 @@ html, body {
   position: absolute;
   left: 5vw;
   bottom: 0px;
-  flex-shrink: 1;
-  max-height: 23%;
+  max-height: 17.5vh;
   max-width: 28vw;
   min-width: 15vw;
   height: auto;
 }
 
 #databox {
-  background-color: hotpink;
-  position: absolute;
-  color: white;
-  height: 12vh;
-  width: 20vw;
-  right: 3vw;
-  bottom: 0px;
-  border-radius: px;
+  shape-rendering: circle;
+  background-color: white;
+  color: hotpink;
+  position: relative;
+  min-height, min-width: 25px;
+  border-radius: 12px;
 }
 
 @media (orientation: landscape) {
   .game-container {
     background-color: lightsalmon;
-    max-width: 75vw;
+    max-width: 90vw;
+    min-width: 50vw;
     }
   .trebek {
-    max-width: 25vw;
+    max-width: 23vw;
     }
   .input-div {
     max-height: 15vh;

@@ -14,24 +14,38 @@
   <body lang="en">
     <div class="game-container">
       
+      <!-- TITLE -->
         <div class= "title-div">
           <img class= "title-image"
                src= "https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" 
                alt= "Jeopardish!" />
         </div>
         
+        <!-- BUTTONS  -->
         <div class= "button-div">
-          <button id= "questionButton" alt= "question button" > new question </button>
-          <button id= "answerButton" alt= "answer button" > show/hide answer </button>
+          <button 
+            id= "questionButton" 
+            alt= "question button"> new question 
+          </button>
+
+          <button 
+            id= "answerButton" 
+            alt= "answer button"> 
+            show/hide answer 
+          </button>
         </div>
 
+        <!-- INPUT DIV -->
         <div class= "input-div">
-            <input  type = "text" 
-                    id = "inputbox" 
-                    placeholder = "enter answer" 
-                    onSubmit = "checkAnswer();" />
+            <input
+              type = "text" 
+              id = "inputbox" 
+              placeholder = "enter answer" 
+              onSubmit = "checkAnswer();" />
+
             <!-- possible to help with making input submit on pressing enter -->
             <!-- <input type= "submit" style= "height: 0px; width: 0px; border: none; padding: 0px;" hidefocus= "true" /> -->
+
           <p> </p>
           <button id= "checkButton" onClick= "checkAnswer();"> check answer </button>
         </div>
@@ -49,7 +63,7 @@
               src= "https://res.cloudinary.com/alexbaldman/image/upload/v1609955507/trebek-vector.png" >
         
         <div id = "dataBox">
-          <h2>data</h2>
+          
         </div>
         <!-- <div class= "input-div-bottom">
           <input type= "text" id= "inputbox" placeholder= "enter answer" onSubmit="checkAnswer();" />
