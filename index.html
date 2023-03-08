@@ -12,16 +12,17 @@
   </head>
 
   <body lang="en">
+    <!-- GAME CONTAINER  -->
     <div class="game-container">
       
-      <!-- TITLE -->
+    <!-- TITLE -->
         <div class= "title-div">
           <img class= "title-image"
                src= "https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" 
                alt= "Jeopardish!" />
         </div>
         
-        <!-- BUTTONS  -->
+        <!-- NEW QUESTION & SHOW ANSWER BUTTONS -->
         <div class= "button-div">
           <button 
             id= "questionButton" 
@@ -35,7 +36,7 @@
           </button>
         </div>
 
-        <!-- INPUT DIV -->
+        <!-- USER INPUT -->
         <div class= "input-div">
             <input
               type = "text" 
@@ -49,7 +50,8 @@
           <p> </p>
           <button id= "checkButton" onClick= "checkAnswer();"> check answer </button>
         </div>
-
+        
+        <!-- SPEECH BUBBLE  -->
         <div class= "speech-bubble">
           <div id= "categoryBox"> </div>
           <p> </p>
@@ -58,12 +60,14 @@
           <div id= "answerBox"> </div>
         </div>
         
+        <!-- TREBEK  -->
         <img  class= "trebek"
               alt= "Long Live Alex Trebek"
               src= "https://res.cloudinary.com/alexbaldman/image/upload/v1609955507/trebek-vector.png" >
         
+        <!-- DATA DISPLAY BOX  -->
         <div id = "dataBox">
-          
+          <p> </p>
         </div>
         <!-- <div class= "input-div-bottom">
           <input type= "text" id= "inputbox" placeholder= "enter answer" onSubmit="checkAnswer();" />

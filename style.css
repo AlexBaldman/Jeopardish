@@ -13,10 +13,9 @@ html, body {
   display: block;
   position: relative;
   min-height: 90vh;
-  max-width: 475px;
+  max-width: 92vw;
   background: linear-gradient(to top, rgb(100, 185, 255), rgb(211, 208, 219));
-  /* justify-content: center;
-  justify-self: center; */
+  justify-self: center;
   margin: 3.75vh auto;
   overflow: hidden;
   border-radius: 13vw;
@@ -24,9 +23,8 @@ html, body {
   left: 0;
   padding: 0;
   flex-flow: column;
+  /* min-width: 475px; */
 }
-
-
 
 .title-div {
   background-color: rgb(41, 49, 56);

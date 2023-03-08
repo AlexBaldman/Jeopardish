@@ -22,13 +22,17 @@ const categoryBox = document.getElementById('categoryBox')
 const questionBox = document.getElementById('questionBox')
 const answerBox = document.getElementById('answerBox')
 const trebek = document.getElementsByClassName('trebek')
-const dataBox = document.getElementsById('dataBox')
+const dataBox = document.getElementById('dataBox')
 
 // set certain variables as empty strings, to be updated after API calls
-let category, question, answer, value, date, data = "";
 
-// initialize streak at zero
-let streak = 0
+
+// initialize variables for storing data I may want to display:
+let streak = 0, correctCount = 0, wrongCount = 0, 
+let category, question, answer, value, date, data = ""
+
+
+
 
 // introduce the game to those following along in the console
 console.log(`Welcome to Jeopardish!!!`)
