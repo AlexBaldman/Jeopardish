@@ -8,86 +8,96 @@ I am about to look at it for the first time.
 
 */
 
-body {
-    font-family: 'Helvetica Neue', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    color: #333;
-    background-color: #fff;
+
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    background-color: rgba(255, 31, 195, 0.828);
+    justify-content: center; {
+      box-sizing: border-box;
+    }
   }
   
-  a {
-    color: #428bca;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color: #2a6496;
-    text-decoration: underline;
-  }
-  
-  /* Header */
-  
-  header {
-    background-color: #fff;
-    box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-    padding: 20px;
-    position: fixed;
-    top: 0;
+  .game-container {
+    display: block;
+    position: relative;
+    min-height: 90vh;
+    max-width: 92vw;
+    background: linear-gradient(to top, rgb(100, 185, 255), rgb(211, 208, 219));
+    justify-self: center;
+    margin: 3.75vh auto;
+    overflow: hidden;
+    border-radius: 13vw;
+    border: ridge .666vh rgb(32, 26, 32);
     left: 0;
-    right: 0;
-  }
-  
-  header h1 {
-    font-size: 28px;
-    margin: 0;
-  }
-  
-  /* Navigation */
-  
-  nav {
-    background-color: #428bca;
-    color: #fff;
-    padding: 10px;
-  }
-  
-  nav ul {
-    list-style: none;
-    margin: 0;
     padding: 0;
+    flex-flow: column;
+    /* min-width: 475px; */
   }
   
-  nav li {
-    display: inline-block;
-    margin: 0 10px;
+  /* Outer portion of TV */
+  .game-container::before {
+    content: "";
+    position: absolute;
+    top: -7.5%;
+    left: -7.5%;
+    width: 115%;
+    height: 115%;
+    border: 2vw solid rgb(32, 26, 32);
+    border-radius: 20%;
+    z-index: -1;
+    background: linear-gradient(to top, rgb(120, 120, 120), rgb(255, 255, 255));
+    box-shadow: inset 0 0 0.5vw rgba(255, 255, 255, 0.5), inset 0 0 1vw rgba(0, 0, 0, 0.2), 0 0 2vw rgba(0, 0, 0, 0.2);
   }
   
-  nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
+  /* Scoreboard/Data box */
+  .scoreboard {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    height: 30%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: monospace;
+    font-size: 1.3em;
+    padding: 1vh;
+    text-align: right;
   }
   
-  nav a:hover {
-    background-color: #2a6496;
+  .title-div {
+    background-color: rgb(41, 49, 56);
+    min-height: 13vh;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    border-bottom: 2vh darkblue;
+    /* background-color: rgb(255, 145, 191);  */ 
   }
   
-  /* Main Content */
-  
-  .main-content {
-    margin-top: 80px;
-    padding: 20px;
+  .title-image {
+    display: flex;
+    background-color: rgb(48, 41, 245);
+    max-height: 6vh;
+    min-height: 6vh;
+    padding: 2vh;
+    border-radius: 35px;
+    margin: auto;
+    border: dotted .6vw rgb(244, 244, 146);
   }
   
-  /* Footer */
-  
-  footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-  }
-  
-  footer p {
-    margin: 0;
-  }
+  .button-div {
+    display: flex;
+    flex-flow: space-around distribute;
+    background-color: rgb(41, 49, 56);
+    justify-content: space-evenly;
+    margin: 10 auto;
+    min-height: 10vh;
+    border-top: 0.6vh single rgb(255, 255, 255);
+    align-items: center;
+    /* border-bottom: 0.3vh dotted rgb(235, 248, 55); */
+    /* border-bottom: 1vh ridge rgb(20, 47, 
   
