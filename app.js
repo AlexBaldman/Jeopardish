@@ -2,6 +2,8 @@
 // - display streak in dataBox
 // - figure out what other info to display there as well
 
+const { toUnicode } = require("punycode")
+
 
 // api url for random question::
 const random = 'https://jservice.io/api/random'
@@ -27,12 +29,15 @@ const dataBox = document.getElementById('dataBox')
 // set certain variables as empty strings, to be updated after API calls
 
 
-// initialize variables for storing data I may want to display:
-let streak = 0, correctCount = 0, wrongCount = 0, 
+// initialize variables to store data to display (empty string for strings/zero for nums such as score, streak, etc.)
+let streak = 0, 
 let category, question, answer, value, date, data = ""
+// let correctCount = 0, wrongCount = 0, bestStreak = 0;
 
-
-
+// TODO: add function to track best streak of answers correct in each game
+// TODO: add intro animation & title screen
+// TODO: add reset/new game button to reset
+// TODO: add signup/login functionality, for saving of high scores. online competition, possible multiplayer functionality eventually, etc.
 
 // introduce the game to those following along in the console
 console.log(`Welcome to Jeopardish!!!`)
