@@ -1,0 +1,73 @@
+/* Style for the body element */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f0f0f0;
+}
+
+/* Style for the main container */
+#container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Style for the header */
+#header {
+  text-align: center;
+}
+
+/* Style for the game title */
+h1 {
+  font-size: 3rem;
+  color: #003366;
+}
+
+/* Style for the game instructions */
+p {
+  font-size: 1.2rem;
+}
+
+/* Style for the form */
+#form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the category and difficulty selectors */
+#category-selector,
+#difficulty-selector {
+  margin: 10px;
+}
+
+/* Style for the labels */
+label {
+  font-weight: bold;
+}
+
+/* Style for the select elements */
+select {
+  font-size: 1rem;
+}
+
+/* Style for the buttons */
+button,
+input[type=submit] {
+  font-size: 1.2rem;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Style for the get question button */
+#get-question {
+  background-color: #003366;
+  color: white;
+}
+
+/* Style for the get question button when hovered */
+#get-question:hover {
+  background-color: #0066cc;
+}
+
+/* Style for the submit answer button */
+#submit-answer {
