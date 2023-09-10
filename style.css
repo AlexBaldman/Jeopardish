@@ -13,7 +13,7 @@ html, body {
   display: block;
   position: relative;
   min-height: 90vh;
-  max-width: 92vw;
+  max-width: 90vw;
   background: linear-gradient(to top, rgb(100, 185, 255), rgb(211, 208, 219));
   justify-self: center;
   margin: 3.75vh auto;
