@@ -1,3 +1,4 @@
+
 // TO DO ITEMS
 // - display streak in dataBox
 // - figure out what other info to display there as well
@@ -83,44 +84,6 @@ const getQuestion = async() => {
     }
 };
 
-// OLD VERSION USING JSERVICE.IO as API BELOW:
-
-// const getQuestion = async() => {
-//   try {
-//     // reset word bubble to empty, removing any previous content
-//     categoryBox.innerHTML = ''
-//     questionBox.innerHTML = ''
-//     answerBox.innerHTML = ''
-//     userInput.value = ''
-
-//     // grab question from api
-//     let response = await axios.get(random)
-//     console.log(`--new random Jeopardy question--`)
-//     console.log(response.data[0])
-
-//     // set variables for the info to display in word-bubble
-//     let category = response.data[0].category.title
-//     let question = response.data[0].question
-//     let answer = response.data[0].answer 
-//     let value = response.data[0].value || '$100' 
-//     let date = new Date(response.data[0].airdate)
-
-//     // interpolating date data into a string
-//     let datestring = ( date.getMonth() + 1 ) + "/" + date.getDate() + "/" + date.getFullYear()
-
-//     // display in word-bubble
-//     categoryBox.innerHTML = category.toUpperCase() + `<br/> for $` + value + `<br/>` + '(asked on ' + datestring + ' )'
-//     questionBox.innerHTML = question
-//     answerBox.innerHTML = answer
-
-//     // set answer as invisible until revealed
-//     answerBox.style.display = "none"
-//   } 
-//   catch (error) {
-//       console.log(`question fetch failed: ${error}`)
-//   }
-// }
-
 // reveal or hide answer - answerBox div starts as hidden, 
 const showHideAnswer = () => {
     if (answerBox.style.display === "none") {
@@ -176,42 +139,43 @@ const checkAnswer = () => {
 
 }
 
-// API NOTES:
+// OLD VERSION USING JSERVICE.IO as API BELOW:
 
-// CLUES URL:
-// api/clues
-// ---------------
-// OPTIONS:
-// value(int): the value of the clue in dollars
-// category(int): the id of the category you want to return
-// min_date(date): earliest date to show, based on original air date
-// max_date(date): latest date to show, based on original air date
-// offset(int): offsets the returned clues. Useful in pagination
-// ---------------
-// RANDOM URL:
-// api/random
-//
-// Options:
-// count(int): amount of clues to return, limited to 100 at a time
-//
-// Final Jeopardy:
-// presents random final jeopardy question. Note: all final-jeopardy questions have null value
+// const getQuestion = async() => {
+//   try {
+//     // reset word bubble to empty, removing any previous content
+//     categoryBox.innerHTML = ''
+//     questionBox.innerHTML = ''
+//     answerBox.innerHTML = ''
+//     userInput.value = ''
 
-// Url: /api/final
-// Options:
-// count(int): amount of clues to return, limited to 100 at a time
-// /Categories
-// Url: /api/categories
-// Options:
-// count(int): amount of categories to return, limited to 100 at a time
-// offset(int): offsets the starting id of categories returned. Useful in pagination.
-// /Category
-// Url: /api/category
-// Options:
-// id(int): Required the ID of the category to return.
+//     // grab question from api
+//     let response = await axios.get(random)
+//     console.log(`--new random Jeopardy question--`)
+//     console.log(response.data[0])
 
+//     // set variables for the info to display in word-bubble
+//     let category = response.data[0].category.title
+//     let question = response.data[0].question
+//     let answer = response.data[0].answer 
+//     let value = response.data[0].value || '$100' 
+//     let date = new Date(response.data[0].airdate)
 
+//     // interpolating date data into a string
+//     let datestring = ( date.getMonth() + 1 ) + "/" + date.getDate() + "/" + date.getFullYear()
 
+//     // display in word-bubble
+//     categoryBox.innerHTML = category.toUpperCase() + `<br/> for $` + value + `<br/>` + '(asked on ' + datestring + ' )'
+//     questionBox.innerHTML = question
+//     answerBox.innerHTML = answer
+
+//     // set answer as invisible until revealed
+//     answerBox.style.display = "none"
+//   } 
+//   catch (error) {
+//       console.log(`question fetch failed: ${error}`)
+//   }
+// }
 
 
 // MISC NOTES...
