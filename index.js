@@ -1,0 +1,84 @@
+< !DOCTYPE html >
+    <
+    html lang = "en" >
+    <
+    head >
+    <
+    meta charset = "UTF-8" >
+    <
+    meta name = "viewport"
+content = "width=device-width, initial-scale=1.0" >
+    <
+    title > Jeopardish! < /title> <
+    link rel = "stylesheet"
+href = "style.css"
+type = "text/css" >
+    <
+    link href = "https://fonts.googleapis.com/icon?family=Material+Icons"
+rel = "stylesheet" >
+    <
+    link rel = "icon"
+type = "image/svg+xml"
+href = "favicon.svg" >
+    <
+    link rel = "stylesheet"
+href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" >
+    <
+    script src = "https://unpkg.com/axios/dist/axios.min.js" > < /script> <
+    script defer src = "app.js" > < /script> <
+    /head> <
+    body lang = "en" >
+    <!-- GAME CONTAINER -->
+    <
+    div class = "game-container" >
+    <!-- TITLE -->
+    <
+    div class = "title-div" >
+    <
+    img class = "title-image"
+src = "https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png"
+alt = "Jeopardish!" >
+    <
+    /div>
+
+<!-- NEW QUESTION & SHOW ANSWER BUTTONS -->
+<
+div class = "button-div" >
+    <
+    button id = "questionButton" > new question < /button> <
+    button id = "answerButton" > show / hide answer < /button> <
+    /div>
+
+<!-- USER INPUT -->
+<
+div class = "input-div" >
+    <
+    input type = "text"
+id = "inputbox"
+placeholder = "enter answer" >
+    <
+    button id = "checkButton"
+onClick = "checkAnswer();" > check answer < /button> <
+    /div>
+
+<!-- SPEECH BUBBLE -->
+<
+div class = "speech-bubble" >
+    <
+    div id = "categoryBox" > < /div> <
+    div id = "questionBox" > < /div> <
+    div id = "answerBox" > < /div> <
+    /div>
+
+<!-- TREBEK DIV -->
+<
+img class = "trebek"
+alt = "Long Live Alex Trebek"
+src = "https://res.cloudinary.com/alexbaldman/image/upload/v1609955507/trebek-vector.png" >
+
+    <!-- DATA DISPLAY BOX -->
+    <
+    div id = "dataBox" > < /div> <
+    /div> <
+    /body> <
+    /html>
