@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeopardish</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- The main container for the game -->
+    <div id="container">
+      <!-- The header with the game title and instructions -->
+      <div id="header">
+        <h1>Jeopardish</h1>
+        <p>
+          Welcome to Jeopardish, a trivia game inspired by Jeopardy. To play,
+          select a category and a difficulty level, then click on "Get
+          Question". You will see a question and a text box to enter your
+          answer. Click on "Submit Answer" to check if you are correct. You will
+          see your score and feedback below. Have fun!
+        </p>
+      </div>
+
+      <!-- The form with the category and difficulty selectors -->
+      <form id="form">
+        <!-- The category selector -->
+        <div id="category-selector">
+          <label for="category">Category:</label>
+          <select id="category" name="category">
+            <option value="21">Animals</option>
+            <option value="25">Art</option>
+            <option value="29">Before & After</option>
+            <option value="9">Books</option>
+            <option value="11">Film</option>
+            <option value="17">Food & Drink</option>
+            <option value="22">Geography</option>
+            <option value="23">History</option>
+            <option value="30">Literature</option>
+            <option value="7">Music</option>
+            <option value="18">Mythology</option>
+            <option value="19">Nature</option>
+            <option value="24">Politics</option>
+            <option value="14">Science & Nature</option>
+            <option value="31">Sports</option>
+            <option value="10">Television</option>
+            <option value="12">Theatre</option>
+            <option value="20">Video Games</option>
+          </select>
+        </div>
+
+        <!-- The difficulty selector -->
+        <div id="difficulty-selector">
+          <label for="difficulty">Difficulty:</label>
+          <select id="difficulty" name="difficulty">
+            <option value="$200">$200</option>
+            <option value="$400">$400</option>
+            <option value="$600">$600</option>
+            <option value="$800">$800</option>
+            <option value="$1000">$1000</option>
+          </select>
+        </div>
+
+        <!-- The button to get a question -->
+        <button id="get-question" type="button" onclick="getQuestion()">
+          Get Question
+        </button>
+
+        <!-- The button to submit an answer -->
+        <!-- Original code:
+        
+        <!--<button id="submit-answer" type="button" onclick="" disabled>-->
+          <!--Submit Answer-->
+        <!--</button>-->
+
+        // New code:
+
+        // Use an input element instead of a button element for the submit answer button
+        // This allows us to use the enter key to submit the answer as well as clicking the button
+        // Add an onsubmit attribute to the form element to call the checkAnswer function when the form is submitted
+        // Remove the onclick attribute from the submit answer button since it is not needed
+        // Add a name attribute to the submit answer button so we can access it in JavaScript
+      </form onsubmit="checkAnswer(); return false;">
+        <!-- The input element for the submit answer button -->
+        <input
+          id="submit-answer"
+          type="submit"
+          name="submit-answer"
+          value="Submit Answer"
+          disabled
+        />
+      </form>
+
+      <!-- The div with the question and category display -->
+      <div id="question-display">
+        <!-- The paragraph element for the question -->
+        <p id="question"></p>
+
+        <!-- The paragraph element for the category -->
+        <p id="category-display"></p>
+
+        <!-- The text box for the user to enter their answer -->
+        <!-- Original code:
+        
+        <!--<input type="text" id="" />-->
+
+        // New code:
+
+        // Add an id attribute to the text box so we can access it in JavaScript
+        // Add a placeholder attribute to the text box to show some instructions for the user
+      </div>
+
+      <!-- The text box for the user to enter their answer -->
+      <input
+        type="text"
+        id="user-answer"
+        placeholder="Enter your answer here"
+      />
+
+      <!-- The hidden input element to store the correct answer -->
+      <input type="hidden" id="correct-answer" />
+
+      <!-- The div with the score and feedback display -->
+      <div id="score-feedback">
+        <!-- The paragraph element for the score -->
+        <p id="score">0</p>
+
+        <!-- The paragraph element for the feedback -->
+        <p id="feedback"></p>
+      </div>
+
+      <!-- Link to the JavaScript file -->
+      <script src="./script.js"></script>
+    </div>
+  </body>
+</html>
+
