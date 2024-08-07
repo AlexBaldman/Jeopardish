@@ -1,13 +1,10 @@
-// Heroku proxy I was using for CORS requests - commenting out to try my own cors deployment below via Vercel:
-// const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+const proxyUrl = 'https://cors-proxy-nxljzehxv-alexs-projects-056c5ae2.vercel.app/proxy'; // cors proxy
 
-// my vercel proxy:
-const proxyUrl = 'https://cors-proxy-nxljzehxv-alexs-projects-056c5ae2.vercel.app/proxy';
-// api url for random question:
-const randomQuestionUrl = 'cluebase.lukelav.in/clues/random';
+
+const apiUrl = 'https://cluebase.lukelav.in/clues/random'; // api endpoint for random question
 
 // api GET request using axios, using proxy for CORS
-axios.get(`${proxyUrl}?url=${randomQuestionUrl}`)
+axios.get(`${proxyUrl}?url=${apiUrl}`)
     .then(response => {
         console.log('Clue fetched successfully:', response.data);
     })
@@ -79,7 +76,7 @@ console.log("HAVE FUN YA MANIAC!");
 // function to grab question from api
 const getQuestion = async() => {
     try {
-        const response = await axios.get(`${proxyUrl}${randomQuestionUrl}`);
+        const response = await axios.get(apiUrl);
 
         // Clear previous content / set chat bubble as empty:
         categoryBox.innerHTML = '';
@@ -94,8 +91,8 @@ const getQuestion = async() => {
         console.log(response.status);
         console.log(response.data);
 
-        if (response.data.status === "success" && response.data.data.length > 0) {
-            let clue = response.data.data[0]; // Since limit is set to 1 by default, we use the first item in the array
+        if (response.data && response.data.length > 0) {
+            let clue = response.data[0]; // Cluebase API returns an array of clues
 
             // Display in word bubble
             categoryBox.innerHTML = clue.category.toUpperCase() + '<br/> for $' + clue.value;
@@ -105,7 +102,7 @@ const getQuestion = async() => {
             // Set answer as invisible until revealed
             answerBox.style.display = 'none';
         } else {
-            throw new Error("No clues received or API returned failure");
+            throw new Error("No clues received from API");
         }
     } catch (error) {
         console.error('Failed to fetch clue:', error);
@@ -236,3 +233,10 @@ function updateScoreBoard() {
         <p id="score">Score: $${score}</p>
     `;
 }
+
+
+// NOTE
+
+// Currently using my own vercel proxy deployment for CORS but if experiencing issues, can try using alternate proxy below & updating the apiUrl like this:
+// const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+// const apiUrl = `${corsProxy}https://cluebase.lukelav.in/clues/random`;
