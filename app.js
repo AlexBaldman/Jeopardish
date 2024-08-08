@@ -1,10 +1,12 @@
-const proxyUrl = 'https://cors-proxy-nxljzehxv-alexs-projects-056c5ae2.vercel.app/proxy'; // cors proxy
-
-
 const apiUrl = 'https://cluebase.lukelav.in/clues/random'; // api endpoint for random question
 
-// api GET request using axios, using proxy for CORS
-axios.get(`${proxyUrl}?url=${apiUrl}`)
+// api GET request using axios
+axios.get(apiUrl, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
     .then(response => {
         console.log('Clue fetched successfully:', response.data);
     })
@@ -76,7 +78,12 @@ console.log("HAVE FUN YA MANIAC!");
 // function to grab question from api
 const getQuestion = async() => {
     try {
-        const response = await axios.get(apiUrl);
+        const response = await axios.get(apiUrl, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
 
         // Clear previous content / set chat bubble as empty:
         categoryBox.innerHTML = '';
@@ -240,3 +247,10 @@ function updateScoreBoard() {
 // Currently using my own vercel proxy deployment for CORS but if experiencing issues, can try using alternate proxy below & updating the apiUrl like this:
 // const corsProxy = 'https://cors-anywhere.herokuapp.com/';
 // const apiUrl = `${corsProxy}https://cluebase.lukelav.in/clues/random`;
+
+
+// const proxyUrl = 'https://cors-proxy-nxljzehxv-alexs-projects-056c5ae2.vercel.app/proxy'; // cors proxy
+
+
+// api GET request using axios, using proxy for CORS
+// axios.get(`${proxyUrl}?url=${apiUrl}`)
