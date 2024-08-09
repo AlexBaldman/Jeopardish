@@ -1,77 +1,126 @@
 // This function gets a random question from the API and displays it on the screen
 async function getQuestion() {
-  // Get the category and difficulty from the user input
-  const category = document.getElementById("category").value;
-  const difficulty = document.getElementById("difficulty").value;
+    // Get the category and difficulty from the user input
+    const category = document.getElementById("category").value;
+    const difficulty = document.getElementById("difficulty").value;
 
-  // Construct the API URL with the parameters
-  const url = `http://jservice.io/api/clues?category=${category}&value=${difficulty}`;
+    // Construct the API URL with the parameters
+    const url = `http://jservice.io/api/clues?category=${category}&value=${difficulty}`;
 
-  // Fetch the data from the API and parse it as JSON
-  const response = await fetch(url);
-  const data = await response.json();
+    // Fetch the data from the API and parse it as JSON
+    const response = await fetch(url);
+    const data = await response.json();
 
-  // Check if there is a valid question in the data
-  if (data.length > 0) {
-    // Get a random question object from the data
-    const question = data[Math.floor(Math.random() * data.length)];
+    // Check if there is a valid question in the data
+    if (data.length > 0) {
+        // Get a random question object from the data
+        const question = data[Math.floor(Math.random() * data.length)];
 
-    // Display the question and the category on the screen
-    document.getElementById("question").innerHTML = question.question;
-    document.getElementById("category-display").innerHTML =
-      question.category.title;
+        // Display the question and the category on the screen
+        document.getElementById("question").innerHTML = question.question;
+        document.getElementById("category-display").innerHTML =
+            question.category.title;
 
-    // Get the correct answer from the question object
-    const correctAnswer = question.answer;
+        // Get the correct answer from the question object
+        const correctAnswer = question.answer;
 
-    // Store the correct answer in a hidden input element for later use
-    document.getElementById("correct-answer").value = correctAnswer;
+        // Store the correct answer in a hidden input element for later use
+        document.getElementById("correct-answer").value = correctAnswer;
 
-    // Enable the submit answer button and clear the text box
-    document.getElementById("submit-answer").disabled = false;
-    document.getElementById("user-answer").value = "";
-  } else {
-    // If there is no valid question, display an error message and disable the submit answer button
-    document.getElementById("question").innerHTML =
-      "Sorry, no question found. Please try a different category or difficulty.";
-    document.getElementById("category-display").innerHTML = "";
-    document.getElementById("submit-answer").disabled = true;
-  }
+        // Enable the submit answer button and clear the text box
+        document.getElementById("submit-answer").disabled = false;
+        document.getElementById("user-answer").value = "";
+    } else {
+        // If there is no valid question, display an error message and disable the submit answer button
+        document.getElementById("question").innerHTML =
+            "Sorry, no question found. Please try a different category or difficulty.";
+        document.getElementById("category-display").innerHTML = "";
+        document.getElementById("submit-answer").disabled = true;
+    }
 }
 
 // This function checks if the user's answer is correct and updates the score and feedback accordingly
 function checkAnswer() {
-  // Get the user's answer from the text box
-  let userAnswer = document.getElementById("user-answer").value;
+    // Get the user's answer from the text box
+    let userAnswer = document.getElementById("user-answer").value;
 
-  // Get the correct answer from the hidden input element
-  let correctAnswer = document.getElementById("correct-answer").value;
+    // Get the correct answer from the hidden input element
+    let correctAnswer = document.getElementById("correct-answer").value;
 
-  // Get the user's score and feedback elements from the document
-  const scoreElement = document.getElementById("score");
-  const feedbackElement = document.getElementById("feedback");
+    // Get the user's score and feedback elements from the document
+    const scoreElement = document.getElementById("score");
+    const feedbackElement = document.getElementById("feedback");
 
-  // Compare the user's answer with the correct answer and update the score and feedback accordingly
+    userAnswer = removeArticles(userAnswer);
 
-  /* Original code:
+    // function to grab question from api
+    const getQuestion = async() => {
+        try {
+            const response = await axios.get(apiUrl, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            // Clear previous content / set chat bubble as empty:
+            categoryBox.innerHTML = '';
+            questionBox.innerHTML = '';
+            answerBox.innerHTML = '';
+            userInput.value = '';
+
+            // Reset the message flag for the new question
+            messageDisplayed = false;
+
+            console.log('-- Grabbed new random Jeopardy clue ya triviaface! --');
+            console.log(response.status);
+            console.log(response.data);
+
+            if (response.data && response.data.length > 0) {
+                let clue = response.data[0]; // Cluebase API returns an array of clues
+
+                // Display in word bubble
+                categoryBox.innerHTML = clue.category.toUpperCase() + '<br/> for $' + clue.value;
+                questionBox.innerHTML = clue.clue;
+                answerBox.innerHTML = clue.response;
+
+                // Set answer as invisible until revealed
+                answerBox.style.display = 'none';
+            } else {
+                throw new Error("No clues received from API");
+            }
+        } catch (error) {
+            console.error('Failed to fetch clue:', error);
+
+            // Display error using a pre-defined Jeopardy-themed joke
+            displayErrorJoke();
+        }
+    };
+}
+
+
+
+
+// Compare the user's answer with the correct answer and update the score and feedback accordingly
+
+/* Original code:
   
-  userAnswer = userAnswer.toLowerCase();
-  correctAnswer = correctAnswer.toLowerCase();
+    userAnswer = userAnswer.toLowerCase();
+    correctAnswer = correctAnswer.toLowerCase();
 
-  if (userAnswer == correctAnswer) {
-    scoreElement.innerHTML = parseInt(scoreElement.innerHTML) + 1;
-    feedbackElement.innerHTML = "Correct!";
-    feedbackElement.classList.add("correct");
-    feedbackElement.classList.remove("incorrect");
-  } else {
-    feedbackElement.innerHTML = `Incorrect! The correct answer was: ${correctAnswer}`;
-    feedbackElement.classList.add("incorrect");
-    feedbackElement.classList.remove("correct");
-  }
+    if (userAnswer == correctAnswer) {
+      scoreElement.innerHTML = parseInt(scoreElement.innerHTML) + 1;
+      feedbackElement.innerHTML = "Correct!";
+      feedbackElement.classList.add("correct");
+      feedbackElement.classList.remove("incorrect");
+    } else {
+      feedbackElement.innerHTML = `Incorrect! The correct answer was: ${correctAnswer}`;
+      feedbackElement.classList.add("incorrect");
+      feedbackElement.classList.remove("correct");
+    }
 
-  */
+    */
 
-  // New code:
+// New code:
 
-  // Use a regular expression to remove any articles, HTML tags, quotation marks, and whitespace from both answers before comparing them
-  userAnswer = removeArticles(userAnswer);
+// Use a regular expression to remove any articles, HTML tags, quotation marks, and whitespace from both answers before comparing them

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"> // include axios
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script defer src="app.js"></script>
 </head>
@@ -20,36 +20,58 @@
 
         <!-- TITLE -->
         <div class="title-div">
+
             <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">
+
         </div>
 
-        <!-- NEW QUESTION & SHOW ANSWER BUTTONS -->
+        <!-- NEW QUESTION & SHOW/HIDE ANSWER BUTTONS -->
         <div class="button-div">
-            <button id="questionButton">new question</button>
-            <button id="answerButton">show/hide answer</button>
+
+            <button id="questionButton">
+                new question
+            </button>
+
+            <button id="answerButton">
+                show/hide answer
+            </button>
+
         </div>
 
         <!-- USER INPUT -->
         <div class="input-div">
+
             <input type="text" id="inputbox" placeholder="enter answer">
-            <button id="checkButton" onClick="checkAnswer();">check answer</button>
+
+            <button id="checkButton" onClick="checkAnswer();">
+                check answer
+            </button>
+
         </div>
 
         <!-- SPEECH BUBBLE -->
         <div class="speech-bubble">
+
             <div id="categoryBox"></div>
+
             <div id="questionBox"></div>
+
             <div id="answerBox"></div>
+
         </div>
 
         <!-- TREBEK DIV -->
-        <img class="trebek" alt="Long Live Alex Trebek" src="assets/images/trebek-vector.png">
+        <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.png">
 
         <!-- DATA DISPLAY BOX -->
         <div id="dataBox" class="data-box">
+
             <p id="currentStreak">Current Streak: 0</p>
+
             <p id="bestStreak">Best Streak: 0</p>
+
             <p id="score">Score: $0</p>
+
         </div>
 
     </div>
