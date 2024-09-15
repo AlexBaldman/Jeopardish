@@ -1,18 +1,4 @@
-const apiUrl = 'https://cluebase.lukelav.in/clues/random'; // api endpoint for random question
-
-// api GET request using axios
-axios.get(apiUrl, {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        console.log('Clue fetched successfully:', response.data);
-    })
-    .catch(error => {
-        console.error('Failed to fetch clue:', error);
-    });
+const apiUrl = 'https://cors-anywhere.herokuapp.com/https://cluebase.lukelav.in/clues/random';
 
 // create buttons for basic functionality & user interaction
 const checkButton = document.getElementById('checkButton');
@@ -35,9 +21,6 @@ const trebek = document.getElementsByClassName('trebek');
 let currentStreak = 0;
 let bestStreak = 0;
 let score = 0;
-// Flag to indicate if a message has been displayed
-let messageDisplayed = false;
-
 
 // Error messages:
 const jeopardyErrors = [{
@@ -68,56 +51,92 @@ const jeopardyErrors = [{
 
 // introduce the game via console
 console.log(`Welcome to Jeopardish!!!`);
-console.log(`Click the "new question" button to grab a random Jeopardy question & test your knowledge.`);
+console.log(`Click the "new question" button to get a random Jeopardy-style question & test your knowledge.`);
 console.log(`Multiple correct answers in a row will start a streak...`);
 console.log(`...but get one wrong & the streak will reset.`);
 console.log("Let's see how many correct answers you can string together! ");
 console.log(`Streak is currently at ` + currentStreak);
 console.log("HAVE FUN YA MANIAC!");
 
+// Local fallback questions
+const fallbackQuestions = [
+    {
+        category: "HISTORY",
+        clue: "In 1492 this explorer sailed the ocean blue",
+        response: "Who is Christopher Columbus?",
+        value: 200
+    },
+    {
+        category: "SCIENCE",
+        clue: "This force keeps us on the ground",
+        response: "What is gravity?",
+        value: 100
+    },
+    {
+        category: "LITERATURE",
+        clue: "This Shakespeare play features the line 'To be, or not to be'",
+        response: "What is Hamlet?",
+        value: 300
+    },
+    {
+        category: "GEOGRAPHY",
+        clue: "This is the largest continent by land area",
+        response: "What is Asia?",
+        value: 200
+    },
+    {
+        category: "MOVIES",
+        clue: "This 1939 film features the line 'Frankly, my dear, I don't give a damn.'",
+        response: "What is Gone with the Wind?",
+        value: 400
+    },
+    {
+        category: "SPORTS",
+        clue: "This sport is played on a court with a net and uses rackets to hit a shuttlecock",
+        response: "What is badminton?",
+        value: 200
+    },
+    {
+        category: "MUSIC",
+        clue: "This 'King of Pop' released the best-selling album 'Thriller'",
+        response: "Who is Michael Jackson?",
+        value: 300
+    },
+    {
+        category: "SCIENCE",
+        clue: "This element with atomic number 79 is often used in jewelry",
+        response: "What is gold?",
+        value: 200
+    },
+    // Add more questions as needed
+];
+
 // function to grab question from api
-const getQuestion = async() => {
-    try {
-        const response = await axios.get(apiUrl, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        });
-
-        // Clear previous content / set chat bubble as empty:
-        categoryBox.innerHTML = '';
-        questionBox.innerHTML = '';
-        answerBox.innerHTML = '';
-        userInput.value = '';
-
-        // Reset the message flag for the new question
-        messageDisplayed = false;
-
-        console.log('-- Grabbed new random Jeopardy clue ya triviaface! --');
-        console.log(response.status);
-        console.log(response.data);
-
-        if (response.data && response.data.length > 0) {
-            let clue = response.data[0]; // Cluebase API returns an array of clues
-
-            // Display in word bubble
-            categoryBox.innerHTML = clue.category.toUpperCase() + '<br/> for $' + clue.value;
-            questionBox.innerHTML = clue.clue;
-            answerBox.innerHTML = clue.response;
-
-            // Set answer as invisible until revealed
-            answerBox.style.display = 'none';
-        } else {
-            throw new Error("No clues received from API");
-        }
-    } catch (error) {
-        console.error('Failed to fetch clue:', error);
-
-        // Display error using a pre-defined Jeopardy-themed joke
-        displayErrorJoke();
-    }
+const getQuestion = () => {
+    console.log('Getting new question');
+    useFallbackQuestion();
 };
+
+const useFallbackQuestion = () => {
+    const fallbackClue = fallbackQuestions[Math.floor(Math.random() * fallbackQuestions.length)];
+    displayQuestion(fallbackClue.category, fallbackClue.value, fallbackClue.clue, fallbackClue.response);
+    console.log('Using fallback question due to API error');
+};
+
+const displayQuestion = (category, value, clue, response) => {
+    console.log('Displaying new question');
+    console.log('Category:', category);
+    console.log('Value:', value);
+    console.log('Clue:', clue);
+    console.log('Response:', response);
+
+    categoryBox.innerHTML = category.toUpperCase() + '<br/> for $' + value;
+    questionBox.innerHTML = clue;
+    answerBox.innerHTML = response;
+    answerBox.style.display = 'none';
+    userInput.value = '';
+    console.log('New question displayed');
+}
 
 const displayErrorJoke = () => {
     let randomError = jeopardyErrors[Math.floor(Math.random() * jeopardyErrors.length)];
@@ -137,29 +156,39 @@ const showHideAnswer = () => {
 }
 
 // add event listeners to buttons for functionality:
-answerButton.addEventListener('click', showHideAnswer);
-questionButton.addEventListener('click', getQuestion);
+// answerButton.addEventListener('click', showHideAnswer);
+// questionButton.addEventListener('click', getQuestion);
+// checkButton.addEventListener('click', checkAnswer);
 
 // add event listener to allow hitting Enter to submit answer:
-userInput.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        checkAnswer();
-    }
-});
+// userInput.addEventListener("keydown", function(event) {
+//     if (event.key === "Enter") {
+//         checkAnswer();
+//     }
+// });
 
 // checkAnswer function checks userInput vs correctAnswer
 const checkAnswer = () => {
-    if (messageDisplayed) {
-        return; // If a message has already been displayed, do nothing
+    console.log('checkAnswer function called');
+
+    if (!answerBox.innerHTML.trim()) {
+        console.log('No answer available. Has a question been loaded?');
+        return;
     }
 
     let correctAnswer = cleanAnswer(answerBox.innerHTML.trim());
-    console.log({ correctAnswer });
+    let userAnswerCleaned = cleanAnswer(userInput.value);
+    console.log('Correct answer:', correctAnswer);
+    console.log('User input:', userAnswerCleaned);
+
+    if (!userAnswerCleaned) {
+        console.log('User input is empty');
+        return;
+    }
 
     // if userInput matches correct answer from api:
-    if (
-        compareAnswers(userInput.value, correctAnswer)
-    ) {
+    if (compareAnswers(userAnswerCleaned, correctAnswer)) {
+        console.log('Answer is correct');
         // increment streak
         currentStreak++;
         score += 100; // or any score increment logic
@@ -167,40 +196,58 @@ const checkAnswer = () => {
             bestStreak = currentStreak;
         }
 
-        console.log("Nice job! Answer correct & streak is now: ", { currentStreak });
+        console.log("Nice job! Answer correct & streak is now: ", currentStreak);
 
         // message when answer is correct
         categoryBox.innerHTML = "";
         questionBox.innerHTML = "I'm Canadianly delighted to report you're correct, sir or madame! I like how you think!!  You're beautiful & well-liked by all..";
+        answerBox.style.display = "flex";
         answerBox.innerHTML = "Correct answer streak is now " + currentStreak;
 
     } else {
+        console.log('Answer is incorrect');
         categoryBox.innerHTML = "";
         questionBox.innerHTML = "I'm sorry, that's either incorrect or the judges are...It could be them since they're drunk.";
         answerBox.style.display = "flex";
-        answerBox.innerHTML = `The correct answer was..` + `<br/>` + `<br/>` + correctAnswer + `<br/>` + `<br/>` + `STREAK RESET!`;
+        answerBox.innerHTML = `The correct answer was..` + `<br/>` + `<br/>` + answerBox.innerHTML + `<br/>` + `<br/>` + `STREAK RESET!`;
 
         // reset streak
         currentStreak = 0;
         score = 0;
-        console.log("streak reset to:", { currentStreak });
+        console.log("streak reset to:", currentStreak);
     }
 
     // update scoreboard
     updateScoreBoard();
-    // Set the flag to indicate that a message has been displayed
-    messageDisplayed = true;
+    // Clear the input box
+    userInput.value = '';
 }
 
 // Function to clean up and standardize answers for comparison
 const cleanAnswer = (answer) => {
-    return answer.toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+    // Remove "what is", "who is", etc., and any non-alphanumeric characters
+    return answer.toLowerCase()
+        .replace(/^(what|who|where|when) (is|are|was|were) /i, '')
+        .replace(/[^a-z0-9]/g, '')
+        .trim();
 }
 
 // Function to compare user's answer with the correct answer using Levenshtein distance
 const compareAnswers = (userAnswer, correctAnswer) => {
-    userAnswer = cleanAnswer(userAnswer);
-    return userAnswer === correctAnswer || getLevenshteinDistance(userAnswer, correctAnswer) <= 2;
+    console.log('Comparing answers:');
+    console.log('User answer:', userAnswer);
+    console.log('Correct answer:', correctAnswer);
+    
+    // Check if the user's answer is contained within the correct answer or vice versa
+    if (correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer)) {
+        return true;
+    }
+    
+    const levenshteinDistance = getLevenshteinDistance(userAnswer, correctAnswer);
+    console.log('Levenshtein distance:', levenshteinDistance);
+    
+    // Allow for more lenient matching
+    return levenshteinDistance <= Math.min(3, Math.floor(correctAnswer.length / 2));
 }
 
 // Levenshtein distance algorithm to allow slight misspellings
@@ -240,3 +287,23 @@ function updateScoreBoard() {
         <p id="score">Score: $${score}</p>
     `;
 }
+
+// Wrap event listeners and initial question load in DOMContentLoaded event
+document.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    
+    // Attach event listeners
+    document.getElementById('answerButton').addEventListener('click', showHideAnswer);
+    document.getElementById('questionButton').addEventListener('click', getQuestion);
+    document.getElementById('checkButton').addEventListener('click', checkAnswer);
+    
+    // Add event listener to allow hitting Enter to submit answer:
+    document.getElementById('inputbox').addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            checkAnswer();
+        }
+    });
+    
+    // Initial question load
+    getQuestion();
+});
