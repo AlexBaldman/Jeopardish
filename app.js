@@ -60,7 +60,10 @@ console.log("HAVE FUN YA MANIAC!");
 let questions = [];
 
 fetch('./questions/questions.json')
-    .then(response => response.json())
+    .then(response => {
+        console.log('Fetch response:', response); // Log the response
+        return response.json();
+    })
     .then(data => {
         questions = data;
         console.log('Questions loaded:', questions.length);
@@ -96,7 +99,7 @@ const getNewQuestion = () => {
 
         if (clue) {
             // Display in word bubble
-            categoryBox.innerHTML = clue.category.toUpperCase() + '<br/> for $' + clue.value;
+            categoryBox.innerHTML = clue.category.toUpperCase() + '<br/> for ' + clue.value;
             questionBox.innerHTML = clue.question;
             answerBox.innerHTML = clue.answer;
             answerBox.style.display = 'none';

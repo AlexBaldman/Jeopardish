@@ -63,21 +63,19 @@ body {
 #questionButton,
 #answerButton {
     display: flex;
-    font-family: monospace;
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Cartoonish font */
     height: 6vh;
-    font-size: 1.3em;
+    font-size: 1.3em; /* Larger font size */
     font-weight: bold;
     text-align: center;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(145deg, #f0f0f0, #cacaca);
-    border: none;
-    border-radius: 30px;
-    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
-    color: #333;
+    background-color: #FFDD00; /* Bright yellow */
+    border: 5px solid #FFAA00; /* Darker yellow border */
+    border-radius: 30px; /* Rounded edges */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    color: #333; /* Dark text color */
     cursor: pointer;
-    font-size: 1.2em;
-    font-weight: bold;
     padding: 15px 30px;
     transition: all 0.3s ease;
     text-transform: uppercase;
@@ -85,16 +83,19 @@ body {
 
 #questionButton:hover,
 #answerButton:hover {
-    background: linear-gradient(145deg, #cacaca, #f0f0f0);
-    color: #060CE9;
-    transform: translateY(-5px);
-    box-shadow: 25px 25px 75px #a1a1a1, -25px -25px 75px #ffffff;
+    background: linear-gradient(145deg, #4a3840c6, #ff5353);
+    color: #3fffcf;
+    /* transform: translateY(-5px); */
+    transition: margin-right 2s, color 1s;
+    box-shadow: 3px 10px #3fffcf;
+    border-bottom: 3px;
+
 }
 
 #questionButton:active,
 #answerButton:active {
     background: linear-gradient(145deg, #bebebe, #e0e0e0);
-    box-shadow: inset 5px 5px 10px #b3b3b3, inset -5px -5px 10px #ffffff;
+    box-shadow: inset 5px 5px 10px #b3b3b3, inset -5px -5px 10px #ebfca5;
     transform: translateY(2px);
 }
 
@@ -219,7 +220,7 @@ body {
     max-height: 20vh;
     max-width: 20vw;
     filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
-    animation: float 3s ease-in-out infinite;
+    /* animation: float 3s ease-in-out infinite; */
 }
 
 .trebek:hover {
@@ -249,7 +250,7 @@ body {
     min-width: 25vw;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     font-size: 2vmin;
-    max-width: 30vw;
+    max-width: 20vw;
 }
 
 @media (orientation: landscape) {
@@ -296,7 +297,7 @@ body {
 
     .data-box {
         min-width: 40vw;
-        font-size: 2.5vmin;
+        font-size: 2vmin;
     }
 }
 
@@ -310,4 +311,34 @@ body {
     100% {
         transform: translateY(0px);
     }
+}
+
+.simpsonsButton {
+    display: flex;
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Cartoonish font */
+    height: 6vh;
+    font-size: 1.5em; /* Larger font size */
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFDD00; /* Bright yellow */
+    border: 5px solid #FFAA00; /* Darker yellow border */
+    border-radius: 30px; /* Rounded edges */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    color: #333; /* Dark text color */
+    cursor: pointer;
+    padding: 15px 30px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.simpsonsButton:hover {
+    background-color: #FFCC00; /* Slightly darker yellow on hover */
+    color: #000; /* Change text color on hover */
+}
+
+.simpsonsButton:active {
+    background-color: #FFFF00; /* Bright yellow when pressed */
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5); /* Inset shadow when pressed */
 }
