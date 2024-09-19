@@ -25,8 +25,8 @@ let score = 0;
 // Error messages:
 const jeopardyErrors = [{
         category: "TECHNICAL DIFFICULTIES",
-        question: "This term describes what happens when your app tries to fetch data, but the internet says 'Nope.'",
-        answer: "What is 'a connection error'?",
+        question: "This term describes what happens when your app can't load the local question database.",
+        answer: "What is 'a file reading error'?",
         value: "$0"
     },
     {
@@ -58,85 +58,57 @@ console.log("Let's see how many correct answers you can string together! ");
 console.log(`Streak is currently at ` + currentStreak);
 console.log("HAVE FUN YA MANIAC!");
 
-// Local fallback questions
-const fallbackQuestions = [
-    {
-        category: "HISTORY",
-        clue: "In 1492 this explorer sailed the ocean blue",
-        response: "Who is Christopher Columbus?",
-        value: 200
-    },
-    {
-        category: "SCIENCE",
-        clue: "This force keeps us on the ground",
-        response: "What is gravity?",
-        value: 100
-    },
-    {
-        category: "LITERATURE",
-        clue: "This Shakespeare play features the line 'To be, or not to be'",
-        response: "What is Hamlet?",
-        value: 300
-    },
-    {
-        category: "GEOGRAPHY",
-        clue: "This is the largest continent by land area",
-        response: "What is Asia?",
-        value: 200
-    },
-    {
-        category: "MOVIES",
-        clue: "This 1939 film features the line 'Frankly, my dear, I don't give a damn.'",
-        response: "What is Gone with the Wind?",
-        value: 400
-    },
-    {
-        category: "SPORTS",
-        clue: "This sport is played on a court with a net and uses rackets to hit a shuttlecock",
-        response: "What is badminton?",
-        value: 200
-    },
-    {
-        category: "MUSIC",
-        clue: "This 'King of Pop' released the best-selling album 'Thriller'",
-        response: "Who is Michael Jackson?",
-        value: 300
-    },
-    {
-        category: "SCIENCE",
-        clue: "This element with atomic number 79 is often used in jewelry",
-        response: "What is gold?",
-        value: 200
-    },
-    // Add more questions as needed
-];
+// Load questions from local JSON file
+let questions = [];
 
-// function to grab question from api
-const getQuestion = () => {
-    console.log('Getting new question');
-    useFallbackQuestion();
-};
+fetch('./questions/questions.json')
+  .then(response => response.json())
+  .then(data => {
+    questions = data;
+    console.log('Questions loaded:', questions.length);
+  })
+  .catch(error => console.error('Error loading questions:', error));
 
-const useFallbackQuestion = () => {
-    const fallbackClue = fallbackQuestions[Math.floor(Math.random() * fallbackQuestions.length)];
-    displayQuestion(fallbackClue.category, fallbackClue.value, fallbackClue.clue, fallbackClue.response);
-    console.log('Using fallback question due to API error');
-};
-
-const displayQuestion = (category, value, clue, response) => {
-    console.log('Displaying new question');
-    console.log('Category:', category);
-    console.log('Value:', value);
-    console.log('Clue:', clue);
-    console.log('Response:', response);
-
-    categoryBox.innerHTML = category.toUpperCase() + '<br/> for $' + value;
-    questionBox.innerHTML = clue;
-    answerBox.innerHTML = response;
-    answerBox.style.display = 'none';
-    userInput.value = '';
-    console.log('New question displayed');
+// Function to get a random question
+function getRandomQuestion() {
+  return questions[Math.floor(Math.random() * questions.length)];
 }
+
+// Update getNewQuestion function
+const getNewQuestion = () => {
+  try {
+    const clue = getRandomQuestion();
+
+    // Clear previous content / set chat bubble as empty:
+    categoryBox.innerHTML = '';
+    questionBox.innerHTML = '';
+    answerBox.innerHTML = '';
+    userInput.value = '';
+
+    // Reset the message flag for the new question
+    messageDisplayed = false;
+
+    console.log('-- Grabbed new random Jeopardy clue ya triviaface! --');
+    console.log(clue);
+
+    if (clue) {
+      // Display in word bubble
+      categoryBox.innerHTML = clue.category.toUpperCase() + '<br/> for $' + clue.value;
+      questionBox.innerHTML = clue.question;
+      answerBox.innerHTML = clue.answer;
+
+      // Set answer as invisible until revealed
+      answerBox.style.display = 'none';
+    } else {
+      throw new Error("No clues available");
+    }
+  } catch (error) {
+    console.error('Failed to fetch clue:', error);
+
+    // Display error using a pre-defined Jeopardy-themed joke
+    displayErrorJoke();
+  }
+};
 
 const displayErrorJoke = () => {
     let randomError = jeopardyErrors[Math.floor(Math.random() * jeopardyErrors.length)];
@@ -294,7 +266,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     // Attach event listeners
     document.getElementById('answerButton').addEventListener('click', showHideAnswer);
-    document.getElementById('questionButton').addEventListener('click', getQuestion);
+    document.getElementById('questionButton').addEventListener('click', getNewQuestion);
     document.getElementById('checkButton').addEventListener('click', checkAnswer);
     
     // Add event listener to allow hitting Enter to submit answer:
@@ -305,5 +277,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
     
     // Initial question load
-    getQuestion();
+    getNewQuestion();
 });
