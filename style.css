@@ -253,6 +253,32 @@ body {
     max-width: 20vw;
 }
 
+.header-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.scoreboard {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #000;
+    color: #00ff00;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: right;
+}
+
+.scoreboard p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+#score {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 @media (orientation: landscape) {
     .game-container {
         max-width: 95vw;

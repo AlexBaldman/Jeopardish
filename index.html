@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script defer src="app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body lang="en">
@@ -18,11 +19,16 @@
     <!-- GAME CONTAINER -->
     <div class="game-container">
 
-        <!-- TITLE -->
-        <div class="title-div">
-
+        <!-- TITLE AND SCOREBOARD -->
+        <div class="header-div">
             <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">
-
+            
+            <!-- SCOREBOARD -->
+            <div id="dataBox" class="scoreboard">
+                <p id="currentStreak">Current Streak: 0</p>
+                <p id="bestStreak">Best Streak: 0</p>
+                <p id="score">Score: $0</p>
+            </div>
         </div>
 
         <!-- NEW QUESTION & SHOW/HIDE ANSWER BUTTONS -->
@@ -62,8 +68,8 @@
         <!-- new pimped out trebek  -->
         <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-6.webp"> -->
         
-        <!-- DATA DISPLAY BOX -->
-        <div id="dataBox" class="data-box">
+        <!-- OLD DATA DISPLAY BOX -->
+        <!-- <div id="dataBox" class="data-box">
 
             <p id="currentStreak">Current Streak: 0</p>
 
@@ -71,7 +77,7 @@
 
             <p id="score">Score: $0</p>
 
-        </div>        
+        </div>         -->
 
     </div>
 </body>
