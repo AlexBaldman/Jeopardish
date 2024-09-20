@@ -37,32 +37,57 @@ console.log(`...but get one wrong & the streak will reset.`);
 console.log("Let's see how many correct answers you can string together! ");
 console.log(`Streak is currently at ` + streak);
 
-// Fetch a new random question from the API
-const getNewQuestion = async() => {
-    try {
-        const response = await axios(randomQuestionUrl);
-        const data = await response.json();
+// Load questions from local JSON file
+let questions = [];
 
-        // Extract relevant data from the API response
-        category = data.category;
-        question = data.question;
-        answer = data.answer;
-        value = data.value;
-        date = data.date;
+fetch('./questions/questions.json')
+  .then(response => response.json())
+  .then(data => {
+    questions = data;
+    console.log('Questions loaded:', questions.length);
+  })
+  .catch(error => console.error('Error loading questions:', error));
 
-        // Display the question data
-        categoryBox.innerHTML = category;
-        questionBox.innerHTML = question;
-        answerBox.style.display = "none";
-        dataBox.innerHTML = value;
+// Function to get a random question
+function getRandomQuestion() {
+  return questions[Math.floor(Math.random() * questions.length)];
+}
 
-        console.log(`New question loaded from category: ${category}`);
-    } catch (error) {
-        console.error('Error fetching question:', error);
-        displayErrorMessage();
+// Update getNewQuestion function
+const getNewQuestion = () => {
+  try {
+    const clue = getRandomQuestion();
+
+    // Clear previous content / set chat bubble as empty:
+    categoryBox.innerHTML = '';
+    questionBox.innerHTML = '';
+    answerBox.innerHTML = '';
+    userInput.value = '';
+
+    // Reset the message flag for the new question
+    messageDisplayed = false;
+
+    console.log('-- Grabbed new random Jeopardy clue ya triviaface! --');
+    console.log(clue);
+
+    if (clue) {
+      // Display in word bubble
+      categoryBox.innerHTML = clue.category.toUpperCase() + '<br/> for $' + clue.value;
+      questionBox.innerHTML = clue.question;
+      answerBox.innerHTML = clue.answer;
+
+      // Set answer as invisible until revealed
+      answerBox.style.display = 'none';
+    } else {
+      throw new Error("No clues available");
     }
-};
+  } catch (error) {
+    console.error('Failed to fetch clue:', error);
 
+    // Display error using a pre-defined Jeopardy-themed joke
+    displayErrorJoke();
+  }
+};
 
 // Display a random error message
 const displayErrorMessage = () => {
@@ -126,6 +151,9 @@ function checkAnswer() {
 
 // Call getNewQuestion to load initial question on page load
 getNewQuestion();
+
+
+
 
 
 // SAMPLE RESPONSE TO RANDOM CLUE GET REQUEST ON CLUEBASE API:

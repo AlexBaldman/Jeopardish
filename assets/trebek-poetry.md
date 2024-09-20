@@ -30,7 +30,7 @@ And that's the final answer, folks. A quiz show for the ages, indeed.
 
 (speaking in Norm Macdonald's voice)
 
- Ah, Alex and I are back, like a couple of old, slightly-smelly socks.
+Ah, Alex and I are back, like a couple of old, slightly-smelly socks.
 We're stuck together, like a bad marriage, but with more beards.
 He says to me, "Norm, you've got to get with the program",
 And I say, "Alex, buddy, I'm still trying to figure out what the program is".
