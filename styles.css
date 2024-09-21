@@ -274,12 +274,11 @@ body {
     position: absolute;
     bottom: 0;
     right: 0;
-    font-family: Be'Orbitron', sans-serif;
-    background-color: rgba(128, 128, 128, 0);
+    font-family: 'Orbitron', Roboto, sans-serif;
+    font-weight: bold;
     color: #eaff00;
     padding: 1vh;
     overflow: hidden;
-    border-top-left-radius: 45px;
     text-align: right;
     font-size: 2.2vmin;
     }
@@ -289,7 +288,6 @@ body {
     position: flex;
     margin: 5px 0;
     right: 5%;
-    /* bottom: 0; */ 
 }
 
 #score {
@@ -318,13 +316,12 @@ body {
 
 
     .speech-bubble::after {
-        padding: 1vh 1vw;
-        min-height: 28vh;
-        max-width: 90%;
+        /* padding: 1vh 1vw; */
+        max-width: 80%;
         margin-top: 1vh;
-        width: 15px;
+        width: 12px;
         height: 15px;
-        bottom: -8px; Adjust the position slightly for mobile 
+        bottom: -20px; 
     }
 
     #questionButton,

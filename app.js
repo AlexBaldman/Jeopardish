@@ -1,6 +1,73 @@
 // API URL to fetch data
 const apiUrl = 'https://cluebase.lukelav.in/clues/random';
-// const apiUrl = 'https://cors-anywhere.herokuapp.com/https://cluebase.lukelav.in/clues/random';
+
+// Load questions from local JSON files
+let questions = [];
+const questionFiles = ['questions/questions.json', 'questions/more_questions.json']; // Add all your question file paths here
+
+async function fetchFromAPI() {
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("API Error:", error.message);
+        console.log("🎭 Looks like our API is taking an unscheduled intermission. Don't worry, we've got some local talent waiting in the wings!");
+        return null;
+    }
+}
+
+async function loadLocalQuestions() {
+    for (const file of questionFiles) {
+        try {
+            const response = await fetch(file);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await response.json();
+            questions = questions.concat(data);
+        } catch (error) {
+            console.error(`Error loading ${file}:`, error.message);
+        }
+    }
+    if (questions.length === 0) {
+        console.log("📚 Our local question library seems to be on vacation. Time for some improv!");
+        return false;
+    }
+    console.log(`📘 Loaded ${questions.length} questions from local files.`);
+    return true;
+}
+
+async function getNewQuestion() {
+    try {
+        // Try API first
+        const apiQuestion = await fetchFromAPI();
+        if (apiQuestion) {
+            displayQuestion(apiQuestion);
+            return;
+        }
+
+        // If API fails, use local questions
+        if (questions.length === 0) {
+            const localQuestionsLoaded = await loadLocalQuestions();
+            if (!localQuestionsLoaded) {
+                displayErrorJoke();
+                return;
+            }
+        }
+
+        if (questions.length === 0) {
+            throw new Error("No questions available");
+        }
+
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        const selectedQuestion = questions[randomIndex];
+        questions.splice(randomIndex, 1);
+        displayQuestion(selectedQuestion);
+    } catch (error) {
+        console.error("Failed to get new question:", error);
+        displayErrorJoke();
+    }
+}
 
 // Create buttons for basic functionality & user interaction
 const checkButton = document.getElementById('checkButton');
@@ -58,29 +125,6 @@ const jeopardyErrors = [
     }
 ];
 
-// Load questions from local JSON file
-let questions = [];
-
-async function getNewQuestion() {
-    try {
-        if (questions.length === 0) {
-            throw new Error("No questions available");
-        }
-        const randomIndex = Math.floor(Math.random() * questions.length);
-        const selectedQuestion = questions[randomIndex];
-        
-        // Remove the selected question from the array to avoid repetition
-        questions.splice(randomIndex, 1);
-        
-        currentQuestion = selectedQuestion;
-        displayQuestion(currentQuestion);
-    } catch (error) {
-        console.error("Failed to get new question:", error);
-        categoryBox.textContent = "Error";
-        questionBox.textContent = "Failed to load question. Please try again.";
-    }
-}
-
 // Function to display error messages in the UI
 function displayErrorMessage(message) {
     categoryBox.innerHTML = "Error";
@@ -88,27 +132,6 @@ function displayErrorMessage(message) {
     answerBox.innerHTML = "";
     answerBox.style.display = "block";
 }
-
-// Update getNewQuestion function
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        const response = await fetch('questions/questions.json');
-        console.log("Fetch response:", response);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        questions = data;
-        console.log("Questions loaded:", questions.length);
-        
-        // Initialize the game with the first question
-        await getNewQuestion();
-    } catch (error) {
-        console.error("Error loading questions:", error);
-        categoryBox.textContent = "Error";
-        questionBox.textContent = "Failed to load questions. Please refresh the page.";
-    }
-});
 
 // Function to display a random error joke
 const displayErrorJoke = () => {
@@ -219,14 +242,14 @@ const getLevenshteinDistance = (a, b) => {
 // Update scoreboard
 function updateScoreBoard() {
     dataBox.innerHTML = `
+        <p id="score">Score: $${score}</p>
         <p id="currentStreak">Current Streak: ${currentStreak}</p>
         <p id="bestStreak">Best Streak: ${bestStreak}</p>
-        <p id="score">Score: $${score}</p>
-    `;
+       `;
 }
 
 // Wrap event listeners and initial question load in DOMContentLoaded event
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM fully loaded and parsed');
     
     // Attach event listeners
@@ -241,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Initial question load
-    getNewQuestion();
+    await getNewQuestion();
 });
 
 function normalizeQuestionData(question) {
