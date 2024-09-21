@@ -3,7 +3,7 @@ const apiUrl = 'https://cluebase.lukelav.in/clues/random';
 
 // Load questions from local JSON files
 let questions = [];
-const questionFiles = ['questions/questions.json', 'questions/more_questions.json']; // Add all your question file paths here
+const questionFiles = ['questions/questions.json', 'questions/questions.csv']; // Add all your question file paths here
 
 async function fetchFromAPI() {
     try {
@@ -18,12 +18,21 @@ async function fetchFromAPI() {
     }
 }
 
-async function loadLocalQuestions() {
+4async function loadLocalQuestions() {
     for (const file of questionFiles) {
         try {
             const response = await fetch(file);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const data = await response.json();
+            const fileExtension = file.split('.').pop().toLowerCase();
+            let data;
+            if (fileExtension === 'json') {
+                data = await response.json();
+            } else if (fileExtension === 'csv') {
+                const text = await response.text();
+                data = parseCSV(text);
+            } else {
+                throw new Error(`Unsupported file type: ${fileExtension}`);
+            }
             questions = questions.concat(data);
         } catch (error) {
             console.error(`Error loading ${file}:`, error.message);
@@ -37,12 +46,24 @@ async function loadLocalQuestions() {
     return true;
 }
 
+function parseCSV(text) {
+    const lines = text.split('\n');
+    const headers = lines[0].split(',');
+    return lines.slice(1).map(line => {
+        const values = line.split(',');
+        return headers.reduce((obj, header, index) => {
+            obj[header.trim()] = values[index].trim();
+            return obj;
+        }, {});
+    });
+}
+
 async function getNewQuestion() {
     try {
         // Try API first
         const apiQuestion = await fetchFromAPI();
         if (apiQuestion) {
-            displayQuestion(apiQuestion);
+            displayQuestion(normalizeQuestionData(apiQuestion));
             return;
         }
 
@@ -62,7 +83,7 @@ async function getNewQuestion() {
         const randomIndex = Math.floor(Math.random() * questions.length);
         const selectedQuestion = questions[randomIndex];
         questions.splice(randomIndex, 1);
-        displayQuestion(selectedQuestion);
+        displayQuestion(normalizeQuestionData(selectedQuestion));
     } catch (error) {
         console.error("Failed to get new question:", error);
         displayErrorJoke();
@@ -268,11 +289,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function normalizeQuestionData(question) {
-    // Adjust this function based on the actual structure of your API and local questions
     return {
         category: question.category?.title || question.category,
         question: question.question || question.clue,
         answer: question.answer,
-        value: question.value || 200 // Default value if not provided
+        value: question.value || 200,
+        airdate: question.airdate || new Date().toISOString(),
+        difficulty: question.difficulty || 'Unknown',
+        times_used: question.times_used || 1,
+        contestant: question.contestant || 'Unknown',
+        season: question.season || 'Unknown',
+        episode: question.episode || 'Unknown'
     };
 }

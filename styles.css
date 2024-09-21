@@ -183,18 +183,19 @@ body {
     padding: 2vh 2vw; /* Scales better */
     text-rendering: optimizeLegibility;
     border-radius: 10% / 50%;
-    margin: 3vh auto;
+    margin: 3vw auto;
     text-align: center;
     flex-flow: row wrap;
     color: white;
-    border-top: .25em ridge rgba(176, 218, 248, 0.911);
-    border-bottom: 2vh ridge rgba(38, 20, 115, 0.649);
+    border-top: .25em ridge rgba(125, 176, 212, 0.911);
+    border-bottom: 2vh ridge rgba(213, 3, 125, 0.987);
     min-height: 37vh;
+    max-width: 90vw;
     justify-content: center;
     align-content: center;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 22px;
+    box-shadow: 0 2px 6px rgb(255, 253, 131);
+    border-radius: 23%;
 }
 
 .speech-bubble:after {
@@ -313,7 +314,6 @@ body {
         padding: 1vh;
         max-width: 90%;
     }
-
 
     .speech-bubble::after {
         /* padding: 1vh 1vw; */
