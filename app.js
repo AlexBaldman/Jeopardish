@@ -1,5 +1,6 @@
 // API URL to fetch data
-const apiUrl = 'https://cors-anywhere.herokuapp.com/https://cluebase.lukelav.in/clues/random';
+const apiUrl = 'https://cluebase.lukelav.in/clues/random';
+// const apiUrl = 'https://cors-anywhere.herokuapp.com/https://cluebase.lukelav.in/clues/random';
 
 // Create buttons for basic functionality & user interaction
 const checkButton = document.getElementById('checkButton');
@@ -19,6 +20,15 @@ const dataBox = document.getElementById('dataBox');
 let currentStreak = 0;
 let bestStreak = 0;
 let score = 0;
+
+// Introduce the game via console
+console.log(`Welcome to Jeopardish!!!`);
+console.log(`Click the "new question" button to get a random Jeopardy-style question & test your knowledge.`);
+console.log(`Multiple correct answers in a row will start a streak...`);
+console.log(`...but get one wrong & the streak will reset.`);
+console.log("Let's see how many correct answers you can string together! ");
+console.log(`Streak is currently at ` + currentStreak);
+console.log("HAVE FUN YA MANIAC!");
 
 // Error messages
 const jeopardyErrors = [
@@ -48,37 +58,27 @@ const jeopardyErrors = [
     }
 ];
 
-// Introduce the game via console
-console.log(`Welcome to Jeopardish!!!`);
-console.log(`Click the "new question" button to get a random Jeopardy-style question & test your knowledge.`);
-console.log(`Multiple correct answers in a row will start a streak...`);
-console.log(`...but get one wrong & the streak will reset.`);
-console.log("Let's see how many correct answers you can string together! ");
-console.log(`Streak is currently at ` + currentStreak);
-console.log("HAVE FUN YA MANIAC!");
-
-
 // Load questions from local JSON file
 let questions = [];
 
-fetch('./questions/questions.json')
-    .then(response => {
-        console.log('Fetch response:', response); // Log the response
-        return response.json();
-    })
-    .then(data => {
-        questions = data;
-        console.log('Questions loaded:', questions.length);
-        getNewQuestion(); // Load the first question after fetching
-    })
-    .catch(error => {
-        console.error('Error loading questions:', error);
-        displayErrorMessage("Failed to load questions. Please try again later.");
-    });
-
-// Function to get a random question
-function getRandomQuestion() {
-    return questions[Math.floor(Math.random() * questions.length)];
+async function getNewQuestion() {
+    try {
+        if (questions.length === 0) {
+            throw new Error("No questions available");
+        }
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        const selectedQuestion = questions[randomIndex];
+        
+        // Remove the selected question from the array to avoid repetition
+        questions.splice(randomIndex, 1);
+        
+        currentQuestion = selectedQuestion;
+        displayQuestion(currentQuestion);
+    } catch (error) {
+        console.error("Failed to get new question:", error);
+        categoryBox.textContent = "Error";
+        questionBox.textContent = "Failed to load question. Please try again.";
+    }
 }
 
 // Function to display error messages in the UI
@@ -90,29 +90,25 @@ function displayErrorMessage(message) {
 }
 
 // Update getNewQuestion function
-const getNewQuestion = () => {
+document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const clue = getRandomQuestion();
-        // Clear previous content
-        categoryBox.innerHTML = '';
-        questionBox.innerHTML = '';
-        answerBox.innerHTML = '';
-        userInput.value = '';
-
-        if (clue) {
-            // Display in word bubble
-            categoryBox.innerHTML = clue.category.toUpperCase() + '<br/> for ' + clue.value;
-            questionBox.innerHTML = clue.question;
-            answerBox.innerHTML = clue.answer;
-            answerBox.style.display = 'none';
-        } else {
-            throw new Error("No clues available");
+        const response = await fetch('questions/questions.json');
+        console.log("Fetch response:", response);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        questions = data;
+        console.log("Questions loaded:", questions.length);
+        
+        // Initialize the game with the first question
+        await getNewQuestion();
     } catch (error) {
-        console.error('Failed to fetch clue:', error);
-        displayErrorJoke();
+        console.error("Error loading questions:", error);
+        categoryBox.textContent = "Error";
+        questionBox.textContent = "Failed to load questions. Please refresh the page.";
     }
-};
+});
 
 // Function to display a random error joke
 const displayErrorJoke = () => {
@@ -194,7 +190,7 @@ const compareAnswers = (userAnswer, correctAnswer) => {
     return levenshteinDistance <= Math.min(3, Math.floor(correctAnswer.length / 2));
 };
 
-// Levenshtein distance algorithm
+// Levenshtein distance algorithm (for determining if the answer given is close enough to count as the correct answer)
 const getLevenshteinDistance = (a, b) => {
     const matrix = [];
     let i, j;
@@ -247,3 +243,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial question load
     getNewQuestion();
 });
+
+function normalizeQuestionData(question) {
+    // Adjust this function based on the actual structure of your API and local questions
+    return {
+        category: question.category?.title || question.category,
+        question: question.question || question.clue,
+        answer: question.answer,
+        value: question.value || 200 // Default value if not provided
+    };
+}

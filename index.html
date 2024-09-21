@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     
     <!-- external javascript (include defer for async loading) -->
     <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
@@ -34,57 +34,36 @@
     <!-- internal javascript -->
     <script defer src="app.js"></script>
  </head>
-
 <body lang="en">
-
     <!-- GAME CONTAINER -->
     <div class="game-container">
-
         <!-- TITLE AND SCOREBOARD -->
         <div class="header-div">
-            <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">
-            
-            <!-- SCOREBOARD -->
-            <div id="dataBox" class="scoreboard">
-                <p id="currentStreak">Current Streak: 0</p>
-                <p id="bestStreak">Best Streak: 0</p>
-                <p id="score">Score: $0</p>
-            </div>
+            <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">  
         </div>
-
         <!-- NEW QUESTION & SHOW/HIDE ANSWER BUTTONS -->
         <div class="button-div">
-
             <button id="questionButton" aria-label="Get a new question">
                 new question
             </button>
-
             <button id="answerButton" aria-label="Show or hide the answer">
                 show answer
             </button>
-
         </div>
 
         <!-- USER INPUT -->
         <div class="input-div">
-
             <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
-
             <button id="checkButton" aria-label="Check answer">
                 check answer
             </button>
-
         </div>
 
         <!-- SPEECH BUBBLE -->
         <div class="speech-bubble">
-
             <div id="categoryBox"></div>
-
             <div id="questionBox"></div>
-
             <div id="answerBox"></div>
-
         </div>
 
         <!-- TREBEK DIV -->
@@ -95,7 +74,13 @@
         <!-- original trebek -->
         <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.svg"> -->
 
+        <!-- SCOREBOARD -->
+        <div class="scoreboard">
+            <p id="currentStreak">Current Streak: 0</p>
+            <p id="bestStreak">Best Streak: 0</p>
+            <p id="score">Score: $0</p>
+        </div>
+
     </div>
 </body>
-
 </html>
