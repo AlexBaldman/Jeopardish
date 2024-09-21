@@ -18,7 +18,7 @@ async function fetchFromAPI() {
     }
 }
 
-4async function loadLocalQuestions() {
+async function loadLocalQuestions() {
     for (const file of questionFiles) {
         try {
             const response = await fetch(file);
