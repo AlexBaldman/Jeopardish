@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
+    <!-- SEO related tags  -->
+    <meta name="description" content="Play Jeopardish! A fun trivia game inspired by Jeopardy! with customizable features.">
+    <meta property="og:title" content="Jeopardish!">
+    <meta property="og:description" content="A fun trivia game inspired by and as a comedic homage to the legendary game show, Jeopardy!">
+    <meta property="og:image" content="___URL to an image of the game___">
+    
     <!-- title -->
     <title>Jeopardish!</title>
     
@@ -14,7 +20,7 @@
     <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
     
     <!-- Link to external stylesheets -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     
     <!-- fonts, icons, other CDN assets -->
@@ -49,9 +55,13 @@
         <!-- NEW QUESTION & SHOW/HIDE ANSWER BUTTONS -->
         <div class="button-div">
 
-            <button id="questionButton" aria-label="Get a new question">New Question</button>
+            <button id="questionButton" aria-label="Get a new question">
+                new question
+            </button>
 
-            <button id="answerButton" aria-label="Show or hide the answer">Show/Hide Answer</button>
+            <button id="answerButton" aria-label="Show or hide the answer">
+                show answer
+            </button>
 
         </div>
 
@@ -60,7 +70,9 @@
 
             <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
 
-            <button id="checkButton" aria-label="Check answer">Check Answer</button>
+            <button id="checkButton" aria-label="Check answer">
+                check answer
+            </button>
 
         </div>
 
@@ -77,27 +89,13 @@
 
         <!-- TREBEK DIV -->
 
-        <!-- original svg trebek -->
-        <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.svg">
-        
-        <!-- new pimped out trebek  -->
-        <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-6.webp"> -->
-        
-        <!-- OLD DATA DISPLAY BOX -->
-        <!-- <div id="dataBox" class="data-box">
+        <!-- new dope version with joint -->
+        <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-dope-01.png">
 
-            <p id="currentStreak">Current Streak: 0</p>
-
-            <p id="bestStreak">Best Streak: 0</p>
-
-            <p id="score">Score: $0</p>
-
-        </div>         -->
+        <!-- original trebek -->
+        <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.svg"> -->
 
     </div>
 </body>
 
 </html>
-
-<!-- TREBEK DIV -->
-<!-- <img class="trebek" alt="Long Live Alex Trebek" src="https://res.cloudinary.com/alexbaldman/image/upload/v1609955507/trebek-vector.png"> -->

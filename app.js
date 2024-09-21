@@ -1,3 +1,4 @@
+// API URL to fetch data
 const apiUrl = 'https://cors-anywhere.herokuapp.com/https://cluebase.lukelav.in/clues/random';
 
 // Create buttons for basic functionality & user interaction
@@ -55,6 +56,7 @@ console.log(`...but get one wrong & the streak will reset.`);
 console.log("Let's see how many correct answers you can string together! ");
 console.log(`Streak is currently at ` + currentStreak);
 console.log("HAVE FUN YA MANIAC!");
+
 
 // Load questions from local JSON file
 let questions = [];
