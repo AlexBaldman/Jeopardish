@@ -289,13 +289,19 @@ body {
         margin: 2vh auto;
 
     }
-
+    .title-div {
+        padding: 1vh 0; 
+    }
     .title-image {
+        padding: 1vh;
         max-width: 90%;
+    }
+    .speech-bubble {
+        padding: 2vh 2vw;
     }
 
     button {
-        font-size: 1.2em; /* Adjust button text size */
+        font-size: .7em;
       }
 
     #questionButton,
@@ -306,7 +312,7 @@ body {
     }
 
     #checkButton {
-        width: 80%;
+        width: 50%;
     }
 
     .speech-bubble {
