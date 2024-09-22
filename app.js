@@ -3,7 +3,7 @@ const apiUrl = 'https://cluebase.lukelav.in/clues/random';
 
 // Load questions from local JSON files
 let questions = [];
-const questionFiles = ['questions/questions.json', 'questions/questions.csv']; // Add all your question file paths here
+const questionFiles = ['questions/questions.json', 'questions/questions.csv', 'questions/jeopardy-questions.json', 'questions/jeopardy-questions.csv']; // Add all your question file paths here
 
 async function fetchFromAPI() {
     try {

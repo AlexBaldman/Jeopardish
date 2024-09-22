@@ -14,10 +14,9 @@ body {
     font-family: 'Roboto', sans-serif;  
     */
     display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-    height: 100%;
-    width: 100%;
+    justify-content: flex start;
+    height: 100vh;
+    width: 100%  /;
     background-color: #ff1fc3c5;
     overflow: hidden;
     box-sizing: border-box;
@@ -179,6 +178,7 @@ body {
 .speech-bubble {
     position: relative;
     background: #10347c;
+    min-height: 37vh;
     max-width: 90vw; /* Prevents overflow on small screens */
     padding: 2vh 2vw; /* Scales better */
     text-rendering: optimizeLegibility;
@@ -189,8 +189,6 @@ body {
     color: white;
     border-top: .25em ridge rgba(125, 176, 212, 0.911);
     border-bottom: 2vh ridge rgba(213, 3, 125, 0.987);
-    min-height: 37vh;
-    max-width: 90vw;
     justify-content: center;
     align-content: center;
     align-items: center;
