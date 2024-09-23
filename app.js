@@ -1,9 +1,55 @@
-// API URL to fetch data
-const apiUrl = 'https://cluebase.lukelav.in/clues/random';
+console.log("App.js loaded. Or is it? You know, it's like that old saying: 'If a JavaScript file loads in a browser and no one's there to see it, does it make a console.log?'");
 
-// Load questions from local JSON files
+const apiUrl = 'https://cluebase.lukelav.in/clues/random';
 let questions = [];
-const questionFiles = ['questions/questions.json', 'questions/questions.csv', 'questions/jeopardy-questions.json', 'questions/jeopardy-questions.csv']; // Add all your question file paths here
+const questionFiles = ['questions/questions.csv', 'questions/questions.json'];
+
+// Create buttons for basic functionality & user interaction
+const checkButton = document.getElementById('checkButton');
+const answerButton = document.getElementById('answerButton');
+const questionButton = document.getElementById('questionButton');
+
+// Create userInput box for entering answer
+const userInput = document.getElementById('inputbox');
+
+// Use separate boxes to distribute data within word-bubble
+const categoryBox = document.getElementById('categoryBox');
+const questionBox = document.getElementById('questionBox');
+const answerBox = document.getElementById('answerBox');
+const scoreboard = document.getElementById('scoreboard');
+
+// Initialize variables to store data to display
+let currentStreak = 0;
+let bestStreak = 0;
+let score = 0;
+
+// Error messages
+const jeopardyErrors = [
+    {
+        category: "TECHNICAL DIFFICULTIES",
+        question: "This term describes what happens when your app can't load the local question database.",
+        answer: "What is 'a file reading error'? You know, it's like trying to read War and Peace in the dark. Sure, the words are there, but good luck making sense of 'em.",
+        value: "$0"
+    },
+    {
+        category: "OOOPS!",
+        question: "This famous line was uttered by every programmer ever when their code didn't work as expected.",
+        answer: "What is 'It works on my machine'? It's like saying, 'The murder weapon? Oh, it only kills people in my house.'",
+        value: "$0"
+    },
+    {
+        category: "MYSTERY OF CODING",
+        question: "It's the spooky thing that happens when your API call goes into the void and never returns.",
+        answer: "What is 'the ghost in the machine'?",
+        value: "$0"
+    },
+    {
+        category: "SOFTWARE SNAFUS",
+        question: "This phrase is often said when an application stops working right as you show it to someone.",
+        answer: "What is 'demo demon'? It's like when you're trying to impress a date with your cooking skills, and suddenly your signature dish tastes like feet. Not that I know what feet taste like, mind you.",
+        value: "$0"
+    }
+];
 
 async function fetchFromAPI() {
     try {
@@ -13,7 +59,7 @@ async function fetchFromAPI() {
         return data;
     } catch (error) {
         console.error("API Error:", error.message);
-        console.log("🎭 Looks like our API is taking an unscheduled intermission. Don't worry, we've got some local talent waiting in the wings!");
+        console.log("🎭 Looks like our API is MIA. BRB. ");
         return null;
     }
 }
@@ -21,6 +67,7 @@ async function fetchFromAPI() {
 async function loadLocalQuestions() {
     for (const file of questionFiles) {
         try {
+            console.log(`Attempting to load ${file}...`);
             const response = await fetch(file);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const fileExtension = file.split('.').pop().toLowerCase();
@@ -33,29 +80,72 @@ async function loadLocalQuestions() {
             } else {
                 throw new Error(`Unsupported file type: ${fileExtension}`);
             }
+            console.log(`Successfully loaded ${data.length} questions from ${file}`);
             questions = questions.concat(data);
         } catch (error) {
             console.error(`Error loading ${file}:`, error.message);
+            console.log(`Failed to load ${file}. It's like trying to read my handwriting after a night of heavy drinking. Theoretically possible, but why put yourself through that?`);
         }
     }
     if (questions.length === 0) {
-        console.log("📚 Our local question library seems to be on vacation. Time for some improv!");
+        console.log("📚 Our local question library seems to be on vacation. Time for some improv! You know, it's like that time I tried to do stand-up without any material. Turns out, silence isn't always golden.");
         return false;
     }
-    console.log(`📘 Loaded ${questions.length} questions from local files.`);
+    console.log(`📘 Loaded ${questions.length} questions from local files. That's more questions than I've had about my career choices.`);
     return true;
 }
 
 function parseCSV(text) {
     const lines = text.split('\n');
-    const headers = lines[0].split(',');
+    const headers = lines[0].split(',').map(header => header.trim());
     return lines.slice(1).map(line => {
-        const values = line.split(',');
+        const values = line.split(',').map(value => value.trim());
+        if (values.length !== headers.length) {
+            console.warn(`Skipping malformed line: ${line}`);
+            return null;
+        }
         return headers.reduce((obj, header, index) => {
-            obj[header.trim()] = values[index].trim();
+            obj[header] = values[index];
             return obj;
         }, {});
+    }).filter(row => row !== null);
+}
+
+function displayQuestion(question) {
+    console.log('displayQuestion called with:', question);
+    const elements = ['categoryBox', 'questionBox', 'answerBox', 'valueBox'];
+    elements.forEach(id => {
+        const element = document.getElementById(id);
+        console.log(`${id}: ${element ? 'Found' : 'Missing'}`);
     });
+    try {
+        const elements = {
+            categoryBox: document.getElementById('categoryBox'),
+            questionBox: document.getElementById('questionBox'),
+            answerBox: document.getElementById('answerBox'),
+            valueBox: document.getElementById('valueBox')
+        };
+
+        // Check if any required elements are missing
+        const missingElements = Object.entries(elements)
+            .filter(([key, value]) => !value)
+            .map(([key]) => key);
+
+        if (missingElements.length > 0) {
+            throw new Error(`Missing DOM elements: ${missingElements.join(', ')}`);
+        }
+
+        // If we get here, all required elements exist
+        elements.categoryBox.textContent = question.category;
+        elements.questionBox.textContent = question.question;
+        elements.valueBox.textContent = `$${question.value}`;
+        
+        elements.answerBox.textContent = '';
+        elements.answerBox.style.display = 'none';
+
+    } catch (error) {
+        console.error('Error in displayQuestion:', error.message);
+    }
 }
 
 async function getNewQuestion() {
@@ -90,62 +180,6 @@ async function getNewQuestion() {
     }
 }
 
-// Create buttons for basic functionality & user interaction
-const checkButton = document.getElementById('checkButton');
-const answerButton = document.getElementById('answerButton');
-const questionButton = document.getElementById('questionButton');
-
-// Create userInput box for entering answer
-const userInput = document.getElementById('inputbox');
-
-// Use separate boxes to distribute data within word-bubble
-const categoryBox = document.getElementById('categoryBox');
-const questionBox = document.getElementById('questionBox');
-const answerBox = document.getElementById('answerBox');
-const dataBox = document.getElementById('dataBox');
-
-// Initialize variables to store data to display
-let currentStreak = 0;
-let bestStreak = 0;
-let score = 0;
-
-// Introduce the game via console
-console.log(`Welcome to Jeopardish!!!`);
-console.log(`Click the "new question" button to get a random Jeopardy-style question & test your knowledge.`);
-console.log(`Multiple correct answers in a row will start a streak...`);
-console.log(`...but get one wrong & the streak will reset.`);
-console.log("Let's see how many correct answers you can string together! ");
-console.log(`Streak is currently at ` + currentStreak);
-console.log("HAVE FUN YA MANIAC!");
-
-// Error messages
-const jeopardyErrors = [
-    {
-        category: "TECHNICAL DIFFICULTIES",
-        question: "This term describes what happens when your app can't load the local question database.",
-        answer: "What is 'a file reading error'?",
-        value: "$0"
-    },
-    {
-        category: "OOOPS!",
-        question: "This famous line was uttered by every programmer ever when their code didn't work as expected.",
-        answer: "What is 'It works on my machine'?",
-        value: "$0"
-    },
-    {
-        category: "MYSTERY OF CODING",
-        question: "It's the spooky thing that happens when your API call goes into the void and never returns.",
-        answer: "What is 'the ghost in the machine'?",
-        value: "$0"
-    },
-    {
-        category: "SOFTWARE SNAFUS",
-        question: "This phrase is often said when an application stops working right as you show it to someone.",
-        answer: "What is 'demo demon'?",
-        value: "$0"
-    }
-];
-
 // Function to display error messages in the UI
 function displayErrorMessage(message) {
     categoryBox.innerHTML = "Error";
@@ -161,6 +195,7 @@ const displayErrorJoke = () => {
     questionBox.innerHTML = randomError.question;
     answerBox.innerHTML = randomError.answer;
     answerBox.style.display = 'block';
+    console.log("Error joke displayed. You know, in comedy, they say timing is everything. In programming, timing is also everything, except when it isn't, which is most of the time.");
 };
 
 // Reveal or hide answer
@@ -200,7 +235,7 @@ const checkAnswer = () => {
     userInput.value = '';
 };
 
-// Function to display correct answer message
+// display correct answer message
 const displayCorrectAnswerMessage = () => {
     categoryBox.innerHTML = "";
     questionBox.innerHTML = "Correct! Your streak is now: " + currentStreak;
@@ -208,7 +243,7 @@ const displayCorrectAnswerMessage = () => {
     answerBox.innerHTML = "Correct answer streak is now " + currentStreak;
 };
 
-// Function to display incorrect answer message
+// display incorrect answer message
 const displayIncorrectAnswerMessage = (correctAnswer) => {
     categoryBox.innerHTML = "";
     questionBox.innerHTML = "Incorrect! The correct answer was: " + correctAnswer;
@@ -216,7 +251,7 @@ const displayIncorrectAnswerMessage = (correctAnswer) => {
     answerBox.innerHTML = `STREAK RESET!`;
 };
 
-// Function to clean up and standardize answers for comparison
+// clean up and standardize answers for comparison
 const cleanAnswer = (answer) => {
     return answer.toLowerCase()
         .replace(/^(what|who|where|when) (is|are|was|were) /i, '')
@@ -224,7 +259,22 @@ const cleanAnswer = (answer) => {
         .trim();
 };
 
-// Function to compare user's answer with the correct answer
+function normalizeQuestionData(question) {
+    return {
+        category: question.category?.title || question.category,
+        question: question.question || question.clue,
+        answer: question.answer,
+        value: question.value || 200,
+        airdate: question.airdate || new Date().toISOString(),
+        difficulty: question.difficulty || 'Unknown',
+        times_used: question.times_used || 1,
+        contestant: question.contestant || 'Unknown',
+        season: question.season || 'Unknown',
+        episode: question.episode || 'Unknown'
+    };
+}
+
+// compare user's answer with the correct answer
 const compareAnswers = (userAnswer, correctAnswer) => {
     // Check if the user's answer is contained within the correct answer or vice versa
     if (correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer)) {
@@ -260,45 +310,57 @@ const getLevenshteinDistance = (a, b) => {
     return matrix[b.length][a.length];
 };
 
-// Update scoreboard
+// update scoreboard
 function updateScoreBoard() {
-    dataBox.innerHTML = `
+    scoreboard.innerHTML = `
         <p id="score">Score: $${score}</p>
         <p id="currentStreak">Current Streak: ${currentStreak}</p>
         <p id="bestStreak">Best Streak: ${bestStreak}</p>
-       `;
+    `;
 }
 
 // Wrap event listeners and initial question load in DOMContentLoaded event
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed');
     
-    // Attach event listeners
-    answerButton.addEventListener('click', showHideAnswer);
-    questionButton.addEventListener('click', getNewQuestion);
-    checkButton.addEventListener('click', checkAnswer);
-    
-    userInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-            checkAnswer();
-        }
-    });
-    
-    // Initial question load
-    await getNewQuestion();
-});
+    try {
+        const checkButton = document.getElementById('checkButton');
+        const answerButton = document.getElementById('answerButton');
+        const questionButton = document.getElementById('questionButton');
+        const userInput = document.getElementById('inputbox');
+        const categoryBox = document.getElementById('categoryBox');
+        const questionBox = document.getElementById('questionBox');
+        const answerBox = document.getElementById('answerBox');
+        const scoreboard = document.getElementById('scoreboard');
 
-function normalizeQuestionData(question) {
-    return {
-        category: question.category?.title || question.category,
-        question: question.question || question.clue,
-        answer: question.answer,
-        value: question.value || 200,
-        airdate: question.airdate || new Date().toISOString(),
-        difficulty: question.difficulty || 'Unknown',
-        times_used: question.times_used || 1,
-        contestant: question.contestant || 'Unknown',
-        season: question.season || 'Unknown',
-        episode: question.episode || 'Unknown'
-    };
-}
+        if (!checkButton || !answerButton || !questionButton || !userInput || 
+            !categoryBox || !questionBox || !answerBox || !scoreboard) {
+            throw new Error('One or more required DOM elements are missing');
+        }
+
+        // Attach event listeners
+        answerButton.addEventListener('click', showHideAnswer);
+        questionButton.addEventListener('click', getNewQuestion);
+        checkButton.addEventListener('click', checkAnswer);
+        
+        userInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                checkAnswer();
+            }
+        });
+        
+        // Display welcome messages
+        console.log(`Welcome to Jeopardish!!! It's like Jeopardy, but with more 'ish' and less Alex Trebek. May he rest in peace.`);
+        console.log(`Click the "new question" button to get a random Jeopardy-style question & test your knowledge. Or don't. I'm a console.log, not a cop.`);
+        console.log(`Multiple correct answers in a row will start a streak... kind of like my career, except the opposite.`);
+        console.log(`...but get one wrong & the streak will reset. Just like my attempts at a healthy lifestyle.`);
+        console.log("Let's see how many correct answers you can string together! It's like playing 'connect the dots', but the dots are your last remaining brain cells.");
+        console.log(`Streak is currently at ${currentStreak}. Which, coincidentally, is also the number of times I've been mistaken for Conan O'Brien.`);
+        console.log("HAVE FUN YA MANIAC! And remember, in the game of life, it's not about winning or losing, it's about how many Norm Macdonald jokes you can make while you're trying to figure out why your code isn't working.");
+
+        // Initial question load
+        getNewQuestion();
+    } catch (error) {
+        console.error('Error in DOMContentLoaded event:', error);
+    }
+});

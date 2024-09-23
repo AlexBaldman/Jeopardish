@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO related tags  -->
+    <meta name="description" content="Play Jeopardish! A fun trivia game inspired by Jeopardy! with customizable features.">
+    <meta property="og:title" content="Jeopardish!">
+    <meta property="og:description" content="A fun trivia game inspired by and as a comedic homage to the legendary game show, Jeopardy!">
+    <meta property="og:image" content="___URL to an image of the game___">
+    
+    <!-- title -->
+    <title>Jeopardish!</title>
+    
+    <!-- favicons -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+    
+    <!-- Link to external stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    
+    <!-- fonts, icons, other CDN assets -->
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    
+    <!-- external javascript (include defer for async loading) -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
+    
+    <!-- internal javascript -->
+    <script defer src="app.js"></script>
+ </head>
+<body lang="en">
+
+    <!-- game container -->
+    <div class="game-container">
+
+        <!-- header -->
+        <div class="header">
+            <!-- title image  -->
+            <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">  
+        </div>
+
+        <!-- button container -->
+        <div class="button-div">
+            <!-- new question button  -->
+            <button id="questionButton" aria-label="Get a new question">
+                new question
+            </button>
+            <!-- show/hide answer toggle button  -->
+            <button id="answerButton" aria-label="Show or hide the answer">
+                show answer
+            </button>
+
+        </div>
+
+        <!-- user input -->
+        <div class="input-div">
+            <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+            <button id="checkButton" aria-label="Check answer">
+                check answer
+            </button>
+        </div>
+
+        <!-- speech bubble -->
+        <div class="speech-bubble">
+            <div id="categoryBox"></div>
+            <div id="questionBox"></div>
+            <div id="answerBox"></div>
+        </div>
+
+        <!-- trebek -->
+        <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-dope-01.png">
+
+        <!-- original version trebek -->
+        <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.svg"> -->
+
+        <!-- scoreboard -->
+        <div class="scoreboard">
+            <p id="currentStreak">Current Streak: 0</p>
+            <p id="bestStreak">Best Streak: 0</p>
+            <p id="score">Score: $0</p>
+        </div>
+
+    </div>
+</body>
+</html>

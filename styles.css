@@ -14,26 +14,27 @@ body {
     font-family: 'Roboto', sans-serif;  
     */
     display: flex;
-    justify-content: flex start;
+    justify-content: center;
+    align-items:center;
     height: 100vh;
-    width: 100%  /;
+    width: 100%;
     background-color: #ff1fc3c5;
     overflow: hidden;
     box-sizing: border-box;
+    
 }
 
 *,
 *::before,
 *::after {
     box-sizing: border-box;
+}
 
 .game-container {
     display: block;
     overflow: auto;
     position: relative;
-    /* height: 100vh; */
-    /* width: 100vw; */
-    min-height: 60vh;
+    min-height: 90vh;
     max-height: 95vh;
     max-width: 95vw;
     background: linear-gradient(to top, #64B9FF, #D3D0DB);
@@ -45,10 +46,15 @@ body {
     padding: 0;
     flex-flow: column;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    /* height: 100vh; */
+    /* width: 100vw; */
 }
 
-.title-div {
+.header {
     background-color: #3f6485;
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
     min-height: 13vh;
     max-height: 15vh;
     align-items: center;
@@ -77,15 +83,11 @@ body {
     min-height: 5vh;
     align-items: center;
     padding: 1vh 1vh;
-    flex-wrap: row wrap;
+    flex-wrap: wrap;
     justify-content: space-around;
     /* justify-content: space-between;  */
-}
+    /* flex-wrap: row wrap; */
 
-.title-image,
-.trebek {
-    max-width: 110%; /* Ensures image doesn't overflow */
-    height: auto;
 }
 
 #questionButton,
@@ -111,7 +113,6 @@ body {
 
 #questionButton:hover,
 #answerButton:hover {
-    /* background: linear- gradient(145deg, #4a3840c6, #ff5353); */
     color: #ff65fa;
     transition: margin-right 2.5s, color 4s;
     box-shadow: 0 10px #ffff57;
@@ -119,13 +120,12 @@ body {
     transform: translateY(2px);
     background: linear-gradient(145deg, #bebebe, #e0e0e0);
     padding: 5px;
-
+    /* background: linear- gradient(145deg, #4a3840c6, #ff5353); */
 }
 
 #questionButton:active,
 #answerButton:active {
     box-shadow: inset 5px 5px 10px #f766ff, inset -5px -10px 10px #e3ff72;
-    
 }
 
 #checkButton {
@@ -179,8 +179,8 @@ body {
     position: relative;
     background: #10347c;
     min-height: 37vh;
-    max-width: 90vw; /* Prevents overflow on small screens */
-    padding: 2vh 2vw; /* Scales better */
+    max-width: 90vw;
+    padding: 2vh 2vw;
     text-rendering: optimizeLegibility;
     border-radius: 10% / 50%;
     margin: 3vw auto;
@@ -195,22 +195,42 @@ body {
     box-shadow: 0 2px 6px rgb(255, 253, 131);
     border-radius: 23%;
 }
-
 .speech-bubble:after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -10px;
     left: 50%; 
+    /* width: 0;
+    height: 0; */
+    border-bottom: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #10347c;
     transform: translateX(-50%);
+    /* margin-bottom: -47px; */
+    /* border: 48px solid transparent; */
+    /* border-top-color: #10347c; */
+    /* border-left: 0; */
+    /* margin-left: -30px; */
+
+/* .speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%; 
     width: 0;
     height: 0;
+    border-bottom: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #10347c;
+    transform: translateX(-50%);
+    margin-bottom: -47px;
     border: 48px solid transparent;
     border-top-color: #10347c;
-    border-bottom: 0;
     border-left: 0;
     margin-left: -30px;
-    margin-bottom: -47px;
-}
+} */
 
 #categoryBox {
     flex-flow: row wrap;
@@ -246,18 +266,17 @@ body {
 
 .trebek {
     position: absolute;
-    /* left: 2vw; */
+    height: auto;
+    /* max-width: 110%; */
     left: 5%;
     bottom: 0;
-    max-height: 37vh;
-    max-width: 27vw;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+    filter: drop-shadow(0 0 10px rgba(190, 179, 117, 0.7));
+    /* max-height: 37vh; */
+    /* max-width: 27vw; */
 }
-
 .trebek:hover {
     filter: hue-rotate(30deg) saturate(180%);
 }
-
 .trebek::before {
     content: '😎';
     position: absolute;
@@ -269,7 +288,7 @@ body {
     transform: scale(1.1);
 }
 
-.scoreboard {
+#scoreboard {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -280,34 +299,38 @@ body {
     overflow: hidden;
     text-align: right;
     font-size: 2.2vmin;
-    }
 }
-
-.scoreboard p {
+#scoreboard p {
     position: flex;
     margin: 5px 0;
     right: 5%;
 }
-
 #score {
     font-size: 2vmin;
     font-weight: bold;
 }
 
+.press-start-2p-regular {
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
 @media only screen and (max-width: 768px) {
     button {
         font-size: .7em;
-      }
-    
+    }
+
     .game-container {
         min-height: 100%;
         padding: 1vh auto;
         margin: 1vh auto;
-
     }
+
     .title-div {
         padding: .5vh 0; 
     }
+
     .title-image {
         padding: 1vh;
         max-width: 90%;
@@ -315,8 +338,8 @@ body {
 
     .speech-bubble::after {
         /* padding: 1vh 1vw; */
-        max-width: 80%;
-        margin-top: 1vh;
+        /* max-width: 80%; */
+        /* margin-top: 1vh; */
         width: 12px;
         height: 15px;
         bottom: -20px; 
@@ -346,21 +369,29 @@ body {
         /* min-width: 40vw; */
         font-size: 1.2vmin;
     }
-    
+
     .button-text {
         position: relative;
         z-index: 1;
     }
+}
+.press-start-2p-regular {
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
 
 @media (orientation: landscape) {
     .game-container {
         max-width: 95vw;
         min-width: 70vw;
     }
+
     .speech-bubble {
         min-width: 60vw;
         max-width: 70vw;
     }
+
     .trebek {
         max-width: 25vw;
     }
@@ -377,127 +408,9 @@ body {
         transform: translateY(0px);
     }
 
-    #jeopardish {
-        animation: bounce 2s infinite;
-        transition: fill 0.5s;
-    }
-    
-}
-    
-
-/* .wood-button {
-    position: relative;
-    background: #8B4513; 
-    border: none;
-    border-radius: 12px;
-    padding: 15px 30px;
-    color: white;
-    font-size: 18px;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    overflow: hidden;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.2) 75%);
-    background-size: 20px 20px;
-}
-
-.wood-button:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-} 
-.wood-button:before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    filter: blur(10px);
-    z-index: 0;
-    transition: transform 0.2s ease;
-}
-    
-.wood-button:hover:before {
-    transform: scale(1.1);
-    }
-}
-.data-box {
-    position: absolute;
-    bottom: 2vh;
-    right: 2vw;
-    background-color: rgba(54, 2, 243, 0.3);
-    color: white;
-    padding: 2vh;
-    text-align: center;
-    min-width: 25vw;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    font-size: 2vmin;
-    max-width: 20vw;
-}
-
-.header-div {
-    display: flex;
-    flex-flow: row wrap center;
-    font-size: 1vmin;
-    justify-content: space-between;
-    justify-items: center;
-    align-items: center;
-    padding: 10px;
-    border-radius: 1.5vh;
-    height: auto;
-} */
-
-
-/*
-
-OLD VERSION:
-
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #FF1FC3;
-    font-family: 'Roboto', sans-serif;
-    overflow-x: hidden;
-}
-
-.game-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100%;
-    max-width: 100%;
-    background: linear-gradient(to top, #64B9FF, #D3D0DB);
-    margin: 0 auto;
-    padding: 2vh 2vw;
-    box-sizing: border-box;
-    overflow-y: auto;
-}
-
-.header-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2vh 0;
-    background-color: #293138;
-}
-
-.title-image {
-    max-width: 80%;
-    height: auto;
-    margin-bottom: 2vh;
-}
-
-.scoreboard {
-    width: 100%;
-    text-align: center;
-    color: #00ff00;
-    background-color: #000;
-    padding: 1vh;
-    border-radius: 5px;
-    font-family: 'Orbitron', sans-serif;
+#jeopardish {
+    animation: bounce 2s infinite;
+    transition: fill 0.5s;
 }
 
 .button-div {
@@ -639,5 +552,3 @@ html, body {
         display: none;
     }
 }
-
-*/
