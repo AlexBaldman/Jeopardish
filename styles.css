@@ -14,7 +14,8 @@ body {
     font-family: 'Roboto', sans-serif;  
     */
     display: flex;
-    justify-content: flex start;
+    justify-content: space-around;
+    align-items: center;
     height: 100vh;
     width: 100%  /;
     background-color: #ff1fc3c5;
@@ -31,25 +32,25 @@ body {
     display: block;
     overflow: auto;
     position: relative;
-    /* height: 100vh; */
-    /* width: 100vw; */
+    height: 100vh;
+    width: 100vw;
     min-height: 60vh;
-    max-height: 95vh;
+    max-height: 90vh;
     max-width: 95vw;
     background: linear-gradient(to top, #64B9FF, #D3D0DB);
     justify-self: center;
-    margin: 3.75vh auto;
+    margin: 0 auto;
     overflow: hidden;
     border-radius: 20px;
-    border: 3px solid #201A20;
+    border: 5px ridge #201A20;
     padding: 0;
     flex-flow: column;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-.title-div {
-    background-color: #3f6485;
-    min-height: 13vh;
+.header {
+    /* background-color: #3f6485; */
+    /* min-height: 13vh; */
     max-height: 15vh;
     align-items: center;
     justify-content: space-around;
@@ -63,7 +64,7 @@ body {
     background-color: rgb(48, 41, 245);
     max-height: 15vh;
     padding: 1vh 2vh;
-    border-radius: 35px;
+    border-radius: 30px;
     margin: auto auto;
     border: dotted .6vw rgb(244, 244, 146);
     max-width: 90%; 
@@ -91,9 +92,10 @@ body {
 #questionButton,
 #answerButton {
     display: flex;
-    font-family: 'Roboto', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: "Press Start 2P", system-ui;
+    /* font-family: 'Roboto', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
     height: 6vh;
-    font-size: 3vmin; 
+    font-size: 2vmin; 
     font-weight: bold;
     text-align: center;
     justify-content: center;
@@ -125,7 +127,6 @@ body {
 #questionButton:active,
 #answerButton:active {
     box-shadow: inset 5px 5px 10px #f766ff, inset -5px -10px 10px #e3ff72;
-    
 }
 
 #checkButton {
@@ -188,11 +189,11 @@ body {
     flex-flow: row wrap;
     color: white;
     border-top: .25em ridge rgba(125, 176, 212, 0.911);
-    border-bottom: 2vh ridge rgba(213, 3, 125, 0.987);
+    /* border-bottom: 2vh ridge rgba(213, 3, 125, 0.987); */
     justify-content: center;
     align-content: center;
     align-items: center;
-    box-shadow: 0 2px 6px rgb(255, 253, 131);
+    /* box-shadow: 0 2px 6px rgb(255, 253, 131); */
     border-radius: 23%;
 }
 
@@ -206,7 +207,7 @@ body {
     height: 0;
     border: 48px solid transparent;
     border-top-color: #10347c;
-    border-bottom: 0;
+    border-bottom: 2px;
     border-left: 0;
     margin-left: -30px;
     margin-bottom: -47px;
@@ -214,13 +215,13 @@ body {
 
 #categoryBox {
     flex-flow: row wrap;
-    padding: 1.3vh;
+    padding: .5vmin 1vmin;
     max-width: 70vw;
     color: rgb(251, 255, 134);
     margin: 0 auto;
     font-size: 2.5vh;
     font-family: monospace;
-    margin-bottom: 2vh;
+    /* margin-bottom: 2vh; */
 }
 
 #questionBox {
@@ -234,28 +235,38 @@ body {
     font-size: 2.2vh;
 }
 
+#valueBox {
+    /* flex-flow: row wrap; */
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 2vmin;
+}
+
 #answerBox {
     display: none;
     font-family: -apple-system, 'Times New Roman', Times, serif;
     justify-content: center;
     margin: 10px auto;
-    margin-top: 3vh;
+    margin-top: 1vh;
     font-size: 2.5vh;
-    color: rgb(255, 203, 98);
+    color: rgba(255, 53, 167, 0.626);
 }
 
 .trebek {
     position: absolute;
-    /* left: 2vw; */
-    left: 5%;
+    left: 2vw;
     bottom: 0;
     max-height: 37vh;
     max-width: 27vw;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));
+    /* animation: bounce 2s infinite; */
+    /* transition: fill 0.5s; */
 }
 
 .trebek:hover {
-    filter: hue-rotate(30deg) saturate(180%);
+    filter: hue-rotate(50deg) saturate(180%);
+    /* filter: brightness(200%) contrast(30%); */
 }
 
 .trebek::before {
@@ -266,27 +277,34 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 .scoreboard {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    font-family: 'Orbitron', sans-serif;
+    /* box-shadow: 3px 3px 0 rgba(0,0,0,0.1); */
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 2vh;
+    right: 2vh;
     font-family: 'Orbitron', Roboto, sans-serif;
     font-weight: bold;
-    color: #eaff00;
-    padding: 1vh;
+    padding: .5vh;
     overflow: hidden;
     text-align: right;
     font-size: 2.2vmin;
-    }
+    /* color: #eaff00; */
 }
 
 .scoreboard p {
     position: flex;
-    margin: 5px 0;
-    right: 5%;
+    margin: 1vmin 0;
+    right: 2vmin;
+    /* box-shadow: 3px 3px 0 rgba(254, 166, 255, 0.487); */
+    /* text-shadow: 1px 1px 0 #0e0a0a; */
 }
 
 #score {
@@ -300,33 +318,25 @@ body {
       }
     
     .game-container {
-        min-height: 100%;
-        padding: 1vh auto;
-        margin: 1vh auto;
+        /* min-height: 100%; */
+        padding: 1vh 1vw auto;
+        margin: 1vh 1vh;
 
     }
-    .title-div {
+    .header {
         padding: .5vh 0; 
     }
+
     .title-image {
         padding: 1vh;
-        max-width: 90%;
-    }
-
-    .speech-bubble::after {
-        /* padding: 1vh 1vw; */
-        max-width: 80%;
-        margin-top: 1vh;
-        width: 12px;
-        height: 15px;
-        bottom: -20px; 
+        max-width: 85%;
     }
 
     #questionButton,
     #answerButton {
         width: 45%;
         margin-bottom: 10px;
-        font-size: 1.8vh;
+        font-size: 1.7vh;
     }
 
     #checkButton {
@@ -340,11 +350,6 @@ body {
         left: 2vw;
         /* max-width: 40vw; */
         /* left: 1vw; */
-    }
-
-    .data-box {
-        /* min-width: 40vw; */
-        font-size: 1.2vmin;
     }
     
     .button-text {

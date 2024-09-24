@@ -3,7 +3,13 @@ const apiUrl = 'https://cluebase.lukelav.in/clues/random';
 
 // Load questions from local JSON files
 let questions = [];
-const questionFiles = ['questions/questions.json', 'questions/questions.csv', 'questions/jeopardy-questions.json', 'questions/jeopardy-questions.csv']; // Add all your question file paths here
+
+const questionFiles = [
+    'questions/questions.json', 
+    'questions/questions.csv'
+    // 'http://localhost:8080/questions/questions.json', // Update to your local server URL
+    // 'http://localhost:8080/questions/questions.csv'    // Update to your local server URL
+];
 
 async function fetchFromAPI() {
     try {
@@ -21,8 +27,11 @@ async function fetchFromAPI() {
 async function loadLocalQuestions() {
     for (const file of questionFiles) {
         try {
+            console.log(`Attempting to load ${file}...`);
             const response = await fetch(file);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const fileExtension = file.split('.').pop().toLowerCase();
             let data;
             if (fileExtension === 'json') {
@@ -33,9 +42,11 @@ async function loadLocalQuestions() {
             } else {
                 throw new Error(`Unsupported file type: ${fileExtension}`);
             }
+            console.log(`Successfully loaded ${data.length} questions from ${file}`);
             questions = questions.concat(data);
         } catch (error) {
             console.error(`Error loading ${file}:`, error.message);
+            console.error('Full error:', error);
         }
     }
     if (questions.length === 0) {
@@ -58,19 +69,26 @@ function parseCSV(text) {
     });
 }
 
+let currentQuestion = null; // Declare a variable to hold the current question
+
 async function getNewQuestion() {
+    console.log('getNewQuestion called');
     try {
         // Try API first
         const apiQuestion = await fetchFromAPI();
         if (apiQuestion) {
-            displayQuestion(normalizeQuestionData(apiQuestion));
+            console.log('API question received:', apiQuestion);
+            currentQuestion = normalizeQuestionData(apiQuestion); // Store the current question
+            displayQuestion(currentQuestion);
             return;
         }
 
         // If API fails, use local questions
         if (questions.length === 0) {
+            console.log('Loading local questions');
             const localQuestionsLoaded = await loadLocalQuestions();
             if (!localQuestionsLoaded) {
+                console.log('Failed to load local questions');
                 displayErrorJoke();
                 return;
             }
@@ -81,9 +99,10 @@ async function getNewQuestion() {
         }
 
         const randomIndex = Math.floor(Math.random() * questions.length);
-        const selectedQuestion = questions[randomIndex];
+        currentQuestion = questions[randomIndex]; // Store the current question
         questions.splice(randomIndex, 1);
-        displayQuestion(normalizeQuestionData(selectedQuestion));
+        console.log('Local question selected:', currentQuestion);
+        displayQuestion(normalizeQuestionData(currentQuestion));
     } catch (error) {
         console.error("Failed to get new question:", error);
         displayErrorJoke();
@@ -102,7 +121,7 @@ const userInput = document.getElementById('inputbox');
 const categoryBox = document.getElementById('categoryBox');
 const questionBox = document.getElementById('questionBox');
 const answerBox = document.getElementById('answerBox');
-const dataBox = document.getElementById('dataBox');
+const valueBox = document.getElementById('valueBox');
 
 // Initialize variables to store data to display
 let currentStreak = 0;
@@ -185,18 +204,17 @@ const checkAnswer = () => {
 
     if (compareAnswers(userAnswerCleaned, correctAnswer)) {
         currentStreak++;
-        score += 100;
+        score += parseInt(currentQuestion.value.replace('$', ''), 10); // Use currentQuestion here
         if (currentStreak > bestStreak) {
             bestStreak = currentStreak;
         }
         displayCorrectAnswerMessage();
     } else {
         currentStreak = 0;
-        score = 0;
         displayIncorrectAnswerMessage(correctAnswer);
     }
 
-    updateScoreBoard();
+    updateScoreBoard(); // update the scoreboard
     userInput.value = '';
 };
 
@@ -247,7 +265,6 @@ const getLevenshteinDistance = (a, b) => {
     for (j = 0; j <= a.length; j++) {
         matrix[0][j] = j;
     }
-
     for (i = 1; i <= b.length; i++) {
         for (j = 1; j <= a.length; j++) {
             if (b.charAt(i - 1) === a.charAt(j - 1)) {
@@ -262,11 +279,15 @@ const getLevenshteinDistance = (a, b) => {
 
 // Update scoreboard
 function updateScoreBoard() {
-    dataBox.innerHTML = `
-        <p id="score">Score: $${score}</p>
-        <p id="currentStreak">Current Streak: ${currentStreak}</p>
-        <p id="bestStreak">Best Streak: ${bestStreak}</p>
-       `;
+    const scoreElement = document.getElementById('score');
+    const currentStreakElement = document.getElementById('currentStreak');
+    const bestStreakElement = document.getElementById('bestStreak');
+
+    if (scoreElement) scoreElement.textContent = `Score: $${score}`;
+    if (currentStreakElement) currentStreakElement.textContent = `Current Streak: ${currentStreak}`;
+    if (bestStreakElement) bestStreakElement.textContent = `Best Streak: ${bestStreak}`;
+
+    console.log(`Scoreboard updated - Score: $${score}, Current Streak: ${currentStreak}, Best Streak: ${bestStreak}`);
 }
 
 // Wrap event listeners and initial question load in DOMContentLoaded event
@@ -286,6 +307,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Initial question load
     await getNewQuestion();
+    updateScoreBoard(); // Initialize the scoreboard
 });
 
 function normalizeQuestionData(question) {
@@ -293,7 +315,7 @@ function normalizeQuestionData(question) {
         category: question.category?.title || question.category,
         question: question.question || question.clue,
         answer: question.answer,
-        value: question.value || 200,
+        value: question.value || 200, // Ensure there's always a value
         airdate: question.airdate || new Date().toISOString(),
         difficulty: question.difficulty || 'Unknown',
         times_used: question.times_used || 1,
@@ -301,4 +323,36 @@ function normalizeQuestionData(question) {
         season: question.season || 'Unknown',
         episode: question.episode || 'Unknown'
     };
+}
+
+function displayQuestion(question) {
+    console.log('displayQuestion called with:', question);
+    
+    const elements = ['categoryBox', 'questionBox', 'answerBox', 'valueBox'];
+    elements.forEach(id => {
+        const element = document.getElementById(id);
+        console.log(`${id}: ${element} ? 'Found' : 'Missing'}`);
+    });
+
+    try {
+        const categoryBox = document.getElementById('categoryBox');
+        const questionBox = document.getElementById('questionBox');
+        const answerBox = document.getElementById('answerBox');
+        const valueBox = document.getElementById('valueBox');
+
+        if (!categoryBox) throw new Error('categoryBox is missing');
+        if (!questionBox) throw new Error('questionBox is missing');
+        if (!answerBox) throw new Error('answerBox is missing');
+        if (!valueBox) throw new Error('valueBox is missing');
+
+        categoryBox.textContent = question.category;
+        questionBox.textContent = question.question;
+        valueBox.textContent = `for ${question.value}`;
+        answerBox.textContent = question.answer;
+        answerBox.style.display = 'none';
+
+    } catch (error) {
+        console.error('Error in displayQuestion:', error.message);
+        throw error; // Re-throw the error to see the full stack trace
+    }
 }

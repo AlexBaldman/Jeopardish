@@ -23,10 +23,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     
     <!-- fonts, icons, other CDN assets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+   
+
     
     <!-- external javascript (include defer for async loading) -->
     <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
@@ -37,10 +42,12 @@
 <body lang="en">
     <!-- GAME CONTAINER -->
     <div class="game-container">
+
         <!-- TITLE AND SCOREBOARD -->
-        <div class="header-div">
+        <div class="header">
             <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">  
         </div>
+
         <!-- NEW QUESTION & SHOW/HIDE ANSWER BUTTONS -->
         <div class="button-div">
             <button id="questionButton" aria-label="Get a new question">
@@ -53,7 +60,7 @@
 
         <!-- USER INPUT -->
         <div class="input-div">
-            <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+            <input id="inputbox" type="text" placeholder="enter answer" aria-label="Answer input box">
             <button id="checkButton" aria-label="Check answer">
                 check answer
             </button>
@@ -62,6 +69,7 @@
         <!-- SPEECH BUBBLE -->
         <div class="speech-bubble">
             <div id="categoryBox"></div>
+            <div id="valueBox"></div>
             <div id="questionBox"></div>
             <div id="answerBox"></div>
         </div>
@@ -76,9 +84,9 @@
 
         <!-- SCOREBOARD -->
         <div class="scoreboard">
+            <p id="score">Score: $0</p>
             <p id="currentStreak">Current Streak: 0</p>
             <p id="bestStreak">Best Streak: 0</p>
-            <p id="score">Score: $0</p>
         </div>
 
     </div>
