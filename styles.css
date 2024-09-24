@@ -205,12 +205,20 @@ body {
     transform: translateX(-50%);
     width: 0;
     height: 0;
+    border-left: 0;
+    /* border-left: 48px solid transparent; Adjusted for better shape */
+    border-right: 48px solid transparent; /* Adjusted for better shape */
+    border-top: 48px solid #10347c; /* Adjust the size of the triangle */
+    margin-left: -30px; /* Adjust if necessary */
+    margin-bottom: -47px; /* Adjust if necessary */
+    z-index: 0;
+    /* 
     border: 48px solid transparent;
     border-top-color: #10347c;
     border-bottom: 2px;
-    border-left: 0;
     margin-left: -30px;
-    margin-bottom: -47px;
+    margin-bottom: -47px;  
+    */
 }
 
 #categoryBox {
@@ -356,6 +364,15 @@ body {
         position: relative;
         z-index: 1;
     }
+
+    .speech-bubble:after {
+        /* border-left: 30px solid transparent; Smaller triangle for mobile */
+        /* border-right: 30px solid transparent; Smaller triangle for mobile */
+        /* border-top: 30px solid #10347c; Smaller triangle for mobile */
+        /* margin-left: 0px; Adjust for smaller triangle */
+        /* margin-bottom: -30px; Adjust for smaller triangle */
+    }
+}
 
 @media (orientation: landscape) {
     .game-container {
