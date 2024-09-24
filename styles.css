@@ -30,8 +30,10 @@ body {
 
 .game-container {
     display: block;
-    overflow: auto;
+    flex-direction: column; 
+    overflow: hidden;
     position: relative;
+    background: linear-gradient(to top, #64B9FF, #D3D0DB);
     height: 100vh;
     width: 100vw;
     min-height: 60vh;
@@ -47,6 +49,19 @@ body {
     flex-flow: column;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
+
+/* 
+.game-container {
+    display: flex;
+    overflow: hidden; 
+    position: relative;
+    height: 90vh; 
+    max-height: 90vh; 
+    width: 100vw; 
+    min-height: 60vh; 
+    justify-self: center;
+}  
+*/
 
 .header {
     /* background-color: #3f6485; */
@@ -179,7 +194,7 @@ body {
 .speech-bubble {
     position: relative;
     background: #10347c;
-    min-height: 37vh;
+    min-height: 37vh; /* Adjust as needed */
     max-width: 90vw; /* Prevents overflow on small screens */
     padding: 2vh 2vw; /* Scales better */
     text-rendering: optimizeLegibility;
@@ -189,36 +204,33 @@ body {
     flex-flow: row wrap;
     color: white;
     border-top: .25em ridge rgba(125, 176, 212, 0.911);
-    /* border-bottom: 2vh ridge rgba(213, 3, 125, 0.987); */
     justify-content: center;
     align-content: center;
     align-items: center;
-    /* box-shadow: 0 2px 6px rgb(255, 253, 131); */
     border-radius: 23%;
 }
 
 .speech-bubble:after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -10px; /* Adjust to position the triangle correctly */
     left: 50%; 
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 0;
-    /* border-left: 48px solid transparent; Adjusted for better shape */
-    border-right: 48px solid transparent; /* Adjusted for better shape */
-    border-top: 48px solid #10347c; /* Adjust the size of the triangle */
-    margin-left: -30px; /* Adjust if necessary */
-    margin-bottom: -47px; /* Adjust if necessary */
-    z-index: 0;
-    /* 
-    border: 48px solid transparent;
-    border-top-color: #10347c;
-    border-bottom: 2px;
-    margin-left: -30px;
-    margin-bottom: -47px;  
-    */
+    border-left: 15px solid transparent; /* Adjust for smaller triangle */
+    border-right: 15px solid transparent; /* Adjust for smaller triangle */
+    border-top: 15px solid #10347c; /* Adjust the size of the triangle */
+}
+
+/* Media query for mobile adjustments */
+@media only screen and (max-width: 768px) {
+    .speech-bubble:after {
+        border-left: 10px solid transparent; /* Smaller triangle for mobile */
+        border-right: 10px solid transparent; /* Smaller triangle for mobile */
+        border-top: 10px solid #10347c; /* Smaller triangle for mobile */
+        bottom: -8px; /* Adjust position for mobile */
+    }
 }
 
 #categoryBox {
