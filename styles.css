@@ -1,18 +1,15 @@
-html {
-    scroll-behavior: smooth;
-}
-
 html,
 body {
     /* 
-    height: 100%;
-    width: 100%;
+    
     overflow-x: hidden;
     overflow-y: auto;
     margin: 0 auto;
     justify-content: center;
     font-family: 'Roboto', sans-serif;  
     */
+    /* height: 100%;
+    width: 100%; */
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -21,6 +18,7 @@ body {
     background-color: #ff1fc3c5;
     overflow: hidden;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 *,
@@ -102,6 +100,8 @@ body {
 .trebek {
     max-width: 110%; /* Ensures image doesn't overflow */
     height: auto;
+    animation: bounce 2s infinite;
+    transition: fill 0.5s;
 }
 
 #questionButton,
@@ -148,7 +148,7 @@ body {
     color: rgb(251, 251, 251);
     width: 50vw;
     background-color: rgb(99, 99, 238);
-    font-family: BlinkMacSystemFont, monospace;
+    font-family: "Press Start 2P", BlinkMacSystemFont, monospace;
     font-weight: bolder;
     font-size: 3vmin;
     border: dotted 2px rgb(238, 255, 0);
@@ -174,21 +174,68 @@ body {
 
 .input-div {
     display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the input and button */
+    margin-bottom: 20px; /* Space below the input */
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     min-height: 5vh;
     justify-content: center;
 }
 
 #inputbox {
-    font-family: -apple-system;
+    font-family: 'Courier New', monospace; /* Use a monospace font for console effect */
     width: 90%; 
     max-width: 500px;
-    color: rgb(81, 0, 255);
-    font-size: 1.2em;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.848);
+    color: #00ff00; /* Green text color */
+    background-color: black; /* Black background */
+    border: 2px solid #00ff00; /* Green border */
     padding: 10px;
     border-radius: 5px;
+    font-size: 1.2em;
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Glow effect */
+
+    .styled-button {
+        background-color: #007bff; /* Blue background */
+        color: white; /* White text */
+        font-family: 'Arial', sans-serif; /* Font style */
+        font-size: 1.5em; /* Font size */
+        padding: 15px 30px; /* Padding for the button */
+        border: none; /* No border */
+        border-radius: 25px; /* Rounded corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s, transform 0.2s; /* Transition for effects */
+        margin-top: 10px; /* Space above the button */
+    }
+    
+    .styled-button:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        transform: translateY(-2px); /* Slight lift effect on hover */
+    }
+    
+    .styled-button:active {
+        transform: translateY(1px); /* Slightly press down effect */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect when pressed */
+    }
+}
+
+/* blinking cursor effect */
+.cursor {
+    display: inline-block;
+    width: 10px; /* Width of the cursor */
+    height: 1.2em; /* Height of the cursor */
+    background-color: #00ff00; /* Cursor color */
+    animation: blink 1s step-end infinite; /* Blinking animation */
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
 }
 
 .speech-bubble {
@@ -213,23 +260,24 @@ body {
 .speech-bubble:after {
     content: '';
     position: absolute;
-    bottom: -10px; /* Adjust to position the triangle correctly */
-    left: 50%; 
+    bottom: -15px; /* Adjust to position the triangle correctly */
+    left: 35%; /* Move it more to the left on mobile */
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 15px solid transparent; /* Adjust for smaller triangle */
-    border-right: 15px solid transparent; /* Adjust for smaller triangle */
-    border-top: 15px solid #10347c; /* Adjust the size of the triangle */
+    border-left: 20px solid transparent; /* Increase size for left side */
+    border-right: 20px solid transparent; /* Increase size for right side */
+    border-top: 20px solid #10347c; /* Increase size for the triangle */
 }
 
 /* Media query for mobile adjustments */
 @media only screen and (max-width: 768px) {
     .speech-bubble:after {
-        border-left: 10px solid transparent; /* Smaller triangle for mobile */
-        border-right: 10px solid transparent; /* Smaller triangle for mobile */
-        border-top: 10px solid #10347c; /* Smaller triangle for mobile */
-        bottom: -8px; /* Adjust position for mobile */
+        border-left: 15px solid transparent; /* Adjust for larger triangle on mobile */
+        border-right: 15px solid transparent; /* Adjust for larger triangle on mobile */
+        border-top: 15px solid #10347c; /* Adjust for larger triangle on mobile */
+        bottom: -12px; /* Adjust position for mobile */
+        left: 35%; /* Move it more to the left on mobile */
     }
 }
 
@@ -323,14 +371,14 @@ body {
     position: flex;
     margin: 1vmin 0;
     right: 2vmin;
-    /* box-shadow: 3px 3px 0 rgba(254, 166, 255, 0.487); */
+    box-shadow: 3px 3px 0 rgba(254, 166, 255, 0.487); 
     /* text-shadow: 1px 1px 0 #0e0a0a; */
 }
 
-#score {
+/* #score {
     font-size: 2vmin;
     font-weight: bold;
-}
+} */
 
 @media only screen and (max-width: 768px) {
     button {
@@ -354,9 +402,9 @@ body {
 
     #questionButton,
     #answerButton {
-        width: 45%;
+        /* width: 45%; */
         margin-bottom: 10px;
-        font-size: 1.7vh;
+        font-size: 2.5vmin;
     }
 
     #checkButton {
@@ -375,14 +423,6 @@ body {
     .button-text {
         position: relative;
         z-index: 1;
-    }
-
-    .speech-bubble:after {
-        /* border-left: 30px solid transparent; Smaller triangle for mobile */
-        /* border-right: 30px solid transparent; Smaller triangle for mobile */
-        /* border-top: 30px solid #10347c; Smaller triangle for mobile */
-        /* margin-left: 0px; Adjust for smaller triangle */
-        /* margin-bottom: -30px; Adjust for smaller triangle */
     }
 }
 

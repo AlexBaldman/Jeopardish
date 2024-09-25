@@ -356,3 +356,20 @@ function displayQuestion(question) {
         throw error; // Re-throw the error to see the full stack trace
     }
 }
+
+const inputbox = document.getElementById('inputbox');
+const cursor = document.querySelector('.cursor');
+
+inputbox.addEventListener('focus', () => {
+    cursor.style.display = 'inline-block'; // Show cursor when focused
+});
+
+inputbox.addEventListener('blur', () => {
+    cursor.style.display = 'none'; // Hide cursor when not focused
+});
+
+// Update cursor position based on input length
+inputbox.addEventListener('input', () => {
+    const inputLength = inputbox.value.length;
+    cursor.style.left = `${inputLength * 10}px`; // Adjust based on character width
+});
