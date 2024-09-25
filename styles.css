@@ -145,23 +145,26 @@ body {
 }
 
 #checkButton {
-    color: rgb(251, 251, 251);
+    color: whitesmoke;
     width: 50vw;
-    background-color: rgb(99, 99, 238);
+    background-color: pink;    
     font-family: "Press Start 2P", BlinkMacSystemFont, monospace;
     font-weight: bolder;
     font-size: 3vmin;
-    border: dotted 2px rgb(238, 255, 0);
+    border: double grey;
     padding: 5px 7px;
     border-radius: 5px;
-    /* transition: margin-down 0.3s ease;  */
+    transition: margin-down 0.3s ease; 
 }
 
 #checkButton:hover {
-    background-color: rgb(52, 52, 154);
-    color: rgb(251, 172, 243);
-    font-family: Impact;
+    /* background-color: rgb(52, 52, 154); */
+    /* color: rgb(251, 172, 243); */
+    /* font-family: Impact; */
+    color: coral;
+    background-color: white;
     border: dotted 2px rgb(238, 255, 0);
+    box-shadow: 10px 10px #f766ff;
 }
 
 #checkButton:active {
