@@ -283,9 +283,9 @@ function updateScoreBoard() {
     const currentStreakElement = document.getElementById('currentStreak');
     const bestStreakElement = document.getElementById('bestStreak');
 
-    if (scoreElement) scoreElement.textContent = `Score: $${score}`;
-    if (currentStreakElement) currentStreakElement.textContent = `Current Streak: ${currentStreak}`;
-    if (bestStreakElement) bestStreakElement.textContent = `Best Streak: ${bestStreak}`;
+    if (scoreElement) scoreElement.textContent = `score: $${score}`;
+    if (currentStreakElement) currentStreakElement.textContent = `streak: ${currentStreak}`;
+    if (bestStreakElement) bestStreakElement.textContent = `best streak: ${bestStreak}`;
 
     console.log(`Scoreboard updated - Score: $${score}, Current Streak: ${currentStreak}, Best Streak: ${bestStreak}`);
 }

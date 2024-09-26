@@ -255,6 +255,8 @@ body {
 .speech-bubble {
     position: relative;
     background: #10347c;
+    box-shadow: 5px 5px 5px rgba(254, 166, 255, 0.487); 
+
     min-height: 30vh; /* Adjust as needed */
     max-width: 90vw; /* Prevents overflow on small screens */
     font-family: "Korrina-normal", "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -355,8 +357,8 @@ body {
 }
 
 .scoreboard {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 3px solid #000;
+    /* background-color: rgba(255, 255, 255, 0); */
+    /* border: 3px solid #000; */
     border-radius: 10px;
     padding: 10px;
     font-family: 'Orbitron', sans-serif;
@@ -364,26 +366,26 @@ body {
     position: absolute;
     bottom: 2vh;
     right: 2vh;
-    font-family: 'Orbitron', Roboto, sans-serif;
+    font-family: 'Press Start 2P', 'Orbitron', Roboto, sans-serif;
     font-weight: bold;
     padding: .5vh;
     overflow: hidden;
     text-align: right;
-    font-size: 2.2vmin;
+    font-size: 2.3vmin;
     z-index: 0;
     /* color: #eaff00; */
 }
 
 .scoreboard p {
+    color: rgb(240, 247, 139);
     position: flex;
     margin: 1vmin 0;
     right: 2vmin;
-    /* box-shadow: 3px 3px 0 rgba(254, 166, 255, 0.487);  */
-    /* text-shadow: 1px 1px 0 #0e0a0a; */
+    text-shadow: 1px 1px 0 red;
 }
 
 #score {
-    color: rgba(255, 68, 0, 0.693);
+    
 }
 
 @media only screen and (max-width: 768px) {
@@ -423,7 +425,7 @@ body {
     }
 
     .trebek {
-        max-width: 25vw;
+        max-width: 35vw;
         bottom: 0;
         left: 2vw;
         /* max-width: 40vw; */
