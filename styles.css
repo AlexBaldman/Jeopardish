@@ -389,9 +389,9 @@ body {
 }
 
 @media only screen and (max-width: 768px) {
-    /* .speech-bubble:after {
+    .speech-bubble:after {
         content: none; 
-    } */
+    }
 
     button {
         font-size: .7em;
