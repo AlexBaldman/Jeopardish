@@ -305,8 +305,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
     
-    // Initial question load
-    await getNewQuestion();
+    // In order to populate with a question on page load, uncomment out below:
+    // await getNewQuestion(); 
+
     updateScoreBoard(); // Initialize the scoreboard
 });
 
@@ -328,27 +329,22 @@ function normalizeQuestionData(question) {
 function displayQuestion(question) {
     console.log('displayQuestion called with:', question);
     
-    const elements = ['categoryBox', 'questionBox', 'answerBox', 'valueBox'];
-    elements.forEach(id => {
-        const element = document.getElementById(id);
-        console.log(`${id}: ${element} ? 'Found' : 'Missing'}`);
-    });
+    const categoryBox = document.getElementById('categoryBox');
+    const questionBox = document.getElementById('questionBox');
+    const answerBox = document.getElementById('answerBox');
+    const valueBox = document.getElementById('valueBox');
 
     try {
-        const categoryBox = document.getElementById('categoryBox');
-        const questionBox = document.getElementById('questionBox');
-        const answerBox = document.getElementById('answerBox');
-        const valueBox = document.getElementById('valueBox');
-
         if (!categoryBox) throw new Error('categoryBox is missing');
         if (!questionBox) throw new Error('questionBox is missing');
         if (!answerBox) throw new Error('answerBox is missing');
         if (!valueBox) throw new Error('valueBox is missing');
 
-        categoryBox.textContent = question.category;
-        questionBox.textContent = question.question;
-        valueBox.textContent = `for ${question.value}`;
-        answerBox.textContent = question.answer;
+        // Use innerHTML to allow HTML tags to be rendered
+        categoryBox.innerHTML = question.category;
+        questionBox.innerHTML = question.question; // Allow HTML rendering
+        valueBox.innerHTML = `for ${question.value}`;
+        answerBox.innerHTML = question.answer; // Allow HTML rendering
         answerBox.style.display = 'none';
 
     } catch (error) {
