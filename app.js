@@ -213,7 +213,8 @@ const checkAnswer = () => {
         return;
     }
 
-    let correctAnswer = cleanAnswer(answerBox.innerHTML.trim());
+    let originalAnswer = answerBox.innerHTML.trim();
+    let correctAnswer = cleanAnswer(originalAnswer);
     let userAnswerCleaned = cleanAnswer(userInput.value);
 
     if (!userAnswerCleaned) {
@@ -234,7 +235,7 @@ const checkAnswer = () => {
     } else {
         currentStreak = 0;
         currentScore = 0;
-        displayIncorrectAnswerMessage(correctAnswer);
+        displayIncorrectAnswerMessage(originalAnswer); // Use original answer here
     }
 
     updateScoreBoard();
@@ -253,9 +254,10 @@ const displayCorrectAnswerMessage = () => {
 // Function to display incorrect answer message
 const displayIncorrectAnswerMessage = (correctAnswer) => {
     categoryBox.innerHTML = "";
+    valueBox.innerHTML = "";
     questionBox.innerHTML = `Incorrect, you fool! The correct answer was ${correctAnswer}. Your streak is now reset! Try again, sir or lady or other person!!`;
     answerBox.style.display = "flex";
-    answerBox.innerHTML = `STREAK RESET!`;
+    answerBox.innerHTML = `STREAK RESET!!!`;
 };
 
 // Function to clean up and standardize answers for comparison

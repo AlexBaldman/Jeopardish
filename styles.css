@@ -183,7 +183,7 @@ body {
     border: 2px solid #00ff00; /* Green border */
     padding: 10px;
     border-radius: 5px;
-    font-size: 1.2em;
+    font-size: 16px;
     outline: none; /* Remove default outline */
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Glow effect */
     position: relative; /* Position relative for cursor */
@@ -248,9 +248,9 @@ body {
     flex-flow: row wrap;
     padding: .5vmin 1vmin;
     max-width: 70vw;
-    margin-top: 2vh;
+    /* margin-top: 2vh; */
     margin: 1vmin auto;
-    font-size: 2.5vmin;
+    font-size: 1.2rem;
     text-shadow: 1vh white;
     font-family: "Press Start 2P", "Korrina-normal", sans-serif;
     /* margin-bottom: 2vh; */
@@ -262,7 +262,7 @@ body {
     font-family: "Korrina-normal", "Press Start 2P";
     font-weight: 100;
     font-style: normal;
-    font-size: 2vmin;
+    font-size: 1rem;
     margin-bottom: 1em;
 }
 
@@ -271,12 +271,12 @@ body {
     flex-flow: column wrap;
     font-family: "Korrina-normal", monospace;
     margin: auto;
-    margin-top: 1em;
-    margin-bottom:1em;
+    /* margin-top: 1em; */
+    /* margin-bottom:1em; */
     max-width: 80vw;
     padding: 2vh;
     padding-bottom: 2vh;
-    font-size: 3.3vmin;
+    font-size: 3vh;
 }
 
 #answerBox {
@@ -285,7 +285,7 @@ body {
     justify-content: center;
     margin: 10px auto;
     margin-top: .5vh;
-    font-size: 1.9vmin;
+    font-size: 4vmin;
     color: rgba(255, 177, 74, 0.924);
 }
 
@@ -428,9 +428,10 @@ body {
 }
 
 .embedded-image {
-    max-width: 100%;
+    max-width: 40%;
     height: auto;
-    display: block;
+    display: flex;
+    flex-flow: row wrap;
     margin: 10px auto;
     cursor: pointer;
     border-radius: 4px;
