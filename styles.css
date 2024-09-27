@@ -1,25 +1,16 @@
 @font-face {
     font-family: 'Korrina-normal';
-    src: url('/fonts/Korrina-normal.ttf') format('truetype');
+    src: url('fonts/Korrina-normal.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 html,
 body {
-    /* 
-    overflow-x: hidden;
-    overflow-y: auto;
-    justify-content: center;
-    font-family: 'Roboto', sans-serif;
-    height: 100%;
-    width: 100%; 
-    */
     display: flex;
     overflow: hidden;
     margin: 0 auto;
     overflow-x: hidden;
-    /* overflow-y: auto; */
     justify-content: space-around;
     align-items: center;
     height: 100vh;
@@ -27,6 +18,13 @@ body {
     background-color: #ff1fc3c5;
     box-sizing: border-box;
     scroll-behavior: smooth;
+    /* 
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    */
 }
 
 *,
@@ -35,7 +33,6 @@ body {
     box-sizing: border-box;
 
 .game-container {
-    /* display: flex; */
     display: block;
     flex-flow: column;
     flex-direction: column; 
@@ -44,30 +41,26 @@ body {
     background: linear-gradient(to top, #64B9FF, #D3D0DB);
     height: 95vh;
     width: 95vw;
-    min-height: 60vh;
+    min-height: 90vh;
     max-height: 95vh;
     max-width: 95vw;
     background: linear-gradient(to top, #64B9FF, #D3D0DB);
     justify-self: center;
     margin: 0 auto;
-    overflow: hidden;
     border-radius: 20px;
-    border: 5px ridge #201A20;
+    border: 5px ridge #f6ffa5e8;
     padding: 0;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-
-/* 
-.game-container {
-    overflow: hidden; 
-    position: relative;
-    height: 90vh; 
-    max-height: 90vh; 
+    /* 
+    display: flex;
     width: 100vw; 
     min-height: 60vh; 
-    justify-self: center;
-}  
-*/
+    */
+}
+
+
+   
+
 
 .header {
     max-height: 13vh;
@@ -106,9 +99,9 @@ body {
 }
 
 .trebek {
-    /* max-width: 110%;  */
+    max-width: 110%; 
     max-height: 35vh;
-    /* width: 40vw; */
+    width: 40vw;
     z-index: 1;
 }
 
@@ -185,13 +178,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center; Center the input and button
-    /* margin-bottom: 20px;  */
     font-family: 'Korrina-normal', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     min-height: 5vh;
     justify-content: center;
+    /* margin-bottom: 20px;  */
 }
 #inputbox {
-    font-family: 'Courier New', monospace; /* Use a monospace font for console effect */
+    /* font-family: 'Courier New', monospace; Use a monospace font for console effect */
     width: 90%; 
     max-width: 500px;
     color: #00ff00; /* Green text color */
@@ -255,11 +248,10 @@ body {
 .speech-bubble {
     position: relative;
     background: #10347c;
-    box-shadow: 5px 5px 5px rgba(254, 166, 255, 0.487); 
-
-    min-height: 30vh; /* Adjust as needed */
-    max-width: 90vw; /* Prevents overflow on small screens */
     font-family: "Korrina-normal", "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-shadow: 5px 5px 5px rgba(254, 166, 255, 0.487); 
+    min-height: 38vh; /* Adjust as needed */
+    max-width: 90vw; /* Prevents overflow on small screens */
     padding: 2vh 2vw; /* Scales better */
     text-rendering: optimizeLegibility;
     border-radius: 10% / 50%;
@@ -287,21 +279,23 @@ body {
 }
 
 #categoryBox {
-    color: coral;
+    color: rgb(255, 166, 234);
     flex-flow: row wrap;
     padding: .5vmin 1vmin;
     max-width: 70vw;
+    margin-top: 2vh;
     margin: 1vmin auto;
     font-size: 2.8vmin;
+    text-shadow: 1vh white;
     /* font-family: monospace; */
     /* margin-bottom: 2vh; */
 }
 
 #valueBox {
-    color: yellow;
+    color: rgb(237, 255, 146);
     flex-flow: row wrap;
-    font-family: "Press Start 2P", system-ui;
-    font-weight: 500;
+    font-family: "Press Start 2P";
+    font-weight: 100;
     font-style: normal;
     font-size: 2vmin;
     margin-bottom: 2vmin;
@@ -312,11 +306,12 @@ body {
     flex-flow: column wrap;
     font-family: monospace;
     margin: auto;
-    margin-top: .7vh;
+    margin-top: 5vmin;
+    margin-bottom:1.5vmin;
     max-width: 80vw;
     padding: vh;
     padding-bottom: 2vh;
-    font-size: 2.2vh;
+    font-size: 2.8vmin;
 }
 
 #answerBox {
@@ -326,7 +321,7 @@ body {
     margin: 10px auto;
     margin-top: 1vh;
     font-size: 2.5vh;
-    color: rgba(255, 53, 167, 0.626);
+    color: rgba(255, 188, 53, 0.704);
 }
 
 .trebek {
@@ -336,12 +331,13 @@ body {
     max-height: 37vh;
     max-width: 27vw;
     filter: drop-shadow(0 0 20px rgba(225, 255, 0, 0.936));
-    /* animation: bounce 2s infinite; */
+    
     /* transition: fill 0.5s; */
 }
 
 .trebek:hover {
-    filter: hue-rotate(50deg) saturate(180%);
+    filter: hue-rotate(40deg) saturate(180%);
+    animation: bounce 2s infinite;
     /* filter: brightness(200%) contrast(30%); */
 }
 
@@ -362,7 +358,6 @@ body {
     border-radius: 10px;
     padding: 10px;
     font-family: 'Orbitron', sans-serif;
-    /* box-shadow: 3px 3px 0 rgba(0,0,0,0.1); */
     position: absolute;
     bottom: 2vh;
     right: 2vh;
@@ -373,7 +368,6 @@ body {
     text-align: right;
     font-size: 2.3vmin;
     z-index: 0;
-    /* color: #eaff00; */
 }
 
 .scoreboard p {
@@ -415,6 +409,7 @@ body {
     #questionButton,
     #answerButton {
         /* width: 45%; */
+        width: 35vw;
         margin-bottom: 10px;
         font-size: 2.5vmin;
     }
@@ -469,7 +464,8 @@ body {
     }
     
 }
-    
+
+/* box-shadow: 3px 3px 0 rgba(0,0,0,0.1); */
 
 /* @media only screen and (max-width: 768px) {
     .speech-bubble:after {
