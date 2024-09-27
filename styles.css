@@ -170,9 +170,10 @@ body {
 
 #checkButton:active {
     background-color: rgb(55, 44, 62);
-    color: red;
+    color: rgb(255, 135, 135);
     font-weight: bolder;
-    font-size: 1.75em;
+    /* font-family: monospace; */
+    /* font-size: 1.75em; */
     border: dotted 3px rgb(244, 255, 88);
 }
 
@@ -185,7 +186,7 @@ body {
     justify-content: center;
 }
 #inputbox {
-    font-family: "Press Start 2P", monospace; 
+    font-family: "Korrina-normal", monospace; 
     font-size: medium;
     width: 90%; 
     max-width: 500px;
@@ -287,9 +288,9 @@ body {
     max-width: 70vw;
     margin-top: 2vh;
     margin: 1vmin auto;
-    font-size: 2.8vmin;
+    font-size: 3vmin;
     text-shadow: 1vh white;
-    /* font-family: monospace; */
+    font-family: "Korinna-normal", sans-serif;
     /* margin-bottom: 2vh; */
 }
 
@@ -306,14 +307,14 @@ body {
 #questionBox {
     display: flex;
     flex-flow: column wrap;
-    font-family: monospace;
+    font-family: "Korrina-normal", monospace;
     margin: auto;
     margin-top: 5vmin;
     margin-bottom:1.5vmin;
     max-width: 80vw;
-    padding: vh;
+    padding: 2vh;
     padding-bottom: 2vh;
-    font-size: 2.8vmin;
+    font-size: 2.5vh;
 }
 
 #answerBox {
@@ -408,12 +409,18 @@ body {
         max-width: 85%;
     }
 
+    #inputbox {
+        font-size: 2.6vmin;
+
+    }
+
     #questionButton,
     #answerButton {
         /* width: 45%; */
-        width: 35vw;
+        /* width: 35vw; */
         margin-bottom: 10px;
-        font-size: 2.5vmin;
+        padding: 1vh;
+        /* font-size: 2.6vmin; */
     }
 
     #checkButton {
