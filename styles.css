@@ -5,7 +5,10 @@
     font-style: normal;
 }
 
-html,
+html {
+
+}
+
 body {
     display: flex;
     overflow: hidden;
@@ -50,7 +53,7 @@ body {
     border-radius: 20px;
     border: 5px ridge #f6ffa5e8;
     padding: 0;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.952);
     /* 
     display: flex;
     width: 100vw; 
@@ -58,15 +61,11 @@ body {
     */
 }
 
-
-   
-
-
 .header {
+    display: flex;
     max-height: 13vh;
     align-items: center;
     justify-content: space-around;
-    display: flex;
     border-bottom: 2vh darkblue;
     padding: 2vh 2vh; 
 }
@@ -78,7 +77,7 @@ body {
     padding: 1vh 1vh;
     border-radius: 30px;
     margin: 0 auto;
-    border: dotted .6vw rgb(244, 244, 146);
+    border: dotted .6vw rgb(248, 248, 57);
     border: double 8px hsl(183, 100%, 67%);
     max-width: 90%; 
     height: auto;
@@ -116,44 +115,47 @@ body {
     text-align: center;
     justify-content: center;
     align-items: center;
-    background-color: #FFDD00; 
-    border: 3px solid #FFAA00; 
+    /* background-color: #FFDD00;  */
+    /* border: 3px solid #FFAA00;  */
     border-radius: 30px; 
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     color: #333; 
     cursor: pointer;
     padding: 2vh 30px;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
+    margin-bottom: 1vh;
+    /* transition: all 0.3s ease; */
+    /* text-transform: uppercase; */
 }
 
 #questionButton:hover,
 #answerButton:hover {
-    color: #ff65fa;
-    background-color: white;
-    transition: margin-right 2.5s, color 4s;
-    box-shadow: 0 10px #ffff57;
+    color: rgb(68, 17, 251);
+    /* background-color: white; */
+    /* transition: margin-right 2.5s, color 4s; */
+    box-shadow: 0 10px #ff5757; 
     border-bottom: 3px;
-    transform: translateY(2px);
+    /* transform: translateY(2px); */
     background: linear-gradient(145deg, #bebebe, #e0e0e0);
-    padding: 5px;
+    /* padding: 5px; */
 
 }
 
 #questionButton:active,
 #answerButton:active {
-    box-shadow: inset 5px 5px 10px #f766ff, inset -5px -10px 10px #e3ff72;
+    /* box-shadow: inset 5px 5px 10px #f766ff, inset -5px -10px 10px #e3ff72; */
     transition:cubic-bezier(1, 0, 0, 1);
+    color: white;
 }
 
 #checkButton {
     color: whitesmoke;
     width: 50vw;
-    background-color: pink;    
+    height: 8vh;
+    background-color: #4b21f4e4;    
     font-family: "Press Start 2P", BlinkMacSystemFont, monospace;
     font-weight: bolder;
     font-size: 3vmin;
-    border: double grey;
+    border: ridge 10px grey;
     padding: 5px 7px;
     border-radius: 5px;
     transition: margin-down 0.3s ease; 
@@ -168,7 +170,7 @@ body {
 
 #checkButton:active {
     background-color: rgb(55, 44, 62);
-    color: rgb(255, 255, 255);
+    color: red;
     font-weight: bolder;
     font-size: 1.75em;
     border: dotted 3px rgb(244, 255, 88);
@@ -179,15 +181,15 @@ body {
     flex-direction: column;
     align-items: center; Center the input and button
     font-family: 'Korrina-normal', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    min-height: 5vh;
+    min-height: 6vh;
     justify-content: center;
-    /* margin-bottom: 20px;  */
 }
 #inputbox {
-    /* font-family: 'Courier New', monospace; Use a monospace font for console effect */
+    font-family: "Press Start 2P", monospace; 
+    font-size: medium;
     width: 90%; 
     max-width: 500px;
-    color: #00ff00; /* Green text color */
+    color: #f8b9f4; /* Green text color */
     background-color: black; /* Black background */
     border: 2px solid #00ff00; /* Green border */
     padding: 10px;
