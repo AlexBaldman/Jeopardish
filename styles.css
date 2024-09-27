@@ -21,13 +21,6 @@ body {
     background-color: #ff1fc3c5;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    /* 
-    overflow-y: auto;
-    overflow-x: hidden;
-    overflow-y: auto;
-    justify-content: center;
-    font-family: 'Roboto', sans-serif;
-    */
 }
 
 *,
@@ -54,11 +47,6 @@ body {
     border: 5px ridge #f6ffa5e8;
     padding: 0;
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.952);
-    /* 
-    display: flex;
-    width: 100vw; 
-    min-height: 60vh; 
-    */
 }
 
 .header {
@@ -181,12 +169,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center; Center the input and button
-    font-family: 'Korrina-normal', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* font-family: 'Korrina-normal', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
     min-height: 6vh;
     justify-content: center;
 }
 #inputbox {
-    font-family: "Korrina-normal", monospace; 
+    font-family: 'Korrina-normal', monospace; 
     font-size: medium;
     width: 90%; 
     max-width: 500px;
@@ -201,7 +189,7 @@ body {
     position: relative; /* Position relative for cursor */
 }
 
-/* Blinking cursor effect */
+/* blinking cursor effect */
 .cursor {
     display: inline-block;
     width: 20px; /* Width of the cursor */
@@ -221,6 +209,199 @@ body {
     50% {
         opacity: 0;
     }
+}
+
+.speech-bubble {
+    position: relative;
+    background: #10347c;
+    /* font-family: 'Korrina-normal', "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+    box-shadow: 5px 5px 5px rgba(254, 166, 255, 0.487); 
+    min-height: 38vh; /* Adjust as needed */
+    max-width: 90vw; /* Prevents overflow on small screens */
+    padding: 2vh 2vw; /* Scales better */
+    text-rendering: optimizeLegibility;
+    border-radius: 10% / 50%;
+    margin: 3vw auto;
+    text-align: center;
+    flex-flow: row wrap;
+    color: white;
+    border-top: .25em ridge rgba(125, 176, 212, 0.911);
+    justify-content: center;
+    border-radius: 23%;
+    z-index: 1;
+}
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 30%; 
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 0px solid transparent; /* Increase size for left side */
+    border-right: 40px solid transparent; /* Increase size for right side */
+    border-top: 30px solid #10347c; /* Increase size for the triangle */
+}
+
+#categoryBox {
+    color: rgb(255, 166, 234);
+    flex-flow: row wrap;
+    padding: .5vmin 1vmin;
+    max-width: 70vw;
+    margin-top: 2vh;
+    margin: 1vmin auto;
+    font-size: 2.5vmin;
+    text-shadow: 1vh white;
+    font-family: "Press Start 2P", "Korrina-normal", sans-serif;
+    /* margin-bottom: 2vh; */
+}
+
+#valueBox {
+    color: rgb(237, 255, 146);
+    flex-flow: row wrap;
+    font-family: "Korrina-normal", "Press Start 2P";
+    font-weight: 100;
+    font-style: normal;
+    font-size: 2vmin;
+    margin-bottom: 1em;
+}
+
+#questionBox {
+    display: flex;
+    flex-flow: column wrap;
+    font-family: "Korrina-normal", monospace;
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom:1em;
+    max-width: 80vw;
+    padding: 2vh;
+    padding-bottom: 2vh;
+    font-size: 3.3vmin;
+}
+
+#answerBox {
+    display: none;
+    font-family: 'Korrina-normal', "Press Start 2P", -apple-system, 'Times New Roman', Times, serif;
+    justify-content: center;
+    margin: 10px auto;
+    margin-top: .5vh;
+    font-size: 1.9vmin;
+    color: rgba(255, 177, 74, 0.924);
+}
+
+.trebek {
+    position: absolute;
+    left: 2vw;
+    bottom: 0;
+    max-height: 37vh;
+    max-width: 27vw;
+    filter: drop-shadow(0 5px 5px rgba(255, 167, 108, 0.8));
+    /* transition: fill 0.5s; */
+}
+
+.trebek:hover {
+    filter: hue-rotate(40deg) saturate(380%);
+    /* animation: bounce 2s infinite; */
+    /* filter: hue-rotate(6deg) saturate(280%) brightness(300%) contrast(70%) sepia(60%); */
+}
+
+.trebek::before {
+    content: '😎';
+    position: absolute;
+    /* font-size: 5vw; */
+    /* top: 10%; */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    transform: scale(1.2);
+}
+
+#scoreboard {
+    padding: 10px;
+    position: absolute;
+    overflow: hidden;
+    font-family: 'Press Start 2P', 'Orbitron', Roboto, sans-serif;
+    font-weight: bold;
+    bottom: 2vh;
+    right: 2vh;
+    padding: .5vh;
+    text-align: right;
+    font-size: 2.3vmin;
+    z-index: 1;
+}
+
+.scoreboard-text {
+    color: rgb(240, 247, 139);
+    position: flex;
+    margin: 1vmin 0;
+    right: 2vmin;
+    text-shadow: 1px 2px 0 red;
+}
+
+#score {
+    
+}
+
+.question-link {
+    color: yellow;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.question-link:hover {
+    text-decoration: underline;
+}
+
+.image-link {
+    color: #4CAF50;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.image-link:hover {
+    text-decoration: underline;
+}
+
+.image-modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 .styled-button {
     background-color: #007bff; /* Blue background */
@@ -246,146 +427,60 @@ body {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect when pressed */
 }
 
-}
-
-.speech-bubble {
-    position: relative;
-    background: #10347c;
-    font-family: "Korrina-normal", "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    box-shadow: 5px 5px 5px rgba(254, 166, 255, 0.487); 
-    min-height: 38vh; /* Adjust as needed */
-    max-width: 90vw; /* Prevents overflow on small screens */
-    padding: 2vh 2vw; /* Scales better */
-    text-rendering: optimizeLegibility;
-    border-radius: 10% / 50%;
-    margin: 3vw auto;
-    text-align: center;
-    flex-flow: row wrap;
-    color: white;
-    border-top: .25em ridge rgba(125, 176, 212, 0.911);
-    justify-content: center;
-    border-radius: 23%;
-    z-index: 1;
-}
-
-.speech-bubble:after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 30%; 
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 0px solid transparent; /* Increase size for left side */
-    border-right: 40px solid transparent; /* Increase size for right side */
-    border-top: 30px solid #10347c; /* Increase size for the triangle */
-}
-
-#categoryBox {
-    color: rgb(255, 166, 234);
-    flex-flow: row wrap;
-    padding: .5vmin 1vmin;
-    max-width: 70vw;
-    margin-top: 2vh;
-    margin: 1vmin auto;
-    font-size: 3vmin;
-    text-shadow: 1vh white;
-    font-family: "Korinna-normal", sans-serif;
-    /* margin-bottom: 2vh; */
-}
-
-#valueBox {
-    color: rgb(237, 255, 146);
-    flex-flow: row wrap;
-    font-family: "Press Start 2P";
-    font-weight: 100;
-    font-style: normal;
-    font-size: 2vmin;
-    margin-bottom: 2vmin;
-}
-
-#questionBox {
-    display: flex;
-    flex-flow: column wrap;
-    font-family: "Korrina-normal", monospace;
-    margin: auto;
-    margin-top: 5vmin;
-    margin-bottom:1.5vmin;
-    max-width: 80vw;
-    padding: 2vh;
-    padding-bottom: 2vh;
-    font-size: 2.5vh;
-}
-
-#answerBox {
-    display: none;
-    font-family: "Press Start 2P", -apple-system, 'Times New Roman', Times, serif;
-    justify-content: center;
+.embedded-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
     margin: 10px auto;
-    margin-top: 1vh;
-    font-size: 2.5vh;
-    color: rgba(255, 188, 53, 0.704);
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.trebek {
+.image-modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+}
+
+.enlarged-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.close-button {
     position: absolute;
-    left: 2vw;
-    bottom: 0;
-    max-height: 37vh;
-    max-width: 27vw;
-    filter: drop-shadow(0 0 20px rgba(225, 255, 0, 0.936));
-    
-    /* transition: fill 0.5s; */
-}
-
-.trebek:hover {
-    filter: hue-rotate(40deg) saturate(180%);
-    animation: bounce 2s infinite;
-    /* filter: brightness(200%) contrast(30%); */
-}
-
-.trebek::before {
-    content: '😎';
-    position: absolute;
-    font-size: 5vw;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    transform: scale(1.2);
-}
-
-.scoreboard {
-    /* background-color: rgba(255, 255, 255, 0); */
-    /* border: 3px solid #000; */
-    border-radius: 10px;
-    padding: 10px;
-    font-family: 'Orbitron', sans-serif;
-    position: absolute;
-    bottom: 2vh;
-    right: 2vh;
-    font-family: 'Press Start 2P', 'Orbitron', Roboto, sans-serif;
+    top: -40px;
+    right: 0;
+    color: #f1f1f1;
+    font-size: 40px;
     font-weight: bold;
-    padding: .5vh;
-    overflow: hidden;
-    text-align: right;
-    font-size: 2.3vmin;
-    z-index: 0;
+    transition: 0.3s;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.scoreboard p {
-    color: rgb(240, 247, 139);
-    position: flex;
-    margin: 1vmin 0;
-    right: 2vmin;
-    text-shadow: 1px 1px 0 red;
+.close-button:hover,
+.close-button:focus {
+    color: #bbb;
 }
 
-#score {
-    
-}
-
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
     .speech-bubble:after {
         content: none; 
     }
@@ -411,7 +506,6 @@ body {
 
     #inputbox {
         font-size: 2.6vmin;
-
     }
 
     #questionButton,
@@ -483,261 +577,3 @@ body {
     } 
 */
 
-
-
-/* .wood-button {
-    position: relative;
-    background: #8B4513; 
-    border: none;
-    border-radius: 12px;
-    padding: 15px 30px;
-    color: white;
-    font-size: 18px;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    overflow: hidden;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.2) 75%);
-    background-size: 20px 20px;
-}
-
-.wood-button:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-} 
-.wood-button:before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    filter: blur(10px);
-    z-index: 0;
-    transition: transform 0.2s ease;
-}
-    
-.wood-button:hover:before {
-    transform: scale(1.1);
-    }
-}
-.data-box {
-    position: absolute;
-    bottom: 2vh;
-    right: 2vw;
-    background-color: rgba(54, 2, 243, 0.3);
-    color: white;
-    padding: 2vh;
-    text-align: center;
-    min-width: 25vw;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    font-size: 2vmin;
-    max-width: 20vw;
-}
-
-.header-div {
-    display: flex;
-    flex-flow: row wrap center;
-    font-size: 1vmin;
-    justify-content: space-between;
-    justify-items: center;
-    align-items: center;
-    padding: 10px;
-    border-radius: 1.5vh;
-    height: auto;
-} */
-
-
-/*
-
-OLD VERSION:
-
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #FF1FC3;
-    font-family: 'Roboto', sans-serif;
-    overflow-x: hidden;
-}
-
-.game-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100%;
-    max-width: 100%;
-    background: linear-gradient(to top, #64B9FF, #D3D0DB);
-    margin: 0 auto;
-    padding: 2vh 2vw;
-    box-sizing: border-box;
-    overflow-y: auto;
-}
-
-.header-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2vh 0;
-    background-color: #293138;
-}
-
-.title-image {
-    max-width: 80%;
-    height: auto;
-    margin-bottom: 2vh;
-}
-
-.scoreboard {
-    width: 100%;
-    text-align: center;
-    color: #00ff00;
-    background-color: #000;
-    padding: 1vh;
-    border-radius: 5px;
-    font-family: 'Orbitron', sans-serif;
-}
-
-.button-div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2vh;
-    padding: 2vh 0;
-    background-color: rgb(41, 49, 56);
-}
-
-#questionButton, #answerButton {
-    flex: 1 1 40%;
-    max-width: 200px;
-    font-size: 1rem;
-    padding: 1.5vh 2vw;
-}
-
-.input-div {
-    display: flex;
-    justify-content: center;
-    padding: 2vh 0;
-}
-
-#inputbox {
-    width: 90%;
-    max-width: 400px;
-    font-size: 1rem;
-    padding: 1vh;
-}
-
-#checkButton {
-    width: 90%;
-    max-width: 400px;
-    font-size: 1.2rem;
-    padding: 1.5vh 2vw;
-}
-
-.speech-bubble {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 3vh 3vw;
-    margin: 2vh 0;
-    min-height: 30vh;
-    width: 90%;
-    max-width: 600px;
-    align-self: center;
-}
-
-#categoryBox, #questionBox, #answerBox {
-    width: 100%;
-    margin-bottom: 2vh;
-}
-
-.trebek {
-    position: fixed;
-    left: 2vw;
-    bottom: 2vh;
-    max-height: 15vh;
-    max-width: 15vw;
-}
-
-
-@media (max-width: 768px) {
-    .game-container {
-        padding: 1vh 1vw;
-    }
-
-    .header-div {
-        padding: 1vh 0;
-    }
-
-    .title-image {
-        max-width: 90%;
-    }
-
-    #questionButton, #answerButton {
-        flex: 1 1 100%;
-        max-width: none;
-    }
-
-    .speech-bubble {
-        min-height: 40vh;
-    }
-
-    .trebek {
-        max-height: 10vh;
-        max-width: 20vw;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    button, input {
-        font-size: 1.2em;
-        padding: 10px;
-        width: 100%;
-    }
-
-    #game-container {
-        width: 100%;
-        padding: 10px;
-        overflow: auto;
-    }
-
-    h1, p {
-        font-size: 1.5em;
-    }
-
-    .game-question {
-        font-size: 1.2em;
-        padding: 15px;
-    }
-}
-
-@media (max-height: 600px) and (orientation: landscape) {
-    .game-container {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .header-div {
-        width: 100%;
-    }
-
-    .button-div {
-        width: 30%;
-        flex-direction: column;
-    }
-
-    .speech-bubble {
-        width: 65%;
-        min-height: 0;
-    }
-
-    .trebek {
-        display: none;
-    }
-}
-
-*/

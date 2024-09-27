@@ -3,6 +3,9 @@ const apiUrl = 'https://cluebase.lukelav.in/clues/random';
 
 // Load questions from local JSON files
 let questions = [];
+let currentQuestionIndex = 0;
+const CHUNK_SIZE = 500; // Number of questions to load at a time
+let allQuestions = []; // New array to store all loaded questions
 
 const questionFiles = [
     'questions/questions.json', 
@@ -25,36 +28,52 @@ async function fetchFromAPI() {
 }
 
 async function loadLocalQuestions() {
-    for (const file of questionFiles) {
-        try {
-            console.log(`Attempting to load ${file}...`);
-            const response = await fetch(file);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+    if (allQuestions.length === 0) {
+        for (const file of questionFiles) {
+            try {
+                console.log(`Attempting to load ${file}...`);
+                const response = await fetch(file);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const fileExtension = file.split('.').pop().toLowerCase();
+                let data;
+                if (fileExtension === 'json') {
+                    data = await response.json();
+                } else if (fileExtension === 'csv') {
+                    const text = await response.text();
+                    data = parseCSV(text);
+                } else {
+                    throw new Error(`Unsupported file type: ${fileExtension}`);
+                }
+                console.log(`Successfully loaded ${data.length} questions from ${file}`);
+                allQuestions = allQuestions.concat(data);
+            } catch (error) {
+                console.error(`Error loading ${file}:`, error.message);
+                console.error('Full error:', error);
             }
-            const fileExtension = file.split('.').pop().toLowerCase();
-            let data;
-            if (fileExtension === 'json') {
-                data = await response.json();
-            } else if (fileExtension === 'csv') {
-                const text = await response.text();
-                data = parseCSV(text);
-            } else {
-                throw new Error(`Unsupported file type: ${fileExtension}`);
-            }
-            console.log(`Successfully loaded ${data.length} questions from ${file}`);
-            questions = questions.concat(data);
-        } catch (error) {
-            console.error(`Error loading ${file}:`, error.message);
-            console.error('Full error:', error);
         }
+        if (allQuestions.length === 0) {
+            console.log("📚 Our local question library seems to be on vacation. Time for some improv!");
+            return false;
+        }
+        console.log(`📘 Loaded ${allQuestions.length} questions from local files.`);
     }
-    if (questions.length === 0) {
-        console.log("📚 Our local question library seems to be on vacation. Time for some improv!");
-        return false;
-    }
-    console.log(`📘 Loaded ${questions.length} questions from local files.`);
+
+    // Shuffle all questions and select a new chunk
+    shuffleArray(allQuestions);
+    questions = allQuestions.slice(0, CHUNK_SIZE);
+    currentQuestionIndex = 0;
+    console.log(`📘 Prepared ${questions.length} random questions for use.`);
     return true;
+}
+
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
 }
 
 function parseCSV(text) {
@@ -84,7 +103,7 @@ async function getNewQuestion() {
         }
 
         // If API fails, use local questions
-        if (questions.length === 0) {
+        if (questions.length === 0 || currentQuestionIndex >= questions.length) {
             console.log('Loading local questions');
             const localQuestionsLoaded = await loadLocalQuestions();
             if (!localQuestionsLoaded) {
@@ -98,9 +117,8 @@ async function getNewQuestion() {
             throw new Error("No questions available");
         }
 
-        const randomIndex = Math.floor(Math.random() * questions.length);
-        currentQuestion = questions[randomIndex]; // Store the current question
-        questions.splice(randomIndex, 1);
+        currentQuestion = questions[currentQuestionIndex];
+        currentQuestionIndex++;
         console.log('Local question selected:', currentQuestion);
         displayQuestion(normalizeQuestionData(currentQuestion));
     } catch (error) {
@@ -126,7 +144,8 @@ const valueBox = document.getElementById('valueBox');
 // Initialize variables to store data to display
 let currentStreak = 0;
 let bestStreak = 0;
-let score = 0;
+let currentScore = 0;
+let bestScore = 0;
 
 // Introduce the game via console
 console.log(`Welcome to Jeopardish!!!`);
@@ -204,32 +223,37 @@ const checkAnswer = () => {
 
     if (compareAnswers(userAnswerCleaned, correctAnswer)) {
         currentStreak++;
-        score += parseInt(currentQuestion.value.replace('$', ''), 10); // Use currentQuestion here
+        currentScore += parseInt(currentQuestion.value.replace('$', ''), 10);
         if (currentStreak > bestStreak) {
             bestStreak = currentStreak;
+        }
+        if (currentScore > bestScore) {
+            bestScore = currentScore;
         }
         displayCorrectAnswerMessage();
     } else {
         currentStreak = 0;
+        currentScore = 0;
         displayIncorrectAnswerMessage(correctAnswer);
     }
 
-    updateScoreBoard(); // update the scoreboard
+    updateScoreBoard();
     userInput.value = '';
 };
 
 // Function to display correct answer message
 const displayCorrectAnswerMessage = () => {
     categoryBox.innerHTML = "";
-    questionBox.innerHTML = "Correct! Your streak is now: " + currentStreak;
+    valueBox.innerHTML = "";
+    questionBox.innerHTML = `Correctamundo and cowabunga, my friend! Your streak is now ${currentStreak}. Keep it going, sir or lady or other person!!`;
     answerBox.style.display = "flex";
-    answerBox.innerHTML = "Correct answer streak is now " + currentStreak;
+    answerBox.innerHTML = "";
 };
 
 // Function to display incorrect answer message
 const displayIncorrectAnswerMessage = (correctAnswer) => {
     categoryBox.innerHTML = "";
-    questionBox.innerHTML = "Incorrect! The correct answer was: " + correctAnswer;
+    questionBox.innerHTML = `Incorrect, you fool! The correct answer was ${correctAnswer}. Your streak is now reset! Try again, sir or lady or other person!!`;
     answerBox.style.display = "flex";
     answerBox.innerHTML = `STREAK RESET!`;
 };
@@ -279,15 +303,17 @@ const getLevenshteinDistance = (a, b) => {
 
 // Update scoreboard
 function updateScoreBoard() {
-    const scoreElement = document.getElementById('score');
+    const currentScoreElement = document.getElementById('currentScore');
+    const bestScoreElement = document.getElementById('bestScore');
     const currentStreakElement = document.getElementById('currentStreak');
     const bestStreakElement = document.getElementById('bestStreak');
 
-    if (scoreElement) scoreElement.textContent = `score: $${score}`;
     if (currentStreakElement) currentStreakElement.textContent = `streak: ${currentStreak}`;
     if (bestStreakElement) bestStreakElement.textContent = `best streak: ${bestStreak}`;
+    if (currentScoreElement) currentScoreElement.textContent = `score: $${currentScore}`;
+    if (bestScoreElement) bestScoreElement.textContent = `top score: $${bestScore}`;
 
-    console.log(`Scoreboard updated - Score: $${score}, Current Streak: ${currentStreak}, Best Streak: ${bestStreak}`);
+    console.log(`Scoreboard updated - Current Score: $${currentScore}, Best Score: $${bestScore}, Current Streak: ${currentStreak}, Best Streak: ${bestStreak}`);
 }
 
 // Wrap event listeners and initial question load in DOMContentLoaded event
@@ -335,22 +361,63 @@ function displayQuestion(question) {
     const valueBox = document.getElementById('valueBox');
 
     try {
-        if (!categoryBox) throw new Error('categoryBox is missing');
-        if (!questionBox) throw new Error('questionBox is missing');
-        if (!answerBox) throw new Error('answerBox is missing');
-        if (!valueBox) throw new Error('valueBox is missing');
+        if (!categoryBox || !questionBox || !answerBox || !valueBox) {
+            throw new Error('One or more required elements are missing');
+        }
 
-        // Use innerHTML to allow HTML tags to be rendered
         categoryBox.innerHTML = question.category;
-        questionBox.innerHTML = question.question; // Allow HTML rendering
         valueBox.innerHTML = `for ${question.value}`;
-        answerBox.innerHTML = question.answer; // Allow HTML rendering
+        answerBox.innerHTML = question.answer;
         answerBox.style.display = 'none';
+
+        // Process the question text
+        let questionText = question.question;
+        
+        // Remove leading and trailing quotes
+        questionText = questionText.replace(/^['"]|['"]$/g, '');
+
+        // Replace links with embedded images
+        const linkRegex = /<a\s+(?:[^>]*?\s+)?href="([^"]*)"[^>]*>(.*?)<\/a>/gi;
+        questionText = questionText.replace(linkRegex, (match, url, text) => {
+            return `<img src="${url}" alt="Question Image" class="embedded-image" onerror="this.onerror=null; this.alt='Image failed to load'; this.style.display='none';">`;
+        });
+
+        questionBox.innerHTML = questionText;
+
+        // Add click event listeners to embedded images for enlargement
+        const embeddedImages = questionBox.querySelectorAll('.embedded-image');
+        embeddedImages.forEach(img => {
+            img.addEventListener('click', () => {
+                showEnlargedImage(img.src);
+            });
+        });
 
     } catch (error) {
         console.error('Error in displayQuestion:', error.message);
-        throw error; // Re-throw the error to see the full stack trace
+        throw error;
     }
+}
+
+function showEnlargedImage(url) {
+    const modal = document.createElement('div');
+    modal.className = 'image-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <img src="${url}" alt="Enlarged Image" class="enlarged-image">
+            <button class="close-button">&times;</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.querySelector('.close-button').addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
 }
 
 const inputbox = document.getElementById('inputbox');
