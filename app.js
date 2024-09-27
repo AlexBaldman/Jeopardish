@@ -438,3 +438,7 @@ inputbox.addEventListener('input', () => {
     const inputLength = inputbox.value.length;
     cursor.style.left = `${inputLength * 10}px`; // Adjust based on character width
 });
+
+window.visualViewport.onresize = function() {
+    document.body.style.height = `${window.visualViewport.height}px`;
+};

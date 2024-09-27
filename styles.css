@@ -5,19 +5,22 @@
     font-style: normal;
 }
 
-html {
-
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+.container {
+    height: 100%;
+    overflow-y: scroll; /* Allow content scrolling within the container */
 }
 
 body {
     display: flex;
-    overflow: hidden;
     margin: 0 auto;
     overflow-x: hidden;
     justify-content: space-around;
     align-items: center;
-    height: 100vh;
-    width: 100%  /;
+    width: 100%  ;
     background-color: #ff1fc3c5;
     box-sizing: border-box;
     scroll-behavior: smooth;
@@ -281,11 +284,11 @@ body {
 
 #answerBox {
     display: none;
-    font-family: 'Korrina-normal', "Press Start 2P", -apple-system, 'Times New Roman', Times, serif;
+    font-family: "Korrina-normal", "Press Start 2P", -apple-system, 'Times New Roman', Times, serif;
     justify-content: center;
     margin: 10px auto;
     margin-top: .5vh;
-    font-size: 4vmin;
+    font-size: 18px;
     color: rgba(255, 177, 74, 0.924);
 }
 
