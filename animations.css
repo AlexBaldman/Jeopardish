@@ -1,0 +1,55 @@
+/* Smoke Animations */
+.smoke, .pixel-smoke, .nes-smoke {
+    position: absolute;
+    border-radius: 50%;
+}
+
+@keyframes rise {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+    100% { transform: translate(30px, -50px) scale(3); opacity: 0; }
+}
+
+@keyframes pixelRise {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    25% { transform: translate(-10px, -15px) scale(1.2); opacity: 0.8; }
+    50% { transform: translate(15px, -25px) scale(1.5); opacity: 0.6; }
+    75% { transform: translate(-5px, -35px) scale(1.8); opacity: 0.4; }
+    100% { transform: translate(10px, -45px) scale(2); opacity: 0.2; }
+}
+
+@keyframes nesRise {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.9; }
+    100% { transform: translate(20px, -40px) scale(1); opacity: 0; }
+}
+
+/* TV Boot Screen Animation */
+.tube-tv-screen {
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle, white 0%, black 80%);
+    animation: tubeBoot 3s ease-out;
+}
+
+@keyframes tubeBoot {
+    0% { opacity: 0; transform: scale(0.1); }
+    20% { opacity: 1; transform: scale(1); }
+    80% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(5); }
+}
+
+/* Button Effects */
+.button {
+    background-color: #ffcc00;
+    border: 4px solid #333;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 18px;
+    box-shadow: 0 4px #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.button:active {
+    box-shadow: none;
+    transform: translateY(4px);
+}

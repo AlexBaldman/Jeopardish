@@ -1,17 +1,6 @@
-@font-face {
-    font-family: 'Korrina-normal';
-    src: url('fonts/Korrina-normal.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 html, body {
     height: 100%;
     overflow: hidden;
-}
-.container {
-    height: 100%;
-    overflow-y: scroll; /* Allow content scrolling within the container */
 }
 
 body {
@@ -31,6 +20,11 @@ body {
 *::after {
     box-sizing: border-box;
 
+.container {
+    height: 100%;
+    overflow-y: scroll; /* Allow content scrolling within the container */
+}
+
 .game-container {
     display: block;
     flex-flow: column;
@@ -45,6 +39,8 @@ body {
     max-width: 95vw;
     background: linear-gradient(to top, #64B9FF, #D3D0DB);
     justify-self: center;
+    text-align: center;
+    justify-content: center;
     margin: 0 auto;
     border-radius: 20px;
     border: 5px ridge #f6ffa5e8;
@@ -78,21 +74,11 @@ body {
     display: flex;
     flex-wrap: wrap;
     background-color: rgba(255, 90, 230, 0);
-    /* margin: 1vh 1vh; */
     min-height: 3vh;
     align-items: center;
     justify-content: center;
     padding: 1vh 1vh;
-    flex-wrap: row wrap;
-    justify-content: space-around;
-    /* justify-content: space-between;  */
-}
-
-.trebek {
-    max-width: 110%; 
-    max-height: 35vh;
-    width: 40vw;
-    z-index: 1;
+    justify-content: space-evenly;
 }
 
 #questionButton,
@@ -138,8 +124,16 @@ body {
     color: white;
 }
 
+
+.trebek {
+    max-width: 110%; 
+    max-height: 35vh;
+    width: 40vw;
+    z-index: 1;
+}
+
 #checkButton {
-    color: whitesmoke;
+    color: rgb(248, 245, 82);
     width: 50vw;
     height: 8vh;
     background-color: #4b21f4e4;    
@@ -156,7 +150,7 @@ body {
     color: coral;
     background-color: white;
     border: double grey;
-    box-shadow: 10px 1vh #f766ff;
+    /* box-shadow: 10px 1vh 1vh 1vh #f766ff; */
 }
 
 #checkButton:active {
@@ -169,40 +163,42 @@ body {
 }
 
 .input-div {
+    position: relative; /* Ensure the cursor is positioned relative to this div */
     display: flex;
     flex-direction: column;
-    align-items: center; Center the input and button
-    /* font-family: 'Korrina-normal', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+    align-items: center; /* Center the input and button */
+    text-align: center; /* Center the button */
     min-height: 6vh;
     justify-content: center;
 }
-#inputbox {
+
+#inputBox {
+    position: absolute;
     font-family: 'Korrina-normal', monospace; 
     font-size: medium;
     width: 90%; 
     max-width: 500px;
     color: #f8b9f4; /* Green text color */
     background-color: black; /* Black background */
-    border: 2px solid #00ff00; /* Green border */
+    border: 2px solid #00ff00 50%; /* Green border */
     padding: 10px;
     border-radius: 5px;
     font-size: 16px;
     outline: none; /* Remove default outline */
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Glow effect */
-    position: relative; /* Position relative for cursor */
 }
 
-/* blinking cursor effect */
+/* blinking cursor */
 .cursor {
-    display: inline-block;
-    width: 20px; /* Width of the cursor */
-    height: 1.2em; /* Height of the cursor */
-    background-color: #00ff00; /* Cursor color */
-    animation: blink 1s step-end infinite; /* Blinking animation */
     position: absolute; /* Position absolute to place inside input */
-    left: calc(100% - 10px); /* Position at the end of the input */
+    background-color: #00ff00; /* Cursor color */
+    width: 10px; /* Wider cursor */
+    height: 1.2em; /* Height of the cursor */
+    animation: blink 1s step-end infinite; /* Blinking animation */
+    left: 0; /* Start at the left of the input */
     top: 50%; /* Center vertically */
     transform: translateY(-50%); /* Adjust for vertical centering */
+    display: none; /* Initially hidden */
 }
 
 @keyframes blink {
@@ -214,10 +210,9 @@ body {
     }
 }
 
-.speech-bubble {
+.speechBubble {
     position: relative;
     background: #10347c;
-    /* font-family: 'Korrina-normal', "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
     box-shadow: 5px 5px 5px rgba(254, 166, 255, 0.487); 
     min-height: 38vh; /* Adjust as needed */
     max-width: 90vw; /* Prevents overflow on small screens */
@@ -233,7 +228,8 @@ body {
     border-radius: 23%;
     z-index: 1;
 }
-.speech-bubble:after {
+
+.speechBubble:after {
     content: '';
     position: absolute;
     bottom: -30px;
@@ -279,7 +275,7 @@ body {
     max-width: 80vw;
     padding: 2vh;
     padding-bottom: 2vh;
-    font-size: 3vh;
+    font-size: 1.8vh;
 }
 
 #answerBox {
@@ -299,7 +295,12 @@ body {
     max-height: 37vh;
     max-width: 27vw;
     filter: drop-shadow(0 5px 5px rgba(255, 167, 108, 0.8));
+    transition: left 0.5s ease-in-out;
     /* transition: fill 0.5s; */
+}
+
+.slide-in-left {
+    left: -10vw;
 }
 
 .trebek:hover {
@@ -325,11 +326,12 @@ body {
     overflow: hidden;
     font-family: 'Press Start 2P', 'Orbitron', Roboto, sans-serif;
     font-weight: bold;
+    font-size: 1.7vmin;
     bottom: 2vh;
     right: 2vh;
     padding: .5vh;
     text-align: right;
-    font-size: 2.3vmin;
+    
     z-index: 1;
 }
 
@@ -339,10 +341,6 @@ body {
     margin: 1vmin 0;
     right: 2vmin;
     text-shadow: 1px 2px 0 red;
-}
-
-#score {
-    
 }
 
 .question-link {
@@ -431,7 +429,7 @@ body {
 }
 
 .embedded-image {
-    max-width: 40%;
+    max-width: 35%;
     height: auto;
     display: flex;
     flex-flow: row wrap;
@@ -485,7 +483,7 @@ body {
 }
 
 @media (max-width: 768px) {
-    .speech-bubble:after {
+    .speechBubble:after {
         content: none; 
     }
 
@@ -508,7 +506,7 @@ body {
         max-width: 85%;
     }
 
-    #inputbox {
+    #inputBox {
         font-size: 2.6vmin;
     }
 
@@ -524,6 +522,7 @@ body {
     #checkButton {
         width: 50%;
         font-size: 1.8vh;
+        margin: 0 auto;        
     }
 
     .trebek {
@@ -545,7 +544,7 @@ body {
         max-width: 95vw;
         min-width: 70vw;
     }
-    .speech-bubble {
+    .speechBubble {
         min-width: 60vw;
         max-width: 70vw;
     }
@@ -571,6 +570,10 @@ body {
     }
     
 }
+
+
+
+
 
 /* box-shadow: 3px 3px 0 rgba(0,0,0,0.1); */
 

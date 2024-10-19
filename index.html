@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <!-- viewport settings for better mobile responsiveness -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
 
-    <!-- SEO related tags  -->
-    <meta name="description" content="Play Jeopardish! A fun trivia game inspired by Jeopardy! with customizable features.">
+    <!-- SEO related -->
+    <meta name="description" content="Jeopardish! A unique comedic trivia adventure.">
     <meta property="og:title" content="Jeopardish!">
-    <meta property="og:description" content="A game almost entirely not inspired by Jeopardy! but paying homage out of respect">
-    <meta property="og:image" content="___URL to an image of the game___">
-
+    <meta property="og:description" content="A unique comedic trivia adventure.">
+    <meta property="og:image" content="screenshots/jeopardish-screenshot-noQuestion.png">
+    
     <!-- title -->
     <title>Jeopardish!</title>
+    
     <!-- favicons -->
-    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
     <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
-
-    <!-- Link to external stylesheets -->
+    
+    <!-- local font styles -->
+    <link rel="stylesheet" href="fonts.css">
+    
+    <!-- main CSS stylesheet -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- main app JS -->
+    <script defer src="app.js"></script>
+    
+    <!-- external CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     
     <!-- fonts, icons, other CDN assets -->
@@ -30,25 +40,21 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-   
-
     
-    <!-- external javascript (include defer for async loading) -->
+    <!-- external JS for axios (include defer for async loading) -->
     <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
-    
-    <!-- internal javascript -->
-    <script defer src="app.js"></script>
- </head>
+</head>
 <body lang="en">
-    <!-- GAME CONTAINER -->
+
+    <!-- game container -->
     <div class="game-container">
 
-        <!-- TITLE AND SCOREBOARD -->
+        <!-- header w. title image -->
         <div class="header">
             <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">  
         </div>
 
-        <!-- NEW QUESTION & SHOW/HIDE ANSWER BUTTONS -->
+        <!-- button container div with new question / show answer buttons -->
         <div class="button-div">
             <button id="questionButton" aria-label="Get a new question">
                 new question
@@ -58,40 +64,38 @@
             </button>
         </div>
 
-        <!-- USER INPUT -->
+        <!-- user input -->
         <div class="input-div">
-            <!-- <input id="inputbox" type="text" placeholder="enter answer" aria-label="Answer input box"> -->
-            <input type="text" id="inputbox" placeholder="enter answer here..." />
-            <!-- Cursor element -->
+            <input id="inputBox" type="text" placeholder="enter answer here..." aria-label="answer input box"/>
+            <!-- cursor element -->
             <span class="cursor"></span> 
-            <button id="checkButton" aria-label="check answer">
-                check answer
-            </button>
+            
         </div>
+        <button id="checkButton" aria-label="check answer button">
+            check answer
+        </button>
         <!-- <button id="checkButton" class="styled-button">check answer</button> -->
 
-        <!-- SPEECH BUBBLE -->
-        <div class="speech-bubble">
+        <!-- speech bubble with category, value, question & answer display areas -->
+        <div class="speechBubble">
             <div id="categoryBox"></div>
             <div id="valueBox"></div>
             <div id="questionBox"></div>
             <div id="answerBox"></div>
         </div>
 
-        <!-- TREBEK DIV -->
-
-        <!-- new dope version with joint -->
+        <!-- host / trebek -->
         <img class="trebek" alt="Alexander the Great" src="images/trebek-dope-03.png">
 
-        <!-- original trebek -->
+        <!-- original trebek image -->
         <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.svg"> -->
 
-        <!-- SCOREBOARD -->
+        <!-- scoreboard -->
         <div id="scoreboard">
-            <div id="currentScore" class="scoreboard-text">score: $0</div>
-            <div id="currentStreak" class="scoreboard-text">streak: 0</div>
-            <div id="bestScore" class="scoreboard-text">best score: $0</div>
-            <div id="bestStreak" class="scoreboard-text">best streak: 0</div>
+            <div id="currentScore" class="scoreboard-text" aria-label="score">score: $0</div>
+            <div id="bestScore" class="scoreboard-text" aria-label="top score">top score: $0</div>
+            <div id="currentStreak" class="scoreboard-text" aria-label="streak">streak: 0</div>
+            <div id="bestStreak" class="scoreboard-text" aria-label="top streak">top streak: 0</div>
         </div>
 
     </div>

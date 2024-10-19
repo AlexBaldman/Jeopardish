@@ -1,4 +1,4 @@
-// API URL to fetch data
+// API url to fetch data for random question
 const apiUrl = 'https://cluebase.lukelav.in/clues/random';
 
 // Load questions from local JSON files
@@ -10,8 +10,6 @@ let allQuestions = []; // New array to store all loaded questions
 const questionFiles = [
     'questions/questions.json', 
     'questions/questions.csv'
-    // 'http://localhost:8080/questions/questions.json', // Update to your local server URL
-    // 'http://localhost:8080/questions/questions.csv'    // Update to your local server URL
 ];
 
 async function fetchFromAPI() {
@@ -133,7 +131,7 @@ const answerButton = document.getElementById('answerButton');
 const questionButton = document.getElementById('questionButton');
 
 // Create userInput box for entering answer
-const userInput = document.getElementById('inputbox');
+const userInput = document.getElementById('inputBox');
 
 // Use separate boxes to distribute data within word-bubble
 const categoryBox = document.getElementById('categoryBox');
@@ -209,6 +207,11 @@ const showHideAnswer = () => {
 // Check answer function
 const checkAnswer = () => {
     if (!answerBox.innerHTML.trim()) {
+        // Allow moving to the next question without error if the user just got it wrong
+        if (currentStreak === 0) {
+            getNewQuestion(); // Automatically get a new question if the streak is reset
+            return;
+        }
         displayErrorMessage('No answer available. Has a question been loaded?');
         return;
     }
@@ -218,6 +221,11 @@ const checkAnswer = () => {
     let userAnswerCleaned = cleanAnswer(userInput.value);
 
     if (!userAnswerCleaned) {
+        // Allow moving to the next question without error if the user just got it wrong
+        if (currentStreak === 0) {
+            getNewQuestion(); // Automatically get a new question if the streak is reset
+            return;
+        }
         displayErrorMessage('User input is empty');
         return;
     }
@@ -240,6 +248,7 @@ const checkAnswer = () => {
 
     updateScoreBoard();
     userInput.value = '';
+    userInput.blur(); // Defocus the input box after submission
 };
 
 // Function to display correct answer message
@@ -253,11 +262,10 @@ const displayCorrectAnswerMessage = () => {
 
 // Function to display incorrect answer message
 const displayIncorrectAnswerMessage = (correctAnswer) => {
-    categoryBox.innerHTML = "";
-    valueBox.innerHTML = "";
-    questionBox.innerHTML = `Incorrect, you fool! The correct answer was ${correctAnswer}. Your streak is now reset! Try again, sir or lady or other person!!`;
+    // Display the correct answer without overwriting the question
+    questionBox.innerHTML = `Incorrect, you fool! Your streak is now reset! Try again, sir or lady or other person!!`;
+    answerBox.innerHTML = `The correct answer was: ${correctAnswer}`; // Show the correct answer
     answerBox.style.display = "flex";
-    answerBox.innerHTML = `STREAK RESET!!!`;
 };
 
 // Function to clean up and standardize answers for comparison
@@ -422,23 +430,35 @@ function showEnlargedImage(url) {
     });
 }
 
-const inputbox = document.getElementById('inputbox');
+const inputBox = document.getElementById('inputBox');
 const cursor = document.querySelector('.cursor');
 
-inputbox.addEventListener('focus', () => {
+inputBox.addEventListener('focus', () => {
     cursor.style.display = 'inline-block'; // Show cursor when focused
+    cursor.style.left = '0'; // Position cursor at the start
 });
 
-inputbox.addEventListener('blur', () => {
+inputBox.addEventListener('blur', () => {
     cursor.style.display = 'none'; // Hide cursor when not focused
 });
 
 // Update cursor position based on input length
-inputbox.addEventListener('input', () => {
-    const inputLength = inputbox.value.length;
+inputBox.addEventListener('input', () => {
+    const inputLength = inputBox.value.length;
+    cursor.style.left = `${inputLength * 10}px`; // Adjust based on character width
+});
+
+// Ensure cursor is positioned correctly on keydown
+inputBox.addEventListener('keydown', () => {
+    const inputLength = inputBox.value.length;
     cursor.style.left = `${inputLength * 10}px`; // Adjust based on character width
 });
 
 window.visualViewport.onresize = function() {
     document.body.style.height = `${window.visualViewport.height}px`;
 };
+
+function toggleSlide() {
+    const character = document.getElementById('trebek');
+    character.classList.toggle('slide-in-left');
+}
