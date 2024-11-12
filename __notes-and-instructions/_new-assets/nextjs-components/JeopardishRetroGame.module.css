@@ -1,0 +1,27 @@
+@keyframes retro-text-animation {
+  0% { text-shadow: 2px 2px 0 #00ff00; }
+  50% { text-shadow: -2px -2px 0 #00ff00; }
+  100% { text-shadow: 2px 2px 0 #00ff00; }
+}
+
+.retro-text {
+  font-family: 'Press Start 2P', cursive;
+  animation: retro-text-animation 2s infinite;
+}
+
+.retro-border {
+  border-style: solid;
+  border-width: 4px;
+  border-image-slice: 2;
+  border-image-width: 2;
+  border-image-outset: 0;
+  border-image-source: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='6' height='6'><path d='M0 2h2v2H0zM2 0h2v2H2zM4 2h2v2H4zM2 4h2v2H2z' fill='%2300ff00' /></svg>");
+  border-image-repeat: stretch;
+}
+
+.retro-host-character {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -0.5 16 16' shape-rendering='crispEdges'%3E%3Cpath stroke='%23000000' d='M5 0h6M4 1h8M3 2h10M2 3h12M2 4h12M1 5h14M1 6h14M1 7h14M1 8h14M1 9h14M2 10h12M2 11h12M3 12h10M4 13h8M5 14h6' /%3E%3Cpath stroke='%23ffffff' d='M5 1h6M4 2h8M3 3h10M3 4h10M2 5h12M2 6h12M2 7h12M2 8h12M2 9h12M3 10h10M3 11h10M4 12h8M5 13h6' /%3E%3Cpath stroke='%23000000' d='M5 5h2M9 5h2M5 6h2M9 6h2M5 7h2M9 7h2M4 9h8M5 10h6M6 11h4M7 12h2' /%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}

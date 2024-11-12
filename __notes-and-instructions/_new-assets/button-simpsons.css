@@ -1,0 +1,28 @@
+.simpsonsButton {
+    display: flex;
+    font-family: 'Comic Sans MS', cursive, sans-serif; 
+    height: 6vh;
+    font-size: 1.5em; 
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFDD00; 
+    border-radius: 30px; 
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); 
+    color: #333; 
+    cursor: pointer;
+    padding: 15px 30px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.simpsonsButton:hover {
+    background-color: #FFCC00; 
+    color: #000; 
+}
+
+.simpsonsButton:active {
+    background-color: #FFFF00;
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5);
+} 

@@ -1,0 +1,74 @@
+/* Speech bubble styles */
+.speechBubble {
+    position: relative;
+    background: #10347c;
+    box-shadow: 5px 5px 5px rgba(254, 166, 255, 0.487); 
+    min-height: 38vh;
+    max-width: 90vw;
+    padding: 2vh 2vw;
+    text-rendering: optimizeLegibility;
+    border-radius: 10% / 50%;
+    margin: 3vw auto;
+    text-align: center;
+    flex-flow: row wrap;
+    color: white;
+    border-top: .25em ridge rgba(125, 176, 212, 0.911);
+    justify-content: center;
+    border-radius: 23%;
+    z-index: 1;
+}
+
+.speechBubble:after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 30%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 0px solid transparent;
+    border-right: 40px solid transparent;
+    border-top: 30px solid #10347c;
+}
+
+#categoryBox {
+    color: rgb(255, 166, 234);
+    flex-flow: row wrap;
+    padding: .5vmin 1vmin;
+    max-width: 70vw;
+    margin: 1vmin auto;
+    font-size: 1.2rem;
+    text-shadow: 1vh white;
+    font-family: "Press Start 2P", "Korrina-normal", sans-serif;
+}
+
+#valueBox {
+    color: rgb(237, 255, 146);
+    flex-flow: row wrap;
+    font-family: "Korrina-normal", "Press Start 2P";
+    font-weight: 100;
+    font-style: normal;
+    font-size: 1rem;
+    margin-bottom: 1em;
+}
+
+#questionBox {
+    display: flex;
+    flex-flow: column wrap;
+    font-family: "Korrina-normal", monospace;
+    margin: auto;
+    max-width: 80vw;
+    padding: 2vh;
+    padding-bottom: 2vh;
+    font-size: 1.6em;
+}
+
+#answerBox {
+    display: none;
+    font-family: "Korrina-normal", "Press Start 2P", -apple-system, 'Times New Roman', Times, serif;
+    justify-content: center;
+    margin: 10px auto;
+    margin-top: .5vh;
+    font-size: 18px;
+    color: rgba(255, 177, 74, 0.924);
+}
