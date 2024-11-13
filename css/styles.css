@@ -176,6 +176,7 @@ body {
     position: absolute;
     font-family: 'Korrina-normal', monospace; 
     font-size: medium;
+    z-index: 0;
     width: 90%; 
     max-width: 500px;
     color: #f8b9f4; /* Green text color */
@@ -185,17 +186,17 @@ body {
     border-radius: 5px;
     font-size: 16px;
     outline: none; /* Remove default outline */
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Glow effect */
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Glow effect */
 }
 
 /* blinking cursor */
 .cursor {
     position: absolute; /* Position absolute to place inside input */
     background-color: #00ff00; /* Cursor color */
-    width: 10px; /* Wider cursor */
+    width: 15px; /* Wider cursor */
     height: 1.2em; /* Height of the cursor */
     animation: blink 1s step-end infinite; /* Blinking animation */
-    left: 0; /* Start at the left of the input */
+    /* left: 0; Start at the left of the input */
     top: 50%; /* Center vertically */
     transform: translateY(-50%); /* Adjust for vertical centering */
     display: none; /* Initially hidden */
