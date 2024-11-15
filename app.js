@@ -435,7 +435,7 @@ const cursor = document.querySelector('.cursor');
 
 inputBox.addEventListener('focus', () => {
     cursor.style.display = 'inline-block'; // Show cursor when focused
-    cursor.style.left = '0'; // Position cursor at the start
+    cursor.style.left = `20px`; // Position cursor at the start, considering padding
 });
 
 inputBox.addEventListener('blur', () => {
@@ -445,13 +445,13 @@ inputBox.addEventListener('blur', () => {
 // Update cursor position based on input length
 inputBox.addEventListener('input', () => {
     const inputLength = inputBox.value.length;
-    cursor.style.left = `${inputLength * 10}px`; // Adjust based on character width
+    cursor.style.left = `${20 + inputLength * 10}px`; // Adjust based on character width and padding
 });
 
 // Ensure cursor is positioned correctly on keydown
 inputBox.addEventListener('keydown', () => {
     const inputLength = inputBox.value.length;
-    cursor.style.left = `${inputLength * 10}px`; // Adjust based on character width
+    cursor.style.left = `${20 + inputLength * 10}px`; // Adjust based on character width and padding
 });
 
 window.visualViewport.onresize = function() {

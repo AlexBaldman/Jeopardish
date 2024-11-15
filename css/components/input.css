@@ -1,1 +1,27 @@
- 
+/* Styles for the input box */
+.inputBox {
+  position: relative; /* Added to position cursor relative to inputBox */
+  padding-left: 20px; /* Add padding to make space for the cursor */
+  border: 1px solid #ccc;
+  width: 300px;
+  height: 30px;
+}
+
+/* Styles for the cursor */
+.cursor {
+  position: absolute;
+  left: 0; /* Cursor starts at the left edge of the inputBox */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 20px;
+  background-color: green;
+  animation: blink 1s step-end infinite; /* Add blinking animation */
+}
+
+/* Blinking animation */
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
