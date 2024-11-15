@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- Background Circle -->
+  <circle cx="200" cy="200" r="190" fill="#2D3436"/>
+  
+  <!-- Lightning Bolt Background -->
+  <path d="M160,40 L240,40 L200,160 L260,160 L120,360 L160,200 L100,200 Z" 
+        fill="#7FEDD4" opacity="0.8"/>
+  
+  <!-- Question Mark Building Blocks -->
+  <!-- Top Curve -->
+  <rect x="140" y="80" width="120" height="40" fill="#FF69B4"/>
+  <rect x="260" y="80" width="40" height="120" fill="#FF69B4"/>
+  <rect x="220" y="160" width="40" height="40" fill="#FF69B4"/>
+  
+  <!-- Middle Stem -->
+  <rect x="180" y="160" width="40" height="80" fill="#FF69B4"/>
+  
+  <!-- Bottom Dot -->
+  <rect x="180" y="280" width="40" height="40" fill="#FF69B4"/>
+  
+  <!-- Highlight Effects -->
+  <circle cx="160" cy="100" r="10" fill="white" opacity="0.5"/>
+  <circle cx="280" cy="180" r="8" fill="white" opacity="0.3"/>
+  
+  <!-- Outer Glow Effect -->
+  <circle cx="200" cy="200" r="195" 
+          stroke="#FF69B4" 
+          stroke-width="2" 
+          fill="none" 
+          opacity="0.5"/>
+  <circle cx="200" cy="200" r="198" 
+          stroke="#7FEDD4" 
+          stroke-width="2" 
+          fill="none" 
+          opacity="0.3"/>
+</svg>
