@@ -19,7 +19,6 @@ body {
 *::before,
 *::after {
     box-sizing: border-box;
-}
 
 .container {
     height: 100%;
@@ -62,11 +61,11 @@ body {
     display: flex;
     background-color: rgba(81, 76, 240, 0.893);
     max-height: 13vh;
-    padding: 1.5vh 1.5vh;
+    padding: 1vh 1vh;
     border-radius: 30px;
     margin: 0 auto;
-    /* border: dotted .7vw  rgb(248, 248, 57); */
-    border: double 11px hsl(0, 0%, 99%);
+    border: dotted .6vw rgb(248, 248, 57);
+    border: double 8px hsl(183, 100%, 67%);
     max-width: 90%; 
     height: auto;
 }
@@ -74,7 +73,7 @@ body {
 .button-div {
     display: flex;
     flex-wrap: wrap;
-    background-color: rgba(251, 255, 44, 0);
+    background-color: rgba(255, 90, 230, 0);
     min-height: 3vh;
     align-items: center;
     justify-content: center;
@@ -90,15 +89,14 @@ body {
     height: 6vmin;
     /* font-size: 1.75vmin;  */
     font-weight: bold;
-    font-size: 1.5em;
     text-align: center;
     justify-content: center;
     align-items: center;
-    background-color: #FFDD00; 
+    /* background-color: #FFDD00;  */
     /* border: 3px solid #FFAA00;  */
-    border-radius: 10px; 
+    border-radius: 30px; 
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-    color: #ff1212; 
+    color: #333; 
     cursor: pointer;
     padding: 2vh 30px;
     margin-bottom: 1vh;
@@ -108,13 +106,13 @@ body {
 
 #questionButton:hover,
 #answerButton:hover {
-    color: rgb(255, 255, 9);
+    color: rgb(68, 17, 251);
     /* background-color: white; */
     /* transition: margin-right 2.5s, color 4s; */
-    box-shadow: 0 10px hsl(147, 100%, 85%);
+    box-shadow: 0 10px #ff5757; 
     border-bottom: 3px;
     /* transform: translateY(2px); */
-    background: linear-gradient(145deg, #ff0000, #ff0f6f);
+    background: linear-gradient(145deg, #bebebe, #e0e0e0);
     /* padding: 5px; */
 
 }
@@ -219,12 +217,12 @@ body {
 .speechBubble {
     position: relative;
     background: #10347c;
-    border-radius:23%;
-    padding: 10vw;
+    border-radius: 30px;
+    padding: 20px;
     margin: 0 auto;
     margin-top: 2vh;
     max-width: 80vw;
-    min-height: 30vw;
+    min-height: 25vh;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -234,7 +232,7 @@ body {
     content: '';
     position: absolute;
     bottom: -20px;
-    left: 33%;  /* Default position for desktop */
+    left: 70px;  /* Default position for desktop */
     width: 0;
     height: 0;
     border-style: solid;
@@ -313,15 +311,12 @@ body {
     flex-flow: column wrap;
     font-family: "Korrina-normal", monospace;
     margin: auto;
-    margin-top: 5em;
-    color: white;
     /* margin-top: 1em; */
     /* margin-bottom:1em; */
     max-width: 80vw;
-    padding: 10vh;
-    padding-top: 5vh;
+    padding: 2vh;
     padding-bottom: 2vh;
-    font-size: 1.9vh;
+    font-size: 1.8vh;
 }
 
 #answerBox {

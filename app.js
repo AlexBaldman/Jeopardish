@@ -12,6 +12,53 @@ const questionFiles = [
     'questions/questions.csv'
 ];
 
+document.addEventListener('DOMContentLoaded', () => {
+    const titleImage = document.getElementById('titleImage');
+    const trebekImage = document.getElementById('trebekImage');
+    const trebekImages = [
+        'images/trebek/trebek-good-04.png',
+        'images/trebek/trebek-good-01.png',
+        'images/trebek/trebek-good-02.png',
+        'images/trebek/trebek-good-03.svg',
+        'images/trebek/trebek-good-05.png',
+        'images/trebek/trebek-other-retired.png',
+        'images/trebek/trebek-other-strapped.png',
+        'images/trebek/trebek-other-anime.png',
+        'images/trebek/trebek-original.png',
+        'images/trebek/trebek-original-w-sunglasses.svg',
+        'images/trebek/trebek-original-b&w.svg'
+    ];
+    let currentIndex = 0;
+
+    titleImage.addEventListener('click', (event) => {
+        const rect = titleImage.getBoundingClientRect();
+        const clickX = event.clientX - rect.left; // x position within the element
+        const width = rect.width;
+
+        if (clickX < width / 2) {
+            // Clicked on the left side
+            currentIndex = (currentIndex - 1 + trebekImages.length) % trebekImages.length;
+        } else {
+            // Clicked on the right side
+            currentIndex = (currentIndex + 1) % trebekImages.length;
+        }
+
+        trebekImage.src = trebekImages[currentIndex];
+    });
+});
+
+userInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        if (showingMessage || checkButton.dataset.correctAnswer === 'true') {
+            // If a message is being shown or the answer was correct, move to the next question
+            delete checkButton.dataset.correctAnswer;
+            getNewQuestion();
+        } else {
+            checkAnswer();
+        }
+    }
+});
+
 async function fetchFromAPI() {
     try {
         const response = await fetch(apiUrl);
@@ -87,8 +134,11 @@ function parseCSV(text) {
 }
 
 let currentQuestion = null; // Declare a variable to hold the current question
+let answerWasRevealed = false;
 
 async function getNewQuestion() {
+    showingMessage = false;
+    answerWasRevealed = false;  // Reset the flag for new question
     console.log('getNewQuestion called');
     try {
         // Try API first
@@ -201,11 +251,28 @@ const displayErrorJoke = () => {
 
 // Reveal or hide answer
 const showHideAnswer = () => {
-    answerBox.style.display = answerBox.style.display === "none" ? "flex" : "none";
+    if (answerBox.style.display === "none") {
+        // Reset score and streak since user needed to see the answer
+        currentStreak = 0;
+        currentScore = 0;
+        updateScoreBoard();
+        answerBox.style.display = "flex";
+        answerWasRevealed = true;  // Set flag when answer is revealed
+        showingMessage = true;
+    } else {
+        answerBox.style.display = "none";
+        showingMessage = false;
+    }
 };
 
-// Check answer function
+// check answer function
 const checkAnswer = () => {
+    if (answerWasRevealed) {
+        // If answer was revealed, automatically move to next question
+        getNewQuestion();
+        return;
+    }
+
     if (!answerBox.innerHTML.trim()) {
         // Allow moving to the next question without error if the user just got it wrong
         if (currentStreak === 0) {
@@ -240,10 +307,12 @@ const checkAnswer = () => {
             bestScore = currentScore;
         }
         displayCorrectAnswerMessage();
+        checkButton.dataset.correctAnswer = 'true';
     } else {
         currentStreak = 0;
         currentScore = 0;
-        displayIncorrectAnswerMessage(originalAnswer); // Use original answer here
+        displayIncorrectAnswerMessage(originalAnswer);
+        delete checkButton.dataset.correctAnswer;
     }
 
     updateScoreBoard();
@@ -251,24 +320,35 @@ const checkAnswer = () => {
     userInput.blur(); // Defocus the input box after submission
 };
 
-// Function to display correct answer message
+// correct answer message
 const displayCorrectAnswerMessage = () => {
     categoryBox.innerHTML = "";
     valueBox.innerHTML = "";
     questionBox.innerHTML = `Correctamundo and cowabunga, my friend! Your streak is now ${currentStreak}. Keep it going, sir or lady or other person!!`;
     answerBox.style.display = "flex";
     answerBox.innerHTML = "";
+    showingMessage = true;
 };
 
-// Function to display incorrect answer message
+// incorrect answer message
 const displayIncorrectAnswerMessage = (correctAnswer) => {
-    // Display the correct answer without overwriting the question
     questionBox.innerHTML = `Incorrect, you fool! Your streak is now reset! Try again, sir or lady or other person!!`;
-    answerBox.innerHTML = `The correct answer was: ${correctAnswer}`; // Show the correct answer
+    answerBox.innerHTML = `The correct answer was: ${correctAnswer}`;
     answerBox.style.display = "flex";
+    showingMessage = true;
 };
 
-// Function to clean up and standardize answers for comparison
+// display snarky message
+function displaySnarkyMessage() {
+    categoryBox.innerHTML = "";
+    valueBox.innerHTML = "";
+    questionBox.innerHTML = "Nice try! But you can't just copy the answer and expect to get points. Better luck next time!";
+    answerBox.style.display = "flex";
+    answerBox.innerHTML = "";
+    showingMessage = true;
+}
+
+// clean up and standardize answers for comparison
 const cleanAnswer = (answer) => {
     return answer.toLowerCase()
         .replace(/^(what|who|where|when) (is|are|was|were) /i, '')
@@ -310,7 +390,6 @@ const getLevenshteinDistance = (a, b) => {
     }
     return matrix[b.length][a.length];
 };
-
 // Update scoreboard
 function updateScoreBoard() {
     const currentScoreElement = document.getElementById('currentScore');
@@ -337,7 +416,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     userInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
-            checkAnswer();
+            if (checkButton.dataset.correctAnswer === 'true') {
+                delete checkButton.dataset.correctAnswer;
+                getNewQuestion();
+            } else {
+                checkAnswer();
+            }
         }
     });
     
@@ -462,3 +546,6 @@ function toggleSlide() {
     const character = document.getElementById('trebek');
     character.classList.toggle('slide-in-left');
 }
+
+let showingMessage = false;
+

@@ -3,8 +3,19 @@
   <circle cx="200" cy="200" r="190" fill="#2D3436"/>
   
   <!-- Lightning Bolt Background -->
-  <path d="M160,40 L240,40 L200,160 L260,160 L120,360 L160,200 L100,200 Z" 
-        fill="#7FEDD4" opacity="0.8"/>
+  <path d="M160,40 L240,40 L200,160 L260,160 L120,360 L160,200 L80,200 Z" 
+        fill="#7FEDD4" opacity="0.8"
+        stroke="#FFFF00" stroke-width="20px"
+/>
+
+
+        <!-- Centered, Larger Lightning Bolt -->
+  <!-- <path d="M120,20 L280,20 L220,140 L320,140 L80,420 L180,180 L40,180 Z" 
+        fill="#FFFF00" 
+        opacity="0.9"
+        stroke="#FFFF00"
+        stroke-width="12"
+        filter="url(#neon)"/> -->
   
   <!-- Question Mark Building Blocks -->
   <!-- Top Curve -->
