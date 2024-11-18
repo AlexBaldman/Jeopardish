@@ -206,7 +206,6 @@ async function getNewQuestion() {
         displayErrorJoke();
     }
 }
-
 // Error messages
 const jeopardyErrors = [
     {
@@ -549,3 +548,4 @@ function toggleSlide() {
     const character = document.getElementById('trebek');
     character.classList.toggle('slide-in-left');
 }
+
