@@ -193,15 +193,15 @@ body {
 
 /* blinking cursor */
 .cursor {
-    position: absolute; /* Position absolute to place inside input */
+    /* position: absolute; */
     background-color: #00ff00; /* Cursor color */
     width: 15px; /* Wider cursor */
     height: 1.2em; /* Height of the cursor */
     animation: blink 1s step-end infinite; /* Blinking animation */
-    /* left: 0; Start at the left of the input */
     top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Adjust for vertical centering */
+    transform: translateY(-50%); 
     display: none; /* Initially hidden */
+    left: 0;
 }
 
 @keyframes blink {
@@ -213,9 +213,8 @@ body {
     }
 }
 
-/* =================
-   Speech Bubble Base
-   ================= */
+
+/* SPEECH BUBBLE  */
 .speechBubble {
     position: relative;
     background: #10347c;
@@ -228,8 +227,7 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-/* Speech Bubble Arrow
-   ------------------ */
+/* SPEECH BUBBLE POINTER */
 .speechBubble::before {
     content: '';
     position: absolute;
@@ -244,62 +242,19 @@ body {
     z-index: 10;  /* Ensure arrow stays above other elements */
 }
 
-/* =================
-   Media Queries
-   ================= */
-/* Tablet and smaller desktop screens */
-@media screen and (max-width: 1024px) {
-    .speechBubble {
-        max-width: 85vw;
-        min-height: 20vh;
-    }
-}
-
-/* Mobile devices */
-@media screen and (max-width: 770px) {
-    .speechBubble {
-        max-width: 90vw;
-        min-height: 15vh;
-        margin-top: 1vh;
-    }
-
-    /* Center the arrow for mobile views */
-    .speechBubble::before {
-        left: 50%;
-        transform: translateX(-10px);  /* Offset by half the arrow width */
-    }
-}
-
-/* Very small devices */
-@media screen and (max-width: 480px) {
-    .speechBubble {
-        padding: 15px;
-        min-height: 12vh;
-    }
-}
-
-/* Handle landscape orientation */
-@media (orientation: landscape) and (max-height: 600px) {
-    .speechBubble {
-        min-height: 30vh;  /* Taller in landscape to accommodate content */
-    }
-}
-
 #categoryBox {
     color: rgb(255, 166, 234);
     flex-flow: row wrap;
-    padding: .5vmin 1vmin;
+    padding: 10px;
     max-width: 70vw;
-    /* margin-top: 2vh; */
-    margin: 1vmin auto;
-    font-size: 1.2rem;
+    margin: auto;
+    font-size: 1.2em;
     text-shadow: 1vh white;
     font-family: "Press Start 2P", "Korrina-normal", sans-serif;
-    /* margin-bottom: 2vh; */
 }
 
 #valueBox {
-    color: rgb(237, 255, 146);
+    color: rgb(135, 255, 135);
     flex-flow: row wrap;
     font-family: "Korrina-normal", "Press Start 2P";
     font-weight: 100;
@@ -313,13 +268,9 @@ body {
     flex-flow: column wrap;
     font-family: "Korrina-normal", monospace;
     margin: auto;
-    margin-top: 5em;
+    margin-top: 2em;
     color: white;
-    /* margin-top: 1em; */
-    /* margin-bottom:1em; */
     max-width: 80vw;
-    padding: 10vh;
-    padding-top: 5vh;
     padding-bottom: 2vh;
     font-size: 1.9vh;
 }
@@ -358,8 +309,6 @@ body {
 .trebek::before {
     content: '😎';
     position: absolute;
-    /* font-size: 5vw; */
-    /* top: 10%; */
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -528,6 +477,7 @@ body {
     color: #bbb;
 }
 
+
 @media (max-width: 768px) {
     .speechBubble:after {
         content: none; 
@@ -558,16 +508,14 @@ body {
 
     #questionButton,
     #answerButton {
-        /* width: 45%; */
-        /* width: 35vw; */
         margin-bottom: 10px;
-        padding: 1vh;
+        padding: 1.5vh;
         /* font-size: 2.6vmin; */
     }
 
     #checkButton {
-        width: 50%;
-        font-size: 1.8vh;
+        width: 40%;
+        font-size: 1.6vh;
         margin: 0 auto;        
     }
 
@@ -617,6 +565,46 @@ body {
     
 }
 
+
+/* =================
+   Media Queries
+   ================= */
+/* Tablet and smaller desktop screens */
+@media screen and (max-width: 1024px) {
+    .speechBubble {
+        max-width: 85vw;
+        min-height: 20vh;
+    }
+}
+
+/* Mobile devices */
+@media screen and (max-width: 770px) {
+    .speechBubble {
+        max-width: 90vw;
+        min-height: 15vh;
+        margin-top: 1vh;
+    }
+
+    /* Center the arrow for mobile views */
+    .speechBubble::before {
+        left: 50%;
+        transform: translateX(-10px);  /* Offset by half the arrow width */
+    }
+}
+/* Very small devices */
+@media screen and (max-width: 480px) {
+    .speechBubble {
+        padding: 15px;
+        min-height: 12vh;
+    }
+}
+
+/* Handle landscape orientation */
+@media (orientation: landscape) and (max-height: 600px) {
+    .speechBubble {
+        min-height: 30vh;  /* Taller in landscape to accommodate content */
+    }
+}
 
 
 

@@ -6,11 +6,42 @@ let questions = [];
 let currentQuestionIndex = 0;
 const CHUNK_SIZE = 500; // Number of questions to load at a time
 let allQuestions = []; // New array to store all loaded questions
+let showingMessage = false; // Flag to note whether message currently being shown or not
 
+// Local questions loading
 const questionFiles = [
     'questions/questions.json', 
     'questions/questions.csv'
 ];
+
+// Create buttons for basic functionality & user interaction
+const checkButton = document.getElementById('checkButton');
+const answerButton = document.getElementById('answerButton');
+const questionButton = document.getElementById('questionButton');
+
+// Create userInput box for entering answer
+const userInput = document.getElementById('inputBox');
+
+// Use separate boxes to distribute data within word-bubble
+const categoryBox = document.getElementById('categoryBox');
+const questionBox = document.getElementById('questionBox');
+const answerBox = document.getElementById('answerBox');
+const valueBox = document.getElementById('valueBox');
+
+// Initialize variables to store data to display
+let currentStreak = 0;
+let bestStreak = 0;
+let currentScore = 0;
+let bestScore = 0;
+
+// Introduce the game via console
+console.log(`Welcome to Jeopardish!!!`);
+console.log(`Click the "new question" button to get a random Jeopardy-style question & test your knowledge.`);
+console.log(`Multiple correct answers in a row will start a streak...`);
+console.log(`...but get one wrong & the streak will reset.`);
+console.log("Let's see how many correct answers you can string together! ");
+console.log(`Streak is currently at ` + currentStreak);
+console.log("HAVE FUN YA MANIAC!");
 
 document.addEventListener('DOMContentLoaded', () => {
     const titleImage = document.getElementById('titleImage');
@@ -30,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let currentIndex = 0;
 
+
+    // add ability to toggle Trebek image with left/right side of title image
     titleImage.addEventListener('click', (event) => {
         const rect = titleImage.getBoundingClientRect();
         const clickX = event.clientX - rect.left; // x position within the element
@@ -49,9 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 userInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
-        if (showingMessage || checkButton.dataset.correctAnswer === 'true') {
-            // If a message is being shown or the answer was correct, move to the next question
-            delete checkButton.dataset.correctAnswer;
+        if (showingMessage) {
+            showingMessage = false; // Reset showingMessage after message is displayed
             getNewQuestion();
         } else {
             checkAnswer();
@@ -174,35 +206,6 @@ async function getNewQuestion() {
         displayErrorJoke();
     }
 }
-
-// Create buttons for basic functionality & user interaction
-const checkButton = document.getElementById('checkButton');
-const answerButton = document.getElementById('answerButton');
-const questionButton = document.getElementById('questionButton');
-
-// Create userInput box for entering answer
-const userInput = document.getElementById('inputBox');
-
-// Use separate boxes to distribute data within word-bubble
-const categoryBox = document.getElementById('categoryBox');
-const questionBox = document.getElementById('questionBox');
-const answerBox = document.getElementById('answerBox');
-const valueBox = document.getElementById('valueBox');
-
-// Initialize variables to store data to display
-let currentStreak = 0;
-let bestStreak = 0;
-let currentScore = 0;
-let bestScore = 0;
-
-// Introduce the game via console
-console.log(`Welcome to Jeopardish!!!`);
-console.log(`Click the "new question" button to get a random Jeopardy-style question & test your knowledge.`);
-console.log(`Multiple correct answers in a row will start a streak...`);
-console.log(`...but get one wrong & the streak will reset.`);
-console.log("Let's see how many correct answers you can string together! ");
-console.log(`Streak is currently at ` + currentStreak);
-console.log("HAVE FUN YA MANIAC!");
 
 // Error messages
 const jeopardyErrors = [
@@ -327,7 +330,7 @@ const displayCorrectAnswerMessage = () => {
     questionBox.innerHTML = `Correctamundo and cowabunga, my friend! Your streak is now ${currentStreak}. Keep it going, sir or lady or other person!!`;
     answerBox.style.display = "flex";
     answerBox.innerHTML = "";
-    showingMessage = true;
+    showingMessage = true; //Added this line
 };
 
 // incorrect answer message
@@ -335,7 +338,7 @@ const displayIncorrectAnswerMessage = (correctAnswer) => {
     questionBox.innerHTML = `Incorrect, you fool! Your streak is now reset! Try again, sir or lady or other person!!`;
     answerBox.innerHTML = `The correct answer was: ${correctAnswer}`;
     answerBox.style.display = "flex";
-    showingMessage = true;
+    showingMessage = true; //Added this line
 };
 
 // display snarky message
@@ -413,10 +416,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     answerButton.addEventListener('click', showHideAnswer);
     questionButton.addEventListener('click', getNewQuestion);
     checkButton.addEventListener('click', checkAnswer);
-    
+
+    // Remove the nested DOMContentLoaded and move this code up
     userInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
-            if (checkButton.dataset.correctAnswer === 'true') {
+            if (showingMessage || checkButton.dataset.correctAnswer === 'true') {
+                // If a message is being shown or the answer was correct, move to the next question
                 delete checkButton.dataset.correctAnswer;
                 getNewQuestion();
             } else {
@@ -424,11 +429,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     });
-    
-    // In order to populate with a question on page load, uncomment out below:
-    // await getNewQuestion(); 
 
     updateScoreBoard(); // Initialize the scoreboard
+    answerBox.style.display = 'none'; //Added this line
 });
 
 function normalizeQuestionData(question) {
@@ -546,6 +549,3 @@ function toggleSlide() {
     const character = document.getElementById('trebek');
     character.classList.toggle('slide-in-left');
 }
-
-let showingMessage = false;
-
