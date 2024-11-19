@@ -1,9 +1,3 @@
-// Initialize game state variables
-let currentScore = 0;
-let bestScore = 0;
-let currentStreak = 0;
-let bestStreak = 0;
-
 // API url to fetch data for random question
 const apiUrl = 'https://cluebase.lukelav.in/clues/random';
 
@@ -33,6 +27,12 @@ const categoryBox = document.getElementById('categoryBox');
 const questionBox = document.getElementById('questionBox');
 const answerBox = document.getElementById('answerBox');
 const valueBox = document.getElementById('valueBox');
+
+// Initialize variables to store data to display
+let currentStreak = 0;
+let bestStreak = 0;
+let currentScore = 0;
+let bestScore = 0;
 
 // Introduce the game via console
 console.log(`Welcome to Jeopardish!!!`);
@@ -207,7 +207,7 @@ async function getNewQuestion() {
     userInput.value = '';
     
     try {
-        // Local question handling
+        // Local questions handling
         if (questions.length === 0 || currentQuestionIndex >= questions.length) {
             console.log('📥 Need to load more local questions...');
             const localQuestionsLoaded = await loadLocalQuestions();
@@ -312,32 +312,17 @@ const checkAnswer = () => {
         return;
     }
 
-    // Get the correct answer
+    // Rest of answer checking logic...
     const originalAnswer = answerBox.innerHTML.trim();
     const correctAnswer = cleanAnswer(originalAnswer);
     const isCorrect = compareAnswers(userAnswerCleaned, correctAnswer);
     
     if (isCorrect) {
-        // Update streak
         currentStreak++;
-        bestStreak = Math.max(bestStreak, currentStreak);
-        
-        // Get question value
-        let questionValue = 200; // Default value
-        if (currentQuestion && currentQuestion.value) {
-            // Try to parse the value, removing any non-numeric characters
-            const parsedValue = parseInt(currentQuestion.value.toString().replace(/[^0-9]/g, ''));
-            if (!isNaN(parsedValue)) {
-                questionValue = parsedValue;
-            }
-        }
-        console.log('Question value:', questionValue);
-        
-        // Update scores
+        const questionValue = parseInt(currentQuestion.value.toString().replace(/\D/g, ''), 10) || 200;
         currentScore += questionValue;
+        bestStreak = Math.max(bestStreak, currentStreak);
         bestScore = Math.max(bestScore, currentScore);
-        console.log('Scores updated:', { currentScore, bestScore });
-        
         displayCorrectAnswerMessage();
     } else {
         currentStreak = 0;
@@ -345,9 +330,9 @@ const checkAnswer = () => {
         displayIncorrectAnswerMessage(originalAnswer);
     }
 
-    // Update UI
     updateScoreBoard();
     userInput.value = '';
+    // userInput.blur();
     showingMessage = true;
 };
 
@@ -424,52 +409,55 @@ const getLevenshteinDistance = (a, b) => {
     }
     return matrix[b.length][a.length];
 };
-
 // Update scoreboard
 function updateScoreBoard() {
-    console.log('Updating scoreboard:', {
-        currentScore,
-        bestScore,
-        currentStreak,
-        bestStreak
+    const currentScoreElement = document.getElementById('currentScore');
+    const bestScoreElement = document.getElementById('bestScore');
+    const currentStreakElement = document.getElementById('currentStreak');
+    const bestStreakElement = document.getElementById('bestStreak');
+
+    if (currentStreakElement) currentStreakElement.textContent = `streak: ${currentStreak}`;
+    if (bestStreakElement) bestStreakElement.textContent = `best streak: ${bestStreak}`;
+    if (currentScoreElement) currentScoreElement.textContent = `score: $${currentScore}`;
+    if (bestScoreElement) bestScoreElement.textContent = `top score: $${bestScore}`;
+
+    console.log(`Scoreboard updated - Current Score: $${currentScore}, Best Score: $${bestScore}, Current Streak: ${currentStreak}, Best Streak: ${bestStreak}`);
+}
+
+// Wrap event listeners and initial question load in DOMContentLoaded event
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM fully loaded and parsed');
+    
+    // Attach event listeners
+    answerButton.addEventListener('click', showHideAnswer);
+    questionButton.addEventListener('click', getNewQuestion);
+    checkButton.addEventListener('click', checkAnswer);
+
+    // Fix the Enter key behavior
+    userInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            
+            if (!currentQuestion) {
+                getNewQuestion();
+                return;
+            }
+            
+            if (showingMessage || answerWasRevealed) {
+                getNewQuestion();
+                return;
+            }
+            
+            if (userInput.value.trim()) {
+                checkAnswer();
+            }
+        }
     });
 
-    // Ensure all values are numbers and not negative
-    currentScore = Math.max(0, Number(currentScore) || 0);
-    bestScore = Math.max(0, Number(bestScore) || 0);
-    currentStreak = Math.max(0, Number(currentStreak) || 0);
-    bestStreak = Math.max(0, Number(bestStreak) || 0);
-
-    // Update the score values
-    const currentScoreValue = document.querySelector('#currentScore .score-value');
-    const bestScoreValue = document.querySelector('#bestScore .score-value');
-    const currentStreakValue = document.querySelector('#currentStreak .score-value');
-    const bestStreakValue = document.querySelector('#bestStreak .score-value');
-
-    if (currentScoreValue) {
-        currentScoreValue.textContent = `$${currentScore}`;
-        currentScoreValue.classList.remove('pulse-animation');
-        void currentScoreValue.offsetWidth; // Trigger reflow
-        currentScoreValue.classList.add('pulse-animation');
-    }
-
-    if (bestScoreValue) {
-        bestScoreValue.textContent = `$${bestScore}`;
-    }
-
-    if (currentStreakValue) {
-        currentStreakValue.textContent = currentStreak;
-        if (currentStreak > 0) {
-            currentStreakValue.classList.remove('pulse-animation');
-            void currentStreakValue.offsetWidth; // Trigger reflow
-            currentStreakValue.classList.add('pulse-animation');
-        }
-    }
-
-    if (bestStreakValue) {
-        bestStreakValue.textContent = bestStreak;
-    }
-}
+    // Initialize the game
+    updateScoreBoard();
+    answerBox.style.display = 'none';
+});
 
 function normalizeQuestionData(question) {
     return {
@@ -513,35 +501,18 @@ function displayQuestion(question) {
         // Remove leading and trailing quotes
         questionText = questionText.replace(/^['"]|['"]$/g, '');
 
-        // Handle both direct image URLs and links containing images
-        const imgRegex = /<img[^>]+src="([^">]+)"[^>]*>/gi;
+        // Replace links with text AND embedded images
         const linkRegex = /<a\s+(?:[^>]*?\s+)?href="([^"]*)"[^>]*>(.*?)<\/a>/gi;
         
-        // First, handle direct image tags
-        questionText = questionText.replace(imgRegex, (match, src) => {
-            return `<img src="${src}" alt="Question Image" class="embedded-image" onerror="this.style.display='none';">`;
-        });
-
-        // Then handle links that should be converted to images
         questionText = questionText.replace(linkRegex, (match, url, text) => {
-            // Check if URL ends with an image extension
-            const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
-            if (isImage) {
-                return `${text} <br><img src="${url}" alt="Question Image" class="embedded-image" onerror="this.style.display='none';">`;
-            }
-            return `<a href="${url}" target="_blank">${text}</a>`;
+            return `${text} <br><img src="${url}" alt="Question Image" class="embedded-image" onerror="this.onerror=null; this.alt='Image failed to load'; this.style.display='none';">`;
         });
 
         questionBox.innerHTML = questionText;
 
-        // Add click event listeners to embedded images
+        // Add click event listeners to embedded images for enlargement
         const embeddedImages = questionBox.querySelectorAll('.embedded-image');
         embeddedImages.forEach(img => {
-            img.addEventListener('load', () => {
-                img.style.display = 'block'; // Show image once loaded
-                console.log('✅ Image loaded successfully:', img.src);
-            });
-            
             img.addEventListener('click', () => {
                 showEnlargedImage(img.src);
             });
@@ -558,41 +529,22 @@ function displayQuestion(question) {
 function showEnlargedImage(url) {
     const modal = document.createElement('div');
     modal.className = 'image-modal';
-    
-    const content = document.createElement('div');
-    content.className = 'modal-content';
-    
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = 'Enlarged Image';
-    img.className = 'enlarged-image';
-    
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'close-button';
-    closeBtn.innerHTML = '&times;';
-    
-    content.appendChild(img);
-    content.appendChild(closeBtn);
-    modal.appendChild(content);
+    modal.innerHTML = `
+        <div class="modal-content">
+            <img src="${url}" alt="Enlarged Image" class="enlarged-image">
+            <button class="close-button">&times;</button>
+        </div>
+    `;
+
     document.body.appendChild(modal);
 
-    // Close modal on button click
-    closeBtn.addEventListener('click', () => {
+    modal.querySelector('.close-button').addEventListener('click', () => {
         document.body.removeChild(modal);
     });
 
-    // Close modal on background click
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             document.body.removeChild(modal);
-        }
-    });
-
-    // Close modal on escape key
-    document.addEventListener('keydown', function closeOnEscape(e) {
-        if (e.key === 'Escape') {
-            document.body.removeChild(modal);
-            document.removeEventListener('keydown', closeOnEscape);
         }
     });
 }
@@ -609,7 +561,7 @@ function updateCursorPosition() {
     const span = document.createElement('span');
     span.style.font = window.getComputedStyle(inputBox).font;
     span.style.visibility = 'hidden';
-    span.textContent = text || '';
+    span.textContent = text;
     document.body.appendChild(span);
     
     // Calculate cursor position
@@ -625,54 +577,19 @@ function updateCursorPosition() {
     `;
 }
 
+// Update cursor position on various events
+inputBox.addEventListener('input', updateCursorPosition);
+inputBox.addEventListener('click', updateCursorPosition);
+inputBox.addEventListener('keydown', () => setTimeout(updateCursorPosition, 0));
+inputBox.addEventListener('select', updateCursorPosition);
+
+// Initial position
+updateCursorPosition();
+window.visualViewport.onresize = function() {
+    document.body.style.height = `${window.visualViewport.height}px`;
+};
+
 function toggleSlide() {
     const character = document.getElementById('trebek');
     character.classList.toggle('slide-in-left');
 }
-
-// // Update cursor position on various events
-// inputBox.addEventListener('input', updateCursorPosition);
-// inputBox.addEventListener('click', updateCursorPosition);
-// inputBox.addEventListener('keydown', () => setTimeout(updateCursorPosition, 0));
-// inputBox.addEventListener('select', updateCursorPosition);
-
-// // Initial position
-// updateCursorPosition();
-// window.visualViewport.onresize = function() {
-//     document.body.style.height = `${window.visualViewport.height}px`;
-// };
-
-// Wrap event listeners and initial question load in DOMContentLoaded event
-document.addEventListener('DOMContentLoaded', async () => {
-    console.log('DOM fully loaded and parsed');
-    
-    // Attach event listeners
-    answerButton.addEventListener('click', showHideAnswer);
-    questionButton.addEventListener('click', getNewQuestion);
-    checkButton.addEventListener('click', checkAnswer);
-
-    // Enter key behavior
-    userInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            
-            if (!currentQuestion) {
-                getNewQuestion();
-                return;
-            }
-            
-            if (showingMessage || answerWasRevealed) {
-                getNewQuestion();
-                return;
-            }
-            
-            if (userInput.value.trim()) {
-                checkAnswer();
-            }
-        }
-    });
-
-    // Initialize the game
-    updateScoreBoard();
-    answerBox.style.display = 'none';
-});

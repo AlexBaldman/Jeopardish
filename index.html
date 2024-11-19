@@ -84,10 +84,10 @@
 
         <!-- user input -->
         <div class="input-div">
-            <input id="inputBox" type="text" placeholder="enter answer here..." aria-label="answer input box"/>
-            <!-- cursor element -->
-            <span class="cursor"></span> 
-            
+            <div class="input-wrapper">
+                <input type="text" id="inputBox" placeholder="enter answer here...">
+                <div class="custom-cursor"></div>
+            </div>
         </div>
         <button id="checkButton" aria-label="check answer button">
             check answer
@@ -143,10 +143,22 @@
 
         <!-- scoreboard -->
         <div id="scoreboard">
-            <div id="currentScore" class="scoreboard-text" aria-label="score">score: $0</div>
-            <div id="bestScore" class="scoreboard-text" aria-label="top score">top score: $0</div>
-            <div id="currentStreak" class="scoreboard-text" aria-label="streak">streak: 0</div>
-            <div id="bestStreak" class="scoreboard-text" aria-label="top streak">top streak: 0</div>
+            <div id="currentScore" class="scoreboard-text">
+                <span class="score-label">SCORE</span>
+                <span class="score-value">$0</span>
+            </div>
+            <div id="bestScore" class="scoreboard-text">
+                <span class="score-label">BEST</span>
+                <span class="score-value">$0</span>
+            </div>
+            <div id="currentStreak" class="scoreboard-text">
+                <span class="score-label">STREAK</span>
+                <span class="score-value">0</span>
+            </div>
+            <div id="bestStreak" class="scoreboard-text">
+                <span class="score-label">MAX STREAK</span>
+                <span class="score-value">0</span>
+            </div>
         </div>
 
     </div>
