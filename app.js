@@ -10,8 +10,8 @@ let showingMessage = false; // Flag to note whether message currently being show
 
 // Local questions loading
 const questionFiles = [
-    'questions/questions.json', 
-    'questions/questions.csv'
+    'questions/questions.json' 
+    // 'questions/questions.csv'
 ];
 
 // Create buttons for basic functionality & user interaction
@@ -43,6 +43,7 @@ console.log("Let's see how many correct answers you can string together! ");
 console.log(`Streak is currently at ` + currentStreak);
 console.log("HAVE FUN YA MANIAC!");
 
+// GRABBING TREBEK IMAGES 
 document.addEventListener('DOMContentLoaded', () => {
     const titleImage = document.getElementById('titleImage');
     const trebekImage = document.getElementById('trebekImage');
@@ -80,41 +81,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-userInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        if (showingMessage) {
-            showingMessage = false; // Reset showingMessage after message is displayed
-            getNewQuestion();
-        } else {
-            checkAnswer();
-        }
-    }
-});
+// USE ENTER KEY TO SUBMIT ANSWER
+
+// userInput.addEventListener("keydown", (event) => {
+//     if (event.key === "Enter") {
+//         if (showingMessage) {
+//             // If a message is being shown, move to the next question
+//             delete checkButton.dataset.correctAnswer; // Clear any correct answer flag
+//             // getNewQuestion(); // Load a new question
+//         } else {
+//             checkAnswer(); // Check the answer if no message is being shown
+//             userInput.value = ''; // Clear the input field after checking the answer
+//             userInput.blur(); // Optionally remove focus from the input field
+//         }
+//     }
+// });
 
 async function fetchFromAPI() {
+    console.log('🌐 Attempting to fetch question from API...');
     try {
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
+        console.log('✅ API fetch successful:', data);
         return data;
     } catch (error) {
-        console.error("API Error:", error.message);
-        console.log("🎭 Looks like our API is taking an unscheduled intermission. Don't worry, we've got some local talent waiting in the wings!");
+        console.error("❌ API Error:", error.message);
+        console.log("🎭 Falling back to local questions...");
         return null;
     }
 }
 
 async function loadLocalQuestions() {
+    console.log('📚 Starting local questions load...');
     if (allQuestions.length === 0) {
         for (const file of questionFiles) {
             try {
-                console.log(`Attempting to load ${file}...`);
+                console.log(`📂 Loading ${file}...`);
                 const response = await fetch(file);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const fileExtension = file.split('.').pop().toLowerCase();
                 let data;
+                
+                console.log(`🔍 Processing ${fileExtension} file...`);
                 if (fileExtension === 'json') {
                     data = await response.json();
                 } else if (fileExtension === 'csv') {
@@ -123,10 +134,10 @@ async function loadLocalQuestions() {
                 } else {
                     throw new Error(`Unsupported file type: ${fileExtension}`);
                 }
-                console.log(`Successfully loaded ${data.length} questions from ${file}`);
+                console.log(`✅ Loaded ${data.length} questions from ${file}`);
                 allQuestions = allQuestions.concat(data);
             } catch (error) {
-                console.error(`Error loading ${file}:`, error.message);
+                console.error(`❌ Error loading ${file}:`, error.message);
                 console.error('Full error:', error);
             }
         }
@@ -137,11 +148,11 @@ async function loadLocalQuestions() {
         console.log(`📘 Loaded ${allQuestions.length} questions from local files.`);
     }
 
-    // Shuffle all questions and select a new chunk
+    console.log('🎲 Shuffling questions...');
     shuffleArray(allQuestions);
     questions = allQuestions.slice(0, CHUNK_SIZE);
     currentQuestionIndex = 0;
-    console.log(`📘 Prepared ${questions.length} random questions for use.`);
+    console.log(`✅ Prepared ${questions.length} random questions for use`);
     return true;
 }
 
@@ -165,44 +176,39 @@ function parseCSV(text) {
     });
 }
 
-let currentQuestion = null; // Declare a variable to hold the current question
+let currentQuestion = null; // variable to hold current question
 let answerWasRevealed = false;
 
 async function getNewQuestion() {
+    console.log('🎯 getNewQuestion called');
+    
+    // Reset all state flags
     showingMessage = false;
-    answerWasRevealed = false;  // Reset the flag for new question
-    console.log('getNewQuestion called');
+    answerWasRevealed = false;
+    userInput.value = '';
+    
     try {
-        // Try API first
-        const apiQuestion = await fetchFromAPI();
-        if (apiQuestion) {
-            console.log('API question received:', apiQuestion);
-            currentQuestion = normalizeQuestionData(apiQuestion); // Store the current question
-            displayQuestion(currentQuestion);
-            return;
-        }
-
-        // If API fails, use local questions
+        // Local questions handling
         if (questions.length === 0 || currentQuestionIndex >= questions.length) {
-            console.log('Loading local questions');
+            console.log('📥 Need to load more local questions...');
             const localQuestionsLoaded = await loadLocalQuestions();
             if (!localQuestionsLoaded) {
-                console.log('Failed to load local questions');
+                console.error('❌ Failed to load local questions');
                 displayErrorJoke();
                 return;
             }
         }
 
-        if (questions.length === 0) {
-            throw new Error("No questions available");
-        }
-
         currentQuestion = questions[currentQuestionIndex];
         currentQuestionIndex++;
-        console.log('Local question selected:', currentQuestion);
-        displayQuestion(normalizeQuestionData(currentQuestion));
+        
+        const normalizedQuestion = normalizeQuestionData(currentQuestion);
+        displayQuestion(normalizedQuestion);
+        
+        // Ensure answer is hidden when loading new question
+        answerBox.style.display = 'none';
     } catch (error) {
-        console.error("Failed to get new question:", error);
+        console.error("❌ Failed to get new question:", error);
         displayErrorJoke();
     }
 }
@@ -251,75 +257,138 @@ const displayErrorJoke = () => {
     answerBox.style.display = 'block';
 };
 
-// Reveal or hide answer
+
+// SHOW OR HIDE ANSWER
 const showHideAnswer = () => {
     if (answerBox.style.display === "none") {
-        // Reset score and streak since user needed to see the answer
-        currentStreak = 0;
-        currentScore = 0;
-        updateScoreBoard();
         answerBox.style.display = "flex";
         answerWasRevealed = true;  // Set flag when answer is revealed
-        showingMessage = true;
+        // showingMessage = true; // Set flag to indicate a message is being shown
     } else {
         answerBox.style.display = "none";
-        showingMessage = false;
+        // showingMessage = false; // Reset flag when answer is hidden
     }
 };
 
+
+// Reveal or hide answer
+// const showHideAnswer = () => {
+//     if (answerBox.style.display === "none") {
+//         currentStreak = 0;
+//         currentScore = 0;
+//         updateScoreBoard();
+//         answerBox.style.display = "flex";
+//         answerWasRevealed = true;  // Set flag when answer is revealed
+//         showingMessage = true;
+//     } else {
+//         answerBox.style.display = "none";
+//         showingMessage = false;
+//     }
+// };
+
 // check answer function
+// const checkAnswer = () => {
+//     // Prevent checking answer while showing a message
+//     // if (showingMessage) return;
+    
+//     if (answerWasRevealed) {
+//         // getNewQuestion();
+//         return;
+//     }
+
+//     if (!answerBox.innerHTML.trim()) {
+//         // Allow moving to the next question without error if the user just got it wrong
+//         if (currentStreak === 0) {
+//             // getNewQuestion(); // Automatically get a new question if the streak is reset
+//             return;
+//         }
+//         displayErrorMessage('No answer available. Has a question been loaded?');
+//         return;
+//     }
+
+//     let originalAnswer = answerBox.innerHTML.trim();
+//     let correctAnswer = cleanAnswer(originalAnswer);
+//     let userAnswerCleaned = cleanAnswer(userInput.value);
+
+//     if (!userAnswerCleaned) {
+//         // Allow moving to the next question without error if the user just got it wrong
+//         if (currentStreak === 0) {
+//             getNewQuestion(); // Automatically get a new question if the streak is reset
+//             return;
+//         }
+//         displayErrorMessage('User input is empty');
+//         return;
+//     }
+
+//     // Check if the user's answer matches the correct answer
+//     if (compareAnswers(userAnswerCleaned, correctAnswer)) {
+//         // Correct answer logic
+//         currentStreak++;
+//         currentScore += parseInt(currentQuestion.value.replace('$', ''), 10);
+//         if (currentStreak > bestStreak) {
+//             bestStreak = currentStreak;
+//         }
+//         if (currentScore > bestScore) {
+//             bestScore = currentScore;
+//         }
+//         displayCorrectAnswerMessage();
+//     } else {
+//         // Incorrect answer logic
+//         currentStreak = 0;
+//         currentScore = 0;
+//         displayIncorrectAnswerMessage(originalAnswer);
+//     }
+
+//     updateScoreBoard();
+//     userInput.value = '';
+//     userInput.blur();
+// };
+
 const checkAnswer = () => {
-    if (answerWasRevealed) {
-        // If answer was revealed, automatically move to next question
+    console.log('🎯 checkAnswer called');
+    
+    // Guard clauses with proper state handling
+    if (!currentQuestion) {
+        console.log('❌ No active question');
+        displayErrorMessage('No question loaded. Click "New Question" to start!');
+        return;
+    }
+
+    if (answerWasRevealed || showingMessage) {
+        console.log('⏭️ Moving to next question');
         getNewQuestion();
         return;
     }
 
-    if (!answerBox.innerHTML.trim()) {
-        // Allow moving to the next question without error if the user just got it wrong
-        if (currentStreak === 0) {
-            getNewQuestion(); // Automatically get a new question if the streak is reset
-            return;
-        }
-        displayErrorMessage('No answer available. Has a question been loaded?');
-        return;
-    }
-
-    let originalAnswer = answerBox.innerHTML.trim();
-    let correctAnswer = cleanAnswer(originalAnswer);
-    let userAnswerCleaned = cleanAnswer(userInput.value);
-
+    const userAnswerCleaned = cleanAnswer(userInput.value);
     if (!userAnswerCleaned) {
-        // Allow moving to the next question without error if the user just got it wrong
-        if (currentStreak === 0) {
-            getNewQuestion(); // Automatically get a new question if the streak is reset
-            return;
-        }
-        displayErrorMessage('User input is empty');
+        console.log('❌ Empty user input');
+        displayErrorMessage('Please enter an answer!');
         return;
     }
 
-    if (compareAnswers(userAnswerCleaned, correctAnswer)) {
+    // Rest of answer checking logic...
+    const originalAnswer = answerBox.innerHTML.trim();
+    const correctAnswer = cleanAnswer(originalAnswer);
+    const isCorrect = compareAnswers(userAnswerCleaned, correctAnswer);
+    
+    if (isCorrect) {
         currentStreak++;
-        currentScore += parseInt(currentQuestion.value.replace('$', ''), 10);
-        if (currentStreak > bestStreak) {
-            bestStreak = currentStreak;
-        }
-        if (currentScore > bestScore) {
-            bestScore = currentScore;
-        }
+        const questionValue = parseInt(currentQuestion.value.toString().replace(/\D/g, ''), 10) || 200;
+        currentScore += questionValue;
+        bestStreak = Math.max(bestStreak, currentStreak);
+        bestScore = Math.max(bestScore, currentScore);
         displayCorrectAnswerMessage();
-        checkButton.dataset.correctAnswer = 'true';
     } else {
         currentStreak = 0;
         currentScore = 0;
         displayIncorrectAnswerMessage(originalAnswer);
-        delete checkButton.dataset.correctAnswer;
     }
 
     updateScoreBoard();
     userInput.value = '';
-    userInput.blur(); // Defocus the input box after submission
+    userInput.blur();
+    showingMessage = true;
 };
 
 // correct answer message
@@ -329,15 +398,17 @@ const displayCorrectAnswerMessage = () => {
     questionBox.innerHTML = `Correctamundo and cowabunga, my friend! Your streak is now ${currentStreak}. Keep it going, sir or lady or other person!!`;
     answerBox.style.display = "flex";
     answerBox.innerHTML = "";
-    showingMessage = true; //Added this line
+    showingMessage = true; // Set flag to indicate a message is being shown
 };
 
 // incorrect answer message
 const displayIncorrectAnswerMessage = (correctAnswer) => {
+    categoryBox.innerHTML = "";
+    valueBox.innerHTML = "";
     questionBox.innerHTML = `Incorrect, you fool! Your streak is now reset! Try again, sir or lady or other person!!`;
     answerBox.innerHTML = `The correct answer was: ${correctAnswer}`;
     answerBox.style.display = "flex";
-    showingMessage = true; //Added this line
+    showingMessage = true; // Set flag to indicate a message is being shown
 };
 
 // display snarky message
@@ -355,6 +426,7 @@ const cleanAnswer = (answer) => {
     return answer.toLowerCase()
         .replace(/^(what|who|where|when) (is|are|was|were) /i, '')
         .replace(/[^a-z0-9]/g, '')
+        .replace(/\\/g, '')
         .trim();
 };
 
@@ -416,21 +488,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     questionButton.addEventListener('click', getNewQuestion);
     checkButton.addEventListener('click', checkAnswer);
 
-    // Remove the nested DOMContentLoaded and move this code up
+    // Fix the Enter key behavior
     userInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
-            if (showingMessage || checkButton.dataset.correctAnswer === 'true') {
-                // If a message is being shown or the answer was correct, move to the next question
-                delete checkButton.dataset.correctAnswer;
+            event.preventDefault();
+            
+            if (!currentQuestion) {
                 getNewQuestion();
-            } else {
+                return;
+            }
+            
+            if (showingMessage || answerWasRevealed) {
+                getNewQuestion();
+                return;
+            }
+            
+            if (userInput.value.trim()) {
                 checkAnswer();
             }
         }
     });
 
-    updateScoreBoard(); // Initialize the scoreboard
-    answerBox.style.display = 'none'; //Added this line
+    // Initialize the game
+    updateScoreBoard();
+    answerBox.style.display = 'none';
 });
 
 function normalizeQuestionData(question) {
@@ -449,33 +530,37 @@ function normalizeQuestionData(question) {
 }
 
 function displayQuestion(question) {
-    console.log('displayQuestion called with:', question);
+    console.log('🎨 Displaying question:', question);
     
-    const categoryBox = document.getElementById('categoryBox');
-    const questionBox = document.getElementById('questionBox');
-    const answerBox = document.getElementById('answerBox');
-    const valueBox = document.getElementById('valueBox');
-
     try {
-        if (!categoryBox || !questionBox || !answerBox || !valueBox) {
-            throw new Error('One or more required elements are missing');
+        // Verify DOM elements
+        const elements = {categoryBox, questionBox, answerBox, valueBox};
+        const missingElements = Object.entries(elements)
+            .filter(([name, element]) => !element)
+            .map(([name]) => name);
+            
+        if (missingElements.length > 0) {
+            throw new Error(`Missing DOM elements: ${missingElements.join(', ')}`);
         }
 
+        // Display logic
         categoryBox.innerHTML = question.category;
         valueBox.innerHTML = `for ${question.value}`;
         answerBox.innerHTML = question.answer;
         answerBox.style.display = 'none';
 
-        // Process the question text
+        // Process question text
         let questionText = question.question;
+        console.log('📝 Processing question text:', questionText);
         
         // Remove leading and trailing quotes
         questionText = questionText.replace(/^['"]|['"]$/g, '');
 
-        // Replace links with embedded images
+        // Replace links with text AND embedded images
         const linkRegex = /<a\s+(?:[^>]*?\s+)?href="([^"]*)"[^>]*>(.*?)<\/a>/gi;
+        
         questionText = questionText.replace(linkRegex, (match, url, text) => {
-            return `<img src="${url}" alt="Question Image" class="embedded-image" onerror="this.onerror=null; this.alt='Image failed to load'; this.style.display='none';">`;
+            return `${text} <br><img src="${url}" alt="Question Image" class="embedded-image" onerror="this.onerror=null; this.alt='Image failed to load'; this.style.display='none';">`;
         });
 
         questionBox.innerHTML = questionText;
@@ -488,8 +573,10 @@ function displayQuestion(question) {
             });
         });
 
+        console.log('✅ Question displayed successfully');
     } catch (error) {
-        console.error('Error in displayQuestion:', error.message);
+        console.error('❌ Error in displayQuestion:', error);
+        console.error('Question data:', question);
         throw error;
     }
 }
@@ -503,6 +590,7 @@ function showEnlargedImage(url) {
             <button class="close-button">&times;</button>
         </div>
     `;
+
     document.body.appendChild(modal);
 
     modal.querySelector('.close-button').addEventListener('click', () => {
@@ -539,6 +627,7 @@ inputBox.addEventListener('keydown', () => {
     const inputLength = inputBox.value.length;
     cursor.style.left = `${20 + inputLength * 10}px`; // Adjust based on character width and padding
 });
+
 
 window.visualViewport.onresize = function() {
     document.body.style.height = `${window.visualViewport.height}px`;
