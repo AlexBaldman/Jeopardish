@@ -32,13 +32,13 @@ body {
     flex-direction: column; 
     overflow: hidden;
     position: relative;
-    background: linear-gradient(to top, #64B9FF, #D3D0DB);
+    /* background: linear-gradient(to top, #64B9FF, #D3D0DB); */
     height: 95vh;
     width: 95vw;
     min-height: 90vh;
     max-height: 95vh;
     max-width: 95vw;
-    background: linear-gradient(to top, #64B9FF, #D3D0DB);
+    background: linear-gradient(to top, #64B9FF, #5cff9bbc);
     justify-self: center;
     text-align: center;
     justify-content: center;
@@ -47,6 +47,7 @@ body {
     border: 5px ridge #f6ffa5e8;
     padding: 0;
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.952);
+    position: relative; /* Ensure this is set for absolute positioning inside */
 }
 
 .header {
@@ -69,6 +70,15 @@ body {
     border: double 11px hsl(0, 0%, 99%);
     max-width: 90%; 
     height: auto;
+    transition: transform 0.2s ease;
+}
+
+.title-image.press-left {
+    transform: perspective(500px) rotateY(-5deg) translateX(-5px);
+}
+
+.title-image.press-right {
+    transform: perspective(500px) rotateY(5deg) translateX(5px);
 }
 
 .button-div {
@@ -131,7 +141,7 @@ body {
     max-width: 110%; 
     max-height: 35vh;
     width: 40vw;
-    z-index: 1;
+    z-index: 2;
 }
 
 #checkButton {
@@ -172,6 +182,7 @@ body {
     text-align: center;
     min-height: 6vh;
     justify-content: center;
+    
 }
 
 .input-wrapper {
@@ -182,16 +193,17 @@ body {
 
 #inputBox {
     width: 100%;
-    font-family: 'Korrina-normal', monospace; 
-    font-size: 16px;
-    color: #f8b9f4;
-    background-color: black;
+    font-family: 'Korinna', monospace; 
+    font-size: 3vh;
+    color: #ffffff;
+    background-color: rgb(0, 0, 0);
     border: 2px solid #00ff00;
     padding: 10px;
     border-radius: 5px;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
     caret-color: transparent; /* Hide the default cursor */
+    z-index: 2;
 }
 
 .custom-cursor {
@@ -219,18 +231,20 @@ body {
 /* SPEECH BUBBLE  */
 .speechBubble {
     position: relative;
-    background: #10347c;
+    background-color: #000080;
     border-radius: 23%;
     padding: 5vw;
     margin: 0 auto;
     margin-top: 2vh;
     max-width: 80vw;
+    min-width: 200px;
     min-height: 27vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     transition: none;
+    z-index: 2;
 }
 
 /* SPEECH BUBBLE POINTER */
@@ -243,53 +257,57 @@ body {
     height: 0;
     border-style: solid;
     border-width: 30px 30px 0 0;  /* Creates asymmetrical triangle */
-    border-color: #10347c transparent transparent transparent;
+    border-color: #000080 transparent transparent transparent;
     transition: left 0.8s ease-in-out;  /* Smooth transition for position changes */
     z-index: 10;  /* Ensure arrow stays above other elements */
 }
 
 #categoryBox {
-    color: rgb(255, 166, 234);
-    padding: 0.5em;
-    margin: 0 auto 1em;
-    font-size: calc(1em + 0.5vw);
-    text-align: center;
-    text-shadow: 1vh white;
-    font-family: "Press Start 2P", "Korrina-normal", sans-serif;
+    font-family: "Press Start 2P", serif;
+    text-transform: uppercase;
+    color: transparent;
+    color: #ff8ff6; Jeopardy gold;
+    font-size: 2.7vmin;
+    font-weight: bold;
+    margin-bottom: 5px; /* Reduced margin */
+    text-shadow: 2px 2px 0px #000000;
+    letter-spacing: 2px;
 }
 
 #valueBox {
-    color: rgb(135, 255, 135);
-    margin: 0.5em auto 1.5em;
-    font-size: calc(0.8em + 0.4vw);
-    text-align: center;
-    font-family: "ITC Korrina", "Korrina-normal", "Press Start 2P";
-    font-weight: 100;
-    font-style: normal;
+    font-family: monospace, serif;
+    text-transform: uppercase;
+    color: #b6ffa9;
+    font-size: 2.3vmin;
+    font-weight: bold;
+    margin-bottom: 5px; /* Reduced margin */
+    text-shadow: 2px 2px 0px #000000;
+    letter-spacing: 1px;
 }
 
 #questionBox {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    padding: 1em 0;
-    font-size: calc(1em + 0.3vw);
-    flex: 1;
-    justify-content: center;
+    font-family: "Korinna", serif;
+    font-size: 3.3vmin;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    text-shadow: 2px 2px 0px #000000, 4px 4px 0px rgba(0,0,0,0.5);
+    background-color: #000080;
+    padding: 10px;
     text-align: center;
-    font-family: "Korrina-normal", monospace;
-    color: white;
-    max-width: 80vw;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    margin: 5px auto; /* Reduced margin */
 }
 
 #answerBox {
     display: none;
-    font-family: "Korrina-normal", "Press Start 2P", -apple-system, 'Times New Roman', Times, serif;
+    font-family: "Korinna", "Press Start 2P", -apple-system, 'Times New Roman', Times, serif;
     justify-content: center;
     margin: 10px auto;
     margin-top: .5vh;
-    font-size: 18px;
-    color: rgba(255, 177, 74, 0.924);
+    font-size: 3.2vmin;
+    color: rgba(234, 234, 151, 0.924);
 }
 
 .trebek {
@@ -298,8 +316,9 @@ body {
     bottom: 0;
     max-height: 37vh;
     max-width: 27vw;
-    filter: drop-shadow(0 5px 5px rgba(255, 167, 108, 0.8));
+    filter: drop-shadow(10px 10px 10px rgba(255, 187, 142, 0.8));
     transition: left 0.5s ease-in-out;
+    z-index: 5;
     /* transition: fill 0.5s; */
 }
 
@@ -322,29 +341,200 @@ body {
     transform: scale(1.2);
 }
 
-#scoreboard {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-    background: linear-gradient(135deg, #10347c 0%, #1e5fdd 100%);
-    border: 3px solid #f6ffa5e8;
-    border-radius: 10px;
-    box-shadow: 
-        0 0 0 2px #000,
-        0 0 20px rgba(0, 0, 0, 0.5),
-        inset 0 0 10px rgba(255, 255, 255, 0.2);
+.event-ticker {
     position: absolute;
-    bottom: 40px;
-    right: 40px;
-    z-index: 1000;
-    min-width: 200px;
-    transform: scale(0.9);
-    transition: transform 0.2s ease;
+    z-index: 1; /* Lower z-index so it goes behind UI elements */
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    padding: 8px 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    left: 0;
 }
 
-#scoreboard:hover {
-    transform: scale(1);
+.ticker-content {
+    position: absolute;
+    display: inline-block;
+    white-space: nowrap;
+    font-family: "Press Start 2P", cursive;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: white;
+    background: rgba(255, 0, 0, 0.4);
+    padding: 5px 15px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    transform: translateX(100vw);
+    left: 45px; /* Position relative to plane */
+}
+
+.ticker-plane {
+    position: absolute;
+    z-index: 1;
+    width: 45px;
+    height: 30px;
+    left: 0;
+    top: 50%;
+    transform: translateX(100vw) translateY(-50%);
+    background: 
+        /* Wing top */
+        radial-gradient(circle at 60% 0%, 
+            #FFD700 15px,
+            transparent 15px),
+        /* Wing bottom */
+        radial-gradient(circle at 60% 100%, 
+            #FFD700 15px,
+            transparent 15px),
+        /* Plane body */
+        linear-gradient(90deg,
+            #FFD700 0%,
+            #FDB900 100%);
+    border: 2px solid #000;
+    border-radius: 15px 25px 25px 15px;
+    box-shadow: 
+        0 0 4px rgba(255, 215, 0, 1),
+        0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+/* Spinning propeller animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.ticker-plane::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(90deg, #666 50%, #333 50%);
+    transform: translateY(-50%);
+    transform-origin: center;
+    animation: spin 0.1s linear infinite;
+    border-radius: 50%;
+}
+
+.ticker-rope {
+    position: absolute;
+    z-index: 1;
+    width: 35px;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        #FFD700,
+        rgba(255, 215, 0, 0.6)
+    );
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    left: 40px; /* Position relative to plane */
+    top: 50%;
+    transform: translateX(100vw) translateY(-50%);
+}
+
+@keyframes tickerMove {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
+
+.ticker-content.animate,
+.ticker-plane.animate,
+.ticker-rope.animate {
+    animation: tickerMove 6s linear;
+}
+
+#scoreboard {
+    position: fixed; /* Change to fixed */
+    bottom: 20px;
+    right: -180px;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+    padding: 15px 15px 15px 35px;
+    background: linear-gradient(135deg, #10347c 0%, #1e5fdd 100%);
+    border: 3px solid #f6ffa5e8;
+    border-radius: 10px 0 0 10px;
+    box-shadow: 
+        0 0 0 2px #000,
+        0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: "Press Start 2P", monospace;
+    font-size: 12px;
+    min-width: 200px;
+    cursor: pointer;
+}
+
+#scoreboard::before {
+    content: "📊";
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+#scoreboard:hover,
+#scoreboard.show {
+    right: 0;
+}
+
+/* Ensure the scoreboard is always visible */
+#scoreboard.peek {
+    right: -180px;
+}
+
+.scoreboard-text {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.score-label {
+    color: #f6ffa5e8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+
+.score-icon {
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+.score-value {
+    color: white;
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 0.3s ease-in-out;
+}
+
+#scoreboard:hover::before,
+#scoreboard.expanded::before {
+    opacity: 0;
+}
+
+#scoreboard:hover,
+#scoreboard.expanded {
+    transform: translateX(0);
+}
+
+#scoreboard:not(:hover):not(.expanded) {
+    transform: translateX(calc(100% - 35px));
 }
 
 .scoreboard-text {
@@ -353,10 +543,10 @@ body {
     justify-content: space-between;
     gap: 12px;
     padding: 6px 10px;
-    background: linear-gradient(90deg, #ff1fc3c5 0%, #64B9FF 100%);
+    background: linear-gradient(90deg, rgba(255, 31, 195, 0.8) 0%, rgba(100, 185, 255, 0.8) 100%);
     border: 2px solid #f6ffa5e8;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    min-width: 180px;
 }
 
 .score-label {
@@ -379,10 +569,9 @@ body {
         0 0 5px #10347c,
         0 0 10px #10347c,
         0 0 15px #10347c;
-    animation: pulse 1.5s infinite;
 }
 
-.pulse-animation {
+.score-value.pulse {
     animation: scorePulse 0.5s ease-out;
 }
 
@@ -403,154 +592,31 @@ body {
     }
 }
 
-/* Streak indicator */
-#currentStreak .score-value::after {
-    content: '🔥';
-    margin-left: 5px;
-    animation: flicker 0.5s infinite;
+.correct-answer {
+    animation: correctPulse 1s ease;
 }
 
-/* Best score crown */
-#bestScore .score-label::before {
-    content: '👑';
-    margin-right: 5px;
-    animation: float 2s infinite;
+.incorrect-answer {
+    animation: incorrectPulse 1s ease;
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+@keyframes correctPulse {
+    0% { background-color: rgba(0, 255, 0, 0); }
+    50% { background-color: rgba(0, 255, 0, 0.2); }
+    100% { background-color: rgba(0, 255, 0, 0); }
 }
 
-@keyframes flicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
+@keyframes incorrectPulse {
+    0% { background-color: rgba(255, 0, 0, 0); }
+    50% { background-color: rgba(255, 0, 0, 0.2); }
+    100% { background-color: rgba(255, 0, 0, 0); }
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-2px); }
-}
+/* =================
+   Media Queries
+   ================= */
 
-/* Responsive design */
-@media screen and (max-width: 768px) {
-    #scoreboard {
-        bottom: 20px;
-        right: 20px;
-        min-width: 160px;
-        padding: 8px;
-        gap: 6px;
-        transform: scale(0.85);
-    }
-    #scoreboard:hover {
-        transform: scale(0.95);
-    }
-    .score-label { 
-        font-size: 0.6em; 
-    }
-    .score-value { 
-        font-size: 0.9em; 
-    }
-    .scoreboard-text {
-        padding: 4px 8px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    #scoreboard {
-        transform: scale(0.8);
-        bottom: 10px;
-        right: 10px;
-    }
-    #scoreboard:hover {
-        transform: scale(0.9);
-    }
-}
-
-.question-link {
-    color: yellow;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.question-link:hover {
-    text-decoration: underline;
-}
-
-.image-link {
-    color: #4CAF50;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.image-link:hover {
-    text-decoration: underline;
-}
-
-.embedded-image {
-    max-width: 200px;
-    max-height: 150px;
-    margin: 10px 0;
-    cursor: pointer;
-    border: 2px solid #4444ff;
-    border-radius: 5px;
-    transition: transform 0.2s ease;
-}
-
-.embedded-image:hover {
-    transform: scale(1.05);
-}
-
-.image-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    position: relative;
-    max-width: 90%;
-    max-height: 90%;
-}
-
-.enlarged-image {
-    max-width: 100%;
-    max-height: 90vh;
-    border: 3px solid #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
-.close-button {
-    position: absolute;
-    top: -40px;
-    right: -40px;
-    background: #fff;
-    border: none;
-    color: #000;
-    font-size: 24px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.close-button:hover {
-    background: #eee;
-    transform: scale(1.1);
-}
-
+/* Very small devices */
 @media screen and (max-width: 480px) {
     .speechBubble {
         padding: 15px;
@@ -562,7 +628,7 @@ body {
 @media screen and (max-width: 1024px) {
     .speechBubble {
         max-width: 85vw;
-        /* min-height: 40vw; */
+        min-height: 40vw;
     }
 }
 
@@ -589,19 +655,36 @@ body {
     }
 }
 
-@media (max-width: 768px) {
+.host-image {
+    cursor: pointer;
+    transition: filter 0.3s ease;
+}
+
+.host-image:hover {
+    filter: brightness(1.2);
+}
+
+/* Chat bubble improvements */
+@media screen and (max-width: 770px) {
+    .speechBubble:after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media screen and (max-width: 768px) {
     .speechBubble:after {
         content: none; 
     }
 
-    button {
+    /* button {
         font-size: .7em;
-      }
+      } */
     
     .game-container {
         /* min-height: 100%; */
         padding: 1vh 1vw auto;
-        margin: 1vh 1vh;
+        margin: 1vmin 1vmin;
 
     }
     .header {
@@ -610,7 +693,7 @@ body {
 
     .title-image {
         padding: 1vh;
-        max-width: 85%;
+        max-width: 75%;
     }
 
     #inputBox {
@@ -621,12 +704,12 @@ body {
     #answerButton {
         margin-bottom: 10px;
         padding: 1.5vh;
-        /* font-size: 2.6vmin; */
+        font-size: 3vmin;
     }
 
     #checkButton {
         width: 40%;
-        font-size: 1.6vh;
+        font-size: 3.5vmin;
         margin: 0 auto;        
     }
 
@@ -674,48 +757,4 @@ body {
         transition: fill 0.5s;
     }
     
-}
-
-
-/* =================
-   Media Queries
-   ================= */
-
-/* Very small devices */
-@media screen and (max-width: 480px) {
-    .speechBubble {
-        padding: 15px;
-        /* min-height: 20vw; */
-    }
-}
-
-/* Tablet and smaller desktop screens */
-@media screen and (max-width: 1024px) {
-    .speechBubble {
-        max-width: 85vw;
-        /* min-height: 40vw; */
-    }
-}
-
-/* Mobile devices */
-@media screen and (max-width: 770px) {
-    .speechBubble {
-        max-width: 90vw;
-        min-height: 30vh;
-        margin-top: 1vh;
-    }
-
-    /* Center the arrow for mobile views */
-    .speechBubble::before {
-        left: 50%;
-        transform: translateX(-10px);  /* Offset by half the arrow width */
-    }
-}
-
-
-/* Handle landscape orientation */
-@media (orientation: landscape) and (max-height: 600px) {
-    .speechBubble {
-        min-height: 30vh;  /* Taller in landscape to accommodate content */
-    }
 }

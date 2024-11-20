@@ -339,10 +339,12 @@ const checkAnswer = () => {
         console.log('Scores updated:', { currentScore, bestScore });
         
         displayCorrectAnswerMessage();
+        updateTickerOnEvent('correct', { streak: currentStreak });
     } else {
         currentStreak = 0;
         currentScore = 0;
         displayIncorrectAnswerMessage(originalAnswer);
+        updateTickerOnEvent('incorrect');
     }
 
     // Update UI
@@ -425,50 +427,75 @@ const getLevenshteinDistance = (a, b) => {
     return matrix[b.length][a.length];
 };
 
-// Update scoreboard
-function updateScoreBoard() {
-    console.log('Updating scoreboard:', {
-        currentScore,
-        bestScore,
-        currentStreak,
-        bestStreak
+function initializeScoreboard() {
+    const scoreboard = document.getElementById('scoreboard');
+    if (!scoreboard) {
+        console.error('Scoreboard element not found');
+        return;
+    }
+
+    // Set initial state
+    scoreboard.classList.add('peek');
+
+    // Add hover behavior
+    scoreboard.addEventListener('mouseenter', () => {
+        clearTimeout(window.scoreboardTimeout);
+        scoreboard.classList.remove('peek');
+        scoreboard.classList.add('show');
     });
 
-    // Ensure all values are numbers and not negative
-    currentScore = Math.max(0, Number(currentScore) || 0);
-    bestScore = Math.max(0, Number(bestScore) || 0);
-    currentStreak = Math.max(0, Number(currentStreak) || 0);
-    bestStreak = Math.max(0, Number(bestStreak) || 0);
+    scoreboard.addEventListener('mouseleave', () => {
+        clearTimeout(window.scoreboardTimeout);
+        window.scoreboardTimeout = setTimeout(() => {
+            scoreboard.classList.remove('show');
+            scoreboard.classList.add('peek');
+        }, 1000);
+    });
+}
 
-    // Update the score values
-    const currentScoreValue = document.querySelector('#currentScore .score-value');
-    const bestScoreValue = document.querySelector('#bestScore .score-value');
-    const currentStreakValue = document.querySelector('#currentStreak .score-value');
-    const bestStreakValue = document.querySelector('#bestStreak .score-value');
-
-    if (currentScoreValue) {
-        currentScoreValue.textContent = `$${currentScore}`;
-        currentScoreValue.classList.remove('pulse-animation');
-        void currentScoreValue.offsetWidth; // Trigger reflow
-        currentScoreValue.classList.add('pulse-animation');
+function updateScoreBoard() {
+    const elements = {
+        currentScore: { icon: '🎯', value: currentScore, prefix: '$' },
+        bestScore: { icon: '👑', value: bestScore, prefix: '$' },
+        currentStreak: { icon: '🔥', value: currentStreak, prefix: '' },
+        bestStreak: { icon: '⭐', value: bestStreak, prefix: '' }
+    };
+    
+    const scoreboard = document.getElementById('scoreboard');
+    if (!scoreboard) {
+        console.error('Scoreboard element not found');
+        return;
     }
-
-    if (bestScoreValue) {
-        bestScoreValue.textContent = `$${bestScore}`;
-    }
-
-    if (currentStreakValue) {
-        currentStreakValue.textContent = currentStreak;
-        if (currentStreak > 0) {
-            currentStreakValue.classList.remove('pulse-animation');
-            void currentStreakValue.offsetWidth; // Trigger reflow
-            currentStreakValue.classList.add('pulse-animation');
+    
+    // Show scoreboard
+    scoreboard.classList.remove('peek');
+    scoreboard.classList.add('show');
+    
+    // Update values with animation
+    for (const [id, data] of Object.entries(elements)) {
+        const container = document.getElementById(id);
+        if (container) {
+            const valueSpan = container.querySelector('.score-value');
+            if (valueSpan) {
+                const newValue = `${data.prefix}${data.value}`;
+                if (valueSpan.textContent !== newValue) {
+                    valueSpan.textContent = newValue;
+                    valueSpan.classList.remove('pulse');
+                    void valueSpan.offsetWidth; // Trigger reflow
+                    valueSpan.classList.add('pulse');
+                }
+            }
         }
     }
-
-    if (bestStreakValue) {
-        bestStreakValue.textContent = bestStreak;
-    }
+    
+    // Hide after delay unless hovered
+    clearTimeout(window.scoreboardTimeout);
+    window.scoreboardTimeout = setTimeout(() => {
+        if (!scoreboard.matches(':hover')) {
+            scoreboard.classList.remove('show');
+            scoreboard.classList.add('peek');
+        }
+    }, 3000);
 }
 
 function normalizeQuestionData(question) {
@@ -630,20 +657,150 @@ function toggleSlide() {
     character.classList.toggle('slide-in-left');
 }
 
-// // Update cursor position on various events
-// inputBox.addEventListener('input', updateCursorPosition);
-// inputBox.addEventListener('click', updateCursorPosition);
-// inputBox.addEventListener('keydown', () => setTimeout(updateCursorPosition, 0));
-// inputBox.addEventListener('select', updateCursorPosition);
+// Update ticker on events
+function updateTickerOnEvent(event) {
+    const tickerMessages = {
+        correct: [
+            "✨ ABSOLUTELY BRILLIANT! ✨",
+            "🎯 BULLSEYE, CHAMP! 🎯",
+            "🌟 TREBEK APPROVES! 🌟",
+            "🎪 WHAT A SPECTACLE! 🎪",
+            "🎨 PURE ARTISTRY! 🎨"
+        ],
+        incorrect: [
+            "💫 BETTER LUCK NEXT TIME! 💫",
+            "🎭 PLOT TWIST: THAT'S NOT IT! 🎭",
+            "🌈 CLOSE BUT NO CIGAR! 🌈",
+            "🎪 NOT QUITE THE SHOW WE EXPECTED! 🎪",
+            "🎨 BACK TO THE DRAWING BOARD! 🎨"
+        ],
+        random: [
+            "🎲 ROLL THE DICE! 🎲",
+            "🎪 STEP RIGHT UP! 🎪",
+            "🎭 THE SHOW MUST GO ON! 🎭",
+            "🌟 TREBEK'S WATCHING! 🌟",
+            "✨ MAGIC IN THE AIR! ✨"
+        ]
+    };
 
-// // Initial position
-// updateCursorPosition();
-// window.visualViewport.onresize = function() {
-//     document.body.style.height = `${window.visualViewport.height}px`;
-// };
+    const messages = tickerMessages[event] || tickerMessages.random;
+    const message = messages[Math.floor(Math.random() * messages.length)];
+    showTicker(message);
+}
 
-// Wrap event listeners and initial question load in DOMContentLoaded event
-document.addEventListener('DOMContentLoaded', async () => {
+function showTicker(message, duration = 6000) {
+    console.log('Showing ticker:', message);
+    
+    const ticker = document.querySelector('.event-ticker');
+    const tickerContent = ticker.querySelector('.ticker-content');
+    const plane = ticker.querySelector('.ticker-plane');
+    const rope = ticker.querySelector('.ticker-rope');
+    const gameContainer = document.querySelector('.game-container');
+    
+    // Random position within top 70% of container
+    const maxTop = gameContainer.clientHeight * 0.7;
+    const randomTop = Math.floor(Math.random() * maxTop);
+    
+    // Position the ticker
+    ticker.style.top = `${randomTop}px`;
+    
+    // Remove previous animation classes
+    tickerContent.classList.remove('animate');
+    plane.classList.remove('animate');
+    rope.classList.remove('animate');
+    
+    // Reset animations
+    void tickerContent.offsetWidth; // Force reflow
+    void plane.offsetWidth;
+    void rope.offsetWidth;
+    
+    // Set message
+    tickerContent.textContent = message;
+    
+    // Start animations
+    tickerContent.classList.add('animate');
+    plane.classList.add('animate');
+    rope.classList.add('animate');
+    
+    // Remove animation classes after completion
+    setTimeout(() => {
+        tickerContent.classList.remove('animate');
+        plane.classList.remove('animate');
+        rope.classList.remove('animate');
+    }, duration);
+}
+
+// Initialize ticker
+function initializeTicker() {
+    console.log('Initializing ticker');
+    
+    // Ensure event-ticker exists
+    let ticker = document.querySelector('.event-ticker');
+    if (!ticker) {
+        ticker = document.createElement('div');
+        ticker.className = 'event-ticker';
+        document.querySelector('.game-container').appendChild(ticker);
+    }
+    
+    // Create ticker content if it doesn't exist
+    if (!ticker.querySelector('.ticker-content')) {
+        const content = document.createElement('div');
+        content.className = 'ticker-content';
+        ticker.appendChild(content);
+    }
+    
+    // Create plane if it doesn't exist
+    if (!ticker.querySelector('.ticker-plane')) {
+        const plane = document.createElement('div');
+        plane.className = 'ticker-plane';
+        ticker.appendChild(plane);
+    }
+    
+    // Create rope if it doesn't exist
+    if (!ticker.querySelector('.ticker-rope')) {
+        const rope = document.createElement('div');
+        rope.className = 'ticker-rope';
+        ticker.appendChild(rope);
+    }
+    
+    // Test ticker immediately
+    setTimeout(() => {
+        console.log('Testing ticker...');
+        showTicker('Welcome to Jeopardish!');
+    }, 1000);
+}
+
+// Host image cycling
+let currentHostIndex = 0;
+const hostImages = [];
+
+function initializeHostCycling() {
+    const hostImage = document.querySelector('.host-image');
+    if (hostImage) {
+        hostImage.addEventListener('click', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const clickedRight = x > rect.width / 2;
+            cycleHost(clickedRight);
+        });
+    }
+}
+
+function cycleHost(forward = true) {
+    if (hostImages.length < 2) return;
+    
+    currentHostIndex = forward ? 
+        (currentHostIndex + 1) % hostImages.length :
+        (currentHostIndex - 1 + hostImages.length) % hostImages.length;
+    
+    const hostImage = document.querySelector('.host-image');
+    if (hostImage) {
+        hostImage.src = hostImages[currentHostIndex];
+    }
+}
+
+// Initialize features
+document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded and parsed');
     
     // Attach event listeners
@@ -673,6 +830,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Initialize the game
+    initializeScoreboard();
     updateScoreBoard();
     answerBox.style.display = 'none';
-});
+    
+    initializeTicker();
+    initializeHostCycling();
+    
+    // Start with a random message
+    updateTickerOnEvent('correct');
+    
+    // Update ticker periodically
+    setInterval(() => {
+        const types = ['correct', 'incorrect', 'random'];
+        const randomType = types[Math.floor(Math.random() * types.length)];
+        updateTickerOnEvent(randomType);
+    }, 10000);
+})
