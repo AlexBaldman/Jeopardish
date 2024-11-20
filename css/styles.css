@@ -28,11 +28,11 @@ body {
 
 .game-container {
     display: block;
+    overflow: hidden;
+    overflow-y: scroll; /* Allow content scrolling within the container */
     flex-flow: column;
     flex-direction: column; 
-    overflow: hidden;
     position: relative;
-    /* background: linear-gradient(to top, #64B9FF, #D3D0DB); */
     height: 95vh;
     width: 95vw;
     min-height: 90vh;
@@ -47,7 +47,6 @@ body {
     border: 5px ridge #f6ffa5e8;
     padding: 0;
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.952);
-    position: relative; /* Ensure this is set for absolute positioning inside */
 }
 
 .header {
@@ -62,15 +61,16 @@ body {
 .title-image {
     display: flex;
     background-color: rgba(81, 76, 240, 0.893);
-    max-height: 13vh;
-    padding: 1.5vh 1.5vh;
+    max-height: 12vh;
+    /* padding: 1.5vh 1.5vh; */
     border-radius: 30px;
     margin: 0 auto;
     /* border: dotted .7vw  rgb(248, 248, 57); */
-    border: double 11px hsl(0, 0%, 99%);
+    /* border: double 11px hsl(0, 0%, 99%); */
     max-width: 90%; 
     height: auto;
     transition: transform 0.2s ease;
+    z-index: 2;
 }
 
 .title-image.press-left {
@@ -95,6 +95,7 @@ body {
 #questionButton,
 #answerButton {
     display: flex;
+    z-index: 1;
     flex-wrap: row wrap;
     font-family: "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     height: 6vmin;
@@ -118,9 +119,7 @@ body {
 
 #questionButton:hover,
 #answerButton:hover {
-    color: rgb(255, 255, 9);
-    /* background-color: white; */
-    /* transition: margin-right 2.5s, color 4s; */
+    color: rgba(4, 5, 96, 0.777);
     box-shadow: 0 10px hsl(147, 100%, 85%);
     border-bottom: 3px;
     /* transform: translateY(2px); */
@@ -131,7 +130,6 @@ body {
 
 #questionButton:active,
 #answerButton:active {
-    /* box-shadow: inset 5px 5px 10px #f766ff, inset -5px -10px 10px #e3ff72; */
     transition:cubic-bezier(1, 0, 0, 1);
     color: white;
 }
@@ -151,11 +149,12 @@ body {
     background-color: #4b21f4e4;    
     font-family: "Press Start 2P", BlinkMacSystemFont, monospace;
     font-weight: bolder;
-    font-size: 3vmin;
-    border: ridge 10px grey;
+    font-size: 2.7vmin;
+    border: ridge 10px rgb(247, 13, 5);
     padding: 5px 7px;
     border-radius: 5px;
     transition: margin-down 0.3s ease; 
+    z-index: 2;
 }
 
 #checkButton:hover {
@@ -169,8 +168,6 @@ body {
     background-color: rgb(55, 44, 62);
     color: rgb(255, 135, 135);
     font-weight: bolder;
-    /* font-family: monospace; */
-    /* font-size: 1.75em; */
     border: dotted 3px rgb(244, 255, 88);
 }
 
@@ -203,7 +200,7 @@ body {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
     caret-color: transparent; /* Hide the default cursor */
-    z-index: 2;
+    z-index: 1;
 }
 
 .custom-cursor {
@@ -214,7 +211,7 @@ body {
     animation: blink 1s step-end infinite;
     pointer-events: none;
     top: 50%;
-    left: 10px; /* Align with input padding */
+    left: 10px;
     transform: translateY(-50%);
     z-index: 2;
 }
@@ -271,7 +268,7 @@ body {
     font-weight: bold;
     margin-bottom: 5px; /* Reduced margin */
     text-shadow: 2px 2px 0px #000000;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 #valueBox {
@@ -341,9 +338,154 @@ body {
     transform: scale(1.2);
 }
 
+/* TICKER PLANE */
+.ticker-plane {
+    position: absolute;
+    width: 60px;
+    height: 30px;
+    transform-origin: center;
+    z-index: 2;
+    left: 0;
+    top: 50%;
+    transform: translateX(100vw) translateY(-50%);
+}
+
+/* Create a container for plane and content to move together */
+.ticker-unit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(100vw);
+}
+
+/* Main body */
+.ticker-plane::before {
+    content: '';
+    position: absolute;
+    width: 45px;
+    height: 18px;
+    background: #FFD700; /* Brighter gold color */
+    border: 3px solid #000;
+    border-radius: 22px 8px 5px 5px;
+    left: 0;
+    top: 6px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+/* Tail */
+.ticker-plane::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 20px;
+    background: #FFD700;
+    border: 3px solid #000;
+    border-radius: 0 3px 3px 3px;
+    right: 0;
+    top: 0;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+/* Wing */
+.ticker-plane .wing {
+    position: absolute;
+    width: 30px;
+    height: 8px;
+    background: #FDB900; /* Slightly darker gold for contrast */
+    border: 3px solid #000;
+    border-radius: 5px;
+    left: 15px;
+    top: 12px;
+    transform: skew(-15deg);
+    z-index: 2;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+/* Propeller container */
+.ticker-plane .propeller {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: -6px;
+    top: 9px;
+    animation: spin 0.1s linear infinite;
+    transform-origin: center;
+}
+
+/* Propeller blades */
+.ticker-plane .propeller::before,
+.ticker-plane .propeller::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 12px;
+    background: #000;
+    left: 4.5px;
+    top: 0;
+}
+
+.ticker-plane .propeller::after {
+    transform: rotate(90deg);
+}
+
+.ticker-content {
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    background-color: rgba(255, 0, 0, 0.631);
+    white-space: nowrap;
+    padding: 10px 20px;
+    font-family: "Press Start 2P", cursive;
+    font-size: 2vmin;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    left: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 5px;
+}
+
+@keyframes tickerMove {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
+
+.ticker-unit.animate {
+    animation: tickerMove 8s linear;
+}
+
+.ticker-content {
+    position: absolute;
+    z-index: 0;
+    display: inline-block;
+    background-color: rgba(255, 0, 0, 0.631);
+    white-space: nowrap;
+    padding-left: 20px;
+    padding-right:20px;
+    font-family: "Press Start 2P", cursive;
+    font-size: 2vmin;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    transform: translateX(100vw);
+    left: 45px; /* Position relative to plane */
+}
+
+.ticker-content.animate {
+    animation: tickerMove 8s linear;
+}
+
+.ticker-plane.animate {
+    animation: tickerMove 8s linear;
+}
+
 .event-ticker {
     position: absolute;
-    z-index: 1; /* Lower z-index so it goes behind UI elements */
+    z-index: 0; /* Lower z-index so it goes behind UI elements */
     width: 100%;
     height: 40px;
     line-height: 40px;
@@ -355,136 +497,55 @@ body {
     left: 0;
 }
 
-.ticker-content {
+.game-container #scoreboard {
     position: absolute;
-    display: inline-block;
-    white-space: nowrap;
-    font-family: "Press Start 2P", cursive;
-    font-size: 16px;
-    text-transform: uppercase;
-    color: white;
-    background: rgba(255, 0, 0, 0.4);
-    padding: 5px 15px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 4px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    transform: translateX(100vw);
-    left: 45px; /* Position relative to plane */
-}
-
-.ticker-plane {
-    position: absolute;
-    z-index: 1;
-    width: 45px;
-    height: 30px;
-    left: 0;
-    top: 50%;
-    transform: translateX(100vw) translateY(-50%);
-    background: 
-        /* Wing top */
-        radial-gradient(circle at 60% 0%, 
-            #FFD700 15px,
-            transparent 15px),
-        /* Wing bottom */
-        radial-gradient(circle at 60% 100%, 
-            #FFD700 15px,
-            transparent 15px),
-        /* Plane body */
-        linear-gradient(90deg,
-            #FFD700 0%,
-            #FDB900 100%);
-    border: 2px solid #000;
-    border-radius: 15px 25px 25px 15px;
-    box-shadow: 
-        0 0 4px rgba(255, 215, 0, 1),
-        0 0 8px rgba(255, 215, 0, 0.8);
-}
-
-/* Spinning propeller animation */
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.ticker-plane::before {
-    content: '';
-    position: absolute;
-    left: -8px;
-    top: 50%;
-    width: 14px;
-    height: 14px;
-    background: linear-gradient(90deg, #666 50%, #333 50%);
-    transform: translateY(-50%);
-    transform-origin: center;
-    animation: spin 0.1s linear infinite;
-    border-radius: 50%;
-}
-
-.ticker-rope {
-    position: absolute;
-    z-index: 1;
-    width: 35px;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        #FFD700,
-        rgba(255, 215, 0, 0.6)
-    );
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    left: 40px; /* Position relative to plane */
-    top: 50%;
-    transform: translateX(100vw) translateY(-50%);
-}
-
-@keyframes tickerMove {
-    0% { transform: translateX(100vw); }
-    100% { transform: translateX(-100%); }
-}
-
-.ticker-content.animate,
-.ticker-plane.animate,
-.ticker-rope.animate {
-    animation: tickerMove 6s linear;
-}
-
-#scoreboard {
-    position: fixed; /* Change to fixed */
     bottom: 20px;
-    right: -180px;
-    transition: right 0.3s ease-in-out;
-    z-index: 1000;
-    padding: 15px 15px 15px 35px;
-    background: linear-gradient(135deg, #10347c 0%, #1e5fdd 100%);
-    border: 3px solid #f6ffa5e8;
+    right: -180px; /* Default peek position */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(12, 60, 149, 0.755);
+    padding: 15px;
+    padding-left: 40px;
+    padding-right: 25px;
     border-radius: 10px 0 0 10px;
-    box-shadow: 
-        0 0 0 2px #000,
-        0 0 10px rgba(0, 0, 0, 0.5);
-    color: white;
-    font-family: "Press Start 2P", monospace;
-    font-size: 12px;
-    min-width: 200px;
-    cursor: pointer;
+    color: #fff;
+    width: 220px; /* Increased width */
+    z-index: 100;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
-#scoreboard::before {
-    content: "📊";
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    opacity: 0.8;
-    pointer-events: none;
-}
-
-#scoreboard:hover,
-#scoreboard.show {
+.game-container #scoreboard:hover,
+.game-container #scoreboard.show {
     right: 0;
 }
 
-/* Ensure the scoreboard is always visible */
-#scoreboard.peek {
-    right: -180px;
+.scoreboard-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    font-family: "Press Start 2P", monospace;
+    font-size: 12px;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.score-label {
+    margin-right: 15px; /* Space between label and value */
+}
+
+.score-value {
+    font-weight: bold;
+    min-width: 60px; /* Ensure consistent width for values */
+    text-align: right;
+}
+
+.game-container .scoreboard-text {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
 }
 
 .scoreboard-text {
@@ -677,10 +738,6 @@ body {
         content: none; 
     }
 
-    /* button {
-        font-size: .7em;
-      } */
-    
     .game-container {
         /* min-height: 100%; */
         padding: 1vh 1vw auto;
@@ -703,13 +760,13 @@ body {
     #questionButton,
     #answerButton {
         margin-bottom: 10px;
-        padding: 1.5vh;
+        padding: 2vh;
         font-size: 3vmin;
     }
 
     #checkButton {
         width: 40%;
-        font-size: 3.5vmin;
+        /* font-size: 3.5vmin; */
         margin: 0 auto;        
     }
 
@@ -757,4 +814,67 @@ body {
         transition: fill 0.5s;
     }
     
+}
+
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    background: transparent;
+}
+
+.enlarged-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.close-button {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.close-button:hover {
+    background: #f0f0f0;
+}
+
+#questionBox img,
+#answerBox img {
+    max-width: 100%;
+    max-height: 40vh;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#questionBox img:hover,
+#answerBox img:hover {
+    transform: scale(1.05);
 }

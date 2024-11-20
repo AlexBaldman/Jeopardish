@@ -427,6 +427,10 @@ const getLevenshteinDistance = (a, b) => {
     return matrix[b.length][a.length];
 };
 
+// Scoreboard state management
+let isScoreboardVisible = false;
+let scoreboardHovered = false;
+
 function initializeScoreboard() {
     const scoreboard = document.getElementById('scoreboard');
     if (!scoreboard) {
@@ -434,23 +438,40 @@ function initializeScoreboard() {
         return;
     }
 
-    // Set initial state
-    scoreboard.classList.add('peek');
-
+    // Force initial state
+    scoreboard.style.display = 'block';
+    scoreboard.style.visibility = 'visible';
+    scoreboard.style.opacity = '1';
+    
     // Add hover behavior
     scoreboard.addEventListener('mouseenter', () => {
+        scoreboardHovered = true;
         clearTimeout(window.scoreboardTimeout);
-        scoreboard.classList.remove('peek');
-        scoreboard.classList.add('show');
+        requestAnimationFrame(() => {
+            scoreboard.classList.add('show');
+            isScoreboardVisible = true;
+        });
     });
 
-    scoreboard.addEventListener('mouseleave', () => {
-        clearTimeout(window.scoreboardTimeout);
-        window.scoreboardTimeout = setTimeout(() => {
-            scoreboard.classList.remove('show');
-            scoreboard.classList.add('peek');
-        }, 1000);
-    });
+    // scoreboard.addEventListener('mouseleave', () => {
+    //     scoreboardHovered = false;
+    //     clearTimeout(window.scoreboardTimeout);
+    //     window.scoreboardTimeout = setTimeout(() => {
+    //         if (!isScoreboardVisible || !scoreboardHovered) {
+    //             requestAnimationFrame(() => {
+    //                 scoreboard.classList.remove('show');
+    //                 isScoreboardVisible = false;
+    //             });
+    //         }
+    //     }, 1000);
+    // });
+
+    // Ensure initial visibility
+    setTimeout(() => {
+        scoreboard.style.display = 'block';
+        scoreboard.style.visibility = 'visible';
+        scoreboard.style.opacity = '1';
+    }, 100);
 }
 
 function updateScoreBoard() {
@@ -467,35 +488,43 @@ function updateScoreBoard() {
         return;
     }
     
-    // Show scoreboard
-    scoreboard.classList.remove('peek');
-    scoreboard.classList.add('show');
+    // Force visibility
+    scoreboard.style.display = 'block';
+    scoreboard.style.visibility = 'visible';
+    scoreboard.style.opacity = '1';
     
-    // Update values with animation
-    for (const [id, data] of Object.entries(elements)) {
-        const container = document.getElementById(id);
-        if (container) {
-            const valueSpan = container.querySelector('.score-value');
-            if (valueSpan) {
-                const newValue = `${data.prefix}${data.value}`;
-                if (valueSpan.textContent !== newValue) {
-                    valueSpan.textContent = newValue;
-                    valueSpan.classList.remove('pulse');
-                    void valueSpan.offsetWidth; // Trigger reflow
-                    valueSpan.classList.add('pulse');
+    requestAnimationFrame(() => {
+        scoreboard.classList.add('show');
+        isScoreboardVisible = true;
+        
+        // Update values with animation
+        for (const [id, data] of Object.entries(elements)) {
+            const container = document.getElementById(id);
+            if (container) {
+                const valueSpan = container.querySelector('.score-value');
+                if (valueSpan) {
+                    const newValue = `${data.prefix}${data.value}`;
+                    if (valueSpan.textContent !== newValue) {
+                        valueSpan.textContent = newValue;
+                        valueSpan.classList.remove('pulse');
+                        void valueSpan.offsetWidth; // Trigger reflow
+                        valueSpan.classList.add('pulse');
+                    }
                 }
             }
         }
-    }
-    
-    // Hide after delay unless hovered
-    clearTimeout(window.scoreboardTimeout);
-    window.scoreboardTimeout = setTimeout(() => {
-        if (!scoreboard.matches(':hover')) {
-            scoreboard.classList.remove('show');
-            scoreboard.classList.add('peek');
-        }
-    }, 3000);
+        
+        // Hide after delay unless hovered
+        clearTimeout(window.scoreboardTimeout);
+        window.scoreboardTimeout = setTimeout(() => {
+            if (!scoreboardHovered) {
+                requestAnimationFrame(() => {
+                    scoreboard.classList.remove('show');
+                    isScoreboardVisible = false;
+                });
+            }
+        }, 3000);
+    });
 }
 
 function normalizeQuestionData(question) {
@@ -583,6 +612,12 @@ function displayQuestion(question) {
 }
 
 function showEnlargedImage(url) {
+    // Remove any existing modals
+    const existingModal = document.querySelector('.image-modal');
+    if (existingModal) {
+        document.body.removeChild(existingModal);
+    }
+
     const modal = document.createElement('div');
     modal.className = 'image-modal';
     
@@ -601,55 +636,40 @@ function showEnlargedImage(url) {
     content.appendChild(img);
     content.appendChild(closeBtn);
     modal.appendChild(content);
+    
+    // Add modal to body
     document.body.appendChild(modal);
+    
+    // Prevent scrolling of background
+    document.body.style.overflow = 'hidden';
+
+    const closeModal = () => {
+        document.body.removeChild(modal);
+        document.body.style.overflow = '';
+    };
 
     // Close modal on button click
-    closeBtn.addEventListener('click', () => {
-        document.body.removeChild(modal);
-    });
+    closeBtn.addEventListener('click', closeModal);
 
     // Close modal on background click
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
-            document.body.removeChild(modal);
+            closeModal();
         }
     });
 
     // Close modal on escape key
     document.addEventListener('keydown', function closeOnEscape(e) {
         if (e.key === 'Escape') {
-            document.body.removeChild(modal);
+            closeModal();
             document.removeEventListener('keydown', closeOnEscape);
         }
     });
-}
 
-const inputBox = document.getElementById('inputBox');
-const cursorStyle = document.createElement('style');
-document.head.appendChild(cursorStyle);
-
-function updateCursorPosition() {
-    // Get input's text content up to cursor position
-    const text = inputBox.value.substring(0, inputBox.selectionStart);
-    
-    // Create temporary span to measure text width
-    const span = document.createElement('span');
-    span.style.font = window.getComputedStyle(inputBox).font;
-    span.style.visibility = 'hidden';
-    span.textContent = text || '';
-    document.body.appendChild(span);
-    
-    // Calculate cursor position
-    const textWidth = span.getBoundingClientRect().width;
-    document.body.removeChild(span);
-    
-    // Update cursor position in CSS
-    const padding = parseInt(window.getComputedStyle(inputBox).paddingLeft);
-    cursorStyle.textContent = `
-        #inputBox::after {
-            left: ${padding + textWidth}px;
-        }
-    `;
+    // Prevent modal close when clicking image
+    img.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 }
 
 function toggleSlide() {
@@ -688,86 +708,70 @@ function updateTickerOnEvent(event) {
     showTicker(message);
 }
 
-function showTicker(message, duration = 6000) {
+function showTicker(message, duration = 8000) {
     console.log('Showing ticker:', message);
     
     const ticker = document.querySelector('.event-ticker');
-    const tickerContent = ticker.querySelector('.ticker-content');
-    const plane = ticker.querySelector('.ticker-plane');
-    const rope = ticker.querySelector('.ticker-rope');
-    const gameContainer = document.querySelector('.game-container');
+    const unit = ticker.querySelector('.ticker-unit');
+    const content = unit.querySelector('.ticker-content');
     
-    // Random position within top 70% of container
-    const maxTop = gameContainer.clientHeight * 0.7;
-    const randomTop = Math.floor(Math.random() * maxTop);
+    // Reset animation
+    unit.style.animation = 'none';
     
-    // Position the ticker
-    ticker.style.top = `${randomTop}px`;
+    // Force reflow
+    void unit.offsetWidth;
     
-    // Remove previous animation classes
-    tickerContent.classList.remove('animate');
-    plane.classList.remove('animate');
-    rope.classList.remove('animate');
+    // Set content and ensure visibility
+    content.textContent = message;
+    unit.style.display = 'block';
+    content.style.display = 'inline-block';
     
-    // Reset animations
-    void tickerContent.offsetWidth; // Force reflow
-    void plane.offsetWidth;
-    void rope.offsetWidth;
-    
-    // Set message
-    tickerContent.textContent = message;
-    
-    // Start animations
-    tickerContent.classList.add('animate');
-    plane.classList.add('animate');
-    rope.classList.add('animate');
-    
-    // Remove animation classes after completion
-    setTimeout(() => {
-        tickerContent.classList.remove('animate');
-        plane.classList.remove('animate');
-        rope.classList.remove('animate');
-    }, duration);
+    // Start animation
+    requestAnimationFrame(() => {
+        unit.classList.add('animate');
+        
+        // Remove animation class after duration
+        setTimeout(() => {
+            unit.classList.remove('animate');
+        }, duration);
+    });
 }
 
-// Initialize ticker
 function initializeTicker() {
-    console.log('Initializing ticker');
-    
-    // Ensure event-ticker exists
-    let ticker = document.querySelector('.event-ticker');
+    const ticker = document.querySelector('.event-ticker');
     if (!ticker) {
-        ticker = document.createElement('div');
-        ticker.className = 'event-ticker';
-        document.querySelector('.game-container').appendChild(ticker);
+        console.error('Ticker element not found');
+        return;
     }
     
-    // Create ticker content if it doesn't exist
-    if (!ticker.querySelector('.ticker-content')) {
-        const content = document.createElement('div');
-        content.className = 'ticker-content';
-        ticker.appendChild(content);
-    }
-    
-    // Create plane if it doesn't exist
-    if (!ticker.querySelector('.ticker-plane')) {
+    // Create ticker unit if it doesn't exist
+    if (!ticker.querySelector('.ticker-unit')) {
+        const unit = document.createElement('div');
+        unit.className = 'ticker-unit';
+        
+        // Create plane if it doesn't exist
         const plane = document.createElement('div');
         plane.className = 'ticker-plane';
-        ticker.appendChild(plane);
+        
+        // Add wing
+        const wing = document.createElement('div');
+        wing.className = 'wing';
+        plane.appendChild(wing);
+        
+        // Add propeller
+        const propeller = document.createElement('div');
+        propeller.className = 'propeller';
+        plane.appendChild(propeller);
+        
+        // Create content
+        const content = document.createElement('div');
+        content.className = 'ticker-content';
+        
+        // Add everything to the unit
+        unit.appendChild(plane);
+        unit.appendChild(content);
+        ticker.appendChild(unit);
     }
-    
-    // Create rope if it doesn't exist
-    if (!ticker.querySelector('.ticker-rope')) {
-        const rope = document.createElement('div');
-        rope.className = 'ticker-rope';
-        ticker.appendChild(rope);
-    }
-    
-    // Test ticker immediately
-    setTimeout(() => {
-        console.log('Testing ticker...');
-        showTicker('Welcome to Jeopardish!');
-    }, 1000);
 }
 
 // Host image cycling
