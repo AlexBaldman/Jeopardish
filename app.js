@@ -3,6 +3,7 @@ let currentScore = 0;
 let bestScore = 0;
 let currentStreak = 0;
 let bestStreak = 0;
+let scoreboardInitialized = false; // New variable to track initialization
 
 // API url to fetch data for random question
 const apiUrl = 'https://cluebase.lukelav.in/clues/random';
@@ -226,6 +227,9 @@ async function getNewQuestion() {
         
         // Ensure answer is hidden when loading new question
         answerBox.style.display = 'none';
+        
+        // Auto-focus the input box
+        userInput.focus();
     } catch (error) {
         console.error("❌ Failed to get new question:", error);
         displayErrorJoke();
@@ -319,8 +323,7 @@ const checkAnswer = () => {
     
     if (isCorrect) {
         // Update streak
-        currentStreak++;
-        bestStreak = Math.max(bestStreak, currentStreak);
+        updateStreak(true);
         
         // Get question value
         let questionValue = 200; // Default value
@@ -341,7 +344,7 @@ const checkAnswer = () => {
         displayCorrectAnswerMessage();
         updateTickerOnEvent('correct', { streak: currentStreak });
     } else {
-        currentStreak = 0;
+        updateStreak(false);
         currentScore = 0;
         displayIncorrectAnswerMessage(originalAnswer);
         updateTickerOnEvent('incorrect');
@@ -433,98 +436,147 @@ let scoreboardHovered = false;
 
 function initializeScoreboard() {
     const scoreboard = document.getElementById('scoreboard');
-    if (!scoreboard) {
-        console.error('Scoreboard element not found');
+    if (!scoreboard || scoreboardInitialized) {
         return;
     }
 
-    // Force initial state
+    scoreboardInitialized = true;
+
+    // Force initial visibility
     scoreboard.style.display = 'block';
     scoreboard.style.visibility = 'visible';
     scoreboard.style.opacity = '1';
     
+    // Initialize all scores to 0
+    document.querySelector('#currentScore .score-value').textContent = '$0';
+    document.querySelector('#bestScore .score-value').textContent = '$0';
+    document.querySelector('#currentStreak .score-value').textContent = '0';
+    document.querySelector('#bestStreak .score-value').textContent = '0';
+
     // Add hover behavior
     scoreboard.addEventListener('mouseenter', () => {
         scoreboardHovered = true;
-        clearTimeout(window.scoreboardTimeout);
-        requestAnimationFrame(() => {
-            scoreboard.classList.add('show');
-            isScoreboardVisible = true;
-        });
+        showScoreboard();
     });
 
-    // scoreboard.addEventListener('mouseleave', () => {
-    //     scoreboardHovered = false;
-    //     clearTimeout(window.scoreboardTimeout);
-    //     window.scoreboardTimeout = setTimeout(() => {
-    //         if (!isScoreboardVisible || !scoreboardHovered) {
-    //             requestAnimationFrame(() => {
-    //                 scoreboard.classList.remove('show');
-    //                 isScoreboardVisible = false;
-    //             });
-    //         }
-    //     }, 1000);
-    // });
+    scoreboard.addEventListener('mouseleave', () => {
+        scoreboardHovered = false;
+        hideScoreboard();
+    });
+}
 
-    // Ensure initial visibility
-    setTimeout(() => {
+function showScoreboard() {
+    const scoreboard = document.getElementById('scoreboard');
+    if (scoreboard) {
+        isScoreboardVisible = true;
+        scoreboard.classList.add('show');
+        // Ensure visibility
         scoreboard.style.display = 'block';
         scoreboard.style.visibility = 'visible';
         scoreboard.style.opacity = '1';
-    }, 100);
+    }
+}
+
+function hideScoreboard() {
+    const scoreboard = document.getElementById('scoreboard');
+    if (scoreboard && !scoreboardHovered) {
+        isScoreboardVisible = false;
+        scoreboard.classList.remove('show');
+        // Never fully hide, just slide out
+        scoreboard.style.display = 'block';
+        scoreboard.style.visibility = 'visible';
+        scoreboard.style.opacity = '1';
+    }
 }
 
 function updateScoreBoard() {
-    const elements = {
-        currentScore: { icon: '🎯', value: currentScore, prefix: '$' },
-        bestScore: { icon: '👑', value: bestScore, prefix: '$' },
-        currentStreak: { icon: '🔥', value: currentStreak, prefix: '' },
-        bestStreak: { icon: '⭐', value: bestStreak, prefix: '' }
-    };
-    
-    const scoreboard = document.getElementById('scoreboard');
-    if (!scoreboard) {
-        console.error('Scoreboard element not found');
-        return;
+    const currentScoreElement = document.querySelector('#currentScore .score-value');
+    const bestScoreElement = document.querySelector('#bestScore .score-value');
+    const currentStreakElement = document.querySelector('#currentStreak .score-value');
+    const bestStreakElement = document.querySelector('#bestStreak .score-value');
+
+    let hasChanges = false;
+
+    // Update current score
+    if (currentScoreElement) {
+        const oldScore = currentScoreElement.textContent;
+        const newScore = `$${currentScore}`;
+        if (oldScore !== newScore) {
+            hasChanges = true;
+            currentScoreElement.textContent = newScore;
+            currentScoreElement.classList.add('changing');
+            setTimeout(() => currentScoreElement.classList.remove('changing'), 500);
+        }
     }
     
-    // Force visibility
-    scoreboard.style.display = 'block';
-    scoreboard.style.visibility = 'visible';
-    scoreboard.style.opacity = '1';
-    
-    requestAnimationFrame(() => {
-        scoreboard.classList.add('show');
-        isScoreboardVisible = true;
-        
-        // Update values with animation
-        for (const [id, data] of Object.entries(elements)) {
-            const container = document.getElementById(id);
-            if (container) {
-                const valueSpan = container.querySelector('.score-value');
-                if (valueSpan) {
-                    const newValue = `${data.prefix}${data.value}`;
-                    if (valueSpan.textContent !== newValue) {
-                        valueSpan.textContent = newValue;
-                        valueSpan.classList.remove('pulse');
-                        void valueSpan.offsetWidth; // Trigger reflow
-                        valueSpan.classList.add('pulse');
-                    }
-                }
-            }
+    // Update best score
+    if (bestScoreElement) {
+        const oldBestScore = parseInt(bestScoreElement.textContent.replace('$', '')) || 0;
+        if (currentScore > oldBestScore) {
+            hasChanges = true;
+            bestScore = currentScore;
+            bestScoreElement.textContent = `$${bestScore}`;
+            bestScoreElement.classList.add('changing');
+            setTimeout(() => bestScoreElement.classList.remove('changing'), 500);
         }
-        
-        // Hide after delay unless hovered
-        clearTimeout(window.scoreboardTimeout);
-        window.scoreboardTimeout = setTimeout(() => {
+    }
+    
+    // Update current streak
+    if (currentStreakElement) {
+        const oldStreak = currentStreakElement.textContent;
+        const newStreak = currentStreak.toString();
+        if (oldStreak !== newStreak) {
+            hasChanges = true;
+            currentStreakElement.textContent = newStreak;
+            currentStreakElement.classList.add('changing');
+            setTimeout(() => currentStreakElement.classList.remove('changing'), 500);
+        }
+    }
+    
+    // Update best streak
+    if (bestStreakElement) {
+        const oldBestStreak = parseInt(bestStreakElement.textContent) || 0;
+        if (currentStreak > oldBestStreak) {
+            hasChanges = true;
+            bestStreak = currentStreak;
+            bestStreakElement.textContent = bestStreak.toString();
+            bestStreakElement.classList.add('changing');
+            setTimeout(() => bestStreakElement.classList.remove('changing'), 500);
+        }
+    }
+
+    // Show scoreboard on changes
+    if (hasChanges) {
+        showScoreboard();
+        setTimeout(() => {
             if (!scoreboardHovered) {
-                requestAnimationFrame(() => {
-                    scoreboard.classList.remove('show');
-                    isScoreboardVisible = false;
-                });
+                hideScoreboard();
             }
         }, 3000);
-    });
+    }
+}
+
+function updateStreak(correct) {
+    if (correct) {
+        currentStreak++;
+        if (currentStreak > bestStreak) {
+            bestStreak = currentStreak;
+            console.log('New best streak:', bestStreak);
+        }
+    } else {
+        currentStreak = 0;
+    }
+    
+    // Force update the streak display
+    const bestStreakElement = document.querySelector('#bestStreak .score-value');
+    if (bestStreakElement) {
+        bestStreakElement.textContent = bestStreak.toString();
+        console.log('Updated best streak display:', bestStreakElement.textContent);
+    } else {
+        console.error('Best streak element not found');
+    }
+    
+    updateScoreBoard();
 }
 
 function normalizeQuestionData(question) {
@@ -672,6 +724,7 @@ function showEnlargedImage(url) {
     });
 }
 
+
 function toggleSlide() {
     const character = document.getElementById('trebek');
     character.classList.toggle('slide-in-left');
@@ -709,30 +762,40 @@ function updateTickerOnEvent(event) {
 }
 
 function showTicker(message, duration = 8000) {
-    console.log('Showing ticker:', message);
-    
     const ticker = document.querySelector('.event-ticker');
     const unit = ticker.querySelector('.ticker-unit');
+    const gameContainer = document.querySelector('.game-container');
+    
+    if (!unit || !gameContainer) {
+        console.error('Ticker unit or game container not found');
+        return;
+    }
+    
     const content = unit.querySelector('.ticker-content');
     
+    // Random vertical position within game container
+    const containerHeight = gameContainer.offsetHeight;
+    const randomTop = 100 + Math.random() * (containerHeight - 200); // Keep away from edges
+    unit.style.top = `${randomTop}px`;
+    
     // Reset animation
-    unit.style.animation = 'none';
+    unit.style.transform = 'translateX(100%)';
     
-    // Force reflow
-    void unit.offsetWidth;
-    
-    // Set content and ensure visibility
-    content.textContent = message;
-    unit.style.display = 'block';
-    content.style.display = 'inline-block';
+    // Set content
+    if (content) {
+        content.textContent = message;
+        content.style.display = 'inline-block';
+    }
     
     // Start animation
     requestAnimationFrame(() => {
-        unit.classList.add('animate');
+        unit.style.transition = `transform ${duration}ms linear`;
+        unit.style.transform = 'translateX(-100%)';
         
-        // Remove animation class after duration
+        // Reset after animation
         setTimeout(() => {
-            unit.classList.remove('animate');
+            unit.style.transition = 'none';
+            unit.style.transform = 'translateX(100%)';
         }, duration);
     });
 }
@@ -744,34 +807,40 @@ function initializeTicker() {
         return;
     }
     
-    // Create ticker unit if it doesn't exist
-    if (!ticker.querySelector('.ticker-unit')) {
-        const unit = document.createElement('div');
-        unit.className = 'ticker-unit';
-        
-        // Create plane if it doesn't exist
-        const plane = document.createElement('div');
-        plane.className = 'ticker-plane';
-        
-        // Add wing
-        const wing = document.createElement('div');
-        wing.className = 'wing';
-        plane.appendChild(wing);
-        
-        // Add propeller
-        const propeller = document.createElement('div');
-        propeller.className = 'propeller';
-        plane.appendChild(propeller);
-        
-        // Create content
-        const content = document.createElement('div');
-        content.className = 'ticker-content';
-        
-        // Add everything to the unit
-        unit.appendChild(plane);
-        unit.appendChild(content);
-        ticker.appendChild(unit);
+    // Remove any existing ticker unit
+    const existingUnit = ticker.querySelector('.ticker-unit');
+    if (existingUnit) {
+        existingUnit.remove();
     }
+    
+    // Create new ticker unit
+    const unit = document.createElement('div');
+    unit.className = 'ticker-unit';
+    
+    // Create plane
+    const plane = document.createElement('div');
+    plane.className = 'ticker-plane';
+    
+    // Add wing
+    const wing = document.createElement('div');
+    wing.className = 'wing';
+    plane.appendChild(wing);
+    
+    // Add propeller
+    const propeller = document.createElement('div');
+    propeller.className = 'propeller';
+    plane.appendChild(propeller);
+    
+    // Create content
+    const content = document.createElement('div');
+    content.className = 'ticker-content';
+    
+    // Add everything to the unit
+    unit.appendChild(plane);
+    unit.appendChild(content);
+    ticker.appendChild(unit);
+    
+    console.log('Ticker initialized successfully');
 }
 
 // Host image cycling
@@ -851,3 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTickerOnEvent(randomType);
     }, 10000);
 })
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeScoreboard();
+});
