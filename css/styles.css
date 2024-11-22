@@ -51,28 +51,19 @@ body {
     z-index: 1;
 }
 
-.header {
-    display: flex;
-    max-height: 13vh;
-    align-items: center;
-    justify-content: space-around;
-    border-bottom: 2vh darkblue;
-    padding: 2vh 2vh; 
-}
-
 .title-image {
     display: flex;
     background-color: rgba(81, 76, 240, 0.893);
     max-height: 12vh;
-    /* padding: 1.5vh 1.5vh; */
     border-radius: 30px;
     margin: 0 auto;
-    /* border: dotted .7vw  rgb(248, 248, 57); */
-    /* border: double 11px hsl(0, 0%, 99%); */
     max-width: 90%; 
     height: auto;
     transition: transform 0.2s ease;
     z-index: 2;
+    padding: 1em 1em;
+    /* border: dotted .7vw  rgb(248, 248, 57); */
+    /* border: double 11px hsl(0, 0%, 99%); */
 }
 
 .title-image.press-left {
@@ -85,7 +76,7 @@ body {
 
 .button-div {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     background-color: rgba(251, 255, 44, 0);
     min-height: 3vh;
     align-items: center;
@@ -94,48 +85,52 @@ body {
     justify-content: space-evenly;
 }
 
+/* Retro Keyboard Button Styles */
 #questionButton,
 #answerButton {
     display: flex;
-    z-index: 1;
-    flex-wrap: row wrap;
-    font-family: "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    height: 6vmin;
-    /* font-size: 1.75vmin;  */
-    font-weight: bold;
-    font-size: 1.5em;
+    font-family: "Press Start 2P", system-ui;
+    min-height: 50px;
+    font-size: clamp(0.8rem, 1.5vw, 1.2rem);
     text-align: center;
     justify-content: center;
     align-items: center;
-    background-color: #FFDD00; 
-    /* border: 3px solid #FFAA00;  */
-    border-radius: 10px; 
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-    color: #ff1212; 
+    background: linear-gradient(145deg, #f0f0f0, #d4d4d4);
+    border: 2px solid #999;
+    border-radius: 8px;
+    box-shadow: 
+        0 4px 0 #666,
+        0 6px 6px rgba(0, 0, 0, 0.3);
+    color: #333;
     cursor: pointer;
-    padding: 2vh 30px;
-    margin-bottom: 1vh;
-    /* transition: all 0.3s ease; */
-    /* text-transform: uppercase; */
+    padding: 0.8em 1.5em;
+    margin: 0.5em;
+    white-space: nowrap;
+    min-width: 160px;
+    transition: all 0.1s ease-out;
+    text-transform: uppercase;
+    z-index: 3;
 }
 
 #questionButton:hover,
 #answerButton:hover {
-    color: rgba(4, 5, 96, 0.777);
-    box-shadow: 0 10px hsl(147, 100%, 85%);
-    border-bottom: 3px;
-    /* transform: translateY(2px); */
-    background: linear-gradient(145deg, #ff0000, #ff0f6f);
-    /* padding: 5px; */
-
+    color: #ff1fc3;
+    text-shadow: 0 0 5px rgba(255, 31, 195, 0.5);
+    transform: translateY(-2px);
+    filter: hue-rotate(20deg) saturate(200%) brightness(130%);
+    box-shadow: 
+        0 6px 0 #666,
+        0 8px 8px rgba(0, 0, 0, 0.3);
 }
 
 #questionButton:active,
 #answerButton:active {
-    transition:cubic-bezier(1, 0, 0, 1);
-    color: white;
+    transform: translateY(4px);
+    box-shadow: 
+        0 0 0 #666,
+        0 0 0 rgba(0, 0, 0, 0.3);
+    background: linear-gradient(145deg, #d4d4d4, #f0f0f0);
 }
-
 
 .trebek {
     max-width: 40vw; 
@@ -145,14 +140,33 @@ body {
     z-index: 3;
 }
 
+.trebek {
+    position: absolute;
+    left: 2vw;
+    bottom: 0;
+    max-height: 35vh;  /* Reduced from 37vh */
+    max-width: 25vw;   /* Reduced from 27vw */
+    min-height: 150px; /* Added minimum height */
+    filter: drop-shadow(10px 10px 10px rgba(255, 187, 142, 0.8));
+    transition: all 0.5s ease-in-out;
+    z-index: 3;
+}
+
+@media (max-width: 768px) {
+    .trebek {
+        max-height: 25vh;
+        max-width: 22vw;
+    }
+}
+
 #checkButton {
     color: rgb(248, 245, 82);
     width: 50vw;
-    height: 8vh;
+    height: 4em;
     background-color: #4b21f4e4;    
     font-family: "Press Start 2P", BlinkMacSystemFont, monospace;
     font-weight: bolder;
-    font-size: 2.7vmin;
+    font-size: 1.1em;
     border: ridge 10px rgb(247, 13, 5);
     padding: 5px 7px;
     border-radius: 5px;
@@ -269,7 +283,7 @@ body {
     text-transform: uppercase;
     color: transparent;
     color: #ff8ff6; Jeopardy gold;
-    font-size: 2.7vmin;
+    font-size: 1.1em;
     font-weight: bold;
     margin-bottom: 5px; /* Reduced margin */
     text-shadow: 2px 2px 0px #000000;
@@ -280,7 +294,7 @@ body {
     font-family: monospace, serif;
     text-transform: uppercase;
     color: #b6ffa9;
-    font-size: 2.3vmin;
+    font-size: 1em;
     font-weight: bold;
     margin-bottom: 5px; /* Reduced margin */
     text-shadow: 2px 2px 0px #000000;
@@ -289,7 +303,7 @@ body {
 
 #questionBox {
     font-family: "Korinna", serif;
-    font-size: 3.3vmin;
+    font-size: 1.2em;
     font-weight: bold;
     text-transform: uppercase;
     color: #FFFFFF;
@@ -329,9 +343,9 @@ body {
 }
 
 .trebek:hover {
-    filter: hue-rotate(40deg) saturate(380%);
+    filter: hue-rotate(10deg) saturate(380%) brightness(130%);
     /* animation: bounce 2s infinite; */
-    /* filter: hue-rotate(6deg) saturate(280%) brightness(300%) contrast(70%) sepia(60%); */
+    /* filter: hue-rotate(6deg) saturate(50%) brightness(200%) contrast(30%) sepia(30%); */
 }
 
 .trebek::before {
@@ -497,17 +511,17 @@ body {
 /* SCOREBOARD  */
 .game-container #scoreboard {
     position: absolute;
-    bottom: 20px;
+    bottom: .5em;
     right: 0;
-    transition: transform 0.5s ease-in-out;
-    /* background: linear-gradient(90deg, rgba(255, 46, 245, 0.48) 0%, rgba(255, 247, 100, 0.8) 100%); */
     background: rgba(52, 123, 255, 0.741);
-    padding: 15px 25px 15px 25px;
+    /* padding: 15px 25px 15px 25px; */
+    padding: 1em 1.5em 1em 1.5em;
     border-radius: 10px 0 0 10px;
     color: #fff;
     width: 260px;
-    z-index: 1000;
     transform: translateX(220px);
+    transition: transform 0.5s ease-in-out;
+    z-index: 5;
 }
 
 .game-container #scoreboard:hover,
@@ -684,7 +698,13 @@ body {
     100% { background-color: rgba(255, 0, 0, 0); }
 }
 
-MAKE ELEMENTS DRAGGABLE & RESIZEABLE
+
+
+
+
+
+
+/* MAKE ELEMENTS DRAGGABLE & RESIZEABLE */
 
 .draggable-resizable {
     position: absolute; /* Ensures you can move it freely */
@@ -707,6 +727,8 @@ MAKE ELEMENTS DRAGGABLE & RESIZEABLE
 
 
 
+
+/* ___________________________________________________________________________ */
 
 /* =================
    Media Queries
@@ -750,3 +772,136 @@ MAKE ELEMENTS DRAGGABLE & RESIZEABLE
         min-height: 30vh;  /* Taller in landscape to accommodate content */
     }
 }
+
+
+
+/* Improved Scoreboard Styles 
+
+.game-container #scoreboard {
+    position: fixed;
+    bottom: 20px;
+    right: 0;
+    max-height: calc(100vh - 40px);
+    max-width: min(300px, 30vw);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(52, 123, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px 0 0 10px;
+    color: #fff;
+    z-index: 1000;
+    transform: translateX(calc(100% - 40px));
+    backdrop-filter: blur(5px);
+    overflow-y: auto;
+}
+
+@keyframes slideInScoreboard {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(calc(100% - 40px));
+        opacity: 1;
+    }
+}
+
+.game-container #scoreboard.initial-show {
+    animation: scoreboardFullShow 1.5s ease-out;
+}
+
+@keyframes scoreboardFullShow {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(calc(100% - 40px));
+    }
+}
+
+.game-container #scoreboard:hover,
+.game-container #scoreboard.show {
+    transform: translateX(0);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.scoreboard-content {
+    width: 100%;
+    padding-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .game-container #scoreboard {
+        max-width: min(260px, 40vw);
+        font-size: 0.9em;
+    }
+    
+    .score-label {
+        font-size: 0.7em;
+    }
+    
+    .score-value {
+        font-size: 0.8em;
+        min-width: 60px;
+    }
+} 
+*/
+
+
+
+
+
+
+
+
+
+/* #questionButton,
+#answerButton {
+    display: flex;
+    background-color: #FFDD00; 
+    color: #ff1212; 
+    flex-wrap: row wrap;
+    font-family: "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    height: 6vmin;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px; 
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    padding: 2vh 30px;
+    margin-bottom: 1vh;
+    z-index: 3;
+}
+
+#questionButton:hover,
+#answerButton:hover {
+    color: rgba(4, 5, 96, 0.777);
+    box-shadow: 0 10px hsl(147, 100%, 85%);
+    border-bottom: 3px;
+    background: linear-gradient(145deg, #ff0000, #ff0f6f);
+}
+
+#questionButton:active,
+#answerButton:active {
+    transition:cubic-bezier(1, 0, 0, 1);
+    color: white;
+} 
+*/
+
+
+
+/* .header {
+    display: flex;
+    max-height: 13vh;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 2vh darkblue;
+    padding: 2vh 2vh; 
+} */
