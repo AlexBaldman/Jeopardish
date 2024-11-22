@@ -203,14 +203,15 @@ body {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
     caret-color: transparent; /* Hide the default cursor */
-    z-index: 1;
+    z-index: 3;
 }
 
+/* input box custom cursor  */
 .custom-cursor {
     position: absolute;
     width: 12px;
     height: 24px;
-    background-color: #00ff00;
+    background-color: #00ff0076;
     animation: blink 1s step-end infinite;
     pointer-events: none;
     top: 50%;
@@ -227,6 +228,7 @@ body {
         opacity: 1;
     }
 }
+
 
 /* SPEECH BUBBLE  */
 .speechBubble {
@@ -247,7 +249,7 @@ body {
     z-index: 2;
 }
 
-/* SPEECH BUBBLE POINTER */
+/* speech bubble pointer */
 .speechBubble::before {
     content: '';
     position: absolute;
@@ -341,7 +343,8 @@ body {
     transform: scale(1.2);
 }
 
-/* TICKER PLANE */
+
+/* TICKER PLANE & EVENT TICKER MESSAGES */
 .event-ticker {
     position: absolute;
     top: 20%;
@@ -491,6 +494,7 @@ body {
     border-radius: 5px;
 }
 
+/* SCOREBOARD  */
 .game-container #scoreboard {
     position: absolute;
     bottom: 20px;
@@ -594,6 +598,8 @@ body {
     }
 }
 
+
+/* IMAGE MODAL  */
 .image-modal {
     position: fixed;
     top: 0;
@@ -621,6 +627,7 @@ body {
     border-radius: 10px;
 }
 
+/* modal close button */
 .close-button {
     position: absolute;
     top: -40px;
@@ -676,6 +683,30 @@ body {
     50% { background-color: rgba(255, 0, 0, 0.2); }
     100% { background-color: rgba(255, 0, 0, 0); }
 }
+
+MAKE ELEMENTS DRAGGABLE & RESIZEABLE
+
+.draggable-resizable {
+    position: absolute; /* Ensures you can move it freely */
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+    overflow: hidden; /* Useful for images */
+    resize: both; /* CSS property to allow resizing */
+    min-width: 50px; /* Avoid elements collapsing */
+    min-height: 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+  }
+  
+  .draggable-resizable:active {
+    cursor: grabbing;
+  }
+
+
+
+
+
+
 
 /* =================
    Media Queries
