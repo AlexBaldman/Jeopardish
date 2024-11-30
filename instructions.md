@@ -1,5 +1,5 @@
 # New Task List
-- Add animation for changing digits when score changes
+- Add alternate or improved animations for changing digits when score changes
 - Or change scoreboard to be flippovers like an old school alarm clock or stock ticker
 - Maybe a scrolling ticker animation announcing events along the bottom, or a random part of the screen
 
