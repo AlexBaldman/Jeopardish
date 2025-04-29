@@ -1,9 +1,18 @@
 # New Task List
+
+IGNORE CURRENTLY UNUSED / UNLINKED FILES & FOLDERS IN PROJECT DIRECTORY:
+
+- need to remove or move unused files at the moment and explain in instructions or notes file where the operative files are located and add custom instructions to make sure LLMs know that just because files or folders are in our project folder, does not mean they are being used, so the references in the files should always be double checked... if it would just look in the index.html & see that currently none of the individual css files (split into separate css files for each component) are currently being used.  For now, styles.css holds all of our styles, and soon when we get things working in a nice way and feel ready to abstract things into separate concerns, we will re-do all these individual files in the css folder..  But again, the point is this can easily be seen by just double checking the imports and seeing that if files are not referenced or called in to the app, they are not being used.
+
+
 - Add alternate or improved animations for changing digits when score changes
+
 - Or change scoreboard to be flippovers like an old school alarm clock or stock ticker
+
 - Maybe a scrolling ticker animation announcing events along the bottom, or a random part of the screen
 
 ## Scoreboard
+
 - make a new version of the scoreboard, in the style of the old school alarm clocks with the flipping panels and make it have a dope animation for the numbers changing along these lines
 	
 ## Trebek animation ideas:

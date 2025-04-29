@@ -1,4 +1,4 @@
-/* Korrina Normal */
+/* Korinna Normal */
 @font-face {
     font-family: 'Korinna';
     src: url('./fonts/Korinna.woff2') format('woff2');
@@ -6,7 +6,7 @@
     font-style: normal;
 }
 
-/* Korrina Italic */
+/* Korrinna Italic */
 @font-face {
     font-family: 'KorrinaItalic';
     src: url('./fonts/KorinnaItalic.woff2') format('woff2');
@@ -14,7 +14,7 @@
     font-style: italic;
 }
 
-/* Korrina Bold */
+/* Korinna Bold */
 @font-face {
     font-family: 'KorinnaBold';
     src: url('./fonts/KorinnaBold.woff2') format('woff2');
@@ -22,10 +22,10 @@
     font-style: normal;
 }
 
-/* Korrina Bold Italic */
+/* Korinna Bold Italic */
 @font-face {
     font-family: 'KorinnaBoldItalic';
-    src: url('./fonts/KorinnaBoldItalic.woff2') format('woff2');
+    src: url('./fonts/KorinnaBold-Italic.woff2') format('woff2');
     font-weight: bold;
     font-style: italic;
 }

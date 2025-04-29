@@ -4,6 +4,7 @@ let bestScore = 0;
 let currentStreak = 0;
 let bestStreak = 0;
 let scoreboardInitialized = false; // New variable to track initialization
+let peekTokens = 5; // Initialize peek tokens
 
 // API url to fetch data for random question
 const apiUrl = 'https://cluebase.lukelav.in/clues/random';
@@ -205,7 +206,18 @@ async function getNewQuestion() {
     // Reset all state flags
     showingMessage = false;
     answerWasRevealed = false;
-    userInput.value = '';
+    
+    // Get and clear input box
+    const inputBox = document.getElementById('inputBox');
+    if (inputBox) {
+        inputBox.value = '';
+    }
+    
+    // Get answer box for visibility
+    const answerBox = document.getElementById('answerBox');
+    if (answerBox) {
+        answerBox.style.display = 'none';
+    }
     
     try {
         // Local question handling
@@ -226,10 +238,14 @@ async function getNewQuestion() {
         displayQuestion(normalizedQuestion);
         
         // Ensure answer is hidden when loading new question
-        answerBox.style.display = 'none';
+        if (answerBox) {
+            answerBox.style.display = 'none';
+        }
         
         // Auto-focus the input box
-        userInput.focus();
+        if (inputBox) {
+            inputBox.focus();
+        }
     } catch (error) {
         console.error("❌ Failed to get new question:", error);
         displayErrorJoke();
@@ -265,6 +281,15 @@ const jeopardyErrors = [
 
 // Function to display error messages in the UI
 function displayErrorMessage(message) {
+    const categoryBox = document.getElementById('categoryBox');
+    const questionBox = document.getElementById('questionBox');
+    const answerBox = document.getElementById('answerBox');
+    
+    if (!categoryBox || !questionBox || !answerBox) {
+        console.error('Missing required DOM elements for error message display');
+        return;
+    }
+    
     categoryBox.innerHTML = "Error";
     questionBox.innerHTML = message;
     answerBox.innerHTML = "";
@@ -272,102 +297,150 @@ function displayErrorMessage(message) {
 }
 
 // Function to display a random error joke
-const displayErrorJoke = () => {
-    let randomError = jeopardyErrors[Math.floor(Math.random() * jeopardyErrors.length)];
-    categoryBox.innerHTML = randomError.category + '<br/> for ' + randomError.value;
-    questionBox.innerHTML = randomError.question;
-    answerBox.innerHTML = randomError.answer;
-    answerBox.style.display = 'block';
-};
-
-
-// SHOW OR HIDE ANSWER
-const showHideAnswer = () => {
-    if (answerBox.style.display === "none") {
-        answerBox.style.display = "flex";
-        answerWasRevealed = true;  // Set flag when answer is revealed
-        // showingMessage = true; // Set flag to indicate a message is being shown
-    } else {
-        answerBox.style.display = "none";
-        // showingMessage = false; // Reset flag when answer is hidden
+function displayErrorJoke() {
+    try {
+        const questionBox = document.getElementById('questionBox');
+        const categoryBox = document.getElementById('categoryBox');
+        const valueBox = document.getElementById('valueBox');
+        
+        if (!questionBox || !categoryBox || !valueBox) {
+            console.error('Missing required DOM elements for error joke display');
+            return;
+        }
+        
+        // Get a random error joke
+        const errorJoke = jeopardyErrors[Math.floor(Math.random() * jeopardyErrors.length)];
+        
+        categoryBox.innerHTML = errorJoke.category;
+        questionBox.innerHTML = errorJoke.question;
+        valueBox.innerHTML = 'for $ERROR';
+    } catch (error) {
+        console.error('Failed to display error joke:', error);
     }
-};
+}
 
-const checkAnswer = () => {
+// Array of cheeky comments for when users try to answer after revealing the answer
+const cheekyComments = [
+    "Nah uh buddy, not so fast! Trying to cheat?!!",
+    "Nice try! Peeking at answers doesn't count!",
+    "Oh come on, you already saw the answer!",
+    "Hmm, suddenly you know the answer? How suspicious...",
+    "Sorry, no points when you've already peeked!",
+    "I see what you did there! No credit after peeking!",
+    "Cheaters never prosper... but you can still try the next question!"
+];
+
+function checkAnswer() {
     console.log('🎯 checkAnswer called');
     
-    // Guard clauses with proper state handling
-    if (!currentQuestion) {
-        console.log('❌ No active question');
-        displayErrorMessage('No question loaded. Click "New Question" to start!');
-        return;
-    }
-
-    if (answerWasRevealed || showingMessage) {
-        console.log('⏭️ Moving to next question');
-        getNewQuestion();
-        return;
-    }
-
-    const userAnswerCleaned = cleanAnswer(userInput.value);
-    if (!userAnswerCleaned) {
-        console.log('❌ Empty user input');
-        displayErrorMessage('Please enter an answer!');
-        return;
-    }
-
-    // Get the correct answer
-    const originalAnswer = answerBox.innerHTML.trim();
-    const correctAnswer = cleanAnswer(originalAnswer);
-    const isCorrect = compareAnswers(userAnswerCleaned, correctAnswer);
+    const userInput = document.getElementById('inputBox'); 
+    const answerBox = document.getElementById('answerBox');
     
-    if (isCorrect) {
-        // Update streak
-        updateStreak(true);
-        
-        // Get question value
-        let questionValue = 200; // Default value
-        if (currentQuestion && currentQuestion.value) {
-            // Try to parse the value, removing any non-numeric characters
-            const parsedValue = parseInt(currentQuestion.value.toString().replace(/[^0-9]/g, ''));
-            if (!isNaN(parsedValue)) {
-                questionValue = parsedValue;
-            }
+    if (!userInput || !answerBox || !window.currentQuestion) {
+        console.error('Required elements or question not found');
+        return;
+    }
+    
+    const userAnswer = userInput.value.trim().toLowerCase();
+    const correctAnswer = (window.currentQuestion.translatedAnswer || window.currentQuestion.answer || '').toLowerCase();
+    
+    // Clean answers by removing parentheses and their contents
+    const cleanedUserAnswer = userAnswer.replace(/\s*\([^\)]+\)\s*/g, '').trim();
+    const cleanedCorrectAnswer = correctAnswer.replace(/\s*\([^\)]+\)\s*/g, '').replace(/\\/g, '').trim();
+    
+    // Store the user input (but don't update the display yet)
+    const userEnteredText = `YOU ENTERED: ${userAnswer}`;
+    
+    if (!userAnswer) {
+        console.log('No answer provided');
+        return;
+    }
+    
+    console.log('Checking answer:', { userAnswer, correctAnswer });
+    
+    // Use compareAnswers function to check the answers
+    const isCorrect = compareAnswers(cleanedUserAnswer, cleanedCorrectAnswer);
+    
+    // Update game state
+    userInput.value = '';
+    
+    // Handle revealed answers differently based on correctness
+    if (answerWasRevealed) {
+        // If they peeked at the answer and got it correct
+        if (isCorrect) {
+            const cheekyComment = cheekyComments[Math.floor(Math.random() * cheekyComments.length)];
+            
+            categoryBox.innerHTML = "";
+            valueBox.innerHTML = "";
+            questionBox.innerHTML = `That's correct! But ${cheekyComment.toLowerCase()} Since you looked at the answer, you don't get any points and your streak has been reset.`;
+            answerBox.innerHTML = `The correct answer was: ${correctAnswer}`;
+            answerBox.style.display = "flex";
+            showingMessage = true;
+            
+            // Reset streak
+            updateStreak(false);
+            updateTickerOnEvent('incorrect');
+        } else {
+            // If they peeked but still got it wrong, just proceed normally
+            updateStreak(false);
+            displayIncorrectAnswerMessage(correctAnswer);
+            updateTickerOnEvent('incorrect');
         }
-        console.log('Question value:', questionValue);
-        
-        // Update scores
-        currentScore += questionValue;
-        bestScore = Math.max(bestScore, currentScore);
-        console.log('Scores updated:', { currentScore, bestScore });
-        
+        return;
+    }
+    
+    // Handle result for normal answers (not revealed)
+    if (isCorrect) {
+        currentScore += window.currentQuestion.value;
         displayCorrectAnswerMessage();
+        updateStreak(true);
         updateTickerOnEvent('correct', { streak: currentStreak });
     } else {
         updateStreak(false);
-        currentScore = 0;
-        displayIncorrectAnswerMessage(originalAnswer);
+        displayIncorrectAnswerMessage(correctAnswer);
         updateTickerOnEvent('incorrect');
     }
 
-    // Update UI
-    updateScoreBoard();
-    userInput.value = '';
-    showingMessage = true;
-};
+    // Only get new question if we're not showing a message
+    if (!showingMessage) {
+        setTimeout(() => {
+            getNewQuestion();
+        }, 2000);
+    }
+}
 
 // correct answer message
-const displayCorrectAnswerMessage = () => {
+function displayCorrectAnswerMessage() {
+    const categoryBox = document.getElementById('categoryBox');
+    const valueBox = document.getElementById('valueBox');
+    const questionBox = document.getElementById('questionBox');
+    const answerBox = document.getElementById('answerBox');
+    
+    if (!categoryBox || !valueBox || !questionBox || !answerBox) {
+        console.error('Missing required DOM elements for correct answer message display');
+        return;
+    }
+    
     categoryBox.innerHTML = "";
     valueBox.innerHTML = "";
     questionBox.innerHTML = `Correctamundo and cowabunga, my friend! Your streak is now ${currentStreak}. Keep it going, sir or lady or other person!!`;
-    answerBox.style.display = "flex";
     answerBox.innerHTML = "";
+    answerBox.style.display = "flex";
     showingMessage = true; // Set flag to indicate a message is being shown
 };
 
 // incorrect answer message
-const displayIncorrectAnswerMessage = (correctAnswer) => {
+function displayIncorrectAnswerMessage(correctAnswer) {
+    const categoryBox = document.getElementById('categoryBox');
+    const valueBox = document.getElementById('valueBox');
+    const questionBox = document.getElementById('questionBox');
+    const answerBox = document.getElementById('answerBox');
+    
+    if (!categoryBox || !valueBox || !questionBox || !answerBox) {
+        console.error('Missing required DOM elements for incorrect answer message display');
+        return;
+    }
+    
     categoryBox.innerHTML = "";
     valueBox.innerHTML = "";
     questionBox.innerHTML = `Incorrect, you fool! Your streak is now reset! Try again, sir or lady or other person!!`;
@@ -376,59 +449,64 @@ const displayIncorrectAnswerMessage = (correctAnswer) => {
     showingMessage = true; // Set flag to indicate a message is being shown
 };
 
-// display snarky message
-function displaySnarkyMessage() {
+// display cheeky message
+function displayCheekyMessage(cheekyComment) {
+    const categoryBox = document.getElementById('categoryBox');
+    const valueBox = document.getElementById('valueBox');
+    const questionBox = document.getElementById('questionBox');
+    const answerBox = document.getElementById('answerBox');
+    
+    if (!categoryBox || !valueBox || !questionBox || !answerBox) {
+        console.error('Missing required DOM elements for cheeky message display');
+        return;
+    }
+    
     categoryBox.innerHTML = "";
     valueBox.innerHTML = "";
-    questionBox.innerHTML = "Nice try! But you can't just copy the answer and expect to get points. Better luck next time!";
-    answerBox.style.display = "flex";
+    questionBox.innerHTML = cheekyComment;
     answerBox.innerHTML = "";
+    answerBox.style.display = "flex";
     showingMessage = true;
 }
 
-// clean up and standardize answers for comparison
-const cleanAnswer = (answer) => {
-    return answer.toLowerCase()
-        .replace(/^(what|who|where|when) (is|are|was|were) /i, '')
-        .replace(/[^a-z0-9]/g, '')
-        .replace(/\\/g, '')
-        .trim();
-};
+function compareAnswers(userAnswer, correctAnswer) {
+    console.group('🎯 Answer Comparison');
+    console.log('User Answer:', userAnswer);
+    console.log('Correct Answer:', correctAnswer);
+    
+    const cleanedUser = cleanAnswer(userAnswer);
+    const cleanedCorrect = cleanAnswer(correctAnswer);
+    console.log('Cleaned User Answer:', cleanedUser);
+    console.log('Cleaned Correct Answer:', cleanedCorrect);
+    
+    // Split correct answers into an array
+    const correctAnswersArray = cleanedCorrect.split(',').map(answer => answer.trim());
+    
+    // Check if user's answer matches any of the correct answers
+    const isCorrect = correctAnswersArray.some(correct => cleanedUser.includes(correct));
+    
+    console.log('Match Result:', isCorrect ? '✅ Accepted' : '❌ Rejected');
+    console.groupEnd();
+    
+    return isCorrect;
+}
 
-// Function to compare user's answer with the correct answer
-const compareAnswers = (userAnswer, correctAnswer) => {
-    // Check if the user's answer is contained within the correct answer or vice versa
-    if (correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer)) {
-        return true;
-    }
-    const levenshteinDistance = getLevenshteinDistance(userAnswer, correctAnswer);
-    return levenshteinDistance <= Math.min(3, Math.floor(correctAnswer.length / 2));
-};
-
-// Levenshtein distance algorithm (for determining if the answer given is close enough to count as the correct answer)
-const getLevenshteinDistance = (a, b) => {
-    const matrix = [];
-    let i, j;
-    if (a.length === 0) return b.length;
-    if (b.length === 0) return a.length;
-
-    for (i = 0; i <= b.length; i++) {
-        matrix[i] = [i];
-    }
-    for (j = 0; j <= a.length; j++) {
-        matrix[0][j] = j;
-    }
-    for (i = 1; i <= b.length; i++) {
-        for (j = 1; j <= a.length; j++) {
-            if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                matrix[i][j] = matrix[i - 1][j - 1];
-            } else {
-                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
-            }
-        }
-    }
-    return matrix[b.length][a.length];
-};
+function cleanAnswer(answer) {
+    if (!answer) return '';
+    
+    // Convert to lowercase and trim
+    let cleaned = answer.toLowerCase().trim();
+    
+    // Remove leading articles (a, an, the)
+    cleaned = cleaned.replace(/^(a|an|the)\s+/i, '');
+    
+    // Remove punctuation and extra spaces
+    cleaned = cleaned.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+    cleaned = cleaned.replace(/\s+/g, ' ').trim();
+    
+    console.log(`🧹 Cleaned answer: "${answer}" → "${cleaned}"`);
+    return cleaned;
+}
 
 // Scoreboard state management
 let isScoreboardVisible = false;
@@ -504,20 +582,39 @@ function updateScoreBoard() {
         if (oldScore !== newScore) {
             hasChanges = true;
             currentScoreElement.textContent = newScore;
+            
+            // Add changing class to both the element and its parent
             currentScoreElement.classList.add('changing');
-            setTimeout(() => currentScoreElement.classList.remove('changing'), 500);
+            document.getElementById('currentScore').classList.add('changing');
+            
+            // Remove classes after animation completes
+            setTimeout(() => {
+                currentScoreElement.classList.remove('changing');
+                document.getElementById('currentScore').classList.remove('changing');
+            }, 1000);
         }
+        console.log('Old Score:', oldScore);
+        console.log('New Score:', newScore);
+        console.log('Current Score:', currentScore);
     }
     
-    // Update best score
+    // Update top score
     if (bestScoreElement) {
         const oldBestScore = parseInt(bestScoreElement.textContent.replace('$', '')) || 0;
         if (currentScore > oldBestScore) {
             hasChanges = true;
             bestScore = currentScore;
             bestScoreElement.textContent = `$${bestScore}`;
+            
+            // Add changing class to both the element and its parent
             bestScoreElement.classList.add('changing');
-            setTimeout(() => bestScoreElement.classList.remove('changing'), 500);
+            document.getElementById('bestScore').classList.add('changing');
+            
+            // Remove classes after animation completes
+            setTimeout(() => {
+                bestScoreElement.classList.remove('changing');
+                document.getElementById('bestScore').classList.remove('changing');
+            }, 1000);
         }
     }
     
@@ -528,8 +625,16 @@ function updateScoreBoard() {
         if (oldStreak !== newStreak) {
             hasChanges = true;
             currentStreakElement.textContent = newStreak;
+            
+            // Add changing class to both the element and its parent
             currentStreakElement.classList.add('changing');
-            setTimeout(() => currentStreakElement.classList.remove('changing'), 500);
+            document.getElementById('currentStreak').classList.add('changing');
+            
+            // Remove classes after animation completes
+            setTimeout(() => {
+                currentStreakElement.classList.remove('changing');
+                document.getElementById('currentStreak').classList.remove('changing');
+            }, 1000);
         }
     }
     
@@ -540,8 +645,16 @@ function updateScoreBoard() {
             hasChanges = true;
             bestStreak = currentStreak;
             bestStreakElement.textContent = bestStreak.toString();
+            
+            // Add changing class to both the element and its parent
             bestStreakElement.classList.add('changing');
-            setTimeout(() => bestStreakElement.classList.remove('changing'), 500);
+            document.getElementById('bestStreak').classList.add('changing');
+            
+            // Remove classes after animation completes
+            setTimeout(() => {
+                bestStreakElement.classList.remove('changing');
+                document.getElementById('bestStreak').classList.remove('changing');
+            }, 1000);
         }
     }
 
@@ -594,114 +707,207 @@ function normalizeQuestionData(question) {
     };
 }
 
-function displayQuestion(question) {
-    console.log('🎨 Displaying question:', question);
-    
-    try {
-        // Verify DOM elements
-        const elements = {categoryBox, questionBox, answerBox, valueBox};
-        const missingElements = Object.entries(elements)
-            .filter(([name, element]) => !element)
-            .map(([name]) => name);
-            
-        if (missingElements.length > 0) {
-            throw new Error(`Missing DOM elements: ${missingElements.join(', ')}`);
-        }
-
-        // Display logic
-        categoryBox.innerHTML = question.category;
-        valueBox.innerHTML = `for ${question.value}`;
-        answerBox.innerHTML = question.answer;
-        answerBox.style.display = 'none';
-
-        // Process question text
-        let questionText = question.question;
-        console.log('📝 Processing question text:', questionText);
-        
-        // Remove leading and trailing quotes
-        questionText = questionText.replace(/^['"]|['"]$/g, '');
-
-        // Handle both direct image URLs and links containing images
-        const imgRegex = /<img[^>]+src="([^">]+)"[^>]*>/gi;
-        const linkRegex = /<a\s+(?:[^>]*?\s+)?href="([^"]*)"[^>]*>(.*?)<\/a>/gi;
-        
-        // First, handle direct image tags
-        questionText = questionText.replace(imgRegex, (match, src) => {
-            return `<img src="${src}" alt="Question Image" class="embedded-image" onerror="this.style.display='none';">`;
-        });
-
-        // Then handle links that should be converted to images
-        questionText = questionText.replace(linkRegex, (match, url, text) => {
-            // Check if URL ends with an image extension
-            const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
-            if (isImage) {
-                return `${text} <br><img src="${url}" alt="Question Image" class="embedded-image" onerror="this.style.display='none';">`;
-            }
-            return `<a href="${url}" target="_blank">${text}</a>`;
-        });
-
-        questionBox.innerHTML = questionText;
-
-        // Add click event listeners to embedded images
-        const embeddedImages = questionBox.querySelectorAll('.embedded-image');
-        embeddedImages.forEach(img => {
-            img.addEventListener('load', () => {
-                img.style.display = 'block'; // Show image once loaded
-                console.log('✅ Image loaded successfully:', img.src);
-            });
-            
-            img.addEventListener('click', () => {
-                showEnlargedImage(img.src);
-            });
-        });
-
-        console.log('✅ Question displayed successfully');
-    } catch (error) {
-        console.error('❌ Error in displayQuestion:', error);
-        console.error('Question data:', question);
-        throw error;
+function displayQuestion(questionData) {
+    if (!questionData) {
+        console.error('No question data provided');
+        return;
     }
+
+    console.log('🎨 Displaying question:', questionData);
+    
+    // Store current question without modifications
+    window.currentQuestion = questionData;
+    
+    // Get DOM elements
+    const elements = {
+        categoryBox: document.getElementById('categoryBox'),
+        questionBox: document.getElementById('questionBox'),
+        answerBox: document.getElementById('answerBox'),
+        valueBox: document.getElementById('valueBox'),
+        userInput: document.getElementById('inputBox')
+    };
+
+    // Display category and value
+    if (elements.categoryBox) elements.categoryBox.textContent = questionData.category;
+    if (elements.valueBox) elements.valueBox.textContent = `for ${questionData.value}`;
+
+    // Handle question display
+    if (elements.questionBox) {
+        const mediaInfo = parseMediaContent(questionData.question);
+        elements.questionBox.innerHTML = createQuestionHTML(mediaInfo);
+    }
+
+    // Reset answer box
+    if (elements.answerBox) {
+        elements.answerBox.textContent = questionData.answer;
+        elements.answerBox.style.display = 'none';
+    }
+
+    // Reset input
+    if (elements.userInput) {
+        elements.userInput.value = '';
+        elements.userInput.focus();
+    }
+
+    // Reset state
+    answerWasRevealed = false;
+    showingMessage = false;
 }
 
-function showEnlargedImage(url) {
+// Helper function to create question HTML
+function createQuestionHTML(mediaInfo) {
+    // Remove any surrounding quotes and clean up the text
+    let cleanText = mediaInfo.text.replace(/^["']|["']$/g, '').trim();
+    
+    let html = cleanText
+        .split('\n')
+        .map(line => line.trim())
+        .join('<br>');
+
+    if (mediaInfo.type && mediaInfo.url) {
+        html += '<div class="media-container">';
+        switch (mediaInfo.type) {
+            case 'image':
+                html += `<img src="${mediaInfo.url}" alt="Question Image" class="media-thumbnail" 
+                    onclick="openMediaModal('${mediaInfo.url}', 'image')">
+                    <span class="media-indicator">🖼️ Click to enlarge</span>`;
+                break;
+            case 'audio':
+                html += `<button onclick="openMediaModal('${mediaInfo.url}', 'audio')" class="media-button">
+                    🔊 Play Audio
+                </button>`;
+                break;
+            case 'video':
+                html += `<button onclick="openMediaModal('${mediaInfo.url}', 'video')" class="media-button">
+                    🎥 Play Video
+                </button>`;
+                break;
+        }
+        html += '</div>';
+    }
+
+    return html;
+}
+
+// Helper function to parse media content from question
+function parseMediaContent(question) {
+    const result = {
+        text: question,
+        type: null,
+        url: null
+    };
+
+    // Check for media links
+    const linkMatch = question.match(/<a[^>]+href="([^"]+)"[^>]*>(.*?)<\/a>/);
+    if (!linkMatch) return result;
+
+    const [fullMatch, url, text] = linkMatch;
+    result.text = text;
+    result.url = url;
+
+    // Determine media type from URL
+    if (url.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        result.type = 'image';
+    } else if (url.match(/\.(mp3|wav|ogg)$/i)) {
+        result.type = 'audio';
+    } else if (url.match(/\.(mp4|webm|mov)$/i)) {
+        result.type = 'video';
+    }
+
+    return result;
+}
+
+function openMediaModal(url, type) {
     // Remove any existing modals
-    const existingModal = document.querySelector('.image-modal');
+    const existingModal = document.querySelector('.media-modal');
     if (existingModal) {
         document.body.removeChild(existingModal);
     }
 
+    // Create modal container
     const modal = document.createElement('div');
-    modal.className = 'image-modal';
+    modal.className = 'media-modal';
     
+    // Create modal content
     const content = document.createElement('div');
-    content.className = 'modal-content';
+    content.className = 'media-modal-content';
     
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = 'Enlarged Image';
-    img.className = 'enlarged-image';
-    
+    // Create close button with better visibility
     const closeBtn = document.createElement('button');
     closeBtn.className = 'close-button';
-    closeBtn.innerHTML = '&times;';
+    closeBtn.innerHTML = '×'; // Using × instead of &times; for better rendering
+    closeBtn.setAttribute('aria-label', 'Close modal');
     
-    content.appendChild(img);
+    // Create media element based on type
+    let mediaElement;
+    switch (type) {
+        case 'image':
+            mediaElement = document.createElement('img');
+            mediaElement.src = url;
+            mediaElement.alt = 'Question Image';
+            break;
+        case 'video':
+            mediaElement = document.createElement('video');
+            mediaElement.src = url;
+            mediaElement.controls = true;
+            mediaElement.autoplay = false;
+            break;
+        case 'audio':
+            mediaElement = document.createElement('audio');
+            mediaElement.src = url;
+            mediaElement.controls = true;
+            mediaElement.autoplay = false;
+            break;
+    }
+    
+    // Assemble modal
+    content.appendChild(mediaElement);
     content.appendChild(closeBtn);
     modal.appendChild(content);
-    
-    // Add modal to body
     document.body.appendChild(modal);
+    
+    // Start with opacity 0 for animation
+    modal.style.opacity = '0';
+    content.style.transform = 'scale(0.7)';
+    
+    // Force reflow to ensure animation works
+    void modal.offsetWidth;
+    
+    // Animate opening
+    modal.style.transition = 'opacity 0.3s ease';
+    content.style.transition = 'transform 0.3s ease';
+    modal.style.opacity = '1';
+    content.style.transform = 'scale(1)';
     
     // Prevent scrolling of background
     document.body.style.overflow = 'hidden';
 
+    // Close modal function - WITH ANIMATION
     const closeModal = () => {
-        document.body.removeChild(modal);
-        document.body.style.overflow = '';
+        // Animate closing
+        modal.style.opacity = '0';
+        content.style.transform = 'scale(0.7)';
+        
+        // Wait for animation to complete before removing from DOM
+        setTimeout(() => {
+            if (mediaElement) {
+                mediaElement.pause();
+                mediaElement.src = '';
+            }
+            // Remove event listeners to prevent memory leaks
+            document.removeEventListener('keydown', closeOnEscape);
+            if (document.body.contains(modal)) {
+                document.body.removeChild(modal);
+            }
+            document.body.style.overflow = '';
+        }, 300); // Match this with the transition duration
     };
 
     // Close modal on button click
-    closeBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event from bubbling to modal
+        closeModal();
+    });
 
     // Close modal on background click
     modal.addEventListener('click', (e) => {
@@ -711,136 +917,131 @@ function showEnlargedImage(url) {
     });
 
     // Close modal on escape key
-    document.addEventListener('keydown', function closeOnEscape(e) {
+    const closeOnEscape = (e) => {
         if (e.key === 'Escape') {
             closeModal();
-            document.removeEventListener('keydown', closeOnEscape);
         }
-    });
+    };
+    document.addEventListener('keydown', closeOnEscape);
 
-    // Prevent modal close when clicking image
-    img.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-}
-
-
-function toggleSlide() {
-    const character = document.getElementById('trebek');
-    character.classList.toggle('slide-in-left');
+    // Prevent modal close when clicking media
+    if (mediaElement) {
+        mediaElement.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
 }
 
 // Update ticker on events
-function updateTickerOnEvent(event) {
+function updateTickerOnEvent(event, data = {}) {
+    console.log(`🎯 Updating ticker with event: ${event}`, data);
+    
     const tickerMessages = {
         correct: [
-            "✨ ABSOLUTELY BRILLIANT! ✨",
-            "🎯 BULLSEYE, CHAMP! 🎯",
-            "🌟 TREBEK APPROVES! 🌟",
-            "🎪 WHAT A SPECTACLE! 🎪",
-            "🎨 PURE ARTISTRY! 🎨"
+            "🎯 BOOM! Nailed it!",
+            "🌟 Absolutely correct!",
+            "🎉 You're on fire!",
+            `🔥 Streak: ${data.streak || 0}!`
         ],
         incorrect: [
-            "💫 BETTER LUCK NEXT TIME! 💫",
-            "🎭 PLOT TWIST: THAT'S NOT IT! 🎭",
-            "🌈 CLOSE BUT NO CIGAR! 🌈",
-            "🎪 NOT QUITE THE SHOW WE EXPECTED! 🎪",
-            "🎨 BACK TO THE DRAWING BOARD! 🎨"
-        ],
-        random: [
-            "🎲 ROLL THE DICE! 🎲",
-            "🎪 STEP RIGHT UP! 🎪",
-            "🎭 THE SHOW MUST GO ON! 🎭",
-            "🌟 TREBEK'S WATCHING! 🌟",
-            "✨ MAGIC IN THE AIR! ✨"
+            "💔 Oops! Not quite!",
+            "😅 Better luck next time!",
+            "🎯 Close, but no cigar!",
+            "🤔 Keep trying!"
         ]
     };
 
-    const messages = tickerMessages[event] || tickerMessages.random;
+    const messages = tickerMessages[event] || [];
+    if (messages.length === 0) {
+        console.warn('⚠️ No messages found for event:', event);
+        return;
+    }
+
     const message = messages[Math.floor(Math.random() * messages.length)];
+    console.log('📜 Selected message:', message);
     showTicker(message);
 }
 
-function showTicker(message, duration = 8000) {
-    const ticker = document.querySelector('.event-ticker');
-    const unit = ticker.querySelector('.ticker-unit');
-    const gameContainer = document.querySelector('.game-container');
-    
-    if (!unit || !gameContainer) {
-        console.error('Ticker unit or game container not found');
+function showTicker(message) {
+    const eventTicker = document.querySelector('.event-ticker');
+    if (!eventTicker) {
+        console.error('Event ticker element not found!');
         return;
     }
+
+    // Remove any existing ticker units
+    const existingUnits = eventTicker.querySelectorAll('.ticker-unit');
+    existingUnits.forEach(unit => {
+        eventTicker.removeChild(unit);
+    });
+
+    // Create new ticker unit
+    const tickerUnit = document.createElement('div');
+    tickerUnit.className = 'ticker-unit';
+
+    // Create plane
+    const plane = document.createElement('div');
+    plane.className = 'ticker-plane';
+
+    // Create propeller
+    const propeller = document.createElement('div');
+    propeller.className = 'propeller';
+
+    // Create propeller hub
+    const propellerHub = document.createElement('div');
+    propellerHub.className = 'propeller-hub';
+
+    // Create pontoons
+    const pontoon1 = document.createElement('div');
+    pontoon1.className = 'pontoon';
     
-    const content = unit.querySelector('.ticker-content');
-    
-    // Random vertical position within game container
-    const containerHeight = gameContainer.offsetHeight;
-    const randomTop = 100 + Math.random() * (containerHeight - 200); // Keep away from edges
-    unit.style.top = `${randomTop}px`;
-    
-    // Reset animation
-    unit.style.transform = 'translateX(100%)';
-    
-    // Set content
-    if (content) {
-        content.textContent = message;
-        content.style.display = 'inline-block';
-    }
-    
-    // Start animation
-    requestAnimationFrame(() => {
-        unit.style.transition = `transform ${duration}ms linear`;
-        unit.style.transform = 'translateX(-100%)';
-        
-        // Reset after animation
-        setTimeout(() => {
-            unit.style.transition = 'none';
-            unit.style.transform = 'translateX(100%)';
-        }, duration);
+    const pontoon2 = document.createElement('div');
+    pontoon2.className = 'pontoon';
+
+    // Add components to plane
+    plane.appendChild(propeller);
+    plane.appendChild(propellerHub);
+    plane.appendChild(pontoon1);
+    plane.appendChild(pontoon2);
+
+    // Create content banner
+    const content = document.createElement('div');
+    content.className = 'ticker-content';
+    content.textContent = message;
+
+    // Assemble the ticker
+    tickerUnit.appendChild(plane);
+    tickerUnit.appendChild(content);
+
+    // Add to the DOM
+    eventTicker.appendChild(tickerUnit);
+
+    // Remove after animation completes
+    tickerUnit.addEventListener('animationend', () => {
+        if (tickerUnit.parentNode === eventTicker) {
+            eventTicker.removeChild(tickerUnit);
+        }
     });
 }
 
 function initializeTicker() {
+    console.group('🎮 Initializing Ticker System');
     const ticker = document.querySelector('.event-ticker');
     if (!ticker) {
-        console.error('Ticker element not found');
+        console.error('❌ Ticker container not found');
+        console.groupEnd();
         return;
     }
     
-    // Remove any existing ticker unit
-    const existingUnit = ticker.querySelector('.ticker-unit');
-    if (existingUnit) {
-        existingUnit.remove();
+    // Clean up any existing tickers
+    const existingUnits = ticker.querySelectorAll('.ticker-unit');
+    if (existingUnits.length > 0) {
+        console.warn(`🧹 Cleaning up ${existingUnits.length} existing ticker(s)`);
+        existingUnits.forEach(unit => unit.remove());
     }
     
-    // Create new ticker unit
-    const unit = document.createElement('div');
-    unit.className = 'ticker-unit';
-    
-    // Create plane
-    const plane = document.createElement('div');
-    plane.className = 'ticker-plane';
-    
-    // Add wing
-    const wing = document.createElement('div');
-    wing.className = 'wing';
-    plane.appendChild(wing);
-    
-    // Add propeller
-    const propeller = document.createElement('div');
-    propeller.className = 'propeller';
-    plane.appendChild(propeller);
-    
-    // Create content
-    const content = document.createElement('div');
-    content.className = 'ticker-content';
-    
-    // Add everything to the unit
-    unit.appendChild(plane);
-    unit.appendChild(content);
-    ticker.appendChild(unit);
-    
-    console.log('Ticker initialized successfully');
+    console.log('✅ Ticker system initialized successfully');
+    console.groupEnd();
 }
 
 // Host image cycling
@@ -876,31 +1077,47 @@ function cycleHost(forward = true) {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded and parsed');
     
-    // Attach event listeners
-    answerButton.addEventListener('click', showHideAnswer);
-    questionButton.addEventListener('click', getNewQuestion);
-    checkButton.addEventListener('click', checkAnswer);
+    // Get elements using existing IDs
+    const answerButton = document.getElementById('answerButton');
+    const questionButton = document.getElementById('questionButton');
+    const checkButton = document.getElementById('checkButton');
+    const userInput = document.getElementById('inputBox');
+    
+    // Log which elements were found for debugging
+    console.log('Found elements:', {
+        answerButton: !!answerButton,
+        questionButton: !!questionButton,
+        checkButton: !!checkButton,
+        userInput: !!userInput
+    });
+    
+    // Attach event listeners only if elements exist
+    if (answerButton) answerButton.addEventListener('click', showHideAnswer);
+    if (questionButton) questionButton.addEventListener('click', getNewQuestion);
+    if (checkButton) checkButton.addEventListener('click', checkAnswer);
 
     // Enter key behavior
-    userInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            
-            if (!currentQuestion) {
-                getNewQuestion();
-                return;
+    if (userInput) {
+        userInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                
+                if (!currentQuestion) {
+                    getNewQuestion();
+                    return;
+                }
+                
+                if (showingMessage) {
+                    getNewQuestion();
+                    return;
+                }
+                
+                if (userInput.value.trim()) {
+                    checkAnswer();
+                }
             }
-            
-            if (showingMessage || answerWasRevealed) {
-                getNewQuestion();
-                return;
-            }
-            
-            if (userInput.value.trim()) {
-                checkAnswer();
-            }
-        }
-    });
+        });
+    }
 
     // Initialize the game
     initializeScoreboard();
@@ -921,11 +1138,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 10000);
 })
 
-document.addEventListener('DOMContentLoaded', () => {
-    initializeScoreboard();
+// Move layout loading to DOMContentLoaded
+window.addEventListener('DOMContentLoaded', () => {
+    loadLayout();
 });
-
-
 
 // SPECIAL FEATURES 
 
@@ -999,8 +1215,148 @@ function saveLayout() {
     }
   }
   
-  // Call these functions appropriately
-  window.onload = loadLayout;
-  document.getElementById('save-button').addEventListener('click', saveLayout);
-  
 // need to add a 'save-button' element to trigger above event listener (or change event listener)
+
+function cleanTextContent(text) {
+    return text
+        .replace(/<[^>]*>/g, '') // Remove HTML tags
+        .replace(/&[^;]*;/g, '') // Remove HTML entities
+        .replace(/[^a-zA-Z0-9\s]/g, '') // Remove non-alphanumeric characters
+        .trim();
+}
+
+
+// clean up and standardize answers for comparison
+// const cleanAnswer = (answer) => {
+//     return answer.toLowerCase()
+//         .replace(/^(what|who|where|when) (is|are|was|were) /i, '')
+//         .replace(/[^a-z0-9]/g, '')
+//         .replace(/\\/g, '')
+//         .trim();
+// };
+
+// Function to compare user's answer with the correct answer
+// const compareAnswers = (userAnswer, correctAnswer) => {
+//     // Check if the user's answer is contained within the correct answer or vice versa
+//     if (correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer)) {
+//         return true;
+//     }
+//     const levenshteinDistance = getLevenshteinDistance(userAnswer, correctAnswer);
+//     return levenshteinDistance <= Math.min(3, Math.floor(correctAnswer.length / 2));
+// };
+
+// function compareAnswers(userAnswer, correctAnswer) {
+//     console.group('🎯 Answer Comparison');
+//     console.log('User Answer:', userAnswer);
+//     console.log('Correct Answer:', correctAnswer);
+    
+//     const cleanedUser = cleanAnswer(userAnswer);
+//     const cleanedCorrect = cleanAnswer(correctAnswer);
+//     console.log('Cleaned User Answer:', cleanedUser);
+//     console.log('Cleaned Correct Answer:', cleanedCorrect);
+    
+//     const distance = getLevenshteinDistance(cleanedUser, cleanedCorrect);
+//     const threshold = Math.max(cleanedCorrect.length * 0.3, 3); // 30% of answer length or minimum 3
+    
+//     console.log('Levenshtein Distance:', distance);
+//     console.log('Acceptance Threshold:', threshold);
+//     console.log('Match Result:', distance <= threshold ? '✅ Accepted' : '❌ Rejected');
+//     console.groupEnd();
+    
+//     return distance <= threshold;
+// }
+
+
+// eventTicker.appendChild(tickerUnit);
+//     console.log(`✅ Ticker fully initialized [ID: ${debugId}]`);
+//     console.groupEnd();
+// }
+
+// Ensure the ticker content is updated with messages
+function updateTicker(message) {
+    const tickerContent = document.querySelector('.ticker-content');
+    if (tickerContent) {
+        tickerContent.textContent = message;
+        // Add any necessary logic to ensure the message is displayed
+        // e.g., animations, visibility toggles, etc.
+    }
+}
+
+// Example function to simulate updating the ticker
+function simulateTickerUpdates() {
+    const messages = ["Welcome to Jeopardish!", "New question available!", "Check your score!"];
+    let index = 0;
+    setInterval(() => {
+        updateTicker(messages[index]);
+        index = (index + 1) % messages.length;
+    }, 5000); // Update every 5 seconds
+}
+
+// Call the function to start updating the ticker
+simulateTickerUpdates();
+
+// SHOW OR HIDE ANSWER
+function showHideAnswer() {
+    const answerBox = document.getElementById('answerBox');
+    if (!answerBox) {
+        console.error('Answer box not found');
+        return;
+    }
+
+    if (answerBox.style.display === 'none' || !answerBox.style.display) {
+        if (peekTokens > 0) {
+            answerBox.style.display = 'block';
+            answerWasRevealed = true;
+            peekTokens--;
+            console.log(`Peek tokens remaining: ${peekTokens}`);
+        } else {
+            console.log('No peek tokens remaining!');
+        }
+    } else {
+        answerBox.style.display = 'none';
+        answerWasRevealed = false;
+    }
+};
+
+// Theme toggle functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const themeBtn = document.getElementById('theme-btn');
+    const gameContainer = document.querySelector('.game-container');
+    const speechBubble = document.querySelector('.speechBubble');
+    const inputWrapper = document.querySelector('.input-wrapper');
+    const questionBox = document.getElementById('questionBox');
+    const answerBox = document.getElementById('answerBox');
+
+    function setTheme(theme) {
+        if (theme === 'dark') {
+            gameContainer.style.background = 'linear-gradient(to top, #1a1a1a, #2a2a2a)';
+            document.body.style.backgroundColor = '#000';
+            speechBubble.style.backgroundColor = '#000080';
+            inputWrapper.style.background = '#000080';
+            questionBox.style.backgroundColor = '#000080';
+            answerBox.style.backgroundColor = '#000080';
+            // Update text colors for better contrast
+            questionBox.style.color = '#ffffff';
+            answerBox.style.color = '#ffffff';
+        } else {
+            gameContainer.style.background = 'linear-gradient(to top, #64B9FF, #5cff9bbc)';
+            document.body.style.backgroundColor = '#ff1fc3c5';
+            speechBubble.style.backgroundColor = '#000080';
+            inputWrapper.style.background = '#000080';
+            questionBox.style.backgroundColor = '#000080';
+            answerBox.style.backgroundColor = '#000080';
+            // Reset text colors
+            questionBox.style.color = '#ffffff';
+            answerBox.style.color = '#ffffff';
+        }
+    }
+
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = themeBtn.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            themeBtn.setAttribute('data-theme', newTheme);
+            setTheme(newTheme);
+        });
+    }
+});

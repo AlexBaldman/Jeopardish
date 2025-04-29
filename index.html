@@ -16,19 +16,24 @@
     <title>Jeopardish!</title>
     
     <!-- favicons -->
-    <!-- <link rel="icon" href="images/favicon.png" type="image/png"> -->
-    <link rel="icon" href="images/favicon2.webp" type="image/webp">
+    <link rel="icon" href="public/favicon.webp" tyixpe="image/webp">
+    <!-- <link rel="icon" href="images/favicon2.webp" type="image/webp"> -->
     <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
 
-    
     <!-- font stylesheet -->
-    <link rel="stylesheet" href="css/fonts.css">
+    <!-- <link rel="stylesheet" href="css/fonts.css"> -->
     
     <!-- main stylesheet -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
     
-    <!-- app JS -->
-    <script defer src="app.js"></script>
+    <!-- external JS -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- app JS - load this first -->
+    <script src="app.js"></script>
+
+    <!-- translations - load this after app.js -->
+    <script src="translations.js"></script>
     
     <!-- external CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -43,16 +48,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     
-    <!-- external JS for axios (include defer for async loading) -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
-</head>
+    
+</hekoad>
 <body lang="en">
 
     <!-- game container -->
     <div class="game-container">
+        <!-- language toggle -->
+        <div class="toggle-container left">
+            <button id="lang-btn" data-lang="en" title="Switch Language">
+                <span class="lang-text"></span>
+            </button>
+        </div>
+
+        <!-- theme toggle -->
+        <div class="toggle-container right">
+            <button id="theme-btn" data-theme="light" title="Toggle Theme">
+                <span class="theme-text"></span>
+            </button>
+        </div>
 
         <!-- header w. title image -->
         <div class="header">
+
+            
 
              <!-- JEOPARODY! title image  -->
              <img id="titleImage" class="title-image" src="images/title/title-JeoPARODY.png" alt="JeoPARODY!">
@@ -72,7 +91,9 @@
 
         </div>
 
-        <!-- button container div with new question / show answer buttons -->
+        
+
+        <!-- button container div with "new question" & show answer buttons -->
         <div class="button-div">
             <button id="questionButton" aria-label="Get a new question">
                 new question
@@ -92,7 +113,10 @@
         <button id="checkButton" aria-label="check answer button">
             check answer
         </button>
-        <!-- <button id="checkButton" class="styled-button">check answer</button> -->
+        
+        <!-- <button id="checkButton" class="styled-button">
+            check answer
+        </button> -->
 
         <!-- speech bubble with category, value, question & answer display areas -->
         <div class="speechBubble">
@@ -101,9 +125,8 @@
             <div id="questionBox"></div>
             <div id="answerBox"></div>
         </div>
-
         
-        <!-- TREBEK -->
+        <!-- host container / host image -->
         <div class="host-container">
             <img id="trebekImage" class="trebek host-image" alt="Alexander the Greatly Enlightened.." src="images/trebek/trebek-good-04.png" title="Click left/right side to cycle hosts">
         </div>
@@ -112,19 +135,19 @@
         <div id="scoreboard">
             <div class="scoreboard-content">
                 <div id="currentScore" class="scoreboard-text">
-                    <span class="score-label">💰 SCORE</span>
-                    <span class="score-value">$0</span>
-                </div>
-                <div id="bestScore" class="scoreboard-text">
-                    <span class="score-label">👑 BEST</span>
+                    <span class="score-label">SCORE</span>
                     <span class="score-value">$0</span>
                 </div>
                 <div id="currentStreak" class="scoreboard-text">
-                    <span class="score-label">🔥 STREAK</span>
+                    <span class="score-label">STREAK</span>
                     <span class="score-value">0</span>
                 </div>
+                <div id="bestScore" class="scoreboard-text">
+                    <span class="score-label">TOP SCORE</span>
+                    <span class="score-value">$0</span>
+                </div>
                 <div id="bestStreak" class="scoreboard-text">
-                    <span class="score-label">⭐ MAX STREAK</span>
+                    <span class="score-label">MAX STREAK</span>
                     <span class="score-value">0</span>
                 </div>
             </div>
@@ -134,12 +157,15 @@
         <div class="event-ticker">
             <div class="ticker-unit">
                 <div class="ticker-plane">
-                    <div class="wing"></div>
                     <div class="propeller"></div>
+                    <div class="propeller-hub"></div>
+                    <div class="pontoon"></div>
+                    <div class="pontoon"></div>
                 </div>
                 <div class="ticker-content"></div>
             </div>
         </div>
     </div>
+    
 </body>
 </html>
