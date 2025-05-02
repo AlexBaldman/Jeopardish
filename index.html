@@ -38,6 +38,12 @@
     <!-- external CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     
+    <!-- Firebase scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    
     <!-- fonts, icons, other CDN assets -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,11 +76,22 @@
 
         <!-- header w. title image -->
         <div class="header">
-
+            <!-- JEOPARODY! title image  -->
+            <img id="titleImage" class="title-image" src="images/title/title-JeoPARODY.png" alt="JeoPARODY!">
             
-
-             <!-- JEOPARODY! title image  -->
-             <img id="titleImage" class="title-image" src="images/title/title-JeoPARODY.png" alt="JeoPARODY!">
+            <!-- Auth buttons container - moved to be directly below the title -->
+            <div class="auth-buttons-div">
+                <div class="peek-handle">
+                    <i class="fas fa-user-circle"></i>
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <button id="login-button" aria-label="Sign in to save scores">
+                    <i class="fas fa-sign-in-alt"></i> sign in
+                </button>
+                <button id="leaderboard-button" aria-label="View leaderboard">
+                    <i class="fas fa-crown"></i> leaderboard
+                </button>
+            </div>
              
             <!-- ALTERNATIVE TITLE IMAGES -->
                 <!-- JEOPARDISH! title image (hosted on Cloudinary)-->
@@ -88,10 +105,7 @@
 
                 <!-- JEOPARDISH! black & white title  -->
                 <!-- <img class="title-image" src="images/title/title-Jeopardish!-B&W.svg" alt="JeoPARODY!"> -->
-
         </div>
-
-        
 
         <!-- button container div with "new question" & show answer buttons -->
         <div class="button-div">
@@ -102,7 +116,7 @@
                 show answer
             </button>
         </div>
-
+        
         <!-- user input -->
         <div class="input-div">
             <div class="input-wrapper">
@@ -157,12 +171,92 @@
         <div class="event-ticker">
             <div class="ticker-unit">
                 <div class="ticker-plane">
+                    <div class="wing"></div>
+                    <div class="tail"></div>
+                    <div class="stabilizer"></div>
                     <div class="propeller"></div>
                     <div class="propeller-hub"></div>
+                    <div class="cockpit"></div>
                     <div class="pontoon"></div>
                     <div class="pontoon"></div>
                 </div>
                 <div class="ticker-content"></div>
+            </div>
+        </div>
+
+        <!-- User profile section (hidden by default) -->
+        <div id="user-profile" class="user-profile" style="display: none;">
+            <img id="user-avatar" class="user-avatar">
+            <span id="user-name"></span>
+            <button id="logout-button">sign out</button>
+        </div>
+
+        <!-- Auth modal -->
+        <div id="auth-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Sign In</h2>
+                <div class="auth-buttons">
+                    <button id="google-signin" class="provider-button">
+                        <i class="fab fa-google" aria-hidden="true"></i>
+                        Sign in with Google
+                    </button>
+                    <button id="email-signin" class="provider-button">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        Sign in with Email
+                    </button>
+                    <!-- Add more providers as needed -->
+                </div>
+                
+                <!-- Email sign-in form, hidden by default -->
+                <form id="email-form" style="display: none;">
+                    <input type="email" id="email-input" placeholder="Email" required>
+                    <input type="password" id="password-input" placeholder="Password" required>
+                    <button type="submit" id="email-submit">Sign In</button>
+                    <p>Don't have an account? <a href="#" id="toggle-signup">Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Leaderboard modal -->
+        <div id="leaderboard-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Top Scores</h2>
+                <div class="leaderboard-tabs">
+                    <button class="tab-button active" data-tab="top-scores">Top Scores</button>
+                    <button class="tab-button" data-tab="top-streaks">Top Streaks</button>
+                </div>
+                <div class="tab-content active" id="top-scores">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scores-body">
+                            <!-- Will be populated with JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-content" id="top-streaks">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Streak</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="streaks-body">
+                            <!-- Will be populated with JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

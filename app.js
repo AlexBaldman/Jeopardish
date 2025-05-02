@@ -37,13 +37,13 @@ const answerBox = document.getElementById('answerBox');
 const valueBox = document.getElementById('valueBox');
 
 // Introduce the game via console
-console.log(`Welcome to Jeopardish!!!`);
-console.log(`Click the "new question" button to get a random Jeopardy-style question & test your knowledge.`);
-console.log(`Multiple correct answers in a row will start a streak...`);
-console.log(`...but get one wrong & the streak will reset.`);
-console.log("Let's see how many correct answers you can string together! ");
-console.log(`Streak is currently at ` + currentStreak);
-console.log("HAVE FUN YA MANIAC!");
+console.log(`🎮 Welcome to Jeopardish!!!`);
+console.log(`❓ Click the "new question" button to get a random Jeopardy-style question & test your knowledge.`);
+console.log(`🔥 Multiple correct answers in a row will start a streak...`);
+console.log(`💔 ...but get one wrong & the streak will reset.`);
+console.log("🏆 Let's see how many correct answers you can string together! ");
+console.log(`📊 Streak is currently at ` + currentStreak);
+console.log("✨ HAVE FUN YA MANIAC!");
 
 // GRABBING TREBEK IMAGES 
 document.addEventListener('DOMContentLoaded', () => {
@@ -286,7 +286,7 @@ function displayErrorMessage(message) {
     const answerBox = document.getElementById('answerBox');
     
     if (!categoryBox || !questionBox || !answerBox) {
-        console.error('Missing required DOM elements for error message display');
+        console.error('❌ Missing required DOM elements for error message display');
         return;
     }
     
@@ -294,6 +294,7 @@ function displayErrorMessage(message) {
     questionBox.innerHTML = message;
     answerBox.innerHTML = "";
     answerBox.style.display = "block";
+    console.error(`🚨 Error displayed: ${message}`);
 }
 
 // Function to display a random error joke
@@ -304,7 +305,7 @@ function displayErrorJoke() {
         const valueBox = document.getElementById('valueBox');
         
         if (!questionBox || !categoryBox || !valueBox) {
-            console.error('Missing required DOM elements for error joke display');
+            console.error('❌ Missing required DOM elements for error joke display');
             return;
         }
         
@@ -314,8 +315,9 @@ function displayErrorJoke() {
         categoryBox.innerHTML = errorJoke.category;
         questionBox.innerHTML = errorJoke.question;
         valueBox.innerHTML = 'for $ERROR';
+        console.log('🃏 Displaying error joke:', errorJoke.question);
     } catch (error) {
-        console.error('Failed to display error joke:', error);
+        console.error('❌ Failed to display error joke:', error);
     }
 }
 
@@ -337,7 +339,7 @@ function checkAnswer() {
     const answerBox = document.getElementById('answerBox');
     
     if (!userInput || !answerBox || !window.currentQuestion) {
-        console.error('Required elements or question not found');
+        console.error('❌ Required elements or question not found');
         return;
     }
     
@@ -352,11 +354,11 @@ function checkAnswer() {
     const userEnteredText = `YOU ENTERED: ${userAnswer}`;
     
     if (!userAnswer) {
-        console.log('No answer provided');
+        console.log('❌ No answer provided');
         return;
     }
     
-    console.log('Checking answer:', { userAnswer, correctAnswer });
+    console.log('🔍 Checking answer:', { userAnswer, correctAnswer });
     
     // Use compareAnswers function to check the answers
     const isCorrect = compareAnswers(cleanedUserAnswer, cleanedCorrectAnswer);
@@ -370,11 +372,14 @@ function checkAnswer() {
         if (isCorrect) {
             const cheekyComment = cheekyComments[Math.floor(Math.random() * cheekyComments.length)];
             
-            categoryBox.innerHTML = "";
-            valueBox.innerHTML = "";
-            questionBox.innerHTML = `That's correct! But ${cheekyComment.toLowerCase()} Since you looked at the answer, you don't get any points and your streak has been reset.`;
-            answerBox.innerHTML = `The correct answer was: ${correctAnswer}`;
-            answerBox.style.display = "flex";
+            // Add null checks before setting innerHTML
+            if (categoryBox) categoryBox.innerHTML = "";
+            if (valueBox) valueBox.innerHTML = "";
+            if (questionBox) questionBox.innerHTML = `That's correct! But ${cheekyComment.toLowerCase()} Since you looked at the answer, you don't get any points and your streak has been reset.`;
+            if (answerBox) {
+                answerBox.innerHTML = `The correct answer was: ${correctAnswer}`;
+                answerBox.style.display = "flex";
+            }
             showingMessage = true;
             
             // Reset streak
@@ -391,7 +396,20 @@ function checkAnswer() {
     
     // Handle result for normal answers (not revealed)
     if (isCorrect) {
-        currentScore += window.currentQuestion.value;
+        // Add points to score
+        const questionValue = parseInt(window.currentQuestion.value) || 200;
+        currentScore += questionValue;
+        
+        // Save score to Firebase if user is signed in
+        if (firebase && firebase.auth && firebase.auth().currentUser) {
+            // Only save significant scores (over 1000 points)
+            if (currentScore >= 1000) {
+                saveScore(currentScore);
+            }
+        } else {
+            console.log('👤 User not signed in, score not saved to database');
+        }
+        
         displayCorrectAnswerMessage();
         updateStreak(true);
         updateTickerOnEvent('correct', { streak: currentStreak });
@@ -427,7 +445,7 @@ function displayCorrectAnswerMessage() {
     answerBox.innerHTML = "";
     answerBox.style.display = "flex";
     showingMessage = true; // Set flag to indicate a message is being shown
-};
+}
 
 // incorrect answer message
 function displayIncorrectAnswerMessage(correctAnswer) {
@@ -447,7 +465,7 @@ function displayIncorrectAnswerMessage(correctAnswer) {
     answerBox.innerHTML = `The correct answer was: ${correctAnswer}`;
     answerBox.style.display = "flex";
     showingMessage = true; // Set flag to indicate a message is being shown
-};
+}
 
 // display cheeky message
 function displayCheekyMessage(cheekyComment) {
@@ -577,9 +595,9 @@ function updateScoreBoard() {
 
     // Update current score
     if (currentScoreElement) {
-        const oldScore = currentScoreElement.textContent;
+        const oldScore = parseInt(currentScoreElement.textContent.replace('$', '')) || 0;
         const newScore = `$${currentScore}`;
-        if (oldScore !== newScore) {
+        if (oldScore !== currentScore) {
             hasChanges = true;
             currentScoreElement.textContent = newScore;
             
@@ -594,8 +612,8 @@ function updateScoreBoard() {
             }, 1000);
         }
         console.log('Old Score:', oldScore);
-        console.log('New Score:', newScore);
-        console.log('Current Score:', currentScore);
+        console.log('New Score:', currentScore);
+        console.log('Displayed Score:', newScore);
     }
     
     // Update top score
@@ -620,11 +638,10 @@ function updateScoreBoard() {
     
     // Update current streak
     if (currentStreakElement) {
-        const oldStreak = currentStreakElement.textContent;
-        const newStreak = currentStreak.toString();
-        if (oldStreak !== newStreak) {
+        const oldStreak = parseInt(currentStreakElement.textContent) || 0;
+        if (oldStreak !== currentStreak) {
             hasChanges = true;
-            currentStreakElement.textContent = newStreak;
+            currentStreakElement.textContent = currentStreak.toString();
             
             // Add changing class to both the element and its parent
             currentStreakElement.classList.add('changing');
@@ -674,9 +691,16 @@ function updateStreak(correct) {
         currentStreak++;
         if (currentStreak > bestStreak) {
             bestStreak = currentStreak;
-            console.log('New best streak:', bestStreak);
+            console.log('🏆 New best streak:', bestStreak);
+            
+            // Save new best streak to Firestore
+            saveStreak(bestStreak);
         }
     } else {
+        // If streak is being reset and was significant, save it
+        if (currentStreak >= 3) {
+            saveStreak(currentStreak);
+        }
         currentStreak = 0;
     }
     
@@ -684,9 +708,9 @@ function updateStreak(correct) {
     const bestStreakElement = document.querySelector('#bestStreak .score-value');
     if (bestStreakElement) {
         bestStreakElement.textContent = bestStreak.toString();
-        console.log('Updated best streak display:', bestStreakElement.textContent);
+        console.log('📊 Updated best streak display:', bestStreakElement.textContent);
     } else {
-        console.error('Best streak element not found');
+        console.error('❌ Best streak element not found');
     }
     
     updateScoreBoard();
@@ -948,6 +972,12 @@ function updateTickerOnEvent(event, data = {}) {
             "😅 Better luck next time!",
             "🎯 Close, but no cigar!",
             "🤔 Keep trying!"
+        ],
+        idle: [
+            "🎮 Ready for the next question?",
+            "🎲 Try your knowledge!",
+            "🎭 Challenge yourself!",
+            "🎪 Welcome to Jeopardish!"
         ]
     };
 
@@ -965,7 +995,7 @@ function updateTickerOnEvent(event, data = {}) {
 function showTicker(message) {
     const eventTicker = document.querySelector('.event-ticker');
     if (!eventTicker) {
-        console.error('Event ticker element not found!');
+        console.error('❌ Event ticker element not found!');
         return;
     }
 
@@ -978,6 +1008,11 @@ function showTicker(message) {
     // Create new ticker unit
     const tickerUnit = document.createElement('div');
     tickerUnit.className = 'ticker-unit';
+    
+    // Set random height position for this ticker
+    const randomHeight = Math.floor(Math.random() * 50) + 10; // Random between 10-60%
+    tickerUnit.style.top = `${randomHeight}%`;
+    console.log(`🛩️ Ticker plane flying at height: ${randomHeight}%`);
 
     // Create plane
     const plane = document.createElement('div');
@@ -987,9 +1022,17 @@ function showTicker(message) {
     const propeller = document.createElement('div');
     propeller.className = 'propeller';
 
-    // Create propeller hub
-    const propellerHub = document.createElement('div');
-    propellerHub.className = 'propeller-hub';
+    // Create wings
+    const wing = document.createElement('div');
+    wing.className = 'wing';
+    
+    // Create tail
+    const tail = document.createElement('div');
+    tail.className = 'tail';
+    
+    // Create stabilizer
+    const stabilizer = document.createElement('div');
+    stabilizer.className = 'stabilizer';
 
     // Create pontoons
     const pontoon1 = document.createElement('div');
@@ -1000,7 +1043,9 @@ function showTicker(message) {
 
     // Add components to plane
     plane.appendChild(propeller);
-    plane.appendChild(propellerHub);
+    plane.appendChild(wing);
+    plane.appendChild(tail);
+    plane.appendChild(stabilizer);
     plane.appendChild(pontoon1);
     plane.appendChild(pontoon2);
 
@@ -1075,26 +1120,195 @@ function cycleHost(forward = true) {
 
 // Initialize features
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded and parsed');
+    console.log('🚀 DOM fully loaded and parsed');
     
     // Get elements using existing IDs
     const answerButton = document.getElementById('answerButton');
     const questionButton = document.getElementById('questionButton');
     const checkButton = document.getElementById('checkButton');
     const userInput = document.getElementById('inputBox');
+    const loginButton = document.getElementById('login-button');
+    const leaderboardButton = document.getElementById('leaderboard-button');
+    const authModal = document.getElementById('auth-modal');
+    const leaderboardModal = document.getElementById('leaderboard-modal');
+    const googleSigninButton = document.getElementById('google-signin');
+    const emailSigninButton = document.getElementById('email-signin');
+    const emailForm = document.getElementById('email-form');
+    const toggleSignupLink = document.getElementById('toggle-signup');
+    const closeButtons = document.querySelectorAll('.close-modal');
+    const modals = document.querySelectorAll('.modal');
     
     // Log which elements were found for debugging
-    console.log('Found elements:', {
+    console.log('🔍 Found elements:', {
         answerButton: !!answerButton,
         questionButton: !!questionButton,
         checkButton: !!checkButton,
-        userInput: !!userInput
+        userInput: !!userInput,
+        loginButton: !!loginButton,
+        leaderboardButton: !!leaderboardButton,
+        authModal: !!authModal,
+        leaderboardModal: !!leaderboardModal,
+        googleSigninButton: !!googleSigninButton,
+        emailSigninButton: !!emailSigninButton,
+        emailForm: !!emailForm,
+        toggleSignupLink: !!toggleSignupLink,
+        closeButtons: closeButtons.length,
+        modals: modals.length
     });
     
     // Attach event listeners only if elements exist
     if (answerButton) answerButton.addEventListener('click', showHideAnswer);
     if (questionButton) questionButton.addEventListener('click', getNewQuestion);
     if (checkButton) checkButton.addEventListener('click', checkAnswer);
+
+    // Add event listeners for auth and leaderboard buttons
+    if (loginButton) {
+        loginButton.addEventListener('click', () => {
+            console.log('👤 Login button clicked');
+            if (authModal) {
+                console.log('🔓 Opening auth modal');
+                authModal.style.display = 'flex';
+                setTimeout(() => {
+                    authModal.classList.add('active');
+                    const modalContent = authModal.querySelector('.modal-content');
+                    if (modalContent) modalContent.style.transform = 'scale(1)';
+                }, 10);
+            } else {
+                console.error('❌ Auth modal element not found');
+            }
+        });
+    } else {
+        console.error('❌ Login button element not found');
+    }
+
+    if (leaderboardButton) {
+        leaderboardButton.addEventListener('click', () => {
+            console.log('🏆 Leaderboard button clicked');
+            if (leaderboardModal) {
+                console.log('📋 Opening leaderboard modal');
+                leaderboardModal.style.display = 'flex';
+                setTimeout(() => {
+                    leaderboardModal.classList.add('active');
+                    const modalContent = leaderboardModal.querySelector('.modal-content');
+                    if (modalContent) modalContent.style.transform = 'scale(1)';
+                }, 10);
+            } else {
+                console.error('❌ Leaderboard modal element not found');
+            }
+        });
+    } else {
+        console.error('❌ Leaderboard button element not found');
+    }
+
+    // Add event handlers for sign-in methods
+    if (googleSigninButton) {
+        googleSigninButton.addEventListener('click', () => {
+            console.log('🔑 Google sign-in button clicked');
+            signInWithGoogle();
+        });
+    } else {
+        console.error('❌ Google sign-in button not found');
+    }
+
+    if (emailSigninButton) {
+        emailSigninButton.addEventListener('click', () => {
+            console.log('📧 Email sign-in button clicked');
+            if (emailForm) {
+                emailForm.style.display = 'block';
+                console.log('📝 Showing email form');
+            } else {
+                console.error('❌ Email form not found');
+            }
+        });
+    } else {
+        console.error('❌ Email sign-in button not found');
+    }
+
+    // Toggle signup/signin form
+    if (toggleSignupLink) {
+        toggleSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🔄 Toggle between sign-in and sign-up form');
+            const isSignUp = toggleSignupLink.textContent === 'Sign Up';
+            toggleSignupLink.textContent = isSignUp ? 'Sign In' : 'Sign Up';
+            const emailSubmit = document.getElementById('email-submit');
+            if (emailSubmit) {
+                emailSubmit.textContent = isSignUp ? 'Sign Up' : 'Sign In';
+            }
+        });
+    } else {
+        console.error('❌ Toggle signup link not found');
+    }
+
+    // Add event listeners for modal close buttons
+    if (closeButtons.length > 0) {
+        console.log('🔒 Found', closeButtons.length, 'close modal buttons');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                console.log('✖️ Close modal button clicked');
+                const modal = button.closest('.modal');
+                if (modal) {
+                    console.log('🚪 Closing modal');
+                    const modalContent = modal.querySelector('.modal-content');
+                    if (modalContent) modalContent.style.transform = 'scale(0.95)';
+                    modal.classList.remove('active');
+                    
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    } else {
+        console.error('❌ No close modal buttons found');
+    }
+
+    // Close modals when clicking outside
+    if (modals.length > 0) {
+        console.log('🖼️ Setting up click-outside-to-close for', modals.length, 'modals');
+        modals.forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    console.log('🚪 Click outside modal detected, closing');
+                    const modalContent = modal.querySelector('.modal-content');
+                    if (modalContent) modalContent.style.transform = 'scale(0.95)';
+                    modal.classList.remove('active');
+                    
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    }
+
+    // Handle email form submission
+    const emailFormElement = document.getElementById('email-form');
+    if (emailFormElement) {
+        emailFormElement.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email-input')?.value;
+            const password = document.getElementById('password-input')?.value;
+            console.log(`📨 Email form submitted with email: ${email ? email.substring(0, 3) + '...' : 'not found'}`);
+            
+            if (!email || !password) {
+                console.error('❌ Email or password missing');
+                return;
+            }
+            
+            const isSignUp = document.getElementById('toggle-signup')?.textContent === 'Sign In';
+            
+            if (isSignUp) {
+                // Sign up
+                signUpWithEmail(email, password);
+            } else {
+                // Sign in
+                signInWithEmail(email, password);
+            }
+        });
+    } else {
+        console.warn('⚠️ Email form element not found for submit handler');
+    }
 
     // Enter key behavior
     if (userInput) {
@@ -1122,20 +1336,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize the game
     initializeScoreboard();
     updateScoreBoard();
-    answerBox.style.display = 'none';
-    
+
+    // Add null check before accessing style property
+    const answerBoxElement = document.getElementById('answerBox');
+    if (answerBoxElement) {
+        answerBoxElement.style.display = 'none';
+    }
+
     initializeTicker();
     initializeHostCycling();
     
-    // Start with a random message
-    updateTickerOnEvent('correct');
+    // Start with a welcome message
+    updateTickerOnEvent('idle');
     
-    // Update ticker periodically
+    // Update ticker periodically with valid event types
     setInterval(() => {
-        const types = ['correct', 'incorrect', 'random'];
+        const types = ['correct', 'incorrect', 'idle'];
         const randomType = types[Math.floor(Math.random() * types.length)];
         updateTickerOnEvent(randomType);
-    }, 10000);
+    }, 15000); // Less frequent updates (every 15 seconds)
 })
 
 // Move layout loading to DOMContentLoaded
@@ -1274,32 +1493,27 @@ function cleanTextContent(text) {
 
 // Ensure the ticker content is updated with messages
 function updateTicker(message) {
-    const tickerContent = document.querySelector('.ticker-content');
-    if (tickerContent) {
-        tickerContent.textContent = message;
-        // Add any necessary logic to ensure the message is displayed
-        // e.g., animations, visibility toggles, etc.
-    }
+    showTicker(message);
 }
 
-// Example function to simulate updating the ticker
-function simulateTickerUpdates() {
-    const messages = ["Welcome to Jeopardish!", "New question available!", "Check your score!"];
-    let index = 0;
-    setInterval(() => {
-        updateTicker(messages[index]);
-        index = (index + 1) % messages.length;
-    }, 5000); // Update every 5 seconds
-}
+// Remove duplicate ticker update function
+// function simulateTickerUpdates() {
+//     const messages = ["Welcome to Jeopardish!", "New question available!", "Check your score!"];
+//     let index = 0;
+//     setInterval(() => {
+//         updateTicker(messages[index]);
+//         index = (index + 1) % messages.length;
+//     }, 5000); // Update every 5 seconds
+// }
 
-// Call the function to start updating the ticker
-simulateTickerUpdates();
+// Remove function call to prevent duplicate updates
+// simulateTickerUpdates();
 
 // SHOW OR HIDE ANSWER
 function showHideAnswer() {
     const answerBox = document.getElementById('answerBox');
     if (!answerBox) {
-        console.error('Answer box not found');
+        console.error('❌ Answer box not found');
         return;
     }
 
@@ -1308,9 +1522,9 @@ function showHideAnswer() {
             answerBox.style.display = 'block';
             answerWasRevealed = true;
             peekTokens--;
-            console.log(`Peek tokens remaining: ${peekTokens}`);
+            console.log(`👁️ Peek tokens remaining: ${peekTokens}`);
         } else {
-            console.log('No peek tokens remaining!');
+            console.log('⚠️ No peek tokens remaining!');
         }
     } else {
         answerBox.style.display = 'none';
@@ -1359,4 +1573,469 @@ document.addEventListener('DOMContentLoaded', () => {
             setTheme(newTheme);
         });
     }
+});
+
+// Firebase authentication functions
+
+// Sign in with Google
+function signInWithGoogle() {
+    console.log('🔑 Attempting Google sign-in');
+    const provider = new firebase.auth.GoogleAuthProvider();
+    
+    auth.signInWithPopup(provider)
+        .then((result) => {
+            console.log('✅ Google sign-in successful');
+            const user = result.user;
+            updateUserProfile(user);
+            closeAuthModal();
+        })
+        .catch((error) => {
+            console.error('❌ Google sign-in error:', error.message);
+            alert(`Sign-in error: ${error.message}`);
+        });
+}
+
+// Sign up with email/password
+function signUpWithEmail(email, password) {
+    console.log('📝 Attempting email sign-up');
+    
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            console.log('✅ Email sign-up successful');
+            const user = userCredential.user;
+            updateUserProfile(user);
+            closeAuthModal();
+        })
+        .catch((error) => {
+            console.error('❌ Email sign-up error:', error.message);
+            alert(`Sign-up error: ${error.message}`);
+        });
+}
+
+// Sign in with email/password
+function signInWithEmail(email, password) {
+    console.log('🔑 Attempting email sign-in');
+    
+    auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            console.log('✅ Email sign-in successful');
+            const user = userCredential.user;
+            updateUserProfile(user);
+            closeAuthModal();
+        })
+        .catch((error) => {
+            console.error('❌ Email sign-in error:', error.message);
+            alert(`Sign-in error: ${error.message}`);
+        });
+}
+
+// Update user profile in UI
+function updateUserProfile(user) {
+    console.log('👤 Updating user profile in UI');
+    
+    const userProfile = document.getElementById('user-profile');
+    const userName = document.getElementById('user-name');
+    const userAvatar = document.getElementById('user-avatar');
+    const loginButton = document.getElementById('login-button');
+    
+    if (userProfile && userName && userAvatar) {
+        // Show user profile
+        userProfile.style.display = 'flex';
+        
+        // Update user name
+        userName.textContent = user.displayName || user.email.split('@')[0];
+        
+        // Update avatar
+        if (user.photoURL) {
+            userAvatar.src = user.photoURL;
+        } else {
+            // Use initial as avatar if no photo
+            userAvatar.src = `https://ui-avatars.com/api/?name=${user.displayName || user.email.split('@')[0]}&background=4b21f4&color=fff`;
+        }
+        
+        // Hide login button when signed in
+        if (loginButton) {
+            loginButton.innerHTML = '<i class="fas fa-user"></i> Profile';
+            loginButton.onclick = showUserProfile;
+        }
+        
+        // Save user data to Firestore if new user
+        saveUserToFirestore(user);
+    } else {
+        console.error('❌ User profile elements not found');
+    }
+}
+
+// Save user to Firestore
+function saveUserToFirestore(user) {
+    console.log('💾 Saving user data to Firestore');
+    
+    db.collection('users').doc(user.uid).set({
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || user.email.split('@')[0],
+        photoURL: user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || user.email.split('@')[0]}&background=4b21f4&color=fff`,
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true })
+    .then(() => {
+        console.log('✅ User data saved to Firestore');
+    })
+    .catch((error) => {
+        console.error('❌ Error saving user data:', error);
+    });
+}
+
+// Show user profile modal
+function showUserProfile() {
+    console.log('👤 Showing user profile');
+    
+    const userProfile = document.getElementById('user-profile');
+    if (userProfile) {
+        if (userProfile.style.display === 'none') {
+            userProfile.style.display = 'flex';
+        } else {
+            userProfile.style.display = 'none';
+        }
+    }
+}
+
+// Sign out user
+function signOut() {
+    console.log('🚪 Signing out user');
+    
+    auth.signOut()
+        .then(() => {
+            console.log('✅ Sign-out successful');
+            resetUIAfterSignOut();
+        })
+        .catch((error) => {
+            console.error('❌ Sign-out error:', error);
+        });
+}
+
+// Reset UI after sign-out
+function resetUIAfterSignOut() {
+    console.log('🔄 Resetting UI after sign-out');
+    
+    const userProfile = document.getElementById('user-profile');
+    const loginButton = document.getElementById('login-button');
+    
+    if (userProfile) {
+        userProfile.style.display = 'none';
+    }
+    
+    if (loginButton) {
+        loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> sign in';
+        loginButton.onclick = function() {
+            const authModal = document.getElementById('auth-modal');
+            if (authModal) {
+                authModal.style.display = 'block';
+            }
+        };
+    }
+}
+
+// Close auth modal
+function closeAuthModal() {
+    console.log('🚪 Closing auth modal');
+    
+    const authModal = document.getElementById('auth-modal');
+    if (authModal) {
+        // Apply closing animation
+        const modalContent = authModal.querySelector('.modal-content');
+        if (modalContent) modalContent.style.transform = 'scale(0.95)';
+        authModal.classList.remove('active');
+        
+        // Actually hide the modal after animation completes
+        setTimeout(() => {
+            authModal.style.display = 'none';
+        }, 300);
+    }
+    
+    // Reset email form if visible
+    const emailForm = document.getElementById('email-form');
+    if (emailForm) {
+        emailForm.style.display = 'none';
+        emailForm.reset();
+    }
+}
+
+// Check if user is already signed in
+function checkAuthState() {
+    console.log('🔍 Checking auth state');
+    
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            console.log('👤 User is signed in');
+            updateUserProfile(user);
+        } else {
+            console.log('👤 User is signed out');
+            resetUIAfterSignOut();
+        }
+    });
+}
+
+// Initialize leaderboard
+function initializeLeaderboard() {
+    console.log('🏆 Initializing leaderboard');
+    
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    if (tabButtons.length && tabContents.length) {
+        // Add tab switching functionality
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // Update active tab button
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Show selected tab content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    }
+                });
+                
+                // Load data for selected tab
+                if (tabId === 'top-scores') {
+                    loadTopScores();
+                } else if (tabId === 'top-streaks') {
+                    loadTopStreaks();
+                }
+            });
+        });
+        
+        // Load initial data
+        loadTopScores();
+    } else {
+        console.error('❌ Leaderboard tabs not found');
+    }
+}
+
+// Load top scores
+function loadTopScores() {
+    console.log('📊 Loading top scores');
+    
+    const scoresBody = document.getElementById('scores-body');
+    if (!scoresBody) {
+        console.error('❌ Scores table body not found');
+        return;
+    }
+    
+    // Clear existing data
+    scoresBody.innerHTML = '';
+    
+    // Check if user is signed in
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('⚠️ User not signed in, showing placeholder data');
+        displayPlaceholderData(scoresBody, 'score');
+        return;
+    }
+    
+    // Load data from Firestore
+    db.collection('scores')
+        .orderBy('score', 'desc')
+        .limit(10)
+        .get()
+        .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+                console.log('📊 No scores found');
+                displayPlaceholderData(scoresBody, 'score');
+                return;
+            }
+            
+            let rank = 1;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const row = document.createElement('tr');
+                
+                // Highlight current user's score
+                if (data.userId === user.uid) {
+                    row.classList.add('current-user');
+                }
+                
+                row.innerHTML = `
+                    <td>${rank}</td>
+                    <td>${data.displayName || 'Anonymous'}</td>
+                    <td>$${data.score}</td>
+                    <td>${formatDate(data.timestamp)}</td>
+                `;
+                
+                scoresBody.appendChild(row);
+                rank++;
+            });
+        })
+        .catch((error) => {
+            console.error('❌ Error getting scores:', error);
+            displayPlaceholderData(scoresBody, 'score');
+        });
+}
+
+// Load top streaks
+function loadTopStreaks() {
+    console.log('📊 Loading top streaks');
+    
+    const streaksBody = document.getElementById('streaks-body');
+    if (!streaksBody) {
+        console.error('❌ Streaks table body not found');
+        return;
+    }
+    
+    // Clear existing data
+    streaksBody.innerHTML = '';
+    
+    // Check if user is signed in
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('⚠️ User not signed in, showing placeholder data');
+        displayPlaceholderData(streaksBody, 'streak');
+        return;
+    }
+    
+    // Load data from Firestore
+    db.collection('streaks')
+        .orderBy('streak', 'desc')
+        .limit(10)
+        .get()
+        .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+                console.log('📊 No streaks found');
+                displayPlaceholderData(streaksBody, 'streak');
+                return;
+            }
+            
+            let rank = 1;
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const row = document.createElement('tr');
+                
+                // Highlight current user's streak
+                if (data.userId === user.uid) {
+                    row.classList.add('current-user');
+                }
+                
+                row.innerHTML = `
+                    <td>${rank}</td>
+                    <td>${data.displayName || 'Anonymous'}</td>
+                    <td>${data.streak}</td>
+                    <td>${formatDate(data.timestamp)}</td>
+                `;
+                
+                streaksBody.appendChild(row);
+                rank++;
+            });
+        })
+        .catch((error) => {
+            console.error('❌ Error getting streaks:', error);
+            displayPlaceholderData(streaksBody, 'streak');
+        });
+}
+
+// Display placeholder data in leaderboard
+function displayPlaceholderData(tableBody, type) {
+    console.log(`📊 Displaying placeholder ${type} data`);
+    
+    const placeholders = [
+        { name: 'AlexTrebek', value: type === 'score' ? 10000 : 20 },
+        { name: 'KenJennings', value: type === 'score' ? 8500 : 18 },
+        { name: 'JamesBond', value: type === 'score' ? 7000 : 15 },
+        { name: 'QuizWizard', value: type === 'score' ? 6500 : 13 },
+        { name: 'BrainiacGamer', value: type === 'score' ? 5000 : 10 }
+    ];
+    
+    let rank = 1;
+    placeholders.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${rank}</td>
+            <td>${item.name}</td>
+            <td>${type === 'score' ? '$' + item.value : item.value}</td>
+            <td>Sign in to compete!</td>
+        `;
+        
+        tableBody.appendChild(row);
+        rank++;
+    });
+}
+
+// Format date for display
+function formatDate(timestamp) {
+    if (!timestamp) return 'N/A';
+    
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.toLocaleDateString();
+}
+
+// Save score to Firestore
+function saveScore(score) {
+    console.log(`💾 Saving score: ${score}`);
+    
+    // Check if user is signed in
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('⚠️ Cannot save score: User not signed in');
+        return;
+    }
+    
+    // Save to Firestore
+    db.collection('scores').add({
+        userId: user.uid,
+        displayName: user.displayName || user.email.split('@')[0],
+        score: score,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+        console.log('✅ Score saved successfully');
+    })
+    .catch((error) => {
+        console.error('❌ Error saving score:', error);
+    });
+}
+
+// Save streak to Firestore
+function saveStreak(streak) {
+    console.log(`💾 Saving streak: ${streak}`);
+    
+    // Check if user is signed in
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('⚠️ Cannot save streak: User not signed in');
+        return;
+    }
+    
+    // Save to Firestore
+    db.collection('streaks').add({
+        userId: user.uid,
+        displayName: user.displayName || user.email.split('@')[0],
+        streak: streak,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+        console.log('✅ Streak saved successfully');
+    })
+    .catch((error) => {
+        console.error('❌ Error saving streak:', error);
+    });
+}
+
+// Add event listener for logout button
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Firebase auth state
+    checkAuthState();
+    
+    // Setup logout button
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', signOut);
+    } else {
+        console.error('❌ Logout button not found');
+    }
+    
+    // Initialize leaderboard
+    initializeLeaderboard();
 });

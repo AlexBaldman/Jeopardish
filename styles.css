@@ -48,7 +48,9 @@ body {
 
 /* Retro Keyboard Button Styles */
 #questionButton,
-#answerButton {
+#answerButton,
+#login-button,
+#leaderboard-button {
     display: flex;
     font-family: "Press Start 2P", system-ui;
     min-height: 50px;
@@ -74,7 +76,9 @@ body {
 }
 
 #questionButton:hover,
-#answerButton:hover {
+#answerButton:hover,
+#login-button:hover,
+#leaderboard-button:hover {
     color: #ff1fc3;
     text-shadow: 0 0 5px rgba(255, 31, 195, 0.5);
     transform: translateY(-2px);
@@ -85,7 +89,9 @@ body {
 }
 
 #questionButton:active,
-#answerButton:active {
+#answerButton:active,
+#login-button:active,
+#leaderboard-button:active {
     transform: translateY(4px);
     box-shadow: 
         0 0 0 #666,
@@ -108,8 +114,9 @@ body {
     max-width: 80%; /* Reduced from 90% */
     height: auto;
     transition: transform 0.2s ease;
-    z-index: 2;
+    z-index: 2; /* Ensure it's above the auth-buttons-div */
     padding: 1em 1em;
+    position: relative; /* Ensure z-index works properly */
 }
 
 .title-image.press-left {
@@ -120,7 +127,8 @@ body {
     transform: perspective(500px) rotateY(5deg) translateX(5px);
 }
 
-.button-div {
+.button-div,
+.auth-buttons-div {
     display: flex;
     flex-wrap: nowrap;
     background-color: rgba(251, 255, 44, 0);
@@ -140,7 +148,7 @@ body {
     min-height: 200px; /* Added minimum height */
     filter: drop-shadow(10px 10px 10px rgba(255, 187, 142, 0.8));
     transition: all 0.5s ease-in-out;
-    z-index: 3;
+    z-index: 5; /* Increased z-index to be above ticker */
     /* transition: fill 0.5s; */
 }
 
@@ -344,41 +352,44 @@ body {
 /* SPEECH BUBBLE  */
 .speechBubble {
     position: relative;
-    background-color: #000080;
-    border-radius: 23%;
-    padding: 5vw;
-    margin: 0 auto;
-    margin-top: 2vh;
-    max-width: 80vw;
-    min-width: 200px;
-    min-height: 30vw;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: space-between; */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    transition: max-height 0.3s ease-in-out;
-    z-index: 2;
+    display: block;
+    width: 70%;
+    min-height: 25vh;
+    max-height: 40vh;
+    margin: 1.5% auto;
+    padding: 1% 2.5%;
+    background-color: white;
+    border-radius: 4vmin;
+    filter: drop-shadow(3px 3px 3px rgba(20, 20, 20, 0.7));
     overflow-y: auto;
+    overflow-x: hidden;
+    border: 1vmin solid #000000c5;
+    transition: all 0.45s ease-in-out;
+    scroll-behavior: smooth;
+    transform-origin: top;
+    opacity: 0.95;
+    z-index: 3;
 }
 
 .speechBubble.expanded {
-    max-height: 90vh;
+    max-height: 40vh;
+    min-height: 40vh;
 }
 
-/* speech bubble pointer */
+/* Speech bubble arrow pointing to the host */
 .speechBubble::before {
     content: '';
     position: absolute;
-    bottom: -20px;
-    left: 50%;  /* Center the arrow */
-    transform: translateX(-20px); /* Center the arrow properly */
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 20px 20px 0 20px;  /* Make a symmetrical triangle */
-    border-color: #000080 transparent transparent transparent;
-    transition: left 0.8s ease-in-out;  /* Smooth transition for position changes */
-    z-index: 10;  /* Ensure arrow stays above other elements */
+    left: -3vmin;
+    bottom: 5vmin;
+    width: 5vmin;
+    height: 5vmin;
+    background-color: white;
+    border-left: 1vmin solid #000000c5;
+    border-bottom: 1vmin solid #000000c5;
+    transform: rotate(45deg);
+    z-index: 2;
+    filter: drop-shadow(-2px 2px 2px rgba(20, 20, 20, 0.4));
 }
 
 #categoryBox {
@@ -462,103 +473,169 @@ body {
 
 .event-ticker {
     position: absolute;
+    bottom: 10px;
     width: 100%;
-    height: 100%;
+    height: 40px;
     overflow: hidden;
-    pointer-events: none;
-    z-index: 1;
-    bottom: 50px;
+    z-index: 2; /* Below the host image */
 }
 
 .ticker-unit {
     position: absolute;
     display: flex;
     align-items: center;
-    bottom: 50px; /* Position from bottom */
-    transform: translateX(100vw); /* Start offscreen */
-    animation: flyAcross 15s linear forwards;
-    z-index: 10;
+    gap: 10px;
+    left: 100%;
+    animation: flyAcross 15s linear infinite;
+    z-index: 2;
 }
 
 @keyframes flyAcross {
     0% {
-        transform: translateX(100vw) translateY(0);
-        opacity: 0;
-    }
-    5% {
-        opacity: 1;
-        transform: translateX(90vw) translateY(-5px);
-    }
-    45% {
-        transform: translateX(10vw) translateY(5px);
-    }
-    90% {
-        opacity: 1;
-        transform: translateX(-80vw) translateY(-5px);
+        left: 100%;
     }
     100% {
-        transform: translateX(-100vw) translateY(0);
-        opacity: 0;
+        left: -100%;
     }
 }
 
-/* Plane container */
+/* Cessna-style airplane */
 .ticker-plane {
     position: relative;
-    width: 120px;
-    height: 40px;
-    z-index: 12;
+    width: 80px; /* Smaller size to appear distant */
+    height: 25px;
+    background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+    border-radius: 4px 12px 4px 4px; /* Sharper corners */
+    margin-right: 10px;
+    z-index: 2;
+    animation: planeWobble 4s ease-in-out infinite;
+    transform-origin: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Plane body */
+@keyframes planeWobble {
+    0%, 100% {
+        transform: rotate(-1deg) translateY(0);
+    }
+    25% {
+        transform: rotate(-2deg) translateY(-5px);
+    }
+    50% {
+        transform: rotate(0deg) translateY(0);
+    }
+    75% {
+        transform: rotate(-3deg) translateY(3px);
+    }
+}
+
+/* Plane cockpit windshield */
 .ticker-plane::before {
     content: '';
     position: absolute;
-    width: 80px;
-    height: 25px;
-    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 50%, #e0e0e0 100%);
-    border-radius: 50% 40% 40% 50% / 50% 40% 40% 50%;
     top: 0;
-    left: 20px;
-    box-shadow: 
-        0 5px 15px rgba(0, 0, 0, 0.2),
-        inset 0 -5px 10px rgba(0, 0, 0, 0.1),
-        inset 0 5px 10px rgba(255, 255, 255, 0.8);
-    z-index: 11;
+    left: 2px;
+    width: 20px;
+    height: 12px;
+    background: linear-gradient(135deg, #a8d8ff, #5ba8ff);
+    border-radius: 5px 10px 0 0;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    transform: skewX(-10deg);
 }
 
-/* Plane tail */
+/* Plane windows */
 .ticker-plane::after {
     content: '';
     position: absolute;
-    width: 20px;
-    height: 25px;
-    background: linear-gradient(135deg, #ff3a3a 0%, #ff5252 50%, #ff0000 100%);
-    border-radius: 0 50% 0 0;
-    top: -12px;
-    right: 15px;
-    transform: rotate(25deg);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    top: 5px;
+    left: 26px;
+    width: 35px;
+    height: 6px;
+    background: linear-gradient(to right, #a8d8ff, #5ba8ff);
+    border-radius: 6px;
+    border-top: 1px solid #fff;
 }
 
-/* Pontoons */
-.pontoon {
+/* Plane wings */
+.ticker-plane .wing {
     position: absolute;
     width: 50px;
     height: 8px;
-    background: linear-gradient(to right, #ffdd00, #ffbb00);
-    border-radius: 5px;
-    bottom: -10px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, #ff6700, #ff9900); /* Neon orange wings */
+    border-radius: 4px; /* Sharper corners */
+    top: 50%;
+    left: 25px;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    z-index: -1;
 }
 
+/* Plane tail */
+.ticker-plane .tail {
+    position: absolute;
+    width: 12px;
+    height: 18px;
+    background: linear-gradient(to right, #ff6700, #ff9900); /* Neon orange tail */
+    border-radius: 1px 3px 1px 1px; /* Sharper corners */
+    top: -10px;
+    right: 5px;
+    z-index: -1;
+    transform: skewX(-15deg);
+}
+
+/* Plane stabilizer */
+.ticker-plane .stabilizer {
+    position: absolute;
+    width: 20px;
+    height: 6px;
+    background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+    border-radius: 4px;
+    top: 9px;
+    right: 8px;
+    z-index: -1;
+}
+
+/* Pontoons/Landing gear */
+.pontoon {
+    position: absolute;
+    width: 25px; /* Bigger pontoons */
+    height: 6px; /* Taller pontoons */
+    background: #777;
+    border-radius: 1px; /* Sharper corners */
+    bottom: -6px;
+    z-index: -1;
+}
+
+/* Front landing gear */
 .pontoon:first-of-type {
     left: 15px;
 }
 
+/* Rear landing gear */
 .pontoon:last-of-type {
-    right: 15px;
+    right: 25px;
+}
+
+/* Landing gear struts */
+.pontoon::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 5px;
+    background: #777;
+    top: -5px;
+    left: 4px;
+}
+
+/* Landing gear strut 2 */
+.pontoon::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 5px;
+    background: #777;
+    top: -5px;
+    right: 4px;
 }
 
 /* Propeller */
@@ -566,128 +643,86 @@ body {
     position: absolute;
     width: 30px;
     height: 30px;
-    left: -5px;
-    top: 5px;
+    left: -15px;
+    top: -2px;
     transform-origin: center;
-    animation: spin 0.1s linear infinite;
     z-index: 12;
 }
 
+/* Propeller blades */
 .propeller::before,
 .propeller::after {
     content: '';
     position: absolute;
-    width: 5px;
-    height: 25px;
-    background: #333;
-    left: 12.5px;
-    top: 2.5px;
-    border-radius: 2px;
+    width: 6px;
+    height: 30px;
+    background: linear-gradient(to right, #333, #666);
+    left: 12px;
+    top: 0;
+    border-radius: 3px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+    animation: spin 0.1s linear infinite;
+    transform-origin: center center;
 }
 
+/* Vertical propeller blade */
 .propeller::before {
     transform: rotate(45deg);
-    background: linear-gradient(to bottom, #666, #333);
 }
 
+/* Horizontal propeller blade */
 .propeller::after {
-    transform: rotate(-45deg);
-    background: linear-gradient(to bottom, #666, #333);
-}
-
-/* Propeller center */
-.propeller::before,
-.propeller::after {
-    content: '';
-    position: absolute;
-}
-
-.propeller::before {
-    width: 5px;
-    height: 25px;
-    background: linear-gradient(to bottom, #666, #333);
-    left: 12.5px;
-    top: 2.5px;
-    border-radius: 2px;
-    transform: rotate(45deg);
-}
-
-.propeller::after {
-    width: 5px; 
-    height: 25px;
-    background: linear-gradient(to bottom, #666, #333);
-    left: 12.5px;
-    top: 2.5px;
-    border-radius: 2px;
     transform: rotate(-45deg);
 }
 
-/* Propeller hub */
-.propeller-hub {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: linear-gradient(135deg, #888 0%, #444 100%);
-    border-radius: 50%;
-    left: 10px;
-    top: 10px;
-    z-index: 13;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-}
-
-/* Fast spin animation for propeller */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-/* Ticker banner/content */
+/* Ticker content (banner) */
 .ticker-content {
-    width: auto;
-    min-width: 200px;
-    height: 30px;
+    background: rgba(255, 255, 255, 0.6); /* More transparent */
     padding: 5px 15px;
-    background: linear-gradient(135deg, #ff5252 0%, #ff0000 100%);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: -5px;
-    border-radius: 0 5px 5px 0;
-    box-shadow: 
-        2px 2px 5px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-radius: 2px; /* Sharper corners */
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.8rem;
+    color: #0066ff; /* Bright electric blue */
+    text-shadow: 0 0 5px rgba(0, 102, 255, 0.7); /* Glow effect */
+    white-space: nowrap;
     position: relative;
-    z-index: 9;
-    animation: waveBanner 2s infinite ease-in-out;
     transform-origin: left center;
+    margin-left: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: waveBanner 3s ease-in-out infinite; /* Waving animation */
+    z-index: 1;
 }
 
-/* String connecting plane to banner */
+/* Banner rope */
 .ticker-content::before {
     content: '';
     position: absolute;
-    width: 30px;
-    height: 2px;
-    background: #fff;
-    left: -25px;
+    left: -5px;
     top: 50%;
+    width: 6px;
+    height: 1px;
+    background: #555;
     transform: translateY(-50%);
-    z-index: 8;
 }
 
-/* Slight wave animation for the banner */
+/* Waving banner animation */
 @keyframes waveBanner {
-    0%, 100% { 
-        transform: rotate(0deg); 
+    0%, 100% {
+        transform: skewY(1deg) translateY(0);
     }
-    25% { 
-        transform: rotate(1deg); 
+    25% {
+        transform: skewY(-1deg) translateY(-3px);
     }
-    75% { 
-        transform: rotate(-1deg); 
+    50% {
+        transform: skewY(2deg) translateY(0);
+    }
+    75% {
+        transform: skewY(-2deg) translateY(3px);
     }
 }
 
@@ -1030,7 +1065,8 @@ body {
 }
 
 #lang-btn[data-lang="pt"]::before {
-    transform: translateX(5.5vmin);
+    content: '🇧🇷';
+    transform: translateX(30px);
 }
 
 .lang-text {
@@ -1497,4 +1533,339 @@ OLD & SAVED CSS
 
 #lang-btn:active, #theme-btn:active {
     transform: scale(0.95);
+}
+
+/* Auth buttons specific styles - positioned behind the title with slide-down effect */
+.auth-buttons-div {
+    position: absolute;
+    top: 10vh; /* Position right behind the title */
+    left: 50%; 
+    transform: translateX(-50%);
+    width: auto;
+    background: linear-gradient(145deg, rgba(0, 0, 128, 0.7), rgba(10, 10, 48, 0.7));
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1; /* Behind the title */
+    border: 2px solid rgba(255, 204, 0, 0.7);
+    transform-origin: top center;
+}
+
+/* Peek handle that's always visible */
+.peek-handle {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(145deg, rgba(0, 0, 128, 0.7), rgba(10, 10, 48, 0.7));
+    border: 2px solid rgba(255, 204, 0, 0.7);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 3px 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 3; /* Make sure it's visible */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.peek-handle i {
+    color: rgba(255, 204, 0, 0.9);
+    font-size: 1rem;
+    filter: drop-shadow(0 0 3px rgba(255, 204, 0, 0.5));
+}
+
+.auth-buttons-div:hover,
+.peek-handle:hover + .auth-buttons-div,
+.auth-buttons-div.expanded {
+    transform: translateX(-50%) translateY(100%); /* Slide down when hovered */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Make the buttons match modal style */
+#login-button,
+#leaderboard-button {
+    font-size: 0.8rem;
+    min-height: auto;
+    padding: 8px 10px;
+    min-width: 150px;
+    margin: 3px auto;
+    background: linear-gradient(145deg, rgba(75, 33, 244, 0.8), rgba(58, 20, 199, 0.8));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#login-button:hover,
+#leaderboard-button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(145deg, rgba(75, 33, 244, 0.9), rgba(58, 20, 199, 0.9));
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#login-button:active,
+#leaderboard-button:active {
+    transform: scale(0.95);
+    animation: buttonPress 0.5s ease-out;
+}
+
+@keyframes buttonPress {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.5);
+    }
+    70% {
+        transform: scale(0.97);
+        box-shadow: 0 0 0 10px rgba(255, 204, 0, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(255, 204, 0, 0);
+    }
+}
+
+#login-button i,
+#leaderboard-button i {
+    font-size: 1rem;
+    color: rgba(255, 204, 0, 0.9);
+}
+
+/* Button text animation */
+#login-button span,
+#leaderboard-button span {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+#login-button:active span,
+#leaderboard-button:active span {
+    animation: textGlow 0.5s ease-out;
+}
+
+@keyframes textGlow {
+    0% {
+        color: white;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        color: #ffcc00;
+        text-shadow: 0 0 15px rgba(255, 204, 0, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        color: white;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Modal styles for auth and leaderboard */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 30, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.active {
+    opacity: 1;
+}
+
+/* Modal content container */
+.modal .modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    background: linear-gradient(145deg, rgba(20, 20, 80, 0.9), rgba(10, 10, 40, 0.9));
+    border-radius: 15px;
+    padding: 25px;
+    border: 2px solid rgba(255, 204, 0, 0.7);
+    box-shadow: 
+        0 0 30px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(75, 33, 244, 0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Modal close button with the yellow X */
+.close-modal {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 40px;
+    height: 40px;
+    background: #ff1fc3;
+    border: 2px solid #ffcc00;
+    border-radius: 50%;
+    color: #ffcc00;
+    font-size: 24px;
+    line-height: 38px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 
+        0 0 10px rgba(255, 31, 195, 0.7),
+        0 0 20px rgba(255, 31, 195, 0.4);
+    transition: all 0.3s ease;
+    z-index: 10000;
+    text-shadow: 
+        0 0 5px rgba(255, 204, 0, 0.7),
+        0 0 10px rgba(255, 204, 0, 0.4);
+}
+
+.close-modal:hover {
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 
+        0 0 15px rgba(255, 31, 195, 0.8),
+        0 0 30px rgba(255, 31, 195, 0.5);
+    text-shadow: 
+        0 0 8px rgba(255, 204, 0, 0.8),
+        0 0 15px rgba(255, 204, 0, 0.5);
+}
+
+.close-modal:active {
+    transform: scale(0.95) rotate(180deg);
+}
+
+/* Modal tabs for leaderboard */
+.leaderboard-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tab-button {
+    background: rgba(75, 33, 244, 0.3);
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.tab-button.active {
+    background: rgba(75, 33, 244, 0.8);
+    box-shadow: 
+        0 0 10px rgba(75, 33, 244, 0.5),
+        0 0 20px rgba(75, 33, 244, 0.3);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Auth form styles */
+.auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.provider-button {
+    background: linear-gradient(145deg, rgba(75, 33, 244, 0.8), rgba(58, 20, 199, 0.8));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.provider-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#email-form input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+#email-form button {
+    background: linear-gradient(145deg, rgba(75, 33, 244, 0.8), rgba(58, 20, 199, 0.8));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Leaderboard table styles */
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.leaderboard-table th {
+    color: #ffcc00;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+}
+
+.leaderboard-table tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* When modal is displayed, animate content */
+.modal[style*="block"] .modal-content {
+    transform: scale(1);
 }
