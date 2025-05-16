@@ -1,18 +1,24 @@
-// Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY", // Replace with your actual Firebase API key
-    authDomain: "jeopardish.firebaseapp.com",
-    projectId: "jeopardish",
-    storageBucket: "jeopardish.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCQeUAFATdmyO_w7OsAvwsi8S3kxJGSVQk",
+  authDomain: "jeoparody-e73a2.firebaseapp.com",
+  projectId: "jeoparody-e73a2",
+  storageBucket: "jeoparody-e73a2.appspot.com",
+  messagingSenderId: "454827013773",
+  appId: "1:454827013773:web:a4959239d7a7de6ad0d4c4",
+  measurementId: "G-NWVXJRWX92"
 };
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Initialize services
-const auth = firebase.auth();
+// Initialize Firestore
 const db = firebase.firestore();
 
-console.log('🔥 Firebase initialized'); 
+// Optionally, initialize analytics if you want (and have the analytics script loaded)
+if (firebase.analytics) {
+  firebase.analytics();
+}
+
+// Export the database instance
+window.db = db;

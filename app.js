@@ -6,6 +6,10 @@ let bestStreak = 0;
 let scoreboardInitialized = false; // New variable to track initialization
 let peekTokens = 5; // Initialize peek tokens
 
+// Import Firebase helpers
+// Uncomment these lines when Firebase is properly set up
+// import { getCurrentUser, saveScore as saveScoreToFirestore } from './firebase-helpers.js';
+
 // API url to fetch data for random question
 const apiUrl = 'https://cluebase.lukelav.in/clues/random';
 
@@ -200,6 +204,31 @@ function parseCSV(text) {
 let currentQuestion = null; // variable to hold current question
 let answerWasRevealed = false;
 
+// Array of silly insult words for peek-and-answer
+const sillyInsults = [
+    "scallywag",
+    "scallawag",
+    "ne'er-do-well",
+    "rapscallion",
+    "miscreant",
+    "knave",
+    "rascal",
+    "trickster",
+    "sneak",
+    "rogue",
+    "charlatan",
+    "shenanigator",
+    "cheeky monkey",
+    "sly fox",
+    "scofflaw",
+    "mischief-maker",
+    "rule-bender",
+    "rascalicious one",
+    "cunning linguist",
+    "sneaky pete",
+    "devious genius"
+];
+
 async function getNewQuestion() {
     console.log('🎯 getNewQuestion called');
     
@@ -334,9 +363,13 @@ const cheekyComments = [
 
 function checkAnswer() {
     console.log('🎯 checkAnswer called');
+    console.log('answerWasRevealed at check:', answerWasRevealed);
     
     const userInput = document.getElementById('inputBox'); 
     const answerBox = document.getElementById('answerBox');
+    const categoryBox = document.getElementById('categoryBox');
+    const valueBox = document.getElementById('valueBox');
+    const questionBox = document.getElementById('questionBox');
     
     if (!userInput || !answerBox || !window.currentQuestion) {
         console.error('❌ Required elements or question not found');
@@ -368,30 +401,43 @@ function checkAnswer() {
     
     // Handle revealed answers differently based on correctness
     if (answerWasRevealed) {
-        // If they peeked at the answer and got it correct
         if (isCorrect) {
+            // Show a cheeky message for correct after peeking
             const cheekyComment = cheekyComments[Math.floor(Math.random() * cheekyComments.length)];
-            
-            // Add null checks before setting innerHTML
+            const insult = sillyInsults[Math.floor(Math.random() * sillyInsults.length)];
             if (categoryBox) categoryBox.innerHTML = "";
             if (valueBox) valueBox.innerHTML = "";
-            if (questionBox) questionBox.innerHTML = `That's correct! But ${cheekyComment.toLowerCase()} Since you looked at the answer, you don't get any points and your streak has been reset.`;
+            if (questionBox) {
+                questionBox.innerHTML = `That's correct! But ${cheekyComment.toLowerCase()} Since you looked at the answer, you don't get any points and your streak has been reset.`;
+                console.log('Set cheeky message:', questionBox.innerHTML);
+            }
+            if (answerBox) {
+                answerBox.innerHTML = `The correct answer was <span style="color: #ffd700; font-weight: bold;">${window.currentQuestion.answer}</span>, but you knew that, you ${insult}!`;
+                answerBox.style.display = "flex";
+            }
+            showingMessage = true;
+            updateStreak(false);
+            updateTickerOnEvent('incorrect');
+            // Prevent auto-advance to new question
+            return;
+        } else {
+            // Show a custom message for wrong answer after peeking
+            if (categoryBox) categoryBox.innerHTML = "";
+            if (valueBox) valueBox.innerHTML = "";
+            if (questionBox) {
+                questionBox.innerHTML = `You already saw the answer and still got it wrong! No points for you.`;
+                console.log('Set cheeky message (wrong after peek):', questionBox.innerHTML);
+            }
             if (answerBox) {
                 answerBox.innerHTML = `The correct answer was: ${correctAnswer}`;
                 answerBox.style.display = "flex";
             }
             showingMessage = true;
-            
-            // Reset streak
             updateStreak(false);
             updateTickerOnEvent('incorrect');
-        } else {
-            // If they peeked but still got it wrong, just proceed normally
-            updateStreak(false);
-            displayIncorrectAnswerMessage(correctAnswer);
-            updateTickerOnEvent('incorrect');
+            // Prevent auto-advance to new question
+            return;
         }
-        return;
     }
     
     // Handle result for normal answers (not revealed)
@@ -401,14 +447,11 @@ function checkAnswer() {
         currentScore += questionValue;
         
         // Save score to Firebase if user is signed in
-        if (firebase && firebase.auth && firebase.auth().currentUser) {
-            // Only save significant scores (over 1000 points)
-            if (currentScore >= 1000) {
-                saveScore(currentScore);
-            }
-        } else {
-            console.log('👤 User not signed in, score not saved to database');
-        }
+        // When Firebase is properly set up, uncomment this:
+        // const currentUser = getCurrentUser();
+        // if (currentUser) {
+        //     saveScoreToFirestore(currentScore);
+        // }
         
         displayCorrectAnswerMessage();
         updateStreak(true);
@@ -420,7 +463,7 @@ function checkAnswer() {
     }
 
     // Only get new question if we're not showing a message
-    if (!showingMessage) {
+    if (!showingMessage && !answerWasRevealed) {
         setTimeout(() => {
             getNewQuestion();
         }, 2000);
@@ -962,22 +1005,28 @@ function updateTickerOnEvent(event, data = {}) {
     
     const tickerMessages = {
         correct: [
-            "🎯 BOOM! Nailed it!",
-            "🌟 Absolutely correct!",
-            "🎉 You're on fire!",
-            `🔥 Streak: ${data.streak || 0}!`
+            "🎯 BOOM! Nailed it! 🎊 You're a trivia genius! 🧠",
+            "🌟 Absolutely correct! 🏆 Trebek would be proud! 👏",
+            "🎉 You're on FIRE! 🔥 Burning through these questions! 🚒",
+            `🔥 Streak: ${data.streak || 0}! 📈 Keep climbing that leaderboard! 🏅`,
+            "✨ CORRECT! ✨ Your brain is magnificent! 🧠💪",
+            "🥳 Right answer! 🎯 Are you cheating or just smart? 🤓"
         ],
         incorrect: [
-            "💔 Oops! Not quite!",
-            "😅 Better luck next time!",
-            "🎯 Close, but no cigar!",
-            "🤔 Keep trying!"
+            "💔 Oops! Not quite! 🤦 Better luck on the next one! 🍀",
+            "😅 Swing and a miss! 🏏 You'll get it next time! 🎯",
+            "🎯 Close, but no cigar! 🚬 Keep those neurons firing! 🧠",
+            "🤔 That's not it... 😬 But we still believe in you! 👍",
+            "❌ WRONG! ❌ But hey, being wrong is the first step toward being right! 🚶",
+            "🙈 Ouch! That answer was way off! 📉 Time to hit the books! 📚"
         ],
         idle: [
-            "🎮 Ready for the next question?",
-            "🎲 Try your knowledge!",
-            "🎭 Challenge yourself!",
-            "🎪 Welcome to Jeopardish!"
+            "🎮 Ready for your next brain-busting question? 🧩",
+            "🎲 Test your knowledge! 📚 Or just guess wildly! 🎰",
+            "🎭 Welcome to Jeopardish! 🎪 Where your brain comes to party! 🎉",
+            "💭 Did you know? 🤔 Most contestants forget the question by the time they answer! 😂",
+            "⏰ TIME FOR TRIVIA! ⏰ Get those neurons ready! 🧠⚡",
+            "🌈 Fun Fact: This game was made by someone who can't spell 'Jeopardy' correctly! 😜"
         ]
     };
 
@@ -1010,9 +1059,17 @@ function showTicker(message) {
     tickerUnit.className = 'ticker-unit';
     
     // Set random height position for this ticker
-    const randomHeight = Math.floor(Math.random() * 50) + 10; // Random between 10-60%
-    tickerUnit.style.top = `${randomHeight}%`;
-    console.log(`🛩️ Ticker plane flying at height: ${randomHeight}%`);
+    const gameContainer = document.querySelector('.game-container');
+    let containerHeight = 0;
+    if (gameContainer) {
+        containerHeight = gameContainer.offsetHeight;
+    }
+    // Pick a random top between 5% and 80% of the container height
+    const minPercent = 5;
+    const maxPercent = 80;
+    const randomPercent = Math.floor(Math.random() * (maxPercent - minPercent) + minPercent);
+    tickerUnit.style.top = `calc(${randomPercent}% - 20px)`; // -20px to keep it inside bounds
+    console.log(`🛩️ Ticker plane flying at height: ${randomPercent}%`);
 
     // Create plane
     const plane = document.createElement('div');
@@ -1579,9 +1636,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Sign in with Google
 function signInWithGoogle() {
-    console.log('🔑 Attempting Google sign-in');
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
     
+    // Use compat API for sign-in
     auth.signInWithPopup(provider)
         .then((result) => {
             console.log('✅ Google sign-in successful');
@@ -1591,14 +1648,11 @@ function signInWithGoogle() {
         })
         .catch((error) => {
             console.error('❌ Google sign-in error:', error.message);
-            alert(`Sign-in error: ${error.message}`);
         });
 }
 
 // Sign up with email/password
 function signUpWithEmail(email, password) {
-    console.log('📝 Attempting email sign-up');
-    
     auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
             console.log('✅ Email sign-up successful');
@@ -1642,16 +1696,46 @@ function updateUserProfile(user) {
         // Show user profile
         userProfile.style.display = 'flex';
         
-        // Update user name
-        userName.textContent = user.displayName || user.email.split('@')[0];
-        
-        // Update avatar
-        if (user.photoURL) {
-            userAvatar.src = user.photoURL;
-        } else {
-            // Use initial as avatar if no photo
-            userAvatar.src = `https://ui-avatars.com/api/?name=${user.displayName || user.email.split('@')[0]}&background=4b21f4&color=fff`;
-        }
+        // Fetch user's custom profile data from Firestore
+        db.collection('users').doc(user.uid).get()
+            .then((doc) => {
+                let displayName = user.displayName || user.email.split('@')[0];
+                let photoURL = user.photoURL;
+                
+                // If we have custom data in Firestore, use that
+                if (doc.exists) {
+                    const userData = doc.data();
+                    if (userData.customDisplayName) {
+                        displayName = userData.customDisplayName;
+                    }
+                    if (userData.customPhotoURL) {
+                        photoURL = userData.customPhotoURL;
+                    }
+                }
+                
+                // Update user name
+                userName.textContent = displayName;
+                
+                // Update avatar
+                if (photoURL) {
+                    userAvatar.src = photoURL;
+                } else {
+                    // Use initial as avatar if no photo
+                    userAvatar.src = `https://ui-avatars.com/api/?name=${displayName}&background=4b21f4&color=fff`;
+                }
+            })
+            .catch((error) => {
+                console.error('Error getting user profile:', error);
+                
+                // Fallback to basic user info
+                userName.textContent = user.displayName || user.email.split('@')[0];
+                
+                if (user.photoURL) {
+                    userAvatar.src = user.photoURL;
+                } else {
+                    userAvatar.src = `https://ui-avatars.com/api/?name=${user.displayName || user.email.split('@')[0]}&background=4b21f4&color=fff`;
+                }
+            });
         
         // Hide login button when signed in
         if (loginButton) {
@@ -1677,12 +1761,12 @@ function saveUserToFirestore(user) {
         photoURL: user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || user.email.split('@')[0]}&background=4b21f4&color=fff`,
         lastLogin: firebase.firestore.FieldValue.serverTimestamp()
     }, { merge: true })
-    .then(() => {
-        console.log('✅ User data saved to Firestore');
-    })
-    .catch((error) => {
-        console.error('❌ Error saving user data:', error);
-    });
+        .then(() => {
+            console.log('✅ User data saved successfully');
+        })
+        .catch((error) => {
+            console.error('❌ Error saving user data:', error);
+        });
 }
 
 // Show user profile modal
@@ -2038,4 +2122,321 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize leaderboard
     initializeLeaderboard();
+});
+
+// Firebase Auth initialization (after firebase-config.js is loaded)
+const auth = firebase.auth();
+const GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+
+// Profile Modal functionality
+let currentAvatarUrl = '';
+
+// Show the profile modal and populate with user data
+function showProfileModal() {
+    console.log('👤 Opening profile modal');
+    
+    const profileModal = document.getElementById('profile-modal');
+    const displayNameInput = document.getElementById('display-name');
+    const profileAvatarPreview = document.getElementById('profile-avatar-preview');
+    
+    if (!profileModal) {
+        console.error('❌ Profile modal element not found');
+        return;
+    }
+    
+    // Get current user
+    const user = auth.currentUser;
+    if (!user) {
+        console.error('❌ No user signed in');
+        return;
+    }
+    
+    // Fetch user's custom profile data from Firestore
+    db.collection('users').doc(user.uid).get()
+        .then((doc) => {
+            let displayName = user.displayName || user.email.split('@')[0];
+            let photoURL = user.photoURL;
+            
+            // If we have custom data in Firestore, use that
+            if (doc.exists) {
+                const userData = doc.data();
+                if (userData.customDisplayName) {
+                    displayName = userData.customDisplayName;
+                }
+                if (userData.customPhotoURL) {
+                    photoURL = userData.customPhotoURL;
+                }
+            }
+            
+            // Populate form with user data
+            if (displayNameInput) {
+                displayNameInput.value = displayName;
+            }
+            
+            // Set avatar preview
+            if (profileAvatarPreview) {
+                if (photoURL) {
+                    profileAvatarPreview.src = photoURL;
+                    currentAvatarUrl = photoURL;
+                } else {
+                    // Use initial as avatar if no photo
+                    const avatarUrl = `https://ui-avatars.com/api/?name=${displayName}&background=4b21f4&color=fff`;
+                    profileAvatarPreview.src = avatarUrl;
+                    currentAvatarUrl = avatarUrl;
+                }
+            }
+            
+            // Display the modal
+            profileModal.style.display = 'flex';
+            setTimeout(() => {
+                profileModal.classList.add('active');
+                const modalContent = profileModal.querySelector('.modal-content');
+                if (modalContent) modalContent.style.transform = 'scale(1)';
+            }, 10);
+        })
+        .catch((error) => {
+            console.error('❌ Error getting user profile:', error);
+            alert('Error loading profile data. Please try again.');
+        });
+}
+
+// Generate random avatar
+function generateRandomAvatar() {
+    console.log('🎭 Generating random avatar');
+    
+    const profileAvatarPreview = document.getElementById('profile-avatar-preview');
+    if (!profileAvatarPreview) {
+        console.error('❌ Avatar preview element not found');
+        return;
+    }
+    
+    // Generate random values for avatar
+    const backgrounds = ['4b21f4', 'ff1fc3', 'ffd700', '00bcd4', '4caf50', 'f44336'];
+    const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    const randomSeed = Math.floor(Math.random() * 1000);
+    
+    // Create URL for random avatar
+    const avatarUrl = `https://ui-avatars.com/api/?background=${randomBackground}&color=fff&size=128&seed=${randomSeed}`;
+    
+    // Update preview
+    profileAvatarPreview.src = avatarUrl;
+    currentAvatarUrl = avatarUrl;
+}
+
+// Save profile changes to Firestore
+function saveProfileChanges(event) {
+    event.preventDefault();
+    console.log('💾 Saving profile changes');
+    
+    const displayNameInput = document.getElementById('display-name');
+    const profileErrorElement = document.getElementById('profile-error');
+    
+    if (!displayNameInput) {
+        console.error('❌ Display name input not found');
+        return;
+    }
+    
+    // Get current user
+    const user = auth.currentUser;
+    if (!user) {
+        console.error('❌ No user signed in');
+        if (profileErrorElement) {
+            profileErrorElement.textContent = 'You must be signed in to update your profile.';
+        }
+        return;
+    }
+    
+    const newDisplayName = displayNameInput.value.trim();
+    
+    // Validate display name
+    if (!newDisplayName) {
+        if (profileErrorElement) {
+            profileErrorElement.textContent = 'Display name cannot be empty.';
+        }
+        return;
+    }
+    
+    // Save custom profile data to Firestore
+    db.collection('users').doc(user.uid).update({
+        customDisplayName: newDisplayName,
+        customPhotoURL: currentAvatarUrl
+    })
+    .then(() => {
+        console.log('✅ Profile updated successfully');
+        
+        // Update local UI
+        const userNameElement = document.getElementById('user-name');
+        const userAvatarElement = document.getElementById('user-avatar');
+        
+        if (userNameElement) {
+            userNameElement.textContent = newDisplayName;
+        }
+        
+        if (userAvatarElement) {
+            userAvatarElement.src = currentAvatarUrl;
+        }
+        
+        // Close the modal
+        closeProfileModal();
+        
+        // Show success message
+        alert('Profile updated successfully!');
+    })
+    .catch((error) => {
+        console.error('❌ Error updating profile:', error);
+        if (profileErrorElement) {
+            profileErrorElement.textContent = `Error: ${error.message}`;
+        }
+    });
+}
+
+// Close profile modal
+function closeProfileModal() {
+    console.log('🚪 Closing profile modal');
+    
+    const profileModal = document.getElementById('profile-modal');
+    if (profileModal) {
+        // Apply closing animation
+        const modalContent = profileModal.querySelector('.modal-content');
+        if (modalContent) modalContent.style.transform = 'scale(0.95)';
+        profileModal.classList.remove('active');
+        
+        // Actually hide the modal after animation completes
+        setTimeout(() => {
+            profileModal.style.display = 'none';
+        }, 300);
+    }
+}
+
+// Magic Link Sign In
+function signInWithMagicLink(email) {
+    const actionCodeSettings = {
+        url: window.location.href,
+        handleCodeInApp: true
+    };
+
+    auth.sendSignInLinkToEmail(email, actionCodeSettings)
+        .then(() => {
+            // Save the email for later use
+            window.localStorage.setItem('emailForSignIn', email);
+            // Show success message
+            const authError = document.getElementById('auth-error');
+            if (authError) {
+                authError.textContent = 'Magic link sent! Check your email.';
+                authError.style.color = '#4CAF50';
+            }
+        })
+        .catch((error) => {
+            console.error('Magic link error:', error);
+            const authError = document.getElementById('auth-error');
+            if (authError) {
+                authError.textContent = error.message;
+                authError.style.color = '#ff4444';
+            }
+        });
+}
+
+// Handle magic link sign-in
+function handleMagicLinkSignIn() {
+    if (auth.isSignInWithEmailLink(window.location.href)) {
+        let email = window.localStorage.getItem('emailForSignIn');
+        if (!email) {
+            email = window.prompt('Please provide your email for confirmation');
+        }
+        
+        auth.signInWithEmailLink(email, window.location.href)
+            .then((result) => {
+                window.localStorage.removeItem('emailForSignIn');
+                updateUserProfile(result.user);
+                closeAuthModal();
+            })
+            .catch((error) => {
+                console.error('Magic link sign-in error:', error);
+                const authError = document.getElementById('auth-error');
+                if (authError) {
+                    authError.textContent = error.message;
+                    authError.style.color = '#ff4444';
+                }
+            });
+    }
+}
+
+// Initialize auth event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // ... existing DOMContentLoaded code ...
+
+    // Magic link button click handler
+    const magicLinkButton = document.getElementById('magic-link-signin');
+    if (magicLinkButton) {
+        magicLinkButton.addEventListener('click', () => {
+            const emailForm = document.getElementById('email-form');
+            const magicLinkForm = document.getElementById('magic-link-form');
+            if (emailForm && magicLinkForm) {
+                emailForm.style.display = 'none';
+                magicLinkForm.style.display = 'flex';
+            }
+        });
+    }
+    
+    // Profile button click handler
+    const profileButton = document.getElementById('profile-button');
+    if (profileButton) {
+        profileButton.addEventListener('click', () => {
+            console.log('👤 Profile button clicked');
+            showProfileModal();
+        });
+    } else {
+        console.warn('⚠️ Profile button not found');
+    }
+    
+    // Profile form submission handler
+    const profileForm = document.getElementById('profile-form');
+    if (profileForm) {
+        profileForm.addEventListener('submit', saveProfileChanges);
+    } else {
+        console.warn('⚠️ Profile form not found');
+    }
+    
+    // Generate random avatar button handler
+    const generateAvatarButton = document.getElementById('generate-avatar');
+    if (generateAvatarButton) {
+        generateAvatarButton.addEventListener('click', generateRandomAvatar);
+    } else {
+        console.warn('⚠️ Generate avatar button not found');
+    }
+    
+    // Profile modal close button handler
+    const profileModalCloseButton = document.querySelector('#profile-modal .close-modal');
+    if (profileModalCloseButton) {
+        profileModalCloseButton.addEventListener('click', closeProfileModal);
+    } else {
+        console.warn('⚠️ Profile modal close button not found');
+    }
+    
+    // Close profile modal when clicking outside
+    const profileModal = document.getElementById('profile-modal');
+    if (profileModal) {
+        profileModal.addEventListener('click', (e) => {
+            if (e.target === profileModal) {
+                closeProfileModal();
+            }
+        });
+    } else {
+        console.warn('⚠️ Profile modal not found');
+    }
+
+    // Magic link form submission
+    const magicLinkForm = document.getElementById('magic-link-form');
+    if (magicLinkForm) {
+        magicLinkForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('magic-link-email').value;
+            if (email) {
+                signInWithMagicLink(email);
+            }
+        });
+    }
+
+    // Check for magic link sign-in on page load
+    handleMagicLinkSignIn();
 });

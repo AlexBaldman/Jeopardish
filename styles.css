@@ -349,6 +349,7 @@ body {
 }
 
 
+
 /* SPEECH BUBBLE  */
 .speechBubble {
     position: relative;
@@ -358,17 +359,18 @@ body {
     max-height: 40vh;
     margin: 1.5% auto;
     padding: 1% 2.5%;
-    background-color: white;
+    background-color: #000080; /* Navy blue background */
     border-radius: 4vmin;
     filter: drop-shadow(3px 3px 3px rgba(20, 20, 20, 0.7));
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1vmin solid #000000c5;
+    border: 1vmin solid #ffffff;
     transition: all 0.45s ease-in-out;
     scroll-behavior: smooth;
     transform-origin: top;
     opacity: 0.95;
     z-index: 3;
+    color: white; /* Ensure text is white for contrast */
 }
 
 .speechBubble.expanded {
@@ -376,42 +378,53 @@ body {
     min-height: 40vh;
 }
 
-/* Speech bubble arrow pointing to the host */
+/* Speech bubble triangle pointing to the host */
 .speechBubble::before {
     content: '';
     position: absolute;
-    left: -3vmin;
-    bottom: 5vmin;
-    width: 5vmin;
-    height: 5vmin;
-    background-color: white;
-    border-left: 1vmin solid #000000c5;
-    border-bottom: 1vmin solid #000000c5;
-    transform: rotate(45deg);
+    left: 40px;
+    bottom: -28px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 28px 32px 0 0;
+    border-color: #000080 transparent transparent transparent;
+    z-index: 3;
+}
+
+/* Speech bubble border triangle effect */
+.speechBubble::after {
+    content: '';
+    position: absolute;
+    left: 38px;
+    bottom: -32px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 32px 36px 0 0;
+    border-color: #ffffff00 transparent transparent transparent;
     z-index: 2;
-    filter: drop-shadow(-2px 2px 2px rgba(20, 20, 20, 0.4));
 }
 
 #categoryBox {
     font-family: "Press Start 2P", serif;
     text-transform: uppercase;
-    color: transparent;
-    color: #51fffc; 
+    color: #51fffc; /* Cyan color */
     font-size: 3.3vmin;
     font-weight: bold;
     margin-bottom: 5px; /* Reduced margin */
-    text-shadow: 3px 3px 0px #f40f0f;
+    text-shadow: 2px 2px 0px #000000; /* Black shadow for contrast */
     letter-spacing: 1px;
 }
 
 #valueBox {
     font-family: monospace, serif;
     text-transform: uppercase;
-    color: #ee8cff;
+    color: #ff8adb; /* Light pink */
     font-size: 3.1vmin;
     font-weight: bold;
     margin-bottom: 5px; /* Reduced margin */
-    text-shadow: 2px 2px 0px #000000;
+    text-shadow: 2px 2px 0px #000000; /* Black shadow for contrast */
     letter-spacing: 1px;
 }
 
@@ -420,9 +433,9 @@ body {
     font-size: 2.666vmin;
     font-weight: bold;
     text-transform: uppercase;
-    color: #ffffff;
+    color: #ffffff; /* White */
     text-shadow: 2px 2px 0px #000000, 4px 4px 0px rgba(0,0,0,0.5);
-    background-color: #000080;
+    background-color: transparent; /* Remove background to show speech bubble color */
     padding: 10px;
     text-align: center;
     letter-spacing: 3px;
@@ -437,7 +450,8 @@ body {
     margin: 10px auto;
     margin-top: .5vh;
     font-size: 3.5vmin;
-    color: rgba(234, 234, 151, 0.924);
+    color: #ffff00; /* Bright yellow for answers */
+    text-shadow: 2px 2px 0px #000000; /* Black shadow for contrast */
 }
 
 .trebek {
@@ -473,21 +487,25 @@ body {
 
 .event-ticker {
     position: absolute;
-    bottom: 10px;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 40px;
-    overflow: hidden;
-    z-index: 2; /* Below the host image */
+    height: 100%; /* Fill the game-container vertically */
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1; /* Reduced from 2 to ensure it's behind other elements */
 }
 
 .ticker-unit {
     position: absolute;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     left: 100%;
+    transform: scale(0.7); /* Scale down for distance effect */
     animation: flyAcross 15s linear infinite;
     z-index: 2;
+    pointer-events: auto;
 }
 
 @keyframes flyAcross {
@@ -501,9 +519,11 @@ body {
 
 /* Cessna-style airplane */
 .ticker-plane {
+    width: 56px; /* 80 * 0.7 */
+    height: 18px; /* 25 * 0.7 */
+    min-width: 40px;
+    min-height: 12px;
     position: relative;
-    width: 80px; /* Smaller size to appear distant */
-    height: 25px;
     background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
     border-radius: 4px 12px 4px 4px; /* Sharper corners */
     margin-right: 10px;
@@ -682,48 +702,43 @@ body {
 
 /* Ticker content (banner) */
 .ticker-content {
-    background: rgba(255, 255, 255, 0.6); /* More transparent */
-    padding: 5px 15px;
-    border-radius: 2px; /* Sharper corners */
-    font-family: "Press Start 2P", monospace;
     font-size: 0.8rem;
-    color: #0066ff; /* Bright electric blue */
-    text-shadow: 0 0 5px rgba(0, 102, 255, 0.7); /* Glow effect */
+    padding: 7px 14px;
+    border-radius: 4px;
+    background: rgba(255, 0, 0, 0.6); /* Semi-transparent red */
+    font-family: "Press Start 2P", monospace;
+    color: white; /* White text */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Text shadow for better contrast */
     white-space: nowrap;
     position: relative;
     transform-origin: left center;
-    margin-left: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-left: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     animation: waveBanner 3s ease-in-out infinite; /* Waving animation */
     z-index: 1;
+    border: 2px solid rgba(255, 255, 255, 0.7); /* White border */
+    min-width: 150px; /* Add minimum width to ensure content is visible */
+    display: inline-block; /* Ensure it expands to fit content */
 }
 
 /* Banner rope */
 .ticker-content::before {
     content: '';
     position: absolute;
-    left: -5px;
+    left: -10px;
     top: 50%;
-    width: 6px;
-    height: 1px;
-    background: #555;
+    width: 10px;
+    height: 2px;
+    background: #fff;
     transform: translateY(-50%);
 }
 
 /* Waving banner animation */
 @keyframes waveBanner {
-    0%, 100% {
-        transform: skewY(1deg) translateY(0);
-    }
-    25% {
-        transform: skewY(-1deg) translateY(-3px);
-    }
-    50% {
-        transform: skewY(2deg) translateY(0);
-    }
-    75% {
-        transform: skewY(-2deg) translateY(3px);
-    }
+    0% { transform: skewY(1deg) translateY(0); }
+    25% { transform: skewY(-1deg) translateY(-3px); }
+    50% { transform: skewY(2deg) translateY(0); }
+    75% { transform: skewY(-2deg) translateY(3px); }
 }
 
 /* SCOREBOARD  */
@@ -988,7 +1003,7 @@ body {
     max-height: 40vh;
     object-fit: contain;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s ease;
 }
 
 #questionBox img:hover,
@@ -1281,13 +1296,12 @@ body {
     box-shadow: 
         0 0 10px rgba(255, 31, 195, 0.7),
         0 0 20px rgba(255, 31, 195, 0.4);
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     z-index: 10001;
 }
 
 .media-modal .close-button:hover {
     transform: scale(1.1);
-    background: #ff33d1;
     box-shadow: 
         0 0 15px rgba(255, 31, 195, 0.8),
         0 0 30px rgba(255, 31, 195, 0.5);
@@ -1382,56 +1396,177 @@ body {
 }
 
 
-/* 
+/* =====================
+   HYBRID RETRO + MODERN MODAL STYLES
+   ===================== */
 
-OLD & SAVED CSS 
-    (do not just randomly delete - double-check if anything useful before deleting)
-
-.trebek {
-    max-width: 40vw; 
-    max-height: 35vh;
-    min-width: 200px; 
-    width: 40vw; 
-    z-index: 3;
-} 
-
-
-.event-ticker {
+/* Center modal in .game-container */
+.game-container .modal {
     position: absolute;
-
-    height: 4vmin;
-    overflow: visible;
-    pointer-events: none;
-    z-index: 1; 
-}
-
-.ticker-unit {
-    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 420px;
+    max-width: 95vw;
+    min-height: 220px;
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    transform: translateX(100%);
-    animation: flyAcross 8s cubic-bezier(0.4, 0, 0.2, 1);
-    background: linear-gradient(135deg, rgba(255, 99, 71, 0.2), rgba(255, 192, 203, 0.2));
-    backdrop-filter: blur(2px);
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    padding: 0.5vmin 2vmin;
-    color: #FFE4E1; 
-    text-shadow: 
-        0 0 5px #FF69B4, 
-        0 0 10px #FF1493;  
-    font-size: 2.5vmin;
-    font-weight: bold;
-    letter-spacing: 0.2vmin;
-    z-index: 2;
-    animation: bobUpDown 2s ease-in-out infinite reverse;
-    backdrop-filter: blur(2px);
-    border: 0.2vmin solid rgba(255, 255, 255, 0.1);
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background: none;
+    pointer-events: auto;
+    opacity: 1;
 }
 
-*/
+/* Hybrid modal content: glassy, neon, retro border */
+.game-container .modal .modal-content.beautiful-modal {
+    background: rgba(34, 43, 58, 0.85); /* Glassy dark blue */
+    border: 3.5px solid #ffd700; /* Bold yellow border */
+    border-radius: 14px; /* Not fully round, not sharp */
+    box-shadow: 0 8px 32px #000, 0 0 16px 2px #ffd70080, 0 0 0 8px #222b3a80;
+    padding: 0;
+    width: 100%;
+    max-width: 420px;
+    min-height: 220px;
+    font-family: 'Press Start 2P', monospace;
+    position: relative;
+    overflow: hidden;
+    filter: contrast(1.1) brightness(1.08) saturate(1.1);
+    backdrop-filter: blur(10px) saturate(1.2);
+    /* CRT scanline overlay */
+}
+.game-container .modal .modal-content.beautiful-modal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.04) 0px,
+        rgba(255,255,255,0.04) 1px,
+        transparent 2px,
+        transparent 6px
+    );
+    z-index: 1;
+    border-radius: 14px;
+}
+
+/* Hybrid header bar: retro shape, modern gradient */
+.game-container .modal .modal-content.beautiful-modal .retro-header {
+    background: linear-gradient(90deg, #ffd700 70%, #fffbe0 100%);
+    color: #222b3a;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.1rem;
+    padding: 0.8em 2.5em 0.8em 1.2em;
+    border-bottom: 2px solid #fffbe0;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0 #fffbe0, 0 0 2px #fffbe0;
+    position: relative;
+    margin-bottom: 0.5em;
+    user-select: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 2px 8px #ffd70040;
+    z-index: 2;
+}
+
+/* Modal body area */
+.game-container .modal .modal-content.beautiful-modal .retro-body {
+    padding: 1.5em 2em 2em 2em;
+    color: #fffbe0;
+    font-size: 1rem;
+    min-height: 120px;
+    z-index: 2;
+    position: relative;
+}
+
+/* Rotating yellow X close button, blocky neon style */
+.game-container .modal .close-modal.neon-x {
+    position: absolute;
+    top: 0.7em;
+    right: 0.7em;
+    width: 32px;
+    height: 32px;
+    background: #ffd700;
+    border: 2px solid #fffbe0;
+    border-radius: 6px;
+    color: #222b3a;
+    font-size: 1.5em;
+    font-family: 'Press Start 2P', monospace;
+    font-weight: bold;
+    text-align: center;
+    line-height: 28px;
+    box-shadow: 0 0 0 2px #fffbe0, 0 2px 8px #ffd70080, 0 0 8px #ffd700;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.4,2,0.6,1), background 0.2s, box-shadow 0.2s;
+    z-index: 101;
+    text-shadow: 0 0 2px #fffbe0, 0 0 8px #ffd700;
+    outline: 2px solid #fffbe0;
+}
+.game-container .modal .close-modal.neon-x:hover {
+    background: #fffbe0;
+    color: #ffd700;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 0 2px #ffd700, 0 4px 16px #ffd70080, 0 0 16px #ffd700;
+}
+.game-container .modal .close-modal.neon-x:active {
+    background: #ffd700;
+    color: #222b3a;
+    transform: rotate(180deg) scale(0.95);
+}
+
+/* Modal form and button tweaks for hybrid look */
+.game-container .modal .modal-content.beautiful-modal input,
+.game-container .modal .modal-content.beautiful-modal button {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 2px solid #ffd700;
+    background: #222b3a;
+    color: #fffbe0;
+    margin-bottom: 0.7em;
+    box-shadow: 0 2px 0 #fffbe0;
+    padding: 0.7em 1em;
+    outline: none;
+    transition: background 0.2s, color 0.2s;
+}
+.game-container .modal .modal-content.beautiful-modal input:focus,
+.game-container .modal .modal-content.beautiful-modal button:focus {
+    background: #fffbe0;
+    color: #222b3a;
+}
+.game-container .modal .modal-content.beautiful-modal button:hover {
+    background: #ffd700;
+    color: #222b3a;
+}
+
+/* Error message hybrid style */
+.game-container .modal .modal-content.beautiful-modal .auth-error {
+    color: #ff4444;
+    background: #fffbe0;
+    border: 2px solid #ffd700;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.9em;
+    padding: 0.5em 1em;
+    margin-top: 1em;
+    border-radius: 6px;
+    box-shadow: 0 2px 0 #ffd700;
+    text-align: center;
+    z-index: 2;
+}
+
+/* Responsive: shrink modal on small screens */
+@media (max-width: 500px) {
+    .game-container .modal {
+        width: 98vw;
+        min-width: 0;
+        max-width: 98vw;
+    }
+    .game-container .modal .modal-content.beautiful-modal {
+        max-width: 98vw;
+        padding: 0.5em;
+    }
+}
 
 .thumbnail {
     width: 100px; /* Reduce thumbnail size */
@@ -1535,33 +1670,33 @@ OLD & SAVED CSS
     transform: scale(0.95);
 }
 
-/* Auth buttons specific styles - positioned behind the title with slide-down effect */
+/* Auth buttons specific styles - positioned at the bottom with slide-up effect */
 .auth-buttons-div {
     position: absolute;
-    top: 10vh; /* Position right behind the title */
+    bottom: -100px; /* Position mostly off-screen */
     left: 50%; 
     transform: translateX(-50%);
     width: auto;
-    background: linear-gradient(145deg, rgba(0, 0, 128, 0.7), rgba(10, 10, 48, 0.7));
-    border-radius: 0 0 15px 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(145deg, rgba(0, 0, 128, 0.8), rgba(10, 10, 48, 0.8));
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.4);
     padding: 12px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
     gap: 8px;
-    z-index: 1; /* Behind the title */
+    z-index: 10; /* Make sure it's visible above other elements */
     border: 2px solid rgba(255, 204, 0, 0.7);
-    transform-origin: top center;
+    border-bottom: none;
 }
 
 /* Peek handle that's always visible */
 .peek-handle {
     position: absolute;
-    top: -12px;
+    top: -28px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(145deg, rgba(0, 0, 128, 0.7), rgba(10, 10, 48, 0.7));
+    background: linear-gradient(145deg, rgba(0, 0, 128, 0.8), rgba(10, 10, 48, 0.8));
     border: 2px solid rgba(255, 204, 0, 0.7);
     border-bottom: none;
     border-radius: 8px 8px 0 0;
@@ -1571,7 +1706,7 @@ OLD & SAVED CSS
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    z-index: 3; /* Make sure it's visible */
+    z-index: 10; /* Make sure it's visible */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -1584,11 +1719,11 @@ OLD & SAVED CSS
 .auth-buttons-div:hover,
 .peek-handle:hover + .auth-buttons-div,
 .auth-buttons-div.expanded {
-    transform: translateX(-50%) translateY(100%); /* Slide down when hovered */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    transform: translateX(-50%) translateY(-80px); /* Slide up when hovered */
+    box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* Make the buttons match modal style */
+/* Make the buttons match modal style with improved hover effects */
 #login-button,
 #leaderboard-button {
     font-size: 0.8rem;
@@ -1614,8 +1749,9 @@ OLD & SAVED CSS
 #login-button:hover,
 #leaderboard-button:hover {
     transform: translateY(-2px);
-    background: linear-gradient(145deg, rgba(75, 33, 244, 0.9), rgba(58, 20, 199, 0.9));
+    background: linear-gradient(145deg, rgba(95, 60, 244, 0.9), rgba(78, 45, 199, 0.9));
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 1); /* Keep text visible on hover */
 }
 
 #login-button:active,
@@ -1674,6 +1810,7 @@ OLD & SAVED CSS
 
 /* Modal styles for auth and leaderboard */
 .modal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -1868,4 +2005,331 @@ OLD & SAVED CSS
 /* When modal is displayed, animate content */
 .modal[style*="block"] .modal-content {
     transform: scale(1);
+}
+
+/* --- Beautiful Modal Styles --- */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.active {
+    opacity: 1;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.modal.active .modal-content {
+    transform: scale(1);
+}
+
+/* --- Animated Yellow X Close Button --- */
+.neon-x {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ffd700;
+    font-size: 24px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    text-shadow: 0 0 5px #ffd700,
+                 0 0 10px #ffd700,
+                 0 0 20px #ffd700;
+}
+
+.neon-x:hover {
+    transform: rotate(90deg);
+    color: #ff0;
+    text-shadow: 0 0 10px #ff0,
+                 0 0 20px #ff0,
+                 0 0 30px #ff0;
+}
+
+/* --- Auth Buttons Styling --- */
+.auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.provider-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.provider-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.provider-button i {
+    font-size: 1.2rem;
+}
+
+/* --- Form Styling --- */
+#email-form, #magic-link-form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#email-form input, #magic-link-form input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    backdrop-filter: blur(5px);
+}
+
+#email-form input:focus, #magic-link-form input:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+#email-submit, #magic-link-submit {
+    background: linear-gradient(45deg, #ffd700, #ffa500);
+    color: #000;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#email-submit:hover, #magic-link-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+/* --- Error Message Styling --- */
+.auth-error {
+    color: #ff4444;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+}
+
+/* --- Toggle Link Styling --- */
+#toggle-signup {
+    color: #ffd700;
+    text-decoration: none;
+    margin-top: 1rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+#toggle-signup:hover {
+    color: #ff0;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+/* --- User Profile Styling --- */
+.user-profile {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 128, 0.7);
+    padding: 8px 12px;
+    border-radius: 30px;
+    border: 2px solid rgba(255, 204, 0, 0.7);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    z-index: 100;
+    gap: 8px;
+}
+
+.user-profile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #ffd700;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+#user-name {
+    color: white;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    margin: 0 8px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+#profile-button,
+#logout-button {
+    background: rgba(75, 33, 244, 0.7);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#profile-button:hover,
+#logout-button:hover {
+    background: rgba(95, 60, 244, 0.9);
+    transform: translateY(-2px);
+}
+
+/* --- Profile Modal Styling --- */
+#profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-field label {
+    color: #ffd700;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8rem;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+.profile-field input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    border-radius: 8px;
+    padding: 10px;
+    color: white;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.9rem;
+}
+
+.profile-field input:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.field-hint {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+    margin-top: 5px;
+}
+
+.profile-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.avatar-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #ffd700;
+    object-fit: cover;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.avatar-options {
+    display: flex;
+    gap: 10px;
+}
+
+.avatar-button {
+    background: rgba(75, 33, 244, 0.7);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.avatar-button:hover {
+    background: rgba(95, 60, 244, 0.9);
+    transform: translateY(-2px);
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.primary-button {
+    background: linear-gradient(45deg, #ffd700, #ffa500);
+    color: #000;
+    font-family: 'Press Start 2P', monospace;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
 }
