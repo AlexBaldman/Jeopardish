@@ -39,6 +39,19 @@
 
     <!-- app JS - load this first -->
     <script src="app.js"></script>
+    
+    <!-- Make displayQuestion globally accessible -->
+    <script>
+        // Ensure displayQuestion is globally accessible for translations.js
+        window.addEventListener('load', function() {
+            if (typeof displayQuestion === 'function') {
+                window.displayQuestion = displayQuestion;
+                console.log('✅ displayQuestion function exposed to global scope for translations');
+            } else {
+                console.error('❌ displayQuestion function not found');
+            }
+        });
+    </script>
 
     <!-- translations - load this after app.js -->
     <script src="translations.js"></script>
