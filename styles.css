@@ -375,7 +375,7 @@ body {
 
 
 
-/* SPEECH BUBBLE  */
+/* SPEECH BUBBLE STYLES */
 .speechBubble {
     position: relative;
     display: block;
@@ -396,6 +396,7 @@ body {
     opacity: 0.95;
     z-index: 3;
     color: white; /* Ensure text is white for contrast */
+    font-family: 'Press Start 2P', 'Courier New', monospace;
 }
 
 .speechBubble.expanded {
@@ -415,7 +416,8 @@ body {
     border-width: 28px 32px 0 0;
     border-color: #000080 transparent transparent transparent;
     z-index: 3;
-    display: block; /* Ensure this is visible */
+    display: block !important; /* Ensure this is visible */
+    visibility: visible !important;
 }
 
 /* Speech bubble border triangle effect */
@@ -429,8 +431,9 @@ body {
     border-style: solid;
     border-width: 32px 36px 0 0;
     border-color: #ffffff transparent transparent transparent; /* Make border visible */
+    display: block !important; /* Ensure this is visible */
+    visibility: visible !important;
     z-index: 2;
-    display: block; /* Ensure this is visible */
 }
 
 #categoryBox {
@@ -1815,13 +1818,77 @@ body {
     font-size: 1.2rem;
     filter: drop-shadow(0 0 3px rgba(255, 204, 0, 0.5));
     text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
-    display: inline-block;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Add a subtle animation to make icons more noticeable */
 .peek-handle:hover i {
     animation: pulse 1.5s infinite;
     transform: scale(1.1);
+}
+
+/* Alternate speech bubble styles */
+
+/* Style 1: Default game style (already defined above) */
+
+/* Style 2: Comic book style speech bubble */
+.speechBubble.comic-style {
+    background-color: #fff;
+    color: #000;
+    border: 3px solid #000;
+    border-radius: 30px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.7);
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.speechBubble.comic-style::before {
+    border-color: #fff transparent transparent transparent;
+    left: 30px;
+    bottom: -20px;
+}
+
+.speechBubble.comic-style::after {
+    border-color: #000 transparent transparent transparent;
+    left: 28px;
+    bottom: -24px;
+}
+
+/* Style 3: Thought bubble style */
+.speechBubble.thought-bubble {
+    background-color: #f8f8f8;
+    color: #333;
+    border: 2px solid #999;
+    border-radius: 50%;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    font-family: 'Indie Flower', 'Comic Sans MS', cursive;
+    font-style: italic;
+}
+
+/* Replace triangle with circles for thought bubble */
+.speechBubble.thought-bubble::before {
+    border: none;
+    width: 20px;
+    height: 20px;
+    background-color: #f8f8f8;
+    border: 2px solid #999;
+    border-radius: 50%;
+    bottom: -25px;
+    left: 30px;
+}
+
+.speechBubble.thought-bubble::after {
+    border: none;
+    width: 10px;
+    height: 10px;
+    background-color: #f8f8f8;
+    border: 2px solid #999;
+    border-radius: 50%;
+    bottom: -40px;
+    left: 20px;
 }
 
 @keyframes pulse {
@@ -1835,10 +1902,24 @@ body {
     .peek-handle {
         padding: 5px 25px;
         top: -35px;
+        display: flex !important;
+        visibility: visible !important;
     }
     
     .peek-handle i {
         font-size: 1.4rem;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin: 0 5px;
+    }
+    
+    /* Improve font rendering on mobile */
+    .speechBubble, .modal-content, .question, #answerInput {
+        font-family: 'Press Start 2P', 'Courier New', monospace;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
     }
 }
 

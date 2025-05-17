@@ -2189,6 +2189,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize leaderboard
     initializeLeaderboard();
+    
+    // Setup speech bubble style toggling
+    initializeSpeechBubbleToggle();
 });
 
 // Firebase Auth initialization (after firebase-config.js is loaded)
@@ -2197,11 +2200,37 @@ try {
     // Use the existing auth instance
     auth = firebase.auth();
     
-    // Enable offline persistence for Firestore if possible (db is already initialized in firebase-config.js)
-    if (db && typeof db.enablePersistence === 'function') {
-        db.enablePersistence({ synchronizeTabs: true })
-            .catch((err) => {
-                console.warn('⚠️ Firestore persistence error:', err.code);
+    // Check if Firestore is properly initialized
+    if (typeof db === 'undefined' || db === null) {
+        console.warn('⚠️ Firestore not properly initialized, creating fallback');
+        createFallbackFirebase();
+    } else {
+        // Add a timeout to detect if Firestore is not responding
+        const firestoreTimeout = setTimeout(() => {
+            console.warn('⚠️ Firestore connection timeout, switching to fallback mode');
+            createFallbackFirebase();
+        }, 5000); // 5 second timeout
+        
+        // Test Firestore connection
+        db.collection('test').doc('connection-test').get()
+            .then(() => {
+                // Connection successful, clear timeout
+                clearTimeout(firestoreTimeout);
+                console.log('✅ Firestore connection successful');
+                
+                // Enable offline persistence for Firestore
+                if (typeof db.enablePersistence === 'function') {
+                    db.enablePersistence({ synchronizeTabs: true })
+                        .catch((err) => {
+                            console.warn('⚠️ Firestore persistence error:', err.code);
+                        });
+                }
+            })
+            .catch((error) => {
+                // Connection failed, clear timeout and create fallback
+                clearTimeout(firestoreTimeout);
+                console.error('❌ Firestore connection error:', error);
+                createFallbackFirebase();
             });
     }
 } catch (error) {
@@ -2225,6 +2254,102 @@ function createMockUser() {
     if (auth && auth._authCallback) auth._authCallback(mockUser);
     
     return mockUser;
+}
+
+// Speech bubble style toggling functionality
+function initializeSpeechBubbleToggle() {
+    const speechBubble = document.getElementById('speechBubble') || document.querySelector('.speechBubble');
+    if (!speechBubble) {
+        console.error('❌ Speech bubble element not found');
+        return;
+    }
+    
+    console.log('💬 Initializing speech bubble style toggle');
+    
+    // Available styles
+    const styles = ['default', 'comic-style', 'thought-bubble'];
+    let currentStyleIndex = 0;
+    
+    // Store the original style
+    speechBubble.dataset.originalStyle = 'default';
+    
+    // Add click event listener to the speech bubble
+    speechBubble.addEventListener('click', (event) => {
+        // Get the dimensions of the speech bubble
+        const rect = speechBubble.getBoundingClientRect();
+        
+        // Calculate the click position relative to the speech bubble
+        const x = event.clientX - rect.left;
+        const width = rect.width;
+        
+        // Define the edge width (15% of the total width for better mobile experience)
+        const edgeWidth = width * 0.15;
+        
+        // Check if the click is on the left or right edge
+        if (x < edgeWidth) {
+            // Left edge click - cycle backward
+            currentStyleIndex = (currentStyleIndex - 1 + styles.length) % styles.length;
+            updateSpeechBubbleStyle();
+            event.stopPropagation(); // Prevent other click handlers
+        } else if (x > width - edgeWidth) {
+            // Right edge click - cycle forward
+            currentStyleIndex = (currentStyleIndex + 1) % styles.length;
+            updateSpeechBubbleStyle();
+            event.stopPropagation(); // Prevent other click handlers
+        }
+    });
+    
+    // Function to update the speech bubble style
+    function updateSpeechBubbleStyle() {
+        // Remove all style classes
+        speechBubble.classList.remove('comic-style', 'thought-bubble');
+        
+        // Add the current style class if it's not the default
+        if (styles[currentStyleIndex] !== 'default') {
+            speechBubble.classList.add(styles[currentStyleIndex]);
+        }
+        
+        // Show a brief notification about the style change
+        const styleNames = {
+            'default': 'Classic Game Style',
+            'comic-style': 'Comic Book Style',
+            'thought-bubble': 'Thought Bubble Style'
+        };
+        
+        console.log('💬 Speech bubble style changed to:', styleNames[styles[currentStyleIndex]]);
+        
+        // Create and show a temporary notification
+        const notification = document.createElement('div');
+        notification.textContent = `Speech Bubble: ${styleNames[styles[currentStyleIndex]]}`;
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.left = '50%';
+        notification.style.transform = 'translateX(-50%)';
+        notification.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        notification.style.color = 'white';
+        notification.style.padding = '10px 20px';
+        notification.style.borderRadius = '5px';
+        notification.style.zIndex = '9999';
+        notification.style.fontFamily = "'Press Start 2P', monospace";
+        notification.style.fontSize = '12px';
+        notification.style.textAlign = 'center';
+        
+        document.body.appendChild(notification);
+        
+        // Remove the notification after 2 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    document.body.removeChild(notification);
+                }
+            }, 500);
+        }, 2000);
+    }
+    
+    // Initialize with default style
+    updateSpeechBubbleStyle();
 }
 
 // Create fallback Firebase objects for local testing
