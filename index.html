@@ -92,8 +92,32 @@
 
         <!-- header w. title image -->
         <div class="header">
-            <!-- JEOPARODY! title image  -->
-            <img id="titleImage" class="title-image" src="images/title/title-JeoPARODY.png" alt="JeoPARODY!">
+            <!-- Modern title bar with feature icons -->
+            <div class="title-bar">
+                <div class="title-bar-left">
+                    <button id="lang-btn" data-lang="en" title="Switch Language">
+                        <span class="lang-text"></span>
+                    </button>
+                    <button class="feature-icon" id="help-btn" title="Help & Instructions">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                    <button class="feature-icon" id="settings-btn" title="Game Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+                
+                <!-- JEOPARODY! title image -->
+                <img id="titleImage" class="title-image" src="images/title/title-JeoPARODY.png" alt="JeoPARODY!">
+                
+                <div class="title-bar-right">
+                    <button class="feature-icon" id="stats-btn" title="Game Statistics">
+                        <i class="fas fa-chart-bar"></i>
+                    </button>
+                    <button class="feature-icon" id="achievements-btn" title="Achievements">
+                        <i class="fas fa-trophy"></i>
+                    </button>
+                </div>
+            </div>
             
             <!-- Auth buttons container - moved to be directly below the title -->
             <div class="auth-buttons-div">
@@ -108,19 +132,6 @@
                     <i class="fas fa-crown"></i> leaderboard
                 </button>
             </div>
-             
-            <!-- ALTERNATIVE TITLE IMAGES -->
-                <!-- JEOPARDISH! title image (hosted on Cloudinary)-->
-                <!-- <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">   -->
-                
-                <!-- JEOPARDISH! title image (local) -->
-                <!-- <img class="title-image" src="images/title/title-Jeopardish!.png" alt="JeoPARODY!"> -->
-
-                <!-- JEOPARDISH! simple title  -->
-                <!-- <img class="title-image" src="images/title/title-Jeopardish!-simple.png" alt="JeoPARODY!"> -->
-
-                <!-- JEOPARDISH! black & white title  -->
-                <!-- <img class="title-image" src="images/title/title-Jeopardish!-B&W.svg" alt="JeoPARODY!"> -->
         </div>
 
         <!-- button container div with "new question" & show answer buttons -->
@@ -308,5 +319,145 @@
         </div>
     </div>
     
+    <!-- Help Modal -->
+    <div id="help-modal" class="modal" style="display: none;">
+        <div class="modal-content beautiful-modal">
+            <button class="close-modal neon-x" aria-label="Close">&times;</button>
+            <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">How to Play</h2>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>Getting Started</h3>
+                    <p>1. Click "New Question" to get a random trivia question</p>
+                    <p>2. Type your answer in the input box</p>
+                    <p>3. Click "Check Answer" to see if you're correct</p>
+                    <p>4. Click "Show Answer" to reveal the correct answer</p>
+                </div>
+                <div class="help-section">
+                    <h3>Scoring</h3>
+                    <p>• Correct answers add points to your score</p>
+                    <p>• Build up your streak for bonus points</p>
+                    <p>• Try to beat your high score!</p>
+                </div>
+                <div class="help-section">
+                    <h3>Features</h3>
+                    <p>• Sign in to save your progress</p>
+                    <p>• View the leaderboard</p>
+                    <p>• Customize your profile</p>
+                    <p>• Toggle between light/dark themes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal" style="display: none;">
+        <div class="modal-content beautiful-modal">
+            <button class="close-modal neon-x" aria-label="Close">&times;</button>
+            <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Game Settings</h2>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>Display Settings</h3>
+                    <div class="setting-item">
+                        <label for="theme-toggle">Theme:</label>
+                        <select id="theme-toggle">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="speech-bubble-style">Speech Bubble Style:</label>
+                        <select id="speech-bubble-style">
+                            <option value="default">Default</option>
+                            <option value="comic">Comic Book</option>
+                            <option value="thought">Thought Bubble</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Game Settings</h3>
+                    <div class="setting-item">
+                        <label for="difficulty">Difficulty:</label>
+                        <select id="difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="sound-toggle">Sound Effects:</label>
+                        <input type="checkbox" id="sound-toggle" checked>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Modal -->
+    <div id="stats-modal" class="modal" style="display: none;">
+        <div class="modal-content beautiful-modal">
+            <button class="close-modal neon-x" aria-label="Close">&times;</button>
+            <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Game Statistics</h2>
+            <div class="modal-body">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>Total Games</h3>
+                        <p id="total-games">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Questions Answered</h3>
+                        <p id="questions-answered">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Correct Answers</h3>
+                        <p id="correct-answers">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Accuracy</h3>
+                        <p id="accuracy">0%</p>
+                    </div>
+                </div>
+                <div class="stats-chart">
+                    <canvas id="stats-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements Modal -->
+    <div id="achievements-modal" class="modal" style="display: none;">
+        <div class="modal-content beautiful-modal">
+            <button class="close-modal neon-x" aria-label="Close">&times;</button>
+            <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Achievements</h2>
+            <div class="modal-body">
+                <div class="achievements-grid">
+                    <div class="achievement-item locked">
+                        <i class="fas fa-trophy"></i>
+                        <h3>First Win</h3>
+                        <p>Win your first game</p>
+                    </div>
+                    <div class="achievement-item locked">
+                        <i class="fas fa-fire"></i>
+                        <h3>Hot Streak</h3>
+                        <p>Get a 5-question streak</p>
+                    </div>
+                    <div class="achievement-item locked">
+                        <i class="fas fa-star"></i>
+                        <h3>Perfect Score</h3>
+                        <p>Score 1000 points</p>
+                    </div>
+                    <div class="achievement-item locked">
+                        <i class="fas fa-crown"></i>
+                        <h3>Champion</h3>
+                        <p>Reach the top of the leaderboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="sounds.js"></script>
+    <script src="host-animations.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
