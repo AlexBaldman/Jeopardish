@@ -1601,7 +1601,41 @@ body {
     overflow: hidden;
     filter: contrast(1.1) brightness(1.08) saturate(1.1);
     backdrop-filter: blur(10px) saturate(1.2);
+    transform: scale(0.95);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     /* CRT scanline overlay */
+}
+
+/* Animation for modal opening */
+.game-container .modal.active .modal-content.beautiful-modal {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Ensure modal scrolling works well on mobile */
+.game-container .modal .modal-content.beautiful-modal .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    padding: 1em 1.2em;
+    scrollbar-width: thin;
+    scrollbar-color: #ffd700 rgba(34, 43, 58, 0.5);
+}
+
+/* Custom scrollbar for webkit browsers */
+.game-container .modal .modal-content.beautiful-modal .modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.game-container .modal .modal-content.beautiful-modal .modal-body::-webkit-scrollbar-track {
+    background: rgba(34, 43, 58, 0.5);
+    border-radius: 4px;
+}
+
+.game-container .modal .modal-content.beautiful-modal .modal-body::-webkit-scrollbar-thumb {
+    background-color: #ffd700;
+    border-radius: 4px;
 }
 .game-container .modal .modal-content.beautiful-modal::before {
     content: '';
@@ -1998,12 +2032,55 @@ body {
     box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* Add touch-friendly class for mobile */
+/* Enhanced touch-friendly styles for mobile */
 @media (max-width: 768px) {
     .auth-buttons-div.active {
         transform: translateX(-50%) translateY(-80px);
     }
-}
+    
+    /* Enhance all touch targets */
+    button, 
+    .feature-icon,
+    .close-modal,
+    .tab-button,
+    #login-button,
+    #leaderboard-button,
+    #profile-button,
+    #logout-button {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 10px;
+    }
+    
+    /* Custom active state for all buttons */
+    button:active,
+    .feature-icon:active,
+    .tab-button:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease; /* Immediate feedback */
+    }
+    
+    /* Improve visibility of interactive elements */
+    button:focus-visible,
+    input:focus-visible {
+        outline: 3px solid #ffd700;
+        outline-offset: 2px;
+    }
+    
+    /* Enhance form inputs for mobile */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        font-size: 16px; /* Prevent iOS zoom on focus */
+        min-height: 44px;
+        padding: 10px 14px;
+    }
+    
+    /* Add touch-specific scroll behavior */
+    .modal-body,
+    .tab-content {
+        -webkit-overflow-scrolling: touch;
+        scroll
 
 /* Make the buttons match modal style with improved hover effects */
 #login-button,
@@ -2693,11 +2770,43 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 44px; /* Increased for better touch targets */
+    height: 44px; /* Increased for better touch targets */
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add touch feedback effect */
+.feature-icon:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.4s, opacity 0.3s;
+    border-radius: 50%;
+}
+
+.feature-icon:active:before {
+    opacity: 0.4;
+    transform: scale(2);
+    transition: 0s;
+}
+
+.feature-icon:hover {
+    transform: translateY(-2px);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.feature-icon:active {
+    transform: scale(0.95);
 }
 
 .feature-icon:hover {
@@ -2718,21 +2827,129 @@ body {
     background: none;
 }
 
-/* Mobile Responsiveness */
+/* Mobile Responsiveness - Tablet */
 @media (max-width: 768px) {
     .title-bar {
-        padding: 0.3em 0.5em;
+        padding: 0.3em 0.7em;
         max-width: 95%;
+        border-width: 3px;
+        border-bottom-width: 6px;
+    }
+
+    .title-bar-left,
+    .title-bar-right {
+        gap: 0.6em;
     }
 
     .feature-icon {
         font-size: 1.2em;
-        width: 35px;
-        height: 35px;
+        width: 44px; /* Increased for better touch target */
+        height: 44px; /* Increased for better touch target */
+        transition: transform 0.2s, background-color 0.2s; /* Faster transition for mobile */
+    }
+
+    .feature-icon:active {
+        transform: scale(0.92);
+        background-color: rgba(255, 255, 255, 0.2); /* Visual feedback when pressed */
     }
 
     .title-image {
         max-height: 6vh;
+    }
+    
+    /* Improve modal appearance on tablet */
+    .game-container .modal .modal-content {
+        max-width: 90vw;
+        max-height: 80vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+    
+    /* Larger close button for modals */
+    .game-container .modal .close-modal.neon-x {
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+        top: 5px;
+        right: 5px;
+    }
+    
+    /* Form elements touch optimization */
+    .game-container .modal .modal-content.beautiful-modal input,
+    .game-container .modal .modal-content.beautiful-modal button {
+        min-height: 44px;
+        padding: 0.8em 1em;
+    }
+}
+
+/* Mobile Responsiveness - Small Phones */
+@media (max-width: 480px) {
+    .title-bar {
+        padding: 0.2em 0.4em;
+        max-width: 98%;
+        border-width: 2px;
+        border-bottom-width: 4px;
+        border-radius: 16px;
+    }
+    
+    .title-bar-left,
+    .title-bar-right {
+        gap: 0.3em;
+    }
+    
+    .feature-icon {
+        font-size: 1.1em;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .title-image {
+        max-height: 5vh;
+        max-width: 50vw;
+    }
+    
+    /* Stack modals differently on very small screens */
+    .game-container .modal .modal-content {
+        max-height: 85vh;
+        max-width: 95vw;
+        padding: 1em;
+    }
+    
+    /* Tab buttons in leaderboard modal */
+    .tab-button {
+        padding: 8px 12px;
+        font-size: 0.7rem;
+    }
+    
+    /* Modal title sizing for small screens */
+    .game-container .modal .modal-content h2 {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        padding-right: 40px; /* Space for close button */
+    }
+}
+
+/* Very Small Phones */
+@media (max-width: 360px) {
+    .title-bar {
+        padding: 0.15em 0.25em;
+    }
+    
+    .feature-icon {
+        font-size: 1em;
+        width: 36px;
+        height: 36px;
+    }
+    
+    /* Further optimize spacing */
+    .title-bar-left,
+    .title-bar-right {
+        gap: 0.2em;
+    }
+    
+    .title-image {
+        max-height: 4.5vh;
+        max-width: 45vw;
     }
 }
 
@@ -3239,4 +3456,66 @@ body {
 @keyframes discoBeams {
     0% { transform: translateX(-100%) rotate(45deg); }
     100% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* Arcade wood panel style for title bar */
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 1.5em;
+    background: linear-gradient(120deg, #a97c50 0%, #e2b07a 40%, #c49a6c 100%);
+    background-blend-mode: multiply;
+    border-radius: 24px;
+    margin: 0 auto;
+    max-width: 90%;
+    box-shadow: 0 6px 24px 0 #6b3f1a, 0 2px 0 #fffbe0 inset, 0 0 0 8px #7c4a1e44;
+    border: 4px solid #7c4a1e;
+    border-bottom: 8px solid #5a3310;
+    border-top: 2px solid #fffbe0;
+    position: relative;
+    z-index: 10;
+    /* Optional: add a subtle wood texture overlay if you have a texture image */
+    /* background-image: url('images/wood-texture.png'), linear-gradient(...); */
+}
+
+.title-bar-left,
+.title-bar-right {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+#lang-btn {
+    background: linear-gradient(135deg, #ffe4b5 60%, #ffb347 100%);
+    border: 2.5px solid #7c4a1e;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3em;
+    margin-right: 0.5em;
+    box-shadow: 0 2px 0 #fffbe0, 0 4px 12px #7c4a1e44;
+    transition: all 0.2s cubic-bezier(0.4,2,0.6,1);
+    cursor: pointer;
+    outline: none;
+    position: relative;
+}
+#lang-btn:hover {
+    background: linear-gradient(135deg, #fffbe0 60%, #ffd700 100%);
+    box-shadow: 0 4px 0 #fffbe0, 0 8px 16px #7c4a1e44;
+    transform: scale(1.08) rotate(-3deg);
+}
+#lang-btn:active {
+    background: linear-gradient(135deg, #ffe4b5 60%, #ffb347 100%);
+    box-shadow: 0 1px 0 #fffbe0, 0 2px 4px #7c4a1e44;
+    transform: scale(0.96);
+}
+#lang-btn .lang-text {
+    font-size: 1.1em;
+    font-family: 'Press Start 2P', monospace;
+    color: #7c4a1e;
+    text-shadow: 0 1px 0 #fffbe0;
 }

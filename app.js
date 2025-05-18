@@ -2823,7 +2823,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('⚠️ Profile modal not found');
     }
 
-    // Magic link form submission
+// Magic link form submission
     const magicLinkForm = document.getElementById('magic-link-form');
     if (magicLinkForm) {
         magicLinkForm.addEventListener('submit', (e) => {
@@ -2835,6 +2835,121 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Initialize title bar icon buttons
+    initializeTitleBarButtons();
+
     // Check for magic link sign-in on page load
     handleMagicLinkSignIn();
 });
+
+// Function to initialize title bar buttons
+function initializeTitleBarButtons() {
+    console.log('🎮 Initializing title bar buttons');
+    
+    // Get references to the buttons and modals
+    const helpBtn = document.getElementById('help-btn');
+    const settingsBtn = document.getElementById('settings-btn');
+    const statsBtn = document.getElementById('stats-btn');
+    const achievementsBtn = document.getElementById('achievements-btn');
+    
+    const helpModal = document.getElementById('help-modal');
+    const settingsModal = document.getElementById('settings-modal');
+    const statsModal = document.getElementById('stats-modal');
+    const achievementsModal = document.getElementById('achievements-modal');
+    
+    // Function to open a modal with animation
+    function openModal(modal) {
+        if (!modal) return;
+        
+        console.log(`🔓 Opening ${modal.id}`);
+        modal.style.display = 'flex';
+        
+        // Apply opening animation
+        setTimeout(() => {
+            modal.classList.add('active');
+            const modalContent = modal.querySelector('.modal-content');
+            if (modalContent) modalContent.style.transform = 'scale(1)';
+        }, 10);
+    }
+    
+    // Add click event listeners for each button
+    if (helpBtn && helpModal) {
+        helpBtn.addEventListener('click', () => {
+            console.log('❓ Help button clicked');
+            openModal(helpModal);
+        });
+    } else {
+        console.warn('⚠️ Help button or modal not found');
+    }
+    
+    if (settingsBtn && settingsModal) {
+        settingsBtn.addEventListener('click', () => {
+            console.log('⚙️ Settings button clicked');
+            openModal(settingsModal);
+        });
+    } else {
+        console.warn('⚠️ Settings button or modal not found');
+    }
+    
+    if (statsBtn && statsModal) {
+        statsBtn.addEventListener('click', () => {
+            console.log('📊 Stats button clicked');
+            openModal(statsModal);
+        });
+    } else {
+        console.warn('⚠️ Stats button or modal not found');
+    }
+    
+    if (achievementsBtn && achievementsModal) {
+        achievementsBtn.addEventListener('click', () => {
+            console.log('🏆 Achievements button clicked');
+            openModal(achievementsModal);
+        });
+    } else {
+        console.warn('⚠️ Achievements button or modal not found');
+    }
+    
+    // Add close button handlers for all modals
+    const allModals = [helpModal, settingsModal, statsModal, achievementsModal];
+    
+    allModals.forEach(modal => {
+        if (!modal) return;
+        
+        // Close button click handler
+        const closeButton = modal.querySelector('.close-modal');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                console.log(`🚪 Closing ${modal.id}`);
+                
+                // Apply closing animation
+                const modalContent = modal.querySelector('.modal-content');
+                if (modalContent) modalContent.style.transform = 'scale(0.95)';
+                modal.classList.remove('active');
+                
+                // Actually hide the modal after animation completes
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            });
+        }
+        
+        // Close when clicking outside the modal content
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                console.log(`🚪 Closing ${modal.id} (clicked outside)`);
+                
+                // Apply closing animation
+                const modalContent = modal.querySelector('.modal-content');
+                if (modalContent) modalContent.style.transform = 'scale(0.95)';
+                modal.classList.remove('active');
+                
+                // Actually hide the modal after animation completes
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+        });
+    });
+    
+    console.log('✅ Title bar buttons initialized');
+}
