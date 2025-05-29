@@ -1,0 +1,22 @@
+/* Base styles and resets */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff1fc3c5;
+    min-height: 100vh;
+}
+
+/* Font faces */
+@font-face {
+    font-family: 'PixelFont';
+    src: url('../fonts/pixel-font.woff2') format('woff2');
+}

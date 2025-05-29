@@ -1,0 +1,36 @@
+<div class="dialog-bubble">
+  <div class="bubble-content">
+    <p>This is an updated dialog bubble with a comic book style and a bottom-left pointing tail.</p>
+  </div>
+  <div class="bubble-tail"></div>
+</div>
+
+<style>
+.dialog-bubble {
+  position: relative;
+  background-color: #fff;
+  border: 3px solid #000;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 300px;
+  box-shadow: 5px 5px 0 0 #000;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 16px;
+}
+
+.bubble-content {
+  position: relative;
+  z-index: 1;
+}
+
+.bubble-tail {
+  position: absolute;
+  bottom: -30px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-top: 30px solid hsl(253, 64%, 54%);
+  border-right: 20px solid transparent;
+  /* transform: rotate(-150deg); */
+}
+</style>

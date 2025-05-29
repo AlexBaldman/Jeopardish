@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Smoke Effect</title>
+    <style>
+        .smoke-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        .smoke {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(200, 200, 200, 0.5);
+            animation: rise 2s ease-out infinite;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0.5; }
+            100% { transform: translateY(-100px) scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="smoke-container">
+        <div class="smoke"></div>
+    </div>
+    <button onclick="addSmoke()">Add Smoke</button>
+
+    <script>
+        function addSmoke() {
+            const container = document.querySelector('.smoke-container');
+            const smoke = document.createElement('div');
+            smoke.className = 'smoke';
+            smoke.style.left = `${Math.random() * 100}%`;
+            container.appendChild(smoke);
+            setTimeout(() => smoke.remove(), 2000);
+        }
+    </script>
+</body>
+</html>

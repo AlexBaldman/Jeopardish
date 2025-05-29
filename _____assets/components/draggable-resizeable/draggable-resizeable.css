@@ -1,0 +1,16 @@
+.draggable-resizable {
+    position: absolute; /* Ensures you can move it freely */
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+    overflow: hidden; /* Useful for images */
+    resize: both; /* CSS property to allow resizing */
+    min-width: 50px; /* Avoid elements collapsing */
+    min-height: 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+  }
+  
+  .draggable-resizable:active {
+    cursor: grabbing;
+  }
+  
