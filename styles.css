@@ -22,16 +22,16 @@ body {
 
 .game-container {
     display: block;
-    overflow: hidden;
-    overflow-y: scroll;
+    overflow-x: hidden; /* Changed */
+    overflow-y: auto;   /* Changed */
     flex-flow: column;
     flex-direction: column; 
-    position: relative;
+    position: relative; /* Keep one instance */
     height: 95vh;
     width: 95vw;
     min-height: 90vh;
     max-height: 95vh;
-    max-width: 961.8px;
+    max-width: 1200px; /* Changed */
     background: linear-gradient(to top, #64B9FF, #5cff9bbc);
     justify-self: center;
     text-align: center;
@@ -41,7 +41,6 @@ body {
     border: 5px ridge #f6ffa5e8;
     padding: 0;
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.952);
-    position: relative;
     z-index: 1;
     contain: content; /* This helps contain the CRT effect */
 }
@@ -259,8 +258,8 @@ body {
     }
     
     .input-wrapper {
-        width: 85vw;
-        height: 4em;
+        width: 85vw; /* Keep this width */
+        height: 3em;  /* Change height from 4em to 3em */
     }
     
     #checkButton {
@@ -421,18 +420,6 @@ body {
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .input-wrapper {
-        width: 95%;
-        height: 2.5em;
-    }
-
-    #inputBox {
-        font-size: 0.9em;
-    }
-}
-
 /* input box custom cursor  */
 .custom-cursor {
     position: absolute;
@@ -462,7 +449,8 @@ body {
 .speechBubble {
     position: relative;
     display: block;
-    width: 70%;
+    width: 70%; /* This can be kept or adjusted if needed, but max-width is key */
+    max-width: 750px; /* Added */
     min-height: 25vh;
     max-height: 40vh;
     margin: 1.5% auto;
@@ -523,7 +511,7 @@ body {
     font-family: "Press Start 2P", serif;
     text-transform: uppercase;
     color: #51fffc; /* Cyan color */
-    font-size: 3.3vmin;
+    font-size: clamp(16px, 3.3vmin, 24px);
     font-weight: bold;
     margin-bottom: 5px; /* Reduced margin */
     text-shadow: 2px 2px 0px #000000; /* Black shadow for contrast */
@@ -534,7 +522,7 @@ body {
     font-family: monospace, serif;
     text-transform: uppercase;
     color: #ff8adb; /* Light pink */
-    font-size: 3.1vmin;
+    font-size: clamp(14px, 3.1vmin, 22px);
     font-weight: bold;
     margin-bottom: 5px; /* Reduced margin */
     text-shadow: 2px 2px 0px #000000; /* Black shadow for contrast */
@@ -543,7 +531,7 @@ body {
 
 #questionBox {
     font-family: "Korinna", serif;
-    font-size: 2.666vmin;
+    font-size: clamp(12px, 2.7vmin, 20px);
     font-weight: bold;
     text-transform: uppercase;
     color: #ffffff; /* White */
@@ -562,7 +550,7 @@ body {
     justify-content: center;
     margin: 10px auto;
     margin-top: .5vh;
-    font-size: 3.5vmin;
+    font-size: clamp(18px, 3.5vmin, 26px);
     color: #ffff00; /* Bright yellow for answers */
     text-shadow: 2px 2px 0px #000000; /* Black shadow for contrast */
 }
@@ -1276,18 +1264,6 @@ body {
         max-height: 8vh;
     }
     
-    #categoryBox {
-        font-size: 3vmin;
-    }
-    
-    #valueBox {
-        font-size: 2.8vmin;
-    }
-    
-    #questionBox {
-        font-size: 2.4vmin;
-    }
-    
     #inputBox {
         font-size: 0.9em;
     }
@@ -1499,8 +1475,10 @@ body {
 }
 
 .media-thumbnail {
-    width: 150px;
-    height: 100px;
+    max-width: 150px;  /* Keep a max size */
+    width: 40%;       /* Use a percentage for flexibility */
+    height: auto;       /* Adjust height automatically */
+    aspect-ratio: 3 / 2; /* Maintain a 3:2 aspect ratio */
     object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
@@ -2759,6 +2737,8 @@ body {
     display: flex;
     gap: 1em;
     align-items: center;
+    flex-shrink: 1;
+    min-width: 0; /* Allow shrinking */
 }
 
 .feature-icon {
