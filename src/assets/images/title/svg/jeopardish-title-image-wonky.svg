@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200">
+  <defs>
+    <style>
+      @keyframes colorPulse {
+        0%, 100% { fill: #060CE9; }
+        50% { fill: #0072BC; }
+      }
+      @keyframes letterReveal {
+        0% { transform: scaleY(0); }
+        100% { transform: scaleY(1); }
+      }
+      @keyframes shine {
+        0% { stop-color: #FFFF00; }
+        50% { stop-color: #FFD700; }
+        100% { stop-color: #FFFF00; }
+      }
+      .letter { animation: letterReveal 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+      .letter:nth-child(1) { animation-delay: 0s; }
+      .letter:nth-child(2) { animation-delay: 0.1s; }
+      .letter:nth-child(3) { animation-delay: 0.2s; }
+      .letter:nth-child(4) { animation-delay: 0.3s; }
+      .letter:nth-child(5) { animation-delay: 0.4s; }
+      .letter:nth-child(6) { animation-delay: 0.5s; }
+      .letter:nth-child(7) { animation-delay: 0.6s; }
+      .letter:nth-child(8) { animation-delay: 0.7s; }
+      .letter:nth-child(9) { animation-delay: 0.8s; }
+      .letter:nth-child(10) { animation-delay: 0.9s; }
+      .letter:nth-child(11) { animation-delay: 1s; }
+    </style>
+    <linearGradient id="shineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFFF00; stop-opacity:1">
+        <animate attributeName="stop-color" values="#FFFF00; #FFD700; #FFFF00" dur="2s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" style="stop-color:#FFD700; stop-opacity:1">
+        <animate attributeName="stop-color" values="#FFD700; #FFFF00; #FFD700" dur="2s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
+  </defs>
+  
+  <rect width="1000" height="200" fill="#060CE9">
+    <animate attributeName="fill" values="#060CE9; #0072BC; #060CE9" dur="4s" repeatCount="indefinite" />
+  </rect>
+  
+  <g transform="translate(20, 150)">
+    <g class="letter">
+      <path d="M0,0 v-120 h40 v120 h40 v-120 h40 v120" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(130, 0)">
+      <path d="M0,0 v-120 h120 v20 h-80 v30 h60 v20 h-60 v30 h80 v20 h-120" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(260, 0)">
+      <path d="M0,-60 h60 v-60 h40 v120 h-40 v-40 h-20 v40 h-40" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(360, 0)">
+      <path d="M0,0 v-120 h120 v20 h-80 v30 h60 v20 h-60 v50" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(490, 0)">
+      <path d="M0,-120 h120 v120 h-40 v-100 h-40 v100 h-40" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(620, 0)">
+      <path d="M0,0 v-120 h120 v20 h-80 v30 h60 v20 h-60 v30 h80 v20 h-120" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(750, 0)">
+      <path d="M0,0 v-120 h120 v20 h-80 v80 h80 v20 h-120" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(880, 0)">
+      <path d="M0,0 v-120 h40 v50 h40 v-50 h40 v120 h-40 v-50 h-40 v50 h-40" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(1010, 0)">
+      <path d="M0,-120 h120 v120 h-40 v-100 h-40 v100 h-40" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(1140, 0)">
+      <path d="M0,0 v-120 h120 v20 h-80 v80 h80 v20 h-120" fill="url(#shineGradient)" />
+    </g>
+    <g class="letter" transform="translate(1270, 0)">
+      <path d="M0,0 v-120 h120 v20 h-80 v30 h60 v20 h-60 v30 h80 v20 h-120" fill="url(#shineGradient)" />
+    </g>
+  </g>
+
+  <path d="M1400,-10 v130" stroke="url(#shineGradient)" stroke-width="20">
+    <animate attributeName="stroke-dasharray" values="0,130; 130,0; 0,130" dur="1.5s" repeatCount="indefinite" />
+  </path>
+</svg>

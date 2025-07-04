@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
+    
+    <!-- Preload fonts for better performance -->
+    <link rel="preload" href="fonts/Korinna.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/KorinnaBold.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- SEO related -->
     <meta name="description" content="Jeopardish! A unique comedic trivia adventure.">
@@ -21,10 +25,11 @@
     <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
 
     <!-- font stylesheet -->
-    <!-- <link rel="stylesheet" href="css/fonts.css"> -->
+    <link rel="stylesheet" href="css/fonts.css">
     
-    <!-- main stylesheet -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- main stylesheets -->
+    <link rel="stylesheet" href="styles.css?v=1.1">
+    <!-- <link rel="stylesheet" href="styles-new.css?v=1.1"> -->
     
     <!-- external JS -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -37,24 +42,8 @@
     <!-- Your config (must be after Firebase scripts) -->
     <script src="firebase-config.js"></script>
 
-    <!-- app JS - load this first -->
-    <script src="app.js"></script>
-    
-    <!-- Make displayQuestion globally accessible -->
-    <script>
-        // Ensure displayQuestion is globally accessible for translations.js
-        window.addEventListener('load', function() {
-            if (typeof displayQuestion === 'function') {
-                window.displayQuestion = displayQuestion;
-                console.log('✅ displayQuestion function exposed to global scope for translations');
-            } else {
-                console.error('❌ displayQuestion function not found');
-            }
-        });
-    </script>
-
-    <!-- translations - load this after app.js -->
-    <script src="translations.js"></script>
+    <!-- Load the main module with Vite -->
+    <script type="module" src="/src/main.js"></script>
     
     <!-- external CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -76,55 +65,77 @@
 
     <!-- game container -->
     <div class="game-container">
-        <!-- language toggle -->
-        <div class="toggle-container left">
-            <button id="lang-btn" data-lang="en" title="Switch Language">
-                <span class="lang-text"></span>
-            </button>
+        <!-- User Profile Section (now a child of game-container) -->
+        <div class="user-profile">
+            <img src="images/profile-placeholder.png" alt="Profile" class="profile-pic">
+            <h3>Alex Becker</h3>
+            <p>Score: $0</p>
+            <p>Streak: 0</p>
         </div>
-
-        <!-- theme toggle -->
-        <div class="toggle-container right">
-            <button id="theme-btn" data-theme="light" title="Toggle Theme">
-                <span class="theme-text"></span>
-            </button>
-        </div>
-
-        <!-- header w. title image -->
-        <div class="header">
-            <!-- Modern title bar with feature icons -->
-            <div class="title-bar">
-                <div class="title-bar-left">
-                    <button id="lang-btn" data-lang="en" title="Switch Language">
-                        <span class="lang-text"></span>
-                    </button>
-                    <button class="feature-icon" id="help-btn" title="Help & Instructions">
-                        <i class="fas fa-question-circle"></i>
-                    </button>
-                    <button class="feature-icon" id="settings-btn" title="Game Settings">
-                        <i class="fas fa-cog"></i>
+        <!-- Game header -->
+        <header class="game-header">
+            <div class="header-content">
+                <!-- Left Controls: Language Toggle -->
+                <div class="header-controls-left">
+                    <button id="lang-btn" class="header-icon-btn" data-lang="en" title="Switch Language">
+                        <i class="fas fa-language"></i>
                     </button>
                 </div>
-                
-                <!-- JEOPARODY! title image -->
-                <img id="titleImage" class="title-image" src="images/title/title-JeoPARODY.png" alt="JeoPARODY!">
-                
-                <div class="title-bar-right">
-                    <button class="feature-icon" id="stats-btn" title="Game Statistics">
-                        <i class="fas fa-chart-bar"></i>
-                    </button>
-                    <button class="feature-icon" id="achievements-btn" title="Achievements">
-                        <i class="fas fa-trophy"></i>
+
+                <!-- Center: Logo -->
+                <div class="logo-container">
+                    <img src="images/title/title-JeoPARODY.png" alt="Jeopardish!" class="logo-image">
+                </div>
+
+                <!-- Right Controls: Theme Switch & Hamburger -->
+                <div class="header-controls-right">
+                    <!-- Theme Switch -->
+                    <div class="theme-switch-container">
+                        <label for="theme-switch" class="theme-switch">
+                            <input type="checkbox" id="theme-switch">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <!-- Hamburger Menu -->
+                    <button id="hamburger-menu" class="hamburger-button" aria-label="Open menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
                     </button>
                 </div>
             </div>
+        </header>
+
+        <!-- Side navigation menu -->
+        <nav id="side-menu" class="side-menu">
+            <ul class="menu-items">
+                <li>
+                    <button id="lang-btn" data-lang="en" title="Switch Language">
+                        <i class="fas fa-language"></i>
+                    </button>
+                </li>
+                <li>
+                    <button id="settings-button" aria-label="Game settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </button>
+                </li>
+                <li>
+                    <button id="stats-button" aria-label="View statistics">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Statistics</span>
+                    </button>
+                </li>
+                <li>
+                    <button id="achievements-button" aria-label="View achievements">
+                        <i class="fas fa-trophy"></i>
+                        <span>Achievements</span>
+                    </button>
+                </li>
+            </ul>
             
-            <!-- Auth buttons container - moved to be directly below the title -->
+            <!-- Auth buttons container -->
             <div class="auth-buttons-div">
-                <div class="peek-handle">
-                    <i class="fas fa-user-circle"></i>
-                    <i class="fas fa-trophy"></i>
-                </div>
                 <button id="login-button" aria-label="Sign in to save scores">
                     <i class="fas fa-sign-in-alt"></i> sign in
                 </button>
@@ -132,66 +143,58 @@
                     <i class="fas fa-crown"></i> leaderboard
                 </button>
             </div>
-        </div>
+        </nav>
 
-        <!-- button container div with "new question" & show answer buttons -->
-        <div class="button-div">
-            <button id="questionButton" aria-label="Get a new question">
-                new question
-            </button>
-            <button id="answerButton" aria-label="Show or hide the answer">
-                show answer
-            </button>
-        </div>
-        
-        <!-- user input -->
-        <div class="input-div">
-            <div class="input-wrapper">
-                <input type="text" id="inputBox" placeholder="enter answer here...">
-                <div class="custom-cursor"></div>
+        <!-- Main content area -->
+        <div class="main-content-wrapper">
+            <main class="main-content">
+            <!-- Scoreboard -->
+            <div id="scoreboard" class="scoreboard">
+                <h2>SCOREBOARD</h2>
+                <p>SCORE: <span id="score" class="score-value">0</span></p>
+                <p>STREAK: <span id="streak" class="score-value">0</span></p>
+                <p>TOP SCORE: <span id="top-score" class="score-value">0</span></p>
+                <p>MAX STREAK: <span id="max-streak" class="score-value">0</span></p>
             </div>
-        </div>
-        <button id="checkButton" aria-label="check answer button">
-            check answer
-        </button>
-        
-        <!-- <button id="checkButton" class="styled-button">
-            check answer
-        </button> -->
-
-        <!-- speech bubble with category, value, question & answer display areas -->
-        <div id="speechBubble" class="speechBubble" title="Click on left or right edge to change speech bubble style">
-            <div id="categoryBox"></div>
-            <div id="valueBox"></div>
-            <div id="questionBox"></div>
-            <div id="answerBox"></div>
-        </div>
-        
-        <!-- host container / host image -->
-        <div class="host-container">
-            <img id="trebekImage" class="trebek host-image" alt="Alexander the Greatly Enlightened.." src="images/trebek/trebek-good-04.png" title="Click left/right side to cycle hosts">
-        </div>
-
-        <!-- scoreboard -->
-        <div id="scoreboard">
-            <div class="scoreboard-content">
-                <div id="currentScore" class="scoreboard-text">
-                    <span class="score-label">SCORE</span>
-                    <span class="score-value">$0</span>
-                </div>
-                <div id="currentStreak" class="scoreboard-text">
-                    <span class="score-label">STREAK</span>
-                    <span class="score-value">0</span>
-                </div>
-                <div id="bestScore" class="scoreboard-text">
-                    <span class="score-label">TOP SCORE</span>
-                    <span class="score-value">$0</span>
-                </div>
-                <div id="bestStreak" class="scoreboard-text">
-                    <span class="score-label">MAX STREAK</span>
-                    <span class="score-value">0</span>
-                </div>
+            <!-- Speech bubble with category, value, question & answer display areas -->
+            <div id="speechBubble" class="speechBubble" title="Click on left or right edge to change speech bubble style">
+                <div id="categoryBox"></div>
+                <div id="valueBox"></div>
+                <div id="questionBox"></div>
+                <div id="answerBox"></div>
             </div>
+            
+            <!-- Button container with icon buttons -->
+            <div class="button-div">
+                <button id="questionButton" aria-label="Get a new question">
+                    <i class="fas fa-sync-alt"></i>
+                    <span class="button-tooltip">New Question</span>
+                </button>
+                <button id="answerButton" aria-label="Show the answer">
+                    <i class="fas fa-eye"></i>
+                    <span class="button-tooltip">Show Answer</span>
+                </button>
+            </div>
+            
+            <!-- User input section -->
+            <div class="input-section">
+                <div class="input-div">
+                    <div class="input-wrapper">
+                        <input type="text" id="inputBox" placeholder="enter answer here...">
+                        <div class="custom-cursor"></div>
+                    </div>
+                </div>
+                <button id="checkButton" aria-label="Check your answer">
+                    <i class="fas fa-check"></i>
+                    <span class="button-tooltip">Check Answer</span>
+                </button>
+            </div>
+            
+            <!-- Host container / host image -->
+            <div class="host-container">
+                <img id="trebekImage" class="trebek host-image" alt="Alexander the Greatly Enlightened.." src="images/trebek/trebek-good-04.png" title="Click left/right side to cycle hosts">
+            </div>
+        </main>
         </div>
 
         <!-- event ticker -->
@@ -206,8 +209,10 @@
                     <div class="cockpit"></div>
                     <div class="pontoon"></div>
                     <div class="pontoon"></div>
+                    <div class="ticker-banner">
+                        <div class="ticker-content">Breaking News: Jeopardish UI now 100% bug-free... This is a scrolling ticker... More news at 11...</div>
+                    </div>
                 </div>
-                <div class="ticker-content"></div>
             </div>
         </div>
 
@@ -318,7 +323,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Help Modal -->
     <div id="help-modal" class="modal" style="display: none;">
         <div class="modal-content beautiful-modal">
@@ -453,11 +458,36 @@
                 </div>
             </div>
         </div>
+        <!-- Palm tree decorations -->
+        <div class="palm-tree left">
+            <div class="palm-trunk"></div>
+            <div class="palm-leaves">
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+            </div>
+        </div>
+        <div class="palm-tree right">
+            <div class="palm-trunk"></div>
+            <div class="palm-leaves">
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+                <div class="palm-leaf"></div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="sounds.js"></script>
     <script src="host-animations.js"></script>
-    <script src="script.js"></script>
+    <script src="host-image-cycler.js"></script>
+    
+
 </body>
 </html>

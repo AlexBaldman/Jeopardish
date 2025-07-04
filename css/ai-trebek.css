@@ -1,0 +1,61 @@
+/* AI Trebek Integration Styles */
+
+/* Trebek Intro Message Container */
+.trebek-intro-container {
+  position: relative;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 217, 0, 0.2);
+  border-radius: 8px;
+  border-bottom: 2px solid #ffd700;
+  animation: fadeInOut 4s forwards;
+}
+
+/* Trebek Intro Message */
+.trebek-intro {
+  font-size: 1rem;
+  font-style: italic;
+  color: #ffd700;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+  font-family: 'Korinna', 'Times New Roman', serif;
+}
+
+/* Animation for the intro message */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Speech bubble triangle styles for AI message */
+.trebek-intro-container::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 20%;
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: #ffd700 transparent transparent;
+  display: block;
+  width: 0;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .trebek-intro {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Korinna';
+    src: url('KorinnaBold-Italic.woff2') format('woff2'),
+        url('KorinnaBold-Italic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Korinna';
+    src: url('Korinna-Italic.woff2') format('woff2'),
+        url('Korinna-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Korinna';
+    src: url('KorinnaBold.woff2') format('woff2'),
+        url('KorinnaBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Korinna';
+    src: url('KorinnaNormal.woff2') format('woff2'),
+        url('KorinnaNormal.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

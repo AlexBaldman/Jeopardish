@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Jeopardish! A Comedic Trivia Adventure</title>
+    <meta name="description" content="Jeopardish! A unique comedic trivia adventure where the host is just as sassy as the questions are tricky.">
+    
+    <!-- Preload Key Assets -->
+    <link rel="preload" href="fonts/KorinnaBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="css/styles-new.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
+
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.webp" type="image/webp">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles-new.css?v=1.2"> <!-- Cache-busting version -->
+
+</head>
+<body lang="en">
+
+    <!-- Game Container -->
+    <div class="game-container">
+        
+        <!-- Game Header -->
+        <header class="game-header">
+            <div class="header-content">
+                <!-- Left Controls: Language Toggle -->
+                <div class="header-controls-left">
+                    <button id="lang-btn" class="header-icon-btn" data-lang="en" title="Switch Language">
+                        <i class="fas fa-language"></i>
+                    </button>
+                </div>
+
+                <!-- Center: Logo -->
+                <div id="titleImage" class="logo-container" title="Click me to change the host!">
+                    <img src="images/title/title-JeoPARODY.png" alt="Jeopardish!" class="logo-image">
+                </div>
+
+                <!-- Right Controls: Theme Switch & Hamburger -->
+                <div class="header-controls-right">
+                    <div class="theme-switch-container">
+                        <label for="theme-switch" class="theme-switch">
+                            <input type="checkbox" id="theme-switch">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <button id="hamburger-menu" class="hamburger-button" aria-label="Open menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Side Navigation Menu -->
+        <nav id="side-menu" class="side-menu">
+            <ul class="menu-items">
+                <li><button id="settings-button"><i class="fas fa-cog"></i> Settings</button></li>
+                <li><button id="stats-button"><i class="fas fa-chart-bar"></i> Statistics</button></li>
+                <li><button id="achievements-button"><i class="fas fa-trophy"></i> Achievements</button></li>
+            </ul>
+            <div class="auth-buttons-div">
+                <button id="login-button"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+                <button id="leaderboard-button"><i class="fas fa-crown"></i> Leaderboard</button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <div class="main-content-wrapper">
+            <main class="main-content">
+                <!-- Scoreboard -->
+                <div id="scoreboard" class="scoreboard">
+                    <h2>SCOREBOARD</h2>
+                    <p>SCORE: <span id="score">0</span></p>
+                    <p>STREAK: <span id="streak">0</span></p>
+                    <p>BEST: <span id="top-score">0</span></p>
+                    <p>MAX STREAK: <span id="max-streak">0</span></p>
+                </div>
+                
+                <!-- Speech Bubble -->
+                <div id="speechBubble" class="speechBubble">
+                    <div id="categoryBox">CATEGORY</div>
+                    <div id="valueBox">for $200</div>
+                    <div id="questionBox">This is where the question will appear. Click the "New Question" button to start!</div>
+                    <div id="answerBox" style="display: none;">This is where the answer is revealed.</div>
+                </div>
+
+                <!-- Host Image -->
+                <div class="host-container">
+                    <img id="trebekImage" class="host-image" alt="Host Alexander" src="images/trebek/trebek-good-04.png" title="The host with the most... snark.">
+                </div>
+
+                <!-- User Input Section -->
+                <div class="input-section">
+                    <div class="input-div">
+                        <input type="text" id="inputBox" placeholder="What is...">
+                        <div class="custom-cursor"></div>
+                    </div>
+                    <button id="checkButton" aria-label="Check your answer"><i class="fas fa-check"></i></button>
+                </div>
+
+                <!-- Main Action Buttons -->
+                <div class="button-div">
+                    <button id="questionButton" aria-label="Get a new question"><i class="fas fa-sync-alt"></i> New Question</button>
+                    <button id="answerButton" aria-label="Show the answer"><i class="fas fa-eye"></i> Show Answer</button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Event Ticker -->
+        <div class="event-ticker">
+            <div class="ticker-plane">
+                <div class="ticker-banner">
+                    <div class="ticker-content">Breaking News: Jeopardish UI now 100% bug-free... probably...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consolidated JavaScript -->
+    <script src="js/main.js"></script>
+
+</body>
+</html>

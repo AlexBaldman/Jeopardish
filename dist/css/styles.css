@@ -1,0 +1,612 @@
+/* ==========================================================================
+   CSS Reset and General Styling
+   ========================================================================== */
+
+/* Box-sizing reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Basic styles */
+body {
+    font-family: 'Press Start 2P', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    transition: background-color 0.5s, color 0.5s;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* ==========================================================================
+   Theme Variables and Styles (Light/Dark Mode)
+   ========================================================================== */
+
+:root {
+    --bg-color-light: #ffffff;
+    --text-color-light: #2c3e50;
+    --header-bg-light: rgba(255, 255, 255, 0.85);
+    --container-bg-light: rgba(255, 255, 255, 0.9);
+    --button-bg-light: linear-gradient(145deg, #2980b9, #3498db);
+    --button-text-light: #ffffff;
+    --speech-bubble-bg-light: #f1c40f;
+    --speech-bubble-border-light: #f39c12;
+
+    --bg-color-dark: #000000; /* Will be overridden by gradient */
+    --text-color-dark: #ecf0f1;
+    --header-bg-dark: rgba(44, 62, 80, 0.85);
+    --container-bg-dark: rgba(44, 62, 80, 0.9);
+    --button-bg-dark: linear-gradient(145deg, #8e44ad, #9b59b6);
+    --button-text-dark: #ffffff;
+    --speech-bubble-bg-dark: #2c3e50;
+    --speech-bubble-border-dark: #34495e;
+}
+
+/* Light Mode (Default) */
+body {
+    background-color: var(--bg-color-light);
+    color: var(--text-color-light);
+    background-image: url('../images/pixel-beach-bg.png');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-image: none; /* Remove the day image */
+    background-color: var(--bg-color-dark);
+    /* Starry night/moonlit beach gradient */
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    color: var(--text-color-dark);
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+h1, h2, h3, p {
+    font-size: 1.2rem; /* Larger base font size */
+}
+
+@media (min-width: 768px) {
+    h1, h2, h3, p {
+        font-size: 1.4rem;
+    }
+}
+
+/* ==========================================================================
+   Layout and Container
+   ========================================================================== */
+
+.main-container {
+    max-width: 1200px;
+    margin: 2rem auto; /* Vertical margin + auto horizontal centering */
+    padding: 2rem;
+    background-color: var(--container-bg-light);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.5s, border-color 0.5s;
+    border: 5px solid #000;
+}
+
+body.dark-mode .main-container {
+    background-color: var(--container-bg-dark);
+    border-color: #fff;
+}
+
+/* Ensure margin is present on screens between mobile and 1200px */
+@media (min-width: 577px) and (max-width: 1250px) {
+    .main-container {
+        margin-left: 2rem;
+        margin-right: 2rem;
+    }
+}
+
+/* ==========================================================================
+   Header and Navigation
+   ========================================================================== */
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: var(--header-bg-light);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    /* Fix for container overlap */
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+body.dark-mode .sticky-header {
+    background-color: var(--header-bg-dark);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.logo-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.menu-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ==========================================================================
+   Hamburger Menu and Side Menu
+   ========================================================================== */
+
+#hamburger-menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#hamburger-menu .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-color-light);
+    transition: all 0.3s ease-in-out;
+}
+
+body.dark-mode #hamburger-menu .bar {
+    background-color: var(--text-color-dark);
+}
+
+#hamburger-menu.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+#hamburger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+#hamburger-menu.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Start off-screen */
+    width: 280px;
+    height: 100%;
+    background-color: var(--header-bg-light);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1001; /* Above header */
+    padding-top: 80px; /* Space for header */
+}
+
+body.dark-mode .side-menu {
+    background-color: var(--header-bg-dark);
+}
+
+.side-menu.active {
+    right: 0; /* Slide in */
+}
+
+.menu-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-items li {
+    padding: 15px 25px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.dark-mode .menu-items li {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.menu-items a, .menu-items button {
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-size: 1.2rem;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+body.dark-mode .menu-items a,
+body.dark-mode .menu-items button {
+    color: var(--text-color-dark);
+}
+
+.menu-items a:hover,
+.menu-items button:hover {
+    color: #3498db;
+}
+
+body.dark-mode .menu-items a:hover,
+body.dark-mode .menu-items button:hover {
+    color: #5dade2;
+}
+
+
+/* ==========================================================================
+   Buttons (General)
+   ========================================================================== */
+
+.btn, button {
+    font-family: 'Press Start 2P', sans-serif;
+    padding: 12px 25px;
+    border-radius: 50px; /* Pill shape */
+    border: 2px solid transparent;
+    background-image: var(--button-bg-light);
+    color: var(--button-text-light);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn:hover, button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active, button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .btn, body.dark-mode button {
+    background-image: var(--button-bg-dark);
+    color: var(--button-text-dark);
+}
+
+/* Ensure menu buttons adopt styling */
+.menu-items button {
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    background-image: none;
+    box-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: normal;
+}
+
+/* ==========================================================================
+   Host, Speech Bubble, and Title
+   ========================================================================== */
+
+.title-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative; /* For host positioning */
+}
+
+.host-image-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 10; /* Above title, below speech bubble */
+}
+
+.host-image {
+    max-height: 250px;
+}
+
+.speech-bubble {
+    position: relative;
+    background: var(--speech-bubble-bg-light);
+    border: 5px solid var(--speech-bubble-border-light);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-left: 220px; /* Space for the host */
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 20;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+
+body.dark-mode .speech-bubble {
+    background: var(--speech-bubble-bg-dark);
+    border-color: var(--speech-bubble-border-dark);
+}
+
+/* Speech bubble arrow on the LEFT */
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    left: -30px; /* Position arrow outside the bubble */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-right: 30px solid var(--speech-bubble-border-light); /* Matches border */
+    transition: border-right-color 0.5s;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    left: -22px; /* Position inside the other arrow */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 22px solid var(--speech-bubble-bg-light); /* Matches background */
+    transition: border-right-color 0.5s;
+}
+
+body.dark-mode .speech-bubble::before {
+    border-right-color: var(--speech-bubble-border-dark);
+}
+
+body.dark-mode .speech-bubble::after {
+    border-right-color: var(--speech-bubble-bg-dark);
+}
+
+#speech {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+
+/* ==========================================================================
+   Game Board
+   ========================================================================== */
+
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.category-title {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.question-box {
+    background-color: #3498db;
+    color: white;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.question-box:hover {
+    transform: scale(1.05);
+    background-color: #2980b9;
+}
+
+/* ==========================================================================
+   Plane and Ticker Animation
+   ========================================================================== */
+
+.plane-container {
+    position: fixed;
+    top: 10%; /* Default starting height */
+    left: 0;
+    width: 100%;
+    animation: fly-across 30s linear infinite;
+    z-index: 5; /* Behind host and speech bubble, above background */
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.plane {
+    width: 150px; /* Adjust size as needed */
+    height: auto;
+    position: relative;
+    left: -200px; /* Start off-screen */
+}
+
+.ticker-sign {
+    position: absolute;
+    top: 50%;
+    left: 130px; /* Position relative to the plane */
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 2px solid #000;
+    padding: 5px 10px;
+    white-space: nowrap;
+    font-size: 1rem;
+    color: #000;
+}
+
+@keyframes fly-across {
+    0% {
+        transform: translateX(0vw);
+    }
+    100% {
+        transform: translateX(110vw);
+    }
+}
+
+/* ==========================================================================
+   Modals
+   ========================================================================== */
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 30px;
+    border: 5px solid #000;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 700px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+body.dark-mode .modal-content {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border-color: #fff;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover, .close-button:focus {
+    color: #000;
+}
+
+body.dark-mode .close-button {
+    color: #ccc;
+}
+
+body.dark-mode .close-button:hover, body.dark-mode .close-button:focus {
+    color: #fff;
+}
+
+
+/* ==========================================================================
+   Toggle Switches (Theme, Language)
+   ========================================================================== */
+
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Icons inside slider */
+.slider.round:after {
+    content: '☀️'; /* Sun icon */
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    opacity: 1;
+    transition: opacity 0.4s;
+}
+
+.slider.round:before {
+    content: '🌙'; /* Moon icon */
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.4s;
+    background-color: transparent; /* Hide the default circle */
+    color: white;
+}
+
+input:checked + .slider.round:after {
+    opacity: 0;
+}
+
+input:checked + .slider.round:before {
+    opacity: 1;
+}
