@@ -1,0 +1,57 @@
+{
+  "positive": [
+    "He's heating up! 🔥",
+    "On fire like it's NBA Jam!",
+    "Einstein would be proud!",
+    "Big brain energy detected!",
+    "Somebody call the fire department!",
+    "Is that a PhD in your pocket?",
+    "Trebek's mustache is impressed!",
+    "You're making this look easy!",
+    "The Force is strong with this one",
+    "Certified genius alert! 🚨"
+  ],
+  "negative": [
+    "Oof, that hurt to watch...",
+    "Did you even read the question?",
+    "Your streak just went to the farm upstate",
+    "That answer was rougher than sandpaper",
+    "Trebek's mustache just wilted",
+    "Even the palm trees are cringing",
+    "That's not how any of this works",
+    "Google is your friend (after the game)",
+    "Alexa, play 'Sound of Silence'",
+    "Press F to pay respects"
+  ],
+  "random": [
+    "Trebek's mustache grew 0.01mm during that question",
+    "This game is 100% gluten-free",
+    "No animals were harmed in making this question",
+    "Norm MacDonald would've gotten that one",
+    "Fun fact: Jeopardy backwards is Ydrapoj",
+    "The mitochondria is the powerhouse of the cell",
+    "This ticker brought to you by mustache wax",
+    "Breaking: Local player thinks about answer",
+    "Studies show 73% of statistics are made up",
+    "Trebek once arm-wrestled a bear and won"
+  ],
+  "streak": [
+    "STREAK ALERT! Keep it going!",
+    "Someone's on a roll! 🎲",
+    "Unstoppable force meets immovable questions",
+    "Is this your final form?",
+    "Achievement unlocked: Hot Streak",
+    "The streak lives! IT LIVES!",
+    "Somebody stop this madness!",
+    "Call Guinness World Records!",
+    "NASA wants to study your brain",
+    "Trebek would like to know your location"
+  ],
+  "welcome": [
+    "Welcome to Jeopardish! Where dreams come to be questioned",
+    "Abandon hope, all ye who enter here (just kidding!)",
+    "Today's categories are: Everything You Don't Know",
+    "Trebek's watching... always watching...",
+    "Pro tip: The answer is never 'mayonnaise'"
+  ]
+}

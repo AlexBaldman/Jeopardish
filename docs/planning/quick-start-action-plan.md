@@ -281,7 +281,8 @@ describe('GameStore', () => {
 - [ ] CI pipeline running
 - [ ] First component created
 - [ ] First test passing
-- [ ] Speech bubble responsive fix deployed
+- [x] Speech bubble responsive fix deployed ✅
+- [x] Host image cycling feature implemented ✅
 
 ### Success Checklist - Week 2
 - [ ] State management implemented
