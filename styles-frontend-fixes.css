@@ -1,0 +1,746 @@
+/* Frontend Fixes for Jeopardish - Focus on visual functionality first */
+
+/* ========================================
+   1. STICKY HEADER FIXES
+   ======================================== */
+.game-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 
+                0 0 40px rgba(255, 0, 255, 0.3);
+    z-index: 1000;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #ff00ff;
+}
+
+.header-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo-container {
+    flex: 1;
+    text-align: center;
+}
+
+.logo-image {
+    height: 60px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.5));
+    transition: transform 0.3s ease;
+}
+
+.logo-image:hover {
+    transform: scale(1.05);
+}
+
+/* ========================================
+   2. GAME CONTAINER HEIGHT FIX
+   ======================================== */
+.game-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 100px; /* Account for fixed header */
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content-wrapper {
+    flex: 1;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.main-content {
+    width: 100%;
+    max-width: 1200px;
+    position: relative;
+    min-height: calc(100vh - 120px);
+}
+
+/* ========================================
+   3. SPEECH BUBBLE RESPONSIVE FIXES
+   ======================================== */
+.speechBubble {
+    position: relative !important;
+    margin: 20px auto;
+    left: auto !important;
+    bottom: auto !important;
+    width: 90%;
+    max-width: 800px;
+    background: linear-gradient(135deg, #0d2a5c 0%, #10347c 50%, #0d2a5c 100%);
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.5),
+                inset 0 0 20px rgba(0, 255, 255, 0.2);
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.2); }
+    50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.8), inset 0 0 30px rgba(0, 255, 255, 0.3); }
+}
+
+.speechBubble::after {
+    display: none; /* Remove the triangle for now - cleaner look */
+}
+
+/* Speech bubble content styling */
+#categoryBox {
+    font-size: 1.2em;
+    color: #00ffff;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+#valueBox {
+    font-size: 2em;
+    color: #ffd700;
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+#questionBox {
+    font-size: 1.3em;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+#answerBox {
+    font-size: 1.5em;
+    color: #00ff00;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+    min-height: 30px;
+}
+
+/* ========================================
+   4. HOST IMAGE FIXES
+   ======================================== */
+.host-container {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.host-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.host-image:hover {
+    transform: scale(1.05);
+}
+
+/* Click zones for cycling */
+.host-container::before,
+.host-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.host-container::before {
+    left: 0;
+}
+
+.host-container::after {
+    right: 0;
+}
+
+/* ========================================
+   5. SCOREBOARD IMPROVEMENTS
+   ======================================== */
+.scoreboard {
+    position: fixed;
+    top: 100px;
+    right: -280px; /* Hidden by default */
+    width: 320px;
+    background: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+    border: 2px solid #ff00ff;
+    border-radius: 10px 0 0 10px;
+    padding: 20px;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 0, 255, 0.3);
+    transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 999;
+}
+
+.scoreboard::before {
+    content: '🏆';
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 60px;
+    background: linear-gradient(135deg, #330066 0%, #660099 100%);
+    border: 2px solid #ff00ff;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.scoreboard.visible,
+.scoreboard:hover {
+    right: 0;
+}
+
+.scoreboard h2 {
+    font-size: 1.2em;
+    color: #00ffff;
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+.scoreboard p {
+    margin: 10px 0;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.score-value {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* Score change animation */
+@keyframes score-flash {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); color: #00ff00; }
+}
+
+.score-value.changed {
+    animation: score-flash 0.5s ease-in-out;
+}
+
+/* ========================================
+   6. RETRO BUTTON STYLING
+   ======================================== */
+.button-div {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.button-div button,
+.input-section button,
+.header-icon-btn,
+.side-menu button {
+    background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+    border: 3px solid #00ffff;
+    color: white;
+    padding: 15px 30px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.9em;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(131, 56, 236, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Retro hover effect */
+.button-div button:hover,
+.input-section button:hover,
+.header-icon-btn:hover,
+.side-menu button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(131, 56, 236, 0.6),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #ff4081 0%, #aa00ff 100%);
+}
+
+/* Active state */
+.button-div button:active,
+.input-section button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 10px rgba(131, 56, 236, 0.4);
+}
+
+/* Button icons */
+.button-div button i,
+.input-section button i {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+/* Button tooltips */
+.button-tooltip {
+    font-size: 0.7em;
+    display: block;
+    margin-top: 5px;
+}
+
+/* ========================================
+   7. HAMBURGER MENU FIXES
+   ======================================== */
+.hamburger-button {
+    background: transparent;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.hamburger-line {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: #00ffff;
+    margin: 6px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.hamburger-button.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger-button.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-button.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Side menu styling */
+.side-menu {
+    position: fixed;
+    top: 80px;
+    right: -300px;
+    width: 300px;
+    height: calc(100vh - 80px);
+    background: linear-gradient(180deg, #1a0033 0%, #000 100%);
+    border-left: 2px solid #ff00ff;
+    transition: right 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.side-menu.active {
+    right: 0;
+}
+
+.menu-items {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.menu-items li {
+    margin: 10px 0;
+}
+
+.menu-items button {
+    width: calc(100% - 40px);
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+/* ========================================
+   8. THEME SWITCH STYLING
+   ======================================== */
+.theme-switch-container {
+    margin-right: 20px;
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+    transition: 0.4s;
+    border-radius: 34px;
+    border: 2px solid #ff00ff;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 2px;
+    background: #00ffff;
+    transition: 0.4s;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+input:checked + .slider {
+    background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+}
+
+input:checked + .slider:before {
+    transform: translateX(28px);
+}
+
+/* ========================================
+   9. INPUT SECTION IMPROVEMENTS
+   ======================================== */
+.input-section {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    max-width: 600px;
+}
+
+.input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+#inputBox {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #00ffff;
+    color: #00ffff;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1em;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#inputBox:focus {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5),
+                inset 0 0 10px rgba(0, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+#inputBox::placeholder {
+    color: rgba(0, 255, 255, 0.5);
+    font-style: italic;
+}
+
+/* ========================================
+   10. RESPONSIVE ADJUSTMENTS
+   ======================================== */
+@media (max-width: 768px) {
+    .game-header {
+        height: 60px;
+        padding: 0 10px;
+    }
+    
+    .logo-image {
+        height: 40px;
+    }
+    
+    .game-container {
+        padding-top: 70px;
+    }
+    
+    .speechBubble {
+        width: 95%;
+        padding: 15px;
+        font-size: 0.9em;
+    }
+    
+    .host-container {
+        width: 200px;
+        height: 250px;
+    }
+    
+    .button-div button,
+    .input-section button {
+        padding: 10px 20px;
+        font-size: 0.7em;
+    }
+    
+    .scoreboard {
+        width: 250px;
+        right: -220px;
+    }
+    
+    .side-menu {
+        width: 100%;
+        right: -100%;
+    }
+}
+
+/* ========================================
+   11. MODAL FIXES
+   ======================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+    border: 3px solid #ff00ff;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
+    animation: modal-appear 0.3s ease-out;
+}
+
+@keyframes modal-appear {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #ff00ff;
+    font-size: 2em;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.modal-close:hover {
+    transform: rotate(90deg);
+}
+
+/* ========================================
+   12. ANIMATIONS & EFFECTS
+   ======================================== */
+/* Palm trees with better styling */
+.palm-tree {
+    position: fixed;
+    bottom: 0;
+    z-index: 2;
+}
+
+.palm-leaves {
+    background: linear-gradient(135deg, #228B22 0%, #32CD32 100%);
+    box-shadow: 0 0 20px rgba(34, 139, 34, 0.5);
+}
+
+/* Ticker styling */
+.ticker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.8) 20%, rgba(0, 0, 0, 0.8) 80%, transparent 100%);
+    color: #00ffff;
+    padding: 10px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9em;
+    text-align: center;
+    z-index: 100;
+    border-top: 2px solid #ff00ff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+/* Loading animations */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 255, 255, 0.3);
+    border-top-color: #00ffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Success/Error feedback */
+.feedback-message {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1em;
+    z-index: 3000;
+    animation: feedback-slide 0.5s ease-out;
+}
+
+@keyframes feedback-slide {
+    from {
+        transform: translateX(-50%) translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+.feedback-message.success {
+    background: linear-gradient(135deg, #00c851 0%, #00ff00 100%);
+    border: 2px solid #00ff00;
+    color: #000;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.8);
+}
+
+.feedback-message.error {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    border: 2px solid #ff0000;
+    color: #fff;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+}
+
+/* ========================================
+   13. USER PROFILE IMPROVEMENTS
+   ======================================== */
+.user-profile {
+    display: none; /* Hide the duplicate profile for now */
+}
+
+/* Profile in header */
+.header-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 25px;
+    border: 2px solid #00ffff;
+}
+
+.header-profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ffd700;
+}
+
+.header-profile span {
+    color: #00ffff;
+    font-size: 0.8em;
+}
+
+/* ========================================
+   14. FINAL POLISH
+   ======================================== */
+/* Remove unnecessary scrollbars */
+body {
+    overflow: hidden;
+}
+
+.main-content-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 100px);
+}
+
+/* Better focus states */
+button:focus,
+input:focus {
+    outline: 2px solid #00ffff;
+    outline-offset: 2px;
+}
+
+/* Smooth transitions globally */
+* {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Loading state for buttons */
+button.loading {
+    position: relative;
+    color: transparent;
+}
+
+button.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}

@@ -1,4 +1,7 @@
 node_modules/
 .DS_Store
 .codegpt
-gemini-api-key.md 
+gemini-api-key.md
+.env
+.env.local
+.env.production
