@@ -20,17 +20,17 @@
     <title>Jeopardish!</title>
     
     <!-- favicons -->
-    <link rel="icon" href="public/favicon.webp" tyixpe="image/webp">
+    <link rel="icon" href="/favicon.webp" type="image/webp">
     <!-- <link rel="icon" href="images/favicon2.webp" type="image/webp"> -->
     <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
 
     <!-- font stylesheet -->
-    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="fonts/stylesheet.css">
     
-    <!-- main stylesheets -->
-    <link rel="stylesheet" href="styles.css?v=1.1">
-    <link rel="stylesheet" href="styles-frontend-fixes.css?v=1.0">
-    <!-- <link rel="stylesheet" href="styles-new.css?v=1.1"> -->
+    <!-- Complete consolidated stylesheet -->
+    <link rel="stylesheet" href="css/styles-complete.css?v=3.0">
+    
+    <!-- Old stylesheets - removed, all styles now in styles-complete.css -->
     
     <!-- external JS -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -41,13 +41,19 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
     <!-- Your config (must be after Firebase scripts) -->
-    <script src="firebase-config.js"></script>
+    <script src="dist/js/firebase-config.js"></script>
 
     <!-- Load the main module with Vite -->
     <script type="module" src="/src/main.js"></script>
     
+    <!-- Compatibility bridge -->
+    <script type="module" src="/src/compatibility-bridge.js"></script>
+    
+    <!-- Debug script -->
+    <script src="debug-app.js"></script>
+    
     <!-- Frontend fixes -->
-    <script src="frontend-fixes.js" defer></script>
+    <script src="frontend-fixes.js" type="module" defer></script>
     
     <!-- external CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -66,6 +72,9 @@
     
 </head>
 <body lang="en">
+
+    <!-- React-like app container for new component architecture -->
+    <div id="app"></div>
 
     <!-- game container -->
     <div class="game-container">
@@ -88,19 +97,25 @@
 
                 <!-- Center: Logo -->
                 <div class="logo-container">
-                    <img src="images/title/title-JeoPARODY.png" alt="Jeopardish!" class="logo-image">
+                    <img src="images/title/title-Jeopardish!.png" alt="Jeopardish!" class="logo-image">
+                    <!-- Peeking scoreboard -->
+                    <div id="scoreboard" class="scoreboard">
+                        <h2>SCOREBOARD</h2>
+                        <p>SCORE: <span id="score" class="score-value">0</span></p>
+                        <p>STREAK: <span id="streak" class="score-value">0</span></p>
+                        <p>TOP SCORE: <span id="top-score" class="score-value">0</span></p>
+                        <p>MAX STREAK: <span id="max-streak" class="score-value">0</span></p>
+                    </div>
                 </div>
 
                 <!-- Right Controls: Theme Switch & Hamburger -->
                 <div class="header-controls-right">
-                    <!-- Theme Switch -->
                     <div class="theme-switch-container">
                         <label for="theme-switch" class="theme-switch">
                             <input type="checkbox" id="theme-switch">
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <!-- Hamburger Menu -->
                     <button id="hamburger-menu" class="hamburger-button" aria-label="Open menu">
                         <span class="hamburger-line"></span>
                         <span class="hamburger-line"></span>
@@ -152,14 +167,6 @@
         <!-- Main content area -->
         <div class="main-content-wrapper">
             <main class="main-content">
-            <!-- Scoreboard -->
-            <div id="scoreboard" class="scoreboard">
-                <h2>SCOREBOARD</h2>
-                <p>SCORE: <span id="score" class="score-value">0</span></p>
-                <p>STREAK: <span id="streak" class="score-value">0</span></p>
-                <p>TOP SCORE: <span id="top-score" class="score-value">0</span></p>
-                <p>MAX STREAK: <span id="max-streak" class="score-value">0</span></p>
-            </div>
             <!-- Speech bubble with category, value, question & answer display areas -->
             <div id="speechBubble" class="speechBubble" title="Click on left or right edge to change speech bubble style">
                 <div id="categoryBox"></div>
@@ -180,6 +187,16 @@
                 </button>
             </div>
             
+            </main>
+        </div>
+
+        <!-- Sticky Footer with host and input -->
+        <footer class="sticky-footer">
+            <!-- Host container -->
+            <div class="host-container">
+                <img id="trebekImage" class="host-image" alt="AI Trebek" src="images/trebek/trebek-good-04.png" title="Click left/right side to cycle hosts">
+            </div>
+            
             <!-- User input section -->
             <div class="input-section">
                 <div class="input-div">
@@ -193,13 +210,7 @@
                     <span class="button-tooltip">Check Answer</span>
                 </button>
             </div>
-            
-            <!-- Host container / host image -->
-            <div class="host-container">
-                <img id="trebekImage" class="trebek host-image" alt="Alexander the Greatly Enlightened.." src="images/trebek/trebek-good-04.png" title="Click left/right side to cycle hosts">
-            </div>
-        </main>
-        </div>
+        </footer>
 
         <!-- event ticker -->
         <div class="event-ticker">
@@ -228,240 +239,8 @@
             <button id="logout-button">sign out</button>
         </div>
 
-        <!-- Auth modal -->
-        <div id="auth-modal" class="modal" style="display: none;">
-            <div class="modal-content beautiful-modal">
-                <button class="close-modal neon-x" aria-label="Close">&times;</button>
-                <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Sign In</h2>
-                <div class="auth-buttons">
-                    <button id="google-signin" class="provider-button">
-                        <i class="fab fa-google"></i> Sign in with Google
-                    </button>
-                    <button id="email-signin" class="provider-button">
-                        <i class="fas fa-envelope"></i> Sign in with Email
-                    </button>
-                    <button id="magic-link-signin" class="provider-button">
-                        <i class="fas fa-magic"></i> Magic Link
-                    </button>
-                </div>
-                <form id="email-form" style="display: none;">
-                    <input type="email" id="email-input" placeholder="Email" required>
-                    <input type="password" id="password-input" placeholder="Password" required>
-                    <button type="submit" id="email-submit">Sign In</button>
-                    <p style="text-align: center; margin-top: 1rem; color: rgba(255, 255, 255, 0.8);">
-                        Don't have an account? <a href="#" id="toggle-signup">Sign Up</a>
-                    </p>
-                </form>
-                <form id="magic-link-form" style="display: none;">
-                    <input type="email" id="magic-link-email" placeholder="Email" required>
-                    <button type="submit" id="magic-link-submit">Send Magic Link</button>
-                </form>
-                <div id="auth-error" class="auth-error"></div>
-            </div>
-        </div>
-
-        <!-- Leaderboard modal -->
-        <div id="leaderboard-modal" class="modal" style="display: none;">
-            <div class="modal-content beautiful-modal">
-                <button class="close-modal neon-x" aria-label="Close">&times;</button>
-                <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Top Scores</h2>
-                <div class="leaderboard-tabs">
-                    <button class="tab-button active" data-tab="top-scores">Top Scores</button>
-                    <button class="tab-button" data-tab="top-streaks">Top Streaks</button>
-                </div>
-                <div class="tab-content active" id="top-scores">
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Player</th>
-                                <th>Score</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scores-body">
-                            <!-- Will be populated with JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-content" id="top-streaks">
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Player</th>
-                                <th>Streak</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="streaks-body">
-                            <!-- Will be populated with JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- User Profile Modal -->
-        <div id="profile-modal" class="modal" style="display: none;">
-            <div class="modal-content beautiful-modal">
-                <button class="close-modal neon-x" aria-label="Close">&times;</button>
-                <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Your Profile</h2>
-                <form id="profile-form">
-                    <div class="profile-field">
-                        <label for="display-name">Display Name (for Leaderboard)</label>
-                        <input type="text" id="display-name" placeholder="Enter your display name" required maxlength="20">
-                        <p class="field-hint">This is how you'll appear on the leaderboard</p>
-                    </div>
-                    <div class="profile-avatar">
-                        <img id="profile-avatar-preview" class="avatar-preview">
-                        <div class="avatar-options">
-                            <button type="button" id="generate-avatar" class="avatar-button">Generate Random Avatar</button>
-                        </div>
-                    </div>
-                    <div class="profile-actions">
-                        <button type="submit" id="save-profile" class="primary-button">Save Profile</button>
-                    </div>
-                    <div id="profile-error" class="auth-error"></div>
-                </form>
-            </div>
-        </div>
     </div>
 
-    <!-- Help Modal -->
-    <div id="help-modal" class="modal" style="display: none;">
-        <div class="modal-content beautiful-modal">
-            <button class="close-modal neon-x" aria-label="Close">&times;</button>
-            <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">How to Play</h2>
-            <div class="modal-body">
-                <div class="help-section">
-                    <h3>Getting Started</h3>
-                    <p>1. Click "New Question" to get a random trivia question</p>
-                    <p>2. Type your answer in the input box</p>
-                    <p>3. Click "Check Answer" to see if you're correct</p>
-                    <p>4. Click "Show Answer" to reveal the correct answer</p>
-                </div>
-                <div class="help-section">
-                    <h3>Scoring</h3>
-                    <p>• Correct answers add points to your score</p>
-                    <p>• Build up your streak for bonus points</p>
-                    <p>• Try to beat your high score!</p>
-                </div>
-                <div class="help-section">
-                    <h3>Features</h3>
-                    <p>• Sign in to save your progress</p>
-                    <p>• View the leaderboard</p>
-                    <p>• Customize your profile</p>
-                    <p>• Toggle between light/dark themes</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div id="settings-modal" class="modal" style="display: none;">
-        <div class="modal-content beautiful-modal">
-            <button class="close-modal neon-x" aria-label="Close">&times;</button>
-            <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Game Settings</h2>
-            <div class="modal-body">
-                <div class="settings-section">
-                    <h3>Display Settings</h3>
-                    <div class="setting-item">
-                        <label for="theme-toggle">Theme:</label>
-                        <select id="theme-toggle">
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <label for="speech-bubble-style">Speech Bubble Style:</label>
-                        <select id="speech-bubble-style">
-                            <option value="default">Default</option>
-                            <option value="comic">Comic Book</option>
-                            <option value="thought">Thought Bubble</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="settings-section">
-                    <h3>Game Settings</h3>
-                    <div class="setting-item">
-                        <label for="difficulty">Difficulty:</label>
-                        <select id="difficulty">
-                            <option value="easy">Easy</option>
-                            <option value="medium">Medium</option>
-                            <option value="hard">Hard</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <label for="sound-toggle">Sound Effects:</label>
-                        <input type="checkbox" id="sound-toggle" checked>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats Modal -->
-    <div id="stats-modal" class="modal" style="display: none;">
-        <div class="modal-content beautiful-modal">
-            <button class="close-modal neon-x" aria-label="Close">&times;</button>
-            <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Game Statistics</h2>
-            <div class="modal-body">
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <h3>Total Games</h3>
-                        <p id="total-games">0</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>Questions Answered</h3>
-                        <p id="questions-answered">0</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>Correct Answers</h3>
-                        <p id="correct-answers">0</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>Accuracy</h3>
-                        <p id="accuracy">0%</p>
-                    </div>
-                </div>
-                <div class="stats-chart">
-                    <canvas id="stats-chart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Achievements Modal -->
-    <div id="achievements-modal" class="modal" style="display: none;">
-        <div class="modal-content beautiful-modal">
-            <button class="close-modal neon-x" aria-label="Close">&times;</button>
-            <h2 style="color: #ffd700; text-align: center; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">Achievements</h2>
-            <div class="modal-body">
-                <div class="achievements-grid">
-                    <div class="achievement-item locked">
-                        <i class="fas fa-trophy"></i>
-                        <h3>First Win</h3>
-                        <p>Win your first game</p>
-                    </div>
-                    <div class="achievement-item locked">
-                        <i class="fas fa-fire"></i>
-                        <h3>Hot Streak</h3>
-                        <p>Get a 5-question streak</p>
-                    </div>
-                    <div class="achievement-item locked">
-                        <i class="fas fa-star"></i>
-                        <h3>Perfect Score</h3>
-                        <p>Score 1000 points</p>
-                    </div>
-                    <div class="achievement-item locked">
-                        <i class="fas fa-crown"></i>
-                        <h3>Champion</h3>
-                        <p>Reach the top of the leaderboard</p>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Palm tree decorations -->
         <div class="palm-tree left">
             <div class="palm-trunk"></div>
@@ -488,14 +267,20 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="sounds.js"></script>
-    <script src="host-animations.js"></script>
-    <script src="host-image-cycler.js"></script>
-    <script src="comedy-ticker.js"></script>
-    <script src="ticker-integration.js"></script>
-    <script src="gemini-trebek-enhanced.js"></script>
-    <script src="gemini-game-integration.js"></script>
+    <script src="sounds.js" type="module"></script>
+    <script src="host-animations.js" type="module"></script>
+    <script src="host-image-cycler.js" type="module"></script>
+    <script src="comedy-ticker.js" type="module"></script>
+    <script src="ticker-integration.js" type="module"></script>
+    <script src="gemini-trebek-browser.js" type="module"></script>
+    <script src="gemini-game-integration.js" type="module"></script>
+    <script src="test-gemini-integration.js" type="module"></script>
     
+    <!-- Comedy Ticker Container -->
+    <div id="comedy-ticker-container" class="comedy-ticker"></div>
+    
+    <!-- Host Animation Container -->
+    <div id="host-container" class="host-container"></div>
 
 </body>
 </html>

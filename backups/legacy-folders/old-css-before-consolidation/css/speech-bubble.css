@@ -1,0 +1,107 @@
+/* Speech bubble styles */
+/* .speechBubble {
+    position: relative;
+    background: #10347c;
+    box-shadow: 5px 5px 5px rgba(254, 166, 255, 0.487); 
+    width: 90%;
+    max-width: 800px;
+    text-rendering: optimizeLegibility;
+    border-radius: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    border: 3px solid #ffffff;
+    justify-content: space-between;
+    z-index: 1;
+} */
+.speechBubble {
+    position: relative;
+    background: #10347c;
+    border-radius: 23%;
+    padding: 5vw;
+    margin: 0 auto;
+    margin-top: 2vh;
+    max-width: 80vw;
+    min-height: 65vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transition: none;
+}
+
+
+.speechBubble:after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid #10347c;
+}
+
+#categoryBox {
+    color: #fff;
+    font-family: "Korrina-normal", "Swiss 911", sans-serif;
+}
+
+#valueBox {
+    color: #ffd700;
+    font-family: "Korrina-normal", "Swiss 911", sans-serif;
+    font-weight: bold;
+}
+
+#questionBox {
+    display: flex;
+    flex-direction: column;
+    font-family: "ITC Korinna", "Korrina-normal", serif;
+    margin: 0 auto;
+    width: 95%;
+    padding: 15px 10px;
+    font-size: calc(16px + 1vw);
+    line-height: 1.4;
+    flex-grow: 1;
+    justify-content: center;
+    text-align: center;
+}
+
+#answerBox {
+    display: none;
+    font-family: "ITC Korinna", "Korrina-normal", serif;
+    justify-content: center;
+    margin: 15px auto 5px;
+    font-size: calc(14px + 0.8vw);
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* Media Queries for better mobile responsiveness */
+@media screen and (max-width: 768px) {
+    .speechBubble {
+        width: 95%;
+    }
+    
+    #categoryBox {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+    
+    #valueBox {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
+    #questionBox {
+        font-size: calc(14px + 1vw);
+        padding: 10px 5px;
+    }
+    
+    #answerBox {
+        font-size: calc(12px + 0.8vw);
+    }
+}

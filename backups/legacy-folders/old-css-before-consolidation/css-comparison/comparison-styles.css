@@ -1,0 +1,265 @@
+/* Comparison Styles for Jeopardish CSS Variants */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f5;
+    margin: 0;
+    padding: 0;
+}
+
+.comparison-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.comparison-header {
+    text-align: center;
+}
+
+h1, h2, h3 {
+    margin: 15px 0;
+}
+
+.comparison-section {
+    margin-bottom: 40px;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.style-variant {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+}
+
+.color-swatch {
+    height: 50px;
+    line-height: 50px;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.typography-demo h1, .typography-demo h2, .typography-demo p {
+    color: #333;
+}
+
+.btn-retro-3d,
+.btn-flat-modern,
+.btn-neon-glow {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-retro-3d {
+    font-family: 'Press Start 2P', cursive;
+    background: linear-gradient(145deg, #f0f0f0, #d4d4d4);
+    border: 2px solid #999;
+    box-shadow: 0 4px #666;
+    color: #333;
+}
+
+.btn-flat-modern {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1e3a8a;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.btn-flat-modern:hover {
+    background-color: #162d6e;
+}
+
+.btn-neon-glow {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #333;
+    color: #ff1fc3;
+    text-shadow: 0 0 5px #ff1fc3;
+}
+
+/* Game Container Styles */
+.game-container-demo {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+}
+.beach-theme {
+    background: linear-gradient(to top, #64B9FF, #5cff9b);
+}
+.tv-theme {
+    background-color: #10347c;
+    color: white;
+}
+.minimal-theme {
+    background-color: #f3f4f6;
+    color: #333;
+}
+
+.mini-header, .mini-scoreboard, .mini-speech-bubble {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.mini-trebek {
+    width: 50px;
+    height: 50px;
+    background-color: #ffd700;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -25px;
+    right: -25px;
+}
+
+/* Speech Bubble Styles */
+.speech-bubble-classic {
+    background-color: #1e3a8a;
+    color: white;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.speech-bubble-comic {
+    background-color: #e3e1ff;
+    color: #333;
+    border-radius: 8px;
+    padding: 10px;
+    border: 2px solid #333;
+}
+
+.speech-bubble-modern {
+    background-color: #f0f0f5;
+    color: #333;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation Demos */
+.animated-element {
+    display: inline-block;
+    margin: 10px;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+}
+
+.bounce {
+    animation: bounce 2s infinite;
+}
+
+.fade {
+    animation: fade 2s infinite;
+}
+
+.blink {
+    animation: blink 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes fade {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Input Demos */
+.input-retro {
+    font-family: 'Press Start 2P', cursive;
+    border: none;
+    background-color: #1e3a8a;
+    color: white;
+    padding: 10px;
+    width: 100%;
+}
+
+.input-classic {
+    border: 1px solid #333;
+    padding: 10px;
+    width: 100%;
+}
+
+.input-modern {
+    border: none;
+    border-bottom: 2px solid #1e3a8a;
+    padding: 10px;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+.input-modern:focus {
+    border-color: #fbbf24;
+    outline: none;
+}
+
+.cursor-blink {
+    display: inline;
+    font-weight: bold;
+    animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+    from, to { color: transparent; }
+    50% { color: white; }
+}
+
+/* Scoreboard Styles */
+.scoreboard-led {
+    background-color: #333;
+    color: lime;
+    font-family: 'Press Start 2P', cursive;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.scoreboard-classic {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.scoreboard-minimal {
+    background-color: #f3f4f6;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.score-label {
+    font-weight: bold;
+}
+
+.score-value {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+/* Notes Section */
+.notes-section textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}

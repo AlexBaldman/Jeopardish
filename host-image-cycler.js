@@ -9,9 +9,9 @@ class HostImageCycler {
             'trebek-good-01.png',
             'trebek-good-02.png',
             'trebek-good-03.png',
-            'trebek-good-04.png'
+            'trebek-good-05.png'
         ];
-        this.currentIndex = 3; // Starting with trebek-good-04.png
+        this.currentIndex = 0; // Starting with trebek-good-01.png
         this.imageElement = null;
         this.isInitialized = false;
         

@@ -4,6 +4,7 @@ https://console.firebase.google.com/u/0/project/jeoparody-e73a2/genai_monitoring
 
 Build an app with Genkit
 These instructions show you how to get started with Genkit in a Node.js app.
+
 tip:
 If you're planning to deploy to Firebase Functions, we recommend setting up Genkit using the deployment guide:
 

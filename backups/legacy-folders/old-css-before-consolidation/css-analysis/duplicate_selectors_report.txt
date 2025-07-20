@@ -1,0 +1,5 @@
+=== Duplicate CSS Selectors Report ===
+Selectors defined in multiple CSS files:
+
+=== Summary ===
+Total duplicate selectors: 0

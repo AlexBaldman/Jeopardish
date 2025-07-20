@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeopardish CSS Style Comparison</title>
+    
+    <!-- Include existing fonts -->
+    <link rel="preload" href="../fonts/Korinna.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../fonts/KorinnaBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../fonts/stylesheet.css">
+    
+    <!-- Google Fonts for comparison -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <!-- Our comparison styles -->
+    <link rel="stylesheet" href="comparison-styles.css">
+</head>
+<body>
+    <div class="comparison-container">
+        <header class="comparison-header">
+            <h1>Jeopardish CSS Style Comparison</h1>
+            <p>Compare different styling approaches side by side</p>
+        </header>
+
+        <!-- Color Schemes Section -->
+        <section class="comparison-section">
+            <h2>1. Color Schemes</h2>
+            <div class="comparison-grid">
+                <div class="style-variant">
+                    <h3>Original Neon Beach</h3>
+                    <div class="color-scheme scheme-1">
+                        <div class="color-swatch" style="background: #ff1fc3c5;">Primary Pink</div>
+                        <div class="color-swatch" style="background: #64B9FF;">Sky Blue</div>
+                        <div class="color-swatch" style="background: #5cff9b;">Mint Green</div>
+                        <div class="color-swatch" style="background: #f6ffa5;">Yellow Accent</div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Classic Jeopardy Blue</h3>
+                    <div class="color-scheme scheme-2">
+                        <div class="color-swatch" style="background: #10347c;">Deep Blue</div>
+                        <div class="color-swatch" style="background: #1e3a8a;">Primary Blue</div>
+                        <div class="color-swatch" style="background: #fbbf24;">Gold</div>
+                        <div class="color-swatch" style="background: #ffffff;">White</div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Modern Purple Theme</h3>
+                    <div class="color-scheme scheme-3">
+                        <div class="color-swatch" style="background: #8b5cf6;">Purple</div>
+                        <div class="color-swatch" style="background: #10b981;">Green</div>
+                        <div class="color-swatch" style="background: #ef4444;">Red</div>
+                        <div class="color-swatch" style="background: #f3f4f6;">Light Gray</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography Section -->
+        <section class="comparison-section">
+            <h2>2. Typography Styles</h2>
+            <div class="comparison-grid">
+                <div class="style-variant">
+                    <h3>Retro Pixel Style</h3>
+                    <div class="typography-demo retro-style">
+                        <h1>JEOPARDISH!</h1>
+                        <h2>Category Title</h2>
+                        <p class="question">This famous scientist developed the theory of relativity</p>
+                        <p class="answer">Who is Albert Einstein?</p>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Classic Serif Style</h3>
+                    <div class="typography-demo classic-style">
+                        <h1>Jeopardish!</h1>
+                        <h2>Category Title</h2>
+                        <p class="question">This famous scientist developed the theory of relativity</p>
+                        <p class="answer">Who is Albert Einstein?</p>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Modern Sans Style</h3>
+                    <div class="typography-demo modern-style">
+                        <h1>Jeopardish!</h1>
+                        <h2>Category Title</h2>
+                        <p class="question">This famous scientist developed the theory of relativity</p>
+                        <p class="answer">Who is Albert Einstein?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Button Styles Section -->
+        <section class="comparison-section">
+            <h2>3. Button Styles</h2>
+            <div class="comparison-grid">
+                <div class="style-variant">
+                    <h3>3D Retro Keyboard</h3>
+                    <div class="button-demo">
+                        <button class="btn-retro-3d">NEW QUESTION</button>
+                        <button class="btn-retro-3d">SHOW ANSWER</button>
+                        <button class="btn-retro-3d primary">CHECK ANSWER</button>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Flat Modern</h3>
+                    <div class="button-demo">
+                        <button class="btn-flat-modern">New Question</button>
+                        <button class="btn-flat-modern">Show Answer</button>
+                        <button class="btn-flat-modern primary">Check Answer</button>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Neon Glow</h3>
+                    <div class="button-demo">
+                        <button class="btn-neon-glow">NEW QUESTION</button>
+                        <button class="btn-neon-glow">SHOW ANSWER</button>
+                        <button class="btn-neon-glow primary">CHECK ANSWER</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Container Layouts -->
+        <section class="comparison-section">
+            <h2>4. Game Container Layouts</h2>
+            <div class="comparison-grid full-width">
+                <div class="style-variant">
+                    <h3>Rounded Beach Theme</h3>
+                    <div class="game-container-demo beach-theme">
+                        <div class="mini-header">Jeopardish!</div>
+                        <div class="mini-scoreboard">Score: $1000</div>
+                        <div class="mini-speech-bubble">Question goes here...</div>
+                        <div class="mini-trebek"></div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Classic TV Style</h3>
+                    <div class="game-container-demo tv-theme">
+                        <div class="mini-header">JEOPARDISH!</div>
+                        <div class="mini-scoreboard">SCORE: $1000</div>
+                        <div class="mini-speech-bubble">Question goes here...</div>
+                        <div class="mini-trebek"></div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Modern Minimal</h3>
+                    <div class="game-container-demo minimal-theme">
+                        <div class="mini-header">Jeopardish</div>
+                        <div class="mini-scoreboard">$1,000</div>
+                        <div class="mini-speech-bubble">Question goes here...</div>
+                        <div class="mini-trebek"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Speech Bubble Styles -->
+        <section class="comparison-section">
+            <h2>5. Speech Bubble Styles</h2>
+            <div class="comparison-grid">
+                <div class="style-variant">
+                    <h3>Classic Blue Box</h3>
+                    <div class="speech-bubble-classic">
+                        <div class="category">SCIENCE</div>
+                        <div class="value">$400</div>
+                        <div class="question">This planet is known as the "Red Planet"</div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Comic Bubble</h3>
+                    <div class="speech-bubble-comic">
+                        <div class="category">SCIENCE</div>
+                        <div class="value">$400</div>
+                        <div class="question">This planet is known as the "Red Planet"</div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Modern Card</h3>
+                    <div class="speech-bubble-modern">
+                        <div class="category">SCIENCE</div>
+                        <div class="value">$400</div>
+                        <div class="question">This planet is known as the "Red Planet"</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Animation Previews -->
+        <section class="comparison-section">
+            <h2>6. Animation Styles</h2>
+            <div class="comparison-grid">
+                <div class="style-variant">
+                    <h3>Bouncy Fun</h3>
+                    <div class="animation-demo">
+                        <div class="animated-element bounce">Bounce!</div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Smooth Fade</h3>
+                    <div class="animation-demo">
+                        <div class="animated-element fade">Fade In</div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Retro Blink</h3>
+                    <div class="animation-demo">
+                        <div class="animated-element blink">BLINK!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Input Styles -->
+        <section class="comparison-section">
+            <h2>7. Input Field Styles</h2>
+            <div class="comparison-grid">
+                <div class="style-variant">
+                    <h3>Retro Terminal</h3>
+                    <div class="input-demo">
+                        <input type="text" class="input-retro" placeholder="WHO IS...">
+                        <div class="cursor-blink">_</div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Classic Border</h3>
+                    <div class="input-demo">
+                        <input type="text" class="input-classic" placeholder="Enter your answer...">
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Modern Floating</h3>
+                    <div class="input-demo">
+                        <input type="text" class="input-modern" placeholder="Your answer">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scoreboard Styles -->
+        <section class="comparison-section">
+            <h2>8. Scoreboard Styles</h2>
+            <div class="comparison-grid">
+                <div class="style-variant">
+                    <h3>LED Display</h3>
+                    <div class="scoreboard-led">
+                        <div class="score-label">SCORE</div>
+                        <div class="score-value">$12,500</div>
+                        <div class="score-label">STREAK</div>
+                        <div class="score-value">5</div>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Classic Box</h3>
+                    <div class="scoreboard-classic">
+                        <h4>SCOREBOARD</h4>
+                        <p>Score: <span>$12,500</span></p>
+                        <p>Streak: <span>5</span></p>
+                    </div>
+                </div>
+                
+                <div class="style-variant">
+                    <h3>Minimal Stats</h3>
+                    <div class="scoreboard-minimal">
+                        <div class="stat">
+                            <span class="label">Score</span>
+                            <span class="value">$12,500</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Streak</span>
+                            <span class="value">5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Decision Notes Section -->
+        <section class="comparison-section notes-section">
+            <h2>Your Decision Notes</h2>
+            <div class="notes-grid">
+                <div class="note-card">
+                    <h3>Color Scheme Choice:</h3>
+                    <textarea placeholder="Which color scheme works best? Why?"></textarea>
+                </div>
+                <div class="note-card">
+                    <h3>Typography Decision:</h3>
+                    <textarea placeholder="Which font style fits the game best?"></textarea>
+                </div>
+                <div class="note-card">
+                    <h3>Button Style Preference:</h3>
+                    <textarea placeholder="Which button style is most engaging?"></textarea>
+                </div>
+                <div class="note-card">
+                    <h3>Overall Theme Direction:</h3>
+                    <textarea placeholder="What's the cohesive vision for v2.0?"></textarea>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

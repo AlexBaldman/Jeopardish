@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeopardish Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            background: #f3f4f6;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button {
+            background: #060ce9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #8b5cf6;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Jeopardish Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>System Status</h2>
+        <div id="status-results"></div>
+        <button onclick="checkSystemStatus()">Run Status Check</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Question Service Test</h2>
+        <div id="question-results"></div>
+        <button onclick="testQuestionService()">Test Question Loading</button>
+        <button onclick="getRandomQuestion()">Get Random Question</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>DOM Elements Check</h2>
+        <div id="dom-results"></div>
+        <button onclick="checkDOMElements()">Check DOM Elements</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Event System Test</h2>
+        <div id="event-results"></div>
+        <button onclick="testEventSystem()">Test Event System</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <pre id="console-output"></pre>
+        <button onclick="clearConsole()">Clear Console</button>
+    </div>
+
+    <script type="module">
+        import questionService from './src/services/api/questionService.js';
+        import { eventBus } from './src/utils/events.js';
+        
+        // Make functions available globally
+        window.questionService = questionService;
+        window.eventBus = eventBus;
+        
+        // Console capture
+        const originalLog = console.log;
+        const originalError = console.error;
+        const consoleOutput = [];
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole('LOG', args);
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole('ERROR', args);
+        };
+        
+        function addToConsole(type, args) {
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            
+            consoleOutput.push(`[${type}] ${message}`);
+            updateConsoleDisplay();
+        }
+        
+        function updateConsoleDisplay() {
+            const output = document.getElementById('console-output');
+            if (output) {
+                output.textContent = consoleOutput.slice(-20).join('\n');
+            }
+        }
+        
+        window.clearConsole = function() {
+            consoleOutput.length = 0;
+            updateConsoleDisplay();
+        };
+        
+        // Test functions
+        window.checkSystemStatus = async function() {
+            const results = document.getElementById('status-results');
+            results.innerHTML = '';
+            
+            // Check if app is loaded
+            const appLoaded = window.jeopardishApp !== undefined;
+            addResult(results, appLoaded ? 'success' : 'error', 
+                `App loaded: ${appLoaded}`);
+            
+            // Check compatibility bridge
+            const bridgeLoaded = window.compatibilityBridge !== undefined;
+            addResult(results, bridgeLoaded ? 'success' : 'warning', 
+                `Compatibility bridge: ${bridgeLoaded}`);
+            
+            // Check Vite modules
+            const modulesLoaded = window.questionService !== undefined;
+            addResult(results, modulesLoaded ? 'success' : 'error', 
+                `ES Modules loaded: ${modulesLoaded}`);
+            
+            // Check Firebase
+            const firebaseLoaded = window.firebase !== undefined;
+            addResult(results, firebaseLoaded ? 'success' : 'warning', 
+                `Firebase loaded: ${firebaseLoaded}`);
+        };
+        
+        window.testQuestionService = async function() {
+            const results = document.getElementById('question-results');
+            results.innerHTML = '';
+            
+            try {
+                addResult(results, 'info', 'Initializing question service...');
+                const initialized = await questionService.initialize();
+                addResult(results, initialized ? 'success' : 'error', 
+                    `Initialization: ${initialized}`);
+                
+                const stats = questionService.getStats();
+                addResult(results, 'info', 
+                    `Questions loaded: ${stats.totalQuestions}`);
+                
+                const categories = questionService.getAvailableCategories();
+                addResult(results, categories.length > 0 ? 'success' : 'warning', 
+                    `Categories available: ${categories.length}`);
+                
+            } catch (error) {
+                addResult(results, 'error', `Error: ${error.message}`);
+            }
+        };
+        
+        window.getRandomQuestion = async function() {
+            const results = document.getElementById('question-results');
+            
+            try {
+                addResult(results, 'info', 'Getting random question...');
+                const question = await questionService.getQuestion();
+                
+                if (question) {
+                    addResult(results, 'success', 'Question retrieved:');
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'test-result info';
+                    questionDiv.innerHTML = `
+                        <strong>Category:</strong> ${question.category}<br>
+                        <strong>Value:</strong> $${question.value}<br>
+                        <strong>Question:</strong> ${question.question}<br>
+                        <strong>Answer:</strong> <span style="filter: blur(5px)">${question.answer}</span>
+                        <small> (hover to reveal)</small>
+                    `;
+                    questionDiv.onmouseover = () => {
+                        questionDiv.querySelector('span').style.filter = 'none';
+                    };
+                    results.appendChild(questionDiv);
+                } else {
+                    addResult(results, 'error', 'No question retrieved');
+                }
+                
+            } catch (error) {
+                addResult(results, 'error', `Error: ${error.message}`);
+            }
+        };
+        
+        window.checkDOMElements = function() {
+            const results = document.getElementById('dom-results');
+            results.innerHTML = '';
+            
+            const elements = {
+                'questionButton': document.getElementById('questionButton'),
+                'answerButton': document.getElementById('answerButton'),
+                'checkButton': document.getElementById('checkButton'),
+                'inputBox': document.getElementById('inputBox'),
+                'questionBox': document.getElementById('questionBox'),
+                'answerBox': document.getElementById('answerBox'),
+                'categoryBox': document.getElementById('categoryBox'),
+                'valueBox': document.getElementById('valueBox'),
+                'scoreboard': document.getElementById('scoreboard'),
+                'score': document.getElementById('score'),
+                'streak': document.getElementById('streak')
+            };
+            
+            for (const [id, element] of Object.entries(elements)) {
+                addResult(results, element ? 'success' : 'error', 
+                    `${id}: ${element ? '✓ Found' : '✗ Not found'}`);
+            }
+        };
+        
+        window.testEventSystem = function() {
+            const results = document.getElementById('event-results');
+            results.innerHTML = '';
+            
+            let eventReceived = false;
+            
+            // Test event emission
+            eventBus.on('test:event', (data) => {
+                eventReceived = true;
+                addResult(results, 'success', 
+                    `Event received: ${JSON.stringify(data)}`);
+            });
+            
+            addResult(results, 'info', 'Emitting test event...');
+            eventBus.emit('test:event', { test: true, timestamp: Date.now() });
+            
+            setTimeout(() => {
+                if (!eventReceived) {
+                    addResult(results, 'error', 'Event not received!');
+                }
+            }, 100);
+            
+            // Test ticker update
+            addResult(results, 'info', 'Testing ticker update...');
+            eventBus.emit('ticker:update', { event: 'test' });
+        };
+        
+        function addResult(container, type, message) {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.textContent = message;
+            container.appendChild(div);
+        }
+        
+        // Auto-run basic checks on load
+        window.addEventListener('load', () => {
+            console.log('🧪 Test page loaded');
+            checkSystemStatus();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+/* Ensure the ticker unit is visible and properly positioned */
+.ticker-unit {
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* Add any necessary styles to ensure visibility */
+    /* e.g., background-color, border, etc. */
+}
+
+/* Ensure the plane is visible and properly positioned */
+.ticker-plane {
+    position: relative;
+    width: 100px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    /* Add any necessary styles to ensure visibility */
+    /* e.g., background-color, border, etc. */
+}
+
+/* Ensure the propeller is visible and properly positioned */
+.propeller {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px; /* Adjust size as needed */
+    height: 20px; /* Adjust size as needed */
+    /* Add any necessary styles to ensure visibility */
+    /* e.g., background-color, border, etc. */
+}
+
+/* Ensure the ticker content is visible and properly positioned */
+.ticker-content {
+    margin-left: 10px; /* Adjust spacing as needed */
+    /* Add any necessary styles to ensure visibility */
+    /* e.g., font-size, color, etc. */
+} 

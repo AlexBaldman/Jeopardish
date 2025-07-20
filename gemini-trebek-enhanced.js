@@ -3,9 +3,16 @@
  * Uses environment variables for API key security
  */
 
-class EnhancedGeminiTrebek {
+(function() {
+    'use strict';
+    
+    class EnhancedGeminiTrebek {
     constructor() {
-        // Get API key from environment variable (set in .env file)
+        // Use proxy server instead of direct API calls
+        this.useProxy = true;
+        this.proxyURL = 'http://localhost:3002/api/gemini/generate';
+        
+        // Legacy: direct API calls (not recommended)
         this.apiKey = this.getApiKey();
         this.baseURL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
         
@@ -20,33 +27,21 @@ class EnhancedGeminiTrebek {
         this.lastRequestTime = 0;
         this.minRequestInterval = 1000; // 1 second between requests
         
-        // Initialize
-        this.isInitialized = !!this.apiKey;
-        if (!this.isInitialized) {
-            console.warn('Gemini API key not found. Please set VITE_GEMINI_API_KEY in your .env file');
-        }
+        // Initialize - check if proxy is available or API key exists
+        this.checkInitialization();
     }
     
     /**
      * Get API key from environment or prompt user
      */
     getApiKey() {
-        // For Vite projects
-        if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) {
-            return import.meta.env.VITE_GEMINI_API_KEY;
-        }
-        
-        // For regular scripts
-        if (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) {
-            return process.env.GEMINI_API_KEY;
-        }
-        
-        // Check localStorage as fallback
+        // Check localStorage first
         const storedKey = localStorage.getItem('gemini_api_key');
         if (storedKey) {
             return storedKey;
         }
         
+        // No API key found
         return null;
     }
     
@@ -76,11 +71,43 @@ Keep responses concise (1-3 sentences) and family-friendly.`;
     }
     
     /**
-     * Make API request to Gemini
+     * Check initialization status
+     */
+    async checkInitialization() {
+        if (this.useProxy) {
+            try {
+                const response = await fetch('http://localhost:3002/api/health');
+                const data = await response.json();
+                this.isInitialized = data.status === 'ok' && data.apiKeyConfigured;
+                
+                if (!this.isInitialized) {
+                    console.warn('🔑 Gemini proxy server needs API key configuration:');
+                    console.warn('1. Create a .env file in the server directory');
+                    console.warn('2. Add: GEMINI_API_KEY=your-api-key-here');
+                    console.warn('3. Run: cd server && npm install && npm start');
+                }
+            } catch (error) {
+                this.isInitialized = false;
+                console.warn('🔌 Gemini proxy server not running. Start it with:');
+                console.warn('cd server && npm install && npm start');
+            }
+        } else {
+            this.isInitialized = !!this.apiKey;
+            if (!this.isInitialized) {
+                console.warn('🔑 Direct API mode: Add your Gemini API key in Settings');
+            }
+        }
+    }
+    
+    /**
+     * Make API request to Gemini (via proxy or direct)
      */
     async callGeminiAPI(prompt) {
         if (!this.isInitialized) {
-            throw new Error('Gemini API not initialized. Please set your API key.');
+            await this.checkInitialization();
+            if (!this.isInitialized) {
+                throw new Error('Gemini API not initialized. Please configure the proxy server or set your API key.');
+            }
         }
         
         // Rate limiting
@@ -91,35 +118,64 @@ Keep responses concise (1-3 sentences) and family-friendly.`;
         }
         this.lastRequestTime = Date.now();
         
-        const requestBody = {
-            contents: [{
-                parts: [{
-                    text: `${this.personalityPrompt}\n\n${prompt}`
-                }]
-            }],
-            generationConfig: {
-                temperature: 0.8,
-                topK: 40,
-                topP: 0.95,
-                maxOutputTokens: 200,
-            }
-        };
-        
         try {
-            const response = await fetch(`${this.baseURL}?key=${this.apiKey}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody)
-            });
-            
-            if (!response.ok) {
-                throw new Error(`API request failed: ${response.status}`);
+            if (this.useProxy) {
+                // Use secure proxy server
+                const response = await fetch(this.proxyURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: `${this.personalityPrompt}\n\n${prompt}`,
+                        temperature: 0.8,
+                        maxTokens: 200
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Proxy request failed: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return data.text;
+            } else {
+                // Direct API call (not recommended for production)
+                const requestBody = {
+                    contents: [{
+                        parts: [{
+                            text: `${this.personalityPrompt}\n\n${prompt}`
+                        }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.8,
+                        topK: 40,
+                        topP: 0.95,
+                        maxOutputTokens: 200,
+                    }
+                };
+                
+                const response = await fetch(`${this.baseURL}?key=${this.apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Gemini API Error:', errorData);
+                    if (response.status === 400 && errorData.error?.message?.includes('API Key')) {
+                        throw new Error('Invalid API key. Please check your Gemini API key in settings.');
+                    }
+                    throw new Error(`API request failed: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+                }
+                
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
             }
-            
-            const data = await response.json();
-            return data.candidates[0].content.parts[0].text;
         } catch (error) {
             console.error('Gemini API error:', error);
             throw error;
@@ -255,10 +311,12 @@ Make it absurdist, unexpected, or a non-sequitur. Keep it short (under 100 chara
     }
 }
 
-// Create and export instance
-window.enhancedGeminiTrebek = new EnhancedGeminiTrebek();
-
-// Also export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EnhancedGeminiTrebek;
-}
+    // Create and export instance
+    window.enhancedGeminiTrebek = new EnhancedGeminiTrebek();
+    
+    // Also export for module usage
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = EnhancedGeminiTrebek;
+    }
+    
+})();

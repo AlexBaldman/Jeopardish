@@ -1,0 +1,140 @@
+/* Button styles */
+.button-div {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba(255, 90, 230, 0);
+    min-height: 3vh;
+    align-items: center;
+    justify-content: center;
+    padding: 1vh 1vh;
+    justify-content: space-evenly;
+}
+
+#questionButton,
+#answerButton {
+    display: flex;
+    flex-wrap: row wrap;
+    font-family: "Press Start 2P", -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    height: 6vmin;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    color: #333;
+    cursor: pointer;
+    padding: 2vh 30px;
+    margin-bottom: 1vh;
+}
+
+#checkButton {
+    color: rgb(248, 245, 82);
+    width: 50vw;
+    height: 8vh;
+    background-color: #4b21f4e4;
+    font-family: "Press Start 2P", BlinkMacSystemFont, monospace;
+    font-weight: bolder;
+    font-size: 3vmin;
+    border: ridge 10px grey;
+    padding: 5px 7px;
+    border-radius: 5px;
+    transition: margin-down 0.3s ease;
+}
+
+
+
+
+/* OTHER BUTTONS  */
+
+.btn-jeopardish {
+    background: rgb(255,151,0);
+    border: none;
+    z-index: 1;
+}
+
+.btn-jeopardish:after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 5px;
+    background-color: #eaf818;
+    background-image: linear-gradient(315deg, #eaf818 0%, #f6fc9c 74%);
+    box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+        7px 7px 20px 0px rgba(0,0,0,.1),
+        4px 4px 5px 0px rgba(0,0,0,.1);
+    transition: all 0.3s ease;
+}
+
+.btn-jeopardish:hover {
+    color: #000;
+}
+
+.btn-jeopardish:hover:after {
+    top: auto;
+    bottom: 0;
+    height: 100%;
+}
+
+.btn-jeopardish:active {
+    top: 2px;
+}
+
+.btn-jeopardish span {
+    position: relative;
+    z-index: 2;
+}
+
+.custom-btn {
+    width: 130px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Press Start 2P', cursive;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+        7px 7px 20px 0px rgba(0,0,0,.1),
+        4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+}
+
+/* The Simpsons style button */
+.simpsonsButton {
+    display: flex;
+    font-family: 'Comic Sans MS', cursive, sans-serif; 
+    height: 6vh;
+    font-size: 1.5em; 
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFDD00; 
+    border-radius: 30px; 
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); 
+    color: #333; 
+    cursor: pointer;
+    padding: 15px 30px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.simpsonsButton:hover {
+    background-color: #FFCC00; 
+    color: #000; 
+}
+
+.simpsonsButton:active {
+    background-color: #FFFF00;
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5);
+} 
+

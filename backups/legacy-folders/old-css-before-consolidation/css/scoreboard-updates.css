@@ -1,0 +1,275 @@
+/* ========================================
+   SCOREBOARD UPDATES - Right Edge Slide-out
+   ======================================== */
+
+/* Main scoreboard container */
+#scoreboard {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%) translateX(calc(100% - 40px)); /* Show only 40px peek handle */
+    width: 200px; /* Smaller width */
+    max-height: 300px; /* Smaller height */
+    background: linear-gradient(135deg, 
+        rgba(15, 22, 36, 0.95) 0%, 
+        rgba(52, 123, 255, 0.85) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    box-shadow: 
+        -10px 0 30px rgba(0, 0, 0, 0.7),
+        -5px 0 20px rgba(52, 123, 255, 0.5),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Peek handle - visible when closed */
+#scoreboard::before {
+    content: '🏆';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(180deg, 
+        rgba(247, 37, 133, 0.9) 0%, 
+        rgba(181, 23, 158, 0.9) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-right: 2px solid rgba(255, 255, 255, 0.3);
+    transition: background 0.3s ease;
+}
+
+/* Hover state for peek handle */
+#scoreboard::before:hover {
+    background: linear-gradient(180deg, 
+        rgba(249, 65, 68, 0.9) 0%, 
+        rgba(243, 114, 44, 0.9) 100%);
+}
+
+/* Slide out on hover or when .show class is added */
+#scoreboard:hover,
+#scoreboard.show {
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Scoreboard content container */
+.scoreboard-content {
+    padding: 20px 20px 20px 60px; /* Extra left padding for handle */
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Scoreboard title */
+.scoreboard-content h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8rem;
+    color: #f6ffa5;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: 
+        0 0 10px rgba(246, 255, 165, 0.8),
+        0 0 20px rgba(52, 123, 255, 0.6);
+    letter-spacing: 1px;
+}
+
+/* Individual score entries */
+.scoreboard-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    margin: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.scoreboard-text:hover {
+    transform: translateX(-5px);
+    padding-left: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+}
+
+/* Score labels */
+.score-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    color: #ffffff;
+    text-shadow: 
+        1px 1px 0 #000,
+        -1px 1px 0 #000,
+        1px -1px 0 #000,
+        -1px -1px 0 #000;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Score values */
+.score-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    color: #f6ffa5;
+    text-shadow: 
+        0 0 5px #10347c,
+        0 0 10px #10347c;
+    min-width: 50px;
+    text-align: right;
+}
+
+/* Score change animation */
+.score-value.changing {
+    animation: scoreUpdatePulse 0.8s ease-out;
+}
+
+@keyframes scoreUpdatePulse {
+    0% {
+        transform: scale(1) translateX(0);
+        color: #f6ffa5;
+    }
+    25% {
+        transform: scale(1.3) translateX(-3px);
+        color: #ff1fc3;
+        text-shadow: 
+            0 0 10px #ff1fc3,
+            0 0 20px #ff1fc3,
+            0 0 30px #ff1fc3;
+    }
+    50% {
+        transform: scale(1.2) translateX(-2px);
+        color: #ffffff;
+    }
+    100% {
+        transform: scale(1) translateX(0);
+        color: #f6ffa5;
+    }
+}
+
+/* Optional: Add score icons */
+.score-label::before {
+    font-family: inherit;
+    margin-right: 4px;
+}
+
+.score-label[data-type="score"]::before {
+    content: "💰";
+    font-size: 0.8rem;
+}
+
+.score-label[data-type="daily"]::before {
+    content: "📅";
+    font-size: 0.8rem;
+}
+
+.score-label[data-type="streak"]::before {
+    content: "🔥";
+    font-size: 0.8rem;
+}
+
+/* Custom scrollbar for scoreboard */
+.scoreboard-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scoreboard-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.scoreboard-content::-webkit-scrollbar-thumb {
+    background: rgba(246, 255, 165, 0.6);
+    border-radius: 3px;
+}
+
+.scoreboard-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(246, 255, 165, 0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #scoreboard {
+        width: 180px;
+        max-height: 250px;
+        transform: translateY(-50%) translateX(calc(100% - 35px));
+    }
+    
+    #scoreboard::before {
+        width: 35px;
+        font-size: 1.2rem;
+    }
+    
+    .scoreboard-content {
+        padding: 15px 15px 15px 50px;
+    }
+    
+    .scoreboard-content h3 {
+        font-size: 0.7rem;
+        margin-bottom: 1rem;
+    }
+    
+    .score-label {
+        font-size: 0.5rem;
+    }
+    
+    .score-value {
+        font-size: 0.6rem;
+        min-width: 40px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+    #scoreboard {
+        width: 160px;
+        max-height: 200px;
+        top: auto;
+        bottom: 100px;
+        transform: translateX(calc(100% - 30px));
+    }
+    
+    #scoreboard:hover,
+    #scoreboard.show {
+        transform: translateX(0);
+    }
+    
+    #scoreboard::before {
+        width: 30px;
+        font-size: 1rem;
+    }
+    
+    .scoreboard-content {
+        padding: 10px 10px 10px 40px;
+    }
+}
+
+/* Animation for initial appearance */
+@keyframes scoreboardSlideIn {
+    from {
+        transform: translateY(-50%) translateX(100%);
+    }
+    to {
+        transform: translateY(-50%) translateX(calc(100% - 40px));
+    }
+}
+
+#scoreboard.initialized {
+    animation: scoreboardSlideIn 0.8s ease-out forwards;
+}
+
+/* Glow effect on score updates */
+#scoreboard.score-updated {
+    box-shadow: 
+        -10px 0 30px rgba(0, 0, 0, 0.7),
+        -5px 0 40px rgba(255, 31, 195, 0.8),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
+}

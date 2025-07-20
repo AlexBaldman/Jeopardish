@@ -36,42 +36,40 @@ document.addEventListener('DOMContentLoaded', function() {
             // The ::before pseudo-element handles the peek tab
         }
 
-        // Show scoreboard on hover
-        scoreboard.addEventListener('mouseenter', function() {
-            clearTimeout(scoreboardTimeout);
-            this.classList.add('visible');
-        });
+        // Scoreboard interaction handled below with peek handle
 
-        scoreboard.addEventListener('mouseleave', function() {
-            scoreboardTimeout = setTimeout(() => {
-                this.classList.remove('visible');
-            }, 500);
-        });
-
-        // Show scoreboard on score change
-        const scoreElement = document.getElementById('score');
-        const streakElement = document.getElementById('streak');
+        // Show scoreboard on hover and click
+        const scoreboardPeekHandle = document.querySelector('.scoreboard-peek');
         
-        if (scoreElement) {
-            const originalUpdateScore = window.updateScore;
-            window.updateScore = function(newScore) {
-                if (originalUpdateScore) {
-                    originalUpdateScore.call(this, newScore);
-                }
-                
-                // Show scoreboard temporarily
-                scoreboard.classList.add('visible');
-                scoreElement.classList.add('changed');
-                
-                setTimeout(() => {
-                    scoreElement.classList.remove('changed');
-                }, 500);
-                
-                setTimeout(() => {
-                    scoreboard.classList.remove('visible');
-                }, 3000);
-            };
+        if (scoreboardPeekHandle) {
+            // Hover to show
+            scoreboardPeekHandle.addEventListener('mouseenter', () => {
+                scoreboard.classList.add('show');
+            });
+            
+            scoreboardPeekHandle.addEventListener('mouseleave', () => {
+                scoreboard.classList.remove('show');
+            });
+            
+            // Click to toggle
+            scoreboardPeekHandle.addEventListener('click', () => {
+                scoreboard.classList.toggle('show');
+            });
         }
+        
+        // Update scoreboard on score change
+        const originalUpdateScore = window.updateScore;
+        window.updateScore = function(newScore) {
+            if (originalUpdateScore) {
+                originalUpdateScore.call(this, newScore);
+            }
+            
+            // Show scoreboard temporarily on score change
+            scoreboard.classList.add('show');
+            setTimeout(() => {
+                scoreboard.classList.remove('show');
+            }, 3000);
+        };
     }
 
     // ========================================

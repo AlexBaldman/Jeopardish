@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Console Error Test</title>
+</head>
+<body>
+    <h1>Testing Console Errors</h1>
+    <div id="status"></div>
+    
+    <script>
+        const status = document.getElementById('status');
+        
+        // Test 1: Check if firebase-config.js loads
+        fetch('/dist/js/firebase-config.js')
+            .then(response => {
+                if (response.ok) {
+                    status.innerHTML += '<p>✅ firebase-config.js loads successfully</p>';
+                } else {
+                    status.innerHTML += '<p>❌ firebase-config.js failed to load: ' + response.status + '</p>';
+                }
+            })
+            .catch(err => {
+                status.innerHTML += '<p>❌ firebase-config.js error: ' + err.message + '</p>';
+            });
+        
+        // Test 2: Load and check Gemini scripts
+        const scripts = [
+            'gemini-trebek-enhanced.js',
+            'gemini-game-integration.js',
+            'test-gemini-integration.js'
+        ];
+        
+        scripts.forEach(script => {
+            const scriptEl = document.createElement('script');
+            scriptEl.src = script;
+            scriptEl.onload = () => {
+                status.innerHTML += '<p>✅ ' + script + ' loaded successfully</p>';
+                
+                // Check if objects were created
+                if (script === 'gemini-trebek-enhanced.js' && window.enhancedGeminiTrebek) {
+                    status.innerHTML += '<p>✅ window.enhancedGeminiTrebek is available</p>';
+                }
+            };
+            scriptEl.onerror = () => {
+                status.innerHTML += '<p>❌ ' + script + ' failed to load</p>';
+            };
+            document.body.appendChild(scriptEl);
+        });
+        
+        // Check for console errors after a delay
+        setTimeout(() => {
+            status.innerHTML += '<h2>Final Status:</h2>';
+            if (window.enhancedGeminiTrebek) {
+                status.innerHTML += '<p>✅ Gemini integration initialized: ' + window.enhancedGeminiTrebek.isInitialized + '</p>';
+            } else {
+                status.innerHTML += '<p>❌ window.enhancedGeminiTrebek not found</p>';
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

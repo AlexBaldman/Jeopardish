@@ -3,9 +3,11 @@
  * Connects the Gemini AI to game events and UI
  */
 
+import { geminiTrebek } from './gemini-trebek-browser.js';
+
 class GeminiGameIntegration {
     constructor() {
-        this.trebek = window.enhancedGeminiTrebek;
+        this.trebek = geminiTrebek;
         this.isEnabled = false;
         this.init();
     }
@@ -38,15 +40,22 @@ class GeminiGameIntegration {
         const modalBody = settingsModal.querySelector('.modal-body');
         if (!modalBody) return;
         
+        // Check if AI section already exists
+        if (document.getElementById('ai-settings-section')) return;
+        
         // Create AI settings section
         const aiSection = document.createElement('div');
+        aiSection.id = 'ai-settings-section';
         aiSection.className = 'settings-section';
         aiSection.innerHTML = `
             <h3>AI Host Settings</h3>
             <div class="setting-item">
                 <label for="gemini-api-key">Gemini API Key:</label>
-                <input type="password" id="gemini-api-key" placeholder="Enter your API key">
+                <input type="password" id="gemini-api-key" placeholder="Enter your API key" style="width: 200px;">
                 <button id="save-api-key" style="margin-left: 10px;">Save</button>
+            </div>
+            <div class="setting-item" id="api-key-status" style="color: #888; font-size: 0.9em; margin-top: 5px;">
+                ${this.trebek.isInitialized ? '✓ API key configured' : '⚠ No API key set'}
             </div>
             <div class="setting-item">
                 <label for="ai-host-toggle">Enable AI Host:</label>
@@ -60,12 +69,22 @@ class GeminiGameIntegration {
         modalBody.appendChild(aiSection);
         
         // Add event listeners
-        document.getElementById('save-api-key').addEventListener('click', () => {
-            const apiKey = document.getElementById('gemini-api-key').value;
+        document.getElementById('save-api-key').addEventListener('click', async () => {
+            const apiKey = document.getElementById('gemini-api-key').value.trim();
+            const statusEl = document.getElementById('api-key-status');
+            
             if (apiKey) {
-                this.trebek.setApiKey(apiKey);
+                await this.trebek.initDirectAPI(apiKey);
+                localStorage.setItem('gemini_api_key', apiKey);
                 this.enableAIFeatures();
+                statusEl.innerHTML = '✓ API key configured';
+                statusEl.style.color = '#4CAF50';
                 alert('API key saved! AI features are now enabled.');
+                
+                // Test the API key with a greeting
+                this.showAIGreeting();
+            } else {
+                alert('Please enter a valid API key.');
             }
         });
         
@@ -102,16 +121,25 @@ class GeminiGameIntegration {
     async showAIGreeting() {
         if (!this.isEnabled) return;
         
-        const greeting = await this.trebek.generateGreeting();
-        
-        // Display in speech bubble temporarily
-        const questionBox = document.getElementById('questionBox');
-        if (questionBox) {
-            questionBox.innerHTML = greeting;
+        try {
+            const greeting = await this.trebek.generateGreeting();
             
-            // Show AI response in bubble if available
-            if (window.aiTrebekUI) {
-                window.aiTrebekUI.displayResponse(greeting);
+            // Display in speech bubble temporarily
+            const questionBox = document.getElementById('questionBox');
+            if (questionBox) {
+                questionBox.innerHTML = greeting;
+                
+                // Show AI response in bubble if available
+                if (window.aiTrebekUI) {
+                    window.aiTrebekUI.displayResponse(greeting);
+                }
+            }
+        } catch (error) {
+            console.log('AI greeting skipped:', error.message);
+            // Show helpful message in question box
+            const questionBox = document.getElementById('questionBox');
+            if (questionBox && error.message.includes('API key')) {
+                questionBox.innerHTML = '🔑 To enable AI features, add your Gemini API key in Settings! Get a free key at Google AI Studio.';
             }
         }
     }
@@ -179,7 +207,7 @@ class GeminiGameIntegration {
             const streak = window.currentStreak || 0;
             const answer = window.currentQuestion?.answer || '';
             
-            const aiResponse = await this.trebek.generateCorrectResponse(answer, streak);
+            const aiResponse = await this.trebek.respondToCorrect(answer, window.currentScore || 0);
             
             // Display AI response
             const questionBox = document.getElementById('questionBox');
@@ -218,7 +246,7 @@ class GeminiGameIntegration {
             }
             
             const userAnswer = document.getElementById('inputBox')?.value || 'your answer';
-            const aiResponse = await this.trebek.generateIncorrectResponse(userAnswer, correctAnswer);
+            const aiResponse = await this.trebek.respondToIncorrect(userAnswer, correctAnswer);
             
             // Display AI response
             const questionBox = document.getElementById('questionBox');
@@ -257,10 +285,7 @@ class GeminiGameIntegration {
         document.addEventListener('correctAnswer', async () => {
             if (!this.isEnabled) return;
             
-            const aiMessage = await this.trebek.generateTickerMessage('correct_answer', {
-                streak: window.currentStreak || 0,
-                score: window.currentScore || 0
-            });
+            const aiMessage = await this.trebek.generateComment(`Player got a correct answer! Streak: ${window.currentStreak || 0}`);
             
             if (aiMessage) {
                 window.comedyTicker.displayMessage(aiMessage);
@@ -270,9 +295,7 @@ class GeminiGameIntegration {
         document.addEventListener('incorrectAnswer', async () => {
             if (!this.isEnabled) return;
             
-            const aiMessage = await this.trebek.generateTickerMessage('incorrect_answer', {
-                answer: window.currentQuestion?.answer || ''
-            });
+            const aiMessage = await this.trebek.generateComment(`Player missed the question. The answer was ${window.currentQuestion?.answer || 'unknown'}`);
             
             if (aiMessage) {
                 window.comedyTicker.displayMessage(aiMessage);

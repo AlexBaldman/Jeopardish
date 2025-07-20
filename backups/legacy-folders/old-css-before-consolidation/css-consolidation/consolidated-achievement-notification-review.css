@@ -1,0 +1,190 @@
+/**
+ * CONSOLIDATED ACHIEVEMENT NOTIFICATION STYLES
+ * ===========================================
+ * 
+ * CURRENT STATE:
+ * - Defined identically in 2 files:
+ *   1. styles.css (lines 1158-1200)
+ *   2. src/styles/main.css (lines 1124-1166)
+ * - Complete duplication with no variations
+ * 
+ * RECOMMENDATION: 
+ * Move to a single location (recommended: src/styles/components/notifications.css)
+ * and remove from both current files
+ */
+
+/* ===== CORE ACHIEVEMENT NOTIFICATION STYLES ===== */
+
+/* Base notification container */
+.achievement-notification {
+    /* Positioning */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    
+    /* Visual styling */
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #ffd700;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    
+    /* Layout */
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    
+    /* Animation - starts off-screen */
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+}
+
+/* Show state - slides in from right */
+.achievement-notification.show {
+    transform: translateX(0);
+}
+
+/* Icon styling */
+.achievement-notification i {
+    color: #ffd700;
+    font-size: 24px;
+}
+
+/* Content wrapper */
+.achievement-notification .notification-content {
+    color: #fffbe0;
+}
+
+/* Title styling */
+.achievement-notification h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    margin: 0 0 5px 0;
+    color: #ffd700;
+}
+
+/* Description styling */
+.achievement-notification p {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* ===== RESPONSIVE STYLES ===== */
+
+@media (max-width: 768px) {
+    .achievement-notification {
+        /* Full width on mobile with margins */
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        padding: 10px;
+    }
+
+    .achievement-notification i {
+        font-size: 20px;
+    }
+
+    .achievement-notification h3 {
+        font-size: 12px;
+    }
+
+    .achievement-notification p {
+        font-size: 10px;
+    }
+}
+
+/* ===== POTENTIAL ENHANCEMENT MODIFIERS ===== */
+
+/**
+ * These modifiers could be added to support different notification types
+ * without duplicating the base styles
+ */
+
+/* Error variant */
+.achievement-notification.achievement-notification--error {
+    border-color: #ff4444;
+}
+
+.achievement-notification.achievement-notification--error i,
+.achievement-notification.achievement-notification--error h3 {
+    color: #ff4444;
+}
+
+/* Success variant (default is already gold/success themed) */
+.achievement-notification.achievement-notification--success {
+    /* Inherits default gold theme */
+}
+
+/* Info variant */
+.achievement-notification.achievement-notification--info {
+    border-color: #4a90e2;
+}
+
+.achievement-notification.achievement-notification--info i,
+.achievement-notification.achievement-notification--info h3 {
+    color: #4a90e2;
+}
+
+/* Position modifiers */
+.achievement-notification.achievement-notification--bottom-right {
+    top: auto;
+    bottom: 20px;
+}
+
+.achievement-notification.achievement-notification--top-left {
+    right: auto;
+    left: 20px;
+    transform: translateX(-120%);
+}
+
+.achievement-notification.achievement-notification--top-left.show {
+    transform: translateX(0);
+}
+
+/* ===== ANIMATION VARIATIONS ===== */
+
+/* Fade in variant */
+.achievement-notification.achievement-notification--fade {
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.achievement-notification.achievement-notification--fade.show {
+    opacity: 1;
+}
+
+/* Scale in variant */
+.achievement-notification.achievement-notification--scale {
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.achievement-notification.achievement-notification--scale.show {
+    transform: scale(1);
+}
+
+/* ===== MIGRATION NOTES ===== */
+
+/**
+ * USAGE IN JAVASCRIPT:
+ * - Search for: document.querySelector('.achievement-notification')
+ * - Search for: classList.add('show') / classList.remove('show')
+ * - Search for: achievement-notification creation/manipulation
+ * 
+ * FILES TO UPDATE:
+ * 1. Remove lines 1158-1200 from styles.css
+ * 2. Remove lines 1124-1166 from src/styles/main.css
+ * 3. Add @import or <link> to new notifications.css file
+ * 
+ * TESTING CHECKLIST:
+ * □ Achievement notifications appear when triggered
+ * □ Slide-in animation works correctly
+ * □ Mobile responsive styles apply properly
+ * □ Icon and text colors are correct
+ * □ Z-index keeps notification above other content
+ * □ Multiple notifications can stack if needed
+ */

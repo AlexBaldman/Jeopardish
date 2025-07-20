@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini AI Setup Guide - Jeopardish</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #1a1a1a;
+            color: #ffd700;
+        }
+        h1, h2 {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        .step {
+            background: #2a2a2a;
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #ffd700;
+        }
+        a {
+            color: #4287f5;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background: #3a3a3a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #fff;
+        }
+        .warning {
+            background: #4a3a00;
+            border: 2px solid #ff9800;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #1a4a1a;
+            border: 2px solid #4CAF50;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 Gemini AI Setup Guide for Jeopardish</h1>
+    
+    <p>Follow these steps to enable AI-powered features in Jeopardish, including AI-generated questions and witty Alex Trebek responses!</p>
+    
+    <div class="step">
+        <h3>Step 1: Get a Free Gemini API Key</h3>
+        <ol>
+            <li>Visit <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></li>
+            <li>Sign in with your Google account</li>
+            <li>Click "Create API Key"</li>
+            <li>Choose "Create API key in new project"</li>
+            <li>Copy your API key (it looks like: <code>AIzaSy...</code>)</li>
+        </ol>
+        <p><strong>Note:</strong> The free tier includes 60 requests per minute, which is plenty for playing Jeopardish!</p>
+    </div>
+    
+    <div class="step">
+        <h3>Step 2: Add Your API Key to Jeopardish</h3>
+        <ol>
+            <li>Go back to <a href="http://localhost:3001">Jeopardish</a></li>
+            <li>Click the hamburger menu (☰) in the top right</li>
+            <li>Click "Settings"</li>
+            <li>Scroll down to "AI Host Settings"</li>
+            <li>Paste your API key in the input field</li>
+            <li>Click "Save"</li>
+            <li>Make sure "Enable AI Host" is checked</li>
+        </ol>
+    </div>
+    
+    <div class="step">
+        <h3>Step 3: Test It Out!</h3>
+        <p>Once your API key is saved:</p>
+        <ul>
+            <li>You should see an AI-generated greeting from Alex Trebek</li>
+            <li>Questions will be rewritten with Trebek's personality</li>
+            <li>Correct/incorrect answers will get personalized responses</li>
+            <li>The ticker will show AI-generated comedy messages</li>
+        </ul>
+    </div>
+    
+    <div class="warning">
+        <h3>⚠️ Important Security Note</h3>
+        <p>Your API key is stored locally in your browser and is never sent to any server except Google's API. However, for production use, you should:</p>
+        <ul>
+            <li>Use environment variables to store the API key</li>
+            <li>Set up API key restrictions in Google Cloud Console</li>
+            <li>Consider using a backend proxy to hide the key from client-side code</li>
+        </ul>
+    </div>
+    
+    <div class="success">
+        <h3>✅ Troubleshooting</h3>
+        <p>If the AI features aren't working:</p>
+        <ul>
+            <li>Check the browser console for error messages</li>
+            <li>Verify your API key is correct (no extra spaces)</li>
+            <li>Make sure you have internet connection</li>
+            <li>Try refreshing the page after saving your API key</li>
+            <li>Run <code>testGemini()</code> in the browser console to test the integration</li>
+        </ul>
+    </div>
+    
+    <p style="text-align: center; margin-top: 40px;">
+        <a href="http://localhost:3001">← Back to Jeopardish</a>
+    </p>
+</body>
+</html>

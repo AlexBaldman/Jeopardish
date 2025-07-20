@@ -1,0 +1,247 @@
+/**
+ * CONSOLIDATED SPEECH BUBBLE CSS - REVIEW DOCUMENT
+ * ================================================
+ * This file consolidates all speech bubble styles from multiple CSS files
+ * into a single, organized structure. Each section includes explanations
+ * of what was consolidated and why.
+ * 
+ * SOURCE FILES ANALYZED:
+ * - /client/components/speech-bubble/speech-bubble.css
+ * - /client/css/styles.css
+ * - /client/css/layout.css
+ * 
+ * REVIEW THIS FILE BEFORE IMPLEMENTATION
+ */
+
+/* ========================================================================
+   BASE SPEECH BUBBLE STYLES
+   ========================================================================
+   
+   EXPLANATION: These are the core styles that should apply to ALL speech bubbles.
+   Consolidated from:
+   - speech-bubble.css (primary source)
+   - styles.css (had conflicting values)
+   - layout.css (had additional properties)
+   
+   CHANGES MADE:
+   - Used speech-bubble.css as the authoritative source
+   - Removed duplicate/conflicting properties
+   - Added missing properties from layout.css that enhance the base style
+*/
+
+.speechBubble {
+  /* Positioning - From speech-bubble.css */
+  position: absolute;
+  z-index: 10000;
+  
+  /* Layout - Consolidated from all sources */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Dimensions - From speech-bubble.css (authoritative) */
+  width: 300px;
+  height: 200px;
+  padding: 20px;
+  
+  /* Visual styling - From speech-bubble.css */
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 3px solid #333;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+  /* Typography - From speech-bubble.css */
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  
+  /* Animation - From speech-bubble.css */
+  animation: speechBubbleBounce 0.5s ease-out;
+  
+  /* Pointer events - From layout.css (important for interactivity) */
+  pointer-events: none;
+}
+
+/* ========================================================================
+   SPEECH BUBBLE ARROW/TAIL
+   ========================================================================
+   
+   EXPLANATION: The pseudo-element that creates the speech bubble's tail.
+   Found only in speech-bubble.css, which is good - no duplication here.
+*/
+
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #333;
+}
+
+/* ========================================================================
+   SPEECH BUBBLE VARIANTS/MODIFIERS
+   ========================================================================
+   
+   EXPLANATION: These are variations of the base speech bubble style.
+   Instead of duplicating all properties, we use modifier classes.
+*/
+
+/* White background variant - From layout.css */
+.speechBubble--white {
+  background-color: white;
+}
+
+/* Small variant - New recommendation for mobile/compact views */
+.speechBubble--small {
+  width: 200px;
+  height: 150px;
+  padding: 15px;
+  font-size: 16px;
+}
+
+/* Large variant - For important messages */
+.speechBubble--large {
+  width: 400px;
+  height: 250px;
+  padding: 25px;
+  font-size: 20px;
+}
+
+/* ========================================================================
+   RESPONSIVE STYLES
+   ========================================================================
+   
+   EXPLANATION: Media queries consolidated from speech-bubble.css.
+   These ensure speech bubbles work well on different screen sizes.
+*/
+
+@media (max-width: 768px) {
+  .speechBubble {
+    /* Reduce size on mobile devices */
+    width: 200px;
+    height: 150px;
+    padding: 15px;
+    font-size: 16px;
+  }
+  
+  /* Adjust arrow size proportionally */
+  .speechBubble::after {
+    bottom: -15px;
+    border-left-width: 15px;
+    border-right-width: 15px;
+    border-top-width: 15px;
+  }
+}
+
+/* ========================================================================
+   ANIMATIONS
+   ========================================================================
+   
+   EXPLANATION: Animation keyframes used by speech bubbles.
+   Currently only found in speech-bubble.css - good, no duplication.
+*/
+
+@keyframes speechBubbleBounce {
+  0% {
+    transform: scale(0) translateY(-20px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) translateY(0);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ========================================================================
+   UTILITY CLASSES (NEW RECOMMENDATION)
+   ========================================================================
+   
+   EXPLANATION: Additional utility classes for common modifications.
+   These help prevent future duplication by providing reusable modifiers.
+*/
+
+/* Position modifiers */
+.speechBubble--top {
+  /* Position bubble above target */
+}
+
+.speechBubble--bottom {
+  /* Position bubble below target - default */
+}
+
+.speechBubble--left {
+  /* Position bubble to the left of target */
+}
+
+.speechBubble--right {
+  /* Position bubble to the right of target */
+}
+
+/* State modifiers */
+.speechBubble--hidden {
+  display: none;
+}
+
+.speechBubble--visible {
+  display: flex;
+}
+
+/* Theme modifiers */
+.speechBubble--success {
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+.speechBubble--error {
+  border-color: #f44336;
+  color: #f44336;
+}
+
+.speechBubble--warning {
+  border-color: #ff9800;
+  color: #ff9800;
+}
+
+/* ========================================================================
+   IMPLEMENTATION NOTES
+   ========================================================================
+   
+   1. MIGRATION PLAN:
+      - Move this consolidated CSS to /client/components/speech-bubble/speech-bubble.css
+      - Remove duplicate definitions from styles.css and layout.css
+      - Update any component-specific overrides to use modifier classes
+   
+   2. USAGE EXAMPLES:
+      - Basic speech bubble: <div class="speechBubble">Hello!</div>
+      - Small white bubble: <div class="speechBubble speechBubble--small speechBubble--white">Hi!</div>
+      - Success message: <div class="speechBubble speechBubble--success">Correct!</div>
+   
+   3. BENEFITS:
+      - Single source of truth for speech bubble styles
+      - Easy to maintain and modify
+      - Reduced CSS file size (no duplication)
+      - Clear naming conventions with BEM-style modifiers
+      - Better performance (fewer CSS rules to parse)
+   
+   4. POTENTIAL ISSUES TO CHECK:
+      - Ensure no JavaScript depends on specific CSS values from old files
+      - Check if any components override these styles locally
+      - Verify that the consolidated styles don't break existing layouts
+   
+   5. TESTING CHECKLIST:
+      [ ] Test basic speech bubble appearance
+      [ ] Test all modifier classes
+      [ ] Test responsive behavior on mobile/tablet/desktop
+      [ ] Test animation performance
+      [ ] Check z-index doesn't conflict with other UI elements
+      [ ] Verify pointer-events: none doesn't break expected interactions
+*/

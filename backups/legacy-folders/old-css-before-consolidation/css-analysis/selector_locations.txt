@@ -1,0 +1,3675 @@
+Selector: :hover (used 145 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: #ffd700 (used 143 times)
+Found in:
+  - ./styles.css
+  - ./css/ai-trebek.css
+  - ./css/speech-bubble.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/speech-bubble.css
+  - ./src/styles/main.css
+
+Selector: :var (used 122 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #fff (used 91 times)
+Found in:
+  - ./styles.css
+  - ./css/thought-bubble-simple.css
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css/speech-bubble.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/thought-bubble-simple.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/base.css
+  - ./src/styles/main.css
+
+Selector: #fffbe0 (used 90 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: :before (used 88 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/layout.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .speechBubble (used 70 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./css/speech-bubble.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/speech-bubble.css
+  - ./src/styles/main.css
+
+Selector: .achievement-notification (used 60 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: :after (used 54 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/ai-trebek.css
+  - ./css/buttons.css
+  - ./css/speech-bubble.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/styles-fixed.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: #f6ffa5e8 (used 50 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: p (used 48 times)
+Found in:
+  - ./styles.css
+  - ./css/thought-bubble-simple.css
+  - ./css/animations.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/input.css
+  - ./css/ai-trebek.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css/fonts.css
+  - ./css/media-queries.css
+  - ./css/speech-bubble.css
+  - ./css/base.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./fonts/stylesheet.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/thought-bubble-simple.css
+  - ./css-history/animations.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/input.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/base.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/fonts/stylesheet.css
+
+Selector: .modal (used 48 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .active (used 46 times)
+Found in:
+  - ./styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: body (used 44 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/layout.css
+  - ./css/media-queries.css
+  - ./css/base.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/base.css
+  - ./css-history/styles-fixed.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .palm-tree (used 44 times)
+Found in:
+  - ./styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .game-container (used 44 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./css/media-queries.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./src/styles/main.css
+
+Selector: .setting-item (used 42 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #scoreboard (used 41 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/scoreboard-updates.css
+  - ./src/styles/main.css
+
+Selector: .main-content (used 38 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .achievement-item (used 36 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: :active (used 36 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/buttons.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: #ffffff (used 35 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/speech-bubble.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/scoreboard-updates.css
+  - ./src/styles/main.css
+
+Selector: #lang-btn (used 34 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: to (used 32 times)
+Found in:
+  - ./styles.css
+  - ./css/thought-bubble-simple.css
+  - ./css/animations.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/input.css
+  - ./css/ai-trebek.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css/media-queries.css
+  - ./css/speech-bubble.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/thought-bubble-simple.css
+  - ./css-history/animations.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/input.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .user-profile (used 32 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .modal-content (used 31 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .button-div (used 31 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .game-header (used 30 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .speech-bubble (used 29 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: #inputBox (used 27 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: :focus (used 27 times)
+Found in:
+  - ./styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: i (used 26 times)
+Found in:
+  - ./styles.css
+  - ./css/thought-bubble-simple.css
+  - ./css/animations.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/input.css
+  - ./css/ai-trebek.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css/fonts.css
+  - ./css/media-queries.css
+  - ./css/speech-bubble.css
+  - ./css/base.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./fonts/stylesheet.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/thought-bubble-simple.css
+  - ./css-history/animations.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/input.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/base.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/fonts/stylesheet.css
+
+Selector: .side-menu (used 26 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .input-section (used 24 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .host-select-btn (used 24 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .host-container (used 24 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .host-animation-item (used 24 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .ticker-plane (used 23 times)
+Found in:
+  - ./styles.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .input-div (used 22 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./src/styles/main.css
+
+Selector: .scoreboard (used 21 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/scoreboard-updates.css
+  - ./src/styles/main.css
+
+Selector: .score-value (used 21 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .png (used 21 times)
+Found in:
+  - ./styles.css
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./coverage/lcov-report/base.css
+  - ./src/styles/main.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: .coverage-summary (used 21 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: #ff00de (used 20 times)
+Found in:
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+
+Selector: #f6ffa5 (used 20 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/scoreboard-updates.css
+  - ./src/styles/main.css
+
+Selector: .scoreboard-content (used 20 times)
+Found in:
+  - ./css/styles.css
+  - ./css/scoreboard-updates.css
+  - ./css-history/scoreboard-updates.css
+
+Selector: #valueBox (used 19 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/speech-bubble.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/speech-bubble.css
+  - ./src/styles/main.css
+
+Selector: .com (used 19 times)
+Found in:
+  - ./css/fonts.css
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./css-comparison/comparison-styles.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: from (used 18 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/layout.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .trebek (used 18 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/ai-trebek.css
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: .stat-item (used 18 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .peeking-scoreboard-container (used 18 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .logo-image (used 18 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .host-animation-trigger (used 18 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .help-section (used 18 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .disco-mode (used 18 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .clue-cell (used 18 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .show (used 17 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: :none (used 17 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+
+Selector: face (used 16 times)
+Found in:
+  - ./css/fonts.css
+  - ./css/base.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./fonts/stylesheet.css
+  - ./css-history/base.css
+  - ./src/assets/fonts/stylesheet.css
+
+Selector: #questionBox (used 16 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/speech-bubble.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/speech-bubble.css
+  - ./src/styles/main.css
+
+Selector: #ff00ff (used 16 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .woff2 (used 16 times)
+Found in:
+  - ./css/fonts.css
+  - ./css/base.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./fonts/stylesheet.css
+  - ./css-history/base.css
+  - ./src/assets/fonts/stylesheet.css
+
+Selector: :nth-child (used 16 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: :center (used 16 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/base.css
+
+Selector: button (used 14 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: #categoryBox (used 14 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/speech-bubble.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/speech-bubble.css
+  - ./src/styles/main.css
+
+Selector: .woff (used 14 times)
+Found in:
+  - ./css/fonts.css
+  - ./css/base.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./fonts/stylesheet.css
+  - ./css-history/base.css
+  - ./src/assets/fonts/stylesheet.css
+
+Selector: .score-label (used 14 times)
+Found in:
+  - ./css/styles.css
+  - ./css/scoreboard-updates.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/scoreboard-updates.css
+
+Selector: .logo-container (used 14 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .header-content (used 14 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .hamburger-line (used 14 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .hamburger-button (used 14 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .clues-grid (used 14 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .category (used 14 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: blink (used 13 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/input.css
+  - ./css/layout.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/input.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./src/styles/main.css
+
+Selector: #checkButton (used 13 times)
+Found in:
+  - ./css/styles.css
+  - ./css/buttons.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-history/buttons.css
+
+Selector: #ffe4b5 (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #ffb347 (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #ff1fc3c5 (used 12 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/base.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/base.css
+  - ./src/styles/main.css
+
+Selector: #f72585 (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #answerBox (used 12 times)
+Found in:
+  - ./css/styles.css
+  - ./css/speech-bubble.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/speech-bubble.css
+
+Selector: .title-bar-right (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .title-bar-left (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .title-bar (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .stats-grid (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .settings-section (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .scoreboard-text (used 12 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/scoreboard-updates.css
+  - ./src/styles/main.css
+
+Selector: .peek-handle (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .palm-leaf (used 12 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .onlinewebfonts (used 12 times)
+Found in:
+  - ./css/fonts.css
+
+Selector: .modal-close (used 12 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .modal-body (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .menu-overlay (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .host-selection-buttons (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .host-selection (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .host-animation-grid (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .disco-ball (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .close-menu-button (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .btn-jeopardish (used 12 times)
+Found in:
+  - ./css/buttons.css
+  - ./css-history/buttons.css
+
+Selector: .achievements-grid (used 12 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #ff1fc3 (used 11 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/base.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/base.css
+  - ./css-history/scoreboard-updates.css
+  - ./src/styles/main.css
+
+Selector: .title-image (used 11 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .ticker-content (used 11 times)
+Found in:
+  - ./styles.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .input-wrapper (used 11 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: track (used 10 times)
+Found in:
+  - ./styles.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: thumb (used 10 times)
+Found in:
+  - ./styles.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: scrollbar (used 10 times)
+Found in:
+  - ./styles.css
+  - ./css/scoreboard-updates.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: #ffcc00 (used 10 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #ddd (used 10 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./coverage/lcov-report/base.css
+  - ./src/styles/main.css
+
+Selector: #answerButton (used 10 times)
+Found in:
+  - ./css/styles.css
+  - ./css/buttons.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./css-history/buttons.css
+
+Selector: .ticker-unit (used 10 times)
+Found in:
+  - ./styles.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .right (used 10 times)
+Found in:
+  - ./styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .palm-leaves (used 10 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .left (used 10 times)
+Found in:
+  - ./styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .custom-btn (used 10 times)
+Found in:
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+
+Selector: .clue-value (used 10 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .button (used 10 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: :translateY (used 10 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #ccc (used 9 times)
+Found in:
+  - ./css/styles.css
+  - ./css/input.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/input.css
+  - ./coverage/lcov-report/base.css
+
+Selector: #bbb (used 9 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./coverage/lcov-report/base.css
+  - ./src/styles/main.css
+
+Selector: .lang-text (used 9 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .container (used 9 times)
+Found in:
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: #questionButton (used 8 times)
+Found in:
+  - ./css/styles.css
+  - ./css/buttons.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./css-history/buttons.css
+
+Selector: #FFCC00 (used 8 times)
+Found in:
+  - ./styles.css
+  - ./css/buttons.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/buttons.css
+  - ./src/styles/main.css
+
+Selector: .visible (used 8 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .slider (used 8 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .palm-trunk (used 8 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .game-board (used 8 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .g (used 8 times)
+Found in:
+  - ./styles.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/layout.css
+  - ./css/media-queries.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: .form-textarea (used 8 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .event-ticker (used 8 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .categories-container (used 8 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .btn (used 8 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./css/buttons.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/buttons.css
+
+Selector: .ai-trebek-avatar (used 8 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .ai-trebek (used 8 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: :flex (used 8 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :all (used 8 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: label (used 7 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/scoreboard-updates.css
+  - ./src/styles/main.css
+
+Selector: .footer (used 7 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./coverage/lcov-report/base.css
+  - ./src/styles/main.css
+
+Selector: .custom-cursor (used 7 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: sway (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: svg (used 6 times)
+Found in:
+  - ./styles.css
+  - ./css/styles-unified.css
+  - ./css/layout.css
+  - ./css/fonts.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./src/styles/main.css
+
+Selector: spin (used 6 times)
+Found in:
+  - ./css/animations.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/animations.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: scoreUpdateEffect (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: popIn (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: planeFlyBy (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: img (used 6 times)
+Found in:
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: discoSparkle (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: discoRotate (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: discoColors (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: discoBeams (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: bannerWave (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #trebek (used 6 times)
+Found in:
+  - ./css/layout.css
+  - ./css-history/layout.css
+
+Selector: #joint-smoke (used 6 times)
+Found in:
+  - ./css/layout.css
+  - ./css-history/layout.css
+
+Selector: #f94144 (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #f3722c (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #f0f0f0 (used 6 times)
+Found in:
+  - ./css/styles.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./css-comparison/comparison-styles.css
+
+Selector: #e2b07a (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #c49a6c (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #b5179e (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: #a97c50 (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .updated (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .unlocked (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .title-text (used 6 times)
+Found in:
+  - ./css/layout.css
+  - ./css-history/layout.css
+
+Selector: .ticker-banner (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .ticker (used 6 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .tab-button (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .stats-chart (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .simpsonsButton (used 6 times)
+Found in:
+  - ./css/buttons.css
+  - ./css-history/buttons.css
+
+Selector: .score-display (used 6 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .score-change (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .player-score (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .player-card (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .pixel-question-mark (used 6 times)
+Found in:
+  - ./css/layout.css
+  - ./css-history/layout.css
+
+Selector: .notification-content (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .modal-backdrop (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .menu-items (used 6 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .menu-header (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .locked (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .loading (used 6 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .host-exclamation (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .header-profile (used 6 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .form-select (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .form-input (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .feedback-message (used 6 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .feature-icon (used 6 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./src/styles/main.css
+
+Selector: .categories (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .body (used 6 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .answered (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .ai-trebek-container (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :root (used 6 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: :repeat (used 6 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :hidden (used 6 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/base.css
+
+Selector: :block (used 6 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/base.css
+
+Selector: span (used 5 times)
+Found in:
+  - ./css/styles.css
+  - ./css/buttons.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./coverage/lcov-report/base.css
+
+Selector: flyAcross (used 5 times)
+Found in:
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css-history/animations.css
+
+Selector: .coverage (used 5 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: :url (used 5 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: rise (used 4 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: pulse (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: glow (used 4 times)
+Found in:
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: fadeIn (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./css/ai-trebek.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: a (used 4 times)
+Found in:
+  - ./styles.css
+  - ./css/thought-bubble-simple.css
+  - ./css/animations.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/input.css
+  - ./css/ai-trebek.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css/fonts.css
+  - ./css/media-queries.css
+  - ./css/speech-bubble.css
+  - ./css/base.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./fonts/stylesheet.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/thought-bubble-simple.css
+  - ./css-history/animations.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/input.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/base.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/fonts/stylesheet.css
+
+Selector: #FFD700 (used 4 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: #ff006e (used 4 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: #f9fafb (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #f3f4f6 (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-comparison/comparison-styles.css
+
+Selector: #eaf818 (used 4 times)
+Found in:
+  - ./css/buttons.css
+  - ./css-history/buttons.css
+
+Selector: #cc0000 (used 4 times)
+Found in:
+  - ./css/styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .w3 (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+
+Selector: .typ (used 4 times)
+Found in:
+  - ./css-comparison/comparison-styles.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+
+Selector: .trebek-sprite-1 (used 4 times)
+Found in:
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: .trebek-intro-container (used 4 times)
+Found in:
+  - ./css/ai-trebek.css
+  - ./css-history/ai-trebek.css
+
+Selector: .trebek-intro (used 4 times)
+Found in:
+  - ./css/ai-trebek.css
+  - ./css-history/ai-trebek.css
+
+Selector: .title-div (used 4 times)
+Found in:
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+
+Selector: .ticker-item (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .ticker-container (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .theme-switch (used 4 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .text-center (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .svg (used 4 times)
+Found in:
+  - ./css/layout.css
+  - ./css/fonts.css
+  - ./css-history/layout.css
+
+Selector: .status-line (used 4 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .smoke (used 4 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .scoreboard-title (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .player-scores (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .org (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+
+Selector: .negative (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .menu-toggle (used 4 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .medium (used 4 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .main-content-wrapper (used 4 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .low (used 4 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .host-image (used 4 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .highlighted (used 4 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .high (used 4 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .hidden (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .header-icon-btn (used 4 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .game-content (used 4 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .eot (used 4 times)
+Found in:
+  - ./css/fonts.css
+
+Selector: .draggable-resizable (used 4 times)
+Found in:
+  - ./css/styles.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+
+Selector: .cursor (used 4 times)
+Found in:
+  - ./css/input.css
+  - ./css/layout.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/input.css
+  - ./css-history/layout.css
+
+Selector: .cover-fill (used 4 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .classList (used 4 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .chart (used 4 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .cbranch-no (used 4 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .btn-success (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .btn-primary (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .btn-group (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .btn-gold (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .btn-danger (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .btn-block (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :translate (used 4 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :swap (used 4 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :scale (used 4 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :pointer (used 4 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :Korinna (used 4 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :image (used 4 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+
+Selector: :grid (used 4 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :checked (used 4 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: :border-box (used 4 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/base.css
+
+Selector: :absolute (used 4 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: textarea (used 3 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-comparison/comparison-styles.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: td (used 3 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: html (used 3 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/base.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/base.css
+  - ./coverage/lcov-report/base.css
+  - ./src/styles/main.css
+
+Selector: #inputbox (used 3 times)
+Found in:
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+
+Selector: #ff3333 (used 3 times)
+Found in:
+  - ./css/styles.css
+  - ./_____assets/components/arcade-cabinet.css
+
+Selector: #ff0000 (used 3 times)
+Found in:
+  - ./_____assets/components/arcade-cabinet.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: #fbbf24 (used 3 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-comparison/comparison-styles.css
+
+Selector: #d4d4d4 (used 3 times)
+Found in:
+  - ./css/styles.css
+  - ./css-comparison/comparison-styles.css
+
+Selector: #C21F39 (used 3 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .typography-demo (used 3 times)
+Found in:
+  - ./css-comparison/comparison-styles.css
+
+Selector: .sorter (used 3 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .media-modal (used 3 times)
+Found in:
+  - ./css/styles.css
+
+Selector: .changing (used 3 times)
+Found in:
+  - ./css/styles.css
+  - ./css/scoreboard-updates.css
+  - ./css-history/scoreboard-updates.css
+
+Selector: .btn-flat-modern (used 3 times)
+Found in:
+  - ./css-comparison/comparison-styles.css
+
+Selector: :rgb (used 3 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: :italic (used 3 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/prettify.css
+
+Selector: :fixed (used 3 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :bold (used 3 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: :auto (used 3 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: tubeBoot (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: titleAnimation (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: tickerMove (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: th (used 2 times)
+Found in:
+  - ./styles.css
+  - ./css/thought-bubble-simple.css
+  - ./css/animations.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/input.css
+  - ./css/ai-trebek.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css/media-queries.css
+  - ./css/speech-bubble.css
+  - ./css/base.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/thought-bubble-simple.css
+  - ./css-history/animations.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/input.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/base.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: talk (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: smoke (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css/layout.css
+  - ./css-history/animations.css
+  - ./css-history/layout.css
+
+Selector: slideUp (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: slideIn (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: slide (used 2 times)
+Found in:
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: scroll (used 2 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/media-queries.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: scoreUpdatePulse (used 2 times)
+Found in:
+  - ./css/scoreboard-updates.css
+  - ./css-history/scoreboard-updates.css
+
+Selector: scorePopup (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: scoreboardSlideIn (used 2 times)
+Found in:
+  - ./css/scoreboard-updates.css
+  - ./css-history/scoreboard-updates.css
+
+Selector: print (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+
+Selector: pixelRise (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: nesRise (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: modalSlideIn (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: lights (used 2 times)
+Found in:
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+
+Selector: li (used 2 times)
+Found in:
+  - ./styles.css
+  - ./css/thought-bubble-simple.css
+  - ./css/animations.css
+  - ./css/ticker.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/input.css
+  - ./css/ai-trebek.css
+  - ./css/layout.css
+  - ./css/buttons.css
+  - ./css/fonts.css
+  - ./css/media-queries.css
+  - ./css/speech-bubble.css
+  - ./css/base.css
+  - ./css/scoreboard-updates.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+  - ./_____assets/components/arcade-cabinet.css
+  - ./_____assets/components/nextjs-components/JeopardishRetroGame.module.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./fonts/stylesheet.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/thought-bubble-simple.css
+  - ./css-history/animations.css
+  - ./css-history/ticker.css
+  - ./css-history/styles.css
+  - ./css-history/input.css
+  - ./css-history/ai-trebek.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/buttons.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/speech-bubble.css
+  - ./css-history/base.css
+  - ./css-history/styles-fixed.css
+  - ./css-history/scoreboard-updates.css
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/fonts/stylesheet.css
+
+Selector: jointSmoke (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: input (used 2 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./css/styles-unified.css
+  - ./css/input.css
+  - ./css/layout.css
+  - ./css/media-queries.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_bing.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-comparison/comparison-styles.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/input.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+  - ./src/styles/main.css
+
+Selector: flash (used 2 times)
+Found in:
+  - ./styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: fadeInOut (used 2 times)
+Found in:
+  - ./css/ai-trebek.css
+  - ./css-history/ai-trebek.css
+
+Selector: else (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: bobUpDown (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css-history/animations.css
+
+Selector: appear (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css/scoreboard-updates.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./css-history/media-queries.css
+  - ./css-history/scoreboard-updates.css
+
+Selector: #Korinna (used 2 times)
+Found in:
+  - ./css/fonts.css
+
+Selector: #iefix (used 2 times)
+Found in:
+  - ./css/fonts.css
+
+Selector: #get-question (used 2 times)
+Found in:
+  - ./______MISC/old-version-files/style_bing.css
+
+Selector: #FFFFFF (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: #FFFF00 (used 2 times)
+Found in:
+  - ./css/buttons.css
+  - ./css-history/buttons.css
+
+Selector: #FFE4E1 (used 2 times)
+Found in:
+  - ./css/styles.css
+
+Selector: #FFDD00 (used 2 times)
+Found in:
+  - ./css/buttons.css
+  - ./css-history/buttons.css
+
+Selector: #FFA500 (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: #ff9900 (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: #FF69B4 (used 2 times)
+Found in:
+  - ./css/styles.css
+
+Selector: #ff4444 (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: #ff4081 (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: #FF1493 (used 2 times)
+Found in:
+  - ./css/styles.css
+
+Selector: #fbbf2480 (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #fbbf2400 (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #f9f9f9 (used 2 times)
+Found in:
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+
+Selector: #f9cd0b (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: #f6fc9c (used 2 times)
+Found in:
+  - ./css/buttons.css
+  - ./css-history/buttons.css
+
+Selector: #f5f5f5 (used 2 times)
+Found in:
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+
+Selector: #f59e0b (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #f4f4f4 (used 2 times)
+Found in:
+  - ./css/styles.css
+  - ./_____assets/components/draggable-resizeable/draggable-resizeable.css
+
+Selector: #f0f0f5 (used 2 times)
+Found in:
+  - ./css-comparison/comparison-styles.css
+
+Selector: #ef4444 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #e5e7eb (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #dc2626 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: #dataBox (used 2 times)
+Found in:
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+
+Selector: #aa00ff (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .visualViewport (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .visualstudio (used 2 times)
+Found in:
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: .tube-tv-screen (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .ttf (used 2 times)
+Found in:
+  - ./css/fonts.css
+
+Selector: .trebek-good-05 (used 2 times)
+Found in:
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: .title-animation (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .title (used 2 times)
+Found in:
+  - ./styles.css
+  - ./css/animations.css
+  - ./css/styles.css
+  - ./css/layout.css
+  - ./styles-backup-20250704-151020.css
+  - ./______MISC/old-version-files/style_BACKUP.css
+  - ./______MISC/old-version-files/style2.css
+  - ./______MISC/old-version-files/style_chatgpt.css
+  - ./______MISC/old-version-files/style-chatGPT1.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/animations.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./src/styles/main.css
+
+Selector: .ticker-wrap (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .thought-bubble (used 2 times)
+Found in:
+  - ./css/thought-bubble-simple.css
+  - ./css-history/thought-bubble-simple.css
+
+Selector: .theme-switch-container (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .text-xlarge (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-success (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-small (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-right (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-primary (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-light (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-left (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-large (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-gold (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-danger (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .text-bold (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .talking (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .tag (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .success (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .str (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+
+Selector: .sprite (used 2 times)
+Found in:
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: .speech-text (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .smoke-container (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .slide-up (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .skip-if-branch (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .score-updated (used 2 times)
+Found in:
+  - ./css/scoreboard-updates.css
+  - ./css-history/scoreboard-updates.css
+
+Selector: .revealed (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .remove (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .quiet (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .question-image (used 2 times)
+Found in:
+  - ./css/styles.css
+
+Selector: .pun (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .propeller (used 2 times)
+Found in:
+  - ./css/ticker.css
+  - ./css-history/ticker.css
+
+Selector: .prettyprint (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+  - ./coverage/lcov-report/base.css
+
+Selector: .positive (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .player-name (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .plane (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .pixel-smoke (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .pic (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .pct (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .path (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .p-4 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .p-3 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .p-2 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .p-1 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .p-0 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .opn (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .open (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .nes-smoke (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .mt-4 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .mt-3 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .mt-20 (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .mt-2 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .mt-1 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .mt-0 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .modal-title (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .modal-header (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .missing-if-branch (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .media-button (used 2 times)
+Found in:
+  - ./css/styles.css
+
+Selector: .mb-4 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .mb-3 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .mb-20 (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .mb-2 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .mb-1 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .mb-0 (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .loading-spinner (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: .lit (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .L7 (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .L5 (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .L3 (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .L1 (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .kwd (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .keyboard-open (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .joint-smoke (used 2 times)
+Found in:
+  - ./css/animations.css
+  - ./css-history/animations.css
+
+Selector: .invisible (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .inputBox (used 2 times)
+Found in:
+  - ./css/input.css
+  - ./css-history/input.css
+
+Selector: .input-modern (used 2 times)
+Found in:
+  - ./css-comparison/comparison-styles.css
+
+Selector: .input-container (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .initialized (used 2 times)
+Found in:
+  - ./css/scoreboard-updates.css
+  - ./css-history/scoreboard-updates.css
+
+Selector: .imagesprites (used 2 times)
+Found in:
+  - ./images/trebek/trebek-sprite-1.sprite.css
+  - ./src/assets/images/trebek/trebek-sprite-1.sprite.css
+
+Selector: .height (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .header (used 2 times)
+Found in:
+  - ./styles.css
+  - ./css/layout.css
+  - ./styles-backup-20250704-151020.css
+  - ./styles-frontend-fixes.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./css-history/layout.css
+  - ./css-history/styles-frontend-fixes.css
+  - ./src/styles/main.css
+
+Selector: .grid-container (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .fstat-no (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .form-radio (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .form-label (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .form-group (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .form-checkbox (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .flex-container (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .flex-center (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .file (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .fade-in (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .error (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .daily-double (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .cstat-no (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .cover-empty (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .content-wrapper (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .close-button (used 2 times)
+Found in:
+  - ./css/styles.css
+
+Selector: .clo (used 2 times)
+Found in:
+  - ./styles.css
+  - ./css/styles.css
+  - ./styles-backup-20250704-151020.css
+  - ./css-history/20250105/styles.css
+  - ./css-history/styles.css
+  - ./css-history/styles-backup-20250704-151020.css
+  - ./coverage/lcov-report/prettify.css
+  - ./src/styles/main.css
+
+Selector: .clientHeight (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .clearfix (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: .changed (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .button-tooltip (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: .bubble-tail (used 2 times)
+Found in:
+  - ./css/thought-bubble-simple.css
+  - ./css-history/thought-bubble-simple.css
+
+Selector: .bubble-content (used 2 times)
+Found in:
+  - ./css/thought-bubble-simple.css
+  - ./css-history/thought-bubble-simple.css
+
+Selector: .btn-small (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .btn-retro-3d (used 2 times)
+Found in:
+  - ./css-comparison/comparison-styles.css
+
+Selector: .btn-neon-glow (used 2 times)
+Found in:
+  - ./css-comparison/comparison-styles.css
+
+Selector: .btn-large (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: .atv (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .atn (used 2 times)
+Found in:
+  - ./coverage/lcov-report/prettify.css
+
+Selector: .arcade-cabinet (used 2 times)
+Found in:
+  - ./_____assets/components/arcade-cabinet.css
+
+Selector: .arcade-button (used 2 times)
+Found in:
+  - ./_____assets/components/arcade-cabinet.css
+
+Selector: .addEventListener (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .add (used 2 times)
+Found in:
+  - ./css/media-queries.css
+  - ./css-history/media-queries.css
+
+Selector: .abs (used 2 times)
+Found in:
+  - ./coverage/lcov-report/base.css
+
+Selector: :visible (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :underline (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/base.css
+
+Selector: :rotate (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :relative (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :placeholder (used 2 times)
+Found in:
+  - ./styles-frontend-fixes.css
+  - ./css-history/styles-frontend-fixes.css
+
+Selector: :nowrap (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :not (used 2 times)
+Found in:
+  - ./css/styles-unified.css
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :normal (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :linear-gradient (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
+Selector: :inline-block (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+  - ./coverage/lcov-report/base.css
+
+Selector: :disabled (used 2 times)
+Found in:
+  - ./css-history/styles-fixed.css
+  - ./styles-fixed.css
+
+Selector: :color (used 2 times)
+Found in:
+  - ./dist/assets/main-B9RkFYx-.css
+
