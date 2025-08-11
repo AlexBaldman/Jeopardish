@@ -241,6 +241,32 @@ document.addEventListener('DOMContentLoaded', () => {
             checkAnswer();
         }
     });
+
+    // Hamburger Menu Logic
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const dropdownMenu = document.getElementById('dropdown-menu');
+    const menuNewQuestion = document.getElementById('menu-new-question');
+    const menuShowHideAnswer = document.getElementById('menu-show-hide-answer');
+
+    if (hamburgerIcon && dropdownMenu) {
+        hamburgerIcon.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('open');
+        });
+    }
+
+    if (menuNewQuestion) {
+        menuNewQuestion.addEventListener('click', () => {
+            getNewQuestion();
+            if (dropdownMenu) dropdownMenu.classList.remove('open'); // Close menu
+        });
+    }
+
+    if (menuShowHideAnswer) {
+        menuShowHideAnswer.addEventListener('click', () => {
+            showHideAnswer();
+            if (dropdownMenu) dropdownMenu.classList.remove('open'); // Close menu
+        });
+    }
     
     // Initial question load
     getNewQuestion();
