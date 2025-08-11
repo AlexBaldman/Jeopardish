@@ -20,9 +20,19 @@
 
         <!-- TITLE -->
         <div class="title-div">
+            <button id="hamburger-icon" aria-label="Open menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 id="main-title">jeoPARODY!</h1>
+            <div class="title-spacer"></div> <!-- Spacer for centering title with flexbox -->
+        </div>
 
-            <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">
-
+        <!-- DROPDOWN MENU -->
+        <div id="dropdown-menu"> <!-- Will be controlled by JS, initially styled to be hidden -->
+            <ul>
+                <li><button id="menu-new-question">New Question</button></li>
+                <li><button id="menu-show-hide-answer">Show/Hide Answer</button></li>
+            </ul>
         </div>
 
         <!-- NEW QUESTION & SHOW/HIDE ANSWER BUTTONS -->

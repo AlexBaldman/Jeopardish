@@ -10,6 +10,15 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+@font-face {
+    font-family: 'Road Rage';
+    src: url('assets/fonts/Road_Rage.otf') format('opentype');
+    /* Note: The directory assets/fonts/ would need to be created
+       and Road_Rage.otf placed there. */
+    font-weight: normal;
+    font-style: normal;
+}
+
 .game-container {
     display: block;
     position: relative;
@@ -34,97 +43,252 @@ body {
     justify-content: space-around;
     display: flex;
     border-bottom: 2vh darkblue;
-    padding: 2vh 0; /* Added padding instead of fixed height */
+    padding: 2vh 15px; /* Added padding, ensure enough space for icon */
+    text-align: center; /* Ensure h1 is centered if it's inline-block or similar */
+    justify-content: space-between; /* Distribute space for icon, title, spacer */
 }
 
-.title-image {
-    display: flex;
-    background-color: rgb(48, 41, 245);
-    max-height: 15vh;
-    padding: 2vh;
-    border-radius: 35px;
-    margin: auto;
-    border: dotted .6vw rgb(244, 244, 146);
-    max-width: 80%; /* Ensure image fits on smaller screens */
-    height: auto;
+#hamburger-icon {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2.5em; /* Make icon larger */
+    cursor: pointer;
+    padding: 0.5vh 1vh;
+    display: flex; /* For centering icon if needed */
+    align-items: center;
+    justify-content: center;
+    /* order: -1; /* Optional: if you want it on the far left with space-between */
+}
+
+#hamburger-icon:hover {
+    color: #FFDD00; /* Yellow hover, consistent with other buttons */
+}
+
+.title-spacer {
+    width: 40px; /* Adjust width to match hamburger icon's approximate space or make it dynamic */
+    visibility: hidden; /* Keeps space but is not visible */
+}
+
+#main-title {
+    flex-grow: 1; /* Allow title to take available space, helping centering */
+    font-family: 'Road Rage', 'Impact', 'Arial Black', sans-serif; /* GTA-style font with fallbacks */
+    font-size: 8vh; /* Large, prominent font size */
+    color: #FFFFFF; /* White text */
+    text-shadow:
+        -2px -2px 0 #000000,
+         2px -2px 0 #000000,
+        -2px  2px 0 #000000,
+         2px  2px 0 #000000,
+        -3px  3px 5px #FF00FF; /* Black outline and a neon pink glow */
+    margin: 0; /* Remove default margin from h1 */
+    line-height: 1; /* Adjust line height to prevent excessive space */
+    padding: 1vh 0; /* Add some padding if needed, adjust with min/max height */
+}
+
+/* Styles for .title-image are removed as the element is no longer used. */
+
+/* == Unified Keyboard Button Style == */
+.keyboard-button {
+    display: flex; /* For centering text if needed */
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', 'Helvetica', sans-serif; /* Clear, legible font */
+    font-size: 1.1em; /* Adjust as needed */
+    font-weight: bold;
+    color: #333333; /* Dark gray text */
+    background-color: #F0F0F0; /* Light gray background */
+    border: 2px solid #555555;
+    border-bottom-width: 4px;
+    border-radius: 8px; /* Slightly rounded corners */
+    padding: 10px 20px; /* Adequate padding */
+    margin: 5px; /* Basic margin */
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.2);
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase; /* Consistent text styling */
+    transition: all 0.07s ease-out; /* Faster transition for "clacky" feel */
+    user-select: none; /* Prevent text selection on click */
+}
+
+.keyboard-button:hover {
+    background-color: #E0E0E0; /* Slightly darker on hover */
+    transform: translateY(-1px);
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.25);
+}
+
+.keyboard-button:active {
+    background-color: #D0D0D0; /* Darker when pressed */
+    transform: translateY(1px);
+    box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+    border-bottom-width: 2px; /* Simulate button press */
+}
+
+/* Dropdown Menu Styles */
+#dropdown-menu {
+    background-color: #293138; /* Same as title-div */
+    position: absolute;
+    top: 15vh; /* Position below the title-div (adjust if title-div height changes) */
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    transform: translateY(-150%); /* Start off-screen */
+    transition: transform 0.4s ease-in-out;
+    border-bottom: 2px solid darkblue;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    overflow: hidden; /* Needed if using max-height for transition */
+}
+
+#dropdown-menu.open {
+    transform: translateY(0);
+}
+
+#dropdown-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Applying Unified Keyboard Button Style to #dropdown-menu li button */
+/* Note: The original simpler style block for "#dropdown-menu li button" has been removed
+   as this more comprehensive rule block effectively replaces it. */
+#dropdown-menu li button {
+    display: flex; /* Changed from block to flex for align-items */
+    justify-content: flex-start; /* Align text to left */
+    align-items: center;
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 1.1em; /* Unified font size */
+    font-weight: bold;
+    color: #E0E0E0; /* Light gray text for contrast on dark menu */
+    background-color: #293138; /* Keep dark background of menu */
+    border: none; /* Remove default keyboard button border */
+    border-bottom: 1px solid #444; /* Separator line */
+    border-radius: 0; /* No rounded corners in menu */
+    padding: 15px 20px; /* Keep original padding */
+    margin: 0; /* No margin for menu items */
+    box-shadow: none; /* No shadow for menu items */
+    cursor: pointer;
+    text-align: left;
+    text-transform: uppercase;
+    transition: background-color 0.07s ease-out, color 0.07s ease-out; /* Only transition color and background */
+    user-select: none;
+    width: 100%; /* Ensure full width */
+}
+
+#dropdown-menu li button:hover {
+    background-color: #3e4a53; /* Darken background slightly on hover */
+    color: #FFFFFF; /* Text becomes brighter white */
+    /* No transform or box-shadow change for menu items */
+}
+
+#dropdown-menu li button:active {
+    background-color: #4a565f; /* Even darker background when pressed */
+    color: #FFFFFF;
+    /* No transform or box-shadow change, no border change */
+}
+
+#dropdown-menu li:last-child button {
+    border-bottom: none; /* No border for the last item - this rule must come AFTER the main rule */
 }
 
 .button-div {
     display: flex;
     justify-content: space-evenly;
-    background-color: rgb(41, 49, 56);
-    margin: 10 auto;
+    background-color: rgb(41, 49, 56); /* Keep this background for the container */
+    margin: 10px auto; /* Corrected '10 auto' */
     min-height: 10vh;
     align-items: center;
     flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-    padding: 2vh 0;
+    padding: 1vh 0;
 }
 
+/* Applying Unified Keyboard Button Style to #questionButton, #answerButton */
 #questionButton,
 #answerButton {
     display: flex;
-    font-family: 'Comic Sans MS', cursive, sans-serif; /* Cartoonish font */
-    height: 6vh;
-    font-size: 1.3em; /* Larger font size */
-    font-weight: bold;
-    text-align: center;
     justify-content: center;
     align-items: center;
-    background-color: #FFDD00; /* Bright yellow */
-    border: 5px solid #FFAA00; /* Darker yellow border */
-    border-radius: 30px; /* Rounded edges */
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-    color: #333; /* Dark text color */
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333333;
+    background-color: #F0F0F0;
+    border: 2px solid #555555;
+    border-bottom-width: 4px;
+    border-radius: 8px;
+    padding: 10px 15px; /* Adjusted padding for flex-basis */
+    margin: 5px;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.2);
     cursor: pointer;
-    padding: 15px 30px;
-    transition: all 0.3s ease;
+    text-align: center;
     text-transform: uppercase;
+    transition: all 0.07s ease-out;
+    user-select: none;
+
+    /* Specific overrides */
+    flex-basis: 40%;
+    height: auto;
 }
 
 #questionButton:hover,
 #answerButton:hover {
-    background: linear-gradient(145deg, #4a3840c6, #ff5353);
-    color: #3fffcf;
-    /* transform: translateY(-5px); */
-    transition: margin-right 2s, color 1s;
-    box-shadow: 3px 10px #3fffcf;
-    border-bottom: 3px;
-
+    background-color: #E0E0E0;
+    transform: translateY(-1px);
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.25);
 }
 
 #questionButton:active,
 #answerButton:active {
-    background: linear-gradient(145deg, #bebebe, #e0e0e0);
-    box-shadow: inset 5px 5px 10px #b3b3b3, inset -5px -5px 10px #ebfca5;
-    transform: translateY(2px);
+    background-color: #D0D0D0;
+    transform: translateY(1px);
+    box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+    border-bottom-width: 2px;
 }
 
+/* Applying Unified Keyboard Button Style to #checkButton */
 #checkButton {
-    color: rgb(251, 251, 251);
-    width: 50vw;
-    background-color: rgb(99, 99, 238);
-    font-family: monospace;
-    font-weight: bolder;
-    font-size: 2em;
-    border: dotted 2px rgb(238, 255, 0);
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    /* font-size: 1.1em; /* Base size */
+    font-weight: bold;
+    /* color: #333333; /* Base color */
+    /* background-color: #F0F0F0; /* Base background */
+    border: 2px solid #555555;
+    border-bottom-width: 4px;
+    border-radius: 8px;
+    /* padding: 10px 20px; /* Base padding */
+    margin: 5px;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.2);
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.07s ease-out;
+    user-select: none;
+
+    /* Specific overrides for #checkButton */
+    width: auto;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    background-color: #A0A0F0; /* Muted blue for primary action */
+    color: white;
 }
 
 #checkButton:hover {
-    background-color: rgb(52, 52, 154);
-    color: rgb(251, 172, 243);
-    font-family: Impact;
-    border: dotted 2px rgb(238, 255, 0);
+    background-color: #8080D0; /* Darker blue on hover */
+    transform: translateY(-1px);
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.25);
+    color: white; /* Ensure text color remains white on hover */
 }
 
 #checkButton:active {
-    background-color: rgb(55, 44, 62);
-    color: rgb(255, 255, 255);
-    font-weight: bolder;
-    font-size: 1.75em;
-    border: dotted 3px rgb(244, 255, 88);
+    background-color: #6060B0; /* Even darker blue when pressed */
+    transform: translateY(1px);
+    box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+    border-bottom-width: 2px;
+    color: white; /* Ensure text color remains white on active */
 }
 
 .input-div {
@@ -178,7 +342,7 @@ body {
     border-bottom: 0;
     border-left: 0;
     margin-left: -30px;
-    margin-bottom: -47px;
+    margin-bottom: 58px;
 }
 
 #categoryBox {
@@ -270,34 +434,146 @@ body {
     .game-container {
         min-height: 95vh;
         margin: 2.5vh auto;
+        max-width: 100vw; /* Allow full width on smaller screens */
+        border-radius: 0; /* Optional: remove border radius for edge-to-edge feel */
+        border-left: none;
+        border-right: none;
     }
 
-    .title-image {
-        max-width: 90%;
+    #main-title {
+        font-size: 6vh; /* Reduce title font size */
+    }
+
+    #hamburger-icon {
+        font-size: 2.2em; /* Slightly reduce hamburger icon size */
+    }
+
+    /* Adjust dropdown menu position if title-div height changes.
+       .title-div max-height is 15vh. If #main-title font-size change affects this, adjust.
+       Assuming 15vh is still appropriate for top positioning. */
+    #dropdown-menu {
+        top: 15vh; /* Re-evaluate if .title-div height significantly changes */
     }
 
     #questionButton,
     #answerButton {
-        width: 45%;
-        margin-bottom: 10px;
+        flex-basis: 48%; /* Use flex-basis, ensure they fit side-by-side or stack */
+        margin: 5px 1%; /* Adjust margin for closer packing */
+        padding: 8px 12px; /* Slightly reduce padding */
+        font-size: 1em; /* Reduce font size */
     }
 
     #checkButton {
-        width: 80%;
+        width: 90%; /* Make it wider to be more tappable */
+        padding: 10px 20px; /* Adjust padding */
+        font-size: 1.1em; /* Adjust font size */
+        margin-top: 10px; /* Add some margin if it's too close to input box */
+    }
+
+    .input-div {
+        flex-direction: column; /* Stack input and button */
+        align-items: center; /* Center items when stacked */
+    }
+
+    #inputbox {
+        width: 90%;
+        margin-bottom: 10px; /* Add space between input and check button */
     }
 
     .speech-bubble {
-        min-height: 30vh;
+        min-height: 35vh; /* Increase min-height slightly for more content room */
+        padding: 2vh 2vw; /* Adjust padding */
+    }
+
+    #categoryBox,
+    #questionBox,
+    #answerBox {
+        font-size: 2vh; /* Slightly reduce font size for speech bubble content */
+        max-width: 90vw; /* Ensure text boxes use available width */
     }
 
     .trebek {
-        max-width: 30vw;
+        max-height: 18vh; /* Adjust Trebek size */
+        max-width: 25vw;
         left: 1vw;
+        bottom: 1vh;
+    }
+
+    .trebek::before { /* Sunglasses on Trebek */
+        font-size: 4vw; /* Adjust size of sunglasses */
     }
 
     .data-box {
-        min-width: 40vw;
-        font-size: 2vmin;
+        min-width: 45vw; /* Adjust data box size */
+        font-size: 1.8vmin; /* Adjust font size */
+        padding: 1.5vh;
+        bottom: 1vh;
+        right: 1vw;
+    }
+}
+
+/* Media Query for even smaller screens (e.g., phones in portrait) */
+@media (max-width: 480px) {
+    #main-title {
+        font-size: 4.5vh; /* Further reduce title font size */
+        text-shadow:
+            -1px -1px 0 #000000,
+             1px -1px 0 #000000,
+            -1px  1px 0 #000000,
+             1px  1px 0 #000000,
+            -2px  2px 3px #FF00FF; /* Simpler shadow */
+    }
+
+    #hamburger-icon {
+        font-size: 2em; /* Further reduce icon size */
+    }
+
+    .title-div {
+        min-height: 10vh; /* Adjust title div height */
+        max-height: 12vh;
+        padding: 1vh 10px;
+    }
+
+    #dropdown-menu {
+        top: 12vh; /* Match new title-div height */
+    }
+
+    #dropdown-menu li button {
+        font-size: 1em; /* Reduce menu item font size */
+        padding: 12px 15px; /* Adjust padding */
+    }
+
+    #questionButton,
+    #answerButton {
+        flex-basis: 90%; /* Stack these buttons */
+        margin: 8px auto; /* Center them when stacked */
+        font-size: 0.9em;
+    }
+
+    #checkButton {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+
+    .speech-bubble {
+        min-height: 40vh; /* More room for question/answer */
+        margin: 2vh auto;
+    }
+
+    #categoryBox,
+    #questionBox,
+    #answerBox {
+        font-size: 1.8vh; /* Further reduce font size */
+    }
+
+    .trebek {
+        max-height: 15vh;
+        max-width: 22vw;
+    }
+
+    .data-box {
+        min-width: 50vw;
+        font-size: 1.7vmin;
     }
 }
 
