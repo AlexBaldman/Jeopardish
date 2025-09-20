@@ -230,6 +230,13 @@ function updateScoreBoard() {
 // Wrap event listeners and initial question load in DOMContentLoaded event
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded and parsed');
+
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburgerMenu.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
     
     // Attach event listeners
     answerButton.addEventListener('click', showHideAnswer);
