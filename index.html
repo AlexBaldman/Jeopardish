@@ -18,65 +18,53 @@
     <!-- GAME CONTAINER -->
     <div class="game-container">
 
-        <!-- TITLE -->
-        <div class="title-div">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="title-div">
+                <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">
+            </div>
+            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
 
-            <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">
+        <!-- NAVIGATION MENU -->
+        <nav class="nav-menu" id="navMenu">
+            <div class="button-div">
+                <button id="questionButton" aria-label="Get a new question">New Question</button>
+                <button id="answerButton" aria-label="Show or hide the answer">Show/Hide Answer</button>
+            </div>
+            <!-- DATA DISPLAY BOX -->
+            <div id="dataBox" class="data-box">
+                <p id="currentStreak">Current Streak: 0</p>
+                <p id="bestStreak">Best Streak: 0</p>
+                <p id="score">Score: $0</p>
+            </div>
+        </nav>
 
+        <div class="main-content">
+            <!-- USER INPUT -->
+            <div class="input-div">
+                <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+                <button id="checkButton" aria-label="Check answer">Check Answer</button>
+            </div>
+
+            <!-- SPEECH BUBBLE -->
+            <div class="speech-bubble">
+                <div id="categoryBox"></div>
+                <div id="questionBox"></div>
+                <div id="answerBox"></div>
+            </div>
+
+            <!-- TREBEK DIV -->
+            <!-- original svg trebek -->
+            <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.png">
+
+            <!-- new pimped out trebek  -->
+            <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-6.webp"> -->
         </div>
-
-        <!-- NEW QUESTION & SHOW/HIDE ANSWER BUTTONS -->
-        <div class="button-div">
-
-            <button id="questionButton" aria-label="Get a new question">New Question</button>
-
-            <button id="answerButton" aria-label="Show or hide the answer">Show/Hide Answer</button>
-
-        </div>
-
-        <!-- USER INPUT -->
-        <div class="input-div">
-
-            <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
-
-            <button id="checkButton" aria-label="Check answer">Check Answer</button>
-
-        </div>
-
-        <!-- SPEECH BUBBLE -->
-        <div class="speech-bubble">
-
-            <div id="categoryBox"></div>
-
-            <div id="questionBox"></div>
-
-            <div id="answerBox"></div>
-
-        </div>
-
-        <!-- TREBEK DIV -->
-
-        <!-- original svg trebek -->
-        <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.png">
-        
-        <!-- new pimped out trebek  -->
-        <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-6.webp"> -->
-        
-        <!-- DATA DISPLAY BOX -->
-        <div id="dataBox" class="data-box">
-
-            <p id="currentStreak">Current Streak: 0</p>
-
-            <p id="bestStreak">Best Streak: 0</p>
-
-            <p id="score">Score: $0</p>
-
-        </div>        
 
     </div>
 </body>
 
 </html>
-
-<!-- TREBEK DIV -->
-<!-- <img class="trebek" alt="Long Live Alex Trebek" src="https://res.cloudinary.com/alexbaldman/image/upload/v1609955507/trebek-vector.png"> -->
