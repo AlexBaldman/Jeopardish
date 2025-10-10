@@ -37,14 +37,41 @@ function animateTrebek(action) {
 }
 
 async function getAIResponse(prompt) {
-    const response = await fetch('YOUR_AI_API_ENDPOINT', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt }),
-    });
-
-    const data = await response.json();
-    return data.response;
+    if (!prompt || typeof prompt !== 'string') {
+        throw new Error('Invalid prompt provided');
+    }
+    
+    const apiEndpoint = process.env.AI_API_ENDPOINT || '/api/ai';
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+    
+    try {
+        const response = await fetch(apiEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt }),
+            signal: controller.signal,
+        });
+        
+        if (!response.ok) {
+            throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!data || typeof data.response !== 'string') {
+            throw new Error('Invalid API response format');
+        }
+        
+        return data.response;
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            throw new Error('API request timed out');
+        }
+        throw error;
+    } finally {
+        clearTimeout(timeoutId);
+    }
 }
