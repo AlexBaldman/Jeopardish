@@ -14,20 +14,25 @@ import {
 } from "./index.d";
 
 export const getRandomQuestion = async (): Promise<JeopardyQuestion> => {
-  const randomClue = await fetchRandomClue();
-  const game = await fetchGame(randomClue.game_id);
-  const { answer, normalizedAnswer } = sanitizeApiAnswer(randomClue);
+  try {
+    const randomClue = await fetchRandomClue();
+    const game = await fetchGame(randomClue.game_id);
+    const { answer, normalizedAnswer } = sanitizeApiAnswer(randomClue);
 
-  const jeopardyQuestion: JeopardyQuestion = {
-    answer,
-    normalizedAnswer,
-    clue: randomClue.clue,
-    value: randomClue.value ?? 200,
-    category: randomClue.category,
-    airdate: game.air_date,
-  };
+    const jeopardyQuestion: JeopardyQuestion = {
+      answer,
+      normalizedAnswer,
+      clue: randomClue.clue,
+      value: randomClue.value ?? 200,
+      category: randomClue.category,
+      airdate: game.air_date,
+    };
 
-  return jeopardyQuestion;
+    return jeopardyQuestion;
+  } catch (error) {
+    console.error('Failed to fetch Jeopardy question:', error);
+    throw new Error('Unable to fetch question. Please try again.');
+  }
 };
 
 const fetchRandomClue = async (): Promise<ClueData> => {
