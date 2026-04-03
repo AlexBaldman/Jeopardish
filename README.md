@@ -12,6 +12,33 @@ Jeopardish can provide that same comforting presence to future potential contest
 Users can practice for the show using the simple click of a button to randomly generate question/answer pairs from a database of questions from old episodes, like flash cards to help learn random facts from a plethora of historical categories from the show.
 
 
+
+## Repo Operations (Production MVP Hardening)
+
+This repo now includes lightweight operations scripts so you can execute the branch-cleanup plan immediately:
+
+- Generate a branch triage report:
+
+  ```bash
+  npm run triage:branches
+  # or set base branch explicitly
+  bash scripts/branch-triage-report.sh master
+  ```
+
+- Validate local trivia dataset integrity:
+
+  ```bash
+  npm run validate:questions
+  ```
+
+- Check JavaScript syntax:
+
+  ```bash
+  npm run check:js
+  ```
+
+Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture merge/cherry-pick/delete decisions after each report run.
+
 ## API and Data Sample
 
 ![Jservice](http://www.jService.io)

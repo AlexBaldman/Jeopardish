@@ -1,5 +1,10 @@
 {
   "dependencies": {
     "openai": "^4.53.2"
+  },
+  "scripts": {
+    "validate:questions": "node scripts/validate-questions.mjs",
+    "check:js": "node --check app.js",
+    "triage:branches": "bash scripts/branch-triage-report.sh"
   }
 }
