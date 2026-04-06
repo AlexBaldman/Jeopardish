@@ -37,6 +37,12 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm run check:js
   ```
 
+- Run unit tests for answer matching logic:
+
+  ```bash
+  npm test
+  ```
+
 Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture merge/cherry-pick/delete decisions after each report run.
 
 ## API and Data Sample

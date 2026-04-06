@@ -14,5 +14,7 @@ jobs:
           node-version: '20'
       - name: Validate question data
         run: node scripts/validate-questions.mjs
-      - name: Syntax check app.js
-        run: node --check app.js
+      - name: Syntax check JS
+        run: npm run check:js
+      - name: Run unit tests
+        run: npm test

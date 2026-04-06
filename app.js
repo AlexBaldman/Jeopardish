@@ -40,6 +40,11 @@ const state = {
 
 const dom = {};
 
+const logic = globalThis.JeopardishLogic || null;
+if (!logic) {
+  throw new Error('JeopardishLogic failed to load. Ensure game-logic.js is included before app.js.');
+}
+
 function setText(el, text) {
   el.textContent = text;
 }
@@ -79,49 +84,6 @@ function displayErrorJoke() {
   setText(dom.questionBox, randomError.question);
   setText(dom.answerBox, randomError.answer);
   toggleAnswer(true);
-}
-
-function cleanAnswer(answer) {
-  return answer
-    .toLowerCase()
-    .replace(/^(what|who|where|when)\s+(is|are|was|were)\s+/i, '')
-    .replace(/^(a|an|the)\s+/i, '')
-    .replace(/[^a-z0-9]/g, '')
-    .trim();
-}
-
-function getLevenshteinDistance(a, b) {
-  if (a.length === 0) return b.length;
-  if (b.length === 0) return a.length;
-
-  const matrix = Array.from({ length: b.length + 1 }, () => []);
-
-  for (let i = 0; i <= b.length; i += 1) matrix[i][0] = i;
-  for (let j = 0; j <= a.length; j += 1) matrix[0][j] = j;
-
-  for (let i = 1; i <= b.length; i += 1) {
-    for (let j = 1; j <= a.length; j += 1) {
-      const cost = b[i - 1] === a[j - 1] ? 0 : 1;
-      matrix[i][j] = Math.min(
-        matrix[i - 1][j] + 1,
-        matrix[i][j - 1] + 1,
-        matrix[i - 1][j - 1] + cost,
-      );
-    }
-  }
-
-  return matrix[b.length][a.length];
-}
-
-function compareAnswers(userAnswer, correctAnswer) {
-  if (!correctAnswer) return false;
-
-  if (correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer)) {
-    return true;
-  }
-
-  const levenshteinDistance = getLevenshteinDistance(userAnswer, correctAnswer);
-  return levenshteinDistance <= Math.min(3, Math.floor(correctAnswer.length / 2));
 }
 
 function getRandomQuestion() {
@@ -169,15 +131,15 @@ function checkAnswer() {
     return;
   }
 
-  const userAnswerCleaned = cleanAnswer(dom.userInput.value);
-  const correctAnswer = cleanAnswer(state.currentClue.answer || '');
+  const userAnswerCleaned = logic.cleanAnswer(dom.userInput.value);
+  const correctAnswer = logic.cleanAnswer(state.currentClue.answer || '');
 
   if (!userAnswerCleaned) {
     displayErrorMessage('Please enter an answer before checking.');
     return;
   }
 
-  if (compareAnswers(userAnswerCleaned, correctAnswer)) {
+  if (logic.compareAnswers(userAnswerCleaned, correctAnswer)) {
     state.currentStreak += 1;
     state.score += 100;
     state.bestStreak = Math.max(state.bestStreak, state.currentStreak);
