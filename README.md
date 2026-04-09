@@ -12,6 +12,11 @@ Jeopardish can provide that same comforting presence to future potential contest
 Users can practice for the show using the simple click of a button to randomly generate question/answer pairs from a database of questions from old episodes, like flash cards to help learn random facts from a plethora of historical categories from the show.
 
 
+
+## Additional Concept Document
+
+- [American Handball Video Game Plan (NYC Style)](docs/american-handball-game-plan.md)
+
 ## API and Data Sample
 
 ![Jservice](http://www.jService.io)
