@@ -150,12 +150,13 @@ function checkAnswer() {
     displayIncorrectAnswerMessage(correctAnswer || 'Unknown');
   }
 
+  state.currentClue = null;
   renderScoreboard();
   dom.userInput.value = '';
 }
 
 function showHideAnswer() {
-  toggleAnswer(dom.answerBox.style.display === 'none');
+  toggleAnswer(dom.answerBox.style.display !== 'flex');
 }
 
 async function loadQuestions() {

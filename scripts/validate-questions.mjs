@@ -1,11 +1,14 @@
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { resolve, dirname } from 'node:path';
 
-const path = 'questions/questions.json';
-const raw = fs.readFileSync(path, 'utf-8');
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const questionsPath = resolve(__dirname, '../questions/questions.json');
+const raw = fs.readFileSync(questionsPath, 'utf-8');
 const data = JSON.parse(raw);
 
 if (!Array.isArray(data) || data.length === 0) {
-  throw new Error('questions/questions.json must be a non-empty array');
+  throw new Error(`${questionsPath} must be a non-empty array`);
 }
 
 let bad = 0;
