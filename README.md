@@ -45,6 +45,8 @@ This repo now includes lightweight operations scripts so you can execute the bra
 
 Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture merge/cherry-pick/delete decisions after each report run.
 
+Latest filled decision pass: `docs/BRANCH_DECISIONS_2026-04-05.md`.
+
 ## API and Data Sample
 
 ![Jservice](http://www.jService.io)
