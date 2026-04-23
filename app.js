@@ -1,6 +1,6 @@
 'use strict';
 
-const QUESTION_SOURCE = './questions/questions.json';
+const QUESTION_SOURCE = './questions/jeopardy-questions.json';
 const FETCH_TIMEOUT_MS = 10000;
 
 const jeopardyErrors = [
@@ -150,6 +150,7 @@ function checkAnswer() {
     displayIncorrectAnswerMessage(correctAnswer || 'Unknown');
   }
 
+  state.currentClue = null;
   renderScoreboard();
   dom.userInput.value = '';
 }

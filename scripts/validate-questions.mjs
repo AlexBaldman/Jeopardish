@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 
-const path = 'questions/questions.json';
+const path = 'questions/jeopardy-questions.json';
 const raw = fs.readFileSync(path, 'utf-8');
 const data = JSON.parse(raw);
 
 if (!Array.isArray(data) || data.length === 0) {
-  throw new Error('questions/questions.json must be a non-empty array');
+  throw new Error('questions/jeopardy-questions.json must be a non-empty array');
 }
 
 let bad = 0;

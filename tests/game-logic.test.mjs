@@ -10,12 +10,17 @@ test('cleanAnswer strips common prefixes and punctuation', () => {
   assert.equal(logic.cleanAnswer('Who was an Apple?'), 'apple');
 });
 
-test('compareAnswers supports substring match', () => {
-  assert.equal(logic.compareAnswers('lincoln', 'Abraham Lincoln'), true);
+test('compareAnswers supports exact normalized match', () => {
+  assert.equal(logic.compareAnswers('What is Abraham Lincoln?', 'Abraham Lincoln'), true);
 });
 
 test('compareAnswers supports fuzzy match with small typo', () => {
   assert.equal(logic.compareAnswers('washngton', 'Washington'), true);
+});
+
+test('compareAnswers does not accept tiny substring guesses', () => {
+  assert.equal(logic.compareAnswers('cop', 'Copernicus'), false);
+  assert.equal(logic.compareAnswers('a', 'Australia'), false);
 });
 
 test('compareAnswers rejects empty values', () => {

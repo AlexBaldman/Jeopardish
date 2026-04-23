@@ -47,7 +47,7 @@
       return false;
     }
 
-    if (correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer)) {
+    if (userAnswer === correctAnswer) {
       return true;
     }
 
