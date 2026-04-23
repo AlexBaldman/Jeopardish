@@ -89,6 +89,20 @@ html, body {
     text-transform: uppercase;
 }
 
+.status-message {
+    min-height: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #ffe189;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid #ffdd00;
+    outline-offset: 2px;
+}
+
 /* User Input Section */
 .input-div {
     display: flex;
@@ -117,6 +131,11 @@ html, body {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
 }
 
 /* Speech Bubble */
