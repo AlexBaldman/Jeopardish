@@ -10,6 +10,7 @@
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer src="game-logic.js"></script>
     <script defer src="app.js"></script>
 </head>
 
@@ -51,6 +52,7 @@
 
             <!-- SPEECH BUBBLE -->
             <div class="speech-bubble">
+                <p id="statusMessage" class="status-message" aria-live="polite"></p>
                 <div id="categoryBox"></div>
                 <div id="questionBox"></div>
                 <div id="answerBox"></div>
