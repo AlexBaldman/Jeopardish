@@ -33,3 +33,28 @@ test('parseClueValue handles numeric, currency strings, and fallback', () => {
   assert.equal(logic.parseClueValue('$1,200'), 1200);
   assert.equal(logic.parseClueValue('unknown', 100), 100);
 });
+
+test('normalizeQuestionRecord sanitizes and normalizes raw records', () => {
+  const normalized = logic.normalizeQuestionRecord({
+    id: 42,
+    category: { title: 'science' },
+    question: '  What planet is known as the red planet? ',
+    answer: ' Mars ',
+    value: '$400',
+  });
+
+  assert.deepEqual(normalized, {
+    id: 42,
+    category: 'science',
+    question: 'What planet is known as the red planet?',
+    answer: 'Mars',
+    value: '$400',
+    numericValue: 400,
+  });
+});
+
+test('normalizeQuestionRecord drops unusable clues', () => {
+  assert.equal(logic.normalizeQuestionRecord({ question: '', answer: 'x' }), null);
+  assert.equal(logic.normalizeQuestionRecord({ question: 'x', answer: '' }), null);
+  assert.equal(logic.normalizeQuestionRecord(null), null);
+});

@@ -71,10 +71,45 @@
     return fallback;
   }
 
+  function getCategoryName(category) {
+    if (typeof category === 'string' && category.trim()) {
+      return category.trim();
+    }
+    if (
+      category
+      && typeof category === 'object'
+      && typeof category.title === 'string'
+      && category.title.trim()
+    ) {
+      return category.title.trim();
+    }
+    return 'Miscellaneous';
+  }
+
+  function normalizeQuestionRecord(record, fallbackValue = 100) {
+    if (!record || typeof record !== 'object') return null;
+
+    const question = typeof record.question === 'string' ? record.question.trim() : '';
+    const answer = typeof record.answer === 'string' ? record.answer.trim() : '';
+    if (!question || !answer) return null;
+
+    const numericValue = parseClueValue(record.value, fallbackValue);
+
+    return {
+      id: record.id ?? null,
+      category: getCategoryName(record.category),
+      question,
+      answer,
+      value: `$${numericValue}`,
+      numericValue,
+    };
+  }
+
   return {
     cleanAnswer,
     getLevenshteinDistance,
     compareAnswers,
     parseClueValue,
+    normalizeQuestionRecord,
   };
 }));

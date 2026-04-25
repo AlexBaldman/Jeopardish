@@ -139,7 +139,7 @@ function renderClue(clue) {
   }
 
   state.currentClue = clue;
-  state.currentClueValue = logic.parseClueValue(clue.value, 100);
+  state.currentClueValue = logic.parseClueValue(clue.numericValue ?? clue.value, 100);
   setCategory(
     String(clue.category || 'Unknown Category').toUpperCase(),
     `$${state.currentClueValue}`,
@@ -227,8 +227,16 @@ async function loadQuestions() {
       throw new Error('Question dataset is empty or invalid.');
     }
 
-    state.questions = data;
-    setStatus(`Loaded ${data.length.toLocaleString()} clues.`);
+    const normalizedQuestions = data
+      .map((record) => logic.normalizeQuestionRecord(record, 100))
+      .filter(Boolean);
+
+    if (normalizedQuestions.length === 0) {
+      throw new Error('Question dataset contained no usable clues.');
+    }
+
+    state.questions = normalizedQuestions;
+    setStatus(`Loaded ${normalizedQuestions.length.toLocaleString()} usable clues.`);
     getNewQuestion();
   } catch (error) {
     console.error('Error loading questions:', error);
