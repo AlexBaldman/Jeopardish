@@ -113,11 +113,20 @@ function displayErrorMessage(message) {
 
 function displayErrorJoke() {
   const randomError = jeopardyErrors[Math.floor(Math.random() * jeopardyErrors.length)];
+  state.currentClue = {
+    id: null,
+    category: randomError.category,
+    value: randomError.value,
+    question: randomError.question,
+    answer: randomError.answer,
+    isFallback: true,
+  };
+  state.currentClueValue = 0;
   setStatus('There was a problem loading a normal clue. Showing fallback clue.');
   setCategory(randomError.category, randomError.value);
   setText(dom.questionBox, randomError.question);
   setText(dom.answerBox, randomError.answer);
-  toggleAnswer(true);
+  toggleAnswer(false);
   setControlsEnabled(true);
 }
 
@@ -179,12 +188,13 @@ function checkAnswer() {
   }
 
   const userAnswerCleaned = logic.cleanAnswer(dom.userInput.value);
-  const correctAnswer = logic.cleanAnswer(state.currentClue.answer || '');
 
   if (!userAnswerCleaned) {
     displayErrorMessage('Please enter an answer before checking.');
     return;
   }
+
+  const correctAnswer = logic.cleanAnswer(state.currentClue.answer || '');
 
   if (logic.compareAnswers(userAnswerCleaned, correctAnswer)) {
     state.currentStreak += 1;
@@ -196,7 +206,7 @@ function checkAnswer() {
   } else {
     state.currentStreak = 0;
     state.score = 0;
-    displayIncorrectAnswerMessage(correctAnswer || 'Unknown');
+    displayIncorrectAnswerMessage(state.currentClue.answer || 'Unknown');
   }
 
   state.currentClue = null;
@@ -272,7 +282,10 @@ function bindEvents() {
   dom.checkButton.addEventListener('click', checkAnswer);
   dom.userInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-      checkAnswer();
+      if (!dom.checkButton.disabled) {
+        event.preventDefault();
+        checkAnswer();
+      }
     }
   });
 }

@@ -51,20 +51,26 @@
       return true;
     }
 
+    if (correctAnswer.length <= 2) {
+      return userAnswer === correctAnswer;
+    }
+
     const levenshteinDistance = getLevenshteinDistance(userAnswer, correctAnswer);
-    return levenshteinDistance <= Math.min(3, Math.floor(correctAnswer.length / 2));
+    return levenshteinDistance <= Math.min(2, Math.floor(correctAnswer.length / 2));
   }
 
   function parseClueValue(value, fallback = 100) {
-    if (typeof value === 'number' && Number.isFinite(value) && value > 0) {
+    if (typeof value === 'number' && Number.isFinite(value) && value >= 0) {
       return Math.round(value);
     }
 
     if (typeof value === 'string') {
       const digits = value.replace(/[^0-9]/g, '');
-      const parsed = Number(digits);
-      if (Number.isFinite(parsed) && parsed > 0) {
-        return parsed;
+      if (digits.length > 0) {
+        const parsed = Number(digits);
+        if (Number.isFinite(parsed) && parsed >= 0) {
+          return parsed;
+        }
       }
     }
 
