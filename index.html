@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script defer src="game-logic.js"></script>
+    <script defer src="src/contracts/events.js?v=engine-1"></script>
+    <script defer src="src/core/event-bus.js?v=engine-1"></script>
+    <script defer src="src/core/game-engine.js?v=engine-1"></script>
+    <script defer src="src/data/data-loader.js?v=engine-1"></script>
+    <script defer src="src/render/renderer.js?v=engine-1"></script>
+    <script defer src="src/host/host-manager.js?v=engine-1"></script>
     <script defer src="app.js"></script>
 </head>
 
@@ -60,7 +66,7 @@
 
             <!-- TREBEK DIV -->
             <!-- original svg trebek -->
-            <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.png">
+            <img class="trebek" id="hostImage" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.png">
 
             <!-- new pimped out trebek  -->
             <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-6.webp"> -->
