@@ -34,9 +34,64 @@ const state = {
   questions: [],
   lastClueIndex: -1,
   bestStreak: 0,
+  theme: 'dark',
+  language: 'en',
 };
 
 const BEST_STREAK_KEY = 'jeopardish.bestStreak';
+const THEME_KEY = 'jeopardish.theme';
+const LANGUAGE_KEY = 'jeopardish.language';
+
+const UI_COPY = {
+  en: {
+    lang: 'en',
+    questionButton: 'New Clue',
+    answerButton: 'Reveal Answer',
+    checkButton: 'Lock It In',
+    inputPlaceholder: 'Type your response',
+    themeNight: 'Night',
+    themeDay: 'Day',
+    languageEnglish: 'English',
+    languagePortuguese: 'Português',
+    currentStreak: 'Current Streak',
+    bestStreak: 'Best Streak',
+    score: 'Score',
+    loadingBank: 'Loading question bank...',
+    loadingQuestions: 'Loading questions...',
+    fallbackClue: 'There was a problem loading a normal clue. Showing fallback clue.',
+    newClue: 'New clue loaded. Enter your answer and press Lock It In.',
+    noClue: 'No question available yet. Please load one first.',
+    emptyAnswer: 'Please enter an answer before checking.',
+    loadedClues: (count) => `Loaded ${count.toLocaleString()} clues.`,
+    initializing: 'Initializing game...',
+    correctStatus: (scoreDelta, quip) => `Correct. +$${scoreDelta}. ${quip} Press Enter or New Clue to keep rolling.`,
+    incorrectStatus: (quip) => `Incorrect. ${quip} Press Enter or New Clue to continue.`,
+  },
+  'pt-BR': {
+    lang: 'pt-BR',
+    questionButton: 'Nova Pista',
+    answerButton: 'Revelar Resposta',
+    checkButton: 'Valendo',
+    inputPlaceholder: 'Digite sua resposta',
+    themeNight: 'Noite',
+    themeDay: 'Dia',
+    languageEnglish: 'English',
+    languagePortuguese: 'Português',
+    currentStreak: 'Sequência Atual',
+    bestStreak: 'Melhor Sequência',
+    score: 'Placar',
+    loadingBank: 'Carregando banco de pistas...',
+    loadingQuestions: 'Carregando perguntas...',
+    fallbackClue: 'Houve um problema ao carregar uma pista normal. Mostrando uma pista reserva.',
+    newClue: 'Nova pista carregada. Digite sua resposta e aperte Valendo.',
+    noClue: 'Nenhuma pergunta disponível ainda. Carregue uma pista primeiro.',
+    emptyAnswer: 'Digite uma resposta antes de conferir.',
+    loadedClues: (count) => `${count.toLocaleString('pt-BR')} pistas carregadas.`,
+    initializing: 'Inicializando o jogo...',
+    correctStatus: (scoreDelta, quip) => `Correto. +$${scoreDelta}. ${quip} Aperte Enter ou Nova Pista para continuar.`,
+    incorrectStatus: (quip) => `Incorreto. ${quip} Aperte Enter ou Nova Pista para continuar.`,
+  },
+};
 
 const logic = globalThis.JeopardishLogic || null;
 if (!logic) {
@@ -74,12 +129,64 @@ function loadPersistedBestStreak() {
   }
 }
 
+function loadPersistedPreferences() {
+  try {
+    const theme = globalThis.localStorage?.getItem(THEME_KEY);
+    const language = globalThis.localStorage?.getItem(LANGUAGE_KEY);
+    if (theme === 'dark' || theme === 'light') {
+      state.theme = theme;
+    }
+    if (language === 'en' || language === 'pt-BR') {
+      state.language = language;
+    }
+  } catch (error) {
+    console.warn('Unable to read persisted UI preferences.', error);
+  }
+}
+
 function persistBestStreak() {
   try {
     globalThis.localStorage?.setItem(BEST_STREAK_KEY, String(state.bestStreak));
   } catch (error) {
     console.warn('Unable to persist best streak.', error);
   }
+}
+
+function persistPreference(key, value) {
+  try {
+    globalThis.localStorage?.setItem(key, value);
+  } catch (error) {
+    console.warn('Unable to persist UI preference.', error);
+  }
+}
+
+function getCopy() {
+  return UI_COPY[state.language] || UI_COPY.en;
+}
+
+function applyPreferences() {
+  const copy = getCopy();
+  globalThis.document?.body?.setAttribute('data-theme', state.theme);
+  globalThis.document?.body?.setAttribute('data-language', state.language);
+  renderer.setCopy(copy);
+  renderer.setToggleStates({
+    theme: state.theme,
+    language: state.language,
+  });
+  renderScoreboard();
+}
+
+function toggleTheme() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  persistPreference(THEME_KEY, state.theme);
+  applyPreferences();
+}
+
+function toggleLanguage() {
+  state.language = state.language === 'en' ? 'pt-BR' : 'en';
+  persistPreference(LANGUAGE_KEY, state.language);
+  applyPreferences();
+  renderer.setStatus(getCopy().newClue);
 }
 
 function renderScoreboard() {
@@ -130,7 +237,7 @@ function checkAnswer() {
       return;
     }
 
-    renderer.displayErrorMessage('No question available yet. Please load one first.');
+    renderer.displayErrorMessage(getCopy().noClue);
     return;
   }
 
@@ -138,7 +245,7 @@ function checkAnswer() {
   const userAnswerCleaned = logic.cleanAnswer(userAnswer);
 
   if (!userAnswerCleaned) {
-    renderer.displayErrorMessage('Please enter an answer before checking.');
+    renderer.displayErrorMessage(getCopy().emptyAnswer);
     return;
   }
 
@@ -153,11 +260,11 @@ function checkAnswer() {
     persistBestStreak();
     renderHost('happy');
     renderer.displayCorrectAnswerMessage(result.currentStreak);
-    renderer.setStatus(`Correct. +$${result.scoreDelta}. ${hostManager.selectQuip('correct')} Load a new clue to continue your streak.`);
+    renderer.setStatus(getCopy().correctStatus(result.scoreDelta, hostManager.selectQuip('correct')));
   } else {
     renderHost('sad');
     renderer.displayIncorrectAnswerMessage(result.correctAnswer || 'Unknown');
-    renderer.setStatus(`Incorrect. ${hostManager.selectQuip('incorrect')} Load a new clue to continue.`);
+    renderer.setStatus(getCopy().incorrectStatus(hostManager.selectQuip('incorrect')));
   }
 
   renderer.setControlsEnabled(false);
@@ -178,7 +285,7 @@ async function loadQuestions() {
     const data = await dataLoader.loadQuestionBank(QUESTION_SOURCE, { signal: abort.signal });
 
     state.questions = data;
-    renderer.setStatus(`Loaded ${data.length.toLocaleString()} clues.`);
+    renderer.setStatus(getCopy().loadedClues(data.length));
     gameEngine.ready();
     getNewQuestion();
   } catch (error) {
@@ -194,11 +301,14 @@ function bindEvents() {
     onToggleAnswer: showHideAnswer,
     onNewQuestion: getNewQuestion,
     onCheckAnswer: checkAnswer,
+    onToggleTheme: toggleTheme,
+    onToggleLanguage: toggleLanguage,
   });
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
   loadPersistedBestStreak();
+  loadPersistedPreferences();
   eventBus = new eventBusModule.EventBus();
   gameEngine = new engineModule.GameEngine({
     eventBus,
@@ -211,10 +321,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   consoleNarrator.start();
 
   renderer.bindDom();
+  applyPreferences();
   renderHost('neutral');
   bindEvents();
   renderer.setControlsEnabled(false);
-  renderer.setStatus('Initializing game…');
+  renderer.setStatus(getCopy().initializing);
   renderScoreboard();
 
   gameEngine.init();

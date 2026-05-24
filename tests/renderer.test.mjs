@@ -16,6 +16,7 @@ function createFakeElement(id) {
       display: '',
     },
     dataset: {},
+    attributes: {},
     classList: {
       values: new Set(),
       toggle(className) {
@@ -32,6 +33,12 @@ function createFakeElement(id) {
     listeners: {},
     addEventListener(type, listener) {
       this.listeners[type] = listener;
+    },
+    setAttribute(name, value) {
+      this.attributes[name] = value;
+    },
+    getAttribute(name) {
+      return this.attributes[name];
     },
     append(...children) {
       this.children = children;
@@ -59,10 +66,15 @@ function createFakeDocument() {
     'hamburgerMenu',
     'navMenu',
     'hostImage',
+    'themeToggle',
+    'themeToggleLabel',
+    'languageToggle',
+    'languageToggleLabel',
   ];
   const elements = new Map(ids.map((id) => [id, createFakeElement(id)]));
 
   return {
+    documentElement: createFakeElement('html'),
     elements,
     getElementById(id) {
       return elements.get(id);
@@ -145,16 +157,53 @@ test('Renderer binds UI events to callbacks', () => {
     onToggleAnswer: () => calls.push('toggle'),
     onNewQuestion: () => calls.push('new'),
     onCheckAnswer: () => calls.push('check'),
+    onToggleTheme: () => calls.push('theme'),
+    onToggleLanguage: () => calls.push('language'),
   });
 
   renderer.dom.answerButton.listeners.click();
   renderer.dom.questionButton.listeners.click();
   renderer.dom.checkButton.listeners.click();
+  renderer.dom.themeToggle.listeners.click();
+  renderer.dom.languageToggle.listeners.click();
   renderer.dom.userInput.listeners.keydown({ key: 'Enter' });
   renderer.dom.hamburgerMenu.listeners.click();
 
-  assert.deepEqual(calls, ['toggle', 'new', 'check', 'check']);
+  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'check']);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
+});
+
+test('Renderer applies localized static UI copy and toggle states', () => {
+  const { renderer, documentRef } = createRenderer();
+
+  renderer.setCopy({
+    lang: 'pt-BR',
+    questionButton: 'Nova Pista',
+    answerButton: 'Revelar Resposta',
+    checkButton: 'Valendo',
+    inputPlaceholder: 'Digite sua resposta',
+    themeDay: 'Dia',
+    languagePortuguese: 'Português',
+    currentStreak: 'Sequência Atual',
+    bestStreak: 'Melhor Sequência',
+    score: 'Placar',
+  });
+  renderer.setToggleStates({
+    theme: 'light',
+    language: 'pt-BR',
+  });
+  renderer.renderScoreboard({
+    currentStreak: 2,
+    bestStreak: 5,
+    score: 1200,
+  });
+
+  assert.equal(renderer.dom.questionButton.textContent, 'Nova Pista');
+  assert.equal(renderer.dom.userInput.placeholder, 'Digite sua resposta');
+  assert.equal(renderer.dom.themeToggleLabel.textContent, 'Dia');
+  assert.equal(renderer.dom.languageToggleLabel.textContent, 'Português');
+  assert.equal(renderer.dom.currentStreak.textContent, 'Sequência Atual: 2');
+  assert.equal(documentRef.documentElement.getAttribute('lang'), 'pt-BR');
 });
 
 test('Renderer renders host visual state', () => {
