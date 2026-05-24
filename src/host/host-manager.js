@@ -35,6 +35,18 @@
         'Not quite.',
         'That one got away from you.',
       ],
+      empty: [
+        'Bold strategy: submitting the concept of air.',
+        'I checked with the judges. Silence remains incorrect.',
+        'You have to type something. Even a tragic little guess would do.',
+        'The answer box is not a mime school.',
+        'A blank response? Minimalist, but legally not an answer.',
+        'I admire the confidence of giving me absolutely nothing.',
+        'The keyboard is right there, glowing with abandoned potential.',
+        'That was less an answer and more a tiny vacation for your fingers.',
+        'We cannot award points for dramatic staring.',
+        'Try words. They have served contestants reasonably well.',
+      ],
       streak: [
         'You are heating up.',
         'A streak appears.',

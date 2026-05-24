@@ -56,12 +56,15 @@ const UI_COPY = {
     currentStreak: 'Current Streak',
     bestStreak: 'Best Streak',
     score: 'Score',
+    emptyCategory: 'Host Advisory',
     loadingBank: 'Loading question bank...',
     loadingQuestions: 'Loading questions...',
     fallbackClue: 'There was a problem loading a normal clue. Showing fallback clue.',
     newClue: 'New clue loaded. Enter your answer and press Lock It In.',
     noClue: 'No question available yet. Please load one first.',
     emptyAnswer: 'Please enter an answer before checking.',
+    emptyAnswerFallback: 'Try words. They have served contestants reasonably well.',
+    keepTyping: 'Type an answer to keep the dignity damage contained.',
     loadedClues: (count) => `Loaded ${count.toLocaleString()} clues.`,
     initializing: 'Initializing game...',
     correctStatus: (scoreDelta, quip) => `Correct. +$${scoreDelta}. ${quip} Press Enter or New Clue to keep rolling.`,
@@ -80,12 +83,15 @@ const UI_COPY = {
     currentStreak: 'Sequência Atual',
     bestStreak: 'Melhor Sequência',
     score: 'Placar',
+    emptyCategory: 'Aviso do Host',
     loadingBank: 'Carregando banco de pistas...',
     loadingQuestions: 'Carregando perguntas...',
     fallbackClue: 'Houve um problema ao carregar uma pista normal. Mostrando uma pista reserva.',
     newClue: 'Nova pista carregada. Digite sua resposta e aperte Valendo.',
     noClue: 'Nenhuma pergunta disponível ainda. Carregue uma pista primeiro.',
     emptyAnswer: 'Digite uma resposta antes de conferir.',
+    emptyAnswerFallback: 'Tente usar palavras. Elas costumam ajudar.',
+    keepTyping: 'Digite uma resposta para conter o dano à dignidade.',
     loadedClues: (count) => `${count.toLocaleString('pt-BR')} pistas carregadas.`,
     initializing: 'Inicializando o jogo...',
     correctStatus: (scoreDelta, quip) => `Correto. +$${scoreDelta}. ${quip} Aperte Enter ou Nova Pista para continuar.`,
@@ -245,7 +251,8 @@ function checkAnswer() {
   const userAnswerCleaned = logic.cleanAnswer(userAnswer);
 
   if (!userAnswerCleaned) {
-    renderer.displayErrorMessage(getCopy().emptyAnswer);
+    renderHost('sad');
+    renderer.displayEmptyAnswerQuip(hostManager.selectQuip('empty') || getCopy().emptyAnswerFallback);
     return;
   }
 
@@ -303,6 +310,22 @@ function bindEvents() {
     onCheckAnswer: checkAnswer,
     onToggleTheme: toggleTheme,
     onToggleLanguage: toggleLanguage,
+  });
+
+  globalThis.document.addEventListener('keydown', (event) => {
+    const key = event.key.toLowerCase();
+    const isTyping = event.target === renderer.dom.userInput;
+    if (isTyping || event.metaKey || event.ctrlKey || event.altKey) {
+      return;
+    }
+
+    if (key === 'q') {
+      event.preventDefault();
+      getNewQuestion();
+    } else if (key === 'a') {
+      event.preventDefault();
+      showHideAnswer();
+    }
   });
 }
 

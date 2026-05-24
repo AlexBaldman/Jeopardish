@@ -198,12 +198,34 @@ test('Renderer applies localized static UI copy and toggle states', () => {
     score: 1200,
   });
 
-  assert.equal(renderer.dom.questionButton.textContent, 'Nova Pista');
+  assert.equal(renderer.dom.questionButton.dataset.tooltip, 'Nova Pista');
+  assert.equal(renderer.dom.questionButton.getAttribute('aria-label'), 'Nova Pista. Keyboard shortcut: Q');
   assert.equal(renderer.dom.userInput.placeholder, 'Digite sua resposta');
   assert.equal(renderer.dom.themeToggleLabel.textContent, 'Dia');
   assert.equal(renderer.dom.languageToggleLabel.textContent, 'Português');
   assert.equal(renderer.dom.currentStreak.textContent, 'Sequência Atual: 2');
   assert.equal(documentRef.documentElement.getAttribute('lang'), 'pt-BR');
+});
+
+test('Renderer shows empty-answer host quip without replacing the active clue', () => {
+  const { renderer } = createRenderer();
+
+  renderer.renderClue({
+    category: 'Science',
+    question: 'This particle has a negative charge.',
+    answer: 'Electron',
+  }, 400);
+  renderer.dom.userInput.value = '   ';
+
+  renderer.displayEmptyAnswerQuip('Try words. They have served contestants reasonably well.');
+
+  assert.equal(renderer.dom.statusMessage.textContent, 'Try words. They have served contestants reasonably well.');
+  assert.equal(renderer.dom.categoryBox.textContent, 'SCIENCE for $400');
+  assert.equal(renderer.dom.questionBox.textContent, 'This particle has a negative charge.');
+  assert.equal(renderer.dom.answerBox.textContent, 'Electron');
+  assert.equal(renderer.dom.answerBox.style.display, 'none');
+  assert.equal(renderer.dom.userInput.value, '');
+  assert.equal(renderer.dom.userInput.focused, true);
 });
 
 test('Renderer renders host visual state', () => {

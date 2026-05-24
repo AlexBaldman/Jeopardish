@@ -5,21 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeopardish!</title>
-    <link rel="stylesheet" href="style.css?v=arcade-1" type="text/css">
+    <link rel="stylesheet" href="style.css?v=arcade-2" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script defer src="game-logic.js?v=arcade-1"></script>
-    <script defer src="src/contracts/events.js?v=arcade-1"></script>
-    <script defer src="src/core/event-bus.js?v=arcade-1"></script>
-    <script defer src="src/core/game-engine.js?v=arcade-1"></script>
-    <script defer src="src/data/data-loader.js?v=arcade-1"></script>
-    <script defer src="src/render/renderer.js?v=arcade-1"></script>
-    <script defer src="src/render/console-narrator.js?v=arcade-1"></script>
-    <script defer src="src/host/host-manager.js?v=arcade-1"></script>
-    <script defer src="app.js?v=arcade-1"></script>
+    <script defer src="game-logic.js?v=arcade-2"></script>
+    <script defer src="src/contracts/events.js?v=arcade-2"></script>
+    <script defer src="src/core/event-bus.js?v=arcade-2"></script>
+    <script defer src="src/core/game-engine.js?v=arcade-2"></script>
+    <script defer src="src/data/data-loader.js?v=arcade-2"></script>
+    <script defer src="src/render/renderer.js?v=arcade-2"></script>
+    <script defer src="src/render/console-narrator.js?v=arcade-2"></script>
+    <script defer src="src/host/host-manager.js?v=arcade-2"></script>
+    <script defer src="app.js?v=arcade-2"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
@@ -82,11 +82,29 @@
         <footer class="control-footer" aria-label="Contestant controls">
             <div class="input-div">
                 <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
-                <button id="checkButton" aria-label="Check answer">Check Answer</button>
+                <button id="checkButton" class="cabinet-button lock-button" aria-label="Lock It In. Keyboard shortcut: Enter" data-tooltip="Lock It In" data-key="Enter" accesskey="l">
+                    <span class="control-symbol lock-symbol" aria-hidden="true">
+                        <span class="lock-ring"></span>
+                        <span class="lock-core">!</span>
+                    </span>
+                    <span class="key-hint key-enter" aria-hidden="true">ENTER</span>
+                    <span class="button-tooltip" aria-hidden="true">Lock It In</span>
+                </button>
             </div>
             <div class="button-div">
-                <button id="questionButton" aria-label="Get a new question">New Question</button>
-                <button id="answerButton" aria-label="Show or hide the answer">Show/Hide Answer</button>
+                <button id="questionButton" class="cabinet-button clue-button" aria-label="New Clue. Keyboard shortcut: Q" data-tooltip="New Clue" data-key="Q" accesskey="q">
+                    <span class="control-symbol clue-symbol" aria-hidden="true">?</span>
+                    <span class="key-hint key-dot" aria-hidden="true">Q</span>
+                    <span class="button-tooltip" aria-hidden="true">New Clue</span>
+                </button>
+                <button id="answerButton" class="cabinet-button answer-button" aria-label="Reveal Answer. Keyboard shortcut: A" data-tooltip="Reveal Answer" data-key="A" accesskey="a">
+                    <span class="control-symbol answer-symbol" aria-hidden="true">
+                        <span class="eye-lid"></span>
+                        <span class="eye-pupil">A</span>
+                    </span>
+                    <span class="key-hint key-corner" aria-hidden="true">A</span>
+                    <span class="button-tooltip" aria-hidden="true">Reveal Answer</span>
+                </button>
             </div>
         </footer>
 

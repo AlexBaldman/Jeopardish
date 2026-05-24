@@ -20,6 +20,7 @@
     currentStreak: 'Current Streak',
     bestStreak: 'Best Streak',
     score: 'Score',
+    emptyCategory: 'Host Advisory',
     loadingBank: 'Loading question bank...',
     loadingQuestions: 'Loading questions...',
     fallbackClue: 'There was a problem loading a normal clue. Showing fallback clue.',
@@ -29,6 +30,7 @@
     incorrectMessage: 'Incorrect! The correct answer was:',
     streakReset: 'STREAK RESET!',
     incorrectStatus: 'Incorrect. Load a new clue to continue.',
+    keepTyping: 'Type an answer to keep the dignity damage contained.',
   });
 
   class Renderer {
@@ -102,12 +104,28 @@
         return;
       }
 
-      this.setText(this.dom.questionButton, this.copy.questionButton);
-      this.setText(this.dom.answerButton, this.copy.answerButton);
-      this.setText(this.dom.checkButton, this.copy.checkButton);
+      this.decorateControlButton(this.dom.questionButton, this.copy.questionButton, 'Q');
+      this.decorateControlButton(this.dom.answerButton, this.copy.answerButton, 'A');
+      this.decorateControlButton(this.dom.checkButton, this.copy.checkButton, 'Enter');
       this.dom.userInput.placeholder = this.copy.inputPlaceholder;
       this.dom.userInput.setAttribute?.('aria-label', this.copy.inputPlaceholder);
       this.document.documentElement?.setAttribute?.('lang', this.copy.lang);
+    }
+
+    decorateControlButton(button, label, key) {
+      if (!button) {
+        return;
+      }
+
+      button.dataset.tooltip = label;
+      button.dataset.key = key;
+      button.setAttribute?.('title', `${label} [${key}]`);
+      button.setAttribute?.('aria-label', `${label}. Keyboard shortcut: ${key}`);
+
+      const tooltip = button.querySelector?.('.button-tooltip');
+      if (tooltip) {
+        tooltip.textContent = label;
+      }
     }
 
     setToggleStates({ theme = 'dark', language = 'en' } = {}) {
@@ -211,6 +229,13 @@
       this.setText(this.dom.questionBox, message);
       this.setText(this.dom.answerBox, '');
       this.toggleAnswer(true);
+    }
+
+    displayEmptyAnswerQuip(message) {
+      this.setStatus(message);
+      this.setControlsEnabled(true);
+      this.clearUserAnswer();
+      this.focusUserAnswer();
     }
 
     displayErrorJoke(fallbackClues) {
