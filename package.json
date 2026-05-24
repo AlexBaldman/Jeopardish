@@ -4,7 +4,7 @@
   },
   "scripts": {
     "validate:questions": "node scripts/validate-questions.mjs",
-    "check:js": "node --check game-logic.js && node --check src/contracts/events.js && node --check src/core/event-bus.js && node --check src/core/game-engine.js && node --check src/data/data-loader.js && node --check src/render/renderer.js && node --check src/host/host-manager.js && node --check app.js",
+    "check:js": "node --check game-logic.js && node --check src/contracts/events.js && node --check src/core/event-bus.js && node --check src/core/game-engine.js && node --check src/data/data-loader.js && node --check src/render/renderer.js && node --check src/render/console-narrator.js && node --check src/host/host-manager.js && node --check app.js",
     "triage:branches": "bash scripts/branch-triage-report.sh",
     "test": "node --test tests/*.test.mjs"
   }

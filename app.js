@@ -48,9 +48,10 @@ const eventBusModule = globalThis.JeopardishEventBus || null;
 const engineModule = globalThis.JeopardishEngine || null;
 const dataModule = globalThis.JeopardishData || null;
 const rendererModule = globalThis.JeopardishRenderer || null;
+const narratorModule = globalThis.JeopardishConsoleNarrator || null;
 const hostModule = globalThis.JeopardishHost || null;
 
-if (!contracts || !eventBusModule || !engineModule || !dataModule || !rendererModule || !hostModule) {
+if (!contracts || !eventBusModule || !engineModule || !dataModule || !rendererModule || !narratorModule || !hostModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
@@ -58,6 +59,7 @@ let eventBus;
 let gameEngine;
 let dataLoader;
 let renderer;
+let consoleNarrator;
 let hostManager;
 
 function loadPersistedBestStreak() {
@@ -123,6 +125,11 @@ function getNewQuestion() {
 
 function checkAnswer() {
   if (!gameEngine.getActiveClue()) {
+    if (gameEngine.getState().phase === contracts.GamePhases.REVEALING) {
+      getNewQuestion();
+      return;
+    }
+
     renderer.displayErrorMessage('No question available yet. Please load one first.');
     return;
   }
@@ -199,7 +206,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   dataLoader = new dataModule.DataLoader({ eventBus });
   renderer = new rendererModule.Renderer();
+  consoleNarrator = new narratorModule.ConsoleNarrator({ eventBus });
   hostManager = new hostModule.HostManager();
+  consoleNarrator.start();
 
   renderer.bindDom();
   renderHost('neutral');
@@ -208,7 +217,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderer.setStatus('Initializing game…');
   renderScoreboard();
 
-  console.log('Welcome to Jeopardish!');
   gameEngine.init();
   await loadQuestions();
 });
