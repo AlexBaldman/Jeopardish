@@ -2199,11 +2199,50 @@ input:focus-visible,
 
 @media (max-width: 760px) {
     :root {
-        --footer-height: 322px;
+        --footer-height: 134px;
+    }
+
+    .play-section {
+        padding-bottom: clamp(1.5rem, 6vw, 3rem);
+    }
+
+    .play-heading {
+        margin-bottom: 1rem;
+    }
+
+    .play-heading h2 {
+        font-size: clamp(2rem, 9vw, 2.8rem);
+    }
+
+    .play-heading p {
+        font-size: clamp(0.95rem, 4.3vw, 1.12rem);
+        line-height: 1.42;
+    }
+
+    .site-footer {
+        padding-bottom: calc(clamp(12rem, 32svh, 16rem) + env(safe-area-inset-bottom));
+    }
+
+    .game-container {
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        height: min(100svh, 760px);
+        min-height: 620px;
+        border-inline-width: 3px;
+        scroll-margin-top: 0.8rem;
     }
 
     .header {
-        grid-template-columns: 1fr auto;
+        grid-template-columns: minmax(0, 1fr) auto;
+        min-height: 0;
+        gap: 0.45rem;
+        padding: 0.48rem 0.62rem 0.55rem;
+        border-bottom-width: 3px;
+    }
+
+    .game-mark {
+        font-size: clamp(1.18rem, 7.7vw, 1.74rem);
+        letter-spacing: 0.025em;
+        text-shadow: 2px 2px 0 rgba(255, 61, 200, 0.42);
     }
 
     .header-controls {
@@ -2217,33 +2256,89 @@ input:focus-visible,
     .language-toggle {
         flex: 1;
         justify-content: center;
+        min-height: 38px;
+        padding-block: 0.22rem;
+        border-width: 2px;
     }
 
     .nav-menu {
-        top: 126px;
+        top: 105px;
         width: min(78vw, 340px);
     }
 
     .main-content {
-        min-height: clamp(360px, calc(100svh - 126px - var(--footer-height)), 540px);
-        padding-top: 1rem;
-        padding-bottom: clamp(6.4rem, 29vw, 7.6rem);
+        min-height: 0;
+        height: 100%;
+        padding: 0.65rem 0.62rem clamp(4.35rem, 19vw, 5.2rem);
         align-content: start;
+        place-items: center;
     }
 
     .speech-bubble {
         width: 100%;
-        min-height: 330px;
-        max-height: calc(100svh - 126px - var(--footer-height) - 1.5rem);
-        padding-bottom: 3.2rem;
+        min-height: clamp(250px, calc(100svh - 105px - var(--footer-height) - 6.2rem), 360px);
+        max-height: calc(100svh - 105px - var(--footer-height) - 1.4rem);
+        gap: 0.48rem;
+        padding: clamp(0.8rem, 3.6vw, 1.05rem) clamp(0.72rem, 3.4vw, 1rem) 2.65rem;
+        border-width: 5px;
+        border-radius: 22px 18px 26px 20px / 18px 26px 20px 24px;
+        box-shadow:
+            6px 7px 0 var(--ink),
+            11px 12px 0 rgba(255, 61, 200, 0.42),
+            inset 0 0 0 3px rgba(255, 255, 255, 0.12),
+            inset 0 -12px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .speech-bubble::before {
+        inset: 8px;
+        border-width: 2px;
+    }
+
+    .speech-bubble::after {
+        left: clamp(96px, 34vw, 150px);
+        bottom: -24px;
+        width: 44px;
+        height: 44px;
+        border-right-width: 5px;
+        border-bottom-width: 5px;
+        box-shadow: 5px 5px 0 var(--ink);
+    }
+
+    .clue-header {
+        gap: 0.42rem;
+    }
+
+    .clue-category {
+        font-size: clamp(0.76rem, 4.7vw, 1.18rem);
+        line-height: 1.36;
+        text-shadow:
+            2px 2px 0 var(--ink),
+            0 0 10px rgba(255, 225, 90, 0.32);
+    }
+
+    .clue-value {
+        width: clamp(188px, 72vw, 286px);
+        box-shadow:
+            0 4px 0 rgba(3, 15, 10, 0.82),
+            0 7px 16px rgba(0, 0, 0, 0.38);
+    }
+
+    .clue-value-amount {
+        font-size: clamp(0.42rem, 2vw, 0.58rem);
+    }
+
+    .clue-value-caption {
+        font-size: clamp(0.28rem, 1.32vw, 0.36rem);
     }
 
     #questionBox {
-        gap: 0.72rem;
+        gap: 0.48rem;
     }
 
     .clue-text {
-        font-size: clamp(1.28rem, 7.5vw, 2.15rem);
+        font-size: clamp(1.05rem, 6.25vw, 1.72rem);
+        line-height: 1.03;
+        text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.42);
     }
 
     .media-preview {
@@ -2255,38 +2350,144 @@ input:focus-visible,
     }
 
     .host-stage {
-        grid-template-columns: 26px minmax(62px, clamp(62px, 18vw, 78px)) 26px;
+        grid-template-columns: 24px minmax(58px, clamp(58px, 17vw, 74px)) 24px;
         gap: 0.12rem;
-        bottom: 1rem;
-        left: 0.72rem;
+        bottom: 0.32rem;
+        left: 0.62rem;
     }
 
     .trebek {
-        width: clamp(62px, 18vw, 78px);
-        height: clamp(88px, 25vw, 114px);
+        width: clamp(58px, 17vw, 74px);
+        height: clamp(78px, 23vw, 100px);
+        filter:
+            drop-shadow(4px 5px 0 var(--ink))
+            drop-shadow(0 0 10px rgba(255, 225, 90, 0.42));
     }
 
     .host-cycle {
-        width: 26px;
-        height: 34px;
-        margin-bottom: 2.1rem;
+        width: 24px;
+        height: 31px;
+        margin-bottom: 1.72rem;
         border-width: 2px;
         border-radius: 7px;
-        font-size: 1.25rem;
+        font-size: 1.16rem;
     }
 
     .host-skin-label {
         order: 2;
-        max-width: 7rem;
+        max-width: 5.8rem;
         margin-bottom: -0.06rem;
-        padding: 0.2rem 0.28rem 0.14rem;
+        padding: 0.18rem 0.22rem 0.13rem;
+        border-width: 2px;
+        font-size: 0.3rem;
+        line-height: 1.3;
+    }
+
+    .control-footer {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.42rem;
+        min-height: 0;
+        padding: 0.46rem 0.58rem calc(0.5rem + env(safe-area-inset-bottom));
+        border-top-width: 4px;
+        box-shadow:
+            inset 0 3px 0 rgba(255, 255, 255, 0.12),
+            0 -7px 0 rgba(0, 0, 0, 0.16);
+    }
+
+    .button-div {
+        gap: 0.42rem;
+        width: 100%;
+    }
+
+    .input-div {
+        grid-template-columns: minmax(0, 1fr) minmax(72px, 0.24fr);
+        gap: 0.42rem;
+        width: 100%;
+    }
+
+    .button-div {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #inputbox {
+        min-height: 44px;
+        padding: 0.52rem 0.58rem;
+        border-width: 3px;
+        font-size: clamp(0.52rem, 3.1vw, 0.68rem);
+        box-shadow:
+            0 4px 0 var(--shadow-hard),
+            inset 0 0 0 2px rgba(50, 246, 255, 0.28);
+    }
+
+    #questionButton,
+    #answerButton,
+    #checkButton {
+        min-height: 46px;
+        padding: 0.38rem 0.46rem;
+        border-width: 3px;
+        box-shadow:
+            0 4px 0 var(--shadow-hard),
+            inset 0 2px 0 rgba(255, 255, 255, 0.36),
+            inset 0 -4px 0 rgba(0, 0, 0, 0.14);
+    }
+
+    .control-symbol {
+        min-width: 2rem;
+        min-height: 2rem;
+    }
+
+    .clue-symbol {
+        width: 2.05rem;
+        height: 2.05rem;
+        font-size: 2.05rem;
+    }
+
+    .answer-symbol {
+        width: 3.2rem;
+        height: 2rem;
+    }
+
+    .eye-lid {
+        width: 3rem;
+        height: 1.55rem;
+        border-width: 3px;
+    }
+
+    .eye-pupil {
+        width: 1.18rem;
+        height: 1.18rem;
+        font-size: 0.42rem;
+    }
+
+    .lock-symbol {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+
+    .lock-ring {
+        width: 2.1rem;
+        height: 2.1rem;
+        border-width: 4px;
+    }
+
+    .lock-core {
+        font-size: 1.3rem;
+    }
+
+    .key-hint {
+        width: 1.05rem;
+        height: 1.05rem;
         border-width: 2px;
         font-size: 0.34rem;
     }
 
-    .input-div,
-    .button-div {
-        grid-template-columns: 1fr;
+    .key-enter {
+        min-width: 2rem;
+        font-size: 0.3rem;
+    }
+
+    .button-tooltip {
+        display: none;
     }
 }
 
