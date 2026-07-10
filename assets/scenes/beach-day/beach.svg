@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sand" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffe8a6"/>
+      <stop offset="1" stop-color="#f1b65b"/>
+    </linearGradient>
+  </defs>
+  <path d="M0 620c246-84 412 8 624-40c216-49 366-92 592-25c144 43 262 51 384 27v318H0z" fill="url(#sand)"/>
+  <g opacity="0.48" fill="none" stroke="#b97835" stroke-linecap="round" stroke-width="5">
+    <path d="M95 720q42 16 86-2"/>
+    <path d="M310 667q36 14 79-4"/>
+    <path d="M675 742q55 20 108-6"/>
+    <path d="M1300 694q48 18 92-6"/>
+  </g>
+  <g transform="translate(145 602)">
+    <path d="M84 42l33 188" stroke="#6d3a1c" stroke-linecap="round" stroke-width="15"/>
+    <path d="M95 46C74-18 8-26-58 20c63 0 105 7 153 26z" fill="#20c27b" stroke="#171317" stroke-width="6"/>
+    <path d="M95 46c46-68 126-69 184-10c-76-11-123-7-184 10z" fill="#20c27b" stroke="#171317" stroke-width="6"/>
+    <path d="M95 46c-8-74 42-125 116-118c-55 36-85 70-116 118z" fill="#20c27b" stroke="#171317" stroke-width="6"/>
+  </g>
+  <g transform="translate(494 680)">
+    <circle cx="0" cy="0" r="36" fill="#fff8df" stroke="#171317" stroke-width="7"/>
+    <path d="M-29 2a36 36 0 0 1 58 0" fill="#ff405b"/>
+    <path d="M-2-35a36 36 0 0 1 0 70" fill="#32f6ff"/>
+  </g>
+  <g transform="translate(812 650)">
+    <rect x="-80" y="0" width="170" height="72" rx="18" fill="#ff3dc8" stroke="#171317" stroke-width="7"/>
+    <path d="M-94 72H106" stroke="#171317" stroke-linecap="round" stroke-width="9"/>
+    <text x="5" y="48" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="32" fill="#fff8df">QUIZ</text>
+  </g>
+</svg>

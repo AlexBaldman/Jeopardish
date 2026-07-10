@@ -36,11 +36,13 @@ const state = {
   bestStreak: 0,
   theme: 'dark',
   language: 'en',
+  hostSkinId: '',
 };
 
 const BEST_STREAK_KEY = 'jeopardish.bestStreak';
 const THEME_KEY = 'jeopardish.theme';
 const LANGUAGE_KEY = 'jeopardish.language';
+const HOST_SKIN_KEY = 'jeopardish.hostSkin';
 
 const UI_COPY = {
   en: {
@@ -108,6 +110,7 @@ const contracts = globalThis.JeopardishContracts || null;
 const eventBusModule = globalThis.JeopardishEventBus || null;
 const engineModule = globalThis.JeopardishEngine || null;
 const dataModule = globalThis.JeopardishData || null;
+const sceneModule = globalThis.JeopardishSceneService || null;
 const rendererModule = globalThis.JeopardishRenderer || null;
 const narratorModule = globalThis.JeopardishConsoleNarrator || null;
 const hostModule = globalThis.JeopardishHost || null;
@@ -119,9 +122,12 @@ if (!contracts || !eventBusModule || !engineModule || !dataModule || !rendererMo
 let eventBus;
 let gameEngine;
 let dataLoader;
+let sceneService;
 let renderer;
 let consoleNarrator;
 let hostManager;
+let gameStarted = false;
+let gameStartPromise = null;
 
 function loadPersistedBestStreak() {
   try {
@@ -144,6 +150,10 @@ function loadPersistedPreferences() {
     }
     if (language === 'en' || language === 'pt-BR') {
       state.language = language;
+    }
+    const hostSkinId = globalThis.localStorage?.getItem(HOST_SKIN_KEY);
+    if (hostSkinId) {
+      state.hostSkinId = hostSkinId;
     }
   } catch (error) {
     console.warn('Unable to read persisted UI preferences.', error);
@@ -174,6 +184,7 @@ function applyPreferences() {
   const copy = getCopy();
   globalThis.document?.body?.setAttribute('data-theme', state.theme);
   globalThis.document?.body?.setAttribute('data-language', state.language);
+  sceneService?.setTheme(state.theme);
   renderer.setCopy(copy);
   renderer.setToggleStates({
     theme: state.theme,
@@ -207,7 +218,24 @@ function renderScoreboard() {
 
 function renderHost(expression = 'neutral') {
   const host = hostManager.getActiveHost();
-  renderer.renderHost(host, expression, hostManager.getVisual(expression));
+  renderer.renderHost(host, expression, hostManager.getVisual(expression), hostManager.getActiveSkin());
+}
+
+function persistHostSkin() {
+  const skin = hostManager.getActiveSkin();
+  if (skin?.id) {
+    persistPreference(HOST_SKIN_KEY, skin.id);
+  }
+}
+
+function getCurrentHostExpression() {
+  return renderer?.dom?.hostImage?.dataset?.expression || 'neutral';
+}
+
+function cycleHostSkin(step) {
+  hostManager.cycleSkin(step);
+  persistHostSkin();
+  renderHost(getCurrentHostExpression());
 }
 
 function getRandomQuestion() {
@@ -233,6 +261,11 @@ function renderClue(clue) {
 }
 
 function getNewQuestion() {
+  if (!gameStarted) {
+    startGame();
+    return;
+  }
+
   renderClue(getRandomQuestion());
 }
 
@@ -303,6 +336,44 @@ async function loadQuestions() {
   }
 }
 
+function startGame() {
+  if (gameStartPromise) {
+    return gameStartPromise;
+  }
+
+  gameStarted = true;
+  renderer.setStatus(getCopy().initializing);
+  gameEngine.init();
+  gameStartPromise = loadQuestions();
+  return gameStartPromise;
+}
+
+function bindGameActivation() {
+  globalThis.addEventListener?.('jeopardish:activate', startGame);
+
+  const playSection = globalThis.document.getElementById('play');
+  if (!playSection || !('IntersectionObserver' in globalThis)) {
+    startGame();
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      startGame();
+      observer.disconnect();
+    }
+  }, {
+    rootMargin: '360px 0px',
+    threshold: 0.02,
+  });
+
+  observer.observe(playSection);
+
+  if (globalThis.location?.hash === '#play') {
+    startGame();
+  }
+}
+
 function bindEvents() {
   renderer.bindEvents({
     onToggleAnswer: showHideAnswer,
@@ -310,6 +381,8 @@ function bindEvents() {
     onCheckAnswer: checkAnswer,
     onToggleTheme: toggleTheme,
     onToggleLanguage: toggleLanguage,
+    onPreviousHostSkin: () => cycleHostSkin(-1),
+    onNextHostSkin: () => cycleHostSkin(1),
   });
 
   globalThis.document.addEventListener('keydown', (event) => {
@@ -338,19 +411,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     bestStreak: state.bestStreak,
   });
   dataLoader = new dataModule.DataLoader({ eventBus });
+  sceneService = sceneModule ? new sceneModule.SceneService() : null;
   renderer = new rendererModule.Renderer();
   consoleNarrator = new narratorModule.ConsoleNarrator({ eventBus });
   hostManager = new hostModule.HostManager();
+  hostManager.setActiveSkin(state.hostSkinId);
   consoleNarrator.start();
 
   renderer.bindDom();
+  sceneService?.bindDom();
   applyPreferences();
   renderHost('neutral');
   bindEvents();
   renderer.setControlsEnabled(false);
-  renderer.setStatus(getCopy().initializing);
+  renderer.setStatus('Studio standing by.');
   renderScoreboard();
 
-  gameEngine.init();
-  await loadQuestions();
+  bindGameActivation();
 });

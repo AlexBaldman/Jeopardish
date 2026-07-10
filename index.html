@@ -4,110 +4,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeopardish!</title>
-    <link rel="stylesheet" href="style.css?v=arcade-2" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Jeopardish | The Forbidden Broadcast</title>
+    <meta name="description" content="Jeopardish is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
+    <link rel="stylesheet" href="style.css?v=vision-6" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script defer src="game-logic.js?v=arcade-2"></script>
+    <script defer src="game-logic.js?v=arcade-4"></script>
     <script defer src="src/contracts/events.js?v=arcade-2"></script>
     <script defer src="src/core/event-bus.js?v=arcade-2"></script>
-    <script defer src="src/core/game-engine.js?v=arcade-2"></script>
+    <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
-    <script defer src="src/render/renderer.js?v=arcade-2"></script>
-    <script defer src="src/render/console-narrator.js?v=arcade-2"></script>
-    <script defer src="src/host/host-manager.js?v=arcade-2"></script>
-    <script defer src="app.js?v=arcade-2"></script>
+    <script defer src="src/render/scene-service.js?v=beach-1"></script>
+    <script defer src="src/render/renderer.js?v=vision-1"></script>
+    <script defer src="src/render/console-narrator.js?v=arcade-4"></script>
+    <script defer src="src/host/host-manager.js?v=vision-1"></script>
+    <script defer src="landing.js?v=vision-2"></script>
+    <script defer src="app.js?v=vision-2"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
+    <div class="signal-progress" aria-hidden="true"><span id="signalProgressBar"></span></div>
 
-    <!-- GAME CONTAINER -->
-    <div class="game-container">
-
-        <!-- HEADER -->
-        <header class="header">
-            <div class="title-div">
-                <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">
-            </div>
-            <div class="header-controls" aria-label="Game preferences">
-                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false">
-                    <span class="toggle-track" aria-hidden="true">
-                        <span class="toggle-bulb"></span>
-                    </span>
-                    <span class="toggle-label" id="themeToggleLabel">Night</span>
-                </button>
-                <button class="language-toggle" id="languageToggle" type="button" aria-label="Toggle English or Brazilian Portuguese" aria-pressed="false">
-                    <span class="flag-stack" aria-hidden="true">
-                        <span class="flag flag-us">US</span>
-                        <span class="flag flag-br">BR</span>
-                    </span>
-                    <span class="toggle-label" id="languageToggleLabel">English</span>
-                </button>
-            </div>
-            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
-        </header>
-
-        <!-- NAVIGATION MENU -->
-        <nav class="nav-menu" id="navMenu">
-            <p class="nav-kicker">Cabinet Readout</p>
-            <div id="dataBox" class="data-box">
-                <p id="currentStreak">Current Streak: 0</p>
-                <p id="bestStreak">Best Streak: 0</p>
-                <p id="score">Score: $0</p>
-            </div>
+    <header class="broadcast-nav" aria-label="Primary navigation">
+        <a class="wordmark" href="#top" aria-label="Jeopardish home">
+            <span class="wordmark-main">JEOPARDISH</span>
+            <span class="wordmark-sub">THE FORBIDDEN BROADCAST</span>
+        </a>
+        <nav class="site-links" aria-label="Site sections">
+            <a href="#evidence">Evidence</a>
+            <a href="#formats">Formats</a>
+            <a href="#system">System</a>
+            <a href="#maps">Maps</a>
+            <a href="#roadmap">Roadmap</a>
         </nav>
-
-        <div class="main-content">
-            <!-- SPEECH BUBBLE -->
-            <div class="speech-bubble">
-                <p id="statusMessage" class="status-message" aria-live="polite"></p>
-                <div id="categoryBox"></div>
-                <div id="questionBox"></div>
-                <div id="answerBox"></div>
-            </div>
-
-            <!-- TREBEK DIV -->
-            <!-- original svg trebek -->
-            <img class="trebek" id="hostImage" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.png">
-
-            <!-- new pimped out trebek  -->
-            <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-6.webp"> -->
+        <div class="nav-actions">
+            <button class="theme-toggle site-theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false">
+                <span class="toggle-track" aria-hidden="true">
+                    <span class="toggle-bulb"></span>
+                </span>
+                <span class="toggle-label" id="themeToggleLabel">Night</span>
+            </button>
+            <a class="nav-launch" href="#play" data-launch-game>Enter Studio</a>
         </div>
+    </header>
 
-        <footer class="control-footer" aria-label="Contestant controls">
-            <div class="input-div">
-                <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
-                <button id="checkButton" class="cabinet-button lock-button" aria-label="Lock It In. Keyboard shortcut: Enter" data-tooltip="Lock It In" data-key="Enter" accesskey="l">
-                    <span class="control-symbol lock-symbol" aria-hidden="true">
-                        <span class="lock-ring"></span>
-                        <span class="lock-core">!</span>
-                    </span>
-                    <span class="key-hint key-enter" aria-hidden="true">ENTER</span>
-                    <span class="button-tooltip" aria-hidden="true">Lock It In</span>
-                </button>
+    <main class="site-shell" id="top">
+        <section class="hero" aria-labelledby="heroTitle">
+            <div class="hero-copy reveal">
+                <p class="eyebrow"><span class="signal-dot"></span> Midnight frequency acquired / Season zero</p>
+                <h1 id="heroTitle">The forbidden broadcast that makes learning feel illicitly fun.</h1>
+                <p class="hero-lede">An original comedy-learning game-show universe built on verified facts, counterfeit stakes, and one suspiciously polite fictional host.</p>
+                <div class="hero-actions">
+                    <a class="action-primary" href="#play" data-launch-game>Play the Prototype</a>
+                    <a class="action-secondary" href="#premise">Unseal the Premise</a>
+                </div>
+                <div class="broadcast-code" aria-label="Broadcast principles">
+                    <span>TRUTH AT THE CORE</span>
+                    <span>THEATER EVERYWHERE ELSE</span>
+                </div>
             </div>
-            <div class="button-div">
-                <button id="questionButton" class="cabinet-button clue-button" aria-label="New Clue. Keyboard shortcut: Q" data-tooltip="New Clue" data-key="Q" accesskey="q">
-                    <span class="control-symbol clue-symbol" aria-hidden="true">?</span>
-                    <span class="key-hint key-dot" aria-hidden="true">Q</span>
-                    <span class="button-tooltip" aria-hidden="true">New Clue</span>
-                </button>
-                <button id="answerButton" class="cabinet-button answer-button" aria-label="Reveal Answer. Keyboard shortcut: A" data-tooltip="Reveal Answer" data-key="A" accesskey="a">
-                    <span class="control-symbol answer-symbol" aria-hidden="true">
-                        <span class="eye-lid"></span>
-                        <span class="eye-pupil">A</span>
-                    </span>
-                    <span class="key-hint key-corner" aria-hidden="true">A</span>
-                    <span class="button-tooltip" aria-hidden="true">Reveal Answer</span>
-                </button>
-            </div>
-        </footer>
+            <figure class="hero-art reveal">
+                <img src="assets/images/vision/malex-broadcast-hero.png" alt="Fictional quiz host Malex at a neon celestial game-show podium holding questionable trivia currency.">
+                <figcaption>
+                    <span>ON AIR</span>
+                    M. Alex “Malex” Trebek insists this is legitimate television.
+                </figcaption>
+            </figure>
+        </section>
 
+        <section class="manifesto reveal" id="premise" aria-label="The premise">
+            <p class="manifesto-kicker">The Pivot</p>
+            <p class="manifesto-statement">Keep trivia as the spine. Leave the single-show clone behind.</p>
+            <p class="manifesto-copy">Jeopardish becomes a late-night learning network assembled from the joyous grammar of old game shows: wagers, lightning rounds, puzzles, artifacts, fake prizes, and escalating finales.</p>
+        </section>
+
+        <section class="evidence section" id="evidence" aria-labelledby="evidenceTitle">
+            <div class="section-heading reveal">
+                <p class="eyebrow">Corpus Proof</p>
+                <h2 id="evidenceTitle">The seed library is enormous, strange, and already demanding a platform.</h2>
+                <p>Measured locally from the active archival question bank. These numbers are product requirements, not trivia.</p>
+            </div>
+            <div class="metric-grid reveal" aria-label="Question bank statistics">
+                <article class="metric-card metric-gold">
+                    <strong data-count="216930">216,930</strong>
+                    <span>Clue records</span>
+                    <small>1984 - 2012</small>
+                </article>
+                <article class="metric-card metric-cyan">
+                    <strong data-count="27995">27,995</strong>
+                    <span>Categories</span>
+                    <small>Raw category labels</small>
+                </article>
+                <article class="metric-card metric-green">
+                    <strong data-count="10523">10,523</strong>
+                    <span>Media-linked</span>
+                    <small>Not an edge case</small>
+                </article>
+                <article class="metric-card metric-pink">
+                    <strong data-count="9316">9,316</strong>
+                    <span>Complex answers</span>
+                    <small>Parenthetical rulings</small>
+                </article>
+            </div>
+            <div class="data-stage reveal">
+                <div class="round-chart">
+                    <p class="micro-label">Records by historical round</p>
+                    <div class="chart-row"><span>JEOPARDY!</span><i style="--fill:100%; --tone:var(--neon-cyan);"></i><b>107,384</b></div>
+                    <div class="chart-row"><span>DOUBLE</span><i style="--fill:98.6%; --tone:var(--neon-yellow);"></i><b>105,912</b></div>
+                    <div class="chart-row"><span>FINAL</span><i style="--fill:3.4%; --tone:var(--neon-pink);"></i><b>3,631</b></div>
+                </div>
+                <article class="fault-card">
+                    <p class="micro-label">Semantic fault discovered</p>
+                    <div class="fault-note">
+                        <img src="assets/images/banknotes/trivia-note-questionable.png" alt="">
+                        <strong>$367</strong>
+                    </div>
+                    <p>A verified Daily Double wager proves that a dollar amount is not always a normal clue value.</p>
+                    <span class="tag">NORMALIZE FIRST</span>
+                </article>
+            </div>
+        </section>
+
+        <section class="story section" id="story" aria-labelledby="storyTitle">
+            <figure class="portrait-frame reveal">
+                <img src="assets/images/vision/malex-counterfeit-portrait.png" alt="Original fictional host Malex holding a purple counterfeit trivia note.">
+                <figcaption>PUBLICLY: M. ALEX. &nbsp; EVENTUALLY: MALEX.</figcaption>
+            </figure>
+            <div class="story-copy reveal">
+                <p class="eyebrow">Original Host IP</p>
+                <h2 id="storyTitle">A respectable host with an inconvenient identity problem.</h2>
+                <p>Malex assumes control of a forbidden after-hours signal and assures players the money is legal in several provinces. The more a player masters, the more his story falls apart.</p>
+                <ol class="host-states" aria-label="Host story escalation">
+                    <li><strong>Polite</strong><span>Immaculate and reassuring.</span></li>
+                    <li><strong>Slippery</strong><span>Unasked anecdotes emerge.</span></li>
+                    <li><strong>Defensive</strong><span>Forged memos surface.</span></li>
+                    <li><strong>Exposed</strong><span>Knowledge corners him.</span></li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="formats section" id="formats" aria-labelledby="formatsTitle">
+            <div class="section-heading reveal">
+                <p class="eyebrow">Mode Design</p>
+                <h2 id="formatsTitle">Three experiences share a brain; none should compromise the others.</h2>
+            </div>
+            <div class="format-switcher reveal">
+                <div class="format-tabs" role="tablist" aria-label="Jeopardish game modes">
+                    <button class="format-tab active" type="button" role="tab" aria-selected="true" aria-controls="modeStudy" id="tabStudy" data-mode="study">Study</button>
+                    <button class="format-tab" type="button" role="tab" aria-selected="false" aria-controls="modeArcade" id="tabArcade" data-mode="arcade">Arcade Story</button>
+                    <button class="format-tab" type="button" role="tab" aria-selected="false" aria-controls="modeClassic" id="tabClassic" data-mode="classic">Classic Strategy</button>
+                </div>
+                <div class="format-panels">
+                    <article class="format-panel active" id="modeStudy" role="tabpanel" aria-labelledby="tabStudy" data-panel="study">
+                        <p class="panel-label">Remember more</p>
+                        <h3>Precise recall with humane judging.</h3>
+                        <p>Filtered facts, explanation reveal, spaced return visits, and typo-tolerant input matching turn a quick game into durable recall.</p>
+                        <div class="feature-tags"><span>Retrieval</span><span>Mastery</span><span>Review</span></div>
+                    </article>
+                    <article class="format-panel" id="modeArcade" role="tabpanel" aria-labelledby="tabArcade" data-panel="arcade" hidden>
+                        <p class="panel-label">Laugh + uncover</p>
+                        <h3>Ten minutes from confidence to suspicion.</h3>
+                        <p>Counterfeit wagers and evidence envelopes turn correct answers into artifacts in the mystery of Malex's increasingly suspicious broadcast.</p>
+                        <div class="feature-tags"><span>Episodes</span><span>Artifacts</span><span>Malex</span></div>
+                    </article>
+                    <article class="format-panel" id="modeClassic" role="tabpanel" aria-labelledby="tabClassic" data-panel="classic" hidden>
+                        <p class="panel-label">Risk wisely</p>
+                        <h3>A strategic board once the rules are honest.</h3>
+                        <p>Boards, wagers, finals, and multiplayer belong here only after the content model correctly distinguishes ordinary value from historical wager.</p>
+                        <div class="feature-tags"><span>Boards</span><span>Wagers</span><span>Finale</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="system section" id="system" aria-labelledby="systemTitle">
+            <div class="section-heading reveal">
+                <p class="eyebrow">AI Trust Boundary</p>
+                <h2 id="systemTitle">Let the host improvise. Never let it become the judge.</h2>
+                <p>A performance layer can be delightfully unreliable only because a deterministic fact kernel is boring and correct.</p>
+            </div>
+            <div class="boundary reveal">
+                <article class="boundary-panel truth">
+                    <p>Deterministic kernel</p>
+                    <ul>
+                        <li>Canonical fact + sources</li>
+                        <li>Accepted answer policy</li>
+                        <li>Wager / timer / scoring</li>
+                        <li>Mastery + dispute ledger</li>
+                    </ul>
+                    <strong>Score / Truth / Fairness</strong>
+                </article>
+                <div class="packet" aria-hidden="true"><span>FACT</span><span>PACKET</span></div>
+                <article class="boundary-panel theater">
+                    <p>Generative show</p>
+                    <ul>
+                        <li>Clue phrasing candidate</li>
+                        <li>Malex banter + reactions</li>
+                        <li>Artifact flavor copy</li>
+                        <li>Audio / visual direction</li>
+                    </ul>
+                    <strong>Performance / Surprise / Tone</strong>
+                </article>
+            </div>
+        </section>
+
+        <section class="maps section" id="maps" aria-labelledby="mapsTitle">
+            <div class="section-heading reveal">
+                <p class="eyebrow">Signal Maps</p>
+                <h2 id="mapsTitle">A strange show becomes clearer when you can see the circuitry.</h2>
+                <p>These living diagrams show how learning moves the plot, and why the host can be unpredictable without the game becoming unfair.</p>
+            </div>
+            <div class="map-grid">
+                <article class="diagram-card reveal">
+                    <div class="diagram-heading">
+                        <p class="micro-label">Player-to-plot loop</p>
+                        <h3>Learning rebuilds the studio.</h3>
+                    </div>
+                    <pre class="mermaid">
+flowchart TB
+    fact["Verified fact"] --> lens["Mechanic lens"]
+    lens --> answer{"Player response"}
+    answer -->|"Correct / near typo"| judge["Fair judge"]
+    answer -->|"Wrong"| correction["Correction + comic callback"]
+    judge --> mastery["Mastery grows"]
+    correction --> mastery
+    mastery --> studio["Studio rebuilds"]
+    studio --> evidence["Malex leaks evidence"]
+                    </pre>
+                </article>
+                <article class="diagram-card reveal">
+                    <div class="diagram-heading">
+                        <p class="micro-label">Trust boundary</p>
+                        <h3>The show may lie. The engine cannot.</h3>
+                    </div>
+                    <pre class="mermaid">
+flowchart TB
+    archive["Archive + original facts"] --> normalize["Normalize value / media / answer"]
+    legacy["Legacy harvest tests"] --> kernel["Truth kernel"]
+    normalize --> packet["Validated fact packet"]
+    packet --> kernel
+    packet --> show["Performance layer"]
+    kernel --> result["Score + mastery + disputes"]
+    show --> theater["Banter + art + mystery"]
+    result --> trust["Player trust"]
+    theater --> trust
+                    </pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="sparks section" id="sparks" aria-labelledby="sparksTitle">
+            <figure class="studio-art reveal">
+                <img src="assets/images/vision/memory-palace-studio.png" alt="An expansive neon memory-palace studio rebuilt through mastered knowledge.">
+            </figure>
+            <div class="sparks-copy reveal">
+                <p class="eyebrow">The Sparks</p>
+                <h2 id="sparksTitle">The rare ideas worth protecting early.</h2>
+                <div class="spark-list">
+                    <article><b>01</b><h3>The studio rebuilds</h3><p>Mastered knowledge restores rooms in a physical memory-palace world.</p></article>
+                    <article><b>02</b><h3>Wrong answers return</h3><p>Clearly false comic callbacks make corrections impossible to forget.</p></article>
+                    <article><b>03</b><h3>Knowledge exposes him</h3><p>Mastery domains unlock evidence about the host's increasingly shaky claims.</p></article>
+                    <article><b>04</b><h3>Creator channels</h3><p>Teachers and families assemble original learning television.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="roadmap section" id="roadmap" aria-labelledby="roadmapTitle">
+            <div class="section-heading reveal">
+                <p class="eyebrow">Delivery Roadmap</p>
+                <h2 id="roadmapTitle">Build truth before theater; then let theater drive retention.</h2>
+            </div>
+            <div class="roadmap-line reveal">
+                <article><span>0-A</span><h3>Legacy + Truth</h3><p>Harvest better judging, normalize values, fix finale scoring.</p><strong>Trusted prototype</strong></article>
+                <article><span>B</span><h3>Arcade Slice</h3><p>Original fact pack, Malex art kit, wager and evidence.</p><strong>Signature session</strong></article>
+                <article><span>C</span><h3>AI Performance</h3><p>Secure gateway, validated rewrites, cached reactions.</p><strong>Living host</strong></article>
+                <article><span>D</span><h3>Network</h3><p>More mechanics, creators, co-op, new story seasons.</p><strong>Learning platform</strong></article>
+            </div>
+        </section>
+
+        <section class="play-section section" id="play" aria-labelledby="playTitle">
+            <div class="section-heading play-heading reveal">
+                <p class="eyebrow">Live Transmission</p>
+                <h2 id="playTitle">The prototype is on the air.</h2>
+                <p>Try a clue. The answer judge tolerates punctuation, capitalization, extra spaces, aliases, plurals, diacritics, and sensible typo distance.</p>
+            </div>
+
+            <div class="game-container reveal">
+                <div class="scene-stage" id="sceneStage" aria-hidden="true"></div>
+                <header class="header game-header">
+                    <div class="title-div">
+                        <p class="game-mark" aria-label="Jeopardish">JEOPARDISH<span>!</span></p>
+                    </div>
+                    <div class="header-controls" aria-label="Game preferences">
+                        <button class="language-toggle" id="languageToggle" type="button" aria-label="Toggle English or Brazilian Portuguese" aria-pressed="false">
+                            <span class="flag-stack" aria-hidden="true"><span class="flag flag-us">US</span><span class="flag flag-br">BR</span></span>
+                            <span class="toggle-label" id="languageToggleLabel">English</span>
+                        </button>
+                    </div>
+                    <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open score cabinet">
+                        <span aria-hidden="true">☰</span>
+                    </button>
+                </header>
+
+                <nav class="nav-menu" id="navMenu" aria-label="Score cabinet">
+                    <p class="nav-kicker">Cabinet Readout</p>
+                    <div id="dataBox" class="data-box">
+                        <p id="currentStreak">Current Streak: 0</p>
+                        <p id="bestStreak">Best Streak: 0</p>
+                        <p id="score">Score: $0</p>
+                    </div>
+                </nav>
+
+                <div class="main-content">
+                    <div class="speech-bubble">
+                        <div id="categoryBox" class="clue-header">
+                            <h2 class="clue-category">TRANSMISSION READY</h2>
+                        </div>
+                        <div id="questionBox" class="clue-content">
+                            <p id="clueText" class="clue-text">Approach the studio to load your first clue.</p>
+                            <div id="clueMedia" class="clue-media" aria-label="Clue media"></div>
+                        </div>
+                        <div id="answerBox"></div>
+                    </div>
+                    <div class="host-stage" aria-label="Host visual selector">
+                        <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
+                        <figure class="host-stand">
+                            <img class="trebek" id="hostImage" alt="Malex, the fictional Jeopardish host" src="assets/images/vision/malex-counterfeit-portrait.png">
+                            <figcaption class="host-skin-label" id="hostSkinLabel">Counterfeit Malex</figcaption>
+                        </figure>
+                        <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look">›</button>
+                    </div>
+                </div>
+
+                <footer class="control-footer" aria-label="Contestant controls">
+                    <div class="input-div">
+                        <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+                        <button id="checkButton" class="cabinet-button lock-button" type="button" aria-label="Lock It In. Keyboard shortcut: Enter" data-tooltip="Lock It In" data-key="Enter" accesskey="l">
+                            <span class="control-symbol lock-symbol" aria-hidden="true"><span class="lock-ring"></span><span class="lock-core">!</span></span>
+                            <span class="key-hint key-enter" aria-hidden="true">ENTER</span>
+                            <span class="button-tooltip" aria-hidden="true">Lock It In</span>
+                        </button>
+                    </div>
+                    <div class="button-div">
+                        <button id="questionButton" class="cabinet-button clue-button" type="button" aria-label="New Clue. Keyboard shortcut: Q" data-tooltip="New Clue" data-key="Q" accesskey="q">
+                            <span class="control-symbol clue-symbol" aria-hidden="true">?</span>
+                            <span class="key-hint key-dot" aria-hidden="true">Q</span>
+                            <span class="button-tooltip" aria-hidden="true">New Clue</span>
+                        </button>
+                        <button id="answerButton" class="cabinet-button answer-button" type="button" aria-label="Reveal Answer. Keyboard shortcut: A" data-tooltip="Reveal Answer" data-key="A" accesskey="a">
+                            <span class="control-symbol answer-symbol" aria-hidden="true"><span class="eye-lid"></span><span class="eye-pupil">A</span></span>
+                            <span class="key-hint key-corner" aria-hidden="true">A</span>
+                            <span class="button-tooltip" aria-hidden="true">Reveal Answer</span>
+                        </button>
+                    </div>
+                </footer>
+                <p id="statusMessage" class="visually-hidden" aria-live="polite"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="wordmark-main">JEOPARDISH</p>
+        <p>An original fictional comedy-learning broadcast universe. The host is fictional; the truth layer is not.</p>
+        <a href="#top">Return to frequency</a>
+    </footer>
+
+    <div class="media-modal" id="mediaModal" aria-hidden="true" hidden>
+        <div class="media-modal-backdrop" id="mediaModalBackdrop"></div>
+        <section class="media-dialog" role="dialog" aria-modal="true" aria-labelledby="mediaModalTitle" tabindex="-1">
+            <header class="media-dialog-header">
+                <div>
+                    <p class="media-dialog-kicker" id="mediaModalType">CLUE MEDIA</p>
+                    <h2 class="media-dialog-title" id="mediaModalTitle">Clue Media</h2>
+                </div>
+                <button class="media-modal-close" id="mediaModalClose" type="button" aria-label="Close media viewer">X</button>
+            </header>
+            <div class="media-modal-body" id="mediaModalBody"></div>
+            <a class="media-original-link" id="mediaModalLink" href="#" target="_blank" rel="noopener noreferrer">OPEN ORIGINAL</a>
+        </section>
     </div>
 </body>
 

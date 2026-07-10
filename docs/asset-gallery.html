@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jeopardish Asset Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080a16;
+      --panel: #131834;
+      --ink: #eaf0ff;
+      --muted: #99abd3;
+      --gold: #ffe15a;
+      --pink: #ff4cae;
+      --green: #6bffba;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 50% -10%, #31376d, transparent 42rem),
+        linear-gradient(180deg, #0f1430, var(--bg));
+      font-family: "Roboto Condensed", Arial, sans-serif;
+    }
+    header {
+      padding: clamp(1.4rem, 5vw, 3.5rem) clamp(1rem, 4vw, 3rem) 1.8rem;
+      max-width: 1440px;
+      margin: auto;
+    }
+    h1, h2 { font-family: "Press Start 2P", monospace; text-transform: uppercase; }
+    h1 { color: var(--gold); font-size: clamp(1.2rem, 3.2vw, 2.15rem); line-height: 1.55; margin: 0 0 1rem; }
+    h2 { color: var(--pink); font-size: clamp(0.72rem, 1.4vw, 0.95rem); line-height: 1.6; margin: 0 0 0.55rem; }
+    p { max-width: 72ch; color: var(--muted); font-size: 1.08rem; line-height: 1.45; }
+    .callout {
+      border: 2px solid rgba(107, 255, 186, 0.42);
+      background: rgba(16, 38, 47, 0.75);
+      padding: 0.9rem 1.1rem;
+      color: var(--green);
+    }
+    main { max-width: 1440px; margin: auto; padding: 0 clamp(1rem, 4vw, 3rem) 4rem; }
+    section {
+      margin: 1.3rem 0;
+      padding: clamp(1rem, 2vw, 1.4rem);
+      border: 2px solid rgba(148, 174, 244, 0.19);
+      background: rgba(19, 24, 52, 0.84);
+      border-radius: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+      gap: 0.85rem;
+    }
+    .grid.wide { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+    figure {
+      display: grid;
+      align-content: start;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0.55rem;
+      min-width: 0;
+      border-radius: 8px;
+      background: #0b1025;
+      border: 1px solid rgba(148, 174, 244, 0.15);
+    }
+    img, video {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 5px;
+      background: repeating-conic-gradient(#252b47 0 25%, #151a34 0 50%) 0 / 20px 20px;
+    }
+    .wide img { height: auto; aspect-ratio: 3 / 1; }
+    video { object-fit: cover; }
+    figcaption { overflow-wrap: anywhere; font-size: 0.88rem; line-height: 1.3; color: var(--ink); }
+    .tag {
+      display: inline-block;
+      width: fit-content;
+      padding: 0.16rem 0.32rem;
+      color: var(--gold);
+      border: 1px solid rgba(255, 225, 90, 0.42);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+    code { color: #c9d7ff; font-size: 0.82em; }
+    ul { color: var(--muted); line-height: 1.6; }
+    a { color: var(--green); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jeopardish Art Vault</h1>
+    <p>A visual inventory of production assets, dormant host art, recorded reactions, and suspicious new game currency. Paths are shown so an approved candidate can be wired into the host cleanly.</p>
+    <p class="callout">Working fiction pitch: <strong>M. Alex "Malex" Trebek</strong>, an entirely invented Canadian-adjacent podium usurper whose clue cards and fake bills slowly give him away.</p>
+  </header>
+  <main id="gallery"></main>
+  <script>
+    const root = '../assets/';
+    const numbered = (prefix, start, end, extension) =>
+      Array.from({ length: end - start + 1 }, (_, index) => `${prefix}${String(index + start).padStart(2, '0')}.${extension}`);
+    const groups = [
+      {
+        name: 'New Currency',
+        note: 'Production candidates now used behind each live clue value. Exact denominations remain selectable HTML text.',
+        wide: true,
+        tag: 'Production',
+        files: ['images/banknotes/trivia-note-officialish.png', 'images/banknotes/trivia-note-questionable.png'],
+      },
+      {
+        name: 'Neon Illustrated Host Concepts',
+        note: 'High-impact portraits that were present but not connected to the resting host pose. Files 1 and 2 are exact duplicates.',
+        tag: 'Concept',
+        files: Array.from({ length: 6 }, (_, i) => `trebek/trebek-${i + 1}.webp`),
+      },
+      {
+        name: 'Alternate Host Concepts',
+        note: 'Pixel-show, meta, and rendered portrait experiments. Useful for choosing tone, not a consistent reaction kit yet.',
+        tag: 'Concept',
+        files: [
+          'trebek-other-images/a_pixel_art_parody_of_jeopardy_as_a_sega_game_with_a_tipsy_and_sly_grin_trebek_character_zoomed_in_wearing_rayban_wayfarer_sunglasses_with_pink_frames_and_reflective_colored_lenses.jpeg',
+          'trebek-other-images/trebek-god.png',
+          'trebek-other-images/trebek-meta -beachbum.jpeg',
+          'trebek-other-images/trebek-meta-1.jpeg',
+          'trebek-other-images/trebek-meta-4.jpeg',
+          'trebek-other-images/Screenshot 2024-07-28 at 8.56.17\u202fPM.png',
+          'trebek-other-images/Screenshot 2024-07-28 at 8.56.52\u202fPM.png',
+          'trebek-other-images/Screenshot 2024-07-28 at 8.59.06\u202fPM.png',
+        ],
+      },
+      {
+        name: 'Legacy Neutral / Variant Host',
+        note: 'The flat vector PNG is the current idle runtime asset. Zombie material is preserved as a separate alternate direction.',
+        tag: 'Legacy',
+        files: [
+          'images/trebek-vector.png',
+          'images/trebek-vector.svg',
+          'images/trebek-vector-zombie.png',
+          'images/trebek-zombie.jpg',
+          'images/trebek-zombie.svg',
+          'trebek-vector-backup.png',
+          'trebek-vector-zombie.png',
+          'trebek-vector.svg',
+          'trebek-with-sunglasses.svg',
+          'trebek-real.png',
+          'images/trebek-yearbook.jpeg',
+          'images/trebek-6.webp',
+        ],
+      },
+      {
+        name: 'Positive Reaction GIF Archive',
+        note: 'Recorded real-host reaction material. Keep as archive/reference if the new on-screen host becomes fictional.',
+        tag: 'Archive',
+        files: numbered('trebek/trebek-gifs/trebek-reactions-good/alex-good-', 1, 16, 'gif'),
+      },
+      {
+        name: 'Negative Reaction GIF Archive',
+        note: 'Recorded real-host reaction material. Sequence intentionally has no file numbered 06.',
+        tag: 'Archive',
+        files: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17].map((n) =>
+          `trebek/trebek-gifs/trebek-reactions-bad/alex-bad-${String(n).padStart(2, '0')}.gif`),
+      },
+      {
+        name: 'Intro / Goodbye / Memoriam Archive',
+        note: 'Existing show-era and memorial media; do not fold into a fictional conspiracy narrative.',
+        tag: 'Archive',
+        files: [
+          'trebek/trebek-gifs/trebek-intro.gif',
+          'trebek/trebek-gifs/trebek-final-jeopardy.gif',
+          'trebek/trebek-gifs/trebek-goodbye-01.gif',
+          'trebek/trebek-gifs/trebek-goodbye-02.gif',
+          'trebek/trebek-gifs/trebek-memoriam-1940-2020.jpeg',
+        ],
+      },
+      {
+        name: 'Motion Experiments',
+        note: 'Dormant MP4 experiments. The long named microphone clip duplicates one uploaded file byte-for-byte.',
+        tag: 'Video',
+        video: true,
+        files: [
+          'trebek-other-images/a_pixel_art_parody_of_jeopardy_as_a_sega_game_with_a_tipsy_and_sly_grin_trebek_character_zoomed_in_facing_the_camera_and_holding_a_microphone_wearing_rayban_wayfarer_sunglasses_with_pink_frames_and_reflective_colored_lenses.mp4',
+          'trebek-other-images/upload_img_1804914_07_28_2024_17_00_06_923153_7312012980289138395.mp4',
+          'trebek-other-images/upload_img_1804914_07_28_2024_17_34_14_611148_1375666671660351448.mp4',
+          'trebek-other-images/upload_img_52018450_07_28_2024_17_35_05_632555_4825587188899972826.mp4',
+          'trebek-other-images/upload_img_90373452_07_28_2024_17_46_58_906956_1662190159206562714.mp4',
+          'trebek-other-images/upload_img_98740286_07_28_2024_17_43_06_149179_6227720947139946147.mp4',
+          'trebek-other-images/upload_img_98740286_07_28_2024_17_48_04_118870_7486795793295357766.mp4',
+        ],
+      },
+      {
+        name: 'Game Chrome / Stage Art',
+        note: 'Logos, favicon variants, backgrounds, and the Genesis-style set image.',
+        tag: 'Chrome',
+        files: [
+          'title.png', 'title.svg', 'background.svg', 'favicon.svg',
+          'images/title.png', 'images/title.svg', 'images/background.jpg',
+          'images/background.svg', 'images/favicon.svg', 'the_jeopardy_set_in_a_genesis_game.jpeg',
+        ],
+      },
+    ];
+
+    const gallery = document.getElementById('gallery');
+    groups.forEach((group) => {
+      const section = document.createElement('section');
+      section.innerHTML = `<h2>${group.name}</h2><p>${group.note}</p>`;
+      const grid = document.createElement('div');
+      grid.className = `grid${group.wide ? ' wide' : ''}`;
+      group.files.forEach((file) => {
+        const figure = document.createElement('figure');
+        const media = document.createElement(group.video ? 'video' : 'img');
+        media.src = root + file;
+        media.loading = 'lazy';
+        if (group.video) {
+          media.controls = true;
+          media.muted = true;
+          media.preload = 'metadata';
+        } else {
+          media.alt = file;
+        }
+        const caption = document.createElement('figcaption');
+        caption.innerHTML = `<span class="tag">${group.tag}</span><br><code>${file}</code>`;
+        figure.append(media, caption);
+        grid.append(figure);
+      });
+      section.append(grid);
+      gallery.append(section);
+    });
+    const support = document.createElement('section');
+    support.innerHTML = `
+      <h2>Source / Support Files</h2>
+      <p>Five files are intentionally catalogued without thumbnails. They are not runtime artwork, but they are part of the asset tree and should be retained until final cleanup.</p>
+      <ul>
+        <li><code>.DS_Store</code> - local folder metadata</li>
+        <li><code>images/trebek-vector 1.vectornator</code> - editable vector source</li>
+        <li><code>trebek-poetry.md</code> - legacy writing/reference note</li>
+        <li><code>a_pixel_art_parody_of_jeopardy_as_a_sega_game_with_a_tipsy_and_sly_grin_trebek_character_zoomed_in_facing_the_camera_and_holding_a_microphone_wearing_rayban_wayfarer_sunglasses_with_pink_frames_and_reflective_colored_lenses_in_front_of_a_tra.download/Info.plist</code></li>
+        <li><code>a_pixel_art_parody_of_jeopardy_as_a_sega_game_with_a_tipsy_and_sly_grin_trebek_character_zoomed_out_facing_the_camera_and_holding_a_microphone_wearing_rayban_wayfarer_sunglasses_with_pink_frames_and_reflective_colored_lenses_in_front_of_a_tr.download/Info.plist</code></li>
+      </ul>`;
+    gallery.append(support);
+  </script>
+</body>
+</html>

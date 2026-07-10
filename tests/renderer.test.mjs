@@ -3,15 +3,18 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { Renderer } = require('../src/render/renderer.js');
+const { MediaTypes, Renderer, extractClueContent, getMediaType } = require('../src/render/renderer.js');
 
 function createFakeElement(id) {
   return {
     id,
+    tagName: String(id).toUpperCase(),
     textContent: '',
     value: '',
     disabled: false,
     focused: false,
+    hidden: false,
+    children: [],
     style: {
       display: '',
     },
@@ -29,6 +32,12 @@ function createFakeElement(id) {
       has(className) {
         return this.values.has(className);
       },
+      add(className) {
+        this.values.add(className);
+      },
+      remove(className) {
+        this.values.delete(className);
+      },
     },
     listeners: {},
     addEventListener(type, listener) {
@@ -41,6 +50,10 @@ function createFakeElement(id) {
       return this.attributes[name];
     },
     append(...children) {
+      this.children.push(...children);
+      this.textContent = children.map((child) => child.textContent).join('');
+    },
+    replaceChildren(...children) {
       this.children = children;
       this.textContent = children.map((child) => child.textContent).join('');
     },
@@ -59,6 +72,8 @@ function createFakeDocument() {
     'categoryBox',
     'statusMessage',
     'questionBox',
+    'clueText',
+    'clueMedia',
     'answerBox',
     'currentStreak',
     'bestStreak',
@@ -66,21 +81,37 @@ function createFakeDocument() {
     'hamburgerMenu',
     'navMenu',
     'hostImage',
+    'hostPrevButton',
+    'hostNextButton',
+    'hostSkinLabel',
     'themeToggle',
     'themeToggleLabel',
     'languageToggle',
     'languageToggleLabel',
+    'mediaModal',
+    'mediaModalBackdrop',
+    'mediaModalBody',
+    'mediaModalTitle',
+    'mediaModalType',
+    'mediaModalClose',
+    'mediaModalLink',
   ];
   const elements = new Map(ids.map((id) => [id, createFakeElement(id)]));
+  const body = createFakeElement('body');
 
   return {
+    body,
     documentElement: createFakeElement('html'),
     elements,
+    listeners: {},
     getElementById(id) {
       return elements.get(id);
     },
     createElement(tagName) {
       return createFakeElement(tagName);
+    },
+    addEventListener(type, listener) {
+      this.listeners[type] = listener;
     },
   };
 }
@@ -119,8 +150,11 @@ test('Renderer renders a clue and prepares answer input', () => {
     answer: 'Electron',
   }, 400);
 
-  assert.equal(renderer.dom.categoryBox.textContent, 'SCIENCE for $400');
-  assert.equal(renderer.dom.questionBox.textContent, 'This particle has a negative charge.');
+  assert.equal(renderer.dom.categoryBox.children[0].textContent, 'SCIENCE');
+  assert.equal(renderer.dom.categoryBox.children[1].className, 'clue-value clue-value-questionable');
+  assert.equal(renderer.dom.categoryBox.children[1].children[0].textContent, '$400');
+  assert.equal(renderer.dom.categoryBox.children[1].children[2].textContent, 'QUESTIONABLE TENDER');
+  assert.equal(renderer.dom.clueText.textContent, 'This particle has a negative charge.');
   assert.equal(renderer.dom.answerBox.textContent, 'Electron');
   assert.equal(renderer.dom.answerBox.style.display, 'none');
   assert.equal(renderer.dom.checkButton.disabled, false);
@@ -142,8 +176,10 @@ test('Renderer displays fallback clue and enables controls', () => {
 
   assert.equal(fallback.category, 'Oops');
   assert.equal(renderer.dom.statusMessage.textContent, 'There was a problem loading a normal clue. Showing fallback clue.');
-  assert.equal(renderer.dom.categoryBox.textContent, 'Oops for $0');
-  assert.equal(renderer.dom.questionBox.textContent, 'Fallback question');
+  assert.equal(renderer.dom.categoryBox.children[0].textContent, 'OOPS');
+  assert.equal(renderer.dom.categoryBox.children[1].children[0].textContent, '$0');
+  assert.equal(renderer.dom.categoryBox.children[1].children[2].textContent, 'QUESTIONABLE TENDER');
+  assert.equal(renderer.dom.clueText.textContent, 'Fallback question');
   assert.equal(renderer.dom.answerBox.textContent, 'Fallback answer');
   assert.equal(renderer.dom.answerBox.style.display, 'flex');
   assert.equal(renderer.dom.checkButton.disabled, false);
@@ -159,6 +195,8 @@ test('Renderer binds UI events to callbacks', () => {
     onCheckAnswer: () => calls.push('check'),
     onToggleTheme: () => calls.push('theme'),
     onToggleLanguage: () => calls.push('language'),
+    onPreviousHostSkin: () => calls.push('host-prev'),
+    onNextHostSkin: () => calls.push('host-next'),
   });
 
   renderer.dom.answerButton.listeners.click();
@@ -166,10 +204,12 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.checkButton.listeners.click();
   renderer.dom.themeToggle.listeners.click();
   renderer.dom.languageToggle.listeners.click();
+  renderer.dom.hostPrevButton.listeners.click();
+  renderer.dom.hostNextButton.listeners.click();
   renderer.dom.userInput.listeners.keydown({ key: 'Enter' });
   renderer.dom.hamburgerMenu.listeners.click();
 
-  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'check']);
+  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'host-prev', 'host-next', 'check']);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
 });
 
@@ -220,12 +260,28 @@ test('Renderer shows empty-answer host quip without replacing the active clue', 
   renderer.displayEmptyAnswerQuip('Try words. They have served contestants reasonably well.');
 
   assert.equal(renderer.dom.statusMessage.textContent, 'Try words. They have served contestants reasonably well.');
-  assert.equal(renderer.dom.categoryBox.textContent, 'SCIENCE for $400');
-  assert.equal(renderer.dom.questionBox.textContent, 'This particle has a negative charge.');
+  assert.equal(renderer.dom.categoryBox.children[0].textContent, 'SCIENCE');
+  assert.equal(renderer.dom.clueText.textContent, 'This particle has a negative charge.');
   assert.equal(renderer.dom.answerBox.textContent, 'Electron');
   assert.equal(renderer.dom.answerBox.style.display, 'none');
   assert.equal(renderer.dom.userInput.value, '');
   assert.equal(renderer.dom.userInput.focused, true);
+});
+
+test('Renderer gives current US denominations their officialish note treatment', () => {
+  const { renderer } = createRenderer();
+
+  renderer.renderClue({
+    category: 'Money',
+    question: 'A familiar denomination.',
+    answer: 'One hundred dollars',
+  }, 100);
+
+  const bill = renderer.dom.categoryBox.children[1];
+  assert.equal(bill.className, 'clue-value clue-value-officialish');
+  assert.equal(bill.children[0].textContent, '$100');
+  assert.equal(bill.children[2].textContent, 'TRIVIA RESERVE NOTE');
+  assert.equal(bill.attributes['aria-label'], '$100 clue value. Trivia Reserve note.');
 });
 
 test('Renderer renders host visual state', () => {
@@ -238,10 +294,69 @@ test('Renderer renders host visual state', () => {
       neutral: 'neutral.png',
       happy: 'happy.gif',
     },
-  }, 'happy');
+  }, 'happy', null, {
+    id: 'sparkle-host',
+    label: 'Sparkle Host',
+  });
 
   assert.equal(renderer.dom.hostImage.src, 'happy.gif');
   assert.equal(renderer.dom.hostImage.alt, 'Afterlife Alex');
   assert.equal(renderer.dom.hostImage.dataset.hostId, 'afterlife-alex');
   assert.equal(renderer.dom.hostImage.dataset.expression, 'happy');
+  assert.equal(renderer.dom.hostImage.dataset.skinId, 'sparkle-host');
+  assert.equal(renderer.dom.hostSkinLabel.textContent, 'Sparkle Host');
+});
+
+test('Renderer identifies supported clue media formats', () => {
+  assert.equal(getMediaType('photo.jpg'), MediaTypes.IMAGE);
+  assert.equal(getMediaType('listen.mp3'), MediaTypes.AUDIO);
+  assert.equal(getMediaType('archive.wmv'), MediaTypes.VIDEO);
+  assert.equal(getMediaType('reference.pdf'), MediaTypes.EXTERNAL);
+});
+
+test('Renderer extracts linked clue media without rendering raw HTML', () => {
+  const parsed = extractClueContent(
+    'Listen <a href="https://media.test/clue.mp3">to this</a><br />then identify <a href="https://media.test/picture.jpg">the photo</a>.',
+  );
+
+  assert.equal(parsed.text, 'Listen to this\nthen identify the photo.');
+  assert.deepEqual(
+    parsed.media.map(({ type, url }) => ({ type, url })),
+    [
+      { type: MediaTypes.AUDIO, url: 'https://media.test/clue.mp3' },
+      { type: MediaTypes.IMAGE, url: 'https://media.test/picture.jpg' },
+    ],
+  );
+});
+
+test('Renderer builds media previews and opens accessible media viewers', () => {
+  const { renderer, documentRef } = createRenderer();
+
+  renderer.renderClue({
+    category: 'Archive',
+    question: 'Name <a href="https://media.test/still.jpg">this</a> and watch <a href="https://media.test/clip.wmv">this</a>.',
+    answer: 'A test',
+  }, 500);
+
+  assert.equal(renderer.dom.clueText.textContent, 'Name this and watch this.');
+  assert.equal(renderer.dom.clueMedia.children.length, 2);
+  assert.equal(renderer.dom.clueMedia.children[0].attributes['aria-label'], 'Open image clue: Image clue 1');
+  assert.equal(renderer.dom.clueMedia.children[1].attributes['aria-label'], 'Open video clue: Video clue 2');
+
+  renderer.dom.clueMedia.children[1].listeners.click();
+  assert.equal(renderer.dom.mediaModal.hidden, false);
+  assert.equal(renderer.dom.mediaModal.attributes['aria-hidden'], 'false');
+  assert.equal(renderer.dom.mediaModalType.textContent, 'VIDEO CLUE');
+  assert.equal(renderer.dom.mediaModalBody.children[0].src, 'https://media.test/clip.wmv');
+  assert.equal(renderer.dom.mediaModalBody.children[1].textContent.includes('Vintage WMV clip'), true);
+  assert.equal(documentRef.body.classList.has('modal-open'), true);
+
+  renderer.renderClue({
+    category: 'Archive',
+    question: 'A clue with no attachment.',
+    answer: 'A test',
+  }, 600);
+  assert.equal(renderer.dom.mediaModal.hidden, true);
+  assert.equal(renderer.dom.clueMedia.children.length, 0);
+  assert.equal(documentRef.body.classList.has('modal-open'), false);
 });

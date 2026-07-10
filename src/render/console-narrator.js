@@ -109,8 +109,13 @@
         'the scoreboard does a tasteful little shimmy',
         'the clue exits, defeated but oddly respectful',
       ];
+      const judgeNote = payload.answerMatch?.reason === 'fuzzy'
+        ? ' The judges allow the tiny typo.'
+        : payload.answerMatch?.reason === 'variation'
+          ? ' The judges accept that equivalent response.'
+          : '';
 
-      return `✅ Correct for +$${payload.scoreDelta}. Streak ${payload.currentStreak}; score $${payload.newScore}. ${this.pick(flourishes)}.`;
+      return `✅ Correct for +$${payload.scoreDelta}. Streak ${payload.currentStreak}; score $${payload.newScore}.${judgeNote} ${this.pick(flourishes)}.`;
     }
 
     describeIncorrect(payload) {

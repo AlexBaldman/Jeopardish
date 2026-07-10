@@ -78,8 +78,38 @@ test('GameEngine scores a correct answer and preserves best streak', () => {
   assert.equal(result.newScore, 400);
   assert.equal(result.currentStreak, 1);
   assert.equal(result.bestStreak, 2);
+  assert.equal(result.answerMatch.reason, 'exact');
   assert.equal(engine.getActiveClue(), null);
   assert.equal(events.some((event) => event.type === GameEvents.ANSWER_CORRECT), true);
+});
+
+test('GameEngine retains readable answers and detailed fuzzy match results', () => {
+  const { engine } = createEngine();
+
+  engine.init();
+  engine.loadClue({
+    category: 'Presidents',
+    question: 'This president appears on the dollar bill.',
+    answer: '(George) Washington',
+    value: '$400',
+  });
+  const fuzzyResult = engine.submitAnswer('Washngton');
+
+  assert.equal(fuzzyResult.isCorrect, true);
+  assert.equal(fuzzyResult.answerMatch.reason, 'fuzzy');
+  assert.equal(fuzzyResult.answerMatch.correctAnswer, 'washington');
+
+  engine.loadClue({
+    category: 'Geography',
+    question: 'This nation has Tehran as its capital.',
+    answer: 'Iran',
+    value: '$400',
+  });
+  const incorrectResult = engine.submitAnswer('Iraq');
+
+  assert.equal(incorrectResult.isCorrect, false);
+  assert.equal(incorrectResult.correctAnswer, 'Iran');
+  assert.equal(incorrectResult.answerMatch.reason, 'mismatch');
 });
 
 test('GameEngine resets score and streak on incorrect answer to match existing behavior', () => {

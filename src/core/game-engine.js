@@ -110,7 +110,7 @@
       }
 
       const submittedAnswer = String(answer || '');
-      const correctAnswer = logic.cleanAnswer(this.activeClue.answer || '');
+      const correctAnswer = String(this.activeClue.answer || '').trim();
 
       this.emit(GameEvents.ANSWER_SUBMITTED, {
         clueId: getClueId(this.activeClue),
@@ -118,7 +118,8 @@
         submittedAt: this.now(),
       });
 
-      const isCorrect = logic.compareAnswers(submittedAnswer, this.activeClue.answer || '');
+      const answerMatch = logic.compareAnswersDetailed(submittedAnswer, this.activeClue.answer || '');
+      const isCorrect = answerMatch.isCorrect;
       const previousScore = this.state.score;
       const previousStreak = this.state.currentStreak;
       const nextScore = isCorrect
@@ -145,6 +146,7 @@
         clueId: getClueId(this.activeClue),
         submittedAnswer,
         correctAnswer,
+        answerMatch,
         scoreDelta,
         previousScore,
         newScore: nextScore,

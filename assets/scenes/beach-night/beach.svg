@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sand" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#8d7052"/>
+      <stop offset="1" stop-color="#4c3a39"/>
+    </linearGradient>
+  </defs>
+  <path d="M0 620c244-70 408 8 620-38c214-46 365-82 590-24c148 38 270 48 390 24v318H0z" fill="url(#sand)"/>
+  <g opacity="0.42" fill="none" stroke="#ffe15a" stroke-linecap="round" stroke-width="4">
+    <path d="M95 720q42 16 86-2"/><path d="M310 667q36 14 79-4"/>
+    <path d="M675 742q55 20 108-6"/><path d="M1300 694q48 18 92-6"/>
+  </g>
+  <g transform="translate(156 604)">
+    <path d="M84 42l33 188" stroke="#2b1815" stroke-linecap="round" stroke-width="15"/>
+    <path d="M95 46C74-18 8-26-58 20c63 0 105 7 153 26z" fill="#185b4c" stroke="#171317" stroke-width="6"/>
+    <path d="M95 46c46-68 126-69 184-10c-76-11-123-7-184 10z" fill="#185b4c" stroke="#171317" stroke-width="6"/>
+    <path d="M95 46c-8-74 42-125 116-118c-55 36-85 70-116 118z" fill="#185b4c" stroke="#171317" stroke-width="6"/>
+    <path d="M-28 54h286" stroke="#ff3dc8" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+  </g>
+  <g transform="translate(760 660)">
+    <rect x="-92" y="0" width="188" height="78" rx="18" fill="#112a46" stroke="#171317" stroke-width="7"/>
+    <path d="M-106 78H112" stroke="#171317" stroke-linecap="round" stroke-width="9"/>
+    <text x="2" y="50" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="31" fill="#32f6ff">ON AIR</text>
+  </g>
+</svg>
