@@ -349,6 +349,11 @@ function startGame() {
 }
 
 function bindGameActivation() {
+  if (globalThis.document?.body?.dataset?.appMode === 'game') {
+    startGame();
+    return;
+  }
+
   globalThis.addEventListener?.('jeopardish:activate', startGame);
 
   const playSection = globalThis.document.getElementById('play');

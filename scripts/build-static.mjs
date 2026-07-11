@@ -6,6 +6,7 @@ const outDir = path.join(root, 'dist');
 
 const runtimeEntries = [
   'index.html',
+  'game.html',
   'style.css',
   'app.js',
   'landing.js',

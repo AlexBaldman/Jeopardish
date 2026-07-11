@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeopardish | Game Cabinet</title>
+    <meta name="description" content="Play the Jeopardish prototype in a dedicated full-window arcade cabinet.">
+    <link rel="stylesheet" href="style.css?v=vision-8" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <script defer src="game-logic.js?v=arcade-4"></script>
+    <script defer src="src/contracts/events.js?v=arcade-2"></script>
+    <script defer src="src/core/event-bus.js?v=arcade-2"></script>
+    <script defer src="src/core/game-engine.js?v=arcade-4"></script>
+    <script defer src="src/data/data-loader.js?v=arcade-2"></script>
+    <script defer src="src/render/scene-service.js?v=beach-1"></script>
+    <script defer src="src/render/renderer.js?v=vision-1"></script>
+    <script defer src="src/render/console-narrator.js?v=arcade-4"></script>
+    <script defer src="src/host/host-manager.js?v=vision-1"></script>
+    <script defer src="app.js?v=vision-3"></script>
+</head>
+
+<body class="game-only" lang="en" data-theme="dark" data-language="en" data-app-mode="game">
+    <main class="game-page-shell" id="play" aria-label="Jeopardish standalone game">
+        <div class="game-container game-container-standalone">
+            <div class="scene-stage" id="sceneStage" aria-hidden="true"></div>
+            <header class="header game-header">
+                <div class="title-div">
+                    <p class="game-mark" aria-label="Jeopardish">JEOPARDISH<span>!</span></p>
+                </div>
+                <div class="header-controls" aria-label="Game preferences">
+                    <button class="theme-toggle game-theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false">
+                        <span class="toggle-track" aria-hidden="true">
+                            <span class="toggle-bulb"></span>
+                        </span>
+                        <span class="toggle-label" id="themeToggleLabel">Night</span>
+                    </button>
+                    <button class="language-toggle" id="languageToggle" type="button" aria-label="Toggle English or Brazilian Portuguese" aria-pressed="false">
+                        <span class="flag-stack" aria-hidden="true"><span class="flag flag-us">US</span><span class="flag flag-br">BR</span></span>
+                        <span class="toggle-label" id="languageToggleLabel">English</span>
+                    </button>
+                </div>
+                <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open score cabinet">
+                    <span aria-hidden="true">☰</span>
+                </button>
+            </header>
+
+            <nav class="nav-menu" id="navMenu" aria-label="Score cabinet">
+                <p class="nav-kicker">Cabinet Readout</p>
+                <div id="dataBox" class="data-box">
+                    <p id="currentStreak">Current Streak: 0</p>
+                    <p id="bestStreak">Best Streak: 0</p>
+                    <p id="score">Score: $0</p>
+                </div>
+            </nav>
+
+            <div class="main-content">
+                <div class="speech-bubble">
+                    <div id="categoryBox" class="clue-header">
+                        <h2 class="clue-category">TRANSMISSION READY</h2>
+                    </div>
+                    <div id="questionBox" class="clue-content">
+                        <p id="clueText" class="clue-text">Approach the studio to load your first clue.</p>
+                        <div id="clueMedia" class="clue-media" aria-label="Clue media"></div>
+                    </div>
+                    <div id="answerBox"></div>
+                </div>
+                <div class="host-stage" aria-label="Host visual selector">
+                    <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
+                    <figure class="host-stand">
+                        <img class="trebek" id="hostImage" alt="Malex, the fictional Jeopardish host" src="assets/images/vision/malex-counterfeit-portrait.png">
+                        <figcaption class="host-skin-label" id="hostSkinLabel">Counterfeit Malex</figcaption>
+                    </figure>
+                    <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look">›</button>
+                </div>
+            </div>
+
+            <footer class="control-footer" aria-label="Contestant controls">
+                <div class="input-div">
+                    <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+                    <button id="checkButton" class="cabinet-button lock-button" type="button" aria-label="Lock It In. Keyboard shortcut: Enter" data-tooltip="Lock It In" data-key="Enter" accesskey="l">
+                        <span class="control-symbol lock-symbol" aria-hidden="true"><span class="lock-ring"></span><span class="lock-core">!</span></span>
+                        <span class="key-hint key-enter" aria-hidden="true">ENTER</span>
+                        <span class="button-tooltip" aria-hidden="true">Lock It In</span>
+                    </button>
+                </div>
+                <div class="button-div">
+                    <button id="questionButton" class="cabinet-button clue-button" type="button" aria-label="New Clue. Keyboard shortcut: Q" data-tooltip="New Clue" data-key="Q" accesskey="q">
+                        <span class="control-symbol clue-symbol" aria-hidden="true">?</span>
+                        <span class="key-hint key-dot" aria-hidden="true">Q</span>
+                        <span class="button-tooltip" aria-hidden="true">New Clue</span>
+                    </button>
+                    <button id="answerButton" class="cabinet-button answer-button" type="button" aria-label="Reveal Answer. Keyboard shortcut: A" data-tooltip="Reveal Answer" data-key="A" accesskey="a">
+                        <span class="control-symbol answer-symbol" aria-hidden="true"><span class="eye-lid"></span><span class="eye-pupil">A</span></span>
+                        <span class="key-hint key-corner" aria-hidden="true">A</span>
+                        <span class="button-tooltip" aria-hidden="true">Reveal Answer</span>
+                    </button>
+                </div>
+            </footer>
+            <p id="statusMessage" class="visually-hidden" aria-live="polite"></p>
+        </div>
+    </main>
+</body>
+
+</html>

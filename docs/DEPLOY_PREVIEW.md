@@ -12,7 +12,7 @@ npm run build
 
 This creates `dist/` with only runtime files:
 
-- app shell: `index.html`, `style.css`, `app.js`, `landing.js`, `game-logic.js`
+- app shell: `index.html`, `game.html`, `style.css`, `app.js`, `landing.js`, `game-logic.js`
 - runtime modules: `src/`
 - active question bank: `questions/jeopardy-questions.json`
 - active UI art: banknotes, vision images, scene layers, and current host-skin candidates
@@ -27,6 +27,7 @@ python3 -m http.server 4190 -d dist
 Open `http://127.0.0.1:4190/`, then check:
 
 - landing page loads
+- standalone game page loads at `/game.html`
 - `#play` loads the game stage
 - day/night toggle swaps scenes
 - host arrows cycle skins and persist after reload
