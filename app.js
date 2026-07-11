@@ -63,6 +63,13 @@ const UI_COPY = {
     loadingQuestions: 'Loading questions...',
     fallbackClue: 'There was a problem loading a normal clue. Showing fallback clue.',
     newClue: 'New clue loaded. Enter your answer and press Lock It In.',
+    correctKicker: 'Right on the Money',
+    correctMessage: 'Correct.',
+    correctAnswerStreak: 'Answer streak',
+    incorrectKicker: 'The Judges Have Spoken',
+    incorrectMessage: 'Not quite.',
+    correctResponseLabel: 'Correct response:',
+    streakReset: 'STREAK RESET!',
     noClue: 'No question available yet. Please load one first.',
     emptyAnswer: 'Please enter an answer before checking.',
     emptyAnswerFallback: 'Try words. They have served contestants reasonably well.',
@@ -90,6 +97,13 @@ const UI_COPY = {
     loadingQuestions: 'Carregando perguntas...',
     fallbackClue: 'Houve um problema ao carregar uma pista normal. Mostrando uma pista reserva.',
     newClue: 'Nova pista carregada. Digite sua resposta e aperte Valendo.',
+    correctKicker: 'Dinheiro no Bolso',
+    correctMessage: 'Correto.',
+    correctAnswerStreak: 'Sequência de acertos',
+    incorrectKicker: 'Os Juízes Decidiram',
+    incorrectMessage: 'Quase, mas não.',
+    correctResponseLabel: 'Resposta correta:',
+    streakReset: 'SEQUÊNCIA ZERADA!',
     noClue: 'Nenhuma pergunta disponível ainda. Carregue uma pista primeiro.',
     emptyAnswer: 'Digite uma resposta antes de conferir.',
     emptyAnswerFallback: 'Tente usar palavras. Elas costumam ajudar.',
@@ -299,7 +313,7 @@ function checkAnswer() {
     state.bestStreak = result.bestStreak;
     persistBestStreak();
     renderHost('happy');
-    renderer.displayCorrectAnswerMessage(result.currentStreak);
+    renderer.displayCorrectAnswerMessage(result);
     renderer.setStatus(getCopy().correctStatus(result.scoreDelta, hostManager.selectQuip('correct')));
   } else {
     renderHost('sad');
@@ -314,6 +328,7 @@ function checkAnswer() {
 
 function showHideAnswer() {
   renderer.toggleAnswer(!renderer.isAnswerVisible());
+  renderer.setGameMoment(renderer.isAnswerVisible() ? 'reveal' : 'clue');
 }
 
 async function loadQuestions() {

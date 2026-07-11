@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeopardish | Game Cabinet</title>
     <meta name="description" content="Play the Jeopardish prototype in a dedicated full-window arcade cabinet.">
-    <link rel="stylesheet" href="style.css?v=vision-8" type="text/css">
+    <link rel="stylesheet" href="style.css?v=vision-9" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -15,19 +15,29 @@
     <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/render/scene-service.js?v=beach-1"></script>
-    <script defer src="src/render/renderer.js?v=vision-1"></script>
+    <script defer src="src/render/renderer.js?v=vision-2"></script>
     <script defer src="src/render/console-narrator.js?v=arcade-4"></script>
     <script defer src="src/host/host-manager.js?v=vision-1"></script>
-    <script defer src="app.js?v=vision-3"></script>
+    <script defer src="app.js?v=vision-4"></script>
 </head>
 
 <body class="game-only" lang="en" data-theme="dark" data-language="en" data-app-mode="game">
     <main class="game-page-shell" id="play" aria-label="Jeopardish standalone game">
-        <div class="game-container game-container-standalone">
+        <div class="game-container game-container-standalone" id="gameContainer" data-game-moment="loading">
             <div class="scene-stage" id="sceneStage" aria-hidden="true"></div>
             <header class="header game-header">
                 <div class="title-div">
                     <p class="game-mark" aria-label="Jeopardish">JEOPARDISH<span>!</span></p>
+                </div>
+                <div class="quick-score" aria-label="Live score" aria-live="polite">
+                    <span class="hud-readout">
+                        <span class="hud-label" id="hudScoreLabel">Score</span>
+                        <strong id="hudScore">$0</strong>
+                    </span>
+                    <span class="hud-readout">
+                        <span class="hud-label" id="hudStreakLabel">Streak</span>
+                        <strong id="hudStreak">x0</strong>
+                    </span>
                 </div>
                 <div class="header-controls" aria-label="Game preferences">
                     <button class="theme-toggle game-theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false">

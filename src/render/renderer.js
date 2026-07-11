@@ -25,9 +25,12 @@
     loadingQuestions: 'Loading questions...',
     fallbackClue: 'There was a problem loading a normal clue. Showing fallback clue.',
     newClue: 'New clue loaded. Enter your answer and press Lock It In.',
-    correctMessage: 'Correct! Your streak is now',
-    correctAnswerStreak: 'Correct answer streak is now',
-    incorrectMessage: 'Incorrect! The correct answer was:',
+    correctKicker: 'Right on the Money',
+    correctMessage: 'Correct.',
+    correctAnswerStreak: 'Answer streak',
+    incorrectKicker: 'The Judges Have Spoken',
+    incorrectMessage: 'Not quite.',
+    correctResponseLabel: 'Correct response:',
     streakReset: 'STREAK RESET!',
     incorrectStatus: 'Incorrect. Load a new clue to continue.',
     keepTyping: 'Type an answer to keep the dignity damage contained.',
@@ -212,6 +215,7 @@
       this.dom.checkButton = this.document.getElementById('checkButton');
       this.dom.answerButton = this.document.getElementById('answerButton');
       this.dom.questionButton = this.document.getElementById('questionButton');
+      this.dom.gameContainer = this.document.getElementById('gameContainer');
       this.dom.userInput = this.document.getElementById('inputbox');
       this.dom.categoryBox = this.document.getElementById('categoryBox');
       this.dom.statusMessage = this.document.getElementById('statusMessage');
@@ -222,6 +226,10 @@
       this.dom.currentStreak = this.document.getElementById('currentStreak');
       this.dom.bestStreak = this.document.getElementById('bestStreak');
       this.dom.score = this.document.getElementById('score');
+      this.dom.hudScore = this.document.getElementById('hudScore');
+      this.dom.hudStreak = this.document.getElementById('hudStreak');
+      this.dom.hudScoreLabel = this.document.getElementById('hudScoreLabel');
+      this.dom.hudStreakLabel = this.document.getElementById('hudStreakLabel');
       this.dom.hamburgerMenu = this.document.getElementById('hamburgerMenu');
       this.dom.navMenu = this.document.getElementById('navMenu');
       this.dom.hostImage = this.document.getElementById('hostImage');
@@ -344,6 +352,12 @@
 
     setStatus(message) {
       this.setText(this.dom.statusMessage, message || '');
+    }
+
+    setGameMoment(moment) {
+      if (this.dom.gameContainer) {
+        this.dom.gameContainer.dataset.gameMoment = moment || 'idle';
+      }
     }
 
     setControlsEnabled(enabled) {
@@ -539,6 +553,18 @@
       this.setText(this.dom.currentStreak, `${this.copy.currentStreak}: ${gameState.currentStreak}`);
       this.setText(this.dom.bestStreak, `${this.copy.bestStreak}: ${gameState.bestStreak}`);
       this.setText(this.dom.score, `${this.copy.score}: $${gameState.score}`);
+      if (this.dom.hudScore) {
+        this.setText(this.dom.hudScore, `$${gameState.score}`);
+      }
+      if (this.dom.hudStreak) {
+        this.setText(this.dom.hudStreak, `x${gameState.currentStreak}`);
+      }
+      if (this.dom.hudScoreLabel) {
+        this.setText(this.dom.hudScoreLabel, this.copy.score);
+      }
+      if (this.dom.hudStreakLabel) {
+        this.setText(this.dom.hudStreakLabel, this.copy.currentStreak);
+      }
     }
 
     renderHost(host, expression = 'neutral', visual = null, skin = null) {
@@ -560,6 +586,7 @@
     }
 
     showLoading() {
+      this.setGameMoment('loading');
       this.setControlsEnabled(false);
       this.setStatus(this.copy.loadingBank);
       this.clearMedia();
@@ -567,6 +594,7 @@
     }
 
     displayErrorMessage(message) {
+      this.setGameMoment('error');
       this.setStatus(message);
       this.setText(this.dom.categoryBox, 'Error');
       this.clearMedia();
@@ -583,6 +611,7 @@
     }
 
     displayErrorJoke(fallbackClues) {
+      this.setGameMoment('error');
       const randomError = fallbackClues[Math.floor(this.random() * fallbackClues.length)];
       this.setStatus(this.copy.fallbackClue);
       this.setCategory(String(randomError.category || this.copy.emptyCategory).toUpperCase(), randomError.value);
@@ -595,6 +624,7 @@
     }
 
     renderClue(clue, clueValue) {
+      this.setGameMoment('clue');
       this.setCategory(
         String(clue.category || 'Unknown Category').toUpperCase(),
         `$${clueValue}`,
@@ -608,19 +638,23 @@
       this.focusUserAnswer();
     }
 
-    displayCorrectAnswerMessage(currentStreak) {
-      this.setText(this.dom.categoryBox, '');
+    displayCorrectAnswerMessage(result) {
+      const currentStreak = typeof result === 'number' ? result : result?.currentStreak || 0;
+      const scoreDelta = typeof result === 'number' ? 0 : result?.scoreDelta || 0;
+      this.setGameMoment('correct');
+      this.setText(this.dom.categoryBox, this.copy.correctKicker);
       this.clearMedia();
-      this.setQuestionText(`${this.copy.correctMessage}: ${currentStreak}`);
-      this.setText(this.dom.answerBox, `${this.copy.correctAnswerStreak} ${currentStreak}`);
+      this.setQuestionText(scoreDelta > 0 ? `${this.copy.correctMessage} +$${scoreDelta}` : this.copy.correctMessage);
+      this.setText(this.dom.answerBox, `${this.copy.correctAnswerStreak}: ${currentStreak}`);
       this.toggleAnswer(true);
     }
 
     displayIncorrectAnswerMessage(correctAnswer) {
-      this.setText(this.dom.categoryBox, '');
+      this.setGameMoment('incorrect');
+      this.setText(this.dom.categoryBox, this.copy.incorrectKicker);
       this.clearMedia();
-      this.setQuestionText(`${this.copy.incorrectMessage} ${correctAnswer}`);
-      this.setText(this.dom.answerBox, this.copy.streakReset);
+      this.setQuestionText(this.copy.incorrectMessage);
+      this.setText(this.dom.answerBox, `${this.copy.correctResponseLabel} ${correctAnswer}\n${this.copy.streakReset}`);
       this.setStatus(this.copy.incorrectStatus);
       this.toggleAnswer(true);
     }

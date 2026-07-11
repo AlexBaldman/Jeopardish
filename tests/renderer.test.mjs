@@ -68,6 +68,7 @@ function createFakeDocument() {
     'checkButton',
     'answerButton',
     'questionButton',
+    'gameContainer',
     'inputbox',
     'categoryBox',
     'statusMessage',
@@ -78,6 +79,10 @@ function createFakeDocument() {
     'currentStreak',
     'bestStreak',
     'score',
+    'hudScore',
+    'hudStreak',
+    'hudScoreLabel',
+    'hudStreakLabel',
     'hamburgerMenu',
     'navMenu',
     'hostImage',
@@ -138,6 +143,9 @@ test('Renderer renders scoreboard state', () => {
   assert.equal(renderer.dom.currentStreak.textContent, 'Current Streak: 2');
   assert.equal(renderer.dom.bestStreak.textContent, 'Best Streak: 5');
   assert.equal(renderer.dom.score.textContent, 'Score: $1200');
+  assert.equal(renderer.dom.hudScore.textContent, '$1200');
+  assert.equal(renderer.dom.hudStreak.textContent, 'x2');
+  assert.equal(renderer.dom.gameContainer.dataset.gameMoment, undefined);
 });
 
 test('Renderer renders a clue and prepares answer input', () => {
@@ -149,6 +157,8 @@ test('Renderer renders a clue and prepares answer input', () => {
     question: 'This particle has a negative charge.',
     answer: 'Electron',
   }, 400);
+
+  assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'clue');
 
   assert.equal(renderer.dom.categoryBox.children[0].textContent, 'SCIENCE');
   assert.equal(renderer.dom.categoryBox.children[1].className, 'clue-value clue-value-questionable');
@@ -266,6 +276,33 @@ test('Renderer shows empty-answer host quip without replacing the active clue', 
   assert.equal(renderer.dom.answerBox.style.display, 'none');
   assert.equal(renderer.dom.userInput.value, '');
   assert.equal(renderer.dom.userInput.focused, true);
+});
+
+test('Renderer creates a scored correct-answer payoff state', () => {
+  const { renderer } = createRenderer();
+
+  renderer.displayCorrectAnswerMessage({
+    currentStreak: 3,
+    scoreDelta: 800,
+  });
+
+  assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'correct');
+  assert.equal(renderer.dom.categoryBox.textContent, 'Right on the Money');
+  assert.equal(renderer.dom.clueText.textContent, 'Correct. +$800');
+  assert.equal(renderer.dom.answerBox.textContent, 'Answer streak: 3');
+  assert.equal(renderer.dom.answerBox.style.display, 'flex');
+});
+
+test('Renderer creates an informative incorrect-answer payoff state', () => {
+  const { renderer } = createRenderer();
+
+  renderer.displayIncorrectAnswerMessage('Uncle');
+
+  assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'incorrect');
+  assert.equal(renderer.dom.categoryBox.textContent, 'The Judges Have Spoken');
+  assert.equal(renderer.dom.clueText.textContent, 'Not quite.');
+  assert.equal(renderer.dom.answerBox.textContent, 'Correct response: Uncle\nSTREAK RESET!');
+  assert.equal(renderer.dom.answerBox.style.display, 'flex');
 });
 
 test('Renderer gives current US denominations their officialish note treatment', () => {
