@@ -2,7 +2,7 @@
 
 ## What Exists
 
-The `assets/` tree contains 86 files after adding the two fictional banknote illustrations: 81 renderable image/video assets and 5 source/support files. The runtime currently shows only the flat vector host at rest, then selects one intro GIF, one positive GIF, and one negative GIF through `src/host/host-manager.js`. The richer portrait collection has not been deleted; it simply was not wired into the active host.
+The `assets/` tree contains 86 files after adding the two fictional banknote illustrations: 81 renderable image/video assets and 5 source/support files. The active runtime now treats host art as performance packs through `src/host/host-manager.js`. The default Dope Broadcast pack preloads and selects distinct frames for clue, reveal, correct, incorrect, empty-answer, and streak beats; alternate packs preserve the current performance state while changing visual treatment.
 
 Open `docs/asset-gallery.html` through the local server to review all renderable artwork and host video experiments together.
 
@@ -13,7 +13,7 @@ Open `docs/asset-gallery.html` through the local server to review all renderable
 | Game chrome | title, background, favicon, Genesis-set illustration | Production UI or reference |
 | Currency | `trivia-note-officialish.png`, `trivia-note-questionable.png` | Production clue-value notes |
 | Current neutral host | vector PNG/SVG and zombie variant | Legacy placeholder / archive |
-| Neon host concepts | `assets/trebek/trebek-1.webp` through `trebek-6.webp` | Visual-direction reference; not yet a coherent expression set |
+| Neon host concepts | `assets/trebek/trebek-1.webp`, `3`, `4`, `5`, and `6` | Active Dope Broadcast performance pack; source basis for the final consistent sprite set |
 | Alternate host concepts | pixel arcade portrait, beach/meta/god/screenshot variants | Concept review candidates |
 | Recorded host reactions | intro, finale, goodbye, good/bad GIF banks | Historical/reference archive; these depict the real host rather than a fictional twin |
 | Video experiments | seven MP4 files in `trebek-other-images/` | Review for motion language only |
@@ -65,4 +65,4 @@ Strongest working title: **Malex Trebek**, appearing publicly as **M. Alex Trebe
 
 ## Next Art Pass
 
-Create a consistent fictional-host expression kit after the gallery review: neutral, delighted, wounded pride, suspicious, caught lying, and final reveal. Existing real-host GIFs can remain archived as source-era material rather than being the fictional character's on-screen reactions.
+The current Dope Broadcast pack is the interaction prototype for a future consistent fictional-host expression kit: idle, clue, reveal, correct, incorrect, empty-answer deadpan, and streak celebration. Its source frames intentionally prove timing, framing, preloading, pack cycling, and mobile composition before commissioning final character-consistent art. The checkerboard backdrop is baked into these source images and the face drifts slightly between frames, so they remain the visual basis rather than the final sprite masters. Existing real-host GIFs remain archived as source-era material rather than becoming the fictional character's on-screen reactions.

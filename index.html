@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeopardish | The Forbidden Broadcast</title>
     <meta name="description" content="Jeopardish is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
-    <link rel="stylesheet" href="style.css?v=vision-9" type="text/css">
+    <link rel="stylesheet" href="style.css?v=vision-10" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -15,11 +15,11 @@
     <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/render/scene-service.js?v=beach-1"></script>
-    <script defer src="src/render/renderer.js?v=vision-2"></script>
+    <script defer src="src/render/renderer.js?v=vision-3"></script>
     <script defer src="src/render/console-narrator.js?v=arcade-4"></script>
-    <script defer src="src/host/host-manager.js?v=vision-1"></script>
+    <script defer src="src/host/host-manager.js?v=vision-2"></script>
     <script defer src="landing.js?v=vision-2"></script>
-    <script defer src="app.js?v=vision-4"></script>
+    <script defer src="app.js?v=vision-5"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
@@ -339,11 +339,13 @@ flowchart TB
                         </div>
                         <div id="answerBox"></div>
                     </div>
-                    <div class="host-stage" aria-label="Host visual selector">
+                    <div class="host-stage" id="hostStage" aria-label="Host visual selector">
                         <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
                         <figure class="host-stand">
-                            <img class="trebek" id="hostImage" alt="Malex, the fictional Jeopardish host" src="assets/images/vision/malex-counterfeit-portrait.png">
-                            <figcaption class="host-skin-label" id="hostSkinLabel">Counterfeit Malex</figcaption>
+                            <img class="trebek" id="hostImage" alt="Malex, the fictional Jeopardish host" src="assets/trebek/trebek-1.webp">
+                            <span class="host-cue" id="hostCue" aria-hidden="true">On Air</span>
+                            <figcaption class="host-skin-label" id="hostSkinLabel">Dope Broadcast</figcaption>
+                            <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/05</span>
                         </figure>
                         <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look">›</button>
                     </div>

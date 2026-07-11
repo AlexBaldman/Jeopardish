@@ -232,10 +232,13 @@
       this.dom.hudStreakLabel = this.document.getElementById('hudStreakLabel');
       this.dom.hamburgerMenu = this.document.getElementById('hamburgerMenu');
       this.dom.navMenu = this.document.getElementById('navMenu');
+      this.dom.hostStage = this.document.getElementById('hostStage');
       this.dom.hostImage = this.document.getElementById('hostImage');
       this.dom.hostPrevButton = this.document.getElementById('hostPrevButton');
       this.dom.hostNextButton = this.document.getElementById('hostNextButton');
       this.dom.hostSkinLabel = this.document.getElementById('hostSkinLabel');
+      this.dom.hostCue = this.document.getElementById('hostCue');
+      this.dom.hostPackIndex = this.document.getElementById('hostPackIndex');
       this.dom.themeToggle = this.document.getElementById('themeToggle');
       this.dom.themeToggleLabel = this.document.getElementById('themeToggleLabel');
       this.dom.languageToggle = this.document.getElementById('languageToggle');
@@ -567,21 +570,47 @@
       }
     }
 
-    renderHost(host, expression = 'neutral', visual = null, skin = null) {
+    renderHost(host, expression = 'idle', visual = null, skin = null, performance = null) {
       if (!this.dom.hostImage || !host) {
         return;
       }
 
-      const nextVisual = visual || host.visuals?.[expression] || host.visuals?.neutral;
+      const activeSkin = performance?.skin || skin;
+      const activeState = performance?.state || expression;
+      const nextVisual = performance?.visual
+        || visual
+        || activeSkin?.visuals?.[activeState]
+        || activeSkin?.src
+        || host.visuals?.[activeState]
+        || host.visuals?.idle;
       if (nextVisual) {
         this.dom.hostImage.src = nextVisual;
       }
-      this.dom.hostImage.alt = host.displayName || 'Jeopardish host';
+      this.dom.hostImage.alt = performance?.accessibleLabel
+        ? `${host.displayName || 'Jeopardish host'}, ${performance.accessibleLabel}`
+        : host.displayName || 'Jeopardish host';
       this.dom.hostImage.dataset.hostId = host.id || '';
-      this.dom.hostImage.dataset.expression = expression;
-      this.dom.hostImage.dataset.skinId = skin?.id || '';
+      this.dom.hostImage.dataset.expression = activeState;
+      this.dom.hostImage.dataset.skinId = activeSkin?.id || '';
+      this.dom.hostImage.dataset.frame = performance?.frame || activeSkin?.frame || 'portrait';
+      this.dom.hostImage.dataset.effect = performance?.effect || activeState;
+      this.dom.hostImage.dataset.intensity = performance?.intensity || 'medium';
+      if (this.dom.hostStage) {
+        this.dom.hostStage.dataset.expression = activeState;
+        this.dom.hostStage.dataset.frame = performance?.frame || activeSkin?.frame || 'portrait';
+        this.dom.hostStage.dataset.effect = performance?.effect || activeState;
+        this.dom.hostStage.dataset.intensity = performance?.intensity || 'medium';
+      }
       if (this.dom.hostSkinLabel) {
-        this.setText(this.dom.hostSkinLabel, skin?.label || host.displayName || 'Host');
+        this.setText(this.dom.hostSkinLabel, activeSkin?.label || host.displayName || 'Host');
+      }
+      if (this.dom.hostCue) {
+        this.setText(this.dom.hostCue, performance?.cue || activeState);
+      }
+      if (this.dom.hostPackIndex) {
+        const position = Number(performance?.skinIndex || 0) + 1;
+        const total = Number(performance?.skinCount || 1);
+        this.setText(this.dom.hostPackIndex, `${String(position).padStart(2, '0')}/${String(total).padStart(2, '0')}`);
       }
     }
 

@@ -70,6 +70,15 @@ const UI_COPY = {
     incorrectMessage: 'Not quite.',
     correctResponseLabel: 'Correct response:',
     streakReset: 'STREAK RESET!',
+    hostCues: {
+      idle: 'On Air',
+      clue: 'Your Move',
+      reveal: 'The Truth',
+      correct: 'Approved',
+      incorrect: 'Judges Say No',
+      empty: '...Really?',
+      streak: 'On Fire',
+    },
     noClue: 'No question available yet. Please load one first.',
     emptyAnswer: 'Please enter an answer before checking.',
     emptyAnswerFallback: 'Try words. They have served contestants reasonably well.',
@@ -104,6 +113,15 @@ const UI_COPY = {
     incorrectMessage: 'Quase, mas não.',
     correctResponseLabel: 'Resposta correta:',
     streakReset: 'SEQUÊNCIA ZERADA!',
+    hostCues: {
+      idle: 'No Ar',
+      clue: 'Sua Vez',
+      reveal: 'A Verdade',
+      correct: 'Aprovado',
+      incorrect: 'Juízes: Não',
+      empty: '...Sério?',
+      streak: 'Pegando Fogo',
+    },
     noClue: 'Nenhuma pergunta disponível ainda. Carregue uma pista primeiro.',
     emptyAnswer: 'Digite uma resposta antes de conferir.',
     emptyAnswerFallback: 'Tente usar palavras. Elas costumam ajudar.',
@@ -142,6 +160,7 @@ let consoleNarrator;
 let hostManager;
 let gameStarted = false;
 let gameStartPromise = null;
+const preloadedHostVisuals = new Set();
 
 function loadPersistedBestStreak() {
   try {
@@ -217,6 +236,7 @@ function toggleLanguage() {
   state.language = state.language === 'en' ? 'pt-BR' : 'en';
   persistPreference(LANGUAGE_KEY, state.language);
   applyPreferences();
+  renderHost(getCurrentHostExpression());
   renderer.setStatus(getCopy().newClue);
 }
 
@@ -230,9 +250,39 @@ function renderScoreboard() {
   renderer.renderScoreboard(gameState);
 }
 
-function renderHost(expression = 'neutral') {
+function preloadActiveHostVisuals() {
+  if (!hostManager || typeof globalThis.Image !== 'function') {
+    return;
+  }
+
+  hostManager.getVisualSources().forEach((src) => {
+    if (preloadedHostVisuals.has(src)) {
+      return;
+    }
+    const image = new globalThis.Image();
+    image.src = src;
+    preloadedHostVisuals.add(src);
+  });
+}
+
+function renderHost(expression = 'idle') {
   const host = hostManager.getActiveHost();
-  renderer.renderHost(host, expression, hostManager.getVisual(expression), hostManager.getActiveSkin());
+  const performance = hostManager.getPerformance(expression);
+  if (!performance) {
+    return;
+  }
+  const cue = getCopy().hostCues?.[performance.cueKey] || performance.state;
+  renderer.renderHost(
+    host,
+    performance.state,
+    performance.visual,
+    performance.skin,
+    {
+      ...performance,
+      cue,
+      accessibleLabel: cue,
+    },
+  );
 }
 
 function persistHostSkin() {
@@ -243,12 +293,13 @@ function persistHostSkin() {
 }
 
 function getCurrentHostExpression() {
-  return renderer?.dom?.hostImage?.dataset?.expression || 'neutral';
+  return renderer?.dom?.hostImage?.dataset?.expression || 'idle';
 }
 
 function cycleHostSkin(step) {
   hostManager.cycleSkin(step);
   persistHostSkin();
+  preloadActiveHostVisuals();
   renderHost(getCurrentHostExpression());
 }
 
@@ -270,7 +321,7 @@ function renderClue(clue) {
   }
 
   const gameState = gameEngine.loadClue(clue);
-  renderHost('thinking');
+  renderHost('clue');
   renderer.renderClue(clue, gameState.currentClueValue);
 }
 
@@ -298,7 +349,7 @@ function checkAnswer() {
   const userAnswerCleaned = logic.cleanAnswer(userAnswer);
 
   if (!userAnswerCleaned) {
-    renderHost('sad');
+    renderHost('empty');
     renderer.displayEmptyAnswerQuip(hostManager.selectQuip('empty') || getCopy().emptyAnswerFallback);
     return;
   }
@@ -312,11 +363,11 @@ function checkAnswer() {
   if (result.isCorrect) {
     state.bestStreak = result.bestStreak;
     persistBestStreak();
-    renderHost('happy');
+    renderHost(result.currentStreak >= 3 ? 'streak' : 'correct');
     renderer.displayCorrectAnswerMessage(result);
     renderer.setStatus(getCopy().correctStatus(result.scoreDelta, hostManager.selectQuip('correct')));
   } else {
-    renderHost('sad');
+    renderHost('incorrect');
     renderer.displayIncorrectAnswerMessage(result.correctAnswer || 'Unknown');
     renderer.setStatus(getCopy().incorrectStatus(hostManager.selectQuip('incorrect')));
   }
@@ -329,6 +380,7 @@ function checkAnswer() {
 function showHideAnswer() {
   renderer.toggleAnswer(!renderer.isAnswerVisible());
   renderer.setGameMoment(renderer.isAnswerVisible() ? 'reveal' : 'clue');
+  renderHost(renderer.isAnswerVisible() ? 'reveal' : 'clue');
 }
 
 async function loadQuestions() {
@@ -436,12 +488,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   consoleNarrator = new narratorModule.ConsoleNarrator({ eventBus });
   hostManager = new hostModule.HostManager();
   hostManager.setActiveSkin(state.hostSkinId);
+  preloadActiveHostVisuals();
   consoleNarrator.start();
 
   renderer.bindDom();
   sceneService?.bindDom();
   applyPreferences();
-  renderHost('neutral');
+  renderHost('idle');
   bindEvents();
   renderer.setControlsEnabled(false);
   renderer.setStatus('Studio standing by.');

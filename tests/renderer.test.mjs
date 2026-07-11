@@ -85,10 +85,13 @@ function createFakeDocument() {
     'hudStreakLabel',
     'hamburgerMenu',
     'navMenu',
+    'hostStage',
     'hostImage',
     'hostPrevButton',
     'hostNextButton',
     'hostSkinLabel',
+    'hostCue',
+    'hostPackIndex',
     'themeToggle',
     'themeToggleLabel',
     'languageToggle',
@@ -324,24 +327,42 @@ test('Renderer gives current US denominations their officialish note treatment',
 test('Renderer renders host visual state', () => {
   const { renderer } = createRenderer();
 
-  renderer.renderHost({
+  const host = {
     id: 'afterlife-alex',
     displayName: 'Afterlife Alex',
     visuals: {
-      neutral: 'neutral.png',
-      happy: 'happy.gif',
+      idle: 'neutral.png',
+      correct: 'happy.gif',
     },
-  }, 'happy', null, {
+  };
+  const skin = {
     id: 'sparkle-host',
     label: 'Sparkle Host',
+    frame: 'bust',
+  };
+  renderer.renderHost(host, 'correct', null, skin, {
+    state: 'correct',
+    visual: 'happy.gif',
+    cue: 'Approved',
+    accessibleLabel: 'Approved',
+    effect: 'approve',
+    intensity: 'high',
+    frame: 'bust',
+    skin,
+    skinIndex: 1,
+    skinCount: 5,
   });
 
   assert.equal(renderer.dom.hostImage.src, 'happy.gif');
-  assert.equal(renderer.dom.hostImage.alt, 'Afterlife Alex');
+  assert.equal(renderer.dom.hostImage.alt, 'Afterlife Alex, Approved');
   assert.equal(renderer.dom.hostImage.dataset.hostId, 'afterlife-alex');
-  assert.equal(renderer.dom.hostImage.dataset.expression, 'happy');
+  assert.equal(renderer.dom.hostImage.dataset.expression, 'correct');
   assert.equal(renderer.dom.hostImage.dataset.skinId, 'sparkle-host');
+  assert.equal(renderer.dom.hostImage.dataset.frame, 'bust');
+  assert.equal(renderer.dom.hostStage.dataset.effect, 'approve');
   assert.equal(renderer.dom.hostSkinLabel.textContent, 'Sparkle Host');
+  assert.equal(renderer.dom.hostCue.textContent, 'Approved');
+  assert.equal(renderer.dom.hostPackIndex.textContent, '02/05');
 });
 
 test('Renderer identifies supported clue media formats', () => {

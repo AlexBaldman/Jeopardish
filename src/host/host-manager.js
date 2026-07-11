@@ -7,58 +7,86 @@
 }(typeof globalThis !== 'undefined' ? globalThis : this, function hostManagerFactory() {
   'use strict';
 
+  const HostPerformanceStates = Object.freeze({
+    IDLE: 'idle',
+    CLUE: 'clue',
+    REVEAL: 'reveal',
+    CORRECT: 'correct',
+    INCORRECT: 'incorrect',
+    EMPTY: 'empty',
+    STREAK: 'streak',
+  });
+
+  const ExpressionAliases = Object.freeze({
+    neutral: HostPerformanceStates.IDLE,
+    thinking: HostPerformanceStates.CLUE,
+    revealing: HostPerformanceStates.REVEAL,
+    happy: HostPerformanceStates.CORRECT,
+    sad: HostPerformanceStates.INCORRECT,
+  });
+
+  const PerformanceMeta = Object.freeze({
+    idle: Object.freeze({ effect: 'on-air', intensity: 'low' }),
+    clue: Object.freeze({ effect: 'lean-in', intensity: 'medium' }),
+    reveal: Object.freeze({ effect: 'truth-drop', intensity: 'medium' }),
+    correct: Object.freeze({ effect: 'approve', intensity: 'high' }),
+    incorrect: Object.freeze({ effect: 'deadpan', intensity: 'medium' }),
+    empty: Object.freeze({ effect: 'disbelief', intensity: 'medium' }),
+    streak: Object.freeze({ effect: 'streak-fire', intensity: 'max' }),
+  });
+
+  function normalizePerformanceState(expression = HostPerformanceStates.IDLE) {
+    const candidate = String(expression || HostPerformanceStates.IDLE).toLowerCase();
+    if (ExpressionAliases[candidate]) {
+      return ExpressionAliases[candidate];
+    }
+    if (Object.values(HostPerformanceStates).includes(candidate)) {
+      return candidate;
+    }
+    return HostPerformanceStates.IDLE;
+  }
+
   const DefaultHostSkins = Object.freeze([
+    {
+      id: 'dope-broadcast',
+      label: 'Dope Broadcast',
+      frame: 'bust',
+      visuals: Object.freeze({
+        idle: 'assets/trebek/trebek-1.webp',
+        clue: 'assets/trebek/trebek-3.webp',
+        reveal: 'assets/trebek/trebek-4.webp',
+        correct: 'assets/trebek/trebek-5.webp',
+        incorrect: 'assets/trebek/trebek-6.webp',
+        empty: 'assets/trebek/trebek-4.webp',
+        streak: 'assets/trebek/trebek-1.webp',
+      }),
+      note: 'Primary reaction pack built from the strongest neon host portraits.',
+    },
     {
       id: 'malex-counterfeit',
       label: 'Counterfeit Malex',
+      frame: 'portrait',
       src: 'assets/images/vision/malex-counterfeit-portrait.png',
-      note: 'Current fictional-host portrait.',
-    },
-    {
-      id: 'neon-cardsharp',
-      label: 'Neon Cardsharp',
-      src: 'assets/trebek/trebek-1.webp',
-      note: 'High-impact neon portrait.',
-    },
-    {
-      id: 'neon-professor',
-      label: 'Neon Professor',
-      src: 'assets/trebek/trebek-3.webp',
-      note: 'Sharper game-show villain energy.',
-    },
-    {
-      id: 'neon-broadcast',
-      label: 'Neon Broadcast',
-      src: 'assets/trebek/trebek-4.webp',
-      note: 'Glossy podium candidate.',
-    },
-    {
-      id: 'neon-uncle',
-      label: 'Neon Uncle',
-      src: 'assets/trebek/trebek-5.webp',
-      note: 'Warmer, suspiciously avuncular candidate.',
-    },
-    {
-      id: 'neon-dealer',
-      label: 'Neon Dealer',
-      src: 'assets/trebek/trebek-6.webp',
-      note: 'Good fake-money posture.',
+      note: 'Consistent fictional-host portrait with motion-driven reactions.',
     },
     {
       id: 'beachbum-malex',
       label: 'Beachbum Malex',
+      frame: 'full-body',
       src: 'assets/trebek-other-images/trebek-meta -beachbum.jpeg',
-      note: 'Beach-stage tone reference.',
+      note: 'Archive beach-stage tone reference.',
     },
     {
       id: 'cosmic-malex',
       label: 'Cosmic Malex',
+      frame: 'bust',
       src: 'assets/trebek-other-images/trebek-god.png',
-      note: 'Overpowered finale reference.',
+      note: 'Archive overpowered finale reference.',
     },
     {
       id: 'legacy-cutout',
       label: 'Legacy Cutout',
+      frame: 'portrait',
       src: 'assets/images/trebek-vector.png',
       note: 'Transparent-background legacy placeholder.',
     },
@@ -69,10 +97,11 @@
     displayName: 'M. Alex "Malex" Trebek',
     skins: DefaultHostSkins,
     visuals: {
-      neutral: 'assets/images/vision/malex-counterfeit-portrait.png',
-      thinking: 'assets/images/vision/malex-counterfeit-portrait.png',
-      happy: 'assets/images/vision/malex-counterfeit-portrait.png',
-      sad: 'assets/images/vision/malex-counterfeit-portrait.png',
+      idle: 'assets/trebek/trebek-1.webp',
+      clue: 'assets/trebek/trebek-3.webp',
+      reveal: 'assets/trebek/trebek-4.webp',
+      correct: 'assets/trebek/trebek-5.webp',
+      incorrect: 'assets/trebek/trebek-6.webp',
     },
     quips: {
       idle: [
@@ -186,20 +215,48 @@
       return skins[nextIndex];
     }
 
-    getVisual(expression = 'neutral') {
+    getPerformance(expression = HostPerformanceStates.IDLE) {
       if (!this.activeHost) {
         return null;
       }
 
+      const state = normalizePerformanceState(expression);
       const skin = this.getActiveSkin();
-      if (skin?.visuals?.[expression]) {
-        return skin.visuals[expression];
-      }
-      if (skin?.src) {
-        return skin.src;
-      }
+      const skins = this.getSkins();
+      const skinIndex = Math.max(0, skins.findIndex((candidate) => candidate.id === skin?.id));
+      const visual = skin?.visuals?.[state]
+        || skin?.visuals?.idle
+        || skin?.visuals?.neutral
+        || skin?.src
+        || this.activeHost.visuals?.[state]
+        || this.activeHost.visuals?.idle
+        || this.activeHost.visuals?.neutral
+        || null;
+      const meta = PerformanceMeta[state] || PerformanceMeta.idle;
 
-      return this.activeHost.visuals[expression] || this.activeHost.visuals.neutral;
+      return {
+        state,
+        visual,
+        cueKey: state,
+        effect: meta.effect,
+        intensity: meta.intensity,
+        frame: skin?.frame || 'portrait',
+        skin,
+        skinIndex,
+        skinCount: skins.length,
+      };
+    }
+
+    getVisual(expression = HostPerformanceStates.IDLE) {
+      return this.getPerformance(expression)?.visual || null;
+    }
+
+    getVisualSources() {
+      const skin = this.getActiveSkin();
+      return [...new Set([
+        skin?.src,
+        ...Object.values(skin?.visuals || {}),
+      ].filter(Boolean))];
     }
 
     selectQuip(trigger = 'idle') {
@@ -219,6 +276,8 @@
   return {
     DefaultHost,
     DefaultHostSkins,
+    HostPerformanceStates,
     HostManager,
+    normalizePerformanceState,
   };
 }));
