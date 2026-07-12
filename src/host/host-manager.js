@@ -49,7 +49,7 @@
   const DefaultHostSkins = Object.freeze([
     {
       id: 'dope-broadcast',
-      label: 'Dope Broadcast',
+      label: 'Channel O Xander',
       frame: 'bust',
       visuals: Object.freeze({
         idle: 'assets/trebek/trebek-1.webp',
@@ -93,8 +93,8 @@
   ]);
 
   const DefaultHost = Object.freeze({
-    id: 'malex-trebek',
-    displayName: 'M. Alex "Malex" Trebek',
+    id: 'xander-trefleck',
+    displayName: 'Xander Trefleck',
     skins: DefaultHostSkins,
     visuals: {
       idle: 'assets/trebek/trebek-1.webp',
@@ -105,22 +105,22 @@
     },
     quips: {
       idle: [
-        'Pick a category. Any category. Preferably one you know.',
-        'The board is waiting.',
+        'The board is waiting. It has retained counsel.',
+        'Welcome. My credentials are framed just outside the crop.',
       ],
       clue: [
-        'Here is your clue.',
-        'This one has a little texture to it.',
+        'Here is your clue. I have removed the suspicious fingerprints.',
+        'This one has texture, which is television language for evidence.',
       ],
       correct: [
-        'Correct.',
-        'Yes, nicely done.',
-        'That is the one.',
+        'Correct. Disturbingly correct.',
+        'Yes. The judges and I will discuss how you knew that.',
+        'That is the one. Please stop making this look easy in my building.',
       ],
       incorrect: [
-        'Nope.',
-        'Not quite.',
-        'That one got away from you.',
+        'No. A brave answer, in the historical sense of brave decisions.',
+        'Not quite. Canada remains neutral, but the judges do not.',
+        'That one got away from you and has requested asylum.',
       ],
       empty: [
         'Bold strategy: submitting the concept of air.',
@@ -135,8 +135,8 @@
         'Try words. They have served contestants reasonably well.',
       ],
       streak: [
-        'You are heating up.',
-        'A streak appears.',
+        'You are heating up. The studio insurance has noticed.',
+        'A streak appears. I am happy for you in an administrative capacity.',
       ],
     },
   });

@@ -7,6 +7,9 @@ const outDir = path.join(root, 'dist');
 const runtimeEntries = [
   'index.html',
   'game.html',
+  'creative-room.html',
+  'creative-room.css',
+  'creative-room.js',
   'style.css',
   'app.js',
   'landing.js',

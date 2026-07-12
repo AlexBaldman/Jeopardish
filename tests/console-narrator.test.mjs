@@ -43,7 +43,7 @@ test('ConsoleNarrator logs a concise game transcript from event bus events', () 
   }, { source: 'test' });
 
   assert.equal(messages.length, 4);
-  assert.match(messages[0], /^\[Jeopardish\] 🎬 Welcome to Jeopardish/);
+  assert.match(messages[0], /^\[JeoPARODY \/ Channel O\] 📺 Welcome to JeoPARODY/);
   assert.match(messages[1], /216,930 clues/);
   assert.match(messages[2], /HISTORY for \$400/);
   assert.match(messages[3], /Correct for \+\$400/);

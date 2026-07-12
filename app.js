@@ -37,12 +37,14 @@ const state = {
   theme: 'dark',
   language: 'en',
   hostSkinId: '',
+  muted: false,
 };
 
 const BEST_STREAK_KEY = 'jeopardish.bestStreak';
 const THEME_KEY = 'jeopardish.theme';
 const LANGUAGE_KEY = 'jeopardish.language';
 const HOST_SKIN_KEY = 'jeopardish.hostSkin';
+const MUTED_KEY = 'jeoparody.muted';
 
 const UI_COPY = {
   en: {
@@ -51,6 +53,9 @@ const UI_COPY = {
     answerButton: 'Reveal Answer',
     checkButton: 'Lock It In',
     inputPlaceholder: 'Type your response',
+    soundOn: 'Sound',
+    soundOff: 'Muted',
+    nextClueReady: 'NEXT CLUE READY',
     themeNight: 'Night',
     themeDay: 'Day',
     languageEnglish: 'English',
@@ -94,6 +99,9 @@ const UI_COPY = {
     answerButton: 'Revelar Resposta',
     checkButton: 'Valendo',
     inputPlaceholder: 'Digite sua resposta',
+    soundOn: 'Som',
+    soundOff: 'Mudo',
+    nextClueReady: 'PRÓXIMA PISTA',
     themeNight: 'Noite',
     themeDay: 'Dia',
     languageEnglish: 'English',
@@ -146,8 +154,11 @@ const sceneModule = globalThis.JeopardishSceneService || null;
 const rendererModule = globalThis.JeopardishRenderer || null;
 const narratorModule = globalThis.JeopardishConsoleNarrator || null;
 const hostModule = globalThis.JeopardishHost || null;
+const brandModule = globalThis.JeoPARODYBrand || null;
+const audioModule = globalThis.JeoPARODYAudio || null;
+const roundDirectorModule = globalThis.JeoPARODYRoundDirector || null;
 
-if (!contracts || !eventBusModule || !engineModule || !dataModule || !rendererModule || !narratorModule || !hostModule) {
+if (!contracts || !eventBusModule || !engineModule || !dataModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !audioModule || !roundDirectorModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
@@ -158,6 +169,9 @@ let sceneService;
 let renderer;
 let consoleNarrator;
 let hostManager;
+let brandController;
+let audioController;
+let roundDirector;
 let gameStarted = false;
 let gameStartPromise = null;
 const preloadedHostVisuals = new Set();
@@ -188,6 +202,7 @@ function loadPersistedPreferences() {
     if (hostSkinId) {
       state.hostSkinId = hostSkinId;
     }
+    state.muted = globalThis.localStorage?.getItem(MUTED_KEY) === 'true';
   } catch (error) {
     console.warn('Unable to read persisted UI preferences.', error);
   }
@@ -223,7 +238,18 @@ function applyPreferences() {
     theme: state.theme,
     language: state.language,
   });
+  renderer.setSoundState(state.muted);
   renderScoreboard();
+}
+
+function toggleSound() {
+  state.muted = audioController.toggleMuted();
+  persistPreference(MUTED_KEY, String(state.muted));
+  renderer.setSoundState(state.muted);
+  if (!state.muted) {
+    audioController.unlock();
+    audioController.play('clue');
+  }
 }
 
 function toggleTheme() {
@@ -331,10 +357,20 @@ function getNewQuestion() {
     return;
   }
 
-  renderClue(getRandomQuestion());
+  const clue = getRandomQuestion();
+  return roundDirector.introduceClue(() => renderClue(clue));
 }
 
-function checkAnswer() {
+async function checkAnswer() {
+  if (roundDirector.isAdvanceReady()) {
+    getNewQuestion();
+    return;
+  }
+
+  if (roundDirector.isBusy()) {
+    return;
+  }
+
   if (!gameEngine.getActiveClue()) {
     if (gameEngine.getState().phase === contracts.GamePhases.REVEALING) {
       getNewQuestion();
@@ -354,33 +390,45 @@ function checkAnswer() {
     return;
   }
 
-  const result = gameEngine.submitAnswer(userAnswer);
-  if (!result.ok) {
-    renderer.displayErrorMessage(result.error.message);
-    return;
-  }
-
-  if (result.isCorrect) {
-    state.bestStreak = result.bestStreak;
-    persistBestStreak();
-    renderHost(result.currentStreak >= 3 ? 'streak' : 'correct');
-    renderer.displayCorrectAnswerMessage(result);
-    renderer.setStatus(getCopy().correctStatus(result.scoreDelta, hostManager.selectQuip('correct')));
-  } else {
-    renderHost('incorrect');
-    renderer.displayIncorrectAnswerMessage(result.correctAnswer || 'Unknown');
-    renderer.setStatus(getCopy().incorrectStatus(hostManager.selectQuip('incorrect')));
-  }
-
   renderer.setControlsEnabled(false);
-  renderScoreboard();
-  renderer.clearUserAnswer();
+  renderHost('reveal');
+  await roundDirector.judge(
+    () => gameEngine.submitAnswer(userAnswer),
+    (result) => {
+      if (!result.ok) {
+        renderer.displayErrorMessage(result.error.message);
+        return;
+      }
+
+      if (result.isCorrect) {
+        state.bestStreak = result.bestStreak;
+        persistBestStreak();
+        renderHost(result.currentStreak >= 3 ? 'streak' : 'correct');
+        renderer.displayCorrectAnswerMessage(result);
+        renderer.setStatus(getCopy().correctStatus(result.scoreDelta, hostManager.selectQuip('correct')));
+      } else {
+        renderHost('incorrect');
+        renderer.displayIncorrectAnswerMessage(result.correctAnswer || 'Unknown');
+        renderer.setStatus(getCopy().incorrectStatus(hostManager.selectQuip('incorrect')));
+      }
+
+      renderer.setControlsEnabled(false);
+      renderScoreboard();
+      renderer.clearUserAnswer();
+    },
+  );
 }
 
-function showHideAnswer() {
-  renderer.toggleAnswer(!renderer.isAnswerVisible());
-  renderer.setGameMoment(renderer.isAnswerVisible() ? 'reveal' : 'clue');
-  renderHost(renderer.isAnswerVisible() ? 'reveal' : 'clue');
+async function showHideAnswer() {
+  if (roundDirector.isBusy() || roundDirector.isAdvanceReady() || renderer.isAnswerVisible()) {
+    return;
+  }
+  renderer.setControlsEnabled(false);
+  await roundDirector.reveal(() => {
+    renderer.toggleAnswer(true);
+    renderer.setGameMoment('reveal');
+    renderHost('reveal');
+  });
 }
 
 async function loadQuestions() {
@@ -453,6 +501,7 @@ function bindEvents() {
     onCheckAnswer: checkAnswer,
     onToggleTheme: toggleTheme,
     onToggleLanguage: toggleLanguage,
+    onToggleSound: toggleSound,
     onPreviousHostSkin: () => cycleHostSkin(-1),
     onNextHostSkin: () => cycleHostSkin(1),
   });
@@ -460,6 +509,11 @@ function bindEvents() {
   globalThis.document.addEventListener('keydown', (event) => {
     const key = event.key.toLowerCase();
     const isTyping = event.target === renderer.dom.userInput;
+    if (key === 'enter' && roundDirector.isAdvanceReady()) {
+      event.preventDefault();
+      getNewQuestion();
+      return;
+    }
     if (isTyping || event.metaKey || event.ctrlKey || event.altKey) {
       return;
     }
@@ -487,11 +541,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderer = new rendererModule.Renderer();
   consoleNarrator = new narratorModule.ConsoleNarrator({ eventBus });
   hostManager = new hostModule.HostManager();
+  brandController = new brandModule.BrandController();
+  audioController = new audioModule.AudioController();
   hostManager.setActiveSkin(state.hostSkinId);
   preloadActiveHostVisuals();
   consoleNarrator.start();
 
   renderer.bindDom();
+  brandController.bind();
+  audioController.setMuted(state.muted);
+  roundDirector = new roundDirectorModule.RoundDirector({
+    audio: audioController,
+    reducedMotion: globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches,
+    onPhase: (phase) => renderer.setRoundPhase(phase),
+  });
   sceneService?.bindDom();
   applyPreferences();
   renderHost('idle');

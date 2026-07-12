@@ -1,4 +1,8 @@
-# Jeopardish
+# JeoPARODY
+
+> Formerly developed under the working title **Jeopardish**. The public creative direction is now **JeoPARODY**, where one unauthorized O turns game-show prestige into a comedy-learning universe.
+
+Open `creative-room.html` to compare the current logo, host, and art-direction finalists. The front-running identity is **Channel O**, hosted provisionally by **Xander Trefleck**.
 
 ## Overview
 

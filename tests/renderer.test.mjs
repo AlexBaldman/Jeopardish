@@ -96,6 +96,8 @@ function createFakeDocument() {
     'themeToggleLabel',
     'languageToggle',
     'languageToggleLabel',
+    'soundToggle',
+    'soundToggleLabel',
     'mediaModal',
     'mediaModalBackdrop',
     'mediaModalBody',
@@ -208,6 +210,7 @@ test('Renderer binds UI events to callbacks', () => {
     onCheckAnswer: () => calls.push('check'),
     onToggleTheme: () => calls.push('theme'),
     onToggleLanguage: () => calls.push('language'),
+    onToggleSound: () => calls.push('sound'),
     onPreviousHostSkin: () => calls.push('host-prev'),
     onNextHostSkin: () => calls.push('host-next'),
   });
@@ -217,12 +220,13 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.checkButton.listeners.click();
   renderer.dom.themeToggle.listeners.click();
   renderer.dom.languageToggle.listeners.click();
+  renderer.dom.soundToggle.listeners.click();
   renderer.dom.hostPrevButton.listeners.click();
   renderer.dom.hostNextButton.listeners.click();
   renderer.dom.userInput.listeners.keydown({ key: 'Enter' });
   renderer.dom.hamburgerMenu.listeners.click();
 
-  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'host-prev', 'host-next', 'check']);
+  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'sound', 'host-prev', 'host-next', 'check']);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
 });
 
@@ -258,6 +262,25 @@ test('Renderer applies localized static UI copy and toggle states', () => {
   assert.equal(renderer.dom.languageToggleLabel.textContent, 'Português');
   assert.equal(renderer.dom.currentStreak.textContent, 'Sequência Atual: 2');
   assert.equal(documentRef.documentElement.getAttribute('lang'), 'pt-BR');
+});
+
+test('Renderer exposes round phase and audio state without a visible status panel', () => {
+  const { renderer } = createRenderer();
+
+  renderer.setCopy({
+    inputPlaceholder: 'Type your response',
+    nextClueReady: 'NEXT CLUE READY',
+    soundOn: 'Sound',
+    soundOff: 'Muted',
+  });
+  renderer.setRoundPhase('advance-ready');
+  renderer.setSoundState(true);
+
+  assert.equal(renderer.dom.gameContainer.dataset.roundPhase, 'advance-ready');
+  assert.equal(renderer.dom.userInput.placeholder, 'NEXT CLUE READY');
+  assert.equal(renderer.dom.soundToggle.dataset.muted, 'true');
+  assert.equal(renderer.dom.soundToggleLabel.textContent, 'Muted');
+  assert.equal(renderer.dom.soundToggle.getAttribute('aria-label'), 'Enable game audio');
 });
 
 test('Renderer shows empty-answer host quip without replacing the active clue', () => {

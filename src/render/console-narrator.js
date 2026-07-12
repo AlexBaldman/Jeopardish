@@ -34,7 +34,7 @@
         return this.unsubscribe;
       }
 
-      this.say('🎬 Welcome to Jeopardish. The podiums are varnished, the clues are suspicious, and destiny is wearing a clip-on mic.');
+      this.say('📺 Welcome to JeoPARODY. The extra O has breached containment, the clues are suspicious, and Xander has produced credentials nobody requested.');
       this.unsubscribe = this.eventBus.on('*', (event) => this.narrate(event));
       return this.unsubscribe;
     }
@@ -56,7 +56,7 @@
     }
 
     say(message) {
-      this.console?.log?.(`[Jeopardish] ${message}`);
+      this.console?.log?.(`[JeoPARODY / Channel O] ${message}`);
     }
 
     getMessage(event) {

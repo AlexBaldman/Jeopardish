@@ -1,4 +1,4 @@
-# Jeopardish Production Plan: Season Zero
+# JeoPARODY Production Plan: Season Zero
 
 **Date:** 2026-07-12  
 **Decision:** Build one complete ten-minute episode before expanding the platform.  

@@ -14,7 +14,7 @@ test('HostManager exposes the default host', () => {
   const hostManager = new HostManager();
 
   assert.equal(hostManager.getActiveHost().id, DefaultHost.id);
-  assert.equal(hostManager.getActiveHost().displayName, 'M. Alex "Malex" Trebek');
+  assert.equal(hostManager.getActiveHost().displayName, 'Xander Trefleck');
   assert.equal(hostManager.getVisual('neutral'), 'assets/trebek/trebek-1.webp');
   assert.equal(hostManager.getActiveSkin().id, DefaultHostSkins[0].id);
 });
@@ -88,5 +88,5 @@ test('HostManager resolves a complete dope reaction performance pack', () => {
 test('HostManager selects deterministic quips when random is injected', () => {
   const hostManager = new HostManager({ random: () => 0.99 });
 
-  assert.equal(hostManager.selectQuip('correct'), 'That is the one.');
+  assert.equal(hostManager.selectQuip('correct'), 'That is the one. Please stop making this look easy in my building.');
 });

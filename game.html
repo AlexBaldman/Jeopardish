@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeopardish | Game Cabinet</title>
-    <meta name="description" content="Play the Jeopardish prototype in a dedicated full-window arcade cabinet.">
-    <link rel="stylesheet" href="style.css?v=vision-10" type="text/css">
+    <title>JeoPARODY | Channel O Game Cabinet</title>
+    <meta name="description" content="Play JeoPARODY in a dedicated full-window comedy-learning arcade cabinet.">
+    <link rel="stylesheet" href="style.css?v=brand-round-1" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -15,19 +15,24 @@
     <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/render/scene-service.js?v=beach-1"></script>
-    <script defer src="src/render/renderer.js?v=vision-3"></script>
-    <script defer src="src/render/console-narrator.js?v=arcade-4"></script>
-    <script defer src="src/host/host-manager.js?v=vision-2"></script>
-    <script defer src="app.js?v=vision-5"></script>
+    <script defer src="src/render/renderer.js?v=round-3"></script>
+    <script defer src="src/render/console-narrator.js?v=brand-1"></script>
+    <script defer src="src/host/host-manager.js?v=brand-1"></script>
+    <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
+    <script defer src="src/audio/audio-controller.js?v=round-1"></script>
+    <script defer src="src/directors/round-director.js?v=round-3"></script>
+    <script defer src="app.js?v=brand-round-3"></script>
 </head>
 
 <body class="game-only" lang="en" data-theme="dark" data-language="en" data-app-mode="game">
-    <main class="game-page-shell" id="play" aria-label="Jeopardish standalone game">
-        <div class="game-container game-container-standalone" id="gameContainer" data-game-moment="loading">
+    <main class="game-page-shell" id="play" aria-label="JeoPARODY standalone game">
+        <div class="game-container game-container-standalone" id="gameContainer" data-game-moment="loading" data-round-phase="idle">
             <div class="scene-stage" id="sceneStage" aria-hidden="true"></div>
             <header class="header game-header">
                 <div class="title-div">
-                    <p class="game-mark" aria-label="Jeopardish">JEOPARDISH<span>!</span></p>
+                    <div class="brand-mark game-mark" data-brand-mark aria-label="JeoPARODY">
+                        <span class="brand-jeo">JEO</span><span class="brand-par">PAR</span><span class="brand-o" data-brand-o data-o-token="portal" role="button" tabindex="0"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-dy">DY</span><span class="brand-bang" aria-hidden="true">!</span>
+                    </div>
                 </div>
                 <div class="quick-score" aria-label="Live score" aria-live="polite">
                     <span class="hud-readout">
@@ -49,6 +54,10 @@
                     <button class="language-toggle" id="languageToggle" type="button" aria-label="Toggle English or Brazilian Portuguese" aria-pressed="false">
                         <span class="flag-stack" aria-hidden="true"><span class="flag flag-us">US</span><span class="flag flag-br">BR</span></span>
                         <span class="toggle-label" id="languageToggleLabel">English</span>
+                    </button>
+                    <button class="sound-toggle" id="soundToggle" type="button" aria-label="Mute game audio" aria-pressed="false">
+                        <span class="sound-icon" aria-hidden="true">SFX</span>
+                        <span class="toggle-label" id="soundToggleLabel">Sound</span>
                     </button>
                 </div>
                 <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open score cabinet">
@@ -79,9 +88,9 @@
                 <div class="host-stage" id="hostStage" aria-label="Host visual selector">
                     <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
                     <figure class="host-stand">
-                        <img class="trebek" id="hostImage" alt="Malex, the fictional Jeopardish host" src="assets/trebek/trebek-1.webp">
+                        <img class="trebek" id="hostImage" alt="Xander Trefleck, the provisional JeoPARODY host" src="assets/trebek/trebek-1.webp">
                         <span class="host-cue" id="hostCue" aria-hidden="true">On Air</span>
-                        <figcaption class="host-skin-label" id="hostSkinLabel">Dope Broadcast</figcaption>
+                        <figcaption class="host-skin-label" id="hostSkinLabel">Channel O Xander</figcaption>
                         <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/05</span>
                     </figure>
                     <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look">›</button>

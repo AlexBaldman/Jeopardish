@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeopardish | The Forbidden Broadcast</title>
-    <meta name="description" content="Jeopardish is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
-    <link rel="stylesheet" href="style.css?v=vision-10" type="text/css">
+    <title>JeoPARODY | The Forbidden Broadcast</title>
+    <meta name="description" content="JeoPARODY is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
+    <link rel="stylesheet" href="style.css?v=brand-round-1" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -15,19 +15,22 @@
     <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/render/scene-service.js?v=beach-1"></script>
-    <script defer src="src/render/renderer.js?v=vision-3"></script>
-    <script defer src="src/render/console-narrator.js?v=arcade-4"></script>
-    <script defer src="src/host/host-manager.js?v=vision-2"></script>
+    <script defer src="src/render/renderer.js?v=round-3"></script>
+    <script defer src="src/render/console-narrator.js?v=brand-1"></script>
+    <script defer src="src/host/host-manager.js?v=brand-1"></script>
+    <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
+    <script defer src="src/audio/audio-controller.js?v=round-1"></script>
+    <script defer src="src/directors/round-director.js?v=round-3"></script>
     <script defer src="landing.js?v=vision-2"></script>
-    <script defer src="app.js?v=vision-5"></script>
+    <script defer src="app.js?v=brand-round-3"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
     <div class="signal-progress" aria-hidden="true"><span id="signalProgressBar"></span></div>
 
     <header class="broadcast-nav" aria-label="Primary navigation">
-        <a class="wordmark" href="#top" aria-label="Jeopardish home">
-            <span class="wordmark-main">JEOPARDISH</span>
+        <a class="wordmark" href="#top" aria-label="JeoPARODY home">
+            <span class="brand-mark wordmark-main" data-brand-mark aria-label="JeoPARODY"><span class="brand-jeo">JEO</span><span class="brand-par">PAR</span><span class="brand-o" data-brand-o-display data-o-token="portal"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-dy">DY</span></span>
             <span class="wordmark-sub">THE FORBIDDEN BROADCAST</span>
         </a>
         <nav class="site-links" aria-label="Site sections">
@@ -36,6 +39,7 @@
             <a href="#system">System</a>
             <a href="#maps">Maps</a>
             <a href="#roadmap">Roadmap</a>
+            <a href="creative-room.html">Creative Room</a>
         </nav>
         <div class="nav-actions">
             <button class="theme-toggle site-theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false">
@@ -53,7 +57,7 @@
             <div class="hero-copy reveal">
                 <p class="eyebrow"><span class="signal-dot"></span> Midnight frequency acquired / Season zero</p>
                 <h1 id="heroTitle">The forbidden broadcast that makes learning feel illicitly fun.</h1>
-                <p class="hero-lede">An original comedy-learning game-show universe built on verified facts, counterfeit stakes, and one suspiciously polite fictional host.</p>
+                <p class="hero-lede">An original comedy-learning game-show universe built on verified facts, counterfeit stakes, and one suspiciously polite host broadcasting through the unauthorized O.</p>
                 <div class="hero-actions">
                     <a class="action-primary" href="#play" data-launch-game>Play the Prototype</a>
                     <a class="action-secondary" href="#premise">Unseal the Premise</a>
@@ -64,10 +68,10 @@
                 </div>
             </div>
             <figure class="hero-art reveal">
-                <img src="assets/images/vision/malex-broadcast-hero.png" alt="Fictional quiz host Malex at a neon celestial game-show podium holding questionable trivia currency.">
+                <img src="assets/images/vision/malex-broadcast-hero.png" alt="Fictional quiz host Xander Trefleck at a neon celestial game-show podium holding questionable trivia currency.">
                 <figcaption>
                     <span>ON AIR</span>
-                    M. Alex “Malex” Trebek insists this is legitimate television.
+                    Xander Trefleck insists the unauthorized O is standard Canadian punctuation.
                 </figcaption>
             </figure>
         </section>
@@ -75,7 +79,7 @@
         <section class="manifesto reveal" id="premise" aria-label="The premise">
             <p class="manifesto-kicker">The Pivot</p>
             <p class="manifesto-statement">Keep trivia as the spine. Leave the single-show clone behind.</p>
-            <p class="manifesto-copy">Jeopardish becomes a late-night learning network assembled from the joyous grammar of old game shows: wagers, lightning rounds, puzzles, artifacts, fake prizes, and escalating finales.</p>
+            <p class="manifesto-copy">JeoPARODY becomes a late-night learning network assembled from the joyous grammar of old game shows: wagers, lightning rounds, puzzles, artifacts, fake prizes, and escalating finales.</p>
         </section>
 
         <section class="evidence section" id="evidence" aria-labelledby="evidenceTitle">
@@ -127,13 +131,13 @@
 
         <section class="story section" id="story" aria-labelledby="storyTitle">
             <figure class="portrait-frame reveal">
-                <img src="assets/images/vision/malex-counterfeit-portrait.png" alt="Original fictional host Malex holding a purple counterfeit trivia note.">
+                <img src="assets/images/vision/malex-counterfeit-portrait.png" alt="Original fictional host Xander Trefleck holding a purple counterfeit trivia note.">
                 <figcaption>PUBLICLY: M. ALEX. &nbsp; EVENTUALLY: MALEX.</figcaption>
             </figure>
             <div class="story-copy reveal">
                 <p class="eyebrow">Original Host IP</p>
                 <h2 id="storyTitle">A respectable host with an inconvenient identity problem.</h2>
-                <p>Malex assumes control of a forbidden after-hours signal and assures players the money is legal in several provinces. The more a player masters, the more his story falls apart.</p>
+                <p>Xander assumes control of a forbidden after-hours signal and assures players the money is legal in several provinces. The more a player masters, the more his story falls apart.</p>
                 <ol class="host-states" aria-label="Host story escalation">
                     <li><strong>Polite</strong><span>Immaculate and reassuring.</span></li>
                     <li><strong>Slippery</strong><span>Unasked anecdotes emerge.</span></li>
@@ -149,7 +153,7 @@
                 <h2 id="formatsTitle">Three experiences share a brain; none should compromise the others.</h2>
             </div>
             <div class="format-switcher reveal">
-                <div class="format-tabs" role="tablist" aria-label="Jeopardish game modes">
+                <div class="format-tabs" role="tablist" aria-label="JeoPARODY game modes">
                     <button class="format-tab active" type="button" role="tab" aria-selected="true" aria-controls="modeStudy" id="tabStudy" data-mode="study">Study</button>
                     <button class="format-tab" type="button" role="tab" aria-selected="false" aria-controls="modeArcade" id="tabArcade" data-mode="arcade">Arcade Story</button>
                     <button class="format-tab" type="button" role="tab" aria-selected="false" aria-controls="modeClassic" id="tabClassic" data-mode="classic">Classic Strategy</button>
@@ -164,8 +168,8 @@
                     <article class="format-panel" id="modeArcade" role="tabpanel" aria-labelledby="tabArcade" data-panel="arcade" hidden>
                         <p class="panel-label">Laugh + uncover</p>
                         <h3>Ten minutes from confidence to suspicion.</h3>
-                        <p>Counterfeit wagers and evidence envelopes turn correct answers into artifacts in the mystery of Malex's increasingly suspicious broadcast.</p>
-                        <div class="feature-tags"><span>Episodes</span><span>Artifacts</span><span>Malex</span></div>
+                        <p>Counterfeit wagers and evidence envelopes turn correct answers into artifacts in the mystery of Xander's increasingly suspicious broadcast.</p>
+                        <div class="feature-tags"><span>Episodes</span><span>Artifacts</span><span>Xander</span></div>
                     </article>
                     <article class="format-panel" id="modeClassic" role="tabpanel" aria-labelledby="tabClassic" data-panel="classic" hidden>
                         <p class="panel-label">Risk wisely</p>
@@ -199,7 +203,7 @@
                     <p>Generative show</p>
                     <ul>
                         <li>Clue phrasing candidate</li>
-                        <li>Malex banter + reactions</li>
+                        <li>Xander banter + reactions</li>
                         <li>Artifact flavor copy</li>
                         <li>Audio / visual direction</li>
                     </ul>
@@ -229,7 +233,7 @@ flowchart TB
     judge --> mastery["Mastery grows"]
     correction --> mastery
     mastery --> studio["Studio rebuilds"]
-    studio --> evidence["Malex leaks evidence"]
+    studio --> evidence["Xander leaks evidence"]
                     </pre>
                 </article>
                 <article class="diagram-card reveal">
@@ -276,7 +280,7 @@ flowchart TB
             </div>
             <div class="roadmap-line reveal">
                 <article><span>0-A</span><h3>Legacy + Truth</h3><p>Harvest better judging, normalize values, fix finale scoring.</p><strong>Trusted prototype</strong></article>
-                <article><span>B</span><h3>Arcade Slice</h3><p>Original fact pack, Malex art kit, wager and evidence.</p><strong>Signature session</strong></article>
+                <article><span>B</span><h3>Arcade Slice</h3><p>Original fact pack, Xander art kit, wager and evidence.</p><strong>Signature session</strong></article>
                 <article><span>C</span><h3>AI Performance</h3><p>Secure gateway, validated rewrites, cached reactions.</p><strong>Living host</strong></article>
                 <article><span>D</span><h3>Network</h3><p>More mechanics, creators, co-op, new story seasons.</p><strong>Learning platform</strong></article>
             </div>
@@ -292,11 +296,11 @@ flowchart TB
                 </p>
             </div>
 
-            <div class="game-container reveal" id="gameContainer" data-game-moment="loading">
+            <div class="game-container reveal" id="gameContainer" data-game-moment="loading" data-round-phase="idle">
                 <div class="scene-stage" id="sceneStage" aria-hidden="true"></div>
                 <header class="header game-header">
                     <div class="title-div">
-                        <p class="game-mark" aria-label="Jeopardish">JEOPARDISH<span>!</span></p>
+                        <div class="brand-mark game-mark" data-brand-mark aria-label="JeoPARODY"><span class="brand-jeo">JEO</span><span class="brand-par">PAR</span><span class="brand-o" data-brand-o data-o-token="portal" role="button" tabindex="0"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-dy">DY</span><span class="brand-bang" aria-hidden="true">!</span></div>
                     </div>
                     <div class="quick-score" aria-label="Live score" aria-live="polite">
                         <span class="hud-readout">
@@ -312,6 +316,10 @@ flowchart TB
                         <button class="language-toggle" id="languageToggle" type="button" aria-label="Toggle English or Brazilian Portuguese" aria-pressed="false">
                             <span class="flag-stack" aria-hidden="true"><span class="flag flag-us">US</span><span class="flag flag-br">BR</span></span>
                             <span class="toggle-label" id="languageToggleLabel">English</span>
+                        </button>
+                        <button class="sound-toggle" id="soundToggle" type="button" aria-label="Mute game audio" aria-pressed="false">
+                            <span class="sound-icon" aria-hidden="true">SFX</span>
+                            <span class="toggle-label" id="soundToggleLabel">Sound</span>
                         </button>
                     </div>
                     <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open score cabinet">
@@ -342,9 +350,9 @@ flowchart TB
                     <div class="host-stage" id="hostStage" aria-label="Host visual selector">
                         <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
                         <figure class="host-stand">
-                            <img class="trebek" id="hostImage" alt="Malex, the fictional Jeopardish host" src="assets/trebek/trebek-1.webp">
+                            <img class="trebek" id="hostImage" alt="Xander Trefleck, the provisional JeoPARODY host" src="assets/trebek/trebek-1.webp">
                             <span class="host-cue" id="hostCue" aria-hidden="true">On Air</span>
-                            <figcaption class="host-skin-label" id="hostSkinLabel">Dope Broadcast</figcaption>
+                            <figcaption class="host-skin-label" id="hostSkinLabel">Channel O Xander</figcaption>
                             <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/05</span>
                         </figure>
                         <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look">›</button>
@@ -379,7 +387,7 @@ flowchart TB
     </main>
 
     <footer class="site-footer">
-        <p class="wordmark-main">JEOPARDISH</p>
+        <p class="brand-mark wordmark-main" data-brand-mark aria-label="JeoPARODY"><span class="brand-jeo">JEO</span><span class="brand-par">PAR</span><span class="brand-o" data-brand-o data-o-token="portal" role="button" tabindex="0"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-dy">DY</span></p>
         <p>An original fictional comedy-learning broadcast universe. The host is fictional; the truth layer is not.</p>
         <a href="#top">Return to frequency</a>
     </footer>

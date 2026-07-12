@@ -13,6 +13,9 @@
     answerButton: 'Reveal Answer',
     checkButton: 'Lock It In',
     inputPlaceholder: 'Type your response',
+    soundOn: 'Sound',
+    soundOff: 'Muted',
+    nextClueReady: 'NEXT CLUE READY',
     themeNight: 'Night',
     themeDay: 'Day',
     languageEnglish: 'English',
@@ -243,6 +246,8 @@
       this.dom.themeToggleLabel = this.document.getElementById('themeToggleLabel');
       this.dom.languageToggle = this.document.getElementById('languageToggle');
       this.dom.languageToggleLabel = this.document.getElementById('languageToggleLabel');
+      this.dom.soundToggle = this.document.getElementById('soundToggle');
+      this.dom.soundToggleLabel = this.document.getElementById('soundToggleLabel');
       this.dom.mediaModal = this.document.getElementById('mediaModal');
       this.dom.mediaModalBackdrop = this.document.getElementById('mediaModalBackdrop');
       this.dom.mediaModalBody = this.document.getElementById('mediaModalBody');
@@ -260,6 +265,7 @@
       onCheckAnswer,
       onToggleTheme = () => {},
       onToggleLanguage = () => {},
+      onToggleSound = () => {},
       onPreviousHostSkin = () => {},
       onNextHostSkin = () => {},
     }) {
@@ -272,6 +278,7 @@
       this.dom.checkButton.addEventListener('click', onCheckAnswer);
       this.dom.themeToggle?.addEventListener('click', onToggleTheme);
       this.dom.languageToggle?.addEventListener('click', onToggleLanguage);
+      this.dom.soundToggle?.addEventListener('click', onToggleSound);
       this.dom.hostPrevButton?.addEventListener('click', onPreviousHostSkin);
       this.dom.hostNextButton?.addEventListener('click', onNextHostSkin);
       this.dom.mediaModalClose?.addEventListener('click', () => this.closeMedia());
@@ -363,9 +370,33 @@
       }
     }
 
+    setRoundPhase(phase) {
+      if (this.dom.gameContainer) {
+        this.dom.gameContainer.dataset.roundPhase = phase || 'idle';
+      }
+      if (this.dom.userInput) {
+        this.dom.userInput.placeholder = phase === 'advance-ready'
+          ? this.copy.nextClueReady
+          : this.copy.inputPlaceholder;
+      }
+    }
+
     setControlsEnabled(enabled) {
       this.dom.checkButton.disabled = !enabled;
       this.dom.answerButton.disabled = !enabled;
+      this.dom.userInput.disabled = !enabled;
+    }
+
+    setSoundState(muted) {
+      if (!this.dom.soundToggle) {
+        return;
+      }
+      this.dom.soundToggle.setAttribute('aria-pressed', String(Boolean(muted)));
+      this.dom.soundToggle.setAttribute('aria-label', muted ? 'Enable game audio' : 'Mute game audio');
+      this.dom.soundToggle.dataset.muted = String(Boolean(muted));
+      if (this.dom.soundToggleLabel) {
+        this.setText(this.dom.soundToggleLabel, muted ? this.copy.soundOff : this.copy.soundOn);
+      }
     }
 
     setCategory(category, value) {
@@ -542,6 +573,7 @@
 
     clearUserAnswer() {
       this.dom.userInput.value = '';
+      this.dom.userInput.scrollLeft = 0;
     }
 
     focusUserAnswer() {
