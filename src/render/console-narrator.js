@@ -73,6 +73,16 @@
           return `🧯 The clue vault coughed smoke: ${payload.message || 'unknown mischief'}.`;
         case GameEvents.GAME_READY:
           return '🛎️ The board is alive. The answers have put on little fake mustaches.';
+        case GameEvents.MEDIA_PREFLIGHT_STARTED:
+          return `🔎 Media customs is inspecting ${payload.mediaCount || 0} attachment${payload.mediaCount === 1 ? '' : 's'}. Nobody enjoys this, which is how we know it matters.`;
+        case GameEvents.MEDIA_PREFLIGHT_PASSED:
+          return `✅ Media cleared for broadcast. ${payload.checked || 0} tiny bureaucratic stamp${payload.checked === 1 ? '' : 's'} applied.`;
+        case GameEvents.MEDIA_PREFLIGHT_REJECTED:
+          return `📼 Clue quietly escorted offstage: ${this.describeMediaFailures(payload.failures)}. Another clue is pretending not to stare.`;
+        case GameEvents.MEDIA_PREFLIGHT_EXHAUSTED:
+          return `🧯 Media customs rejected ${payload.attempts || 'several'} clues in a row. The emergency index card is being unfolded.`;
+        case GameEvents.MEDIA_RUNTIME_FAILED:
+          return `🚪 A media asset collapsed during broadcast (${payload.reason || 'unknown indignity'}). Xander has declared it an unscheduled clue change.`;
         case GameEvents.CLUE_LOADED:
           return this.describeClue(payload);
         case GameEvents.ANSWER_SUBMITTED:
@@ -127,6 +137,11 @@
       ];
 
       return `❌ Not it. The answer was "${truncate(correctAnswer)}". Score $${payload.newScore}. ${this.pick(flourishes)}`;
+    }
+
+    describeMediaFailures(failures = []) {
+      const reasons = failures.map((failure) => failure.reason).filter(Boolean);
+      return reasons.length ? reasons.join(', ') : 'the attachment failed to produce identification';
     }
 
     pick(items) {

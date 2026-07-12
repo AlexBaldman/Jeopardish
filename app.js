@@ -2,6 +2,7 @@
 
 const QUESTION_SOURCE = './questions/jeopardy-questions.json';
 const FETCH_TIMEOUT_MS = 10000;
+const MAX_MEDIA_PREFLIGHT_ATTEMPTS = 8;
 
 const jeopardyErrors = [
   {
@@ -167,6 +168,7 @@ const contracts = globalThis.JeopardishContracts || null;
 const eventBusModule = globalThis.JeopardishEventBus || null;
 const engineModule = globalThis.JeopardishEngine || null;
 const dataModule = globalThis.JeopardishData || null;
+const mediaModule = globalThis.JeoPARODYMedia || null;
 const sceneModule = globalThis.JeopardishSceneService || null;
 const rendererModule = globalThis.JeopardishRenderer || null;
 const narratorModule = globalThis.JeopardishConsoleNarrator || null;
@@ -176,13 +178,14 @@ const translationModule = globalThis.JeoPARODYTranslation || null;
 const audioModule = globalThis.JeoPARODYAudio || null;
 const roundDirectorModule = globalThis.JeoPARODYRoundDirector || null;
 
-if (!contracts || !eventBusModule || !engineModule || !dataModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !roundDirectorModule) {
+if (!contracts || !eventBusModule || !engineModule || !dataModule || !mediaModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !roundDirectorModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
 let eventBus;
 let gameEngine;
 let dataLoader;
+let mediaPreflight;
 let sceneService;
 let renderer;
 let consoleNarrator;
@@ -192,6 +195,7 @@ let translationService;
 let audioController;
 let roundDirector;
 let translationAbortController = null;
+let mediaAbortController = null;
 let gameStarted = false;
 let gameStartPromise = null;
 const preloadedHostVisuals = new Set();
@@ -353,15 +357,18 @@ function cycleHostSkin(step) {
   renderHost(getCurrentHostExpression());
 }
 
-function getRandomQuestion() {
-  if (state.questions.length === 0) return null;
+function getQuestionCandidates(limit = MAX_MEDIA_PREFLIGHT_ATTEMPTS) {
+  const count = state.questions.length;
+  if (count === 0) return [];
 
-  let idx = Math.floor(Math.random() * state.questions.length);
-  if (state.questions.length > 1 && idx === state.lastClueIndex) {
-    idx = (idx + 1) % state.questions.length;
+  const candidates = [];
+  const start = Math.floor(Math.random() * count);
+  for (let offset = 0; offset < count && candidates.length < limit; offset += 1) {
+    const index = (start + offset) % count;
+    if (count > 1 && index === state.lastClueIndex) continue;
+    candidates.push({ clue: state.questions[index], index });
   }
-  state.lastClueIndex = idx;
-  return state.questions[idx] ?? null;
+  return candidates;
 }
 
 function renderClue(sourceClue, displayClue = sourceClue) {
@@ -378,11 +385,25 @@ function renderClue(sourceClue, displayClue = sourceClue) {
 }
 
 function getSourceClueContent(clue) {
-  const parsed = rendererModule.extractClueContent(clue?.question, globalThis.document);
-  return {
-    questionText: parsed.text,
-    media: parsed.media,
-  };
+  const parsed = rendererModule.extractClueMedia(clue, globalThis.document);
+  return { questionText: parsed.text, media: parsed.media };
+}
+
+async function selectPlayableQuestion(signal) {
+  const selected = await mediaPreflight.selectPlayable(getQuestionCandidates(), {
+    signal,
+    getMedia: (clue) => getSourceClueContent(clue).media,
+    events: {
+      started: contracts.GameEvents.MEDIA_PREFLIGHT_STARTED,
+      passed: contracts.GameEvents.MEDIA_PREFLIGHT_PASSED,
+      rejected: contracts.GameEvents.MEDIA_PREFLIGHT_REJECTED,
+      exhausted: contracts.GameEvents.MEDIA_PREFLIGHT_EXHAUSTED,
+    },
+  });
+  if (selected?.candidate && Number.isInteger(selected.candidate.index)) {
+    state.lastClueIndex = selected.candidate.index;
+  }
+  return selected?.clue || null;
 }
 
 async function prepareDisplayClue(clue, requestId) {
@@ -442,14 +463,37 @@ async function getNewQuestion() {
     return startGame();
   }
 
-  const clue = getRandomQuestion();
   const requestId = ++state.translationRequestId;
   roundDirector.cancel(roundDirectorModule.RoundPhases.CLUE_INTRO);
+  renderer.setControlsEnabled(false);
+  mediaAbortController?.abort();
+  mediaAbortController = new AbortController();
+  let clue;
+  try {
+    clue = await selectPlayableQuestion(mediaAbortController.signal);
+  } catch (error) {
+    if (error?.name === 'AbortError') return null;
+    console.warn('Media preflight failed unexpectedly.', error);
+  }
+  if (requestId !== state.translationRequestId) return null;
+  if (!clue) {
+    renderer.displayErrorJoke(jeopardyErrors);
+    return null;
+  }
   const displayClue = await prepareDisplayClue(clue, requestId);
   if (!displayClue || requestId !== state.translationRequestId) {
     return null;
   }
   return roundDirector.introduceClue(() => renderClue(clue, displayClue));
+}
+
+function handleMediaFailure({ item, reason }) {
+  eventBus.emit(contracts.GameEvents.MEDIA_RUNTIME_FAILED, {
+    url: item?.url,
+    type: item?.type,
+    reason,
+  }, { source: 'Renderer' });
+  getNewQuestion();
 }
 
 async function checkAnswer() {
@@ -601,6 +645,7 @@ function bindEvents() {
     onToggleSound: toggleSound,
     onPreviousHostSkin: () => cycleHostSkin(-1),
     onNextHostSkin: () => cycleHostSkin(1),
+    onMediaFailure: handleMediaFailure,
   });
 
   globalThis.document.addEventListener('keydown', (event) => {
@@ -634,6 +679,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     bestStreak: state.bestStreak,
   });
   dataLoader = new dataModule.DataLoader({ eventBus });
+  mediaPreflight = new mediaModule.MediaPreflight({ eventBus });
   sceneService = sceneModule ? new sceneModule.SceneService() : null;
   renderer = new rendererModule.Renderer();
   consoleNarrator = new narratorModule.ConsoleNarrator({ eventBus });

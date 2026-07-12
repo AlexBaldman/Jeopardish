@@ -9,6 +9,7 @@ Jeopardish is moving toward a host-agnostic arcade engine. This document records
 - `src/core/event-bus.js` owns pub/sub event delivery.
 - `src/core/game-engine.js` owns game state, scoring, streaks, active clue lifecycle, and answer outcomes.
 - `src/data/data-loader.js` owns fetching and validating the current question bank.
+- `src/media/media-preflight.js` owns media reachability checks, bounded timeouts, health caching, and playable-clue selection.
 - `src/render/renderer.js` owns DOM binding, rendering, user input reads, fallback clue display, and control state.
 - `src/host/host-manager.js` owns active host config, host visuals, and host quip selection.
 - `app.js` owns application coordination, random clue selection, and localStorage persistence.
@@ -24,9 +25,12 @@ The current browser load order is:
 3. `src/core/event-bus.js`
 4. `src/core/game-engine.js`
 5. `src/data/data-loader.js`
-6. `src/render/renderer.js`
-7. `src/host/host-manager.js`
-8. `app.js`
+6. `src/media/media-preflight.js`
+7. `src/render/renderer.js`
+8. `src/host/host-manager.js`
+9. `app.js`
+
+Media preflight happens before `GameEngine.loadClue()`. A rejected attachment can select another clue, but it cannot mutate score, streak, or answer correctness. Renderer-level media errors are a second recovery layer for assets that fail after preflight.
 
 ## Next Extraction Targets
 

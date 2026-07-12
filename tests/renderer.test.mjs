@@ -470,3 +470,23 @@ test('Renderer builds media previews and opens accessible media viewers', () => 
   assert.equal(renderer.dom.clueMedia.children.length, 0);
   assert.equal(documentRef.body.classList.has('modal-open'), false);
 });
+
+test('Renderer reports a runtime image failure only once', () => {
+  const { renderer } = createRenderer();
+  const failures = [];
+  renderer.onMediaFailure = (failure) => failures.push(failure);
+
+  renderer.renderClue({
+    category: 'Archive',
+    question: 'Identify <a href="https://media.test/broken.jpg">this image</a>.',
+    answer: 'A test',
+  }, 400);
+
+  const thumbnail = renderer.dom.clueMedia.children[0].children[0];
+  thumbnail.listeners.error();
+  thumbnail.listeners.error();
+
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].reason, 'thumbnail-error');
+  assert.equal(failures[0].item.url, 'https://media.test/broken.jpg');
+});

@@ -207,6 +207,19 @@
     return media;
   }
 
+  function extractClueMedia(clue, documentRef) {
+    const parsed = extractClueContent(clue?.question, documentRef);
+    const media = [...parsed.media];
+    const urls = new Set(media.map((item) => item.url));
+    getStructuredMedia(clue).forEach((item) => {
+      if (!urls.has(item.url)) {
+        urls.add(item.url);
+        media.push(item);
+      }
+    });
+    return { text: parsed.text, media };
+  }
+
   class Renderer {
     constructor({ documentRef = globalThis.document, random = Math.random } = {}) {
       if (!documentRef) {
@@ -219,6 +232,7 @@
       this.copy = { ...DefaultCopy };
       this.mediaItems = [];
       this.lastMediaTrigger = null;
+      this.onMediaFailure = () => {};
     }
 
     bindDom() {
@@ -278,7 +292,9 @@
       onToggleSound = () => {},
       onPreviousHostSkin = () => {},
       onNextHostSkin = () => {},
+      onMediaFailure = () => {},
     }) {
+      this.onMediaFailure = onMediaFailure;
       this.dom.hamburgerMenu.addEventListener('click', () => {
         this.dom.navMenu.classList.toggle('active');
       });
@@ -516,6 +532,7 @@
           thumbnail.src = item.url;
           thumbnail.alt = '';
           thumbnail.loading = 'lazy';
+          thumbnail.addEventListener('error', () => this.reportMediaFailure(item, 'thumbnail-error'));
           button.append(thumbnail);
         } else {
           const icon = this.document.createElement('span');
@@ -533,16 +550,7 @@
     }
 
     renderClueContent(clue) {
-      const parsed = extractClueContent(clue?.question, this.document);
-      const deduped = [...parsed.media];
-      const urls = new Set(deduped.map((item) => item.url));
-
-      getStructuredMedia(clue).forEach((item) => {
-        if (!urls.has(item.url)) {
-          urls.add(item.url);
-          deduped.push(item);
-        }
-      });
+      const parsed = extractClueMedia(clue, this.document);
 
       this.setQuestionText(parsed.text || 'No question available.');
       const originalQuestion = clue?.translation?.original?.question || '';
@@ -550,7 +558,13 @@
         this.setText(this.dom.clueOriginal, originalQuestion ? `EN · ${originalQuestion}` : '');
         this.dom.clueOriginal.hidden = !originalQuestion || originalQuestion === parsed.text;
       }
-      this.renderMedia(deduped);
+      this.renderMedia(parsed.media);
+    }
+
+    reportMediaFailure(item, reason = 'runtime-error') {
+      if (!item || item.failureReported) return;
+      item.failureReported = true;
+      this.onMediaFailure?.({ item, reason });
     }
 
     openMedia(index, trigger = null) {
@@ -585,6 +599,7 @@
       viewer.className = `media-viewer media-viewer-${item.type}`;
       if (item.type !== MediaTypes.EXTERNAL) {
         viewer.src = item.url;
+        viewer.addEventListener('error', () => this.reportMediaFailure(item, 'viewer-error'));
       }
       this.dom.mediaModalBody.replaceChildren(viewer);
 
@@ -786,6 +801,7 @@
     DefaultCopy,
     MediaTypes,
     Renderer,
+    extractClueMedia,
     extractClueContent,
     getMediaType,
   };
