@@ -74,6 +74,7 @@ function createFakeDocument() {
     'statusMessage',
     'questionBox',
     'clueText',
+    'clueOriginal',
     'clueMedia',
     'answerBox',
     'currentStreak',
@@ -98,6 +99,8 @@ function createFakeDocument() {
     'languageToggleLabel',
     'soundToggle',
     'soundToggleLabel',
+    'translationState',
+    'translationStateLabel',
     'mediaModal',
     'mediaModalBackdrop',
     'mediaModalBody',
@@ -175,6 +178,32 @@ test('Renderer renders a clue and prepares answer input', () => {
   assert.equal(renderer.dom.checkButton.disabled, false);
   assert.equal(renderer.dom.userInput.value, '');
   assert.equal(renderer.dom.userInput.focused, true);
+});
+
+test('Renderer presents translated clue content with its English source', () => {
+  const { renderer } = createRenderer();
+
+  renderer.renderClue({
+    category: 'HISTÓRIA',
+    question: 'Esta cidade é conhecida como a Cidade Eterna.',
+    answer: 'Roma',
+    translation: {
+      provider: 'cache',
+      original: {
+        category: 'HISTORY',
+        question: 'This city is known as the Eternal City.',
+        answer: 'Rome',
+      },
+    },
+  }, 500);
+
+  assert.equal(renderer.dom.categoryBox.children[0].children[0].textContent, 'HISTÓRIA');
+  assert.equal(renderer.dom.categoryBox.children[0].children[1].textContent, 'EN · HISTORY');
+  assert.equal(renderer.dom.clueText.textContent, 'Esta cidade é conhecida como a Cidade Eterna.');
+  assert.equal(renderer.dom.clueOriginal.textContent, 'EN · This city is known as the Eternal City.');
+  assert.equal(renderer.dom.clueOriginal.hidden, false);
+  assert.equal(renderer.dom.translationState.dataset.status, 'translated');
+  assert.equal(renderer.dom.translationStateLabel.textContent, 'PT · CACHED');
 });
 
 test('Renderer displays fallback clue and enables controls', () => {

@@ -38,6 +38,9 @@ const state = {
   language: 'en',
   hostSkinId: '',
   muted: false,
+  currentSourceClue: null,
+  currentDisplayClue: null,
+  translationRequestId: 0,
 };
 
 const BEST_STREAK_KEY = 'jeopardish.bestStreak';
@@ -60,6 +63,13 @@ const UI_COPY = {
     themeDay: 'Day',
     languageEnglish: 'English',
     languagePortuguese: 'Português',
+    translatingClue: 'Translating the complete clue...',
+    translationOnDevice: 'PT · ON DEVICE',
+    translationNetwork: 'PT · MACHINE',
+    translationCache: 'PT · CACHED',
+    translationFallback: 'PT unavailable · English shown',
+    officialTender: 'TRIVIA RESERVE NOTE',
+    questionableTender: 'QUESTIONABLE TENDER',
     currentStreak: 'Current Streak',
     bestStreak: 'Best Streak',
     score: 'Score',
@@ -106,6 +116,13 @@ const UI_COPY = {
     themeDay: 'Dia',
     languageEnglish: 'English',
     languagePortuguese: 'Português',
+    translatingClue: 'Traduzindo categoria, pista e resposta...',
+    translationOnDevice: 'PT · NO DISPOSITIVO',
+    translationNetwork: 'PT · TRADUÇÃO AUTOMÁTICA',
+    translationCache: 'PT · EM CACHE',
+    translationFallback: 'PT indisponível · exibindo inglês',
+    officialTender: 'RESERVA DE TRÍVIA',
+    questionableTender: 'DINHEIRO SUSPEITO',
     currentStreak: 'Sequência Atual',
     bestStreak: 'Melhor Sequência',
     score: 'Placar',
@@ -155,10 +172,11 @@ const rendererModule = globalThis.JeopardishRenderer || null;
 const narratorModule = globalThis.JeopardishConsoleNarrator || null;
 const hostModule = globalThis.JeopardishHost || null;
 const brandModule = globalThis.JeoPARODYBrand || null;
+const translationModule = globalThis.JeoPARODYTranslation || null;
 const audioModule = globalThis.JeoPARODYAudio || null;
 const roundDirectorModule = globalThis.JeoPARODYRoundDirector || null;
 
-if (!contracts || !eventBusModule || !engineModule || !dataModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !audioModule || !roundDirectorModule) {
+if (!contracts || !eventBusModule || !engineModule || !dataModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !roundDirectorModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
@@ -170,8 +188,10 @@ let renderer;
 let consoleNarrator;
 let hostManager;
 let brandController;
+let translationService;
 let audioController;
 let roundDirector;
+let translationAbortController = null;
 let gameStarted = false;
 let gameStartPromise = null;
 const preloadedHostVisuals = new Set();
@@ -258,12 +278,16 @@ function toggleTheme() {
   applyPreferences();
 }
 
-function toggleLanguage() {
+async function toggleLanguage() {
   state.language = state.language === 'en' ? 'pt-BR' : 'en';
   persistPreference(LANGUAGE_KEY, state.language);
   applyPreferences();
   renderHost(getCurrentHostExpression());
-  renderer.setStatus(getCopy().newClue);
+  if (state.currentSourceClue && gameEngine.getActiveClue()) {
+    await refreshCurrentClueLanguage();
+  } else {
+    renderer.setStatus(getCopy().newClue);
+  }
 }
 
 function renderScoreboard() {
@@ -340,25 +364,92 @@ function getRandomQuestion() {
   return state.questions[idx] ?? null;
 }
 
-function renderClue(clue) {
-  if (!clue) {
+function renderClue(sourceClue, displayClue = sourceClue) {
+  if (!sourceClue) {
     renderer.displayErrorJoke(jeopardyErrors);
     return;
   }
 
-  const gameState = gameEngine.loadClue(clue);
+  const gameState = gameEngine.loadClue(sourceClue);
+  state.currentSourceClue = sourceClue;
+  state.currentDisplayClue = displayClue;
   renderHost('clue');
-  renderer.renderClue(clue, gameState.currentClueValue);
+  renderer.renderClue(displayClue, gameState.currentClueValue);
 }
 
-function getNewQuestion() {
-  if (!gameStarted) {
-    startGame();
+function getSourceClueContent(clue) {
+  const parsed = rendererModule.extractClueContent(clue?.question, globalThis.document);
+  return {
+    questionText: parsed.text,
+    media: parsed.media,
+  };
+}
+
+async function prepareDisplayClue(clue, requestId) {
+  if (state.language !== 'pt-BR') {
+    translationAbortController?.abort();
+    return clue;
+  }
+
+  translationAbortController?.abort();
+  translationAbortController = new AbortController();
+  renderer.showTranslationLoading();
+  const sourceContent = getSourceClueContent(clue);
+  try {
+    const translated = await translationService.translateClue(clue, {
+      questionText: sourceContent.questionText,
+      signal: translationAbortController.signal,
+    });
+    if (requestId !== state.translationRequestId) {
+      return null;
+    }
+    return {
+      ...translated,
+      media: [
+        ...(Array.isArray(clue.media) ? clue.media : []),
+        ...sourceContent.media,
+      ],
+    };
+  } catch (error) {
+    if (error?.name === 'AbortError' || requestId !== state.translationRequestId) {
+      return null;
+    }
+    console.warn('Complete clue translation unavailable; showing the original clue.', error);
+    return {
+      ...clue,
+      translationFallback: true,
+    };
+  }
+}
+
+async function refreshCurrentClueLanguage() {
+  const sourceClue = state.currentSourceClue;
+  if (!sourceClue) {
     return;
+  }
+  const requestId = ++state.translationRequestId;
+  const displayClue = await prepareDisplayClue(sourceClue, requestId);
+  if (!displayClue || requestId !== state.translationRequestId) {
+    return;
+  }
+  state.currentDisplayClue = displayClue;
+  renderer.renderClue(displayClue, gameEngine.getState().currentClueValue);
+  renderer.setRoundPhase(roundDirectorModule.RoundPhases.ANSWERING);
+}
+
+async function getNewQuestion() {
+  if (!gameStarted) {
+    return startGame();
   }
 
   const clue = getRandomQuestion();
-  return roundDirector.introduceClue(() => renderClue(clue));
+  const requestId = ++state.translationRequestId;
+  roundDirector.cancel(roundDirectorModule.RoundPhases.CLUE_INTRO);
+  const displayClue = await prepareDisplayClue(clue, requestId);
+  if (!displayClue || requestId !== state.translationRequestId) {
+    return null;
+  }
+  return roundDirector.introduceClue(() => renderClue(clue, displayClue));
 }
 
 async function checkAnswer() {
@@ -393,7 +484,11 @@ async function checkAnswer() {
   renderer.setControlsEnabled(false);
   renderHost('reveal');
   await roundDirector.judge(
-    () => gameEngine.submitAnswer(userAnswer),
+    () => gameEngine.submitAnswer(userAnswer, {
+      acceptedAnswers: state.currentDisplayClue?.translation
+        ? [state.currentDisplayClue.answer]
+        : [],
+    }),
     (result) => {
       if (!result.ok) {
         renderer.displayErrorMessage(result.error.message);
@@ -408,7 +503,9 @@ async function checkAnswer() {
         renderer.setStatus(getCopy().correctStatus(result.scoreDelta, hostManager.selectQuip('correct')));
       } else {
         renderHost('incorrect');
-        renderer.displayIncorrectAnswerMessage(result.correctAnswer || 'Unknown');
+        renderer.displayIncorrectAnswerMessage(
+          state.currentDisplayClue?.answer || result.correctAnswer || 'Unknown',
+        );
         renderer.setStatus(getCopy().incorrectStatus(hostManager.selectQuip('incorrect')));
       }
 
@@ -542,6 +639,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   consoleNarrator = new narratorModule.ConsoleNarrator({ eventBus });
   hostManager = new hostModule.HostManager();
   brandController = new brandModule.BrandController();
+  translationService = new translationModule.TranslationService();
   audioController = new audioModule.AudioController();
   hostManager.setActiveSkin(state.hostSkinId);
   preloadActiveHostVisuals();

@@ -20,6 +20,13 @@
     themeDay: 'Day',
     languageEnglish: 'English',
     languagePortuguese: 'Português',
+    translatingClue: 'Translating the complete clue...',
+    translationOnDevice: 'PT · ON DEVICE',
+    translationNetwork: 'PT · MACHINE',
+    translationCache: 'PT · CACHED',
+    translationFallback: 'PT unavailable · English shown',
+    officialTender: 'TRIVIA RESERVE NOTE',
+    questionableTender: 'QUESTIONABLE TENDER',
     currentStreak: 'Current Streak',
     bestStreak: 'Best Streak',
     score: 'Score',
@@ -224,6 +231,7 @@
       this.dom.statusMessage = this.document.getElementById('statusMessage');
       this.dom.questionBox = this.document.getElementById('questionBox');
       this.dom.clueText = this.document.getElementById('clueText');
+      this.dom.clueOriginal = this.document.getElementById('clueOriginal');
       this.dom.clueMedia = this.document.getElementById('clueMedia');
       this.dom.answerBox = this.document.getElementById('answerBox');
       this.dom.currentStreak = this.document.getElementById('currentStreak');
@@ -248,6 +256,8 @@
       this.dom.languageToggleLabel = this.document.getElementById('languageToggleLabel');
       this.dom.soundToggle = this.document.getElementById('soundToggle');
       this.dom.soundToggleLabel = this.document.getElementById('soundToggleLabel');
+      this.dom.translationState = this.document.getElementById('translationState');
+      this.dom.translationStateLabel = this.document.getElementById('translationStateLabel');
       this.dom.mediaModal = this.document.getElementById('mediaModal');
       this.dom.mediaModalBackdrop = this.document.getElementById('mediaModalBackdrop');
       this.dom.mediaModalBody = this.document.getElementById('mediaModalBody');
@@ -399,12 +409,53 @@
       }
     }
 
-    setCategory(category, value) {
+    setTranslationState(status = 'original', provider = '') {
+      if (!this.dom.translationState) {
+        return;
+      }
+      const labels = {
+        'on-device': this.copy.translationOnDevice,
+        network: this.copy.translationNetwork,
+        cache: this.copy.translationCache,
+        fallback: this.copy.translationFallback,
+        loading: this.copy.translatingClue,
+      };
+      this.dom.translationState.dataset.status = status;
+      this.dom.translationState.hidden = status === 'original';
+      if (this.dom.translationStateLabel) {
+        this.setText(this.dom.translationStateLabel, labels[provider] || labels[status] || 'PT');
+      }
+    }
+
+    showTranslationLoading() {
+      this.setGameMoment('loading');
+      this.setControlsEnabled(false);
+      this.setTranslationState('loading');
+      this.setText(this.dom.categoryBox, 'TRADUZINDO');
+      this.clearMedia();
+      this.setQuestionText(this.copy.translatingClue);
+      if (this.dom.clueOriginal) {
+        this.dom.clueOriginal.hidden = true;
+      }
+    }
+
+    setCategory(category, value, originalCategory = '') {
       this.dom.categoryBox.replaceChildren?.();
 
       const categoryLine = this.document.createElement('h2');
       categoryLine.className = 'clue-category';
-      categoryLine.textContent = category;
+      const categoryPrimary = this.document.createElement('span');
+      categoryPrimary.className = 'category-primary';
+      categoryPrimary.textContent = category;
+      categoryLine.append(categoryPrimary);
+
+      if (originalCategory && originalCategory !== category) {
+        const originalLine = this.document.createElement('span');
+        originalLine.className = 'category-original';
+        originalLine.lang = 'en';
+        originalLine.textContent = `EN · ${originalCategory}`;
+        categoryLine.append(originalLine);
+      }
 
       const amount = String(value || '$0').startsWith('$') ? String(value || '$0') : `$${value}`;
       const numericAmount = Number(amount.replace(/[^0-9.]/g, ''));
@@ -427,7 +478,7 @@
 
       const caption = this.document.createElement('span');
       caption.className = 'clue-value-caption';
-      caption.textContent = isCurrentBill ? 'TRIVIA RESERVE NOTE' : 'QUESTIONABLE TENDER';
+      caption.textContent = isCurrentBill ? this.copy.officialTender : this.copy.questionableTender;
 
       valueLine.append(leftAmount, rightAmount, caption);
 
@@ -494,6 +545,11 @@
       });
 
       this.setQuestionText(parsed.text || 'No question available.');
+      const originalQuestion = clue?.translation?.original?.question || '';
+      if (this.dom.clueOriginal) {
+        this.setText(this.dom.clueOriginal, originalQuestion ? `EN · ${originalQuestion}` : '');
+        this.dom.clueOriginal.hidden = !originalQuestion || originalQuestion === parsed.text;
+      }
       this.renderMedia(deduped);
     }
 
@@ -689,11 +745,16 @@
       this.setCategory(
         String(clue.category || 'Unknown Category').toUpperCase(),
         `$${clueValue}`,
+        String(clue?.translation?.original?.category || '').toUpperCase(),
       );
       this.renderClueContent(clue);
       this.setText(this.dom.answerBox, clue.answer || 'No answer available.');
       this.setStatus(this.copy.newClue);
       this.toggleAnswer(false);
+      this.setTranslationState(
+        clue?.translation?.provider ? 'translated' : clue?.translationFallback ? 'fallback' : 'original',
+        clue?.translation?.provider || (clue?.translationFallback ? 'fallback' : ''),
+      );
       this.setControlsEnabled(true);
       this.clearUserAnswer();
       this.focusUserAnswer();

@@ -112,6 +112,24 @@ test('GameEngine retains readable answers and detailed fuzzy match results', () 
   assert.equal(incorrectResult.answerMatch.reason, 'mismatch');
 });
 
+test('GameEngine accepts a localized answer without replacing canonical truth', () => {
+  const { engine } = createEngine();
+  engine.init();
+  engine.loadClue({
+    id: 77,
+    category: 'Geography',
+    question: 'This city is the capital of Italy.',
+    answer: 'Rome',
+    value: 400,
+  });
+
+  const result = engine.submitAnswer('Roma', { acceptedAnswers: ['Roma'] });
+
+  assert.equal(result.isCorrect, true);
+  assert.equal(result.correctAnswer, 'Rome');
+  assert.equal(result.answerMatch.matchedAnswer, 'Roma');
+});
+
 test('GameEngine resets score and streak on incorrect answer to match existing behavior', () => {
   const { engine, events } = createEngine();
 

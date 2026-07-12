@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeoPARODY | The Forbidden Broadcast</title>
     <meta name="description" content="JeoPARODY is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
-    <link rel="stylesheet" href="style.css?v=brand-round-1" type="text/css">
+    <link rel="stylesheet" href="style.css?v=broadcast-i18n-1" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -15,14 +15,15 @@
     <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/render/scene-service.js?v=beach-1"></script>
-    <script defer src="src/render/renderer.js?v=round-3"></script>
+    <script defer src="src/render/renderer.js?v=i18n-1"></script>
     <script defer src="src/render/console-narrator.js?v=brand-1"></script>
     <script defer src="src/host/host-manager.js?v=brand-1"></script>
     <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
+    <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/directors/round-director.js?v=round-3"></script>
     <script defer src="landing.js?v=vision-2"></script>
-    <script defer src="app.js?v=brand-round-3"></script>
+    <script defer src="app.js?v=i18n-1"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
@@ -338,11 +339,16 @@ flowchart TB
 
                 <div class="main-content">
                     <div class="speech-bubble">
+                        <div class="translation-state" id="translationState" data-status="original" hidden>
+                            <span class="translation-pulse" aria-hidden="true"></span>
+                            <span id="translationStateLabel">PT</span>
+                        </div>
                         <div id="categoryBox" class="clue-header">
                             <h2 class="clue-category">TRANSMISSION READY</h2>
                         </div>
-                        <div id="questionBox" class="clue-content">
+                        <div id="questionBox" class="clue-content" tabindex="0">
                             <p id="clueText" class="clue-text">Approach the studio to load your first clue.</p>
+                            <p id="clueOriginal" class="clue-original" lang="en" hidden></p>
                             <div id="clueMedia" class="clue-media" aria-label="Clue media"></div>
                         </div>
                         <div id="answerBox"></div>

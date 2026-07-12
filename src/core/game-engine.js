@@ -96,7 +96,7 @@
       return this.getState();
     }
 
-    submitAnswer(answer) {
+    submitAnswer(answer, { acceptedAnswers = [] } = {}) {
       if (!this.activeClue) {
         const error = {
           code: 'answer-without-active-clue',
@@ -118,7 +118,22 @@
         submittedAt: this.now(),
       });
 
-      const answerMatch = logic.compareAnswersDetailed(submittedAnswer, this.activeClue.answer || '');
+      const answerCandidates = [
+        this.activeClue.answer || '',
+        ...acceptedAnswers,
+      ].filter((candidate, index, values) => candidate && values.indexOf(candidate) === index);
+      if (answerCandidates.length === 0) {
+        answerCandidates.push('');
+      }
+      const answerMatches = answerCandidates.map((candidate) => ({
+        candidate,
+        match: logic.compareAnswersDetailed(submittedAnswer, candidate),
+      }));
+      const selectedMatch = answerMatches.find(({ match }) => match.isCorrect) || answerMatches[0];
+      const answerMatch = {
+        ...selectedMatch.match,
+        matchedAnswer: selectedMatch.candidate,
+      };
       const isCorrect = answerMatch.isCorrect;
       const previousScore = this.state.score;
       const previousStreak = this.state.currentStreak;
