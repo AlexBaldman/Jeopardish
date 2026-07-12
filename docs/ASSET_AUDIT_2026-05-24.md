@@ -13,7 +13,7 @@ Open `docs/asset-gallery.html` through the local server to review all renderable
 | Game chrome | title, background, favicon, Genesis-set illustration | Production UI or reference |
 | Currency | `trivia-note-officialish.png`, `trivia-note-questionable.png` | Production clue-value notes |
 | Current neutral host | vector PNG/SVG and zombie variant | Legacy placeholder / archive |
-| Neon host concepts | `assets/trebek/trebek-1.webp`, `3`, `4`, `5`, and `6` | Active Dope Broadcast performance pack; source basis for the final consistent sprite set |
+| Neon host concepts | `assets/trebek/trebek-dope-01.png`, `02`, `03`, and `05` | Active true-alpha Dope Broadcast performance pack restored from JeoPARODY masters |
 | Alternate host concepts | pixel arcade portrait, beach/meta/god/screenshot variants | Concept review candidates |
 | Recorded host reactions | intro, finale, goodbye, good/bad GIF banks | Historical/reference archive; these depict the real host rather than a fictional twin |
 | Video experiments | seven MP4 files in `trebek-other-images/` | Review for motion language only |
@@ -65,4 +65,4 @@ Strongest working title: **Malex Trebek**, appearing publicly as **M. Alex Trebe
 
 ## Next Art Pass
 
-The current Dope Broadcast pack is the interaction prototype for a future consistent fictional-host expression kit: idle, clue, reveal, correct, incorrect, empty-answer deadpan, and streak celebration. Its source frames intentionally prove timing, framing, preloading, pack cycling, and mobile composition before commissioning final character-consistent art. The checkerboard backdrop is baked into these source images and the face drifts slightly between frames, so they remain the visual basis rather than the final sprite masters. Existing real-host GIFs remain archived as source-era material rather than becoming the fictional character's on-screen reactions.
+The active Dope Broadcast pack now uses the recovered true-alpha PNG masters for idle, clue, reveal, correct, incorrect, empty-answer deadpan, and streak celebration. The flattened WebP exports remain archived because their checkerboard backdrop is baked into the pixels. The restored masters prove transparent compositing, timing, framing, preloading, pack cycling, and mobile composition before commissioning the final character-consistent art. Existing real-host GIFs remain archived as source-era material rather than becoming the fictional character's on-screen reactions.
