@@ -3,6 +3,12 @@
 const QUESTION_SOURCE = './questions/jeopardy-questions.json';
 const FETCH_TIMEOUT_MS = 10000;
 const MAX_MEDIA_PREFLIGHT_ATTEMPTS = 8;
+const DIALOGUE_STYLES = Object.freeze([
+  Object.freeze({ id: 'clue-card', label: Object.freeze({ en: 'Clue Card', 'pt-BR': 'Cartão da Pista' }) }),
+  Object.freeze({ id: 'speech', label: Object.freeze({ en: 'Comic Speech', 'pt-BR': 'Fala de Quadrinho' }) }),
+  Object.freeze({ id: 'thought', label: Object.freeze({ en: 'Host Thought', 'pt-BR': 'Pensamento do Host' }) }),
+  Object.freeze({ id: 'narration', label: Object.freeze({ en: 'Narration Box', 'pt-BR': 'Caixa do Narrador' }) }),
+]);
 
 const jeopardyErrors = [
   {
@@ -38,6 +44,7 @@ const state = {
   theme: 'dark',
   language: 'en',
   hostSkinId: '',
+  dialogueStyleId: 'clue-card',
   muted: false,
   currentSourceClue: null,
   currentDisplayClue: null,
@@ -48,6 +55,7 @@ const BEST_STREAK_KEY = 'jeopardish.bestStreak';
 const THEME_KEY = 'jeopardish.theme';
 const LANGUAGE_KEY = 'jeopardish.language';
 const HOST_SKIN_KEY = 'jeopardish.hostSkin';
+const DIALOGUE_STYLE_KEY = 'jeoparody.dialogueStyle';
 const MUTED_KEY = 'jeoparody.muted';
 
 const UI_COPY = {
@@ -226,6 +234,10 @@ function loadPersistedPreferences() {
     if (hostSkinId) {
       state.hostSkinId = hostSkinId;
     }
+    const dialogueStyleId = globalThis.localStorage?.getItem(DIALOGUE_STYLE_KEY);
+    if (DIALOGUE_STYLES.some((style) => style.id === dialogueStyleId)) {
+      state.dialogueStyleId = dialogueStyleId;
+    }
     state.muted = globalThis.localStorage?.getItem(MUTED_KEY) === 'true';
   } catch (error) {
     console.warn('Unable to read persisted UI preferences.', error);
@@ -263,7 +275,25 @@ function applyPreferences() {
     language: state.language,
   });
   renderer.setSoundState(state.muted);
+  renderDialogueStyle();
   renderScoreboard();
+}
+
+function renderDialogueStyle() {
+  const index = Math.max(0, DIALOGUE_STYLES.findIndex((style) => style.id === state.dialogueStyleId));
+  const style = DIALOGUE_STYLES[index];
+  renderer.renderDialogueStyle({
+    ...style,
+    label: style.label[state.language] || style.label.en,
+  }, index, DIALOGUE_STYLES.length);
+}
+
+function cycleDialogueStyle(step) {
+  const currentIndex = Math.max(0, DIALOGUE_STYLES.findIndex((style) => style.id === state.dialogueStyleId));
+  const nextIndex = (currentIndex + step + DIALOGUE_STYLES.length) % DIALOGUE_STYLES.length;
+  state.dialogueStyleId = DIALOGUE_STYLES[nextIndex].id;
+  persistPreference(DIALOGUE_STYLE_KEY, state.dialogueStyleId);
+  renderDialogueStyle();
 }
 
 function toggleSound() {
@@ -645,6 +675,8 @@ function bindEvents() {
     onToggleSound: toggleSound,
     onPreviousHostSkin: () => cycleHostSkin(-1),
     onNextHostSkin: () => cycleHostSkin(1),
+    onPreviousDialogueStyle: () => cycleDialogueStyle(-1),
+    onNextDialogueStyle: () => cycleDialogueStyle(1),
     onMediaFailure: handleMediaFailure,
   });
 
@@ -666,6 +698,9 @@ function bindEvents() {
     } else if (key === 'a') {
       event.preventDefault();
       showHideAnswer();
+    } else if (key === 'v') {
+      event.preventDefault();
+      cycleDialogueStyle(1);
     }
   });
 }

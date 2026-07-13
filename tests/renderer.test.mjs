@@ -32,6 +32,9 @@ function createFakeElement(id) {
       has(className) {
         return this.values.has(className);
       },
+      contains(className) {
+        return this.values.has(className);
+      },
       add(className) {
         this.values.add(className);
       },
@@ -86,6 +89,18 @@ function createFakeDocument() {
     'hudStreakLabel',
     'hamburgerMenu',
     'navMenu',
+    'menuClose',
+    'menuNewClue',
+    'menuRevealAnswer',
+    'menuTheme',
+    'menuLanguage',
+    'menuSound',
+    'scoreDrawer',
+    'speechBubble',
+    'dialogueStylePrev',
+    'dialogueStyleNext',
+    'dialogueStyleLabel',
+    'dialogueStyleIndex',
     'hostStage',
     'hostImage',
     'hostPrevButton',
@@ -242,6 +257,8 @@ test('Renderer binds UI events to callbacks', () => {
     onToggleSound: () => calls.push('sound'),
     onPreviousHostSkin: () => calls.push('host-prev'),
     onNextHostSkin: () => calls.push('host-next'),
+    onPreviousDialogueStyle: () => calls.push('dialogue-prev'),
+    onNextDialogueStyle: () => calls.push('dialogue-next'),
   });
 
   renderer.dom.answerButton.listeners.click();
@@ -252,11 +269,14 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.soundToggle.listeners.click();
   renderer.dom.hostPrevButton.listeners.click();
   renderer.dom.hostNextButton.listeners.click();
+  renderer.dom.dialogueStylePrev.listeners.click();
+  renderer.dom.dialogueStyleNext.listeners.click();
   renderer.dom.userInput.listeners.keydown({ key: 'Enter' });
   renderer.dom.hamburgerMenu.listeners.click();
 
-  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'sound', 'host-prev', 'host-next', 'check']);
+  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'sound', 'host-prev', 'host-next', 'dialogue-prev', 'dialogue-next', 'check']);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
+  assert.equal(renderer.dom.hamburgerMenu.attributes['aria-expanded'], 'true');
 });
 
 test('Renderer applies localized static UI copy and toggle states', () => {
@@ -415,6 +435,21 @@ test('Renderer renders host visual state', () => {
   assert.equal(renderer.dom.hostSkinLabel.textContent, 'Sparkle Host');
   assert.equal(renderer.dom.hostCue.textContent, 'Approved');
   assert.equal(renderer.dom.hostPackIndex.textContent, '02/05');
+});
+
+test('Renderer applies dialogue skins and animates changed score tiles', () => {
+  const { renderer } = createRenderer();
+
+  renderer.renderDialogueStyle({ id: 'thought', label: 'Host Thought' }, 2, 4);
+  renderer.renderScoreboard({ currentStreak: 0, bestStreak: 0, score: 0 });
+  renderer.renderScoreboard({ currentStreak: 1, bestStreak: 1, score: 400 });
+
+  assert.equal(renderer.dom.speechBubble.dataset.dialogueStyle, 'thought');
+  assert.equal(renderer.dom.dialogueStyleLabel.textContent, 'Host Thought');
+  assert.equal(renderer.dom.dialogueStyleIndex.textContent, '03/04');
+  assert.equal(renderer.dom.speechBubble.attributes['aria-label'], 'Host Thought dialogue panel');
+  assert.equal(renderer.dom.hudScore.classList.has('score-flip'), true);
+  assert.equal(renderer.dom.scoreDrawer.classList.has('active'), true);
 });
 
 test('Renderer identifies supported clue media formats', () => {

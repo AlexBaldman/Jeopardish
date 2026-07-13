@@ -233,6 +233,9 @@
       this.mediaItems = [];
       this.lastMediaTrigger = null;
       this.onMediaFailure = () => {};
+      this.lastScore = null;
+      this.lastStreak = null;
+      this.scoreDrawerTimer = null;
     }
 
     bindDom() {
@@ -257,6 +260,18 @@
       this.dom.hudStreakLabel = this.document.getElementById('hudStreakLabel');
       this.dom.hamburgerMenu = this.document.getElementById('hamburgerMenu');
       this.dom.navMenu = this.document.getElementById('navMenu');
+      this.dom.menuClose = this.document.getElementById('menuClose');
+      this.dom.menuNewClue = this.document.getElementById('menuNewClue');
+      this.dom.menuRevealAnswer = this.document.getElementById('menuRevealAnswer');
+      this.dom.menuTheme = this.document.getElementById('menuTheme');
+      this.dom.menuLanguage = this.document.getElementById('menuLanguage');
+      this.dom.menuSound = this.document.getElementById('menuSound');
+      this.dom.scoreDrawer = this.document.getElementById('scoreDrawer');
+      this.dom.speechBubble = this.document.getElementById('speechBubble');
+      this.dom.dialogueStylePrev = this.document.getElementById('dialogueStylePrev');
+      this.dom.dialogueStyleNext = this.document.getElementById('dialogueStyleNext');
+      this.dom.dialogueStyleLabel = this.document.getElementById('dialogueStyleLabel');
+      this.dom.dialogueStyleIndex = this.document.getElementById('dialogueStyleIndex');
       this.dom.hostStage = this.document.getElementById('hostStage');
       this.dom.hostImage = this.document.getElementById('hostImage');
       this.dom.hostPrevButton = this.document.getElementById('hostPrevButton');
@@ -292,11 +307,36 @@
       onToggleSound = () => {},
       onPreviousHostSkin = () => {},
       onNextHostSkin = () => {},
+      onPreviousDialogueStyle = () => {},
+      onNextDialogueStyle = () => {},
       onMediaFailure = () => {},
     }) {
       this.onMediaFailure = onMediaFailure;
       this.dom.hamburgerMenu.addEventListener('click', () => {
-        this.dom.navMenu.classList.toggle('active');
+        this.setMenuOpen(!this.dom.navMenu.classList.contains('active'));
+      });
+      this.dom.menuClose?.addEventListener('click', () => this.setMenuOpen(false));
+      this.dom.menuNewClue?.addEventListener('click', () => {
+        this.setMenuOpen(false);
+        onNewQuestion();
+      });
+      this.dom.menuRevealAnswer?.addEventListener('click', () => {
+        this.setMenuOpen(false);
+        onToggleAnswer();
+      });
+      this.dom.menuTheme?.addEventListener('click', onToggleTheme);
+      this.dom.menuLanguage?.addEventListener('click', onToggleLanguage);
+      this.dom.menuSound?.addEventListener('click', onToggleSound);
+      this.dom.scoreDrawer?.addEventListener('pointerenter', () => this.showScoreDrawer(0));
+      this.dom.scoreDrawer?.addEventListener('pointerleave', () => this.hideScoreDrawer());
+      this.dom.scoreDrawer?.addEventListener('focus', () => this.showScoreDrawer(0));
+      this.dom.scoreDrawer?.addEventListener('blur', () => this.hideScoreDrawer());
+      this.dom.scoreDrawer?.addEventListener('click', () => {
+        const pinned = this.dom.scoreDrawer.dataset.pinned === 'true';
+        this.dom.scoreDrawer.dataset.pinned = String(!pinned);
+        this.dom.scoreDrawer.setAttribute('aria-pressed', String(!pinned));
+        if (!pinned) this.showScoreDrawer(0);
+        else this.hideScoreDrawer(true);
       });
 
       this.dom.answerButton.addEventListener('click', onToggleAnswer);
@@ -307,6 +347,8 @@
       this.dom.soundToggle?.addEventListener('click', onToggleSound);
       this.dom.hostPrevButton?.addEventListener('click', onPreviousHostSkin);
       this.dom.hostNextButton?.addEventListener('click', onNextHostSkin);
+      this.dom.dialogueStylePrev?.addEventListener('click', onPreviousDialogueStyle);
+      this.dom.dialogueStyleNext?.addEventListener('click', onNextDialogueStyle);
       this.dom.mediaModalClose?.addEventListener('click', () => this.closeMedia());
       this.dom.mediaModalBackdrop?.addEventListener('click', () => this.closeMedia());
       this.dom.userInput.addEventListener('keydown', (event) => {
@@ -318,7 +360,37 @@
         if (event.key === 'Escape' && this.dom.mediaModal && !this.dom.mediaModal.hidden) {
           this.closeMedia();
         }
+        if (event.key === 'Escape' && this.dom.navMenu?.classList.contains('active')) {
+          this.setMenuOpen(false);
+          this.dom.hamburgerMenu?.focus?.();
+        }
       });
+    }
+
+    setMenuOpen(open) {
+      if (!this.dom.navMenu) return;
+      this.dom.navMenu.classList[open ? 'add' : 'remove']('active');
+      this.dom.hamburgerMenu?.setAttribute('aria-expanded', String(Boolean(open)));
+      this.dom.navMenu.setAttribute('aria-hidden', String(!open));
+      if (open) this.dom.menuClose?.focus?.();
+    }
+
+    showScoreDrawer(duration = 2600) {
+      if (!this.dom.scoreDrawer) return;
+      clearTimeout(this.scoreDrawerTimer);
+      this.dom.scoreDrawer.classList.add('active');
+      if (duration > 0) {
+        this.scoreDrawerTimer = setTimeout(() => this.hideScoreDrawer(), duration);
+        this.scoreDrawerTimer?.unref?.();
+      }
+    }
+
+    hideScoreDrawer(force = false) {
+      if (!this.dom.scoreDrawer) return;
+      clearTimeout(this.scoreDrawerTimer);
+      if (force || this.dom.scoreDrawer.dataset.pinned !== 'true') {
+        this.dom.scoreDrawer.classList.remove('active');
+      }
     }
 
     setCopy(copy = {}) {
@@ -423,6 +495,19 @@
       if (this.dom.soundToggleLabel) {
         this.setText(this.dom.soundToggleLabel, muted ? this.copy.soundOff : this.copy.soundOn);
       }
+    }
+
+    renderDialogueStyle(style, index = 0, total = 1) {
+      if (!style || !this.dom.speechBubble) {
+        return;
+      }
+      this.dom.speechBubble.dataset.dialogueStyle = style.id;
+      this.setText(this.dom.dialogueStyleLabel, style.label);
+      this.setText(
+        this.dom.dialogueStyleIndex,
+        `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`,
+      );
+      this.dom.speechBubble.setAttribute('aria-label', `${style.label} dialogue panel`);
     }
 
     setTranslationState(status = 'original', provider = '') {
@@ -656,14 +741,20 @@
     }
 
     renderScoreboard(gameState) {
+      const scoreChanged = this.lastScore !== null && this.lastScore !== gameState.score;
+      const streakChanged = this.lastStreak !== null && this.lastStreak !== gameState.currentStreak;
       this.setText(this.dom.currentStreak, `${this.copy.currentStreak}: ${gameState.currentStreak}`);
       this.setText(this.dom.bestStreak, `${this.copy.bestStreak}: ${gameState.bestStreak}`);
       this.setText(this.dom.score, `${this.copy.score}: $${gameState.score}`);
       if (this.dom.hudScore) {
         this.setText(this.dom.hudScore, `$${gameState.score}`);
+        this.dom.hudScore.dataset.value = `$${gameState.score}`;
+        if (scoreChanged) this.animateScoreTile(this.dom.hudScore);
       }
       if (this.dom.hudStreak) {
         this.setText(this.dom.hudStreak, `x${gameState.currentStreak}`);
+        this.dom.hudStreak.dataset.value = `x${gameState.currentStreak}`;
+        if (streakChanged) this.animateScoreTile(this.dom.hudStreak);
       }
       if (this.dom.hudScoreLabel) {
         this.setText(this.dom.hudScoreLabel, this.copy.score);
@@ -671,6 +762,17 @@
       if (this.dom.hudStreakLabel) {
         this.setText(this.dom.hudStreakLabel, this.copy.currentStreak);
       }
+      if (scoreChanged || streakChanged) this.showScoreDrawer();
+      this.lastScore = gameState.score;
+      this.lastStreak = gameState.currentStreak;
+    }
+
+    animateScoreTile(tile) {
+      tile.classList.remove('score-flip');
+      void tile.offsetWidth;
+      tile.classList.add('score-flip');
+      const timer = setTimeout(() => tile.classList.remove('score-flip'), 720);
+      timer?.unref?.();
     }
 
     renderHost(host, expression = 'idle', visual = null, skin = null, performance = null) {

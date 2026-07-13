@@ -13,10 +13,7 @@
       label: 'Daytime Beach Broadcast',
       basePath: 'assets/scenes/beach-day/',
       layers: [
-        { id: 'sky', src: 'sky.svg', depth: 0.05, drift: 38 },
-        { id: 'ocean', src: 'ocean.svg', depth: 0.16, drift: 28 },
-        { id: 'beach', src: 'beach.svg', depth: 0.28, drift: 18 },
-        { id: 'gags', src: 'gags.svg', depth: 0.42, drift: 12 },
+        { id: 'illustration', src: 'beach-seek-and-find-v1.png', depth: 0.04, drift: 8 },
       ],
     },
     dark: {
@@ -24,10 +21,7 @@
       label: 'Solarized Night Beach Broadcast',
       basePath: 'assets/scenes/beach-night/',
       layers: [
-        { id: 'sky', src: 'sky.svg', depth: 0.05, drift: 42 },
-        { id: 'ocean', src: 'ocean.svg', depth: 0.15, drift: 31 },
-        { id: 'beach', src: 'beach.svg', depth: 0.3, drift: 20 },
-        { id: 'gags', src: 'gags.svg', depth: 0.45, drift: 14 },
+        { id: 'illustration', src: 'beach-seek-and-find-v1.png', depth: 0.04, drift: 8 },
       ],
     },
   });

@@ -2,7 +2,7 @@
 
 ## What Exists
 
-The `assets/` tree contains 86 files after adding the two fictional banknote illustrations: 81 renderable image/video assets and 5 source/support files. The active runtime now treats host art as performance packs through `src/host/host-manager.js`. The default Dope Broadcast pack preloads and selects distinct frames for clue, reveal, correct, incorrect, empty-answer, and streak beats; alternate packs preserve the current performance state while changing visual treatment.
+As of 2026-07-13, the `assets/` tree contains 106 files: 99 renderable image/video assets and 7 manifests or source/support files. The active runtime treats host art as performance packs through `src/host/host-manager.js`. The default Dope Broadcast pack preloads and selects distinct frames for clue, reveal, correct, incorrect, empty-answer, and streak beats; alternate packs preserve the current performance state while changing visual treatment.
 
 Open `docs/asset-gallery.html` through the local server to review all renderable artwork and host video experiments together.
 
@@ -12,14 +12,15 @@ Open `docs/asset-gallery.html` through the local server to review all renderable
 | --- | --- | --- |
 | Game chrome | title, background, favicon, Genesis-set illustration | Production UI or reference |
 | Currency | `trivia-note-officialish.png`, `trivia-note-questionable.png` | Production clue-value notes |
+| Beach broadcasts | Day and night `beach-seek-and-find-v1.png` panoramas | Production scene art |
 | Current neutral host | vector PNG/SVG and zombie variant | Legacy placeholder / archive |
-| Neon host concepts | `assets/trebek/trebek-dope-01.png`, `02`, `03`, and `05` | Active true-alpha Dope Broadcast performance pack restored from JeoPARODY masters |
+| Neon host concepts | `assets/trebek/trebek-dope-01.png`, `02`, `03`, `05`, and `trebek-good-01.png` | Active true-alpha carousel restored from JeoPARODY masters |
 | Alternate host concepts | pixel arcade portrait, beach/meta/god/screenshot variants | Concept review candidates |
 | Recorded host reactions | intro, finale, goodbye, good/bad GIF banks | Historical/reference archive; these depict the real host rather than a fictional twin |
 | Video experiments | seven MP4 files in `trebek-other-images/` | Review for motion language only |
 | Source/aliases | `.vectornator` file and duplicate copies | Preserve until the final art direction is selected |
 
-The five support files not displayed as visual thumbnails are `.DS_Store`, `assets/images/trebek-vector 1.vectornator`, `assets/trebek-poetry.md`, and two `.download/Info.plist` remnants from prior generated-video downloads.
+The seven non-renderable files are the two scene manifests, `.DS_Store`, `assets/images/trebek-vector 1.vectornator`, `assets/trebek-poetry.md`, and two `.download/Info.plist` remnants from prior generated-video downloads.
 
 ## Confirmed Duplicates
 
@@ -65,4 +66,4 @@ Strongest working title: **Malex Trebek**, appearing publicly as **M. Alex Trebe
 
 ## Next Art Pass
 
-The active Dope Broadcast pack now uses the recovered true-alpha PNG masters for idle, clue, reveal, correct, incorrect, empty-answer deadpan, and streak celebration. The flattened WebP exports remain archived because their checkerboard backdrop is baked into the pixels. The restored masters prove transparent compositing, timing, framing, preloading, pack cycling, and mobile composition before commissioning the final character-consistent art. Existing real-host GIFs remain archived as source-era material rather than becoming the fictional character's on-screen reactions.
+The active Dope Broadcast pack now uses the recovered true-alpha PNG masters for idle, clue, reveal, correct, incorrect, empty-answer deadpan, and streak celebration. `trebek-good-01.png` adds one distinct, true-alpha after-hours candidate from the later JeoPARODY rebuild. The flattened WebP exports remain archived because their checkerboard backdrop is baked into the pixels. The restored masters prove transparent compositing, timing, framing, preloading, pack cycling, and mobile composition before commissioning the final character-consistent art. Existing real-host GIFs remain archived as source-era material rather than becoming the fictional character's on-screen reactions.

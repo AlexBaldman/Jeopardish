@@ -84,6 +84,13 @@
       note: 'True-alpha halo portrait.',
     },
     {
+      id: 'dope-after-hours',
+      label: 'After-Hours Xander',
+      frame: 'bust',
+      src: 'assets/trebek/trebek-good-01.png',
+      note: 'Distinct true-alpha comic candidate recovered from the JeoPARODY rebuild.',
+    },
+    {
       id: 'legacy-cutout',
       label: 'Legacy Cutout',
       frame: 'portrait',

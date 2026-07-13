@@ -89,10 +89,10 @@ test('SceneService renders the light scene as ordered image layers', () => {
 
   assert.equal(scene.id, DEFAULT_SCENES.light.id);
   assert.equal(stage.dataset.scene, 'beach-day');
-  assert.equal(stage.children.length, 4);
-  assert.equal(stage.children[0].className, 'scene-layer scene-layer-sky');
-  assert.equal(stage.children[0].src, 'assets/scenes/beach-day/sky.svg');
-  assert.equal(stage.children[3].dataset.layer, 'gags');
+  assert.equal(stage.children.length, 1);
+  assert.equal(stage.children[0].className, 'scene-layer scene-layer-illustration');
+  assert.equal(stage.children[0].src, 'assets/scenes/beach-day/beach-seek-and-find-v1.png');
+  assert.equal(stage.children[0].dataset.layer, 'illustration');
   assert.equal(stage.attributes['aria-label'], 'Daytime Beach Broadcast');
 });
 
@@ -106,7 +106,7 @@ test('SceneService switches to dark scene and updates pointer parallax variables
   windowRef.listeners.pointermove({ clientX: 750, clientY: 125 });
 
   assert.equal(stage.dataset.scene, 'beach-night');
-  assert.equal(stage.children[0].src, 'assets/scenes/beach-night/sky.svg');
+  assert.equal(stage.children[0].src, 'assets/scenes/beach-night/beach-seek-and-find-v1.png');
   assert.equal(stage.style.values['--scene-x'], '0.250');
   assert.equal(stage.style.values['--scene-y'], '-0.250');
 });
@@ -115,8 +115,8 @@ test('SceneService helpers normalize theme keys and layer sources', () => {
   assert.equal(normalizeSceneKey('light'), 'light');
   assert.equal(normalizeSceneKey('weird'), 'dark');
   assert.equal(
-    getLayerSource(DEFAULT_SCENES.dark, { src: 'gags.svg' }),
-    'assets/scenes/beach-night/gags.svg',
+    getLayerSource(DEFAULT_SCENES.dark, { src: 'beach-seek-and-find-v1.png' }),
+    'assets/scenes/beach-night/beach-seek-and-find-v1.png',
   );
   assert.equal(
     getLayerSource(DEFAULT_SCENES.dark, { src: 'https://example.test/layer.svg' }),

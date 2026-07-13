@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeoPARODY | Channel O Game Cabinet</title>
     <meta name="description" content="Play JeoPARODY in a dedicated full-window comedy-learning arcade cabinet.">
-    <link rel="stylesheet" href="style.css?v=host-alpha-1" type="text/css">
+    <link rel="stylesheet" href="style.css?v=beach-dialogue-1" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -15,15 +15,15 @@
     <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/media/media-preflight.js?v=media-1"></script>
-    <script defer src="src/render/scene-service.js?v=beach-1"></script>
-    <script defer src="src/render/renderer.js?v=media-1"></script>
+    <script defer src="src/render/scene-service.js?v=beach-art-2"></script>
+    <script defer src="src/render/renderer.js?v=dialogue-skins-1"></script>
     <script defer src="src/render/console-narrator.js?v=media-1"></script>
-    <script defer src="src/host/host-manager.js?v=host-alpha-1"></script>
+    <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
     <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
     <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/directors/round-director.js?v=round-3"></script>
-    <script defer src="app.js?v=media-1"></script>
+    <script defer src="app.js?v=dialogue-skins-1"></script>
 </head>
 
 <body class="game-only" lang="en" data-theme="dark" data-language="en" data-app-mode="game">
@@ -35,16 +35,6 @@
                     <div class="brand-mark game-mark" data-brand-mark aria-label="JeoPARODY">
                         <span class="brand-jeo">JEO</span><span class="brand-par">PAR</span><span class="brand-o" data-brand-o data-o-token="portal" role="button" tabindex="0"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-dy">DY</span><span class="brand-bang" aria-hidden="true">!</span>
                     </div>
-                </div>
-                <div class="quick-score" aria-label="Live score" aria-live="polite">
-                    <span class="hud-readout">
-                        <span class="hud-label" id="hudScoreLabel">Score</span>
-                        <strong id="hudScore">$0</strong>
-                    </span>
-                    <span class="hud-readout">
-                        <span class="hud-label" id="hudStreakLabel">Streak</span>
-                        <strong id="hudStreak">x0</strong>
-                    </span>
                 </div>
                 <div class="header-controls" aria-label="Game preferences">
                     <button class="theme-toggle game-theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false">
@@ -62,22 +52,63 @@
                         <span class="toggle-label" id="soundToggleLabel">Sound</span>
                     </button>
                 </div>
-                <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open score cabinet">
+                <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open game menu" aria-expanded="false" aria-controls="navMenu">
                     <span aria-hidden="true">☰</span>
                 </button>
             </header>
 
-            <nav class="nav-menu" id="navMenu" aria-label="Score cabinet">
-                <p class="nav-kicker">Cabinet Readout</p>
-                <div id="dataBox" class="data-box">
-                    <p id="currentStreak">Current Streak: 0</p>
-                    <p id="bestStreak">Best Streak: 0</p>
-                    <p id="score">Score: $0</p>
-                </div>
+            <button class="score-drawer" id="scoreDrawer" type="button" aria-label="Show live score" aria-live="polite">
+                <span class="quick-score">
+                    <span class="hud-readout">
+                        <span class="hud-label" id="hudScoreLabel">Score</span>
+                        <strong id="hudScore">$0</strong>
+                    </span>
+                    <span class="hud-readout">
+                        <span class="hud-label" id="hudStreakLabel">Streak</span>
+                        <strong id="hudStreak">x0</strong>
+                    </span>
+                </span>
+                <span class="score-drawer-tab">Score</span>
+            </button>
+
+            <nav class="nav-menu" id="navMenu" aria-label="Game menu">
+                <header class="menu-header">
+                    <div><small>Channel O</small><p class="nav-kicker">Game Menu</p></div>
+                    <button class="menu-close" id="menuClose" type="button" aria-label="Close game menu">×</button>
+                </header>
+                <section class="menu-section" aria-labelledby="menuScoreTitle">
+                    <h2 id="menuScoreTitle">Score</h2>
+                    <div id="dataBox" class="data-box">
+                        <p id="currentStreak">Current Streak: 0</p>
+                        <p id="bestStreak">Best Streak: 0</p>
+                        <p id="score">Score: $0</p>
+                    </div>
+                </section>
+                <section class="menu-section menu-action-grid" aria-labelledby="menuRoundTitle">
+                    <h2 id="menuRoundTitle">Round</h2>
+                    <button id="menuNewClue" type="button"><span>New clue</span><kbd>Q</kbd></button>
+                    <button id="menuRevealAnswer" type="button"><span>Reveal answer</span><kbd>A</kbd></button>
+                </section>
+                <section class="menu-section menu-action-grid" aria-labelledby="menuSettingsTitle">
+                    <h2 id="menuSettingsTitle">Settings</h2>
+                    <button id="menuTheme" type="button"><span>Day / Night</span><b aria-hidden="true">☀</b></button>
+                    <button id="menuLanguage" type="button"><span>English / Português</span><b aria-hidden="true">文</b></button>
+                    <button id="menuSound" type="button"><span>Sound</span><b aria-hidden="true">♪</b></button>
+                </section>
+                <a class="menu-lab-link" href="creative-room.html">Enter the Creative Room <span aria-hidden="true">→</span></a>
             </nav>
 
             <div class="main-content">
-                <div class="speech-bubble">
+                <div class="speech-bubble" id="speechBubble" data-dialogue-style="clue-card">
+                    <div class="dialogue-style-picker" aria-label="Dialogue panel style">
+                        <button class="dialogue-style-cycle" id="dialogueStylePrev" type="button" aria-label="Previous dialogue style">‹</button>
+                        <span class="dialogue-style-readout">
+                            <small>Panel skin</small>
+                            <strong id="dialogueStyleLabel">Clue Card</strong>
+                            <span id="dialogueStyleIndex" aria-hidden="true">01/04</span>
+                        </span>
+                        <button class="dialogue-style-cycle" id="dialogueStyleNext" type="button" aria-label="Next dialogue style">›</button>
+                    </div>
                     <div class="translation-state" id="translationState" data-status="original" hidden>
                         <span class="translation-pulse" aria-hidden="true"></span>
                         <span id="translationStateLabel">PT</span>
@@ -98,7 +129,7 @@
                         <img class="trebek" id="hostImage" alt="Xander Trefleck, the provisional JeoPARODY host" src="assets/trebek/trebek-dope-02.png">
                         <span class="host-cue" id="hostCue" aria-hidden="true">On Air</span>
                         <figcaption class="host-skin-label" id="hostSkinLabel">Channel O Xander</figcaption>
-                        <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/05</span>
+                        <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/06</span>
                     </figure>
                     <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look">›</button>
                 </div>
