@@ -45,6 +45,7 @@ const state = {
   language: 'en',
   hostSkinId: '',
   dialogueStyleId: 'clue-card',
+  scenePackId: 'beach-broadcast',
   muted: false,
   currentSourceClue: null,
   currentDisplayClue: null,
@@ -56,6 +57,7 @@ const THEME_KEY = 'jeopardish.theme';
 const LANGUAGE_KEY = 'jeopardish.language';
 const HOST_SKIN_KEY = 'jeopardish.hostSkin';
 const DIALOGUE_STYLE_KEY = 'jeoparody.dialogueStyle';
+const SCENE_PACK_KEY = 'jeoparody.scenePack';
 const MUTED_KEY = 'jeoparody.muted';
 
 const UI_COPY = {
@@ -238,6 +240,10 @@ function loadPersistedPreferences() {
     if (DIALOGUE_STYLES.some((style) => style.id === dialogueStyleId)) {
       state.dialogueStyleId = dialogueStyleId;
     }
+    const scenePackId = globalThis.localStorage?.getItem(SCENE_PACK_KEY);
+    if (scenePackId) {
+      state.scenePackId = scenePackId;
+    }
     state.muted = globalThis.localStorage?.getItem(MUTED_KEY) === 'true';
   } catch (error) {
     console.warn('Unable to read persisted UI preferences.', error);
@@ -269,6 +275,11 @@ function applyPreferences() {
   globalThis.document?.body?.setAttribute('data-theme', state.theme);
   globalThis.document?.body?.setAttribute('data-language', state.language);
   sceneService?.setTheme(state.theme);
+  const activeScenePack = sceneService?.setPack(state.scenePackId);
+  if (activeScenePack) {
+    state.scenePackId = activeScenePack.id;
+    renderScenePicker(activeScenePack);
+  }
   renderer.setCopy(copy);
   renderer.setToggleStates({
     theme: state.theme,
@@ -294,6 +305,21 @@ function cycleDialogueStyle(step) {
   state.dialogueStyleId = DIALOGUE_STYLES[nextIndex].id;
   persistPreference(DIALOGUE_STYLE_KEY, state.dialogueStyleId);
   renderDialogueStyle();
+}
+
+function renderScenePicker(pack = sceneService?.getActivePack()) {
+  if (!pack || !sceneService) return;
+  const packs = sceneService.getPacks();
+  const index = Math.max(0, packs.findIndex((candidate) => candidate.id === pack.id));
+  renderer.renderScenePicker(pack, index, packs.length);
+}
+
+function cycleScenePack() {
+  const pack = sceneService?.cyclePack(1);
+  if (!pack) return;
+  state.scenePackId = pack.id;
+  persistPreference(SCENE_PACK_KEY, state.scenePackId);
+  renderScenePicker(pack);
 }
 
 function toggleSound() {
@@ -677,6 +703,7 @@ function bindEvents() {
     onNextHostSkin: () => cycleHostSkin(1),
     onPreviousDialogueStyle: () => cycleDialogueStyle(-1),
     onNextDialogueStyle: () => cycleDialogueStyle(1),
+    onCycleScene: cycleScenePack,
     onMediaFailure: handleMediaFailure,
   });
 

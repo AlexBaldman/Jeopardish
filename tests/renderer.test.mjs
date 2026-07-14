@@ -95,6 +95,9 @@ function createFakeDocument() {
     'menuTheme',
     'menuLanguage',
     'menuSound',
+    'menuScene',
+    'menuSceneLabel',
+    'menuSceneIndex',
     'scoreDrawer',
     'speechBubble',
     'dialogueStylePrev',
@@ -259,6 +262,7 @@ test('Renderer binds UI events to callbacks', () => {
     onNextHostSkin: () => calls.push('host-next'),
     onPreviousDialogueStyle: () => calls.push('dialogue-prev'),
     onNextDialogueStyle: () => calls.push('dialogue-next'),
+    onCycleScene: () => calls.push('scene'),
   });
 
   renderer.dom.answerButton.listeners.click();
@@ -271,10 +275,11 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.hostNextButton.listeners.click();
   renderer.dom.dialogueStylePrev.listeners.click();
   renderer.dom.dialogueStyleNext.listeners.click();
+  renderer.dom.menuScene.listeners.click();
   renderer.dom.userInput.listeners.keydown({ key: 'Enter' });
   renderer.dom.hamburgerMenu.listeners.click();
 
-  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'sound', 'host-prev', 'host-next', 'dialogue-prev', 'dialogue-next', 'check']);
+  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'sound', 'host-prev', 'host-next', 'dialogue-prev', 'dialogue-next', 'scene', 'check']);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
   assert.equal(renderer.dom.hamburgerMenu.attributes['aria-expanded'], 'true');
 });
@@ -441,6 +446,7 @@ test('Renderer applies dialogue skins and animates changed score tiles', () => {
   const { renderer } = createRenderer();
 
   renderer.renderDialogueStyle({ id: 'thought', label: 'Host Thought' }, 2, 4);
+  renderer.renderScenePicker({ id: 'long-beach-boardwalk', label: 'Long Beach Boardwalk' }, 1, 2);
   renderer.renderScoreboard({ currentStreak: 0, bestStreak: 0, score: 0 });
   renderer.renderScoreboard({ currentStreak: 1, bestStreak: 1, score: 400 });
 
@@ -448,6 +454,9 @@ test('Renderer applies dialogue skins and animates changed score tiles', () => {
   assert.equal(renderer.dom.dialogueStyleLabel.textContent, 'Host Thought');
   assert.equal(renderer.dom.dialogueStyleIndex.textContent, '03/04');
   assert.equal(renderer.dom.speechBubble.attributes['aria-label'], 'Host Thought dialogue panel');
+  assert.equal(renderer.dom.menuSceneLabel.textContent, 'Long Beach Boardwalk');
+  assert.equal(renderer.dom.menuSceneIndex.textContent, '02/02');
+  assert.equal(renderer.dom.menuScene.dataset.scenePack, 'long-beach-boardwalk');
   assert.equal(renderer.dom.hudScore.classList.has('score-flip'), true);
   assert.equal(renderer.dom.scoreDrawer.classList.has('active'), true);
 });

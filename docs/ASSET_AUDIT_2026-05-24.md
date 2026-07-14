@@ -2,7 +2,7 @@
 
 ## What Exists
 
-As of 2026-07-13, the `assets/` tree contains 106 files: 99 renderable image/video assets and 7 manifests or source/support files. The active runtime treats host art as performance packs through `src/host/host-manager.js`. The default Dope Broadcast pack preloads and selects distinct frames for clue, reveal, correct, incorrect, empty-answer, and streak beats; alternate packs preserve the current performance state while changing visual treatment.
+As of 2026-07-13, the `assets/` tree contains 110 files: 101 renderable image/video assets and 9 manifests or source/support files. The active runtime treats host art as performance packs through `src/host/host-manager.js`. The default Dope Broadcast pack preloads and selects distinct frames for clue, reveal, correct, incorrect, empty-answer, and streak beats; alternate packs preserve the current performance state while changing visual treatment.
 
 Open `docs/asset-gallery.html` through the local server to review all renderable artwork and host video experiments together.
 
@@ -12,7 +12,7 @@ Open `docs/asset-gallery.html` through the local server to review all renderable
 | --- | --- | --- |
 | Game chrome | title, background, favicon, Genesis-set illustration | Production UI or reference |
 | Currency | `trivia-note-officialish.png`, `trivia-note-questionable.png` | Production clue-value notes |
-| Beach broadcasts | Day and night `beach-seek-and-find-v1.png` panoramas | Production scene art |
+| Beach broadcasts | Original day/night seek-and-find pair plus the selectable Long Beach Boardwalk day/night pair | Production scene art |
 | Current neutral host | vector PNG/SVG and zombie variant | Legacy placeholder / archive |
 | Neon host concepts | `assets/trebek/trebek-dope-01.png`, `02`, `03`, `05`, and `trebek-good-01.png` | Active true-alpha carousel restored from JeoPARODY masters |
 | Alternate host concepts | pixel arcade portrait, beach/meta/god/screenshot variants | Concept review candidates |
@@ -20,7 +20,7 @@ Open `docs/asset-gallery.html` through the local server to review all renderable
 | Video experiments | seven MP4 files in `trebek-other-images/` | Review for motion language only |
 | Source/aliases | `.vectornator` file and duplicate copies | Preserve until the final art direction is selected |
 
-The seven non-renderable files are the two scene manifests, `.DS_Store`, `assets/images/trebek-vector 1.vectornator`, `assets/trebek-poetry.md`, and two `.download/Info.plist` remnants from prior generated-video downloads.
+The nine non-renderable files are the four scene manifests, `.DS_Store`, `assets/images/trebek-vector 1.vectornator`, `assets/trebek-poetry.md`, and two `.download/Info.plist` remnants from prior generated-video downloads.
 
 ## Confirmed Duplicates
 

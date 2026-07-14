@@ -1,0 +1,8 @@
+{
+  "id": "long-beach-night",
+  "label": "Long Beach Boardwalk Blue Hour",
+  "basePath": "assets/scenes/long-beach-night/",
+  "layers": [
+    { "id": "illustration", "src": "long-beach-boardwalk-v1.png", "depth": 0.04, "drift": 8 }
+  ]
+}

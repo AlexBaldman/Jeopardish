@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeoPARODY | The Forbidden Broadcast</title>
     <meta name="description" content="JeoPARODY is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
-    <link rel="stylesheet" href="style.css?v=beach-dialogue-1" type="text/css">
+    <link rel="stylesheet" href="style.css?v=long-beach-1" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -15,8 +15,8 @@
     <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/media/media-preflight.js?v=media-1"></script>
-    <script defer src="src/render/scene-service.js?v=beach-art-2"></script>
-    <script defer src="src/render/renderer.js?v=dialogue-skins-1"></script>
+    <script defer src="src/render/scene-service.js?v=scene-packs-1"></script>
+    <script defer src="src/render/renderer.js?v=scene-packs-1"></script>
     <script defer src="src/render/console-narrator.js?v=media-1"></script>
     <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
     <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
@@ -24,7 +24,7 @@
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/directors/round-director.js?v=round-3"></script>
     <script defer src="landing.js?v=vision-2"></script>
-    <script defer src="app.js?v=dialogue-skins-1"></script>
+    <script defer src="app.js?v=scene-packs-1"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
@@ -353,6 +353,10 @@ flowchart TB
                     </section>
                     <section class="menu-section menu-action-grid" aria-labelledby="menuSettingsTitle">
                         <h2 id="menuSettingsTitle">Settings</h2>
+                        <button id="menuScene" type="button">
+                            <span class="scene-menu-copy"><small>Background</small><strong id="menuSceneLabel">Beach Broadcast</strong></span>
+                            <b id="menuSceneIndex" aria-hidden="true">01/02</b>
+                        </button>
                         <button id="menuTheme" type="button"><span>Day / Night</span><b aria-hidden="true">☀</b></button>
                         <button id="menuLanguage" type="button"><span>English / Português</span><b aria-hidden="true">文</b></button>
                         <button id="menuSound" type="button"><span>Sound</span><b aria-hidden="true">♪</b></button>

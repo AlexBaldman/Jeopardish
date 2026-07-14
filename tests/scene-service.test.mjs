@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const {
   DEFAULT_SCENES,
+  DEFAULT_SCENE_PACKS,
   SceneService,
   getLayerSource,
   normalizeSceneKey,
@@ -109,6 +110,26 @@ test('SceneService switches to dark scene and updates pointer parallax variables
   assert.equal(stage.children[0].src, 'assets/scenes/beach-night/beach-seek-and-find-v1.png');
   assert.equal(stage.style.values['--scene-x'], '0.250');
   assert.equal(stage.style.values['--scene-y'], '-0.250');
+});
+
+test('SceneService cycles named scene packs while preserving the active theme', () => {
+  const stage = createFakeElement('div');
+  const service = new SceneService({
+    documentRef: createFakeDocument(stage),
+    windowRef: createFakeWindow(),
+  }).bindDom();
+
+  service.setTheme('light');
+  const pack = service.cyclePack(1);
+
+  assert.equal(DEFAULT_SCENE_PACKS.length, 2);
+  assert.equal(pack.id, 'long-beach-boardwalk');
+  assert.equal(stage.dataset.scene, 'long-beach-day');
+  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-day/long-beach-boardwalk-v1.png');
+
+  service.setTheme('dark');
+  assert.equal(stage.dataset.scene, 'long-beach-night');
+  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-night/long-beach-boardwalk-v1.png');
 });
 
 test('SceneService helpers normalize theme keys and layer sources', () => {

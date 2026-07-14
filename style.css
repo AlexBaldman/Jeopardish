@@ -4032,6 +4032,10 @@ body[data-theme="light"] .clue-original {
     filter: saturate(1.12) contrast(1.04) brightness(1.04);
 }
 
+.game-container .scene-stage[data-scene="long-beach-night"] .scene-layer-illustration {
+    filter: saturate(1.12) contrast(1.04) brightness(1.08);
+}
+
 .game-container .scene-stage::after,
 .game-container .scene-stage[data-scene="beach-day"]::after {
     background:
@@ -4263,6 +4267,23 @@ body.game-only .game-header {
     font-family: var(--pixel-font);
     font-size: 0.34rem;
     text-align: center;
+}
+
+.scene-menu-copy {
+    display: grid;
+    gap: 0.1rem;
+}
+
+.scene-menu-copy small {
+    color: #5a5162;
+    font-family: var(--pixel-font);
+    font-size: 0.28rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.scene-menu-copy strong {
+    font: 900 0.86rem/1.1 var(--utility-font);
 }
 
 .menu-lab-link {

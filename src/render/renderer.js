@@ -266,6 +266,9 @@
       this.dom.menuTheme = this.document.getElementById('menuTheme');
       this.dom.menuLanguage = this.document.getElementById('menuLanguage');
       this.dom.menuSound = this.document.getElementById('menuSound');
+      this.dom.menuScene = this.document.getElementById('menuScene');
+      this.dom.menuSceneLabel = this.document.getElementById('menuSceneLabel');
+      this.dom.menuSceneIndex = this.document.getElementById('menuSceneIndex');
       this.dom.scoreDrawer = this.document.getElementById('scoreDrawer');
       this.dom.speechBubble = this.document.getElementById('speechBubble');
       this.dom.dialogueStylePrev = this.document.getElementById('dialogueStylePrev');
@@ -309,6 +312,7 @@
       onNextHostSkin = () => {},
       onPreviousDialogueStyle = () => {},
       onNextDialogueStyle = () => {},
+      onCycleScene = () => {},
       onMediaFailure = () => {},
     }) {
       this.onMediaFailure = onMediaFailure;
@@ -327,6 +331,7 @@
       this.dom.menuTheme?.addEventListener('click', onToggleTheme);
       this.dom.menuLanguage?.addEventListener('click', onToggleLanguage);
       this.dom.menuSound?.addEventListener('click', onToggleSound);
+      this.dom.menuScene?.addEventListener('click', onCycleScene);
       this.dom.scoreDrawer?.addEventListener('pointerenter', () => this.showScoreDrawer(0));
       this.dom.scoreDrawer?.addEventListener('pointerleave', () => this.hideScoreDrawer());
       this.dom.scoreDrawer?.addEventListener('focus', () => this.showScoreDrawer(0));
@@ -508,6 +513,17 @@
         `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`,
       );
       this.dom.speechBubble.setAttribute('aria-label', `${style.label} dialogue panel`);
+    }
+
+    renderScenePicker(pack, index = 0, total = 1) {
+      if (!pack || !this.dom.menuScene) return;
+      this.setText(this.dom.menuSceneLabel, pack.label);
+      this.setText(
+        this.dom.menuSceneIndex,
+        `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`,
+      );
+      this.dom.menuScene.setAttribute('aria-label', `Background: ${pack.label}. Activate to cycle.`);
+      this.dom.menuScene.dataset.scenePack = pack.id;
     }
 
     setTranslationState(status = 'original', provider = '') {

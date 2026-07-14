@@ -7,7 +7,7 @@
 }(typeof globalThis !== 'undefined' ? globalThis : this, function sceneServiceFactory(root) {
   'use strict';
 
-  const DEFAULT_SCENES = Object.freeze({
+  const BEACH_BROADCAST_SCENES = Object.freeze({
     light: {
       id: 'beach-day',
       label: 'Daytime Beach Broadcast',
@@ -26,6 +26,39 @@
     },
   });
 
+  const LONG_BEACH_SCENES = Object.freeze({
+    light: {
+      id: 'long-beach-day',
+      label: 'Long Beach Boardwalk Day',
+      basePath: 'assets/scenes/long-beach-day/',
+      layers: [
+        { id: 'illustration', src: 'long-beach-boardwalk-v1.png', depth: 0.04, drift: 8 },
+      ],
+    },
+    dark: {
+      id: 'long-beach-night',
+      label: 'Long Beach Boardwalk Blue Hour',
+      basePath: 'assets/scenes/long-beach-night/',
+      layers: [
+        { id: 'illustration', src: 'long-beach-boardwalk-v1.png', depth: 0.04, drift: 8 },
+      ],
+    },
+  });
+
+  const DEFAULT_SCENE_PACKS = Object.freeze([
+    Object.freeze({
+      id: 'beach-broadcast',
+      label: 'Beach Broadcast',
+      scenes: BEACH_BROADCAST_SCENES,
+    }),
+    Object.freeze({
+      id: 'long-beach-boardwalk',
+      label: 'Long Beach Boardwalk',
+      scenes: LONG_BEACH_SCENES,
+    }),
+  ]);
+  const DEFAULT_SCENES = BEACH_BROADCAST_SCENES;
+
   function normalizeSceneKey(theme) {
     return theme === 'light' ? 'light' : 'dark';
   }
@@ -43,10 +76,19 @@
       documentRef = root.document,
       windowRef = root,
       scenes = DEFAULT_SCENES,
+      scenePacks = null,
+      activePackId = '',
     } = {}) {
       this.document = documentRef;
       this.window = windowRef;
       this.scenes = scenes;
+      this.scenePacks = scenePacks || (scenes === DEFAULT_SCENES
+        ? DEFAULT_SCENE_PACKS
+        : [{ id: 'custom', label: 'Custom Scene', scenes }]);
+      this.activePackId = this.scenePacks.some((pack) => pack.id === activePackId)
+        ? activePackId
+        : this.scenePacks[0]?.id || '';
+      this.activeTheme = 'dark';
       this.stage = null;
       this.activeSceneId = '';
       this.reduceMotion = false;
@@ -86,7 +128,36 @@
 
     setTheme(theme) {
       const key = normalizeSceneKey(theme);
-      return this.renderScene(this.scenes[key] || this.scenes.dark);
+      this.activeTheme = key;
+      const scenes = this.getActivePack()?.scenes || this.scenes;
+      return this.renderScene(scenes[key] || scenes.dark);
+    }
+
+    getPacks() {
+      return this.scenePacks;
+    }
+
+    getActivePack() {
+      return this.scenePacks.find((pack) => pack.id === this.activePackId) || this.scenePacks[0] || null;
+    }
+
+    setPack(packId) {
+      const pack = this.scenePacks.find((candidate) => candidate.id === packId) || this.getActivePack();
+      if (!pack) return null;
+      if (pack.id !== this.activePackId || !this.activeSceneId) {
+        this.activePackId = pack.id;
+        this.scenes = pack.scenes;
+        this.activeSceneId = '';
+        this.setTheme(this.activeTheme);
+      }
+      return pack;
+    }
+
+    cyclePack(step = 1) {
+      if (this.scenePacks.length === 0) return null;
+      const currentIndex = Math.max(0, this.scenePacks.findIndex((pack) => pack.id === this.activePackId));
+      const nextIndex = (currentIndex + step + this.scenePacks.length) % this.scenePacks.length;
+      return this.setPack(this.scenePacks[nextIndex].id);
     }
 
     renderScene(scene) {
@@ -127,7 +198,10 @@
   }
 
   return {
+    BEACH_BROADCAST_SCENES,
     DEFAULT_SCENES,
+    DEFAULT_SCENE_PACKS,
+    LONG_BEACH_SCENES,
     SceneService,
     getLayerSource,
     normalizeSceneKey,
