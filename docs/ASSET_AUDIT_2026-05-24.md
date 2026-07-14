@@ -12,7 +12,7 @@ Open `docs/asset-gallery.html` through the local server to review all renderable
 | --- | --- | --- |
 | Game chrome | title, background, favicon, Genesis-set illustration | Production UI or reference |
 | Currency | `trivia-note-officialish.png`, `trivia-note-questionable.png` | Production clue-value notes |
-| Beach broadcasts | Original day/night seek-and-find pair plus the selectable Long Beach Boardwalk day/night pair | Production scene art |
+| Beach broadcasts | Original day/night seek-and-find pair plus the cleaner west-facing Long Beach West End sunset/blue-hour pair | Production scene art |
 | Current neutral host | vector PNG/SVG and zombie variant | Legacy placeholder / archive |
 | Neon host concepts | `assets/trebek/trebek-dope-01.png`, `02`, `03`, `05`, and `trebek-good-01.png` | Active true-alpha carousel restored from JeoPARODY masters |
 | Alternate host concepts | pixel arcade portrait, beach/meta/god/screenshot variants | Concept review candidates |

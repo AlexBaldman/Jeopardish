@@ -1,8 +1,8 @@
 {
   "id": "long-beach-day",
-  "label": "Long Beach Boardwalk Day",
+  "label": "Long Beach West End Sunset",
   "basePath": "assets/scenes/long-beach-day/",
   "layers": [
-    { "id": "illustration", "src": "long-beach-boardwalk-v1.png", "depth": 0.04, "drift": 8 }
+    { "id": "illustration", "src": "long-beach-west-sunset-v2.png", "depth": 0.04, "drift": 8 }
   ]
 }

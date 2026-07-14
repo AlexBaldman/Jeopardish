@@ -1,8 +1,8 @@
 {
   "id": "long-beach-night",
-  "label": "Long Beach Boardwalk Blue Hour",
+  "label": "Long Beach West End Blue Hour",
   "basePath": "assets/scenes/long-beach-night/",
   "layers": [
-    { "id": "illustration", "src": "long-beach-boardwalk-v1.png", "depth": 0.04, "drift": 8 }
+    { "id": "illustration", "src": "long-beach-west-blue-hour-v2.png", "depth": 0.04, "drift": 8 }
   ]
 }

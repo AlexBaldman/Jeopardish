@@ -29,18 +29,18 @@
   const LONG_BEACH_SCENES = Object.freeze({
     light: {
       id: 'long-beach-day',
-      label: 'Long Beach Boardwalk Day',
+      label: 'Long Beach West End Sunset',
       basePath: 'assets/scenes/long-beach-day/',
       layers: [
-        { id: 'illustration', src: 'long-beach-boardwalk-v1.png', depth: 0.04, drift: 8 },
+        { id: 'illustration', src: 'long-beach-west-sunset-v2.png', depth: 0.04, drift: 8 },
       ],
     },
     dark: {
       id: 'long-beach-night',
-      label: 'Long Beach Boardwalk Blue Hour',
+      label: 'Long Beach West End Blue Hour',
       basePath: 'assets/scenes/long-beach-night/',
       layers: [
-        { id: 'illustration', src: 'long-beach-boardwalk-v1.png', depth: 0.04, drift: 8 },
+        { id: 'illustration', src: 'long-beach-west-blue-hour-v2.png', depth: 0.04, drift: 8 },
       ],
     },
   });
@@ -53,7 +53,7 @@
     }),
     Object.freeze({
       id: 'long-beach-boardwalk',
-      label: 'Long Beach Boardwalk',
+      label: 'Long Beach West End',
       scenes: LONG_BEACH_SCENES,
     }),
   ]);

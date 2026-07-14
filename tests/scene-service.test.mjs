@@ -125,11 +125,11 @@ test('SceneService cycles named scene packs while preserving the active theme', 
   assert.equal(DEFAULT_SCENE_PACKS.length, 2);
   assert.equal(pack.id, 'long-beach-boardwalk');
   assert.equal(stage.dataset.scene, 'long-beach-day');
-  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-day/long-beach-boardwalk-v1.png');
+  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-day/long-beach-west-sunset-v2.png');
 
   service.setTheme('dark');
   assert.equal(stage.dataset.scene, 'long-beach-night');
-  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-night/long-beach-boardwalk-v1.png');
+  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-night/long-beach-west-blue-hour-v2.png');
 });
 
 test('SceneService helpers normalize theme keys and layer sources', () => {
