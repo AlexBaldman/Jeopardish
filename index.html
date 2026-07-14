@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeoPARODY | The Forbidden Broadcast</title>
     <meta name="description" content="JeoPARODY is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
-    <link rel="stylesheet" href="style.css?v=long-beach-1" type="text/css">
+    <link rel="stylesheet" href="style.css?v=surface-audit-1" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -15,7 +15,7 @@
     <script defer src="src/core/game-engine.js?v=arcade-4"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/media/media-preflight.js?v=media-1"></script>
-    <script defer src="src/render/scene-service.js?v=scene-packs-3"></script>
+    <script defer src="src/render/scene-service.js?v=scene-packs-4"></script>
     <script defer src="src/render/renderer.js?v=scene-packs-1"></script>
     <script defer src="src/render/console-narrator.js?v=media-1"></script>
     <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
@@ -24,7 +24,7 @@
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/directors/round-director.js?v=round-3"></script>
     <script defer src="landing.js?v=vision-2"></script>
-    <script defer src="app.js?v=scene-packs-1"></script>
+    <script defer src="app.js?v=surface-audit-1"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
@@ -226,35 +226,64 @@
                         <p class="micro-label">Player-to-plot loop</p>
                         <h3>Learning rebuilds the studio.</h3>
                     </div>
-                    <pre class="mermaid">
-flowchart TB
-    fact["Verified fact"] --> lens["Mechanic lens"]
-    lens --> answer{"Player response"}
-    answer -->|"Correct / near typo"| judge["Fair judge"]
-    answer -->|"Wrong"| correction["Correction + comic callback"]
-    judge --> mastery["Mastery grows"]
-    correction --> mastery
-    mastery --> studio["Studio rebuilds"]
-    studio --> evidence["Xander leaks evidence"]
-                    </pre>
+                    <div class="diagram-flow" role="img" aria-label="Verified facts pass through a mechanic and fair answer judge. Correct answers and useful corrections grow mastery, rebuild the studio, and expose evidence about Xander.">
+                        <div class="diagram-node"><span>01</span><strong>Verified fact</strong><small>Archive checked</small></div>
+                        <i class="flow-arrow" aria-hidden="true"></i>
+                        <div class="diagram-node"><span>02</span><strong>Mechanic lens</strong><small>Recall, wager, puzzle</small></div>
+                        <i class="flow-arrow" aria-hidden="true"></i>
+                        <div class="diagram-node diagram-decision"><span>03</span><strong>Player response</strong><small>The truth fork</small></div>
+                        <div class="diagram-branches">
+                            <div class="diagram-branch" data-tone="correct"><b>Correct / near typo</b><strong>Fair judge</strong></div>
+                            <div class="diagram-branch" data-tone="correction"><b>Wrong</b><strong>Correction + callback</strong></div>
+                        </div>
+                        <i class="flow-arrow" aria-hidden="true"></i>
+                        <div class="diagram-node diagram-payoff"><span>04</span><strong>Mastery grows</strong><small>Studio rebuilds · evidence leaks</small></div>
+                    </div>
+                    <details class="diagram-source">
+                        <summary>View Mermaid source</summary>
+                        <pre>flowchart TB
+    fact["Verified fact"] --&gt; lens["Mechanic lens"]
+    lens --&gt; answer{"Player response"}
+    answer --&gt;|"Correct / near typo"| judge["Fair judge"]
+    answer --&gt;|"Wrong"| correction["Correction + comic callback"]
+    judge --&gt; mastery["Mastery grows"]
+    correction --&gt; mastery
+    mastery --&gt; studio["Studio rebuilds"]
+    studio --&gt; evidence["Xander leaks evidence"]</pre>
+                    </details>
                 </article>
                 <article class="diagram-card reveal">
                     <div class="diagram-heading">
                         <p class="micro-label">Trust boundary</p>
                         <h3>The show may lie. The engine cannot.</h3>
                     </div>
-                    <pre class="mermaid">
-flowchart TB
-    archive["Archive + original facts"] --> normalize["Normalize value / media / answer"]
-    legacy["Legacy harvest tests"] --> kernel["Truth kernel"]
-    normalize --> packet["Validated fact packet"]
-    packet --> kernel
-    packet --> show["Performance layer"]
-    kernel --> result["Score + mastery + disputes"]
-    show --> theater["Banter + art + mystery"]
-    result --> trust["Player trust"]
-    theater --> trust
-                    </pre>
+                    <div class="diagram-flow" role="img" aria-label="Archive facts and legacy tests create a validated fact packet. The deterministic kernel owns scoring while a separate performance layer owns banter. Both paths earn player trust.">
+                        <div class="diagram-inputs">
+                            <div class="diagram-node"><span>A</span><strong>Archive facts</strong><small>Original clue truth</small></div>
+                            <div class="diagram-node"><span>B</span><strong>Legacy tests</strong><small>Hard-won edge cases</small></div>
+                        </div>
+                        <i class="flow-arrow" aria-hidden="true"></i>
+                        <div class="diagram-node diagram-decision"><span>01</span><strong>Validated fact packet</strong><small>Value · media · answer policy</small></div>
+                        <div class="diagram-branches">
+                            <div class="diagram-branch" data-tone="correct"><b>Truth kernel</b><strong>Score · mastery · disputes</strong></div>
+                            <div class="diagram-branch" data-tone="theater"><b>Performance layer</b><strong>Banter · art · mystery</strong></div>
+                        </div>
+                        <i class="flow-arrow" aria-hidden="true"></i>
+                        <div class="diagram-node diagram-payoff"><span>02</span><strong>Player trust</strong><small>The show may lie. The engine cannot.</small></div>
+                    </div>
+                    <details class="diagram-source">
+                        <summary>View Mermaid source</summary>
+                        <pre>flowchart TB
+    archive["Archive + original facts"] --&gt; normalize["Normalize value / media / answer"]
+    legacy["Legacy harvest tests"] --&gt; kernel["Truth kernel"]
+    normalize --&gt; packet["Validated fact packet"]
+    packet --&gt; kernel
+    packet --&gt; show["Performance layer"]
+    kernel --&gt; result["Score + mastery + disputes"]
+    show --&gt; theater["Banter + art + mystery"]
+    result --&gt; trust["Player trust"]
+    theater --&gt; trust</pre>
+                    </details>
                 </article>
             </div>
         </section>
@@ -354,8 +383,8 @@ flowchart TB
                     <section class="menu-section menu-action-grid" aria-labelledby="menuSettingsTitle">
                         <h2 id="menuSettingsTitle">Settings</h2>
                         <button id="menuScene" type="button">
-                            <span class="scene-menu-copy"><small>Background</small><strong id="menuSceneLabel">Beach Broadcast</strong></span>
-                            <b id="menuSceneIndex" aria-hidden="true">01/02</b>
+                            <span class="scene-menu-copy"><small>Background</small><strong id="menuSceneLabel">Long Beach '96</strong></span>
+                            <b id="menuSceneIndex" aria-hidden="true">01/03</b>
                         </button>
                         <button id="menuTheme" type="button"><span>Day / Night</span><b aria-hidden="true">☀</b></button>
                         <button id="menuLanguage" type="button"><span>English / Português</span><b aria-hidden="true">文</b></button>

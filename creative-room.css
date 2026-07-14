@@ -48,7 +48,13 @@ button, a { font: inherit; }
 }
 
 .room-nav p { margin: 0; text-align: right; }
-.back-link { color: var(--gold); text-decoration: none; }
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--gold);
+    text-decoration: none;
+}
 
 main { width: min(1240px, calc(100% - 2rem)); margin: 0 auto; padding-bottom: 8rem; }
 
@@ -96,6 +102,7 @@ main { width: min(1240px, calc(100% - 2rem)); margin: 0 auto; padding-bottom: 8r
 @keyframes o-spin { to { transform: rotate(1turn); } }
 
 .cycle-o {
+    min-height: 44px;
     border: 2px solid var(--cyan);
     padding: .75rem 1rem;
     color: var(--cyan);

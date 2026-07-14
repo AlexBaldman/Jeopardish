@@ -151,6 +151,9 @@ body::before {
 }
 
 .site-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     color: var(--vision-copy);
     font-size: 0.98rem;
     font-weight: 700;
@@ -203,13 +206,160 @@ body::before {
     min-width: 0;
 }
 
-.diagram-card {
-    overflow: hidden;
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
 }
 
-.mermaid {
+.diagram-card {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+    overflow: hidden;
+    padding: clamp(1.25rem, 2.5vw, 2rem);
+    border: 1px solid rgba(50, 246, 255, 0.3);
+    background:
+        linear-gradient(180deg, rgba(21, 29, 67, 0.96), rgba(10, 15, 39, 0.98)),
+        var(--vision-panel);
+    box-shadow: 8px 9px 0 rgba(4, 7, 23, 0.72);
+}
+
+.diagram-heading h3 {
+    color: var(--paper);
+    font-family: var(--question-font);
+    font-size: clamp(1.45rem, 2.7vw, 2.15rem);
+    line-height: 1.05;
+}
+
+.diagram-flow {
+    display: grid;
+    align-content: start;
+    gap: 0.65rem;
+}
+
+.diagram-node,
+.diagram-branch {
+    position: relative;
+    display: grid;
+    gap: 0.24rem;
+    min-width: 0;
+    padding: 0.85rem 0.9rem 0.82rem 3.35rem;
+    border: 1px solid rgba(130, 144, 177, 0.38);
+    background: rgba(7, 12, 34, 0.82);
+}
+
+.diagram-node > span {
+    position: absolute;
+    top: 50%;
+    left: 0.78rem;
+    display: grid;
+    place-items: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    border: 1px solid rgba(255, 225, 90, 0.7);
+    border-radius: 50%;
+    color: var(--vision-gold);
+    font-family: var(--pixel-font);
+    font-size: 0.38rem;
+    transform: translateY(-50%);
+}
+
+.diagram-node strong,
+.diagram-branch strong {
+    color: var(--paper);
+    font-family: var(--utility-font);
+    font-size: 1rem;
+    line-height: 1.15;
+}
+
+.diagram-node small,
+.diagram-branch b {
+    color: var(--vision-copy);
+    font-family: var(--pixel-font);
+    font-size: 0.38rem;
+    font-weight: 400;
+    line-height: 1.55;
+    text-transform: uppercase;
+}
+
+.diagram-decision {
+    border-color: rgba(255, 225, 90, 0.72);
+    background: rgba(54, 38, 73, 0.78);
+}
+
+.diagram-payoff {
+    border-color: rgba(119, 255, 138, 0.7);
+    box-shadow: inset 4px 0 0 var(--neon-green);
+}
+
+.diagram-inputs,
+.diagram-branches {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.diagram-branch {
+    padding-left: 0.9rem;
+    border-top: 4px solid var(--neon-green);
+}
+
+.diagram-branch[data-tone="correction"] {
+    border-top-color: var(--vision-gold);
+}
+
+.diagram-branch[data-tone="theater"] {
+    border-top-color: var(--neon-pink);
+}
+
+.flow-arrow {
+    position: relative;
+    justify-self: center;
+    width: 2px;
+    height: 18px;
+    background: var(--neon-cyan);
+}
+
+.flow-arrow::after {
+    position: absolute;
+    right: 50%;
+    bottom: -1px;
+    width: 7px;
+    height: 7px;
+    content: "";
+    border-right: 2px solid var(--neon-cyan);
+    border-bottom: 2px solid var(--neon-cyan);
+    transform: translateX(50%) rotate(45deg);
+}
+
+.diagram-source {
+    min-width: 0;
+    border-top: 1px dashed rgba(130, 144, 177, 0.4);
+    padding-top: 0.8rem;
+}
+
+.diagram-source summary {
+    width: fit-content;
+    min-height: 44px;
+    padding: 0.7rem 0;
+    color: var(--neon-cyan);
+    font-family: var(--pixel-font);
+    font-size: 0.42rem;
+    line-height: 1.6;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.diagram-source pre {
     max-width: 100%;
     overflow-x: auto;
+    margin: 0.35rem 0 0;
+    padding: 0.8rem;
+    color: var(--vision-copy);
+    background: rgba(2, 5, 18, 0.8);
+    font-size: 0.72rem;
+    line-height: 1.45;
     white-space: pre;
 }
 
@@ -890,7 +1040,7 @@ body::before {
 .standalone-game-link a {
     display: inline-flex;
     align-items: center;
-    min-height: 42px;
+    min-height: 44px;
     padding: 0.72rem 0.95rem;
     border: 3px solid var(--ink);
     border-radius: 8px;
@@ -922,6 +1072,9 @@ body::before {
 }
 
 .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     color: var(--vision-gold);
     font-family: var(--pixel-font);
     font-size: 0.53rem;
@@ -930,14 +1083,17 @@ body::before {
 }
 
 .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 620ms ease, transform 620ms ease;
+    opacity: 1;
+    transform: none;
 }
 
 .reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+    animation: reveal-in 620ms ease both;
+}
+
+@keyframes reveal-in {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes signal-pulse {
@@ -3305,8 +3461,13 @@ input:focus-visible,
     }
 
     .nav-launch {
-        min-height: 42px;
+        min-height: 44px;
         padding-inline: 0.72rem;
+    }
+
+    .site-theme-toggle {
+        min-width: 44px;
+        min-height: 44px;
     }
 
     .hero {
@@ -3322,6 +3483,7 @@ input:focus-visible,
     .story,
     .format-switcher,
     .boundary,
+    .map-grid,
     .roadmap-line {
         grid-template-columns: 1fr;
     }
@@ -3383,6 +3545,7 @@ body[data-theme="light"] .portrait-frame,
 body[data-theme="light"] .host-states li,
 body[data-theme="light"] .format-panel,
 body[data-theme="light"] .boundary-panel,
+body[data-theme="light"] .diagram-card,
 body[data-theme="light"] .sparks-copy,
 body[data-theme="light"] .roadmap-line strong {
     background: rgba(255, 248, 223, 0.86);
@@ -3399,10 +3562,21 @@ body[data-theme="light"] .fault-card > p:not(.micro-label),
 body[data-theme="light"] .host-states span,
 body[data-theme="light"] .format-panel p:not(.panel-label),
 body[data-theme="light"] .boundary-panel li,
+body[data-theme="light"] .diagram-node strong,
+body[data-theme="light"] .diagram-branch strong,
 body[data-theme="light"] .spark-list p,
 body[data-theme="light"] .roadmap-line p,
 body[data-theme="light"] .site-footer {
     color: #343047;
+}
+
+body[data-theme="light"] .diagram-card {
+    border-color: rgba(36, 49, 86, 0.28);
+}
+
+body[data-theme="light"] .diagram-node,
+body[data-theme="light"] .diagram-branch {
+    background: rgba(255, 255, 255, 0.64);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4678,5 +4852,78 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-text 
 
     .score-drawer .hud-readout strong.score-flip {
         animation: none;
+    }
+}
+
+/* Repeated cabinet controls use full-size hit areas even when their artwork stays compact. */
+.game-container .game-header button,
+.game-container .hamburger-menu,
+.game-container .menu-close,
+.game-container .menu-action-grid button,
+.game-container .menu-lab-link {
+    min-height: 44px;
+}
+
+.game-container .game-header button {
+    min-width: 44px;
+}
+
+.game-container .hamburger-menu,
+.game-container .menu-close {
+    min-width: 44px;
+}
+
+.game-container .dialogue-style-cycle {
+    width: 44px;
+    min-height: 42px;
+}
+
+.game-container .host-cycle {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+}
+
+@media (max-width: 760px) {
+    .game-container .game-header,
+    body.game-only .game-header {
+        grid-template-columns: minmax(7rem, 1fr) 44px 44px;
+    }
+
+    .game-container .host-stage {
+        grid-template-columns: 44px minmax(84px, 104px) 44px;
+    }
+
+    .game-container .host-cycle {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 0.25rem;
+    }
+
+    .game-container .button-div .cabinet-button {
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 0.35rem;
+        padding-inline: 0.55rem;
+    }
+
+    .game-container .button-div .button-tooltip {
+        position: static;
+        display: block;
+        max-width: none;
+        padding: 0;
+        border: 0;
+        color: #111019;
+        background: transparent;
+        box-shadow: none;
+        font: 900 0.62rem/1.05 var(--utility-font);
+        opacity: 1;
+        text-align: left;
+        transform: none;
+        white-space: normal;
+    }
+
+    .game-container .button-div .button-tooltip::after {
+        display: none;
     }
 }

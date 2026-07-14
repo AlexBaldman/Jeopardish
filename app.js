@@ -45,7 +45,7 @@ const state = {
   language: 'en',
   hostSkinId: '',
   dialogueStyleId: 'clue-card',
-  scenePackId: 'beach-broadcast',
+  scenePackId: 'long-beach-96',
   muted: false,
   currentSourceClue: null,
   currentDisplayClue: null,

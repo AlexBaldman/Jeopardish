@@ -1,0 +1,426 @@
+[
+  {
+    "name": "landing-desktop",
+    "doc": [
+      1440,
+      8754
+    ],
+    "viewport": [
+      1440,
+      900
+    ],
+    "horizontalOverflow": false,
+    "smallTargets": [
+      {
+        "id": "",
+        "text": "JEOPARDY\n            THE",
+        "w": 220,
+        "h": 42
+      },
+      {
+        "id": "",
+        "text": "Evidence",
+        "w": 69,
+        "h": 19
+      },
+      {
+        "id": "",
+        "text": "Formats",
+        "w": 67,
+        "h": 19
+      },
+      {
+        "id": "",
+        "text": "System",
+        "w": 57,
+        "h": 19
+      },
+      {
+        "id": "",
+        "text": "Maps",
+        "w": 41,
+        "h": 19
+      },
+      {
+        "id": "",
+        "text": "Roadmap",
+        "w": 71,
+        "h": 19
+      },
+      {
+        "id": "",
+        "text": "Creative Room",
+        "w": 115,
+        "h": 19
+      },
+      {
+        "id": "",
+        "text": "",
+        "w": 33,
+        "h": 33
+      },
+      {
+        "id": "menuClose",
+        "text": "×",
+        "w": 42,
+        "h": 42
+      },
+      {
+        "id": "menuNewClue",
+        "text": "New clueQ",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "menuRevealAnswer",
+        "text": "Reveal answerA",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "menuScene",
+        "text": "BackgroundBeach Broadcas",
+        "w": 336,
+        "h": 44
+      },
+      {
+        "id": "menuTheme",
+        "text": "Day / Night☀",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "menuLanguage",
+        "text": "English / Português文",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "menuSound",
+        "text": "Sound♪",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "",
+        "text": "Enter the Creative Room ",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "dialogueStylePrev",
+        "text": "‹",
+        "w": 44,
+        "h": 42
+      },
+      {
+        "id": "dialogueStyleNext",
+        "text": "›",
+        "w": 44,
+        "h": 42
+      },
+      {
+        "id": "",
+        "text": "",
+        "w": 20,
+        "h": 20
+      },
+      {
+        "id": "",
+        "text": "Return to frequency",
+        "w": 161,
+        "h": 8
+      }
+    ],
+    "hasMediaModal": true,
+    "errors": []
+  },
+  {
+    "name": "landing-mobile",
+    "doc": [
+      390,
+      11253
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "horizontalOverflow": false,
+    "smallTargets": [
+      {
+        "id": "",
+        "text": "JEOPARDY\n            THE",
+        "w": 78,
+        "h": 16
+      },
+      {
+        "id": "themeToggle",
+        "text": "Night",
+        "w": 38,
+        "h": 36
+      },
+      {
+        "id": "",
+        "text": "Enter Studio",
+        "w": 121,
+        "h": 42
+      },
+      {
+        "id": "",
+        "text": "Open the game in its own",
+        "w": 294,
+        "h": 42
+      },
+      {
+        "id": "",
+        "text": "",
+        "w": 20,
+        "h": 20
+      },
+      {
+        "id": "languageToggle",
+        "text": "USBR\n                   ",
+        "w": 40,
+        "h": 44
+      },
+      {
+        "id": "menuClose",
+        "text": "×",
+        "w": 42,
+        "h": 42
+      },
+      {
+        "id": "menuNewClue",
+        "text": "New clueQ",
+        "w": 296,
+        "h": 42
+      },
+      {
+        "id": "menuRevealAnswer",
+        "text": "Reveal answerA",
+        "w": 296,
+        "h": 42
+      },
+      {
+        "id": "menuScene",
+        "text": "BackgroundBeach Broadcas",
+        "w": 296,
+        "h": 44
+      },
+      {
+        "id": "menuTheme",
+        "text": "Day / Night☀",
+        "w": 296,
+        "h": 42
+      },
+      {
+        "id": "menuLanguage",
+        "text": "English / Português文",
+        "w": 296,
+        "h": 42
+      },
+      {
+        "id": "menuSound",
+        "text": "Sound♪",
+        "w": 296,
+        "h": 42
+      },
+      {
+        "id": "",
+        "text": "Enter the Creative Room ",
+        "w": 296,
+        "h": 42
+      },
+      {
+        "id": "dialogueStylePrev",
+        "text": "‹",
+        "w": 44,
+        "h": 42
+      },
+      {
+        "id": "dialogueStyleNext",
+        "text": "›",
+        "w": 44,
+        "h": 42
+      },
+      {
+        "id": "",
+        "text": "",
+        "w": 15,
+        "h": 15
+      },
+      {
+        "id": "",
+        "text": "Return to frequency",
+        "w": 161,
+        "h": 8
+      }
+    ],
+    "hasMediaModal": true,
+    "errors": []
+  },
+  {
+    "name": "game-desktop",
+    "doc": [
+      1440,
+      900
+    ],
+    "viewport": [
+      1440,
+      900
+    ],
+    "horizontalOverflow": false,
+    "smallTargets": [
+      {
+        "id": "",
+        "text": "",
+        "w": 33,
+        "h": 33
+      },
+      {
+        "id": "menuClose",
+        "text": "×",
+        "w": 42,
+        "h": 42
+      },
+      {
+        "id": "menuNewClue",
+        "text": "New clueQ",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "menuRevealAnswer",
+        "text": "Reveal answerA",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "menuScene",
+        "text": "BackgroundBeach Broadcas",
+        "w": 336,
+        "h": 44
+      },
+      {
+        "id": "menuTheme",
+        "text": "Day / Night☀",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "menuLanguage",
+        "text": "English / Português文",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "menuSound",
+        "text": "Sound♪",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "",
+        "text": "Enter the Creative Room ",
+        "w": 336,
+        "h": 42
+      },
+      {
+        "id": "dialogueStylePrev",
+        "text": "‹",
+        "w": 44,
+        "h": 42
+      },
+      {
+        "id": "dialogueStyleNext",
+        "text": "›",
+        "w": 44,
+        "h": 42
+      },
+      {
+        "id": "mediaModalLink",
+        "text": "OPEN ORIGINAL",
+        "w": 168,
+        "h": 41
+      }
+    ],
+    "hasMediaModal": true,
+    "errors": []
+  },
+  {
+    "name": "game-mobile",
+    "doc": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "horizontalOverflow": false,
+    "smallTargets": [
+      {
+        "id": "",
+        "text": "",
+        "w": 20,
+        "h": 20
+      },
+      {
+        "id": "themeToggle",
+        "text": "Night",
+        "w": 38,
+        "h": 44
+      },
+      {
+        "id": "languageToggle",
+        "text": "USBR\n                   ",
+        "w": 40,
+        "h": 44
+      },
+      {
+        "id": "dialogueStylePrev",
+        "text": "‹",
+        "w": 44,
+        "h": 42
+      },
+      {
+        "id": "dialogueStyleNext",
+        "text": "›",
+        "w": 44,
+        "h": 42
+      }
+    ],
+    "hasMediaModal": true,
+    "errors": []
+  },
+  {
+    "name": "creative-mobile",
+    "doc": [
+      390,
+      6598
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "horizontalOverflow": false,
+    "smallTargets": [],
+    "hasMediaModal": false,
+    "errors": []
+  },
+  {
+    "name": "gallery",
+    "doc": [
+      1440,
+      9184
+    ],
+    "viewport": [
+      1440,
+      900
+    ],
+    "horizontalOverflow": false,
+    "smallTargets": [],
+    "hasMediaModal": false,
+    "errors": []
+  }
+]

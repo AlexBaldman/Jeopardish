@@ -66,9 +66,9 @@
 
   const DEFAULT_SCENE_PACKS = Object.freeze([
     Object.freeze({
-      id: 'beach-broadcast',
-      label: 'Beach Broadcast',
-      scenes: BEACH_BROADCAST_SCENES,
+      id: 'long-beach-96',
+      label: "Long Beach '96",
+      scenes: LONG_BEACH_96_SCENES,
     }),
     Object.freeze({
       id: 'long-beach-boardwalk',
@@ -76,12 +76,12 @@
       scenes: LONG_BEACH_SCENES,
     }),
     Object.freeze({
-      id: 'long-beach-96',
-      label: "Long Beach '96",
-      scenes: LONG_BEACH_96_SCENES,
+      id: 'beach-broadcast',
+      label: 'Beach Broadcast',
+      scenes: BEACH_BROADCAST_SCENES,
     }),
   ]);
-  const DEFAULT_SCENES = BEACH_BROADCAST_SCENES;
+  const DEFAULT_SCENES = LONG_BEACH_96_SCENES;
 
   function normalizeSceneKey(theme) {
     return theme === 'light' ? 'light' : 'dark';

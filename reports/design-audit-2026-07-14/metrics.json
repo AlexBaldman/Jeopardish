@@ -1,0 +1,699 @@
+[
+  {
+    "name": "landing-desktop",
+    "path": "index.html",
+    "metrics": {
+      "title": "JeoPARODY | The Forbidden Broadcast",
+      "viewport": [
+        1440,
+        900
+      ],
+      "document": [
+        1440,
+        8497
+      ],
+      "horizontalOverflow": false,
+      "bodyOverflowY": "auto",
+      "gameRect": {
+        "w": 1280,
+        "h": 796
+      },
+      "hasMediaModal": true,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "JEOPARDY\n            THE FORBIDD",
+          "w": 220,
+          "h": 42
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Evidence",
+          "w": 69,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Formats",
+          "w": 67,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "System",
+          "w": 57,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Maps",
+          "w": 41,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Roadmap",
+          "w": 71,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Creative Room",
+          "w": 115,
+          "h": 19
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "text": "Parody O: portal. Activate to ch",
+          "w": 33,
+          "h": 33
+        },
+        {
+          "tag": "BUTTON",
+          "id": "languageToggle",
+          "text": "USBR\n                           ",
+          "w": 128,
+          "h": 43
+        },
+        {
+          "tag": "BUTTON",
+          "id": "soundToggle",
+          "text": "SFX\n                            ",
+          "w": 99,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuClose",
+          "text": "×",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuNewClue",
+          "text": "New clueQ",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuRevealAnswer",
+          "text": "Reveal answerA",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuScene",
+          "text": "BackgroundBeach Broadcast\n      ",
+          "w": 336,
+          "h": 44
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuTheme",
+          "text": "Day / Night☀",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuLanguage",
+          "text": "English / Português文",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuSound",
+          "text": "Sound♪",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Enter the Creative Room →",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "dialogueStylePrev",
+          "text": "‹",
+          "w": 31,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "id": "dialogueStyleNext",
+          "text": "›",
+          "w": 31,
+          "h": 30
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "name": "landing-mobile",
+    "path": "index.html",
+    "metrics": {
+      "title": "JeoPARODY | The Forbidden Broadcast",
+      "viewport": [
+        390,
+        844
+      ],
+      "document": [
+        390,
+        10409
+      ],
+      "horizontalOverflow": false,
+      "bodyOverflowY": "auto",
+      "gameRect": {
+        "w": 370,
+        "h": 772
+      },
+      "hasMediaModal": true,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "JEOPARDY\n            THE FORBIDD",
+          "w": 78,
+          "h": 16
+        },
+        {
+          "tag": "BUTTON",
+          "id": "themeToggle",
+          "text": "Night",
+          "w": 38,
+          "h": 36
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Enter Studio",
+          "w": 121,
+          "h": 42
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Open the game in its own window",
+          "w": 294,
+          "h": 42
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "text": "Parody O: portal. Activate to ch",
+          "w": 20,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "id": "languageToggle",
+          "text": "USBR\n                           ",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "hamburgerMenu",
+          "text": "☰",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuClose",
+          "text": "×",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuNewClue",
+          "text": "New clueQ",
+          "w": 296,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuRevealAnswer",
+          "text": "Reveal answerA",
+          "w": 296,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuScene",
+          "text": "BackgroundBeach Broadcast\n      ",
+          "w": 296,
+          "h": 44
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuTheme",
+          "text": "Day / Night☀",
+          "w": 296,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuLanguage",
+          "text": "English / Português文",
+          "w": 296,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuSound",
+          "text": "Sound♪",
+          "w": 296,
+          "h": 40
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Enter the Creative Room →",
+          "w": 296,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "dialogueStylePrev",
+          "text": "‹",
+          "w": 31,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "id": "dialogueStyleNext",
+          "text": "›",
+          "w": 31,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "id": "hostPrevButton",
+          "text": "‹",
+          "w": 24,
+          "h": 31
+        },
+        {
+          "tag": "BUTTON",
+          "id": "hostNextButton",
+          "text": "›",
+          "w": 24,
+          "h": 31
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "text": "Parody O: portal. Activate to ch",
+          "w": 15,
+          "h": 15
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "name": "game-desktop",
+    "path": "game.html",
+    "metrics": {
+      "title": "JeoPARODY | Channel O Game Cabinet",
+      "viewport": [
+        1440,
+        900
+      ],
+      "document": [
+        1440,
+        900
+      ],
+      "horizontalOverflow": false,
+      "bodyOverflowY": "hidden",
+      "gameRect": {
+        "w": 1400,
+        "h": 871
+      },
+      "hasMediaModal": false,
+      "smallTargets": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "text": "Parody O: portal. Activate to ch",
+          "w": 33,
+          "h": 33
+        },
+        {
+          "tag": "BUTTON",
+          "id": "themeToggle",
+          "text": "Night",
+          "w": 113,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "languageToggle",
+          "text": "USBR\n                        Eng",
+          "w": 128,
+          "h": 43
+        },
+        {
+          "tag": "BUTTON",
+          "id": "soundToggle",
+          "text": "SFX\n                        Soun",
+          "w": 99,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuClose",
+          "text": "×",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuNewClue",
+          "text": "New clueQ",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuRevealAnswer",
+          "text": "Reveal answerA",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuScene",
+          "text": "BackgroundBeach Broadcast\n      ",
+          "w": 336,
+          "h": 44
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuTheme",
+          "text": "Day / Night☀",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuLanguage",
+          "text": "English / Português文",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuSound",
+          "text": "Sound♪",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Enter the Creative Room →",
+          "w": 336,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "dialogueStylePrev",
+          "text": "‹",
+          "w": 31,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "id": "dialogueStyleNext",
+          "text": "›",
+          "w": 31,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "id": "hostPrevButton",
+          "text": "‹",
+          "w": 30,
+          "h": 38
+        },
+        {
+          "tag": "BUTTON",
+          "id": "hostNextButton",
+          "text": "›",
+          "w": 30,
+          "h": 38
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "name": "game-mobile",
+    "path": "game.html",
+    "metrics": {
+      "title": "JeoPARODY | Channel O Game Cabinet",
+      "viewport": [
+        390,
+        844
+      ],
+      "document": [
+        390,
+        844
+      ],
+      "horizontalOverflow": false,
+      "bodyOverflowY": "hidden",
+      "gameRect": {
+        "w": 382,
+        "h": 833
+      },
+      "hasMediaModal": false,
+      "smallTargets": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "text": "Parody O: portal. Activate to ch",
+          "w": 20,
+          "h": 20
+        },
+        {
+          "tag": "BUTTON",
+          "id": "themeToggle",
+          "text": "Night",
+          "w": 38,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "languageToggle",
+          "text": "USBR\n                        Eng",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "hamburgerMenu",
+          "text": "☰",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuClose",
+          "text": "×",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuNewClue",
+          "text": "New clueQ",
+          "w": 307,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuRevealAnswer",
+          "text": "Reveal answerA",
+          "w": 307,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuScene",
+          "text": "BackgroundBeach Broadcast\n      ",
+          "w": 307,
+          "h": 44
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuTheme",
+          "text": "Day / Night☀",
+          "w": 307,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuLanguage",
+          "text": "English / Português文",
+          "w": 307,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "menuSound",
+          "text": "Sound♪",
+          "w": 307,
+          "h": 40
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "text": "Enter the Creative Room →",
+          "w": 307,
+          "h": 40
+        },
+        {
+          "tag": "BUTTON",
+          "id": "dialogueStylePrev",
+          "text": "‹",
+          "w": 31,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "id": "dialogueStyleNext",
+          "text": "›",
+          "w": 31,
+          "h": 30
+        },
+        {
+          "tag": "BUTTON",
+          "id": "hostPrevButton",
+          "text": "‹",
+          "w": 24,
+          "h": 31
+        },
+        {
+          "tag": "BUTTON",
+          "id": "hostNextButton",
+          "text": "›",
+          "w": 24,
+          "h": 31
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "name": "creative-desktop",
+    "path": "creative-room.html",
+    "metrics": {
+      "title": "JeoPARODY | Creative Room",
+      "viewport": [
+        1440,
+        900
+      ],
+      "document": [
+        1440,
+        4100
+      ],
+      "horizontalOverflow": false,
+      "bodyOverflowY": "auto",
+      "gameRect": null,
+      "hasMediaModal": false,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "← Return to broadcast",
+          "w": 208,
+          "h": 12
+        },
+        {
+          "tag": "BUTTON",
+          "id": "cycleOButton",
+          "text": "Change the illegal O",
+          "w": 215,
+          "h": 37
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "name": "creative-mobile",
+    "path": "creative-room.html",
+    "metrics": {
+      "title": "JeoPARODY | Creative Room",
+      "viewport": [
+        390,
+        844
+      ],
+      "document": [
+        390,
+        6563
+      ],
+      "horizontalOverflow": false,
+      "bodyOverflowY": "auto",
+      "gameRect": null,
+      "hasMediaModal": false,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "id": "",
+          "text": "← Return to broadcast",
+          "w": 151,
+          "h": 9
+        },
+        {
+          "tag": "BUTTON",
+          "id": "cycleOButton",
+          "text": "Change the illegal O",
+          "w": 215,
+          "h": 37
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "name": "gallery-desktop",
+    "path": "docs/asset-gallery.html",
+    "metrics": {
+      "title": "Jeopardish Asset Gallery",
+      "viewport": [
+        1440,
+        900
+      ],
+      "document": [
+        1782,
+        9133
+      ],
+      "horizontalOverflow": true,
+      "bodyOverflowY": "visible",
+      "gameRect": null,
+      "hasMediaModal": false,
+      "smallTargets": []
+    },
+    "errors": []
+  }
+]

@@ -16,6 +16,10 @@
       --green: #6bffba;
     }
     * { box-sizing: border-box; }
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
     body {
       margin: 0;
       color: var(--ink);
@@ -41,6 +45,7 @@
     }
     main { max-width: 1440px; margin: auto; padding: 0 clamp(1rem, 4vw, 3rem) 4rem; }
     section {
+      min-width: 0;
       margin: 1.3rem 0;
       padding: clamp(1rem, 2vw, 1.4rem);
       border: 2px solid rgba(148, 174, 244, 0.19);
@@ -83,7 +88,14 @@
       font-size: 0.72rem;
       text-transform: uppercase;
     }
-    code { color: #c9d7ff; font-size: 0.82em; }
+    code {
+      color: #c9d7ff;
+      font-size: 0.82em;
+      overflow-wrap: anywhere;
+      white-space: normal;
+      word-break: break-word;
+    }
+    ul, li { min-width: 0; }
     ul { color: var(--muted); line-height: 1.6; }
     a { color: var(--green); }
   </style>
