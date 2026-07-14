@@ -45,6 +45,25 @@
     },
   });
 
+  const LONG_BEACH_96_SCENES = Object.freeze({
+    light: {
+      id: 'long-beach-96-day',
+      label: "Long Beach '96 Sunset Stories",
+      basePath: 'assets/scenes/long-beach-96-day/',
+      layers: [
+        { id: 'illustration', src: 'long-beach-96-sunset-v1.png', depth: 0.04, drift: 8 },
+      ],
+    },
+    dark: {
+      id: 'long-beach-96-night',
+      label: "Long Beach '96 Afterglow Stories",
+      basePath: 'assets/scenes/long-beach-96-night/',
+      layers: [
+        { id: 'illustration', src: 'long-beach-96-blue-hour-v1.png', depth: 0.04, drift: 8 },
+      ],
+    },
+  });
+
   const DEFAULT_SCENE_PACKS = Object.freeze([
     Object.freeze({
       id: 'beach-broadcast',
@@ -55,6 +74,11 @@
       id: 'long-beach-boardwalk',
       label: 'Long Beach West End',
       scenes: LONG_BEACH_SCENES,
+    }),
+    Object.freeze({
+      id: 'long-beach-96',
+      label: "Long Beach '96",
+      scenes: LONG_BEACH_96_SCENES,
     }),
   ]);
   const DEFAULT_SCENES = BEACH_BROADCAST_SCENES;

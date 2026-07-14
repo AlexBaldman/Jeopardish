@@ -122,7 +122,7 @@ test('SceneService cycles named scene packs while preserving the active theme', 
   service.setTheme('light');
   const pack = service.cyclePack(1);
 
-  assert.equal(DEFAULT_SCENE_PACKS.length, 2);
+  assert.equal(DEFAULT_SCENE_PACKS.length, 3);
   assert.equal(pack.id, 'long-beach-boardwalk');
   assert.equal(stage.dataset.scene, 'long-beach-day');
   assert.equal(stage.children[0].src, 'assets/scenes/long-beach-day/long-beach-west-sunset-v2.png');
@@ -130,6 +130,17 @@ test('SceneService cycles named scene packs while preserving the active theme', 
   service.setTheme('dark');
   assert.equal(stage.dataset.scene, 'long-beach-night');
   assert.equal(stage.children[0].src, 'assets/scenes/long-beach-night/long-beach-west-blue-hour-v2.png');
+
+  const storiesPack = service.cyclePack(1);
+  assert.equal(storiesPack.id, 'long-beach-96');
+  assert.equal(stage.dataset.scene, 'long-beach-96-night');
+  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-96-night/long-beach-96-blue-hour-v1.png');
+
+  service.setTheme('light');
+  assert.equal(stage.dataset.scene, 'long-beach-96-day');
+  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-96-day/long-beach-96-sunset-v1.png');
+
+  assert.equal(service.cyclePack(1).id, 'beach-broadcast');
 });
 
 test('SceneService helpers normalize theme keys and layer sources', () => {

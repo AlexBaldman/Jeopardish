@@ -1,0 +1,8 @@
+{
+  "id": "long-beach-96-night",
+  "label": "Long Beach '96 Afterglow Stories",
+  "basePath": "assets/scenes/long-beach-96-night/",
+  "layers": [
+    { "id": "illustration", "src": "long-beach-96-blue-hour-v1.png", "depth": 0.04, "drift": 8 }
+  ]
+}
