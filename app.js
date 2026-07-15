@@ -1,7 +1,7 @@
 'use strict';
 
 const QUESTION_SOURCE = './questions/jeopardy-questions.json';
-const FETCH_TIMEOUT_MS = 10000;
+const FETCH_TIMEOUT_MS = 30000;
 const MAX_MEDIA_PREFLIGHT_ATTEMPTS = 8;
 const DIALOGUE_STYLES = Object.freeze([
   Object.freeze({ id: 'clue-card', label: Object.freeze({ en: 'Clue Card', 'pt-BR': 'Cartão da Pista' }) }),
@@ -84,6 +84,10 @@ const UI_COPY = {
     currentStreak: 'Current Streak',
     bestStreak: 'Best Streak',
     score: 'Score',
+    episode: 'Episode',
+    clueProgress: 'Clue',
+    episodeComplete: 'Broadcast Complete',
+    replayEpisode: 'Replay Episode',
     emptyCategory: 'Host Advisory',
     loadingBank: 'Loading question bank...',
     loadingQuestions: 'Loading questions...',
@@ -137,6 +141,10 @@ const UI_COPY = {
     currentStreak: 'Sequência Atual',
     bestStreak: 'Melhor Sequência',
     score: 'Placar',
+    episode: 'Episódio',
+    clueProgress: 'Pista',
+    episodeComplete: 'Transmissão Concluída',
+    replayEpisode: 'Repetir Episódio',
     emptyCategory: 'Aviso do Host',
     loadingBank: 'Carregando banco de pistas...',
     loadingQuestions: 'Carregando perguntas...',
@@ -187,8 +195,9 @@ const brandModule = globalThis.JeoPARODYBrand || null;
 const translationModule = globalThis.JeoPARODYTranslation || null;
 const audioModule = globalThis.JeoPARODYAudio || null;
 const roundDirectorModule = globalThis.JeoPARODYRoundDirector || null;
+const sessionModule = globalThis.JeoPARODYSession || null;
 
-if (!contracts || !eventBusModule || !engineModule || !dataModule || !mediaModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !roundDirectorModule) {
+if (!contracts || !eventBusModule || !engineModule || !dataModule || !mediaModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !roundDirectorModule || !sessionModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
@@ -204,10 +213,13 @@ let brandController;
 let translationService;
 let audioController;
 let roundDirector;
+let sessionManager;
 let translationAbortController = null;
 let mediaAbortController = null;
 let gameStarted = false;
 let gameStartPromise = null;
+let currentOutcomeRecorded = false;
+let sessionCompleteVisible = false;
 const preloadedHostVisuals = new Set();
 
 function loadPersistedBestStreak() {
@@ -358,6 +370,7 @@ function renderScoreboard() {
   };
 
   renderer.renderScoreboard(gameState);
+  if (sessionManager) renderer.renderSessionProgress(sessionManager.getProgress());
 }
 
 function preloadActiveHostVisuals() {
@@ -414,6 +427,9 @@ function cycleHostSkin(step) {
 }
 
 function getQuestionCandidates(limit = MAX_MEDIA_PREFLIGHT_ATTEMPTS) {
+  if (sessionManager) {
+    return sessionManager.getCandidates(limit);
+  }
   const count = state.questions.length;
   if (count === 0) return [];
 
@@ -436,6 +452,8 @@ function renderClue(sourceClue, displayClue = sourceClue) {
   const gameState = gameEngine.loadClue(sourceClue);
   state.currentSourceClue = sourceClue;
   state.currentDisplayClue = displayClue;
+  currentOutcomeRecorded = false;
+  sessionCompleteVisible = false;
   renderHost('clue');
   renderer.renderClue(displayClue, gameState.currentClueValue);
 }
@@ -459,7 +477,45 @@ async function selectPlayableQuestion(signal) {
   if (selected?.candidate && Number.isInteger(selected.candidate.index)) {
     state.lastClueIndex = selected.candidate.index;
   }
+  if (selected?.clue) sessionManager?.adoptPlayable(selected.clue);
   return selected?.clue || null;
+}
+
+function recordSessionOutcome(outcome, clue = state.currentSourceClue) {
+  if (!sessionManager || currentOutcomeRecorded || !clue) return sessionManager?.getProgress();
+  const gameState = gameEngine.getState();
+  currentOutcomeRecorded = true;
+  const progress = sessionManager.recordResult({
+    outcome,
+    clue,
+    score: gameState.score,
+    currentStreak: gameState.currentStreak,
+    bestStreak: gameState.bestStreak,
+  });
+  renderer.renderSessionProgress(progress);
+  return progress;
+}
+
+function showEpisodeComplete() {
+  const progress = sessionManager.getProgress();
+  sessionCompleteVisible = true;
+  roundDirector.cancel(roundDirectorModule.RoundPhases.ADVANCE_READY);
+  renderHost('streak');
+  renderer.renderSessionProgress(progress);
+  renderer.renderEpisodeComplete(progress);
+  return progress;
+}
+
+function restartEpisode() {
+  sessionCompleteVisible = false;
+  currentOutcomeRecorded = false;
+  state.currentSourceClue = null;
+  state.currentDisplayClue = null;
+  gameEngine.init();
+  sessionManager.reset();
+  gameEngine.ready();
+  renderScoreboard();
+  return getNewQuestion();
 }
 
 async function prepareDisplayClue(clue, requestId) {
@@ -519,6 +575,19 @@ async function getNewQuestion() {
     return startGame();
   }
 
+  if (sessionCompleteVisible) {
+    return restartEpisode();
+  }
+
+  if (sessionManager?.isComplete()) {
+    return showEpisodeComplete();
+  }
+
+  if (state.currentSourceClue && !currentOutcomeRecorded) {
+    const progress = recordSessionOutcome('skipped');
+    if (progress?.complete) return showEpisodeComplete();
+  }
+
   const requestId = ++state.translationRequestId;
   roundDirector.cancel(roundDirectorModule.RoundPhases.CLUE_INTRO);
   renderer.setControlsEnabled(false);
@@ -549,6 +618,7 @@ function handleMediaFailure({ item, reason }) {
     type: item?.type,
     reason,
   }, { source: 'Renderer' });
+  currentOutcomeRecorded = true;
   getNewQuestion();
 }
 
@@ -609,6 +679,8 @@ async function checkAnswer() {
         renderer.setStatus(getCopy().incorrectStatus(hostManager.selectQuip('incorrect')));
       }
 
+      recordSessionOutcome(result.isCorrect ? 'correct' : 'incorrect', result.clue);
+
       renderer.setControlsEnabled(false);
       renderScoreboard();
       renderer.clearUserAnswer();
@@ -625,6 +697,7 @@ async function showHideAnswer() {
     renderer.toggleAnswer(true);
     renderer.setGameMoment('reveal');
     renderHost('reveal');
+    recordSessionOutcome('revealed');
   });
 }
 
@@ -637,9 +710,18 @@ async function loadQuestions() {
     const data = await dataLoader.loadQuestionBank(QUESTION_SOURCE, { signal: abort.signal });
 
     state.questions = data;
+    const sessionState = sessionManager.start(data);
+    const resumeState = sessionManager.getResumeState();
+    if (sessionState.resumed && resumeState) {
+      gameEngine.restoreProgress(resumeState);
+      state.bestStreak = Math.max(state.bestStreak, resumeState.bestStreak || 0);
+    }
+    renderer.renderSessionProgress(sessionManager.getProgress());
     renderer.setStatus(getCopy().loadedClues(data.length));
     gameEngine.ready();
-    getNewQuestion();
+    renderScoreboard();
+    if (sessionManager.isComplete()) showEpisodeComplete();
+    else getNewQuestion();
   } catch (error) {
     console.error('Error loading questions:', error);
     renderer.displayErrorJoke(jeopardyErrors);
@@ -761,6 +843,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     reducedMotion: globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches,
     onPhase: (phase) => renderer.setRoundPhase(phase),
   });
+  sessionManager = new sessionModule.SessionManager({ eventBus });
   sceneService?.bindDom();
   applyPreferences();
   renderHost('idle');

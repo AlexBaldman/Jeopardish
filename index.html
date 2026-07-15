@@ -6,25 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeoPARODY | The Forbidden Broadcast</title>
     <meta name="description" content="JeoPARODY is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
-    <link rel="stylesheet" href="style.css?v=surface-audit-1" type="text/css">
+    <link rel="stylesheet" href="style.css?v=season-zero-2" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
-    <script defer src="src/contracts/events.js?v=media-1"></script>
+    <script defer src="src/contracts/events.js?v=season-zero-2"></script>
     <script defer src="src/core/event-bus.js?v=arcade-2"></script>
-    <script defer src="src/core/game-engine.js?v=arcade-4"></script>
+    <script defer src="src/core/game-engine.js?v=season-zero-2"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/media/media-preflight.js?v=media-1"></script>
     <script defer src="src/render/scene-service.js?v=scene-packs-4"></script>
-    <script defer src="src/render/renderer.js?v=scene-packs-1"></script>
-    <script defer src="src/render/console-narrator.js?v=media-1"></script>
+    <script defer src="src/render/renderer.js?v=season-zero-2"></script>
+    <script defer src="src/render/console-narrator.js?v=season-zero-2"></script>
     <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
     <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
     <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/directors/round-director.js?v=round-3"></script>
+    <script defer src="src/session/session-manager.js?v=season-zero-2"></script>
     <script defer src="landing.js?v=vision-2"></script>
-    <script defer src="app.js?v=surface-audit-1"></script>
+    <script defer src="app.js?v=season-zero-2"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
@@ -358,6 +359,10 @@
                             <span class="hud-label" id="hudStreakLabel">Streak</span>
                             <strong id="hudStreak">x0</strong>
                         </span>
+                        <span class="hud-readout hud-episode-readout">
+                            <span class="hud-label" id="hudEpisodeLabel">Clue</span>
+                            <strong id="hudEpisode">1/10</strong>
+                        </span>
                     </span>
                     <span class="score-drawer-tab">Score</span>
                 </button>
@@ -373,6 +378,7 @@
                             <p id="currentStreak">Current Streak: 0</p>
                             <p id="bestStreak">Best Streak: 0</p>
                             <p id="score">Score: $0</p>
+                            <p id="episodeProgress">Episode: Season Zero: Pilot Broadcast · 0/10</p>
                         </div>
                     </section>
                     <section class="menu-section menu-action-grid" aria-labelledby="menuRoundTitle">

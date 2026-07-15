@@ -4232,7 +4232,7 @@ body.game-only .game-header {
     z-index: 58;
     display: grid;
     justify-items: center;
-    width: clamp(210px, 27vw, 326px);
+    width: clamp(286px, 36vw, 430px);
     padding: 0;
     border: 0;
     color: var(--cabinet-cyan);
@@ -4264,6 +4264,26 @@ body.game-only .game-header {
         linear-gradient(180deg, #1a2130, #080a10),
         repeating-linear-gradient(90deg, rgba(56, 233, 255, 0.08) 0 2px, transparent 2px 8px);
     box-shadow: 0 7px 0 var(--cabinet-ink), inset 0 -2px 0 rgba(56, 233, 255, 0.28);
+}
+
+.score-drawer .quick-score {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.score-drawer .hud-episode-readout strong {
+    color: var(--cabinet-gold);
+}
+
+.game-container[data-game-moment="complete"] .speech-bubble {
+    border-color: var(--cabinet-gold);
+    box-shadow: 11px 13px 0 var(--cabinet-ink), 0 0 34px rgba(255, 216, 77, 0.34);
+}
+
+.game-container[data-game-moment="complete"] .clue-text {
+    color: #fff8df;
+    font-family: var(--pixel-font);
+    font-size: clamp(1rem, 2.4vw, 1.55rem);
+    text-transform: uppercase;
 }
 
 .score-drawer-tab {
@@ -4784,12 +4804,12 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-text 
 
     .score-drawer {
         top: 57px;
-        width: min(228px, 57vw);
+        width: min(300px, 76vw);
         transform: translate(-50%, -82%);
     }
 
     .score-drawer .quick-score { padding: 0.28rem; }
-    .score-drawer .hud-readout strong { min-width: 3.5rem; min-height: 1.4rem; font-size: 0.48rem; }
+    .score-drawer .hud-readout strong { min-width: 0; min-height: 1.4rem; font-size: 0.44rem; }
     .score-drawer-tab { min-width: 72px; padding: 0.23rem 0.5rem 0.18rem; font-size: 0.32rem; }
 
     .game-container .nav-menu {

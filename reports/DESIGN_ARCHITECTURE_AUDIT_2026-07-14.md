@@ -6,6 +6,8 @@ JeoPARODY now has a distinctive game cabinet and a credible visual identity. The
 
 The product should stop adding equal-weight surfaces and build one complete Season Zero episode. Ten curated clues, one wager, one finale, one result artifact, and one saved session will improve the opening, game, menu, score drawer, host reactions, and return loop at the same time.
 
+**Implementation update, 2026-07-15:** The finite ten-clue session foundation is now live: deterministic ordering, progress UI, four explicit outcome types, score/streak resume, broken-media substitution, completion summary, and replay. The remaining work in this lead domino is authored content, explanations/sources, wager/finale beats, and the evidence artifact.
+
 ## Audit Scope
 
 Rendered at 1440x900 and 390x844 with reduced-motion enabled:

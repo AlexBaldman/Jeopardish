@@ -87,6 +87,9 @@ function createFakeDocument() {
     'hudStreak',
     'hudScoreLabel',
     'hudStreakLabel',
+    'hudEpisode',
+    'hudEpisodeLabel',
+    'episodeProgress',
     'hamburgerMenu',
     'navMenu',
     'menuClose',
@@ -174,9 +177,34 @@ test('Renderer renders scoreboard state', () => {
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, undefined);
 });
 
+test('Renderer renders episode progress and a completion artifact', () => {
+  const { renderer } = createRenderer();
+  const progress = {
+    title: 'Season Zero: Pilot Broadcast',
+    current: 10,
+    answered: 10,
+    total: 10,
+    complete: true,
+    score: 2400,
+    counts: { correct: 7, incorrect: 1, revealed: 1, skipped: 1 },
+  };
+
+  renderer.renderSessionProgress(progress);
+  renderer.renderEpisodeComplete(progress);
+
+  assert.equal(renderer.dom.hudEpisode.textContent, '10/10');
+  assert.match(renderer.dom.episodeProgress.textContent, /10\/10/);
+  assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'complete');
+  assert.match(renderer.dom.clueText.textContent, /\$2400/);
+  assert.equal(renderer.dom.questionButton.disabled, false);
+  assert.equal(renderer.dom.answerButton.disabled, true);
+  assert.equal(renderer.dom.questionButton.dataset.tooltip, 'Replay Episode');
+});
+
 test('Renderer renders a clue and prepares answer input', () => {
   const { renderer } = createRenderer();
   renderer.dom.userInput.value = 'old answer';
+  renderer.decorateControlButton(renderer.dom.questionButton, 'Replay Episode', 'Q');
 
   renderer.renderClue({
     category: 'Science',
@@ -196,6 +224,7 @@ test('Renderer renders a clue and prepares answer input', () => {
   assert.equal(renderer.dom.checkButton.disabled, false);
   assert.equal(renderer.dom.userInput.value, '');
   assert.equal(renderer.dom.userInput.focused, true);
+  assert.equal(renderer.dom.questionButton.dataset.tooltip, 'New Clue');
 });
 
 test('Renderer presents translated clue content with its English source', () => {

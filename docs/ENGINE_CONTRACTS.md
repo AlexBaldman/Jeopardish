@@ -8,11 +8,12 @@ Jeopardish is moving toward a host-agnostic arcade engine. This document records
 - `src/contracts/events.js` owns event names, phases, state enums, and default score rules.
 - `src/core/event-bus.js` owns pub/sub event delivery.
 - `src/core/game-engine.js` owns game state, scoring, streaks, active clue lifecycle, and answer outcomes.
+- `src/session/session-manager.js` owns deterministic episode order, outcome history, progress, completion, and local resume snapshots.
 - `src/data/data-loader.js` owns fetching and validating the current question bank.
 - `src/media/media-preflight.js` owns media reachability checks, bounded timeouts, health caching, and playable-clue selection.
 - `src/render/renderer.js` owns DOM binding, rendering, user input reads, fallback clue display, and control state.
 - `src/host/host-manager.js` owns active host config, host visuals, and host quip selection.
-- `app.js` owns application coordination, random clue selection, and localStorage persistence.
+- `app.js` owns application coordination and UI preference persistence. It asks `SessionManager` for episode candidates and never judges answers.
 
 ## Important Boundary
 
@@ -24,13 +25,13 @@ The current browser load order is:
 2. `src/contracts/events.js`
 3. `src/core/event-bus.js`
 4. `src/core/game-engine.js`
-5. `src/data/data-loader.js`
-6. `src/media/media-preflight.js`
-7. `src/render/renderer.js`
-8. `src/host/host-manager.js`
-9. `app.js`
+5. Data, media, scene, renderer, narrator, host, brand, translation, audio, and round-director modules
+6. `src/session/session-manager.js`
+7. `app.js`
 
 Media preflight happens before `GameEngine.loadClue()`. A rejected attachment can select another clue, but it cannot mutate score, streak, or answer correctness. Renderer-level media errors are a second recovery layer for assets that fail after preflight.
+
+`SessionManager` records `correct`, `incorrect`, `revealed`, and `skipped` outcomes. Broken-media substitutions replace the current episode slot without consuming progress. `GameEngine.restoreProgress()` hydrates score and streak after a refresh while leaving phase ownership with the engine and `RoundDirector`.
 
 ## Next Extraction Targets
 

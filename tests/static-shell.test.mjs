@@ -13,6 +13,8 @@ const cabinetContractIds = [
   'sceneStage',
   'hamburgerMenu',
   'scoreDrawer',
+  'hudEpisode',
+  'episodeProgress',
   'navMenu',
   'menuScene',
   'speechBubble',
@@ -55,6 +57,13 @@ test('landing and standalone pages preserve the cabinet DOM contract', () => {
 test('landing and standalone pages both provide the clue media viewer', () => {
   assertHasIds(landingHtml, mediaContractIds, 'index.html');
   assertHasIds(gameHtml, mediaContractIds, 'game.html');
+});
+
+test('both game shells load the Season Zero session runtime', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /src="src\/session\/session-manager\.js/,
+      `${surface} does not load the session manager`);
+  }
 });
 
 test('HTML entry points contain no duplicate ids', () => {

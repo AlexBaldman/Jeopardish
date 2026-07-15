@@ -73,6 +73,14 @@
           return `🧯 The clue vault coughed smoke: ${payload.message || 'unknown mischief'}.`;
         case GameEvents.GAME_READY:
           return '🛎️ The board is alive. The answers have put on little fake mustaches.';
+        case GameEvents.SESSION_STARTED:
+          return `🎬 Season Zero rolls camera: ${payload.total || 0} clues, one contestant, and absolutely no permit from the trivia authorities.`;
+        case GameEvents.SESSION_RESUMED:
+          return `⏯️ The broadcast resumes at clue ${payload.current || 1} of ${payload.total || 0}. Continuity has been restored with tape and selective memory.`;
+        case GameEvents.SESSION_PROGRESS:
+          return `📍 Episode progress: ${payload.answered || 0}/${payload.total || 0}. Xander insists this is exactly where the plot thickens.`;
+        case GameEvents.SESSION_COMPLETED:
+          return `🏁 Broadcast complete. ${payload.counts?.correct || 0} correct and $${payload.score || 0} retained after accounting reviewed the footage.`;
         case GameEvents.MEDIA_PREFLIGHT_STARTED:
           return `🔎 Media customs is inspecting ${payload.mediaCount || 0} attachment${payload.mediaCount === 1 ? '' : 's'}. Nobody enjoys this, which is how we know it matters.`;
         case GameEvents.MEDIA_PREFLIGHT_PASSED:

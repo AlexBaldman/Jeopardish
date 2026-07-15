@@ -66,6 +66,24 @@ test('GameEngine initializes and marks the game ready', () => {
   );
 });
 
+test('GameEngine hydrates persisted episode progress without changing phase ownership', () => {
+  const { engine } = createEngine();
+  engine.init();
+
+  const restored = engine.restoreProgress({
+    score: 1400,
+    currentStreak: 2,
+    bestStreak: 5,
+    answeredClueIds: ['one', 'two'],
+  });
+
+  assert.equal(restored.phase, 'loading');
+  assert.equal(restored.score, 1400);
+  assert.equal(restored.currentStreak, 2);
+  assert.equal(restored.bestStreak, 5);
+  assert.deepEqual(restored.answeredClueIds, ['one', 'two']);
+});
+
 test('GameEngine scores a correct answer and preserves best streak', () => {
   const { engine, events } = createEngine();
 

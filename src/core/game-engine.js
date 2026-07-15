@@ -77,6 +77,18 @@
       this.emit(GameEvents.GAME_READY, { state: this.getState() });
     }
 
+    restoreProgress({ score = 0, currentStreak = 0, bestStreak = 0, answeredClueIds = [] } = {}) {
+      this.state = {
+        ...this.state,
+        score: Math.max(0, Number(score) || 0),
+        currentStreak: Math.max(0, Number(currentStreak) || 0),
+        bestStreak: Math.max(this.state.bestStreak, Number(bestStreak) || 0),
+        answeredClueIds: Array.isArray(answeredClueIds) ? [...answeredClueIds] : [],
+        updatedAt: this.now(),
+      };
+      return this.getState();
+    }
+
     loadClue(clue) {
       const clueValue = logic.parseClueValue(clue?.value, 100);
       this.activeClue = clue || null;

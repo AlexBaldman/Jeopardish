@@ -10,7 +10,7 @@
 
 Jeopardish has crossed the line from rough experiment to visually distinctive prototype. The responsive cabinet, deterministic answer judge, media handling, scene system, console narration, and host performance packs are real foundations.
 
-The bottleneck is now **directed gameplay**. The current app presents one random clue at a time, changes states instantly, loads a 53 MB archive file, and preserves only a best streak and preferences. It does not yet create a complete show, a learning loop, or a reason to return tomorrow.
+The bottleneck is now **authored content and payoff**. The app has a deterministic ten-clue session, explicit round timing, persisted outcomes/score/streak, a completion summary, replay, and media-safe clue substitution. It still selects those ten clues from the 53 MB archive and lacks authored explanations, wager/finale beats, mastery, and a story artifact.
 
 The highest-leverage release is **Season Zero**, a single polished vertical slice with:
 
@@ -197,6 +197,8 @@ Recommended new boundaries:
 4. Add focused unit tests for timing, cancellation, and no-audio fallback.
 
 ### Pass B: Content and Episode
+
+Foundation complete: deterministic ten-clue order, progress UI, refresh-safe resume, outcome accounting, completion summary, and replay.
 
 1. Define and validate the production clue schema.
 2. Curate the ten-clue Season Zero pack.

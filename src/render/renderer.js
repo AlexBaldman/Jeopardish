@@ -30,6 +30,10 @@
     currentStreak: 'Current Streak',
     bestStreak: 'Best Streak',
     score: 'Score',
+    episode: 'Episode',
+    clueProgress: 'Clue',
+    episodeComplete: 'Broadcast Complete',
+    replayEpisode: 'Replay Episode',
     emptyCategory: 'Host Advisory',
     loadingBank: 'Loading question bank...',
     loadingQuestions: 'Loading questions...',
@@ -258,6 +262,9 @@
       this.dom.hudStreak = this.document.getElementById('hudStreak');
       this.dom.hudScoreLabel = this.document.getElementById('hudScoreLabel');
       this.dom.hudStreakLabel = this.document.getElementById('hudStreakLabel');
+      this.dom.hudEpisode = this.document.getElementById('hudEpisode');
+      this.dom.hudEpisodeLabel = this.document.getElementById('hudEpisodeLabel');
+      this.dom.episodeProgress = this.document.getElementById('episodeProgress');
       this.dom.hamburgerMenu = this.document.getElementById('hamburgerMenu');
       this.dom.navMenu = this.document.getElementById('navMenu');
       this.dom.menuClose = this.document.getElementById('menuClose');
@@ -783,6 +790,36 @@
       this.lastStreak = gameState.currentStreak;
     }
 
+    renderSessionProgress(progress) {
+      if (!progress) return;
+      const value = progress.complete ? `${progress.total}/${progress.total}` : `${progress.current}/${progress.total}`;
+      this.setText(this.dom.hudEpisode, value);
+      this.setText(this.dom.hudEpisodeLabel, this.copy.clueProgress);
+      this.setText(
+        this.dom.episodeProgress,
+        `${this.copy.episode}: ${progress.title} · ${progress.answered}/${progress.total}`,
+      );
+      if (this.dom.hudEpisode) this.dom.hudEpisode.dataset.value = value;
+    }
+
+    renderEpisodeComplete(progress) {
+      this.setGameMoment('complete');
+      this.setText(this.dom.categoryBox, this.copy.episodeComplete);
+      this.clearMedia();
+      this.setQuestionText(`$${progress.score} final score · ${progress.counts.correct} correct`);
+      this.setText(
+        this.dom.answerBox,
+        `${progress.total} clues aired\n${progress.counts.incorrect} incorrect · ${progress.counts.revealed} revealed · ${progress.counts.skipped} skipped`,
+      );
+      this.toggleAnswer(true);
+      this.dom.checkButton.disabled = true;
+      this.dom.answerButton.disabled = true;
+      this.dom.userInput.disabled = true;
+      this.decorateControlButton(this.dom.questionButton, this.copy.replayEpisode, 'Q');
+      this.dom.questionButton.disabled = false;
+      this.showScoreDrawer();
+    }
+
     animateScoreTile(tile) {
       tile.classList.remove('score-flip');
       void tile.offsetWidth;
@@ -875,6 +912,7 @@
 
     renderClue(clue, clueValue) {
       this.setGameMoment('clue');
+      this.decorateControlButton(this.dom.questionButton, this.copy.questionButton, 'Q');
       this.setCategory(
         String(clue.category || 'Unknown Category').toUpperCase(),
         `$${clueValue}`,
