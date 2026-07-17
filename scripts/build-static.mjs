@@ -11,6 +11,7 @@ const runtimeEntries = [
   'creative-room.css',
   'creative-room.js',
   'style.css',
+  'styles',
   'app.js',
   'landing.js',
   'game-logic.js',

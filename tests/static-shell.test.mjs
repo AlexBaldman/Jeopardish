@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [landingHtml, gameHtml, styles] = await Promise.all([
+const [landingHtml, gameHtml, styles, gameStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../game.html', import.meta.url), 'utf8'),
   readFile(new URL('../style.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game.css', import.meta.url), 'utf8'),
 ]);
 
 const cabinetContractIds = [
@@ -54,6 +55,15 @@ test('landing and standalone pages preserve the cabinet DOM contract', () => {
   assertHasIds(gameHtml, cabinetContractIds, 'game.html');
 });
 
+test('both game shells load the canonical game stylesheet after shared styles', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    const sharedIndex = html.indexOf('href="style.css');
+    const gameIndex = html.indexOf('href="styles/game.css');
+    assert.ok(sharedIndex >= 0, `${surface} is missing shared styles`);
+    assert.ok(gameIndex > sharedIndex, `${surface} must load game styles after shared styles`);
+  }
+});
+
 test('landing and standalone pages both provide the clue media viewer', () => {
   assertHasIds(landingHtml, mediaContractIds, 'index.html');
   assertHasIds(gameHtml, mediaContractIds, 'game.html');
@@ -87,7 +97,7 @@ test('signal maps have an offline visual fallback and reveal content is safe by 
 });
 
 test('dialogue skins use direct values instead of banknote background art', () => {
-  assert.match(styles, /Dialogue system v2/);
-  assert.doesNotMatch(styles, /background-image:\s*url\(["']?assets\/images\/banknotes/);
-  assert.match(styles, /clip-path:\s*polygon\(0 0, 100% 0, 0 100%\)/);
+  assert.match(gameStyles, /Dialogue system v2/);
+  assert.doesNotMatch(gameStyles, /background-image:\s*url\(["']?assets\/images\/banknotes/);
+  assert.match(gameStyles, /clip-path:\s*polygon\(0 0, 100% 0, 0 100%\)/);
 });
