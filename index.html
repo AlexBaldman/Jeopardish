@@ -350,7 +350,8 @@
                     </button>
                 </header>
 
-                <button class="score-drawer" id="scoreDrawer" type="button" aria-label="Show live score" aria-live="polite">
+                <button class="score-drawer" id="scoreDrawer" type="button" aria-label="Show or pin live scoreboard" aria-live="polite" aria-pressed="false">
+                    <span class="scoreboard-kicker" aria-hidden="true"><i></i> Channel O Live <i></i></span>
                     <span class="quick-score">
                         <span class="hud-readout">
                             <span class="hud-label" id="hudScoreLabel">Score</span>
@@ -360,12 +361,16 @@
                             <span class="hud-label" id="hudStreakLabel">Streak</span>
                             <strong id="hudStreak">x0</strong>
                         </span>
+                        <span class="hud-readout hud-best-readout">
+                            <span class="hud-label" id="hudBestLabel">Best</span>
+                            <strong id="hudBest">x0</strong>
+                        </span>
                         <span class="hud-readout hud-episode-readout">
                             <span class="hud-label" id="hudEpisodeLabel">Clue</span>
                             <strong id="hudEpisode">1/10</strong>
                         </span>
                     </span>
-                    <span class="score-drawer-tab">Score</span>
+                    <span class="score-drawer-tab"><i aria-hidden="true"></i> Live stats <i aria-hidden="true"></i></span>
                 </button>
 
                 <nav class="nav-menu" id="navMenu" aria-label="Game menu">
@@ -373,15 +378,6 @@
                         <div><small>Channel O</small><p class="nav-kicker">Game Menu</p></div>
                         <button class="menu-close" id="menuClose" type="button" aria-label="Close game menu">×</button>
                     </header>
-                    <section class="menu-section" aria-labelledby="menuScoreTitle">
-                        <h2 id="menuScoreTitle">Score</h2>
-                        <div id="dataBox" class="data-box">
-                            <p id="currentStreak">Current Streak: 0</p>
-                            <p id="bestStreak">Best Streak: 0</p>
-                            <p id="score">Score: $0</p>
-                            <p id="episodeProgress">Episode: Season Zero: Pilot Broadcast · 0/10</p>
-                        </div>
-                    </section>
                     <section class="menu-section menu-action-grid" aria-labelledby="menuRoundTitle">
                         <h2 id="menuRoundTitle">Round</h2>
                         <button id="menuNewClue" type="button"><span>New clue</span><kbd>Q</kbd></button>

@@ -235,6 +235,8 @@
       this.onMediaFailure = () => {};
       this.lastScore = null;
       this.lastStreak = null;
+      this.lastBestStreak = null;
+      this.lastEpisodeValue = null;
       this.scoreDrawerTimer = null;
     }
 
@@ -251,16 +253,14 @@
       this.dom.clueOriginal = this.document.getElementById('clueOriginal');
       this.dom.clueMedia = this.document.getElementById('clueMedia');
       this.dom.answerBox = this.document.getElementById('answerBox');
-      this.dom.currentStreak = this.document.getElementById('currentStreak');
-      this.dom.bestStreak = this.document.getElementById('bestStreak');
-      this.dom.score = this.document.getElementById('score');
       this.dom.hudScore = this.document.getElementById('hudScore');
       this.dom.hudStreak = this.document.getElementById('hudStreak');
+      this.dom.hudBest = this.document.getElementById('hudBest');
       this.dom.hudScoreLabel = this.document.getElementById('hudScoreLabel');
       this.dom.hudStreakLabel = this.document.getElementById('hudStreakLabel');
+      this.dom.hudBestLabel = this.document.getElementById('hudBestLabel');
       this.dom.hudEpisode = this.document.getElementById('hudEpisode');
       this.dom.hudEpisodeLabel = this.document.getElementById('hudEpisodeLabel');
-      this.dom.episodeProgress = this.document.getElementById('episodeProgress');
       this.dom.hamburgerMenu = this.document.getElementById('hamburgerMenu');
       this.dom.navMenu = this.document.getElementById('navMenu');
       this.dom.menuClose = this.document.getElementById('menuClose');
@@ -746,9 +746,7 @@
     renderScoreboard(gameState) {
       const scoreChanged = this.lastScore !== null && this.lastScore !== gameState.score;
       const streakChanged = this.lastStreak !== null && this.lastStreak !== gameState.currentStreak;
-      this.setText(this.dom.currentStreak, `${this.copy.currentStreak}: ${gameState.currentStreak}`);
-      this.setText(this.dom.bestStreak, `${this.copy.bestStreak}: ${gameState.bestStreak}`);
-      this.setText(this.dom.score, `${this.copy.score}: $${gameState.score}`);
+      const bestChanged = this.lastBestStreak !== null && this.lastBestStreak !== gameState.bestStreak;
       if (this.dom.hudScore) {
         this.setText(this.dom.hudScore, `$${gameState.score}`);
         this.dom.hudScore.dataset.value = `$${gameState.score}`;
@@ -759,15 +757,24 @@
         this.dom.hudStreak.dataset.value = `x${gameState.currentStreak}`;
         if (streakChanged) this.animateScoreTile(this.dom.hudStreak);
       }
+      if (this.dom.hudBest) {
+        this.setText(this.dom.hudBest, `x${gameState.bestStreak}`);
+        this.dom.hudBest.dataset.value = `x${gameState.bestStreak}`;
+        if (bestChanged) this.animateScoreTile(this.dom.hudBest);
+      }
       if (this.dom.hudScoreLabel) {
         this.setText(this.dom.hudScoreLabel, this.copy.score);
       }
       if (this.dom.hudStreakLabel) {
         this.setText(this.dom.hudStreakLabel, this.copy.currentStreak);
       }
-      if (scoreChanged || streakChanged) this.showScoreDrawer();
+      if (this.dom.hudBestLabel) {
+        this.setText(this.dom.hudBestLabel, this.copy.bestStreak);
+      }
+      if (scoreChanged || streakChanged || bestChanged) this.showScoreDrawer();
       this.lastScore = gameState.score;
       this.lastStreak = gameState.currentStreak;
+      this.lastBestStreak = gameState.bestStreak;
     }
 
     renderSessionProgress(progress) {
@@ -775,11 +782,15 @@
       const value = progress.complete ? `${progress.total}/${progress.total}` : `${progress.current}/${progress.total}`;
       this.setText(this.dom.hudEpisode, value);
       this.setText(this.dom.hudEpisodeLabel, this.copy.clueProgress);
-      this.setText(
-        this.dom.episodeProgress,
-        `${this.copy.episode}: ${progress.title} · ${progress.answered}/${progress.total}`,
-      );
-      if (this.dom.hudEpisode) this.dom.hudEpisode.dataset.value = value;
+      if (this.dom.hudEpisode) {
+        const episodeChanged = this.lastEpisodeValue !== null && this.lastEpisodeValue !== value;
+        this.dom.hudEpisode.dataset.value = value;
+        if (episodeChanged) {
+          this.animateScoreTile(this.dom.hudEpisode);
+          this.showScoreDrawer();
+        }
+      }
+      this.lastEpisodeValue = value;
     }
 
     renderEpisodeComplete(progress) {

@@ -14,8 +14,10 @@ const cabinetContractIds = [
   'sceneStage',
   'hamburgerMenu',
   'scoreDrawer',
+  'hudScore',
+  'hudStreak',
+  'hudBest',
   'hudEpisode',
-  'episodeProgress',
   'navMenu',
   'menuScene',
   'speechBubble',
@@ -61,6 +63,14 @@ test('both game shells load the canonical game stylesheet after shared styles', 
     const gameIndex = html.indexOf('href="styles/game.css');
     assert.ok(sharedIndex >= 0, `${surface} is missing shared styles`);
     assert.ok(gameIndex > sharedIndex, `${surface} must load game styles after shared styles`);
+  }
+});
+
+test('the live drawer is the only scoreboard surface', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.doesNotMatch(html, /id="menuScoreTitle"|id="dataBox"|id="episodeProgress"/,
+      `${surface} still contains the legacy menu scoreboard`);
+    assert.match(html, /id="hudBest"/);
   }
 });
 

@@ -80,16 +80,14 @@ function createFakeDocument() {
     'clueOriginal',
     'clueMedia',
     'answerBox',
-    'currentStreak',
-    'bestStreak',
-    'score',
     'hudScore',
     'hudStreak',
+    'hudBest',
     'hudScoreLabel',
     'hudStreakLabel',
+    'hudBestLabel',
     'hudEpisode',
     'hudEpisodeLabel',
-    'episodeProgress',
     'hamburgerMenu',
     'navMenu',
     'menuClose',
@@ -168,11 +166,10 @@ test('Renderer renders scoreboard state', () => {
     score: 1200,
   });
 
-  assert.equal(renderer.dom.currentStreak.textContent, 'Current Streak: 2');
-  assert.equal(renderer.dom.bestStreak.textContent, 'Best Streak: 5');
-  assert.equal(renderer.dom.score.textContent, 'Score: $1200');
   assert.equal(renderer.dom.hudScore.textContent, '$1200');
   assert.equal(renderer.dom.hudStreak.textContent, 'x2');
+  assert.equal(renderer.dom.hudBest.textContent, 'x5');
+  assert.equal(renderer.dom.hudBestLabel.textContent, 'Best Streak');
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, undefined);
 });
 
@@ -192,7 +189,6 @@ test('Renderer renders episode progress and a completion artifact', () => {
   renderer.renderEpisodeComplete(progress);
 
   assert.equal(renderer.dom.hudEpisode.textContent, '10/10');
-  assert.match(renderer.dom.episodeProgress.textContent, /10\/10/);
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'complete');
   assert.match(renderer.dom.clueText.textContent, /\$2400/);
   assert.equal(renderer.dom.questionButton.disabled, false);
@@ -343,7 +339,8 @@ test('Renderer applies localized static UI copy and toggle states', () => {
   assert.equal(renderer.dom.userInput.placeholder, 'Digite sua resposta');
   assert.equal(renderer.dom.themeToggleLabel.textContent, 'Dia');
   assert.equal(renderer.dom.languageToggleLabel.textContent, 'Português');
-  assert.equal(renderer.dom.currentStreak.textContent, 'Sequência Atual: 2');
+  assert.equal(renderer.dom.hudStreakLabel.textContent, 'Sequência Atual');
+  assert.equal(renderer.dom.hudBestLabel.textContent, 'Melhor Sequência');
   assert.equal(documentRef.documentElement.getAttribute('lang'), 'pt-BR');
 });
 
@@ -486,6 +483,19 @@ test('Renderer applies dialogue skins and animates changed score tiles', () => {
   assert.equal(renderer.dom.menuSceneIndex.textContent, '02/02');
   assert.equal(renderer.dom.menuScene.dataset.scenePack, 'long-beach-boardwalk');
   assert.equal(renderer.dom.hudScore.classList.has('score-flip'), true);
+  assert.equal(renderer.dom.hudBest.classList.has('score-flip'), true);
+  assert.equal(renderer.dom.scoreDrawer.classList.has('active'), true);
+});
+
+test('Renderer animates and reveals the scoreboard when episode progress changes', () => {
+  const { renderer } = createRenderer();
+
+  renderer.renderSessionProgress({ current: 1, answered: 0, total: 10, complete: false });
+  renderer.hideScoreDrawer(true);
+  renderer.renderSessionProgress({ current: 2, answered: 1, total: 10, complete: false });
+
+  assert.equal(renderer.dom.hudEpisode.textContent, '2/10');
+  assert.equal(renderer.dom.hudEpisode.classList.has('score-flip'), true);
   assert.equal(renderer.dom.scoreDrawer.classList.has('active'), true);
 });
 
