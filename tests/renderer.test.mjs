@@ -215,9 +215,10 @@ test('Renderer renders a clue and prepares answer input', () => {
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'clue');
 
   assert.equal(renderer.dom.categoryBox.children[0].textContent, 'SCIENCE');
-  assert.equal(renderer.dom.categoryBox.children[1].className, 'clue-value clue-value-questionable');
+  assert.equal(renderer.dom.categoryBox.children[1].className, 'clue-value');
   assert.equal(renderer.dom.categoryBox.children[1].children[0].textContent, '$400');
-  assert.equal(renderer.dom.categoryBox.children[1].children[2].textContent, 'QUESTIONABLE TENDER');
+  assert.equal(renderer.dom.categoryBox.children[1].children.length, 1);
+  assert.equal(renderer.dom.categoryBox.children[1].getAttribute('aria-label'), '$400 clue value.');
   assert.equal(renderer.dom.clueText.textContent, 'This particle has a negative charge.');
   assert.equal(renderer.dom.answerBox.textContent, 'Electron');
   assert.equal(renderer.dom.answerBox.style.display, 'none');
@@ -269,7 +270,7 @@ test('Renderer displays fallback clue and enables controls', () => {
   assert.equal(renderer.dom.statusMessage.textContent, 'There was a problem loading a normal clue. Showing fallback clue.');
   assert.equal(renderer.dom.categoryBox.children[0].textContent, 'OOPS');
   assert.equal(renderer.dom.categoryBox.children[1].children[0].textContent, '$0');
-  assert.equal(renderer.dom.categoryBox.children[1].children[2].textContent, 'QUESTIONABLE TENDER');
+  assert.equal(renderer.dom.categoryBox.children[1].children.length, 1);
   assert.equal(renderer.dom.clueText.textContent, 'Fallback question');
   assert.equal(renderer.dom.answerBox.textContent, 'Fallback answer');
   assert.equal(renderer.dom.answerBox.style.display, 'flex');
@@ -414,7 +415,7 @@ test('Renderer creates an informative incorrect-answer payoff state', () => {
   assert.equal(renderer.dom.answerBox.style.display, 'flex');
 });
 
-test('Renderer gives current US denominations their officialish note treatment', () => {
+test('Renderer presents every clue value as direct, readable text', () => {
   const { renderer } = createRenderer();
 
   renderer.renderClue({
@@ -423,11 +424,11 @@ test('Renderer gives current US denominations their officialish note treatment',
     answer: 'One hundred dollars',
   }, 100);
 
-  const bill = renderer.dom.categoryBox.children[1];
-  assert.equal(bill.className, 'clue-value clue-value-officialish');
-  assert.equal(bill.children[0].textContent, '$100');
-  assert.equal(bill.children[2].textContent, 'TRIVIA RESERVE NOTE');
-  assert.equal(bill.attributes['aria-label'], '$100 clue value. Trivia Reserve note.');
+  const value = renderer.dom.categoryBox.children[1];
+  assert.equal(value.className, 'clue-value');
+  assert.equal(value.children.length, 1);
+  assert.equal(value.children[0].textContent, '$100');
+  assert.equal(value.attributes['aria-label'], '$100 clue value.');
 });
 
 test('Renderer renders host visual state', () => {

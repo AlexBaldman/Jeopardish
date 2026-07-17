@@ -85,3 +85,9 @@ test('signal maps have an offline visual fallback and reveal content is safe by 
   assert.doesNotMatch(landingHtml, /<pre class="mermaid">/);
   assert.match(styles, /\.reveal\s*\{\s*opacity:\s*1;/);
 });
+
+test('dialogue skins use direct values instead of banknote background art', () => {
+  assert.match(styles, /Dialogue system v2/);
+  assert.doesNotMatch(styles, /background-image:\s*url\(["']?assets\/images\/banknotes/);
+  assert.match(styles, /clip-path:\s*polygon\(0 0, 100% 0, 0 100%\)/);
+});

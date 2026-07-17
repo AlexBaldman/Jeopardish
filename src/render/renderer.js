@@ -25,8 +25,6 @@
     translationNetwork: 'PT · MACHINE',
     translationCache: 'PT · CACHED',
     translationFallback: 'PT unavailable · English shown',
-    officialTender: 'TRIVIA RESERVE NOTE',
-    questionableTender: 'QUESTIONABLE TENDER',
     currentStreak: 'Current Streak',
     bestStreak: 'Best Streak',
     score: 'Score',
@@ -56,8 +54,6 @@
     VIDEO: 'video',
     EXTERNAL: 'external',
   });
-  const CURRENT_US_BILL_VALUES = new Set([1, 2, 5, 10, 20, 50, 100]);
-
   function normaliseText(text) {
     return String(text || '')
       .replace(/\r/g, '')
@@ -582,29 +578,14 @@
       }
 
       const amount = String(value || '$0').startsWith('$') ? String(value || '$0') : `$${value}`;
-      const numericAmount = Number(amount.replace(/[^0-9.]/g, ''));
-      const isCurrentBill = CURRENT_US_BILL_VALUES.has(numericAmount);
       const valueLine = this.document.createElement('p');
-      valueLine.className = `clue-value clue-value-${isCurrentBill ? 'officialish' : 'questionable'}`;
-      valueLine.setAttribute(
-        'aria-label',
-        `${amount} clue value. ${isCurrentBill ? 'Trivia Reserve note.' : 'Questionable tender.'}`,
-      );
+      valueLine.className = 'clue-value';
+      valueLine.setAttribute('aria-label', `${amount} clue value.`);
 
-      const leftAmount = this.document.createElement('span');
-      leftAmount.className = 'clue-value-amount clue-value-amount-left';
-      leftAmount.textContent = amount;
-
-      const rightAmount = this.document.createElement('span');
-      rightAmount.className = 'clue-value-amount clue-value-amount-right';
-      rightAmount.setAttribute('aria-hidden', 'true');
-      rightAmount.textContent = amount;
-
-      const caption = this.document.createElement('span');
-      caption.className = 'clue-value-caption';
-      caption.textContent = isCurrentBill ? this.copy.officialTender : this.copy.questionableTender;
-
-      valueLine.append(leftAmount, rightAmount, caption);
+      const amountText = this.document.createElement('span');
+      amountText.className = 'clue-value-amount';
+      amountText.textContent = amount;
+      valueLine.append(amountText);
 
       this.dom.categoryBox.append(categoryLine, valueLine);
     }
