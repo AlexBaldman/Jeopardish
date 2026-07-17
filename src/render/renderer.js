@@ -283,7 +283,6 @@
       this.dom.hostPrevButton = this.document.getElementById('hostPrevButton');
       this.dom.hostNextButton = this.document.getElementById('hostNextButton');
       this.dom.hostSkinLabel = this.document.getElementById('hostSkinLabel');
-      this.dom.hostCue = this.document.getElementById('hostCue');
       this.dom.hostPackIndex = this.document.getElementById('hostPackIndex');
       this.dom.themeToggle = this.document.getElementById('themeToggle');
       this.dom.themeToggleLabel = this.document.getElementById('themeToggleLabel');
@@ -842,9 +841,6 @@
       }
       if (this.dom.hostSkinLabel) {
         this.setText(this.dom.hostSkinLabel, activeSkin?.label || host.displayName || 'Host');
-      }
-      if (this.dom.hostCue) {
-        this.setText(this.dom.hostCue, performance?.cue || activeState);
       }
       if (this.dom.hostPackIndex) {
         const position = Number(performance?.skinIndex || 0) + 1;

@@ -101,3 +101,9 @@ test('dialogue skins use direct values instead of banknote background art', () =
   assert.doesNotMatch(gameStyles, /background-image:\s*url\(["']?assets\/images\/banknotes/);
   assert.match(gameStyles, /clip-path:\s*polygon\(0 0, 100% 0, 0 100%\)/);
 });
+
+test('host reaction copy remains accessible without a visible cue badge', () => {
+  assert.doesNotMatch(landingHtml, /id="hostCue"/);
+  assert.doesNotMatch(gameHtml, /id="hostCue"/);
+  assert.doesNotMatch(gameStyles, /\.host-cue/);
+});

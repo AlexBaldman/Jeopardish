@@ -112,7 +112,6 @@ function createFakeDocument() {
     'hostPrevButton',
     'hostNextButton',
     'hostSkinLabel',
-    'hostCue',
     'hostPackIndex',
     'themeToggle',
     'themeToggleLabel',
@@ -468,7 +467,6 @@ test('Renderer renders host visual state', () => {
   assert.equal(renderer.dom.hostImage.dataset.frame, 'bust');
   assert.equal(renderer.dom.hostStage.dataset.effect, 'approve');
   assert.equal(renderer.dom.hostSkinLabel.textContent, 'Sparkle Host');
-  assert.equal(renderer.dom.hostCue.textContent, 'Approved');
   assert.equal(renderer.dom.hostPackIndex.textContent, '02/05');
 });
 

@@ -1284,51 +1284,6 @@ body.modal-open {
     100% { transform: translateY(0) scale(1) rotate(0); }
 }
 
-.host-cue {
-    position: absolute;
-    top: clamp(2.6rem, 7vw, 5.2rem);
-    right: clamp(-2.2rem, -2vw, -0.8rem);
-    z-index: 47;
-    max-width: 9rem;
-    padding: 0.36rem 0.5rem 0.28rem;
-    border: 3px solid var(--ink);
-    border-radius: 7px;
-    color: #171317;
-    background: linear-gradient(180deg, var(--neon-yellow), #ff9f2d);
-    box-shadow: 0 4px 0 var(--shadow-hard), 0 0 16px rgba(255, 225, 90, 0.38);
-    font-family: var(--pixel-font);
-    font-size: clamp(0.38rem, 0.75vw, 0.5rem);
-    line-height: 1.45;
-    text-align: center;
-    text-transform: uppercase;
-    transform: rotate(3deg);
-}
-
-.host-stage[data-expression="clue"] .host-cue {
-    color: #07182a;
-    background: linear-gradient(180deg, var(--neon-cyan), #55a8ff);
-    animation: host-cue-pop 360ms cubic-bezier(.18, .9, .25, 1.15) both;
-}
-
-.host-stage[data-expression="reveal"] .host-cue {
-    color: #fff8df;
-    background: linear-gradient(180deg, #8f3dff, #d630a8);
-    animation: host-cue-slam 420ms cubic-bezier(.18, .9, .25, 1.12) both;
-}
-
-.host-stage[data-expression="correct"] .host-cue,
-.host-stage[data-expression="streak"] .host-cue {
-    background: linear-gradient(180deg, var(--neon-green), var(--neon-yellow));
-    animation: host-cue-win 520ms cubic-bezier(.14, .9, .22, 1.18) both;
-}
-
-.host-stage[data-expression="incorrect"] .host-cue,
-.host-stage[data-expression="empty"] .host-cue {
-    color: #fff8df;
-    background: linear-gradient(180deg, var(--warning-red), #7c194a);
-    animation: host-cue-no 420ms ease-out both;
-}
-
 .host-pack-index {
     position: absolute;
     right: 0.22rem;
@@ -1342,28 +1297,6 @@ body.modal-open {
     font-family: var(--pixel-font);
     font-size: clamp(0.28rem, 0.56vw, 0.4rem);
     line-height: 1.3;
-}
-
-@keyframes host-cue-pop {
-    from { opacity: 0; transform: translate(-8px, 8px) rotate(-5deg) scale(0.82); }
-    to { opacity: 1; transform: translate(0, 0) rotate(3deg) scale(1); }
-}
-
-@keyframes host-cue-slam {
-    from { opacity: 0; transform: translateY(-12px) rotate(8deg) scale(1.18); }
-    to { opacity: 1; transform: translateY(0) rotate(3deg) scale(1); }
-}
-
-@keyframes host-cue-win {
-    0% { opacity: 0; transform: rotate(-8deg) scale(0.72); }
-    64% { opacity: 1; transform: rotate(5deg) scale(1.14); }
-    100% { transform: rotate(3deg) scale(1); }
-}
-
-@keyframes host-cue-no {
-    0%, 100% { transform: translateX(0) rotate(3deg); }
-    28% { transform: translateX(-7px) rotate(-2deg); }
-    58% { transform: translateX(6px) rotate(6deg); }
 }
 
 .host-skin-label {
@@ -2064,15 +1997,6 @@ input:focus-visible,
         height: auto;
     }
 
-    .host-cue {
-        top: 2rem;
-        right: -0.85rem;
-        max-width: 5.4rem;
-        padding: 0.26rem 0.34rem 0.2rem;
-        border-width: 2px;
-        font-size: 0.31rem;
-    }
-
     .host-pack-index {
         right: 0.08rem;
         bottom: 1.55rem;
@@ -2525,13 +2449,6 @@ body.game-only .game-container {
     font-size: 1.4rem;
 }
 
-.game-container .host-cue {
-    right: -1.3rem;
-    padding: 0.28rem 0.4rem 0.22rem;
-    border-width: 2px;
-    box-shadow: 3px 3px 0 var(--cabinet-ink);
-}
-
 .game-container .control-footer {
     display: grid;
     grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.72fr);
@@ -2717,8 +2634,7 @@ body[data-theme="light"] .clue-original {
     }
 
     .game-container .host-skin-label,
-    .game-container .host-pack-index,
-    .game-container .host-cue {
+    .game-container .host-pack-index {
         display: none;
     }
 
@@ -3301,7 +3217,7 @@ body .game-container .speech-bubble[data-dialogue-style] {
     width: min(86%, 940px);
     min-height: min(390px, calc(100% - 1rem));
     margin: 0 auto;
-    padding: clamp(4rem, 8vh, 4.85rem) clamp(1.5rem, 4.5vw, 3.8rem) clamp(1.55rem, 3.5vh, 2.3rem);
+    padding: clamp(3.15rem, 6vh, 3.8rem) clamp(1.5rem, 4.5vw, 3.8rem) clamp(1.55rem, 3.5vh, 2.3rem);
     overflow: visible;
     color: var(--dialogue-ink);
     text-align: center;
@@ -3315,7 +3231,7 @@ body .game-container .speech-bubble[data-dialogue-style]::before {
 }
 
 body .game-container .speech-bubble[data-dialogue-style]:not([data-dialogue-style="narration"]):not([data-dialogue-style="thought"])::after {
-    left: -5px;
+    left: clamp(7rem, 32%, 18rem);
     bottom: -43px;
     width: 70px;
     height: 48px;
@@ -3348,7 +3264,7 @@ body .game-container .speech-bubble[data-dialogue-style] .clue-category {
     letter-spacing: 0.045em;
     text-align: center;
     text-shadow: 2px 2px 0 rgba(3, 7, 24, 0.88);
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 body .game-container .speech-bubble[data-dialogue-style] .clue-value {
@@ -3412,7 +3328,7 @@ body .game-container .speech-bubble[data-dialogue-style="clue-card"] {
         radial-gradient(circle at 50% 12%, rgba(56, 132, 255, 0.22), transparent 48%),
         linear-gradient(180deg, #0b3aa7 0%, #071f78 58%, #04134f 100%);
     border: 4px solid #f0c85b;
-    border-radius: 5px;
+    border-radius: clamp(20px, 2.4vw, 32px);
     box-shadow:
         0 0 0 5px var(--dialogue-outline),
         9px 11px 0 var(--dialogue-outline),
@@ -3423,14 +3339,14 @@ body .game-container .speech-bubble[data-dialogue-style="clue-card"] {
 body .game-container .speech-bubble[data-dialogue-style="clue-card"]::before {
     inset: 9px;
     border: 1px solid rgba(255, 239, 178, 0.58);
-    border-radius: 1px;
+    border-radius: clamp(12px, 1.7vw, 22px);
 }
 
 body .game-container .speech-bubble[data-dialogue-style="clue-card"] .clue-text {
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.012em;
     line-height: 1.13;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 body[data-theme="light"] .game-container .speech-bubble[data-dialogue-style="clue-card"] {
@@ -3559,12 +3475,12 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .dialogue-s
     body .game-container .speech-bubble[data-dialogue-style] {
         width: calc(100% - 0.5rem);
         min-height: clamp(270px, 43vh, 350px);
-        padding: 3.7rem 1rem 1.2rem;
+        padding: 3.15rem 1rem 1.2rem;
         overflow-y: auto;
     }
 
     body .game-container .speech-bubble[data-dialogue-style]:not([data-dialogue-style="narration"]):not([data-dialogue-style="thought"])::after {
-        left: calc(50% - 4px);
+        left: 31%;
         bottom: -38px;
         width: 58px;
         height: 42px;
