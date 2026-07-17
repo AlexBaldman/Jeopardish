@@ -3,6 +3,7 @@
     "openai": "^4.53.2"
   },
   "scripts": {
+    "dev": "python3 -m http.server 4173 --bind 127.0.0.1",
     "build": "npm run build:static",
     "build:static": "node scripts/build-static.mjs",
     "validate:questions": "node scripts/validate-questions.mjs",
