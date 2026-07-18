@@ -2382,8 +2382,8 @@ body.game-only .game-container {
 .game-container .host-stage {
     left: clamp(0.35rem, 1vw, 0.9rem);
     bottom: -0.9rem;
-    grid-template-columns: 28px minmax(148px, clamp(148px, 18vw, 245px)) 28px;
-    gap: 0.2rem;
+    grid-template-columns: 40px minmax(148px, clamp(148px, calc(14vw + 6vh), 245px)) 40px;
+    gap: 0.3rem;
 }
 
 .game-container .host-stage::before {
@@ -2393,7 +2393,7 @@ body.game-only .game-container {
 }
 
 .game-container .trebek {
-    width: clamp(148px, 18vw, 245px);
+    width: clamp(148px, calc(14vw + 6vh), 245px);
     height: auto;
     max-height: clamp(190px, 27vw, 345px);
     object-fit: contain;
@@ -2431,7 +2431,7 @@ body.game-only .game-container {
 .game-container .control-footer {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.72fr);
+    grid-template-columns: minmax(0, 1fr) minmax(420px, 1fr);
     align-items: stretch;
     gap: 0.7rem;
     min-height: var(--footer-height);
@@ -2456,7 +2456,7 @@ body.game-only .game-container {
 }
 
 .game-container .input-div {
-    grid-template-columns: minmax(0, 1fr) minmax(96px, 0.25fr);
+    grid-template-columns: minmax(0, 1fr) minmax(132px, 0.34fr);
 }
 
 .game-container .button-div {
@@ -2563,7 +2563,7 @@ body[data-theme="light"] .clue-original {
 
     .game-container .main-content {
         align-items: start;
-        padding: 0.65rem 0.55rem 0.5rem;
+        padding: clamp(3.5rem, 8vh, 5rem) 0.55rem 0.5rem;
     }
 
     .game-container .speech-bubble {
@@ -2608,14 +2608,14 @@ body[data-theme="light"] .clue-original {
         left: 0.15rem;
         bottom: -0.7rem;
         z-index: 33;
-        grid-template-columns: 22px minmax(84px, 104px) 22px;
-        opacity: 0.88;
+        grid-template-columns: 36px minmax(132px, 148px) 36px;
+        opacity: 1;
     }
 
     .game-container .trebek {
-        width: 104px;
+        width: clamp(132px, 38vw, 148px);
         height: auto;
-        max-height: 146px;
+        max-height: 185px;
     }
 
     .game-container .host-skin-label,
@@ -2624,11 +2624,11 @@ body[data-theme="light"] .clue-original {
     }
 
     .game-container .host-cycle {
-        width: 22px;
-        height: 30px;
-        margin-bottom: 0.45rem;
+        width: 36px;
+        height: 36px;
+        margin-bottom: 0.65rem;
         padding: 0;
-        font-size: 1rem;
+        font-size: 1.15rem;
     }
 
     .game-container .control-footer {
@@ -2639,7 +2639,7 @@ body[data-theme="light"] .clue-original {
     }
 
     .game-container .input-div {
-        grid-template-columns: minmax(0, 1fr) 72px;
+        grid-template-columns: minmax(0, 1fr) minmax(104px, 0.38fr);
     }
 
     .game-container #inputbox,
@@ -2663,6 +2663,10 @@ body[data-theme="light"] .clue-original {
 .game-container .scene-layer-illustration {
     z-index: 1;
     filter: saturate(1.08) contrast(1.03);
+}
+
+body[data-theme="light"] .game-container .scene-layer-illustration {
+    filter: saturate(1.2) contrast(1.12) brightness(1.04);
 }
 
 .game-container .scene-stage[data-scene="beach-night"] .scene-layer-illustration {
@@ -2996,13 +3000,13 @@ body.game-only .game-header {
 
 .game-container .main-content {
     place-items: start center;
-    padding: clamp(0.55rem, 1.2vw, 0.9rem) clamp(0.75rem, 3vw, 2rem) clamp(0.7rem, 1.6vw, 1rem);
+    padding: clamp(1.5rem, calc(50vh - 26.5rem), 11rem) clamp(0.75rem, 3vw, 2rem) clamp(0.7rem, 1.6vw, 1rem);
 }
 
 .game-container .speech-bubble {
     position: relative;
     width: min(86%, 940px);
-    min-height: min(390px, calc(100% - 1rem));
+    min-height: min(clamp(300px, 41vh, 390px), calc(100% - 1rem));
     max-height: calc(100% - 0.5rem);
     margin: 0 auto;
     padding: clamp(3.35rem, 7vh, 4.6rem) clamp(1.5rem, 4.4vw, 3.7rem) clamp(1.65rem, 4vh, 2.5rem);
@@ -3193,22 +3197,23 @@ body.game-only .game-header {
     --button-shadow: #1279c9;
     --button-glow: rgba(66, 223, 245, 0.45);
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    position: relative;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
     gap: clamp(0.35rem, 1vw, 0.65rem);
     padding: 0.45rem clamp(0.55rem, 1.2vw, 0.85rem);
     overflow: hidden;
-    border: 4px solid #080910;
-    border-radius: 18px;
+    border: 3px solid #080910;
+    border-radius: 11px;
     color: #101018;
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.68), transparent 21%),
-        linear-gradient(180deg, var(--button-face), var(--button-shadow));
+        linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 24%),
+        linear-gradient(145deg, var(--button-face), var(--button-shadow));
     box-shadow:
-        0 7px 0 #05060b,
-        0 0 0 2px rgba(255, 255, 255, 0.2),
-        0 0 20px var(--button-glow),
-        inset 0 -7px 0 rgba(0, 0, 0, 0.18);
+        0 5px 0 #05060b,
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        0 0 14px var(--button-glow),
+        inset 0 -4px 0 rgba(0, 0, 0, 0.14);
     isolation: isolate;
 }
 
@@ -3233,10 +3238,10 @@ body.game-only .game-header {
 .game-container .cabinet-button::before {
     content: "";
     position: absolute;
-    inset: 5px;
+    inset: 4px;
     z-index: -1;
     border: 1px solid rgba(255, 255, 255, 0.42);
-    border-radius: 11px;
+    border-radius: 6px;
     pointer-events: none;
 }
 
@@ -3245,14 +3250,14 @@ body.game-only .game-header {
     filter: brightness(1.1) saturate(1.08);
     transform: translateY(-2px);
     box-shadow:
-        0 9px 0 #05060b,
+        0 7px 0 #05060b,
         0 0 0 2px rgba(255, 255, 255, 0.24),
         0 0 28px var(--button-glow),
-        inset 0 -7px 0 rgba(0, 0, 0, 0.18);
+        inset 0 -4px 0 rgba(0, 0, 0, 0.14);
 }
 
 .game-container .cabinet-button:active {
-    transform: translateY(6px);
+    transform: translateY(4px);
     box-shadow:
         0 1px 0 #05060b,
         0 0 16px var(--button-glow),
@@ -3268,9 +3273,9 @@ body.game-only .game-header {
     color: #101018;
     background: transparent;
     box-shadow: none;
-    font: 900 clamp(0.58rem, 1vw, 0.78rem)/1.15 var(--pixel-font);
+    font: 1000 clamp(0.72rem, 1.15vw, 0.94rem)/1 var(--utility-font);
     opacity: 1;
-    text-align: center;
+    text-align: left;
     text-shadow: 0 1px rgba(255, 255, 255, 0.48);
     transform: none;
     white-space: normal;
@@ -3281,9 +3286,57 @@ body.game-only .game-header {
 }
 
 .game-container .cabinet-button .key-hint {
-    position: static;
-    justify-self: end;
+    position: absolute;
+    top: 0.38rem;
+    right: 0.42rem;
+    width: 1.08rem;
+    height: 1.08rem;
+    border-width: 2px;
+    font-size: 0.32rem;
     transform: none;
+}
+
+.game-container .cabinet-button .control-symbol {
+    min-width: 2.15rem;
+    min-height: 2.15rem;
+}
+
+.game-container .cabinet-button .clue-symbol {
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 2.2rem;
+}
+
+.game-container .cabinet-button .answer-symbol {
+    width: 3.1rem;
+    height: 2rem;
+}
+
+.game-container .cabinet-button .eye-lid {
+    width: 2.9rem;
+    height: 1.55rem;
+    border-width: 3px;
+}
+
+.game-container .cabinet-button .eye-pupil {
+    width: 1.12rem;
+    height: 1.12rem;
+    font-size: 0.38rem;
+}
+
+.game-container .cabinet-button .lock-symbol {
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+.game-container .cabinet-button .lock-ring {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-width: 4px;
+}
+
+.game-container .cabinet-button .lock-core {
+    font-size: 1.3rem;
 }
 
 .game-container #inputbox {
@@ -3307,10 +3360,33 @@ body.game-only .game-header {
 }
 
 .game-container .host-cycle {
-    width: 44px;
-    min-width: 44px;
-    height: 44px;
-    min-height: 44px;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    margin-bottom: 1rem;
+    padding: 0 0 0.15rem;
+    border: 3px solid var(--cabinet-ink);
+    border-radius: 50%;
+    color: #fff8df;
+    background: radial-gradient(circle at 38% 30%, #566379, #151925 58%, #07090f 60%);
+    box-shadow: 0 4px 0 var(--cabinet-ink), inset 0 0 0 2px rgba(56, 233, 255, 0.22);
+    font: 1000 1.35rem/1 var(--utility-font);
+}
+
+.game-container .host-cycle-prev {
+    color: #74efff;
+}
+
+.game-container .host-cycle-next {
+    color: #ff82d7;
+}
+
+.game-container .host-cycle:hover,
+.game-container .host-cycle:focus-visible {
+    background: radial-gradient(circle at 38% 30%, #7889a6, #242b3e 58%, #090b12 60%);
+    box-shadow: 0 5px 0 var(--cabinet-ink), 0 0 18px currentColor, inset 0 0 0 2px currentColor;
+    transform: translateY(-1px);
 }
 
 @media (max-width: 760px) {
@@ -3320,19 +3396,25 @@ body.game-only .game-header {
     }
 
     .game-container .host-stage {
-        grid-template-columns: 44px minmax(84px, 104px) 44px;
+        grid-template-columns: 36px minmax(132px, 148px) 36px;
     }
 
     .game-container .host-cycle {
-        width: 44px;
-        height: 44px;
-        margin-bottom: 0.25rem;
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+        min-height: 36px;
+        margin-bottom: 0.65rem;
     }
 
     .game-container .button-div .cabinet-button {
         grid-template-columns: auto minmax(0, 1fr);
         gap: 0.35rem;
         padding-inline: 0.55rem;
+    }
+
+    .game-container .control-footer .key-hint {
+        display: none;
     }
 
     .game-container .button-div .button-tooltip {
@@ -3434,6 +3516,25 @@ body.game-only .game-header {
     }
 }
 
+@media (max-width: 900px) and (min-height: 720px) {
+    .game-container .control-footer {
+        grid-template-columns: 1fr;
+        gap: 0.48rem;
+        padding: 0.52rem 0.55rem calc(0.55rem + env(safe-area-inset-bottom));
+    }
+
+    .game-container .input-div {
+        grid-template-columns: minmax(0, 1fr) minmax(118px, 0.32fr);
+    }
+
+    .game-container #inputbox,
+    .game-container #questionButton,
+    .game-container #answerButton,
+    .game-container #checkButton {
+        min-height: 48px;
+    }
+}
+
 /* Dialogue system v2: one content hierarchy, four deliberate broadcast skins. */
 body .game-container .speech-bubble[data-dialogue-style] {
     --dialogue-ink: #fff8df;
@@ -3443,7 +3544,7 @@ body .game-container .speech-bubble[data-dialogue-style] {
     --dialogue-tail: #082778;
     --dialogue-outline: #090b16;
     width: min(86%, 940px);
-    min-height: min(390px, calc(100% - 1rem));
+    min-height: min(clamp(300px, 41vh, 390px), calc(100% - 1rem));
     margin: 0 auto;
     padding: clamp(3.15rem, 6vh, 3.8rem) clamp(1.5rem, 4.5vw, 3.8rem) clamp(1.55rem, 3.5vh, 2.3rem);
     overflow: visible;
@@ -3731,4 +3832,47 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .dialogue-s
     body .game-container .speech-bubble[data-dialogue-style] .clue-value-amount {
         font-size: 0.52rem;
     }
+}
+
+/* Result typography remains legible across every dialogue skin. */
+body .game-container[data-game-moment="correct"] .clue-header,
+body .game-container[data-game-moment="incorrect"] .clue-header,
+body .game-container[data-game-moment="error"] .clue-header {
+    color: var(--dialogue-ink, #fff8df);
+    font: italic 1000 clamp(1.35rem, 3vw, 2.35rem)/1 var(--utility-font);
+    letter-spacing: 0.015em;
+    text-shadow: none;
+}
+
+body .game-container[data-game-moment="correct"] .clue-text,
+body .game-container[data-game-moment="incorrect"] .clue-text,
+body .game-container[data-game-moment="error"] .clue-text {
+    max-width: 24ch;
+    color: var(--dialogue-ink, #fff8df);
+    font: 1000 clamp(1.25rem, 2.5vw, 2rem)/1.08 var(--utility-font);
+    letter-spacing: 0.01em;
+    text-transform: none;
+    text-shadow: none;
+}
+
+body .game-container #answerBox:not(:empty) {
+    display: inline-grid;
+    justify-self: center;
+    width: fit-content;
+    max-width: min(100%, 34rem);
+    padding: 0.55rem 0.85rem 0.45rem;
+    border: 3px solid #090d12;
+    border-radius: 8px;
+    color: #a8ffbd;
+    background: linear-gradient(180deg, #173d2b, #091b14);
+    box-shadow: 0 4px 0 #090d12, inset 0 0 0 1px rgba(168, 255, 189, 0.2);
+    font: 900 clamp(0.82rem, 1.8vw, 1.12rem)/1.35 var(--utility-font);
+    text-shadow: none;
+}
+
+body .game-container[data-game-moment="incorrect"] #answerBox:not(:empty),
+body .game-container[data-game-moment="error"] #answerBox:not(:empty) {
+    color: #ffe3e8;
+    background: linear-gradient(180deg, #6e2036, #2b101b);
+    box-shadow: 0 4px 0 #090d12, inset 0 0 0 1px rgba(255, 227, 232, 0.2);
 }
