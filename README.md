@@ -4,6 +4,8 @@
 
 Open `creative-room.html` to compare the current logo, host, and art-direction finalists. The front-running identity is **Channel O**, hosted provisionally by **Xander Trefleck**.
 
+The current architecture direction, including styling convergence, the local-first AI host, grounded clue rewriting, and pausable study mode, is documented in [`docs/ARCHITECTURE_CONVERGENCE_AND_AI_HOST_PLAN_2026-07-17.md`](docs/ARCHITECTURE_CONVERGENCE_AND_AI_HOST_PLAN_2026-07-17.md).
+
 ## Overview
 
 A 'Jeopardish' question/answer (answer/question?) practice application.  MVP intended to function initially
