@@ -41,6 +41,7 @@
       this.scoreRules = scoreRules;
       this.now = now;
       this.activeClue = null;
+      this.pausedState = null;
       this.state = this.createInitialState({ bestStreak });
     }
 
@@ -68,6 +69,7 @@
         updatedAt: this.now(),
       };
       this.activeClue = null;
+      this.pausedState = null;
       this.emit(GameEvents.GAME_INIT, { state: this.getState() });
       this.setPhase(GamePhases.LOADING, 'game-init');
     }
@@ -109,6 +111,11 @@
     }
 
     submitAnswer(answer, { acceptedAnswers = [] } = {}) {
+      if (this.state.phase === GamePhases.PAUSED) {
+        const error = { code: 'answer-while-paused', message: 'Resume the round before submitting an answer.' };
+        this.emit(GameEvents.ERROR_REPORTED, error);
+        return { ok: false, error };
+      }
       if (!this.activeClue) {
         const error = {
           code: 'answer-without-active-clue',
@@ -224,6 +231,27 @@
 
     getActiveClue() {
       return this.activeClue;
+    }
+
+    pause(reason = 'study') {
+      if (this.state.phase === GamePhases.PAUSED || ![GamePhases.ANSWERING, GamePhases.REVEALING].includes(this.state.phase)) {
+        return null;
+      }
+      this.pausedState = Object.freeze({ version: 1, phase: this.state.phase, reason });
+      this.setPhase(GamePhases.PAUSING, reason);
+      this.setPhase(GamePhases.PAUSED, reason);
+      this.emit(GameEvents.ROUND_PAUSED, { reason, pausedFromPhase: this.pausedState.phase });
+      return this.pausedState;
+    }
+
+    resume(snapshot = this.pausedState) {
+      if (this.state.phase !== GamePhases.PAUSED || !snapshot || snapshot.version !== 1) return false;
+      this.setPhase(GamePhases.RESUMING, snapshot.reason);
+      const resumePhase = snapshot.phase;
+      this.pausedState = null;
+      this.setPhase(resumePhase, snapshot.reason);
+      this.emit(GameEvents.ROUND_RESUMED, { reason: snapshot.reason, resumedPhase: resumePhase });
+      return true;
     }
 
     setPhase(nextPhase, reason) {

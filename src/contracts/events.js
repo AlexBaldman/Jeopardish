@@ -12,6 +12,11 @@
     GAME_READY: 'GAME_READY',
     GAME_RESET: 'GAME_RESET',
     GAME_OVER: 'GAME_OVER',
+    ROUND_PAUSED: 'ROUND_PAUSED',
+    ROUND_RESUMED: 'ROUND_RESUMED',
+    STUDY_ENTERED: 'STUDY_ENTERED',
+    STUDY_ACTION_SELECTED: 'STUDY_ACTION_SELECTED',
+    STUDY_EXITED: 'STUDY_EXITED',
 
     SESSION_STARTED: 'SESSION_STARTED',
     SESSION_RESUMED: 'SESSION_RESUMED',
@@ -70,6 +75,9 @@
     CLUE: 'clue',
     ANSWERING: 'answering',
     REVEALING: 'revealing',
+    PAUSING: 'pausing',
+    PAUSED: 'paused',
+    RESUMING: 'resuming',
     TRANSITION: 'transition',
     GAME_OVER: 'gameover',
   });

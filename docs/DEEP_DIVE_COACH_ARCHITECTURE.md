@@ -12,6 +12,19 @@ The emotional transition is deliberate:
 
 Working UI label: **Ask Xander**. Working internal name: **Deep Dive Dojo**.
 
+## Implemented Foundation
+
+The first deterministic slice is now live in the cabinet:
+
+- immutable, versioned canonical and grounded clue packets;
+- localized presentation kept separate from canonical truth;
+- explicit pausing, paused, and resuming phases in the engine and round director;
+- single-use round snapshots that preserve input, answer visibility, score references, focus, and UI moment;
+- a responsive Ask Xander side panel with five deterministic study moves;
+- event-bus narration for study entry, actions, exit, and integrity failures.
+
+For competitive integrity, entering study from an unanswered clue first records it as revealed and moves the round to `advance-ready`. The player can explore and retain their tentative input for reflection, but cannot reveal the canonical answer and then return to a scoreable state. AI follow-ups and reviewed enrichment remain future adapters behind this deterministic boundary.
+
 ## Experience Flow
 
 ```mermaid

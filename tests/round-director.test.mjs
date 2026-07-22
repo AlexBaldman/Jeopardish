@@ -76,3 +76,18 @@ test('RoundDirector treats answer reveal as a one-way advance state', async () =
   assert.equal(director.phase, RoundPhases.ADVANCE_READY);
   assert.deepEqual(cues, ['reveal']);
 });
+
+test('RoundDirector pauses and resumes only stable round phases', async () => {
+  const phases = [];
+  const director = new RoundDirector({ reducedMotion: true, onPhase: (phase) => phases.push(phase) });
+
+  assert.equal(director.pause(), null);
+  await director.introduceClue(() => {});
+  const snapshot = director.pause();
+
+  assert.deepEqual(snapshot, { version: 1, phase: RoundPhases.ANSWERING });
+  assert.equal(director.isPaused(), true);
+  assert.equal(director.resume(snapshot), true);
+  assert.equal(director.phase, RoundPhases.ANSWERING);
+  assert.deepEqual(phases.slice(-4), [RoundPhases.ANSWERING, RoundPhases.PAUSING, RoundPhases.PAUSED, RoundPhases.RESUMING].concat(RoundPhases.ANSWERING).slice(-4));
+});

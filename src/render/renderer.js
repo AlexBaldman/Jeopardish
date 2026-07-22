@@ -46,6 +46,8 @@
     streakReset: 'STREAK RESET!',
     incorrectStatus: 'Incorrect. Load a new clue to continue.',
     keepTyping: 'Type an answer to keep the dignity damage contained.',
+    askHost: 'Ask Xander',
+    returnToClue: 'Return to clue',
   });
 
   const MediaTypes = Object.freeze({
@@ -266,6 +268,7 @@
       this.dom.menuClose = this.document.getElementById('menuClose');
       this.dom.menuNewClue = this.document.getElementById('menuNewClue');
       this.dom.menuRevealAnswer = this.document.getElementById('menuRevealAnswer');
+      this.dom.menuDeepDive = this.document.getElementById('menuDeepDive');
       this.dom.menuTheme = this.document.getElementById('menuTheme');
       this.dom.menuLanguage = this.document.getElementById('menuLanguage');
       this.dom.menuSound = this.document.getElementById('menuSound');
@@ -299,6 +302,16 @@
       this.dom.mediaModalType = this.document.getElementById('mediaModalType');
       this.dom.mediaModalClose = this.document.getElementById('mediaModalClose');
       this.dom.mediaModalLink = this.document.getElementById('mediaModalLink');
+      this.dom.deepDiveButton = this.document.getElementById('deepDiveButton');
+      this.dom.studyPanel = this.document.getElementById('studyPanel');
+      this.dom.studyClose = this.document.getElementById('studyClose');
+      this.dom.studyResume = this.document.getElementById('studyResume');
+      this.dom.studyCategory = this.document.getElementById('studyCategory');
+      this.dom.studyQuestion = this.document.getElementById('studyQuestion');
+      this.dom.studyAnswer = this.document.getElementById('studyAnswer');
+      this.dom.studyGrounding = this.document.getElementById('studyGrounding');
+      this.dom.studyActions = this.document.getElementById('studyActions');
+      this.dom.studyResponse = this.document.getElementById('studyResponse');
       this.updateStaticText();
       return this.dom;
     }
@@ -315,6 +328,9 @@
       onPreviousDialogueStyle = () => {},
       onNextDialogueStyle = () => {},
       onCycleScene = () => {},
+      onEnterStudy = () => {},
+      onStudyAction = () => {},
+      onExitStudy = () => {},
       onMediaFailure = () => {},
     }) {
       this.onMediaFailure = onMediaFailure;
@@ -329,6 +345,10 @@
       this.dom.menuRevealAnswer?.addEventListener('click', () => {
         this.setMenuOpen(false);
         onToggleAnswer();
+      });
+      this.dom.menuDeepDive?.addEventListener('click', () => {
+        this.setMenuOpen(false);
+        onEnterStudy();
       });
       this.dom.menuTheme?.addEventListener('click', onToggleTheme);
       this.dom.menuLanguage?.addEventListener('click', onToggleLanguage);
@@ -356,6 +376,13 @@
       this.dom.hostNextButton?.addEventListener('click', onNextHostSkin);
       this.dom.dialogueStylePrev?.addEventListener('click', onPreviousDialogueStyle);
       this.dom.dialogueStyleNext?.addEventListener('click', onNextDialogueStyle);
+      this.dom.deepDiveButton?.addEventListener('click', onEnterStudy);
+      this.dom.studyClose?.addEventListener('click', onExitStudy);
+      this.dom.studyResume?.addEventListener('click', onExitStudy);
+      this.dom.studyActions?.addEventListener('click', (event) => {
+        const action = event.target?.closest?.('[data-study-action]');
+        if (action) onStudyAction(action.dataset.studyAction);
+      });
       this.dom.mediaModalClose?.addEventListener('click', () => this.closeMedia());
       this.dom.mediaModalBackdrop?.addEventListener('click', () => this.closeMedia());
       this.dom.userInput.addEventListener('keydown', (event) => {
@@ -371,6 +398,7 @@
           this.setMenuOpen(false);
           this.dom.hamburgerMenu?.focus?.();
         }
+        if (event.key === 'Escape' && this.isStudyOpen()) onExitStudy();
       });
     }
 
@@ -490,6 +518,66 @@
       this.dom.checkButton.disabled = !enabled;
       this.dom.answerButton.disabled = !enabled;
       this.dom.userInput.disabled = !enabled;
+    }
+
+    setStudyAvailable(available) {
+      if (this.dom.deepDiveButton) this.dom.deepDiveButton.disabled = !available;
+      if (this.dom.menuDeepDive) this.dom.menuDeepDive.disabled = !available;
+    }
+
+    captureRoundView() {
+      return {
+        userAnswer: this.getUserAnswer(),
+        answerVisible: this.isAnswerVisible(),
+        gameMoment: this.dom.gameContainer?.dataset?.gameMoment || 'clue',
+        focusedElementId: this.document.activeElement?.id || null,
+      };
+    }
+
+    restoreRoundView(view = {}) {
+      this.dom.userInput.value = String(view.userAnswer || '');
+      this.toggleAnswer(Boolean(view.answerVisible));
+      this.setGameMoment(view.gameMoment || 'clue');
+      const focusTarget = view.focusedElementId && this.document.getElementById(view.focusedElementId);
+      (focusTarget || this.dom.userInput)?.focus?.();
+    }
+
+    isStudyOpen() {
+      return Boolean(this.dom.studyPanel && !this.dom.studyPanel.hidden);
+    }
+
+    renderStudyPanel(packet, actions = []) {
+      const clue = packet.presentation || packet.canonical;
+      this.setText(this.dom.studyCategory, clue.category);
+      this.setText(this.dom.studyQuestion, clue.question);
+      this.setText(this.dom.studyAnswer, clue.answer);
+      this.setText(this.dom.studyGrounding, packet.grounding === 'reviewed' ? 'Reviewed sources attached' : 'Archive text only');
+      this.setText(this.dom.studyResponse, clue.locale === 'pt-BR'
+        ? 'Escolha um caminho. Continuarei preso aos fatos conhecidos, uma restrição que a televisão tradicionalmente considera opcional.'
+        : 'Pick a direction. I will remain tethered to the known facts, a restriction television has traditionally considered optional.');
+      const buttons = actions.map((action) => {
+        const button = this.document.createElement('button');
+        button.type = 'button';
+        button.dataset.studyAction = action.id;
+        button.textContent = action.label;
+        return button;
+      });
+      this.dom.studyActions?.replaceChildren?.(...buttons);
+    }
+
+    renderStudyResponse(response) {
+      this.setText(this.dom.studyResponse, response);
+    }
+
+    setStudyOpen(open) {
+      if (!this.dom.studyPanel) return;
+      this.dom.studyPanel.hidden = !open;
+      this.dom.studyPanel.setAttribute('aria-hidden', String(!open));
+      this.dom.gameContainer?.classList?.toggle('study-open', open);
+      this.document.body?.classList?.toggle('study-mode-open', open);
+      if (this.dom.deepDiveButton) this.dom.deepDiveButton.disabled = open;
+      if (this.dom.menuDeepDive) this.dom.menuDeepDive.disabled = open;
+      if (open) this.dom.studyClose?.focus?.();
     }
 
     setSoundState(muted) {
@@ -881,6 +969,7 @@
     displayEmptyAnswerQuip(message) {
       this.setStatus(message);
       this.setControlsEnabled(true);
+      this.setStudyAvailable(true);
       this.clearUserAnswer();
       this.focusUserAnswer();
     }

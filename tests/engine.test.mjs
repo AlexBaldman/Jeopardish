@@ -163,3 +163,20 @@ test('GameEngine resets score and streak on incorrect answer to match existing b
   assert.equal(engine.getState().score, 0);
   assert.equal(events.some((event) => event.type === GameEvents.ANSWER_INCORRECT), true);
 });
+
+test('GameEngine protects scoring while paused and restores its prior phase', () => {
+  const { engine, events } = createEngine();
+  engine.init();
+  engine.loadClue(clue);
+
+  const snapshot = engine.pause('study');
+  const rejected = engine.submitAnswer('Chicago');
+
+  assert.equal(engine.getState().phase, 'paused');
+  assert.equal(rejected.error.code, 'answer-while-paused');
+  assert.equal(engine.getState().score, 0);
+  assert.equal(engine.resume(snapshot), true);
+  assert.equal(engine.getState().phase, 'answering');
+  assert.equal(events.some((event) => event.type === GameEvents.ROUND_PAUSED), true);
+  assert.equal(events.some((event) => event.type === GameEvents.ROUND_RESUMED), true);
+});

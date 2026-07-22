@@ -36,6 +36,12 @@ const cabinetContractIds = [
   'questionButton',
   'answerButton',
   'statusMessage',
+  'deepDiveButton',
+  'menuDeepDive',
+  'studyPanel',
+  'studyActions',
+  'studyResponse',
+  'studyResume',
 ];
 
 const mediaContractIds = [
@@ -108,6 +114,14 @@ test('both game shells load the Season Zero session runtime', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     assert.match(html, /src="src\/session\/session-manager\.js/,
       `${surface} does not load the session manager`);
+  }
+});
+
+test('both game shells load the grounded study runtime and owned styles', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /src="src\/study\/clue-packet\.js/, `${surface} is missing clue packets`);
+    assert.match(html, /src="src\/study\/round-snapshot\.js/, `${surface} is missing round snapshots`);
+    assert.match(html, /href="styles\/game\/study\.css/, `${surface} is missing study styles`);
   }
 });
 

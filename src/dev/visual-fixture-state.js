@@ -44,6 +44,13 @@
       answer: '',
       phase: 'awaiting-answer',
     }),
+    study: Object.freeze({
+      category: 'Oddly Specific History',
+      value: '$800',
+      clue: 'This accidental invention began as a failed attempt to make a very strong adhesive.',
+      answer: '',
+      phase: 'paused',
+    }),
   });
 
   function appendCategory(document, container, fixture) {
@@ -74,6 +81,7 @@
     const menu = document.getElementById('navMenu');
     const menuButton = document.getElementById('hamburgerMenu');
     const score = document.getElementById('scoreDrawer');
+    const study = document.getElementById('studyPanel');
 
     if (!container || !categoryBox || !clueText || !answerBox) return false;
 
@@ -97,6 +105,20 @@
     if (score) {
       score.dataset.pinned = String(scoreOpen);
       score.setAttribute('aria-pressed', String(scoreOpen));
+    }
+
+    const studyOpen = fixtureName === 'study';
+    if (study) {
+      study.hidden = !studyOpen;
+      study.setAttribute('aria-hidden', String(!studyOpen));
+    }
+    document.getElementById('gameContainer')?.classList.toggle('study-open', studyOpen);
+    if (studyOpen) {
+      document.getElementById('studyGrounding').textContent = 'Archive text only';
+      document.getElementById('studyCategory').textContent = fixture.category;
+      document.getElementById('studyQuestion').textContent = fixture.clue;
+      document.getElementById('studyAnswer').textContent = 'What are Post-it Notes?';
+      document.getElementById('studyResponse').textContent = 'The canonical response is protected while we take this useful little detour.';
     }
 
     const scoreValue = document.getElementById('hudScore');

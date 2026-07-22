@@ -9,7 +9,7 @@ const outputDir = path.join(root, 'screenshots', 'visual-fixtures');
 const ownsServer = !process.env.BASE_URL;
 const baseUrl = process.env.BASE_URL || 'http://127.0.0.1:4197';
 const serverUrl = new URL(baseUrl);
-const fixtures = ['clue', 'reveal', 'correct', 'incorrect', 'menu', 'scoreboard'];
+const fixtures = ['clue', 'reveal', 'correct', 'incorrect', 'menu', 'scoreboard', 'study'];
 const themes = ['dark', 'light'];
 const viewports = [
   ['phone-320', 320, 568],
@@ -23,17 +23,19 @@ const viewports = [
 let server;
 
 async function serverReady() {
-  try {
-    const response = await fetch(`${baseUrl}/game.html`);
-    return response.ok;
-  } catch {
-    return false;
-  }
+  return new Promise((resolve) => {
+    const request = http.get(`${baseUrl}/game.html`, (response) => {
+      response.resume();
+      resolve(response.statusCode >= 200 && response.statusCode < 400);
+    });
+    request.setTimeout(1500, () => request.destroy());
+    request.on('error', () => resolve(false));
+  });
 }
 
 async function ensureServer() {
+  if (!ownsServer) return;
   if (await serverReady()) return;
-  if (!ownsServer) throw new Error(`No visual fixture server is available at ${baseUrl}`);
 
   const contentTypes = {
     '.css': 'text/css; charset=utf-8',
@@ -116,6 +118,7 @@ try {
             clueText: '#clueText',
             host: '#hostStage',
             footer: '.control-footer',
+            study: '#studyPanel',
           };
           const result = {};
           for (const [name, selector] of Object.entries(selectors)) {
@@ -136,6 +139,8 @@ try {
           ? ['header', 'menu', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer']
           : fixture === 'scoreboard'
             ? ['header', 'scoreboard', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer']
+            : fixture === 'study'
+              ? ['header', 'study', 'footer']
             : ['header', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer'];
         const fixtureFailures = [];
         if (geometry.documentOverflow > 1) fixtureFailures.push(`document overflow ${geometry.documentOverflow}px`);

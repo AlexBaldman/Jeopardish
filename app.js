@@ -192,8 +192,10 @@ const translationModule = globalThis.JeoPARODYTranslation || null;
 const audioModule = globalThis.JeoPARODYAudio || null;
 const roundDirectorModule = globalThis.JeoPARODYRoundDirector || null;
 const sessionModule = globalThis.JeoPARODYSession || null;
+const cluePacketModule = globalThis.JeoPARODYCluePacket || null;
+const roundSnapshotModule = globalThis.JeoPARODYRoundSnapshot || null;
 
-if (!contracts || !eventBusModule || !engineModule || !dataModule || !mediaModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !roundDirectorModule || !sessionModule) {
+if (!contracts || !eventBusModule || !engineModule || !dataModule || !mediaModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !roundDirectorModule || !sessionModule || !cluePacketModule || !roundSnapshotModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
@@ -210,6 +212,8 @@ let translationService;
 let audioController;
 let roundDirector;
 let sessionManager;
+let roundSnapshotStore;
+let activeStudyPacket = null;
 let translationAbortController = null;
 let mediaAbortController = null;
 let gameStarted = false;
@@ -454,6 +458,94 @@ function renderClue(sourceClue, displayClue = sourceClue) {
   renderer.renderClue(displayClue, gameState.currentClueValue);
 }
 
+async function enterStudyMode() {
+  if (renderer.isStudyOpen() || !state.currentSourceClue) return false;
+  if (roundDirector.phase === roundDirectorModule.RoundPhases.ANSWERING) {
+    await showHideAnswer();
+  }
+  if (!roundDirector.canPause()) return false;
+
+  const roundState = roundDirector.pause();
+  const engineState = gameEngine.pause('study');
+  if (!roundState || !engineState) {
+    if (roundState) roundDirector.resume(roundState);
+    return false;
+  }
+
+  const parsed = getSourceClueContent(state.currentSourceClue);
+  const canonical = cluePacketModule.createCanonicalCluePacket({
+    ...state.currentSourceClue,
+    question: parsed.questionText,
+  }, {
+    locale: 'en',
+    media: parsed.media,
+  });
+  const displayParsed = getSourceClueContent(state.currentDisplayClue || state.currentSourceClue);
+  activeStudyPacket = cluePacketModule.createGroundedCluePacket(canonical, {
+    presentation: {
+      locale: state.language,
+      category: state.currentDisplayClue?.category || state.currentSourceClue.category,
+      question: displayParsed.questionText,
+      answer: state.currentDisplayClue?.answer || state.currentSourceClue.answer,
+    },
+  });
+  const gameState = gameEngine.getState();
+  roundSnapshotStore.capture({
+    clueId: canonical.clueId,
+    packet: activeStudyPacket,
+    locale: state.language,
+    scoreReference: {
+      score: gameState.score,
+      currentStreak: gameState.currentStreak,
+      bestStreak: gameState.bestStreak,
+    },
+    engineState,
+    roundState,
+    view: renderer.captureRoundView(),
+  });
+  eventBus.emit(contracts.GameEvents.STUDY_ENTERED, { clueId: canonical.clueId }, { source: 'StudyMode' });
+  renderer.renderStudyPanel(activeStudyPacket, cluePacketModule.getStudyActions(state.language));
+  renderer.setStudyOpen(true);
+  renderer.setControlsEnabled(false);
+  renderHost('clue');
+  return true;
+}
+
+function selectStudyAction(actionId) {
+  if (!renderer.isStudyOpen() || !activeStudyPacket) return;
+  const response = cluePacketModule.getStudyResponse(activeStudyPacket, actionId);
+  renderer.renderStudyResponse(response);
+  eventBus.emit(contracts.GameEvents.STUDY_ACTION_SELECTED, {
+    clueId: activeStudyPacket.canonical.clueId,
+    actionId,
+    grounding: activeStudyPacket.grounding,
+  }, { source: 'StudyMode' });
+}
+
+function exitStudyMode() {
+  const pending = roundSnapshotStore.peek();
+  if (!pending || !renderer.isStudyOpen()) return false;
+  const snapshot = roundSnapshotStore.consume(pending.resumeToken);
+  const gameState = gameEngine.getState();
+  const scoreUnchanged = ['score', 'currentStreak', 'bestStreak']
+    .every((key) => gameState[key] === snapshot.scoreReference[key]);
+  if (!scoreUnchanged) {
+    eventBus.emit(contracts.GameEvents.ERROR_REPORTED, {
+      code: 'study-mutated-score',
+      message: 'Study mode changed protected round scoring state.',
+    }, { source: 'StudyMode' });
+  }
+  gameEngine.resume(snapshot.engineState);
+  roundDirector.resume(snapshot.roundState);
+  renderer.setStudyOpen(false);
+  renderer.restoreRoundView(snapshot.view);
+  renderer.setControlsEnabled(snapshot.roundState.phase === roundDirectorModule.RoundPhases.ANSWERING);
+  renderer.setStudyAvailable(true);
+  activeStudyPacket = null;
+  eventBus.emit(contracts.GameEvents.STUDY_EXITED, { clueId: snapshot.clueId }, { source: 'StudyMode' });
+  return true;
+}
+
 function getSourceClueContent(clue) {
   const parsed = rendererModule.extractClueMedia(clue, globalThis.document);
   return { questionText: parsed.text, media: parsed.media };
@@ -567,6 +659,7 @@ async function refreshCurrentClueLanguage() {
 }
 
 async function getNewQuestion() {
+  if (renderer?.isStudyOpen()) return null;
   if (!gameStarted) {
     return startGame();
   }
@@ -587,6 +680,7 @@ async function getNewQuestion() {
   const requestId = ++state.translationRequestId;
   roundDirector.cancel(roundDirectorModule.RoundPhases.CLUE_INTRO);
   renderer.setControlsEnabled(false);
+  renderer.setStudyAvailable(false);
   mediaAbortController?.abort();
   mediaAbortController = new AbortController();
   let clue;
@@ -605,7 +699,9 @@ async function getNewQuestion() {
   if (!displayClue || requestId !== state.translationRequestId) {
     return null;
   }
-  return roundDirector.introduceClue(() => renderClue(clue, displayClue));
+  await roundDirector.introduceClue(() => renderClue(clue, displayClue));
+  renderer.setStudyAvailable(roundDirector.canPause());
+  return clue;
 }
 
 function handleMediaFailure({ item, reason }) {
@@ -619,6 +715,7 @@ function handleMediaFailure({ item, reason }) {
 }
 
 async function checkAnswer() {
+  if (renderer.isStudyOpen()) return;
   if (roundDirector.isAdvanceReady()) {
     getNewQuestion();
     return;
@@ -682,9 +779,11 @@ async function checkAnswer() {
       renderer.clearUserAnswer();
     },
   );
+  renderer.setStudyAvailable(roundDirector.canPause());
 }
 
 async function showHideAnswer() {
+  if (renderer.isStudyOpen()) return;
   if (roundDirector.isBusy() || roundDirector.isAdvanceReady() || renderer.isAnswerVisible()) {
     return;
   }
@@ -695,6 +794,7 @@ async function showHideAnswer() {
     renderHost('reveal');
     recordSessionOutcome('revealed');
   });
+  renderer.setStudyAvailable(roundDirector.canPause());
 }
 
 async function loadQuestions() {
@@ -782,6 +882,9 @@ function bindEvents() {
     onPreviousDialogueStyle: () => cycleDialogueStyle(-1),
     onNextDialogueStyle: () => cycleDialogueStyle(1),
     onCycleScene: cycleScenePack,
+    onEnterStudy: enterStudyMode,
+    onStudyAction: selectStudyAction,
+    onExitStudy: exitStudyMode,
     onMediaFailure: handleMediaFailure,
   });
 
@@ -806,6 +909,9 @@ function bindEvents() {
     } else if (key === 'v') {
       event.preventDefault();
       cycleDialogueStyle(1);
+    } else if (key === 'd') {
+      event.preventDefault();
+      enterStudyMode();
     }
   });
 }
@@ -840,11 +946,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     onPhase: (phase) => renderer.setRoundPhase(phase),
   });
   sessionManager = new sessionModule.SessionManager({ eventBus });
+  roundSnapshotStore = new roundSnapshotModule.RoundSnapshotStore();
   sceneService?.bindDom();
   applyPreferences();
   renderHost('idle');
   bindEvents();
   renderer.setControlsEnabled(false);
+  renderer.setStudyAvailable(false);
   renderer.setStatus('Studio standing by.');
   renderScoreboard();
 

@@ -101,6 +101,12 @@
           return this.describeIncorrect(payload);
         case GameEvents.STREAK_MILESTONE:
           return `🔥 Streak milestone: ${payload.streak}. The scoreboard fans itself with a tiny program.`;
+        case GameEvents.STUDY_ENTERED:
+          return `🧭 Study detour opened for clue ${truncate(payload.clueId || 'unknown')}. The score has been placed in a tamper-evident Canadian envelope.`;
+        case GameEvents.STUDY_ACTION_SELECTED:
+          return `🧠 Xander considers “${payload.actionId || 'something educational'}” using ${payload.grounding || 'mysterious'} grounding. Fabricated certainty has been denied entry.`;
+        case GameEvents.STUDY_EXITED:
+          return '↩️ Study detour closed. The exact round state returns, looking rested and insisting it never left.';
         case GameEvents.ERROR_REPORTED:
           return `⚠️ The rules desk has raised one eyebrow: ${payload.message || 'something got weird'}.`;
         default:

@@ -93,6 +93,7 @@ function createFakeDocument() {
     'menuClose',
     'menuNewClue',
     'menuRevealAnswer',
+    'menuDeepDive',
     'menuTheme',
     'menuLanguage',
     'menuSound',
@@ -126,6 +127,16 @@ function createFakeDocument() {
     'mediaModalType',
     'mediaModalClose',
     'mediaModalLink',
+    'deepDiveButton',
+    'studyPanel',
+    'studyClose',
+    'studyResume',
+    'studyCategory',
+    'studyQuestion',
+    'studyAnswer',
+    'studyGrounding',
+    'studyActions',
+    'studyResponse',
   ];
   const elements = new Map(ids.map((id) => [id, createFakeElement(id)]));
   const body = createFakeElement('body');
@@ -307,6 +318,29 @@ test('Renderer binds UI events to callbacks', () => {
   assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'sound', 'host-prev', 'host-next', 'dialogue-prev', 'dialogue-next', 'scene', 'check']);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
   assert.equal(renderer.dom.hamburgerMenu.attributes['aria-expanded'], 'true');
+});
+
+test('Renderer presents grounded study content and restores the round view', () => {
+  const { renderer } = createRenderer();
+  renderer.dom.userInput.value = 'half typed answer';
+  renderer.toggleAnswer(false);
+  renderer.setGameMoment('clue');
+  const view = renderer.captureRoundView();
+
+  renderer.renderStudyPanel({
+    grounding: 'canonical-only',
+    canonical: { category: 'Science', question: 'A grounded question', answer: 'A grounded answer' },
+  }, [{ id: 'simple', label: 'Explain this simply' }]);
+  renderer.setStudyOpen(true);
+
+  assert.equal(renderer.isStudyOpen(), true);
+  assert.equal(renderer.dom.studyCategory.textContent, 'Science');
+  assert.equal(renderer.dom.studyActions.children[0].dataset.studyAction, 'simple');
+  renderer.dom.userInput.value = '';
+  renderer.setStudyOpen(false);
+  renderer.restoreRoundView(view);
+  assert.equal(renderer.dom.userInput.value, 'half typed answer');
+  assert.equal(renderer.isAnswerVisible(), false);
 });
 
 test('Renderer applies localized static UI copy and toggle states', () => {

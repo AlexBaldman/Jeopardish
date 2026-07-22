@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-2" type="text/css">
     <link rel="stylesheet" href="styles/game/menu.css?v=architecture-2" type="text/css">
     <link rel="stylesheet" href="styles/game/host.css?v=architecture-2" type="text/css">
+    <link rel="stylesheet" href="styles/game/study.css?v=study-1" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bree+Serif&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -31,6 +32,8 @@
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/directors/round-director.js?v=round-3"></script>
     <script defer src="src/session/session-manager.js?v=season-zero-2"></script>
+    <script defer src="src/study/clue-packet.js?v=study-1"></script>
+    <script defer src="src/study/round-snapshot.js?v=study-1"></script>
     <script defer src="landing.js?v=vision-2"></script>
     <script defer src="app.js?v=dialogue-1"></script>
 </head>
@@ -388,6 +391,7 @@
                         <h2 id="menuRoundTitle">Round</h2>
                         <button id="menuNewClue" type="button"><span>New clue</span><kbd>Q</kbd></button>
                         <button id="menuRevealAnswer" type="button"><span>Reveal answer</span><kbd>A</kbd></button>
+                        <button id="menuDeepDive" type="button"><span>Ask Xander</span><kbd>D</kbd></button>
                     </section>
                     <section class="menu-section menu-action-grid" aria-labelledby="menuSettingsTitle">
                         <h2 id="menuSettingsTitle">Settings</h2>
@@ -426,6 +430,7 @@
                             <div id="clueMedia" class="clue-media" aria-label="Clue media"></div>
                         </div>
                         <div id="answerBox"></div>
+                        <button class="deep-dive-trigger" id="deepDiveButton" type="button"><span aria-hidden="true">?</span> Ask Xander</button>
                     </div>
                     <div class="host-stage" id="hostStage" aria-label="Host visual selector">
                         <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
@@ -437,6 +442,22 @@
                         <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look">›</button>
                     </div>
                 </div>
+
+                <aside class="study-panel" id="studyPanel" aria-hidden="true" hidden>
+                    <header class="study-header">
+                        <div><small>Clue detour</small><h2>Ask Xander</h2></div>
+                        <button id="studyClose" type="button" aria-label="Close study detour">×</button>
+                    </header>
+                    <div class="study-scroll">
+                        <p class="study-grounding" id="studyGrounding">Archive text only</p>
+                        <p class="study-category" id="studyCategory"></p>
+                        <p class="study-question" id="studyQuestion"></p>
+                        <p class="study-answer"><span>Canonical response</span><strong id="studyAnswer"></strong></p>
+                        <div class="study-actions" id="studyActions" aria-label="Study directions"></div>
+                        <div class="study-response" id="studyResponse" aria-live="polite"></div>
+                    </div>
+                    <button class="study-resume" id="studyResume" type="button">Return to clue</button>
+                </aside>
 
                 <footer class="control-footer" aria-label="Contestant controls">
                     <div class="input-div">

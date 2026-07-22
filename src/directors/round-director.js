@@ -16,6 +16,9 @@
     CORRECT: 'correct',
     INCORRECT: 'incorrect',
     ADVANCE_READY: 'advance-ready',
+    PAUSING: 'pausing',
+    PAUSED: 'paused',
+    RESUMING: 'resuming',
   });
 
   const DefaultTimings = Object.freeze({
@@ -44,6 +47,7 @@
       this.generation = 0;
       this.pending = new Map();
       this.busy = false;
+      this.pausedState = null;
     }
 
     setPhase(phase) {
@@ -60,6 +64,7 @@
       });
       this.pending.clear();
       this.busy = false;
+      this.pausedState = null;
       return this.setPhase(nextPhase);
     }
 
@@ -69,6 +74,32 @@
 
     isAdvanceReady() {
       return this.phase === RoundPhases.ADVANCE_READY;
+    }
+
+    canPause() {
+      return !this.busy && [RoundPhases.ANSWERING, RoundPhases.ADVANCE_READY].includes(this.phase);
+    }
+
+    isPaused() {
+      return this.phase === RoundPhases.PAUSED;
+    }
+
+    pause() {
+      if (!this.canPause()) return null;
+      const snapshot = Object.freeze({ version: 1, phase: this.phase });
+      this.pausedState = snapshot;
+      this.setPhase(RoundPhases.PAUSING);
+      this.setPhase(RoundPhases.PAUSED);
+      return snapshot;
+    }
+
+    resume(snapshot = this.pausedState) {
+      if (!this.isPaused() || !snapshot || snapshot.version !== 1) return false;
+      if (![RoundPhases.ANSWERING, RoundPhases.ADVANCE_READY].includes(snapshot.phase)) return false;
+      this.setPhase(RoundPhases.RESUMING);
+      this.pausedState = null;
+      this.setPhase(snapshot.phase);
+      return true;
     }
 
     delay(milliseconds, token) {
