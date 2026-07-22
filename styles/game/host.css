@@ -1,0 +1,9 @@
+@layer responsive {
+    @media (max-height: 620px) {
+        @container cabinet (max-width: 420px) {
+            .game-container .host-stage {
+                display: none;
+            }
+        }
+    }
+}

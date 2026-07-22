@@ -8,18 +8,24 @@ The visual system should feel authored, playful, and game-like without making th
 
 | File | Owner | Loaded by |
 | --- | --- | --- |
-| `style.css` | Shared reset, design tokens, landing page, site-level responsive behavior | `index.html`, `game.html` |
-| `styles/game.css` | Game shell, scene, header, score drawer, menu, dialogue, host, controls, media, game responsive behavior | `index.html`, `game.html` |
+| `styles/order.css` | Global cascade-layer order | `index.html`, `game.html` |
+| `style.css` | Legacy shared reset, landing page, and site-level behavior during migration | `index.html`, `game.html` |
+| `styles/game.css` | Legacy game rules that have not yet moved into component ownership | `index.html`, `game.html` |
+| `styles/tokens/semantics.css` | Theme-aware cabinet surfaces, text, borders, focus, and motion tokens | `index.html`, `game.html` |
+| `styles/game/header.css` | Game header layout, preference controls, logo placement, and container behavior | `index.html`, `game.html` |
+| `styles/game/scoreboard.css` | Score drawer, split-flap readouts, reveal motion, and compact states | `index.html`, `game.html` |
+| `styles/game/menu.css` | Navigation drawer, menu controls, and responsive geometry | `index.html`, `game.html` |
+| `styles/game/host.css` | Owned host adaptations, beginning with the ultra-compact readability rule | `index.html`, `game.html` |
 | `creative-room.css` | Creative Room documentation tool | `creative-room.html` |
 
-The order is intentional: shared tokens first, game components second. `creative-room.css` is isolated because its interface and information density are different from the game.
+The order is enforced by `@layer`: `reset`, `tokens`, `legacy`, `components`, `variants`, `states`, `responsive`, and `utilities`. Legacy rules cannot beat migrated component rules merely because they were appended later. `creative-room.css` remains isolated because its interface and information density are different from the game.
 
 ## Component Ownership
 
-The game stylesheet follows the page from back to front:
+Component migration follows the page from back to front:
 
 1. Cabinet and illustrated scene
-2. Header, preferences, score drawer, and navigation menu
+2. Header, preferences, score drawer, and navigation menu (migrated)
 3. Main stage and round feedback
 4. Dialogue card and its four semantic skins
 5. Media previews and modal viewer
@@ -36,6 +42,15 @@ The game stylesheet follows the page from back to front:
 - `!important` is reserved for global reduced-motion guarantees. Component declarations must win through ownership and source order.
 - A selector should appear once per cascade context. Run `npm run audit:css` before shipping visual work.
 - Prefer design tokens for repeated color, type, spacing, depth, and motion decisions.
+- Use cabinet container queries for component composition. Viewport media queries are reserved for page-level height, safe-area, and browser-chrome constraints.
+
+## Visual State Lab
+
+`visual-fixtures.html` deterministically presents clue, reveal, correct, incorrect, menu, and scoreboard states in day or night mode at each supported cabinet size.
+
+Run `npm run test:visual` to capture 72 combinations under `screenshots/visual-fixtures/`. The runner fails on document overflow, component escape from the cabinet, missing visible geometry, or host overlap with clue text. Captures are local build artifacts and are intentionally ignored by git.
+
+The current audited ceiling is 40 same-context duplicate selectors. The baseline after the header, scoreboard, and menu migration is 36. Every later component migration must hold or lower that number.
 
 ## Art Direction Test
 

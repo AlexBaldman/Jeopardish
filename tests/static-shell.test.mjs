@@ -2,11 +2,16 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [landingHtml, gameHtml, styles, gameStyles] = await Promise.all([
+const [landingHtml, gameHtml, fixtureHtml, styles, gameStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../game.html', import.meta.url), 'utf8'),
+  readFile(new URL('../visual-fixtures.html', import.meta.url), 'utf8'),
   readFile(new URL('../style.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game/header.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game/scoreboard.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game/menu.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game/host.css', import.meta.url), 'utf8'),
 ]);
 
 const cabinetContractIds = [
@@ -63,7 +68,27 @@ test('both game shells load the canonical game stylesheet after shared styles', 
     const gameIndex = html.indexOf('href="styles/game.css');
     assert.ok(sharedIndex >= 0, `${surface} is missing shared styles`);
     assert.ok(gameIndex > sharedIndex, `${surface} must load game styles after shared styles`);
+    assert.match(html, /href="styles\/order\.css/);
+    assert.ok(html.indexOf('href="styles/game/header.css') > gameIndex, `${surface} must load owned header styles after legacy game styles`);
+    assert.ok(html.indexOf('href="styles/game/scoreboard.css') > gameIndex, `${surface} must load owned scoreboard styles after legacy game styles`);
+    assert.ok(html.indexOf('href="styles/game/menu.css') > gameIndex, `${surface} must load owned menu styles after legacy game styles`);
   }
+});
+
+test('canonical cabinet components use layers and container-driven responsive rules', () => {
+  assert.match(styles, /^@layer legacy/);
+  assert.match(gameStyles, /^@layer legacy/);
+  assert.match(headerStyles, /container:\s*cabinet\s*\/\s*inline-size/);
+  assert.match(headerStyles, /@container cabinet \(max-width: 760px\)/);
+  assert.match(scoreboardStyles, /@layer components/);
+  assert.match(menuStyles, /@layer components/);
+  assert.match(hostStyles, /@container cabinet \(max-width: 420px\)/);
+});
+
+test('visual state lab exposes deterministic game fixtures', () => {
+  assert.match(fixtureHtml, /id="fixtureState"/);
+  assert.match(fixtureHtml, /src="src\/dev\/visual-fixture-state\.js"/);
+  assert.match(fixtureHtml, /id="fixtureFrame"/);
 });
 
 test('the live drawer is the only scoreboard surface', () => {

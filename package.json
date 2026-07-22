@@ -8,8 +8,12 @@
     "build:static": "node scripts/build-static.mjs",
     "validate:questions": "node scripts/validate-questions.mjs",
     "check:js": "node --check game-logic.js && node --check src/contracts/events.js && node --check src/core/event-bus.js && node --check src/core/game-engine.js && node --check src/session/session-manager.js && node --check src/data/data-loader.js && node --check src/media/media-preflight.js && node --check src/render/scene-service.js && node --check src/render/renderer.js && node --check src/render/console-narrator.js && node --check src/host/host-manager.js && node --check src/brand/brand-controller.js && node --check src/i18n/translation-service.js && node --check src/audio/audio-controller.js && node --check src/directors/round-director.js && node --check creative-room.js && node --check landing.js && node --check app.js",
-    "audit:css": "node scripts/audit-css.mjs style.css styles/game.css --max-duplicates=52 --max-important=5",
+    "audit:css": "node scripts/audit-css.mjs style.css styles/game.css styles/tokens/semantics.css styles/game/header.css styles/game/scoreboard.css styles/game/menu.css styles/game/host.css --max-duplicates=40 --max-important=5",
+    "test:visual": "node scripts/capture-visual-fixtures.mjs",
     "triage:branches": "bash scripts/branch-triage-report.sh",
     "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.54.1"
   }
 }

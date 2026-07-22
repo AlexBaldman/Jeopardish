@@ -1,3 +1,5 @@
+@layer legacy {
+
 *,
 *::before,
 *::after {
@@ -1297,4 +1299,6 @@ body[data-theme="light"] .diagram-branch {
     .scene-layer {
         transform: none !important;
     }
+}
+
 }

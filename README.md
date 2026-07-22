@@ -49,6 +49,18 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm test
   ```
 
+- Open the deterministic visual-state workbench at `visual-fixtures.html`, or capture and geometry-check all 72 supported state, theme, and viewport combinations:
+
+  ```bash
+  npm run test:visual
+  ```
+
+- Enforce the shrinking CSS-debt ceiling:
+
+  ```bash
+  npm run audit:css
+  ```
+
 Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture merge/cherry-pick/delete decisions after each report run.
 
 Latest filled decision pass: `docs/BRANCH_DECISIONS_2026-04-05.md`.

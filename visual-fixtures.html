@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JeoPARODY Visual State Lab</title>
+    <link rel="stylesheet" href="visual-fixtures.css">
+    <script defer src="src/dev/visual-fixture-state.js"></script>
+    <script defer src="visual-fixtures.js"></script>
+</head>
+<body>
+    <header class="lab-header">
+        <div>
+            <p>JeoPARODY systems lab</p>
+            <h1>Visual State Lab</h1>
+        </div>
+        <form id="fixtureControls">
+            <label>State <select id="fixtureState"></select></label>
+            <label>Theme <select id="fixtureTheme"><option value="dark">Night</option><option value="light">Day</option></select></label>
+            <label>Viewport <select id="fixtureViewport"></select></label>
+        </form>
+    </header>
+    <main class="lab-stage" id="labStage">
+        <iframe id="fixtureFrame" title="JeoPARODY visual fixture" src="game.html"></iframe>
+    </main>
+</body>
+</html>
