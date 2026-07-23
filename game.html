@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeoPARODY | Channel O Game Cabinet</title>
     <meta name="description" content="Play JeoPARODY in a dedicated full-window comedy-learning arcade cabinet.">
-    <link rel="stylesheet" href="styles/order.css?v=architecture-2" type="text/css">
-    <link rel="stylesheet" href="style.css?v=architecture-2" type="text/css">
-    <link rel="stylesheet" href="styles/game.css?v=architecture-2" type="text/css">
-    <link rel="stylesheet" href="styles/tokens/semantics.css?v=architecture-2" type="text/css">
-    <link rel="stylesheet" href="styles/game/header.css?v=architecture-2" type="text/css">
-    <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-2" type="text/css">
-    <link rel="stylesheet" href="styles/game/menu.css?v=architecture-2" type="text/css">
-    <link rel="stylesheet" href="styles/game/host.css?v=architecture-2" type="text/css">
-    <link rel="stylesheet" href="styles/game/controls.css?v=controls-3" type="text/css">
-    <link rel="stylesheet" href="styles/game/study.css?v=study-1" type="text/css">
+    <link rel="stylesheet" href="styles/order.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/tokens.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/base.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/legacy.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/header.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/menu.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/host.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/dialogue.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/controls.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/study.css?v=architecture-3" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bree+Serif&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -173,7 +174,7 @@
                 <div class="input-div">
                     <label class="answer-field" for="inputbox">
                         <span class="answer-field-label" id="answerFieldLabel">Your response</span>
-                        <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+                        <input class="answer-input" type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
                     </label>
                     <button id="checkButton" class="cabinet-button lock-button" type="button" aria-label="Lock It In. Keyboard shortcut: Enter" data-tooltip="Lock It In" data-key="Enter" accesskey="l">
                         <span class="control-symbol lock-symbol" aria-hidden="true"><span class="lock-ring"></span><span class="lock-core">!</span></span>

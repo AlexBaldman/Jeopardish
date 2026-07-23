@@ -7,7 +7,9 @@ const maxImportantArg = args.find((arg) => arg.startsWith('--max-important='));
 const maxDuplicates = maxDuplicatesArg ? Number(maxDuplicatesArg.split('=')[1]) : Infinity;
 const maxImportant = maxImportantArg ? Number(maxImportantArg.split('=')[1]) : Infinity;
 const files = args.filter((arg) => !arg.startsWith('--'));
-const targets = files.length ? files : ['style.css', 'styles/game.css', 'creative-room.css'];
+const targets = files.length
+  ? files
+  : ['styles/base.css', 'styles/tokens.css', 'style.css', 'styles/game/legacy.css', 'creative-room.css'];
 
 function stripComments(css) {
   return css.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -67,6 +69,7 @@ function collectRules(css, source, context = [], findings = []) {
 }
 
 const rules = [];
+const sourceMetrics = [];
 let importantCount = 0;
 let lineCount = 0;
 
@@ -74,9 +77,18 @@ for (const target of targets) {
   const absolute = path.resolve(target);
   if (!fs.existsSync(absolute)) throw new Error(`Missing stylesheet: ${target}`);
   const css = fs.readFileSync(absolute, 'utf8');
-  lineCount += css.split('\n').length;
-  importantCount += (css.match(/!important\b/g) || []).length;
+  const sourceLines = css.split('\n').length;
+  const sourceImportant = (css.match(/!important\b/g) || []).length;
+  const ruleStart = rules.length;
+  lineCount += sourceLines;
+  importantCount += sourceImportant;
   collectRules(stripComments(css), target, [], rules);
+  sourceMetrics.push({
+    source: target,
+    lines: sourceLines,
+    rules: rules.length - ruleStart,
+    important: sourceImportant,
+  });
 }
 
 const occurrences = new Map();
@@ -94,7 +106,18 @@ const duplicates = [...occurrences.values()]
 console.log(`CSS audit: ${targets.join(', ')}`);
 console.log(`  ${lineCount} lines | ${rules.length} selector rules | ${importantCount} !important declarations`);
 console.log(`  ${duplicates.length} duplicate selectors in the same cascade context`);
+console.log('');
+console.log('  Ownership by source');
+for (const metric of sourceMetrics) {
+  console.log(
+    `  ${metric.source.padEnd(34)} `
+    + `${String(metric.lines).padStart(5)} lines | `
+    + `${String(metric.rules).padStart(4)} rules | `
+    + `${metric.important} !important`,
+  );
+}
 
+if (duplicates.length) console.log('');
 for (const entry of duplicates) {
   console.log(`  x${entry.sources.length} ${entry.selector} [${entry.context}]`);
 }

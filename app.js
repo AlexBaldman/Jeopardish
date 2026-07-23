@@ -1,6 +1,6 @@
 'use strict';
 
-const QUESTION_SOURCE = './questions/jeopardy-questions.json';
+const QUESTION_SOURCE = './questions/runtime-bank.json';
 const FETCH_TIMEOUT_MS = 30000;
 const MAX_MEDIA_PREFLIGHT_ATTEMPTS = 8;
 const DIALOGUE_STYLES = Object.freeze([

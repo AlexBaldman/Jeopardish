@@ -1,98 +1,219 @@
 @layer components {
-  .deep-dive-trigger {
-    position: absolute;
-    right: clamp(0.8rem, 2vw, 1.4rem);
-    bottom: clamp(0.65rem, 1.5vw, 1rem);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.55rem 0.8rem;
-    color: #fff8d9;
-    font: 700 0.78rem/1 var(--body-font, sans-serif);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    background: #24204b;
-    border: 2px solid #66edf2;
-    border-radius: 999px;
-    box-shadow: 3px 3px 0 #171317;
-    cursor: pointer;
-  }
+    .game-container .deep-dive-trigger {
+        position: absolute;
+        right: clamp(0.8rem, 2vw, 1.4rem);
+        bottom: clamp(0.65rem, 1.5vw, 1rem);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.55rem 0.8rem;
+        border: 2px solid var(--neon-cyan);
+        border-radius: 999px;
+        color: #fff8d9;
+        background: #24204b;
+        box-shadow: 3px 3px 0 var(--ink);
+        cursor: pointer;
+        font: 700 0.78rem/1 var(--utility-font);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
 
-  .deep-dive-trigger span {
-    display: grid;
-    place-items: center;
-    width: 1.35rem;
-    aspect-ratio: 1;
-    color: #171317;
-    background: #ffe15a;
-    border-radius: 50%;
-  }
+    .game-container .deep-dive-trigger span {
+        display: grid;
+        place-items: center;
+        width: 1.35rem;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        color: var(--ink);
+        background: var(--neon-yellow);
+    }
 
-  .study-panel {
-    position: absolute;
-    z-index: 70;
-    top: var(--header-height, 82px);
-    right: 0;
-    bottom: var(--footer-height, 104px);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    width: min(440px, 92%);
-    color: #f8f2dc;
-    background:
-      linear-gradient(135deg, rgba(34, 29, 73, 0.98), rgba(13, 49, 62, 0.98)),
-      repeating-linear-gradient(0deg, transparent 0 7px, rgba(255, 255, 255, 0.03) 7px 8px);
-    border: 3px solid #171317;
-    border-right: 0;
-    box-shadow: -12px 10px 0 rgba(23, 19, 23, 0.32), -24px 0 50px rgba(3, 7, 20, 0.4);
-    animation: study-enter 260ms cubic-bezier(.2,.8,.2,1) both;
-  }
+    .game-container .study-panel {
+        position: absolute;
+        top: var(--jp-header-height);
+        right: 0;
+        bottom: var(--footer-height);
+        z-index: 70;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        width: min(440px, 92%);
+        border: 3px solid var(--ink);
+        border-right: 0;
+        color: #f8f2dc;
+        background:
+            linear-gradient(135deg, rgba(34, 29, 73, 0.98), rgba(13, 49, 62, 0.98)),
+            repeating-linear-gradient(0deg, transparent 0 7px, rgba(255, 255, 255, 0.03) 7px 8px);
+        box-shadow:
+            -12px 10px 0 rgba(23, 19, 23, 0.32),
+            -24px 0 50px rgba(3, 7, 20, 0.4);
+        animation: study-enter 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
 
-  .study-panel[hidden] { display: none; }
+    .game-container .study-panel[hidden] {
+        display: none;
+    }
 
-  .study-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.1rem;
-    color: #171317;
-    background: #ffe15a;
-    border-bottom: 3px solid #171317;
-  }
+    .game-container .study-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.1rem;
+        border-bottom: 3px solid var(--ink);
+        color: var(--ink);
+        background: var(--neon-yellow);
+    }
 
-  .study-header small,
-  .study-answer span {
-    font: 700 0.64rem/1.3 "Press Start 2P", monospace;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
+    .game-container .study-header small,
+    .game-container .study-answer span {
+        font: 700 0.64rem/1.3 var(--pixel-font);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
 
-  .study-header h2 { margin: 0.22rem 0 0; font: 900 1.7rem/1 "Bangers", Impact, sans-serif; letter-spacing: 0.05em; }
-  .study-header button { width: 2.4rem; aspect-ratio: 1; font-size: 1.5rem; background: #fff8d9; border: 2px solid #171317; border-radius: 50%; cursor: pointer; }
-  .study-scroll { min-height: 0; overflow-y: auto; padding: 1.1rem; }
-  .study-grounding { display: inline-block; margin: 0 0 1rem; padding: 0.4rem 0.55rem; color: #171317; font: 700 0.64rem/1.3 "Press Start 2P", monospace; letter-spacing: 0.04em; text-transform: uppercase; background: #66edf2; }
-  .study-category { margin: 0 0 0.7rem; color: #ff8bd8; font: 900 1rem/1.2 "Press Start 2P", monospace; text-transform: uppercase; }
-  .study-question { margin: 0; font: 700 clamp(1.05rem, 2vw, 1.3rem)/1.42 var(--question-font, serif); }
-  .study-answer { display: grid; gap: 0.4rem; margin: 1rem 0; padding: 0.85rem; color: #171317; background: #f8f2dc; border-left: 6px solid #59c879; }
-  .study-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
-  .study-actions button { min-height: 3.2rem; padding: 0.65rem; color: #f8f2dc; text-align: left; background: rgba(255,255,255,0.08); border: 2px solid rgba(102,237,242,0.55); border-radius: 10px; cursor: pointer; }
-  .study-actions button:last-child { grid-column: 1 / -1; }
-  .study-actions button:hover,
-  .study-actions button:focus-visible { color: #171317; background: #66edf2; }
-  .study-response { min-height: 6rem; margin-top: 1rem; padding: 1rem; color: #171317; line-height: 1.5; background: #fff8d9; border: 3px solid #171317; border-radius: 14px 14px 14px 2px; }
-  .study-resume { margin: 0.85rem 1.1rem 1rem; padding: 0.8rem; color: #171317; font-weight: 900; text-transform: uppercase; background: #ff8bd8; border: 3px solid #171317; box-shadow: 4px 4px 0 #66edf2; cursor: pointer; }
+    .game-container .study-header h2 {
+        margin: 0.22rem 0 0;
+        font: 900 1.7rem/1 "Bangers", Impact, sans-serif;
+        letter-spacing: 0.05em;
+    }
 
-  @keyframes study-enter { from { opacity: 0; transform: translateX(32px); } to { opacity: 1; transform: translateX(0); } }
+    .game-container .study-header button {
+        width: 2.4rem;
+        aspect-ratio: 1;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        background: #fff8d9;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    .game-container .study-scroll {
+        min-height: 0;
+        padding: 1.1rem;
+        overflow-y: auto;
+    }
+
+    .game-container .study-grounding {
+        display: inline-block;
+        margin: 0 0 1rem;
+        padding: 0.4rem 0.55rem;
+        color: var(--ink);
+        background: var(--neon-cyan);
+        font: 700 0.64rem/1.3 var(--pixel-font);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .game-container .study-category {
+        margin: 0 0 0.7rem;
+        color: #ff8bd8;
+        font: 900 1rem/1.2 var(--pixel-font);
+        text-transform: uppercase;
+    }
+
+    .game-container .study-question {
+        margin: 0;
+        font: 700 clamp(1.05rem, 2vw, 1.3rem)/1.42 var(--question-font);
+    }
+
+    .game-container .study-answer {
+        display: grid;
+        gap: 0.4rem;
+        margin: 1rem 0;
+        padding: 0.85rem;
+        border-left: 6px solid #59c879;
+        color: var(--ink);
+        background: #f8f2dc;
+    }
+
+    .game-container .study-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.55rem;
+    }
+
+    .game-container .study-actions button {
+        min-height: 3.2rem;
+        padding: 0.65rem;
+        border: 2px solid rgba(102, 237, 242, 0.55);
+        border-radius: 10px;
+        color: #f8f2dc;
+        background: rgba(255, 255, 255, 0.08);
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .game-container .study-actions button:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .game-container .study-actions button:hover,
+    .game-container .study-actions button:focus-visible {
+        color: var(--ink);
+        background: var(--neon-cyan);
+    }
+
+    .game-container .study-response {
+        min-height: 6rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 3px solid var(--ink);
+        border-radius: 14px 14px 14px 2px;
+        color: var(--ink);
+        background: #fff8d9;
+        line-height: 1.5;
+    }
+
+    .game-container .study-resume {
+        margin: 0.85rem 1.1rem 1rem;
+        padding: 0.8rem;
+        border: 3px solid var(--ink);
+        color: var(--ink);
+        background: #ff8bd8;
+        box-shadow: 4px 4px 0 var(--neon-cyan);
+        cursor: pointer;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    @keyframes study-enter {
+        from {
+            opacity: 0;
+            transform: translateX(32px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
 }
 
 @layer responsive {
-  @container cabinet (max-width: 620px) {
-    .study-panel { top: 0; bottom: 0; width: 100%; border: 0; }
-    .study-actions { grid-template-columns: 1fr; }
-    .study-actions button:last-child { grid-column: auto; }
-    .deep-dive-trigger { font-size: 0; padding: 0.4rem; }
-  }
+    @container cabinet (max-width: 620px) {
+        .game-container .study-panel {
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            border: 0;
+        }
+
+        .game-container .study-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .game-container .study-actions button:last-child {
+            grid-column: auto;
+        }
+
+        .game-container .deep-dive-trigger {
+            padding: 0.4rem;
+            font-size: 0;
+        }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .study-panel { animation: none; }
+    .game-container .study-panel {
+        animation: none;
+    }
 }

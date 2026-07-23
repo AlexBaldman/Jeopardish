@@ -37,6 +37,12 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm run validate:questions
   ```
 
+- Rebuild the deterministic 10,000-clue runtime bank from the complete archive:
+
+  ```bash
+  npm run build:questions
+  ```
+
 - Check JavaScript syntax:
 
   ```bash
@@ -60,6 +66,20 @@ This repo now includes lightweight operations scripts so you can execute the bra
   ```bash
   npm run audit:css
   ```
+
+- Audit the source art library against the production asset manifest:
+
+  ```bash
+  npm run audit:assets
+  ```
+
+- Run every non-browser release check and create the production build:
+
+  ```bash
+  npm run verify
+  ```
+
+`questions/jeopardy-questions.json` is the complete research archive. The browser loads and production packages only `questions/runtime-bank.json`; regenerate it rather than hand-editing it.
 
 Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture merge/cherry-pick/delete decisions after each report run.
 

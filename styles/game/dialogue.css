@@ -1,0 +1,344 @@
+@layer components {
+/* Dialogue system v2: one content hierarchy, four deliberate broadcast skins. */
+body .game-container .speech-bubble[data-dialogue-style] {
+    --dialogue-ink: #fff8df;
+    --dialogue-accent: #f6d36a;
+    --dialogue-value: #8ff0a7;
+    --dialogue-rule: rgba(255, 248, 223, 0.48);
+    --dialogue-tail: #082778;
+    --dialogue-outline: #090b16;
+    width: min(86%, 940px);
+    min-height: min(clamp(300px, 41vh, 390px), calc(100% - 1rem));
+    margin: 0 auto;
+    padding: clamp(3.15rem, 6vh, 3.8rem) clamp(1.5rem, 4.5vw, 3.8rem) clamp(1.55rem, 3.5vh, 2.3rem);
+    overflow: visible;
+    color: var(--dialogue-ink);
+    text-align: center;
+    transform: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style]::before {
+    inset: 10px;
+    border: 1px solid var(--dialogue-rule);
+    border-radius: inherit;
+}
+
+body .game-container .speech-bubble[data-dialogue-style]:not([data-dialogue-style="narration"]):not([data-dialogue-style="thought"])::after {
+    left: clamp(7rem, 32%, 18rem);
+    bottom: -43px;
+    width: 70px;
+    height: 48px;
+    border: 0;
+    border-radius: 0;
+    background: var(--dialogue-tail);
+    box-shadow: none;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    filter: drop-shadow(-5px 6px 0 var(--dialogue-outline));
+    transform: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style] .clue-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: clamp(0.4rem, 1vw, 0.65rem);
+    padding-bottom: clamp(0.65rem, 1.5vw, 0.9rem);
+    border-bottom: 1px solid var(--dialogue-rule);
+}
+
+body .game-container .speech-bubble[data-dialogue-style] .clue-category {
+    justify-items: center;
+    color: var(--dialogue-accent);
+    font-family: var(--question-font);
+    font-size: clamp(1.25rem, 2.8vw, 2rem);
+    font-style: italic;
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: 0.045em;
+    text-align: center;
+    text-shadow: 2px 2px 0 rgba(3, 7, 24, 0.88);
+    text-transform: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style] .clue-value {
+    display: block;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: auto;
+    margin: 0;
+    padding: 0.2rem 0.72rem 0.16rem;
+    overflow: visible;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    color: var(--dialogue-value);
+    background: rgba(5, 14, 48, 0.46);
+    box-shadow: 0 2px 0 rgba(2, 5, 19, 0.62);
+    transform: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style] .clue-value::after {
+    display: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style] .clue-value-amount {
+    display: block;
+    color: inherit;
+    font-family: var(--pixel-font);
+    font-size: clamp(0.55rem, 1vw, 0.72rem);
+    font-weight: 900;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    text-shadow: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style] #questionBox {
+    justify-items: center;
+    gap: 0.65rem;
+}
+
+body .game-container .speech-bubble[data-dialogue-style] .clue-text {
+    max-width: 30ch;
+    margin-inline: auto;
+    color: var(--dialogue-ink);
+    font-family: var(--question-font);
+    font-size: clamp(1.42rem, 3.15vw, 2.62rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-align: center;
+    text-shadow: 2px 2px 0 rgba(2, 7, 28, 0.72);
+    text-wrap: balance;
+}
+
+body .game-container .speech-bubble[data-dialogue-style="clue-card"] {
+    --dialogue-ink: #fff9e8;
+    --dialogue-accent: #f7d56d;
+    --dialogue-value: #91f1a8;
+    --dialogue-rule: rgba(255, 235, 156, 0.55);
+    --dialogue-tail: #082778;
+    background:
+        radial-gradient(circle at 50% 12%, rgba(56, 132, 255, 0.22), transparent 48%),
+        linear-gradient(180deg, #0b3aa7 0%, #071f78 58%, #04134f 100%);
+    border: 4px solid #f0c85b;
+    border-radius: clamp(20px, 2.4vw, 32px);
+    box-shadow:
+        0 0 0 5px var(--dialogue-outline),
+        9px 11px 0 var(--dialogue-outline),
+        14px 16px 0 rgba(255, 77, 154, 0.8),
+        inset 0 0 28px rgba(0, 0, 0, 0.24);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="clue-card"]::before {
+    inset: 9px;
+    border: 1px solid rgba(255, 239, 178, 0.58);
+    border-radius: clamp(12px, 1.7vw, 22px);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="clue-card"] .clue-text {
+    font-weight: 400;
+    letter-spacing: 0.012em;
+    line-height: 1.13;
+    text-transform: none;
+}
+
+body[data-theme="light"] .game-container .speech-bubble[data-dialogue-style="clue-card"] {
+    --dialogue-ink: #fffdf1;
+    --dialogue-accent: #ffe177;
+    --dialogue-value: #b6ffc1;
+    --dialogue-tail: #0b45a8;
+    background:
+        radial-gradient(circle at 50% 4%, rgba(91, 193, 255, 0.32), transparent 50%),
+        linear-gradient(180deg, #126dc7 0%, #0a48ae 54%, #073282 100%);
+    box-shadow:
+        0 0 0 5px #171322,
+        8px 10px 0 #171322,
+        13px 15px 0 #ff5f9e,
+        inset 0 0 24px rgba(255, 255, 255, 0.1);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="speech"] {
+    --dialogue-ink: #171317;
+    --dialogue-accent: #a71955;
+    --dialogue-value: #176a3a;
+    --dialogue-rule: rgba(23, 19, 23, 0.55);
+    --dialogue-tail: #fff8df;
+    --dialogue-outline: #171317;
+    background:
+        radial-gradient(circle, rgba(23, 19, 23, 0.075) 0 1px, transparent 1.4px) 0 0 / 9px 9px,
+        #fff8df;
+    border: 6px solid #171317;
+    border-radius: 34px 42px 31px 39px / 30px 36px 34px 39px;
+    box-shadow: 9px 11px 0 #171317, 15px 17px 0 #ed3d92;
+}
+
+body .game-container .speech-bubble[data-dialogue-style="speech"] .clue-category,
+body .game-container .speech-bubble[data-dialogue-style="speech"] .clue-text {
+    text-shadow: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style="speech"] .clue-value {
+    background: rgba(235, 244, 214, 0.9);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="thought"] {
+    --dialogue-ink: #fff7df;
+    --dialogue-accent: #fff7df;
+    --dialogue-value: #65e6ef;
+    --dialogue-rule: rgba(255, 247, 223, 0.42);
+    --dialogue-outline: #050409;
+    background:
+        radial-gradient(circle at 36% 15%, rgba(255, 255, 255, 0.1), transparent 30%),
+        linear-gradient(155deg, #1a1823, #0d0c12 70%);
+    border: 6px solid #050409;
+    border-radius: 52px 44px 58px 47px / 43px 54px 46px 57px;
+    box-shadow: 9px 11px 0 #050409, 15px 17px 0 #36cbd9;
+}
+
+body .game-container .speech-bubble[data-dialogue-style="thought"]::after {
+    left: 32%;
+    bottom: -29px;
+    width: 24px;
+    height: 24px;
+    border: 4px solid #050409;
+    border-radius: 50%;
+    background: #121018;
+    box-shadow:
+        -23px 20px 0 -4px #121018,
+        -23px 20px 0 0 #050409,
+        -41px 35px 0 -7px #121018,
+        -41px 35px 0 -3px #050409;
+    filter: none;
+    transform: none;
+}
+
+body[data-theme="light"] .game-container .speech-bubble[data-dialogue-style="thought"] {
+    --dialogue-ink: #fff9e9;
+    --dialogue-value: #8cf2df;
+    background: linear-gradient(155deg, #252343, #12152d 72%);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="narration"] {
+    --dialogue-ink: #201718;
+    --dialogue-accent: #771945;
+    --dialogue-value: #165f36;
+    --dialogue-rule: rgba(32, 23, 24, 0.58);
+    background:
+        linear-gradient(104deg, transparent 0 2%, rgba(255, 255, 255, 0.24) 2.1% 2.5%, transparent 2.7%),
+        linear-gradient(145deg, #ffe986, #f5bd3c);
+    border: 6px solid #171317;
+    border-radius: 2px;
+    box-shadow: 9px 11px 0 #171317, 15px 17px 0 #e94a7f;
+    transform: rotate(-0.18deg);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="narration"]::before {
+    border: 2px solid rgba(32, 23, 24, 0.62);
+    border-radius: 0;
+}
+
+body .game-container .speech-bubble[data-dialogue-style="narration"]::after {
+    display: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-category,
+body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-text {
+    text-shadow: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-value {
+    background: rgba(255, 250, 205, 0.72);
+}
+
+body .game-container .speech-bubble[data-dialogue-style] .dialogue-style-picker {
+    color: var(--dialogue-ink);
+    background: rgba(4, 8, 28, 0.76);
+    border-color: var(--dialogue-rule);
+    box-shadow: 2px 3px 0 var(--dialogue-outline);
+    backdrop-filter: blur(10px) saturate(1.2);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="speech"] .dialogue-style-picker,
+body .game-container .speech-bubble[data-dialogue-style="narration"] .dialogue-style-picker {
+    color: #171317;
+    background: rgba(255, 248, 223, 0.92);
+}
+
+@media (max-width: 760px) {
+    body .game-container .speech-bubble[data-dialogue-style] {
+        width: calc(100% - 0.5rem);
+        min-height: clamp(270px, 43vh, 350px);
+        padding: 3.15rem 1rem 1.2rem;
+        overflow-y: auto;
+    }
+
+    body .game-container .speech-bubble[data-dialogue-style]:not([data-dialogue-style="narration"]):not([data-dialogue-style="thought"])::after {
+        left: 31%;
+        bottom: -38px;
+        width: 58px;
+        height: 42px;
+    }
+
+    body .game-container .speech-bubble[data-dialogue-style="thought"]::after {
+        left: 32%;
+    }
+
+    body .game-container .speech-bubble[data-dialogue-style] .clue-category {
+        font-size: clamp(1rem, 5vw, 1.35rem);
+    }
+
+    body .game-container .speech-bubble[data-dialogue-style] .clue-text {
+        max-width: 27ch;
+        font-size: clamp(1.08rem, 5vw, 1.55rem);
+        line-height: 1.12;
+    }
+
+    body .game-container .speech-bubble[data-dialogue-style] .clue-value-amount {
+        font-size: 0.52rem;
+    }
+}
+
+/* Result typography remains legible across every dialogue skin. */
+body .game-container[data-game-moment="correct"] .clue-header,
+body .game-container[data-game-moment="incorrect"] .clue-header,
+body .game-container[data-game-moment="error"] .clue-header {
+    color: var(--dialogue-ink, #fff8df);
+    font: italic 1000 clamp(1.35rem, 3vw, 2.35rem)/1 var(--utility-font);
+    letter-spacing: 0.015em;
+    text-shadow: none;
+}
+
+body .game-container[data-game-moment="correct"] .clue-text,
+body .game-container[data-game-moment="incorrect"] .clue-text,
+body .game-container[data-game-moment="error"] .clue-text {
+    max-width: 24ch;
+    color: var(--dialogue-ink, #fff8df);
+    font: 1000 clamp(1.25rem, 2.5vw, 2rem)/1.08 var(--utility-font);
+    letter-spacing: 0.01em;
+    text-transform: none;
+    text-shadow: none;
+}
+
+body .game-container #answerBox:not(:empty) {
+    display: inline-grid;
+    justify-self: center;
+    width: fit-content;
+    max-width: min(100%, 34rem);
+    padding: 0.55rem 0.85rem 0.45rem;
+    border: 3px solid #090d12;
+    border-radius: 8px;
+    color: #a8ffbd;
+    background: linear-gradient(180deg, #173d2b, #091b14);
+    box-shadow: 0 4px 0 #090d12, inset 0 0 0 1px rgba(168, 255, 189, 0.2);
+    font: 900 clamp(0.82rem, 1.8vw, 1.12rem)/1.35 var(--utility-font);
+    text-shadow: none;
+}
+
+body .game-container[data-game-moment="incorrect"] #answerBox:not(:empty),
+body .game-container[data-game-moment="error"] #answerBox:not(:empty) {
+    color: #ffe3e8;
+    background: linear-gradient(180deg, #6e2036, #2b101b);
+    box-shadow: 0 4px 0 #090d12, inset 0 0 0 1px rgba(255, 227, 232, 0.2);
+}
+
+}

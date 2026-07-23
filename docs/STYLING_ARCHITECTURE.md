@@ -9,13 +9,17 @@ The visual system should feel authored, playful, and game-like without making th
 | File | Owner | Loaded by |
 | --- | --- | --- |
 | `styles/order.css` | Global cascade-layer order | `index.html`, `game.html` |
-| `style.css` | Legacy shared reset, landing page, and site-level behavior during migration | `index.html`, `game.html` |
-| `styles/game.css` | Legacy game rules that have not yet moved into component ownership | `index.html`, `game.html` |
-| `styles/tokens/semantics.css` | Theme-aware cabinet surfaces, text, borders, focus, and motion tokens | `index.html`, `game.html` |
+| `styles/tokens.css` | Brand primitives plus theme-aware semantic component tokens | `index.html`, `game.html` |
+| `styles/base.css` | Reset, document foundations, shared body treatment | `index.html`, `game.html` |
+| `style.css` | Landing page only; never loaded by the standalone game | `index.html` |
+| `styles/game/legacy.css` | Historical cabinet rules awaiting component migration; no new rules permitted | `index.html`, `game.html` |
 | `styles/game/header.css` | Game header layout, preference controls, logo placement, and container behavior | `index.html`, `game.html` |
 | `styles/game/scoreboard.css` | Score drawer, split-flap readouts, reveal motion, and compact states | `index.html`, `game.html` |
 | `styles/game/menu.css` | Navigation drawer, menu controls, and responsive geometry | `index.html`, `game.html` |
-| `styles/game/host.css` | Owned host adaptations, beginning with the ultra-compact readability rule | `index.html`, `game.html` |
+| `styles/game/host.css` | Host stage, portrait framing, reactions, labels, selector keys, and responsive anchoring | `index.html`, `game.html` |
+| `styles/game/dialogue.css` | Clue hierarchy, dialogue skins, tails, result typography, and responsive card rules | `index.html`, `game.html` |
+| `styles/game/controls.css` | Answer input and cabinet control deck | `index.html`, `game.html` |
+| `styles/game/study.css` | Study-mode drawer and learning actions | `index.html`, `game.html` |
 | `creative-room.css` | Creative Room documentation tool | `creative-room.html` |
 
 The order is enforced by `@layer`: `reset`, `tokens`, `legacy`, `components`, `variants`, `states`, `responsive`, and `utilities`. Legacy rules cannot beat migrated component rules merely because they were appended later. `creative-room.css` remains isolated because its interface and information density are different from the game.
@@ -26,11 +30,11 @@ Component migration follows the page from back to front:
 
 1. Cabinet and illustrated scene
 2. Header, preferences, score drawer, and navigation menu (migrated)
-3. Main stage and round feedback
-4. Dialogue card and its four semantic skins
+3. Host stage and selector controls (migrated)
+4. Dialogue card and its four semantic skins (migrated)
 5. Media previews and modal viewer
-6. Host stage and host controls
-7. Answer controls and footer
+6. Answer controls and footer (migrated)
+7. Main stage and round feedback
 8. Responsive and reduced-motion states
 
 ## Cascade Rules
@@ -50,7 +54,7 @@ Component migration follows the page from back to front:
 
 Run `npm run test:visual` to capture 72 combinations under `screenshots/visual-fixtures/`. The runner fails on document overflow, component escape from the cabinet, missing visible geometry, or host overlap with clue text. Captures are local build artifacts and are intentionally ignored by git.
 
-The current audited ceiling is 40 same-context duplicate selectors. The baseline after the header, scoreboard, and menu migration is 36. Every later component migration must hold or lower that number.
+The current audited ceiling is 12 same-context duplicate selectors. The baseline after the host, dialogue, and control-deck migrations is 12. Every later component migration must hold or lower that number.
 
 ## Art Direction Test
 
@@ -65,4 +69,4 @@ References are principles, not imitation. JeoPARODY's own visual language is bro
 
 ## Migration Rule
 
-Legacy files in `backups/` are research material only and are never runtime dependencies. When recovering an older idea, reimplement it against the current component contract rather than copying its stylesheet wholesale.
+Legacy files in `backups/` are research material only and are never runtime dependencies. `styles/game/legacy.css` remains a runtime dependency only while its components are migrated. When recovering an older idea, reimplement it against the current component contract rather than copying its stylesheet wholesale.

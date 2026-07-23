@@ -1,46 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { runtimeEntries } from './runtime-manifest.mjs';
 
 const root = process.cwd();
 const outDir = path.join(root, 'dist');
-
-const runtimeEntries = [
-  'index.html',
-  'game.html',
-  'visual-fixtures.html',
-  'visual-fixtures.css',
-  'visual-fixtures.js',
-  'creative-room.html',
-  'creative-room.css',
-  'creative-room.js',
-  'style.css',
-  'styles',
-  'app.js',
-  'landing.js',
-  'game-logic.js',
-  'src',
-  'questions/jeopardy-questions.json',
-  'assets/images/favicon.svg',
-  'assets/images/banknotes/trivia-note-officialish.png',
-  'assets/images/banknotes/trivia-note-questionable.png',
-  'assets/images/vision/malex-broadcast-hero.png',
-  'assets/images/vision/malex-counterfeit-portrait.png',
-  'assets/images/vision/memory-palace-studio.png',
-  'assets/images/trebek-vector.png',
-  'assets/scenes',
-  'assets/trebek/trebek-dope-01.png',
-  'assets/trebek/trebek-dope-02.png',
-  'assets/trebek/trebek-dope-03.png',
-  'assets/trebek/trebek-dope-05.png',
-  'assets/trebek/trebek-good-01.png',
-  'assets/trebek/trebek-1.webp',
-  'assets/trebek/trebek-3.webp',
-  'assets/trebek/trebek-4.webp',
-  'assets/trebek/trebek-5.webp',
-  'assets/trebek/trebek-6.webp',
-  'assets/trebek-other-images/trebek-meta -beachbum.jpeg',
-  'assets/trebek-other-images/trebek-god.png',
-];
 
 async function exists(filePath) {
   try {

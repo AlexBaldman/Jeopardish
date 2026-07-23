@@ -1,88 +1,5 @@
 @layer legacy {
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-:root {
-    --cabinet-black: #101014;
-    --ink: #171317;
-    --paper: #fff8df;
-    --stage-blue: #1437a8;
-    --stage-blue-deep: #07144b;
-    --neon-cyan: #32f6ff;
-    --neon-pink: #ff3dc8;
-    --neon-yellow: #ffe15a;
-    --neon-green: #77ff8a;
-    --warning-red: #ff405b;
-    --chrome: #dce6ff;
-    --shadow-hard: #050507;
-    --vision-night: #090c1d;
-    --vision-panel: #111936;
-    --vision-panel-2: #182348;
-    --vision-copy: #c7d1e8;
-    --vision-muted: #8290b1;
-    --vision-gold: #f4d35e;
-    --footer-height: 154px;
-    --question-font: "Korinna Std", "Korinna BT", "ITC Korinna", "Korinna", "Bree Serif", "Bookman Old Style", Georgia, serif;
-    --pixel-font: "Press Start 2P", "Courier New", monospace;
-    --utility-font: "Roboto Condensed", Arial, sans-serif;
-    color-scheme: dark;
-}
-
-html,
-body {
-    min-height: 100%;
-    width: 100%;
-}
-
-html {
-    scroll-behavior: smooth;
-    overflow-x: clip;
-}
-
-body {
-    font-family: var(--utility-font);
-    background:
-        radial-gradient(circle at 18% 16%, rgba(255, 61, 200, 0.28), transparent 26rem),
-        radial-gradient(circle at 86% 24%, rgba(50, 246, 255, 0.22), transparent 25rem),
-        linear-gradient(135deg, #14151f 0%, #24203c 45%, #142b31 100%);
-    color: var(--paper);
-    overflow-x: hidden;
-}
-
-body[data-theme="light"] {
-    --cabinet-black: #f7f1dc;
-    --ink: #251a2a;
-    --paper: #14121a;
-    --stage-blue: #1f65d8;
-    --stage-blue-deep: #eaf1ff;
-    --chrome: #29324b;
-    --shadow-hard: #a55972;
-    color-scheme: light;
-    background:
-        radial-gradient(circle at 12% 10%, rgba(255, 225, 90, 0.38), transparent 21rem),
-        radial-gradient(circle at 88% 20%, rgba(50, 246, 255, 0.24), transparent 24rem),
-        linear-gradient(135deg, #fff3c8 0%, #ffddf3 44%, #caf7ff 100%);
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background:
-        linear-gradient(rgba(255, 255, 255, 0.035) 50%, rgba(0, 0, 0, 0.045) 50%),
-        linear-gradient(90deg, rgba(255, 61, 200, 0.035), rgba(50, 246, 255, 0.025), rgba(119, 255, 138, 0.035));
-    background-size: 100% 4px, 8px 100%;
-    mix-blend-mode: soft-light;
-}
-
 .signal-progress {
     position: fixed;
     inset: 0 0 auto;
@@ -168,9 +85,7 @@ body::before {
     color: var(--vision-gold);
 }
 
-.nav-launch,
-.action-primary,
-.action-secondary {
+:is(.nav-launch, .action-primary, .action-secondary) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -202,8 +117,7 @@ body::before {
     overflow-x: clip;
 }
 
-.map-grid,
-.diagram-card {
+:is(.map-grid, .diagram-card) {
     min-width: 0;
 }
 
@@ -239,8 +153,7 @@ body::before {
     gap: 0.65rem;
 }
 
-.diagram-node,
-.diagram-branch {
+:is(.diagram-node, .diagram-branch) {
     position: relative;
     display: grid;
     gap: 0.24rem;
@@ -583,8 +496,7 @@ body::before {
     gap: clamp(1rem, 3vw, 2rem);
 }
 
-.round-chart,
-.fault-card {
+:is(.round-chart, .fault-card) {
     padding: clamp(1.35rem, 3vw, 2rem);
     background: rgba(17, 25, 54, 0.82);
 }
@@ -1244,17 +1156,19 @@ body[data-theme="light"] .broadcast-nav {
     background: rgba(255, 248, 223, 0.9);
 }
 
-body[data-theme="light"] .manifesto,
-body[data-theme="light"] .metric-card,
-body[data-theme="light"] .round-chart,
-body[data-theme="light"] .fault-card,
-body[data-theme="light"] .portrait-frame,
-body[data-theme="light"] .host-states li,
-body[data-theme="light"] .format-panel,
-body[data-theme="light"] .boundary-panel,
-body[data-theme="light"] .diagram-card,
-body[data-theme="light"] .sparks-copy,
-body[data-theme="light"] .roadmap-line strong {
+body[data-theme="light"] :is(
+    .manifesto,
+    .metric-card,
+    .round-chart,
+    .fault-card,
+    .portrait-frame,
+    .host-states li,
+    .format-panel,
+    .boundary-panel,
+    .diagram-card,
+    .sparks-copy,
+    .roadmap-line strong
+) {
     background: rgba(255, 248, 223, 0.86);
 }
 

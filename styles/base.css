@@ -1,0 +1,51 @@
+@layer reset {
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :is(html, body) {
+        min-height: 100%;
+        width: 100%;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        overflow-x: clip;
+    }
+}
+
+@layer legacy {
+    body {
+        overflow-x: hidden;
+        color: var(--paper);
+        background:
+            radial-gradient(circle at 18% 16%, rgba(255, 61, 200, 0.28), transparent 26rem),
+            radial-gradient(circle at 86% 24%, rgba(50, 246, 255, 0.22), transparent 25rem),
+            linear-gradient(135deg, #14151f 0%, #24203c 45%, #142b31 100%);
+        font-family: var(--utility-font);
+    }
+
+    body[data-theme="light"] {
+        background:
+            radial-gradient(circle at 12% 10%, rgba(255, 225, 90, 0.38), transparent 21rem),
+            radial-gradient(circle at 88% 20%, rgba(50, 246, 255, 0.24), transparent 24rem),
+            linear-gradient(135deg, #fff3c8 0%, #ffddf3 44%, #caf7ff 100%);
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+            linear-gradient(rgba(255, 255, 255, 0.035) 50%, rgba(0, 0, 0, 0.045) 50%),
+            linear-gradient(90deg, rgba(255, 61, 200, 0.035), rgba(50, 246, 255, 0.025), rgba(119, 255, 138, 0.035));
+        background-size: 100% 4px, 8px 100%;
+        mix-blend-mode: soft-light;
+    }
+}
