@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-2" type="text/css">
     <link rel="stylesheet" href="styles/game/menu.css?v=architecture-2" type="text/css">
     <link rel="stylesheet" href="styles/game/host.css?v=architecture-2" type="text/css">
+    <link rel="stylesheet" href="styles/game/controls.css?v=controls-3" type="text/css">
     <link rel="stylesheet" href="styles/game/study.css?v=study-1" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bree+Serif&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -170,23 +171,26 @@
 
             <footer class="control-footer" aria-label="Contestant controls">
                 <div class="input-div">
-                    <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+                    <label class="answer-field" for="inputbox">
+                        <span class="answer-field-label" id="answerFieldLabel">Your response</span>
+                        <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+                    </label>
                     <button id="checkButton" class="cabinet-button lock-button" type="button" aria-label="Lock It In. Keyboard shortcut: Enter" data-tooltip="Lock It In" data-key="Enter" accesskey="l">
                         <span class="control-symbol lock-symbol" aria-hidden="true"><span class="lock-ring"></span><span class="lock-core">!</span></span>
+                        <span class="control-copy"><small id="checkButtonKicker">Confirm</small><strong class="button-tooltip" aria-hidden="true">Lock It In</strong></span>
                         <span class="key-hint key-enter" aria-hidden="true">ENTER</span>
-                        <span class="button-tooltip" aria-hidden="true">Lock It In</span>
                     </button>
                 </div>
                 <div class="button-div">
                     <button id="questionButton" class="cabinet-button clue-button" type="button" aria-label="New Clue. Keyboard shortcut: Q" data-tooltip="New Clue" data-key="Q" accesskey="q">
                         <span class="control-symbol clue-symbol" aria-hidden="true">?</span>
+                        <span class="control-copy"><small id="questionButtonKicker">Board</small><strong class="button-tooltip" aria-hidden="true">New Clue</strong></span>
                         <span class="key-hint key-dot" aria-hidden="true">Q</span>
-                        <span class="button-tooltip" aria-hidden="true">New Clue</span>
                     </button>
                     <button id="answerButton" class="cabinet-button answer-button" type="button" aria-label="Reveal Answer. Keyboard shortcut: A" data-tooltip="Reveal Answer" data-key="A" accesskey="a">
                         <span class="control-symbol answer-symbol" aria-hidden="true"><span class="eye-lid"></span><span class="eye-pupil">A</span></span>
+                        <span class="control-copy"><small id="answerButtonKicker">Clue</small><strong class="button-tooltip" aria-hidden="true">Reveal Answer</strong></span>
                         <span class="key-hint key-corner" aria-hidden="true">A</span>
-                        <span class="button-tooltip" aria-hidden="true">Reveal Answer</span>
                     </button>
                 </div>
             </footer>

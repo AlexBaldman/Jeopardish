@@ -46,6 +46,10 @@
     streakReset: 'STREAK RESET!',
     incorrectStatus: 'Incorrect. Load a new clue to continue.',
     keepTyping: 'Type an answer to keep the dignity damage contained.',
+    answerFieldLabel: 'Your response',
+    checkButtonKicker: 'Confirm',
+    questionButtonKicker: 'Board',
+    answerButtonKicker: 'Clue',
     askHost: 'Ask Xander',
     returnToClue: 'Return to clue',
   });
@@ -246,6 +250,10 @@
       this.dom.checkButton = this.document.getElementById('checkButton');
       this.dom.answerButton = this.document.getElementById('answerButton');
       this.dom.questionButton = this.document.getElementById('questionButton');
+      this.dom.answerFieldLabel = this.document.getElementById('answerFieldLabel');
+      this.dom.checkButtonKicker = this.document.getElementById('checkButtonKicker');
+      this.dom.questionButtonKicker = this.document.getElementById('questionButtonKicker');
+      this.dom.answerButtonKicker = this.document.getElementById('answerButtonKicker');
       this.dom.gameContainer = this.document.getElementById('gameContainer');
       this.dom.userInput = this.document.getElementById('inputbox');
       this.dom.categoryBox = this.document.getElementById('categoryBox');
@@ -444,6 +452,10 @@
       this.decorateControlButton(this.dom.questionButton, this.copy.questionButton, 'Q');
       this.decorateControlButton(this.dom.answerButton, this.copy.answerButton, 'A');
       this.decorateControlButton(this.dom.checkButton, this.copy.checkButton, 'Enter');
+      this.setText(this.dom.answerFieldLabel, this.copy.answerFieldLabel);
+      this.setText(this.dom.checkButtonKicker, this.copy.checkButtonKicker);
+      this.setText(this.dom.questionButtonKicker, this.copy.questionButtonKicker);
+      this.setText(this.dom.answerButtonKicker, this.copy.answerButtonKicker);
       this.dom.userInput.placeholder = this.copy.inputPlaceholder;
       this.dom.userInput.setAttribute?.('aria-label', this.copy.inputPlaceholder);
       this.document.documentElement?.setAttribute?.('lang', this.copy.lang);

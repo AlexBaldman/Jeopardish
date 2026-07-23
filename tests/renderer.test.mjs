@@ -71,6 +71,10 @@ function createFakeDocument() {
     'checkButton',
     'answerButton',
     'questionButton',
+    'answerFieldLabel',
+    'checkButtonKicker',
+    'questionButtonKicker',
+    'answerButtonKicker',
     'gameContainer',
     'inputbox',
     'categoryBox',
@@ -352,6 +356,10 @@ test('Renderer applies localized static UI copy and toggle states', () => {
     answerButton: 'Revelar Resposta',
     checkButton: 'Valendo',
     inputPlaceholder: 'Digite sua resposta',
+    answerFieldLabel: 'Sua resposta',
+    checkButtonKicker: 'Confirmar',
+    questionButtonKicker: 'Tabuleiro',
+    answerButtonKicker: 'Pista',
     themeDay: 'Dia',
     languagePortuguese: 'Português',
     currentStreak: 'Sequência Atual',
@@ -371,6 +379,10 @@ test('Renderer applies localized static UI copy and toggle states', () => {
   assert.equal(renderer.dom.questionButton.dataset.tooltip, 'Nova Pista');
   assert.equal(renderer.dom.questionButton.getAttribute('aria-label'), 'Nova Pista. Keyboard shortcut: Q');
   assert.equal(renderer.dom.userInput.placeholder, 'Digite sua resposta');
+  assert.equal(renderer.dom.answerFieldLabel.textContent, 'Sua resposta');
+  assert.equal(renderer.dom.checkButtonKicker.textContent, 'Confirmar');
+  assert.equal(renderer.dom.questionButtonKicker.textContent, 'Tabuleiro');
+  assert.equal(renderer.dom.answerButtonKicker.textContent, 'Pista');
   assert.equal(renderer.dom.themeToggleLabel.textContent, 'Dia');
   assert.equal(renderer.dom.languageToggleLabel.textContent, 'Português');
   assert.equal(renderer.dom.hudStreakLabel.textContent, 'Sequência Atual');

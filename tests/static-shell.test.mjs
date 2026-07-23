@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [landingHtml, gameHtml, fixtureHtml, styles, gameStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles] = await Promise.all([
+const [landingHtml, gameHtml, fixtureHtml, styles, gameStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, controlStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../game.html', import.meta.url), 'utf8'),
   readFile(new URL('../visual-fixtures.html', import.meta.url), 'utf8'),
@@ -12,6 +12,7 @@ const [landingHtml, gameHtml, fixtureHtml, styles, gameStyles, headerStyles, sco
   readFile(new URL('../styles/game/scoreboard.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/menu.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/host.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game/controls.css', import.meta.url), 'utf8'),
 ]);
 
 const cabinetContractIds = [
@@ -35,6 +36,10 @@ const cabinetContractIds = [
   'checkButton',
   'questionButton',
   'answerButton',
+  'answerFieldLabel',
+  'checkButtonKicker',
+  'questionButtonKicker',
+  'answerButtonKicker',
   'statusMessage',
   'deepDiveButton',
   'menuDeepDive',
@@ -78,6 +83,7 @@ test('both game shells load the canonical game stylesheet after shared styles', 
     assert.ok(html.indexOf('href="styles/game/header.css') > gameIndex, `${surface} must load owned header styles after legacy game styles`);
     assert.ok(html.indexOf('href="styles/game/scoreboard.css') > gameIndex, `${surface} must load owned scoreboard styles after legacy game styles`);
     assert.ok(html.indexOf('href="styles/game/menu.css') > gameIndex, `${surface} must load owned menu styles after legacy game styles`);
+    assert.ok(html.indexOf('href="styles/game/controls.css') > gameIndex, `${surface} must load owned control styles after legacy game styles`);
   }
 });
 
@@ -89,6 +95,8 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(scoreboardStyles, /@layer components/);
   assert.match(menuStyles, /@layer components/);
   assert.match(hostStyles, /@container cabinet \(max-width: 420px\)/);
+  assert.match(controlStyles, /CHANNEL O CONTROL DECK/);
+  assert.match(controlStyles, /@container cabinet \(max-width: 700px\)/);
 });
 
 test('visual state lab exposes deterministic game fixtures', () => {

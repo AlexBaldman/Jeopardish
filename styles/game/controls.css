@@ -1,0 +1,340 @@
+@layer components {
+    .game-container .control-footer {
+        --deck-ink: #070912;
+        --deck-face: #222735;
+        position: relative;
+        z-index: 40;
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+        align-items: stretch;
+        gap: clamp(0.5rem, 1.1cqw, 0.8rem);
+        min-height: 88px;
+        padding: 0.62rem clamp(0.65rem, 1.8cqw, 1.15rem) calc(0.62rem + env(safe-area-inset-bottom));
+        border-top: 5px solid var(--deck-ink);
+        background:
+            radial-gradient(circle at 13px 13px, #8a94a4 0 2px, #0b0d14 3px 5px, transparent 6px),
+            radial-gradient(circle at calc(100% - 13px) 13px, #8a94a4 0 2px, #0b0d14 3px 5px, transparent 6px),
+            linear-gradient(180deg, #353b49 0 7%, var(--deck-face) 8% 62%, #0c0f17 100%);
+        box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.14), inset 0 -5px 0 rgba(0, 0, 0, 0.42), 0 -7px 0 rgba(5, 7, 15, 0.24);
+    }
+
+    .game-container .control-footer::before {
+        content: "CHANNEL O CONTROL DECK";
+        position: absolute;
+        top: 0.22rem;
+        left: 50%;
+        z-index: 2;
+        padding-inline: 0.5rem;
+        color: rgba(214, 226, 239, 0.46);
+        background: #2d3240;
+        font: 700 0.27rem/1.3 var(--pixel-font);
+        letter-spacing: 0.12em;
+        transform: translateX(-50%);
+    }
+
+    .game-container :is(.input-div, .button-div) {
+        display: grid;
+        align-items: stretch;
+        gap: clamp(0.45rem, 0.9cqw, 0.65rem);
+        width: 100%;
+        margin: 0;
+    }
+
+    .game-container .input-div { grid-template-columns: minmax(0, 1fr) minmax(150px, 0.34fr); }
+    .game-container .button-div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .game-container .answer-field {
+        position: relative;
+        display: grid;
+        min-width: 0;
+    }
+
+    .game-container .answer-field-label {
+        position: absolute;
+        top: 0.48rem;
+        left: 0.9rem;
+        z-index: 2;
+        color: #88f4aa;
+        font: 700 0.34rem/1 var(--pixel-font);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        opacity: 0.74;
+        pointer-events: none;
+    }
+
+    .game-container #inputbox {
+        width: 100%;
+        min-height: 62px;
+        padding: 1.38rem 1rem 0.52rem;
+        border: 3px solid #05070a;
+        border-radius: 8px;
+        color: #dfffe8;
+        background:
+            repeating-linear-gradient(0deg, rgba(126, 255, 163, 0.025) 0 2px, transparent 2px 5px),
+            linear-gradient(180deg, #101917, #060907);
+        box-shadow: 0 4px 0 #05060b, inset 0 0 0 2px rgba(126, 255, 163, 0.14), inset 0 0 22px rgba(126, 255, 163, 0.08);
+        font: 700 clamp(0.66rem, 1.25cqw, 0.88rem)/1.3 var(--pixel-font);
+        letter-spacing: 0.025em;
+        text-align: left;
+        caret-color: #8cffaa;
+        text-shadow: 0 0 7px rgba(111, 255, 155, 0.52);
+    }
+
+    .game-container #inputbox::placeholder { color: rgba(199, 255, 215, 0.38); }
+
+    .game-container .cabinet-button {
+        --control-accent: #5de9ff;
+        --control-face: #e9f8fa;
+        --control-edge: #66bac8;
+        position: relative;
+        isolation: isolate;
+        display: grid;
+        grid-template-columns: 2.8rem minmax(0, 1fr);
+        align-items: center;
+        gap: 0.62rem;
+        width: 100%;
+        min-height: 62px;
+        padding: 0.48rem 1.8rem 0.48rem 0.58rem;
+        overflow: hidden;
+        border: 3px solid #060811;
+        border-radius: 8px;
+        color: #111521;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.72), transparent 19%),
+            linear-gradient(165deg, var(--control-face), var(--control-edge));
+        box-shadow: 0 5px 0 #05060b, inset 0 -4px 0 rgba(8, 11, 26, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        transition: transform 110ms ease, box-shadow 110ms ease, filter 160ms ease;
+    }
+
+    .game-container .cabinet-button::before {
+        content: "";
+        position: absolute;
+        inset: 4px;
+        z-index: -1;
+        border: 1px solid rgba(9, 14, 28, 0.2);
+        border-radius: 4px;
+        pointer-events: none;
+    }
+
+    .game-container .cabinet-button::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 0.34rem;
+        background: var(--control-accent);
+        box-shadow: 2px 0 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .game-container .clue-button { --control-accent: #38e9ff; --control-face: #e5f9ff; --control-edge: #62bde5; }
+    .game-container .answer-button { --control-accent: #ff64bc; --control-face: #ffeaf7; --control-edge: #e78cbd; }
+    .game-container .lock-button { --control-accent: #ffd84d; --control-face: #fff2aa; --control-edge: #e7a740; }
+
+    .game-container .control-copy {
+        display: grid;
+        min-width: 0;
+        gap: 0.15rem;
+        text-align: left;
+    }
+
+    .game-container .control-copy small {
+        color: rgba(16, 21, 33, 0.58);
+        font: 700 0.34rem/1 var(--pixel-font);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+    }
+
+    .game-container .cabinet-button .button-tooltip {
+        position: static;
+        display: block;
+        max-width: none;
+        padding: 0;
+        border: 0;
+        color: #111521;
+        background: transparent;
+        box-shadow: none;
+        font: 900 clamp(0.76rem, 1.25cqw, 1rem)/1 var(--utility-font);
+        letter-spacing: 0.015em;
+        opacity: 1;
+        text-align: left;
+        text-shadow: 0 1px rgba(255, 255, 255, 0.58);
+        text-transform: uppercase;
+        transform: none;
+        white-space: normal;
+    }
+
+    .game-container .cabinet-button .button-tooltip::after { display: none; }
+
+    .game-container .cabinet-button .control-symbol {
+        display: grid;
+        place-items: center;
+        width: 2.55rem;
+        height: 2.55rem;
+        min-width: 0;
+        min-height: 0;
+        border: 3px solid #080b14;
+        border-radius: 50%;
+        color: #101521;
+        background: radial-gradient(circle at 36% 30%, #fff 0 8%, var(--control-accent) 12% 58%, #172033 60% 66%, #080b14 68%);
+        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2), 2px 3px 0 rgba(8, 11, 20, 0.22);
+        text-shadow: none;
+    }
+
+    .game-container .cabinet-button .clue-symbol {
+        font: 900 1.8rem/1 "Bangers", var(--utility-font);
+        transform: none;
+    }
+
+    .game-container .cabinet-button .answer-symbol,
+    .game-container .cabinet-button .lock-symbol { position: relative; }
+
+    .game-container .cabinet-button .eye-lid {
+        position: absolute;
+        width: 1.75rem;
+        height: 1rem;
+        border: 2px solid #0a0d16;
+        border-radius: 52% 48% 50% 50% / 56% 56% 44% 44%;
+        background: #fff8df;
+        box-shadow: none;
+    }
+
+    .game-container .cabinet-button .eye-pupil {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+        width: 0.72rem;
+        height: 0.72rem;
+        border-radius: 50%;
+        color: #9dffb8;
+        background: #101521;
+        font: 700 0.24rem/1 var(--pixel-font);
+        box-shadow: none;
+    }
+
+    .game-container .cabinet-button .lock-ring {
+        position: absolute;
+        width: 1.65rem;
+        height: 1.65rem;
+        border: 3px solid #101521;
+        border-radius: 50%;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .game-container .cabinet-button .lock-core {
+        position: relative;
+        z-index: 1;
+        color: #101521;
+        font: 900 1.1rem/1 "Bangers", var(--utility-font);
+    }
+
+    .game-container .cabinet-button .key-hint {
+        position: absolute;
+        top: 0.38rem;
+        right: 0.42rem;
+        bottom: auto;
+        left: auto;
+        display: grid;
+        place-items: center;
+        width: auto;
+        min-width: 1.2rem;
+        height: 1.2rem;
+        padding-inline: 0.22rem;
+        border: 2px solid #080b14;
+        border-radius: 4px;
+        color: #eaf4ff;
+        background: #151b2a;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.36);
+        font: 700 0.28rem/1 var(--pixel-font);
+        transform: none;
+    }
+
+    .game-container .cabinet-button:hover,
+    .game-container .cabinet-button:focus-visible {
+        filter: brightness(1.04) saturate(1.06);
+        transform: translateY(-2px);
+        box-shadow: 0 7px 0 #05060b, 0 0 18px color-mix(in srgb, var(--control-accent) 48%, transparent), inset 0 -4px 0 rgba(8, 11, 26, 0.14);
+    }
+
+    .game-container .cabinet-button:active {
+        filter: brightness(0.98);
+        transform: translateY(4px);
+        box-shadow: 0 1px 0 #05060b, inset 0 3px 7px rgba(8, 11, 26, 0.24);
+    }
+
+    .game-container .cabinet-button:disabled {
+        opacity: 0.48;
+        filter: grayscale(0.38) saturate(0.55);
+        transform: translateY(3px);
+        box-shadow: 0 2px 0 #05060b, inset 0 3px 7px rgba(8, 11, 26, 0.18);
+    }
+
+    .game-container[data-round-phase="advance-ready"] .clue-button {
+        animation: control-ready 1.25s ease-in-out infinite alternate;
+    }
+
+    .game-container .host-cycle {
+        width: 36px;
+        min-width: 36px;
+        height: 42px;
+        min-height: 42px;
+        margin-bottom: 0.8rem;
+        padding: 0 0 0.12rem;
+        border: 2px solid #080b14;
+        border-radius: 7px;
+        color: #dfeaff;
+        background: linear-gradient(180deg, #303849, #111621);
+        box-shadow: 0 4px 0 #05060b, inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        font: 900 1.15rem/1 var(--utility-font);
+        clip-path: polygon(18% 0, 82% 0, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0 82%, 0 18%);
+    }
+
+    .game-container .host-cycle:hover,
+    .game-container .host-cycle:focus-visible {
+        color: #0c111e;
+        background: var(--cabinet-gold);
+        box-shadow: 0 5px 0 #05060b, 0 0 14px rgba(255, 216, 77, 0.46);
+        transform: translateY(-1px);
+    }
+
+    @keyframes control-ready {
+        to { box-shadow: 0 6px 0 #05060b, 0 0 20px rgba(56, 233, 255, 0.58), inset 0 -4px 0 rgba(8, 11, 26, 0.14); }
+    }
+}
+
+@layer responsive {
+    @container cabinet (max-width: 700px) {
+        .game-container .control-footer {
+            grid-template-columns: 1fr;
+            gap: 0.48rem;
+            min-height: 132px;
+            padding: 0.52rem 0.55rem calc(0.55rem + env(safe-area-inset-bottom));
+        }
+
+        .game-container .control-footer::before { display: none; }
+        .game-container .input-div { grid-template-columns: minmax(0, 1fr) minmax(112px, 0.38fr); }
+        .game-container :is(#inputbox, .cabinet-button) { min-height: 50px; }
+        .game-container #inputbox { padding-top: 1.2rem; font-size: clamp(0.52rem, 2.6cqw, 0.7rem); }
+        .game-container .answer-field-label { top: 0.37rem; font-size: 0.27rem; }
+        .game-container .cabinet-button { grid-template-columns: 2.2rem minmax(0, 1fr); gap: 0.42rem; padding: 0.35rem 1.35rem 0.35rem 0.42rem; }
+        .game-container .cabinet-button .control-symbol { width: 2rem; height: 2rem; border-width: 2px; }
+        .game-container .cabinet-button .clue-symbol { font-size: 1.45rem; }
+        .game-container .cabinet-button .button-tooltip { font-size: clamp(0.58rem, 3cqw, 0.72rem); }
+        .game-container .control-copy small,
+        .game-container .control-footer .key-hint { display: none; }
+    }
+
+    @container cabinet (max-width: 380px) {
+        .game-container .input-div { grid-template-columns: minmax(0, 1fr) 94px; }
+        .game-container .cabinet-button { grid-template-columns: 1.8rem minmax(0, 1fr); padding-inline: 0.34rem; }
+        .game-container .cabinet-button .control-symbol { width: 1.7rem; height: 1.7rem; }
+        .game-container .button-div .cabinet-button .button-tooltip { font-size: 0.55rem; }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .game-container[data-round-phase="advance-ready"] .clue-button { animation: none; }
+}
