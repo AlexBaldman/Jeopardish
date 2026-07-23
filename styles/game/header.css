@@ -1,8 +1,4 @@
 @layer components {
-    .game-container {
-        container: cabinet / inline-size;
-    }
-
     .game-container .game-header {
         position: relative;
         z-index: 70;

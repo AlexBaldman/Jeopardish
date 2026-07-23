@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [landingHtml, gameHtml, fixtureHtml, baseStyles, tokens, siteStyles, gameStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, controlStyles] = await Promise.all([
+const [landingHtml, gameHtml, fixtureHtml, baseStyles, tokens, siteStyles, gameStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, controlStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../game.html', import.meta.url), 'utf8'),
   readFile(new URL('../visual-fixtures.html', import.meta.url), 'utf8'),
@@ -10,6 +10,8 @@ const [landingHtml, gameHtml, fixtureHtml, baseStyles, tokens, siteStyles, gameS
   readFile(new URL('../styles/tokens.css', import.meta.url), 'utf8'),
   readFile(new URL('../style.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/legacy.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game/cabinet.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game/scene.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/header.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/scoreboard.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/menu.css', import.meta.url), 'utf8'),
@@ -85,6 +87,8 @@ test('game shells load tokens, base, legacy game, and owned components in order'
     assert.ok(baseIndex > tokensIndex, `${surface} must load base styles after tokens`);
     assert.ok(gameIndex > baseIndex, `${surface} must load game styles after foundations`);
     assert.match(html, /href="styles\/order\.css/);
+    assert.ok(html.indexOf('href="styles/game/cabinet.css') > gameIndex, `${surface} must load the owned cabinet after legacy game styles`);
+    assert.ok(html.indexOf('href="styles/game/scene.css') > gameIndex, `${surface} must load the owned scene after legacy game styles`);
     assert.ok(html.indexOf('href="styles/game/header.css') > gameIndex, `${surface} must load owned header styles after legacy game styles`);
     assert.ok(html.indexOf('href="styles/game/scoreboard.css') > gameIndex, `${surface} must load owned scoreboard styles after legacy game styles`);
     assert.ok(html.indexOf('href="styles/game/menu.css') > gameIndex, `${surface} must load owned menu styles after legacy game styles`);
@@ -100,10 +104,13 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(tokens, /^@layer tokens/);
   assert.match(siteStyles, /^@layer legacy/);
   assert.match(gameStyles, /^@layer legacy/);
-  assert.ok(gameStyles.split('\n').length < 1_800, 'legacy cabinet CSS exceeded its migration ceiling');
-  assert.doesNotMatch(gameStyles, /\.host-stage|Dialogue system v2/,
-    'migrated host or dialogue rules leaked back into legacy CSS');
-  assert.match(headerStyles, /container:\s*cabinet\s*\/\s*inline-size/);
+  assert.ok(gameStyles.split('\n').length < 1_400, 'legacy cabinet CSS exceeded its migration ceiling');
+  assert.doesNotMatch(gameStyles, /\.host-stage|Dialogue system v2|\.scene-stage|\.main-content/,
+    'migrated host, dialogue, scene, or cabinet rules leaked back into legacy CSS');
+  assert.match(cabinetStyles, /^@layer components/);
+  assert.match(cabinetStyles, /container:\s*cabinet\s*\/\s*inline-size/);
+  assert.match(sceneStyles, /^@layer components/);
+  assert.match(sceneStyles, /@keyframes scene-layer-enter/);
   assert.match(headerStyles, /@container cabinet \(max-width: 760px\)/);
   assert.match(scoreboardStyles, /@layer components/);
   assert.match(menuStyles, /@layer components/);

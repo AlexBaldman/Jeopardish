@@ -10,9 +10,9 @@ This sprint converted the game's styling and asset pipeline from a stack of accu
 
 | Area | Before | After |
 | --- | ---: | ---: |
-| Legacy game stylesheet | 3,174 lines | 1,772 lines |
-| Audited CSS | 5,409 lines | 4,734 lines |
-| Same-context duplicate selectors | 36 | 12 |
+| Legacy game stylesheet | 3,174 lines | 1,372 lines |
+| Audited CSS | 5,409 lines | 4,661 lines |
+| Same-context duplicate selectors | 36 | 8 |
 | Production build | 88.5 MB | 34.2 MB |
 | Packaged question data | 53.0 MB | 2.3 MB |
 | Runtime clues | Full 216,930-clue archive | Deterministic 10,000-clue bank |
@@ -25,10 +25,12 @@ The complete clue archive and all source art remain available for research. The 
 - `styles/base.css` owns reset and document foundations.
 - `style.css` is landing-page-only and is no longer loaded by `game.html`.
 - `styles/game/legacy.css` is an explicitly temporary migration source; new component work does not belong there.
+- `styles/game/cabinet.css` owns page framing, cabinet geometry, and the container-query boundary.
+- `styles/game/scene.css` owns layered art, scene treatment, parallax, and scene motion.
 - Host, dialogue, controls, header, scoreboard, menu, and study mode have named component owners.
 - Runtime stylesheet order is protected by cascade layers.
-- The CSS audit fails above 12 duplicate selectors or 5 reduced-motion `!important` declarations.
-- Static contracts fail if migrated host or dialogue rules return to the legacy file, or if legacy CSS grows beyond 1,800 lines.
+- The CSS audit fails above 8 duplicate selectors or 5 reduced-motion `!important` declarations.
+- Static contracts fail if migrated cabinet, scene, host, or dialogue rules return to the legacy file, or if legacy CSS grows beyond 1,400 lines.
 
 ## Asset And Data Architecture
 
@@ -50,7 +52,7 @@ Ten byte-identical asset groups remain. They are now visible in the audit and ca
 
 ## Remaining CSS Debt
 
-The 12 remaining duplicate selectors are concentrated in the main stage, scene shell, dialogue-adjacent responsive rules, and light-theme clue variants. The next migration should move the scene and main-stage geometry into an owned `scene.css`, then reconcile the remaining responsive clue rules with `dialogue.css`.
+The 8 remaining duplicate selectors are concentrated entirely in dialogue-adjacent responsive rules and light-theme clue variants. The next migration should reconcile those historical clue rules with `dialogue.css`, then move media previews and the modal viewer into an owned `media.css`.
 
 The legacy file remains a runtime dependency until those shell rules are migrated. Its line ceiling should only move downward.
 

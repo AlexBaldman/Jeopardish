@@ -2,187 +2,15 @@
 
 /* Remaining historical cabinet rules. Migrate components out; do not add new rules here. */
 
-.game-container {
-    position: relative;
-    z-index: 1;
-    isolation: isolate;
-    contain: paint;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-height: min(94svh, 960px);
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    overflow: clip;
-    background:
-        radial-gradient(circle at 78% 18%, rgba(255, 225, 90, 0.24), transparent 16rem),
-        linear-gradient(180deg, #17324a 0%, #102338 48%, #3b2b58 100%);
-    border-inline: 5px solid var(--ink);
-    box-shadow:
-        0 0 0 4px rgba(255, 225, 90, 0.28),
-        0 0 42px rgba(50, 246, 255, 0.25);
-}
-
-body.game-only {
-    min-height: 100svh;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 15% 12%, rgba(255, 61, 200, 0.34), transparent 24rem),
-        radial-gradient(circle at 84% 18%, rgba(50, 246, 255, 0.26), transparent 24rem),
-        linear-gradient(135deg, #070915 0%, #151329 48%, #092f38 100%);
-}
-
-body.game-only::before {
-    opacity: 0.82;
-}
-
-.game-page-shell {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    place-items: center;
-    min-height: 100svh;
-    width: 100%;
-    padding: clamp(0.12rem, 0.45vw, 0.35rem);
-}
-
-.game-container-standalone {
-    width: min(100%, 1480px);
-    height: calc(100svh - clamp(0.24rem, 0.9vw, 0.7rem));
-    min-height: 620px;
-    max-height: none;
-    border: 5px solid var(--ink);
-    border-radius: clamp(12px, 1.8vw, 22px);
-    box-shadow:
-        0 0 0 4px rgba(255, 225, 90, 0.34),
-        0 0 0 8px rgba(50, 246, 255, 0.18),
-        0 22px 70px rgba(0, 0, 0, 0.55),
-        inset 0 0 0 3px rgba(255, 255, 255, 0.08);
-}
-
 body.game-only .header-controls {
     display: flex;
     grid-column: auto;
     order: initial;
 }
 
-body.game-only .main-content {
-    min-height: 0;
-}
-
 body.game-only .control-footer {
     border-bottom-right-radius: clamp(7px, 1.2vw, 14px);
     border-bottom-left-radius: clamp(7px, 1.2vw, 14px);
-}
-
-body[data-theme="light"] .game-container {
-    background:
-        radial-gradient(circle at 78% 18%, rgba(255, 225, 90, 0.36), transparent 16rem),
-        linear-gradient(180deg, #61d8ff 0%, #ffe08e 54%, #ff9ed1 100%);
-}
-
-.scene-stage {
-    --scene-x: 0;
-    --scene-y: 0;
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    contain: paint;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 75% 18%, rgba(255, 225, 90, 0.2), transparent 18rem),
-        linear-gradient(180deg, rgba(7, 20, 75, 0.1), rgba(7, 20, 75, 0.28));
-}
-
-.scene-stage::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 8;
-    pointer-events: none;
-    background:
-        linear-gradient(180deg, rgba(2, 4, 16, 0.08), rgba(2, 4, 16, 0.2)),
-        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 6px);
-    mix-blend-mode: soft-light;
-}
-
-.scene-stage[data-scene="beach-day"]::after {
-    background:
-        linear-gradient(180deg, rgba(255, 248, 223, 0.08), rgba(255, 61, 200, 0.08)),
-        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 6px);
-}
-
-.scene-layer {
-    position: absolute;
-    inset: -3% -6%;
-    width: 112%;
-    height: 106%;
-    object-fit: cover;
-    opacity: 0;
-    transform:
-        translate3d(
-            calc(var(--scene-x) * var(--scene-drift)),
-            calc(var(--scene-y) * var(--scene-drift) * 0.55),
-            0
-        )
-        scale(calc(1.01 + var(--scene-depth)));
-    animation:
-        scene-layer-enter 520ms ease both,
-        scene-slow-breathe calc(18s + (var(--scene-depth) * 18s)) ease-in-out infinite alternate;
-    transition: transform 260ms ease-out, filter 240ms ease;
-    will-change: transform;
-}
-
-.scene-layer-sky {
-    z-index: 1;
-}
-
-.scene-layer-ocean {
-    z-index: 2;
-}
-
-.scene-layer-beach {
-    z-index: 3;
-}
-
-.scene-layer-gags {
-    z-index: 4;
-    filter:
-        drop-shadow(0 8px 0 rgba(23, 19, 23, 0.26))
-        saturate(1.12);
-}
-
-.scene-stage[data-scene="beach-night"] .scene-layer {
-    filter: saturate(1.1) contrast(1.02);
-}
-
-.scene-stage[data-scene="beach-night"] .scene-layer-gags {
-    filter:
-        drop-shadow(0 0 10px rgba(50, 246, 255, 0.25))
-        drop-shadow(0 8px 0 rgba(23, 19, 23, 0.3))
-        saturate(1.18);
-}
-
-@keyframes scene-layer-enter {
-    from {
-        opacity: 0;
-        transform: translate3d(0, 14px, 0) scale(1.05);
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes scene-slow-breathe {
-    from {
-        translate: 0 0;
-    }
-
-    to {
-        translate: 0 -0.7%;
-    }
 }
 
 .header {
@@ -466,15 +294,6 @@ body[data-language="pt-BR"] .flag-br {
     white-space: nowrap;
 }
 
-.main-content {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    place-items: center;
-    min-height: clamp(430px, calc(94svh - 78px - var(--footer-height)), 650px);
-    padding: clamp(0.85rem, 2.4vw, 1.5rem) clamp(0.75rem, 3vw, 2rem) 1rem;
-}
-
 .speech-bubble {
     position: relative;
     z-index: 32;
@@ -557,25 +376,6 @@ body[data-language="pt-BR"] .flag-br {
     text-transform: uppercase;
 }
 
-.main-content::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 33;
-    opacity: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 18% 24%, var(--neon-yellow) 0 3px, transparent 4px),
-        radial-gradient(circle at 78% 18%, var(--neon-cyan) 0 4px, transparent 5px),
-        radial-gradient(circle at 62% 74%, var(--neon-pink) 0 3px, transparent 4px),
-        radial-gradient(circle at 34% 82%, var(--neon-green) 0 4px, transparent 5px);
-    background-size: 92px 74px, 117px 86px, 83px 105px, 129px 96px;
-}
-
-.game-container[data-game-moment="correct"] .main-content::before {
-    animation: victory-sparks 760ms ease-out both;
-}
-
 @keyframes clue-card-arrive {
     from { opacity: 0.72; transform: translateY(14px) scale(0.985); }
     to { opacity: 1; transform: translateY(0) scale(1); }
@@ -592,12 +392,6 @@ body[data-language="pt-BR"] .flag-br {
     22% { transform: translateX(-12px) rotate(-0.35deg); }
     48% { transform: translateX(10px) rotate(0.25deg); }
     72% { transform: translateX(-5px); }
-}
-
-@keyframes victory-sparks {
-    0% { opacity: 0; transform: translateY(12px) scale(0.9); }
-    28% { opacity: 0.88; }
-    100% { opacity: 0; transform: translateY(-34px) scale(1.08); }
 }
 
 .speech-bubble::-webkit-scrollbar {
@@ -1016,14 +810,6 @@ input:focus-visible,
 }
 
 @media (min-width: 900px) {
-    :root {
-        --footer-height: 132px;
-    }
-
-    .main-content {
-        padding-inline: clamp(1.2rem, 3vw, 2.5rem);
-    }
-
     .speech-bubble {
         width: min(calc(100% - clamp(6.5rem, 15vw, 11rem)), 900px);
         margin-left: clamp(5.5rem, 13vw, 10.5rem);
@@ -1035,10 +821,6 @@ input:focus-visible,
 }
 
 @media (max-width: 760px) {
-    :root {
-        --footer-height: 134px;
-    }
-
     .play-section {
         padding-bottom: clamp(1.5rem, 6vw, 3rem);
     }
@@ -1058,23 +840,6 @@ input:focus-visible,
 
     .site-footer {
         padding-bottom: calc(clamp(12rem, 32svh, 16rem) + env(safe-area-inset-bottom));
-    }
-
-    .game-container {
-        grid-template-rows: auto minmax(0, 1fr) auto;
-        height: min(100svh, 760px);
-        min-height: 620px;
-        border-inline-width: 3px;
-        scroll-margin-top: 0.8rem;
-    }
-
-    body.game-only .game-page-shell {
-        padding: 0.25rem;
-    }
-
-    body.game-only .game-container-standalone {
-        height: calc(100svh - 0.5rem);
-        min-height: 0;
     }
 
     .header {
@@ -1125,14 +890,6 @@ input:focus-visible,
         height: 15px;
         border-width: 1px;
         font-size: 0.4rem;
-    }
-
-    .main-content {
-        min-height: 0;
-        height: 100%;
-        padding: 0.55rem 0.55rem clamp(7rem, 30vw, 8.2rem);
-        align-content: start;
-        place-items: center;
     }
 
     .speech-bubble {
@@ -1212,59 +969,7 @@ input:focus-visible,
 
 }
 
-/* Broadcast cabinet v2: one strong composition, tuned for game-first readability. */
-:root {
-    --footer-height: 94px;
-    --cabinet-ink: #080b1a;
-    --cabinet-paper: #fff8dd;
-    --cabinet-blue: #122c67;
-    --cabinet-cyan: #38e9ff;
-    --cabinet-coral: #ff5b6e;
-    --cabinet-gold: #ffd84d;
-}
-
-:is(.play-section .game-container, .game-container-standalone) {
-    grid-template-rows: 68px minmax(0, 1fr) auto;
-    min-height: 0;
-    background:
-        radial-gradient(circle at 80% 18%, rgba(56, 233, 255, 0.2), transparent 22rem),
-        radial-gradient(circle at 13% 88%, rgba(255, 91, 110, 0.22), transparent 24rem),
-        linear-gradient(145deg, #121a42 0%, #172d5a 52%, #301a50 100%);
-    border: 5px solid var(--cabinet-ink);
-    box-shadow: 0 0 0 4px var(--cabinet-gold), 0 18px 60px rgba(0, 0, 0, 0.44);
-}
-
-.play-section .game-container {
-    height: min(820px, calc(100svh - 6.5rem));
-    min-height: 610px;
-}
-
-body.game-only .game-container {
-    width: min(100%, 1480px);
-    height: calc(100svh - clamp(0.7rem, 2.4vw, 1.8rem));
-    min-height: 540px;
-}
-
-.game-container .scene-stage {
-    opacity: 0.88;
-    filter: saturate(1.1) contrast(1.02);
-}
-
-.game-container .scene-stage::after {
-    background:
-        linear-gradient(180deg, rgba(7, 10, 30, 0.02), rgba(7, 10, 30, 0.3)),
-        repeating-linear-gradient(-9deg, transparent 0 24px, rgba(255, 255, 255, 0.025) 25px 26px);
-    mix-blend-mode: normal;
-}
-
-.game-container .main-content {
-    position: relative;
-    display: grid;
-    place-items: center;
-    min-height: 0;
-    padding: clamp(0.75rem, 2vw, 1.35rem) clamp(0.7rem, 2.4vw, 1.6rem) clamp(0.65rem, 1.6vw, 1rem);
-}
-
+/* Remaining broadcast dialogue and utility rules awaiting component ownership. */
 .game-container .speech-bubble {
     position: relative;
     z-index: 32;
@@ -1442,14 +1147,6 @@ body.game-only .game-container {
     to { transform: rotate(1turn); }
 }
 
-body[data-theme="light"] .play-section .game-container,
-body[data-theme="light"] .game-container-standalone {
-    background:
-        radial-gradient(circle at 82% 17%, rgba(255, 216, 77, 0.78), transparent 16rem),
-        radial-gradient(circle at 16% 82%, rgba(255, 91, 110, 0.46), transparent 21rem),
-        linear-gradient(155deg, #67ddff 0%, #8bb7ff 48%, #ffb9dd 100%);
-}
-
 body[data-theme="light"] .game-container .speech-bubble {
     color: #19162b;
     background:
@@ -1478,23 +1175,6 @@ body[data-theme="light"] .clue-original {
 }
 
 @media (max-width: 760px) {
-    :root { --footer-height: 134px; }
-
-    .play-section .game-container {
-        height: min(780px, calc(100svh - 4.5rem));
-        min-height: 570px;
-    }
-
-    body.game-only .game-container {
-        height: calc(100svh - 0.7rem);
-        min-height: 0;
-    }
-
-    .game-container .main-content {
-        align-items: start;
-        padding: clamp(3.5rem, 8vh, 5rem) 0.55rem 0.5rem;
-    }
-
     .game-container .speech-bubble {
         width: calc(100% - 0.35rem);
         min-height: clamp(255px, 42vh, 330px);
@@ -1538,37 +1218,6 @@ body[data-theme="light"] .clue-original {
         font-size: 0.3rem;
     }
 }
-/* Beach broadcast art direction: illustrated stage, panel skins, and cabinet drawers. */
-.game-container .scene-stage {
-    opacity: 1;
-    filter: none;
-}
-
-.game-container .scene-layer-illustration {
-    z-index: 1;
-    filter: saturate(1.08) contrast(1.03);
-}
-
-body[data-theme="light"] .game-container .scene-layer-illustration {
-    filter: saturate(1.2) contrast(1.12) brightness(1.04);
-}
-
-.game-container .scene-stage[data-scene="beach-night"] .scene-layer-illustration {
-    filter: saturate(1.12) contrast(1.04) brightness(1.04);
-}
-
-.game-container .scene-stage[data-scene="long-beach-night"] .scene-layer-illustration {
-    filter: saturate(1.12) contrast(1.04) brightness(1.08);
-}
-
-.game-container .scene-stage::after,
-.game-container .scene-stage[data-scene="beach-day"]::after {
-    background:
-        linear-gradient(180deg, rgba(7, 10, 30, 0.02), rgba(7, 10, 30, 0.08) 58%, rgba(7, 10, 30, 0.18)),
-        radial-gradient(circle at 50% 48%, transparent 0 30%, rgba(4, 7, 23, 0.12) 100%);
-    mix-blend-mode: normal;
-}
-
 .game-container[data-game-moment="complete"] .speech-bubble {
     border-color: var(--cabinet-gold);
     box-shadow: 11px 13px 0 var(--cabinet-ink), 0 0 34px rgba(255, 216, 77, 0.34);
@@ -1579,11 +1228,6 @@ body[data-theme="light"] .game-container .scene-layer-illustration {
     font-family: var(--pixel-font);
     font-size: clamp(1rem, 2.4vw, 1.55rem);
     text-transform: uppercase;
-}
-
-.game-container .main-content {
-    place-items: start center;
-    padding: clamp(1.5rem, calc(50vh - 26.5rem), 11rem) clamp(0.75rem, 3vw, 2rem) clamp(0.7rem, 1.6vw, 1rem);
 }
 
 .game-container .speech-bubble {
@@ -1722,50 +1366,6 @@ body[data-theme="light"] .game-container .scene-layer-illustration {
 .game-container .dialogue-style-cycle {
     width: 44px;
     min-height: 42px;
-}
-
-@media (min-width: 1180px) and (min-height: 760px) {
-    .game-page-shell {
-        padding: clamp(1.5rem, 2.4vh, 2.3rem) clamp(2.4rem, 4vw, 4.5rem) clamp(2rem, 3.2vh, 3rem);
-    }
-
-    .game-page-shell::before {
-        content: "";
-        position: absolute;
-        inset: clamp(0.55rem, 1vh, 0.9rem) max(1.4rem, calc((100% - 1570px) / 2)) clamp(0.45rem, 0.8vh, 0.75rem);
-        z-index: 0;
-        border: clamp(18px, 1.8vw, 28px) solid #15131d;
-        border-radius: 34px 34px 58px 58px;
-        background:
-            radial-gradient(circle at 16px 16px, #87909d 0 3px, #11131a 4px 7px, transparent 8px),
-            linear-gradient(90deg, #252936, #0b0d13 16%, #252936 50%, #0b0d13 84%, #252936);
-        box-shadow:
-            0 0 0 5px #05060a,
-            0 24px 60px rgba(0, 0, 0, 0.68),
-            inset 0 0 0 4px rgba(255, 216, 77, 0.24),
-            inset 0 0 42px rgba(56, 233, 255, 0.12);
-        clip-path: polygon(2% 0, 98% 0, 100% 92%, 96% 100%, 4% 100%, 0 92%);
-        pointer-events: none;
-    }
-
-    .game-container-standalone {
-        width: min(100%, 1480px);
-        height: calc(100svh - clamp(3.5rem, 6vh, 5.2rem));
-        min-height: 690px;
-        border-width: 10px;
-        border-radius: 18px 18px 30px 30px;
-        box-shadow:
-            0 0 0 5px #05060a,
-            0 0 0 9px rgba(255, 216, 77, 0.24),
-            0 18px 45px rgba(0, 0, 0, 0.58),
-            inset 0 0 0 3px rgba(255, 255, 255, 0.08);
-    }
-
-    body.game-only .control-footer {
-        border-radius: 0 0 20px 20px;
-        transform: perspective(900px) rotateX(1.2deg);
-        transform-origin: bottom center;
-    }
 }
 
 }

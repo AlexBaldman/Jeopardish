@@ -1,0 +1,190 @@
+@layer components {
+    /* Cabinet shell owns page framing, game geometry, and the playable stage slot. */
+    .game-container {
+        position: relative;
+        z-index: 1;
+        isolation: isolate;
+        contain: paint;
+        container: cabinet / inline-size;
+        display: grid;
+        grid-template-rows: var(--jp-header-height) minmax(0, 1fr) auto;
+        width: 100%;
+        max-width: 1400px;
+        min-height: 0;
+        margin: 0 auto;
+        overflow: clip;
+        background:
+            radial-gradient(circle at 80% 18%, rgba(56, 233, 255, 0.2), transparent 22rem),
+            radial-gradient(circle at 13% 88%, rgba(255, 91, 110, 0.22), transparent 24rem),
+            linear-gradient(145deg, #121a42 0%, #172d5a 52%, #301a50 100%);
+        border: 5px solid var(--cabinet-ink);
+        box-shadow:
+            0 0 0 4px var(--cabinet-gold),
+            0 18px 60px rgba(0, 0, 0, 0.44);
+    }
+
+    body[data-theme="light"] .game-container {
+        background:
+            radial-gradient(circle at 82% 17%, rgba(255, 216, 77, 0.78), transparent 16rem),
+            radial-gradient(circle at 16% 82%, rgba(255, 91, 110, 0.46), transparent 21rem),
+            linear-gradient(155deg, #67ddff 0%, #8bb7ff 48%, #ffb9dd 100%);
+    }
+
+    body.game-only {
+        min-height: 100svh;
+        overflow: hidden;
+        background:
+            radial-gradient(circle at 15% 12%, rgba(255, 61, 200, 0.34), transparent 24rem),
+            radial-gradient(circle at 84% 18%, rgba(50, 246, 255, 0.26), transparent 24rem),
+            linear-gradient(135deg, #070915 0%, #151329 48%, #092f38 100%);
+    }
+
+    body.game-only::before {
+        opacity: 0.82;
+    }
+
+    .game-page-shell {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+        width: 100%;
+        min-height: 100svh;
+        padding: clamp(0.12rem, 0.45vw, 0.35rem);
+    }
+
+    .game-container-standalone {
+        width: min(100%, 1480px);
+        height: calc(100svh - clamp(0.7rem, 2.4vw, 1.8rem));
+        min-height: 540px;
+        max-height: none;
+        border-radius: clamp(12px, 1.8vw, 22px);
+    }
+
+    .play-section .game-container {
+        height: min(820px, calc(100svh - 6.5rem));
+        min-height: 610px;
+    }
+
+    .game-container .main-content {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        place-items: start center;
+        min-height: 0;
+        padding:
+            clamp(1.5rem, calc(50vh - 26.5rem), 11rem)
+            clamp(0.75rem, 3vw, 2rem)
+            clamp(0.7rem, 1.6vw, 1rem);
+    }
+
+    .game-container .main-content::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 33;
+        opacity: 0;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 18% 24%, var(--neon-yellow) 0 3px, transparent 4px),
+            radial-gradient(circle at 78% 18%, var(--neon-cyan) 0 4px, transparent 5px),
+            radial-gradient(circle at 62% 74%, var(--neon-pink) 0 3px, transparent 4px),
+            radial-gradient(circle at 34% 82%, var(--neon-green) 0 4px, transparent 5px);
+        background-size: 92px 74px, 117px 86px, 83px 105px, 129px 96px;
+    }
+
+    .game-container[data-game-moment="correct"] .main-content::before {
+        animation: victory-sparks 760ms ease-out both;
+    }
+
+    @keyframes victory-sparks {
+        0% {
+            opacity: 0;
+            transform: translateY(12px) scale(0.9);
+        }
+
+        28% {
+            opacity: 0.88;
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateY(-34px) scale(1.08);
+        }
+    }
+
+    @media (max-width: 760px) {
+        .game-container {
+            border-width: 3px;
+            scroll-margin-top: 0.8rem;
+        }
+
+        .play-section .game-container {
+            height: min(780px, calc(100svh - 4.5rem));
+            min-height: 570px;
+        }
+
+        body.game-only .game-page-shell {
+            padding: 0.25rem;
+        }
+
+        body.game-only .game-container {
+            height: calc(100svh - 0.7rem);
+            min-height: 0;
+        }
+
+        .game-container .main-content {
+            height: 100%;
+            align-content: start;
+        }
+    }
+
+    @media (min-width: 1180px) and (min-height: 760px) {
+        .game-page-shell {
+            padding:
+                clamp(1.5rem, 2.4vh, 2.3rem)
+                clamp(2.4rem, 4vw, 4.5rem)
+                clamp(2rem, 3.2vh, 3rem);
+        }
+
+        .game-page-shell::before {
+            content: "";
+            position: absolute;
+            inset:
+                clamp(0.55rem, 1vh, 0.9rem)
+                max(1.4rem, calc((100% - 1570px) / 2))
+                clamp(0.45rem, 0.8vh, 0.75rem);
+            z-index: 0;
+            border: clamp(18px, 1.8vw, 28px) solid #15131d;
+            border-radius: 34px 34px 58px 58px;
+            background:
+                radial-gradient(circle at 16px 16px, #87909d 0 3px, #11131a 4px 7px, transparent 8px),
+                linear-gradient(90deg, #252936, #0b0d13 16%, #252936 50%, #0b0d13 84%, #252936);
+            box-shadow:
+                0 0 0 5px #05060a,
+                0 24px 60px rgba(0, 0, 0, 0.68),
+                inset 0 0 0 4px rgba(255, 216, 77, 0.24),
+                inset 0 0 42px rgba(56, 233, 255, 0.12);
+            clip-path: polygon(2% 0, 98% 0, 100% 92%, 96% 100%, 4% 100%, 0 92%);
+            pointer-events: none;
+        }
+
+        .game-container-standalone {
+            height: calc(100svh - clamp(3.5rem, 6vh, 5.2rem));
+            min-height: 690px;
+            border-width: 10px;
+            border-radius: 18px 18px 30px 30px;
+            box-shadow:
+                0 0 0 5px #05060a,
+                0 0 0 9px rgba(255, 216, 77, 0.24),
+                0 18px 45px rgba(0, 0, 0, 0.58),
+                inset 0 0 0 3px rgba(255, 255, 255, 0.08);
+        }
+
+        body.game-only .control-footer {
+            border-radius: 0 0 20px 20px;
+            transform: perspective(900px) rotateX(1.2deg);
+            transform-origin: bottom center;
+        }
+    }
+}

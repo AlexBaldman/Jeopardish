@@ -1,0 +1,127 @@
+@layer components {
+    /* Scene renderer owns layered art, parallax, atmosphere, and theme treatment. */
+    .game-container .scene-stage {
+        --scene-x: 0;
+        --scene-y: 0;
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        contain: paint;
+        opacity: 1;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 75% 18%, rgba(255, 225, 90, 0.2), transparent 18rem),
+            linear-gradient(180deg, rgba(7, 20, 75, 0.1), rgba(7, 20, 75, 0.28));
+        filter: none;
+    }
+
+    .game-container .scene-stage::after,
+    .game-container .scene-stage[data-scene="beach-day"]::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 8;
+        pointer-events: none;
+        background:
+            linear-gradient(180deg, rgba(7, 10, 30, 0.02), rgba(7, 10, 30, 0.08) 58%, rgba(7, 10, 30, 0.18)),
+            radial-gradient(circle at 50% 48%, transparent 0 30%, rgba(4, 7, 23, 0.12) 100%);
+        mix-blend-mode: normal;
+    }
+
+    .game-container .scene-layer {
+        position: absolute;
+        inset: -3% -6%;
+        width: 112%;
+        height: 106%;
+        object-fit: cover;
+        opacity: 0;
+        transform:
+            translate3d(
+                calc(var(--scene-x) * var(--scene-drift)),
+                calc(var(--scene-y) * var(--scene-drift) * 0.55),
+                0
+            )
+            scale(calc(1.01 + var(--scene-depth)));
+        animation:
+            scene-layer-enter 520ms ease both,
+            scene-slow-breathe calc(18s + (var(--scene-depth) * 18s)) ease-in-out infinite alternate;
+        transition: transform 260ms ease-out, filter 240ms ease;
+        will-change: transform;
+    }
+
+    .game-container .scene-layer-sky {
+        z-index: 1;
+    }
+
+    .game-container .scene-layer-ocean {
+        z-index: 2;
+    }
+
+    .game-container .scene-layer-beach {
+        z-index: 3;
+    }
+
+    .game-container .scene-layer-gags {
+        z-index: 4;
+        filter:
+            drop-shadow(0 8px 0 rgba(23, 19, 23, 0.26))
+            saturate(1.12);
+    }
+
+    .game-container .scene-layer-illustration {
+        z-index: 1;
+        filter: saturate(1.08) contrast(1.03);
+    }
+
+    body[data-theme="light"] .game-container .scene-layer-illustration {
+        filter: saturate(1.2) contrast(1.12) brightness(1.04);
+    }
+
+    .game-container .scene-stage[data-scene="beach-night"] .scene-layer {
+        filter: saturate(1.1) contrast(1.02);
+    }
+
+    .game-container .scene-stage[data-scene="beach-night"] .scene-layer-gags {
+        filter:
+            drop-shadow(0 0 10px rgba(50, 246, 255, 0.25))
+            drop-shadow(0 8px 0 rgba(23, 19, 23, 0.3))
+            saturate(1.18);
+    }
+
+    .game-container .scene-stage[data-scene="beach-night"] .scene-layer-illustration {
+        filter: saturate(1.12) contrast(1.04) brightness(1.04);
+    }
+
+    .game-container .scene-stage[data-scene="long-beach-night"] .scene-layer-illustration {
+        filter: saturate(1.12) contrast(1.04) brightness(1.08);
+    }
+
+    @keyframes scene-layer-enter {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 14px, 0) scale(1.05);
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes scene-slow-breathe {
+        from {
+            translate: 0 0;
+        }
+
+        to {
+            translate: 0 -0.7%;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .game-container .scene-layer {
+            animation-duration: 1ms;
+            transition-duration: 1ms;
+        }
+    }
+}

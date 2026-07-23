@@ -24,7 +24,13 @@
         --question-font: "Korinna Std", "Korinna BT", "ITC Korinna", "Korinna", "Bree Serif", "Bookman Old Style", Georgia, serif;
         --pixel-font: "Press Start 2P", "Courier New", monospace;
         --utility-font: "Roboto Condensed", Arial, sans-serif;
-        --footer-height: 154px;
+        --footer-height: 94px;
+        --cabinet-ink: #080b1a;
+        --cabinet-paper: #fff8dd;
+        --cabinet-blue: #122c67;
+        --cabinet-cyan: #38e9ff;
+        --cabinet-coral: #ff5b6e;
+        --cabinet-gold: #ffd84d;
 
         /* Semantic component tokens */
         --jp-surface-header: rgba(8, 11, 26, 0.94);
@@ -56,5 +62,11 @@
         --jp-surface-control: linear-gradient(180deg, #fff6b9, #f4c3ff);
         --jp-text-on-dark: #171322;
         color-scheme: light;
+    }
+
+    @media (max-width: 760px) {
+        :root {
+            --footer-height: 134px;
+        }
     }
 }

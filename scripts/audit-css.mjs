@@ -9,7 +9,22 @@ const maxImportant = maxImportantArg ? Number(maxImportantArg.split('=')[1]) : I
 const files = args.filter((arg) => !arg.startsWith('--'));
 const targets = files.length
   ? files
-  : ['styles/base.css', 'styles/tokens.css', 'style.css', 'styles/game/legacy.css', 'creative-room.css'];
+  : [
+      'styles/base.css',
+      'styles/tokens.css',
+      'style.css',
+      'styles/game/legacy.css',
+      'styles/game/cabinet.css',
+      'styles/game/scene.css',
+      'styles/game/header.css',
+      'styles/game/scoreboard.css',
+      'styles/game/menu.css',
+      'styles/game/host.css',
+      'styles/game/dialogue.css',
+      'styles/game/controls.css',
+      'styles/game/study.css',
+      'creative-room.css',
+    ];
 
 function stripComments(css) {
   return css.replace(/\/\*[\s\S]*?\*\//g, '');

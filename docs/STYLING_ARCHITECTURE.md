@@ -13,6 +13,8 @@ The visual system should feel authored, playful, and game-like without making th
 | `styles/base.css` | Reset, document foundations, shared body treatment | `index.html`, `game.html` |
 | `style.css` | Landing page only; never loaded by the standalone game | `index.html` |
 | `styles/game/legacy.css` | Historical cabinet rules awaiting component migration; no new rules permitted | `index.html`, `game.html` |
+| `styles/game/cabinet.css` | Cabinet frame, page shell, playable-stage geometry, and container-query boundary | `index.html`, `game.html` |
+| `styles/game/scene.css` | Layered scene art, atmosphere, parallax, and scene motion | `index.html`, `game.html` |
 | `styles/game/header.css` | Game header layout, preference controls, logo placement, and container behavior | `index.html`, `game.html` |
 | `styles/game/scoreboard.css` | Score drawer, split-flap readouts, reveal motion, and compact states | `index.html`, `game.html` |
 | `styles/game/menu.css` | Navigation drawer, menu controls, and responsive geometry | `index.html`, `game.html` |
@@ -28,13 +30,13 @@ The order is enforced by `@layer`: `reset`, `tokens`, `legacy`, `components`, `v
 
 Component migration follows the page from back to front:
 
-1. Cabinet and illustrated scene
+1. Cabinet and illustrated scene (migrated)
 2. Header, preferences, score drawer, and navigation menu (migrated)
 3. Host stage and selector controls (migrated)
 4. Dialogue card and its four semantic skins (migrated)
 5. Media previews and modal viewer
 6. Answer controls and footer (migrated)
-7. Main stage and round feedback
+7. Main stage and round feedback (geometry migrated; feedback remains)
 8. Responsive and reduced-motion states
 
 ## Cascade Rules
@@ -54,7 +56,7 @@ Component migration follows the page from back to front:
 
 Run `npm run test:visual` to capture 72 combinations under `screenshots/visual-fixtures/`. The runner fails on document overflow, component escape from the cabinet, missing visible geometry, or host overlap with clue text. Captures are local build artifacts and are intentionally ignored by git.
 
-The current audited ceiling is 12 same-context duplicate selectors. The baseline after the host, dialogue, and control-deck migrations is 12. Every later component migration must hold or lower that number.
+The current audited ceiling is 8 same-context duplicate selectors. The baseline after the cabinet, scene, host, dialogue, and control-deck migrations is 8. Every later component migration must hold or lower that number.
 
 ## Art Direction Test
 
