@@ -1,4 +1,359 @@
 @layer components {
+/* Canonical dialogue structure, state motion, translation, and skin controls. */
+.game-container .speech-bubble {
+    position: relative;
+    z-index: 32;
+    display: grid;
+    align-content: center;
+    gap: clamp(0.65rem, 1.5vw, 1rem);
+    width: min(86%, 940px);
+    min-height: min(clamp(300px, 41vh, 390px), calc(100% - 1rem));
+    max-height: calc(100% - 0.5rem);
+    margin: 0 auto;
+    padding: clamp(3.35rem, 7vh, 4.6rem) clamp(1.5rem, 4.4vw, 3.7rem) clamp(1.65rem, 4vh, 2.5rem);
+    overflow: auto;
+    color: var(--cabinet-paper);
+    text-align: center;
+    scrollbar-color: rgba(255, 225, 90, 0.68) rgba(3, 11, 47, 0.5);
+    scrollbar-width: thin;
+    background:
+        linear-gradient(155deg, rgba(21, 50, 116, 0.98), rgba(10, 21, 65, 0.99)),
+        var(--cabinet-blue);
+    border: 4px solid var(--cabinet-ink);
+    border-radius: 32px 26px 38px 28px / 26px 36px 28px 34px;
+    box-shadow:
+        8px 9px 0 var(--cabinet-ink),
+        13px 14px 0 var(--cabinet-coral),
+        inset 0 0 0 2px rgba(56, 233, 255, 0.25);
+    backdrop-filter: none;
+    transition: background 280ms ease, color 280ms ease, border-radius 280ms ease, box-shadow 280ms ease;
+}
+
+.game-container .speech-bubble::-webkit-scrollbar {
+    width: 9px;
+}
+
+.game-container .speech-bubble::-webkit-scrollbar-track {
+    margin-block: 24px;
+    background: rgba(3, 11, 47, 0.45);
+}
+
+.game-container .speech-bubble::-webkit-scrollbar-thumb {
+    border: 2px solid rgba(3, 11, 47, 0.45);
+    border-radius: 999px;
+    background: rgba(255, 225, 90, 0.72);
+}
+
+.game-container .speech-bubble::before {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    pointer-events: none;
+    border: 1px solid rgba(255, 216, 77, 0.45);
+    border-radius: 7px 14px 8px 12px;
+}
+
+.game-container .speech-bubble::after {
+    content: "";
+    position: absolute;
+    left: -32px;
+    bottom: 54px;
+    width: 54px;
+    height: 54px;
+    border: 4px solid var(--cabinet-ink);
+    border-top: 0;
+    border-right: 0;
+    background: #0d245d;
+    box-shadow: -5px 5px 0 var(--cabinet-ink);
+    transform: skew(-12deg) rotate(42deg);
+}
+
+.game-container .clue-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    justify-items: stretch;
+    gap: 0.75rem 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(56, 233, 255, 0.38);
+}
+
+.game-container .clue-category {
+    display: grid;
+    gap: 0.42rem;
+    margin: 0;
+    color: var(--cabinet-gold);
+    font-family: var(--pixel-font);
+    font-size: clamp(0.82rem, 2vw, 1.35rem);
+    font-style: italic;
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+    text-align: left;
+    text-shadow: 3px 3px 0 var(--cabinet-ink);
+}
+
+.game-container #questionBox {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 0.6rem;
+    width: 100%;
+    outline: none;
+}
+
+.game-container #questionBox:focus-visible {
+    outline: 2px dashed var(--cabinet-cyan);
+    outline-offset: 6px;
+}
+
+.game-container .clue-text {
+    margin: 0;
+    color: var(--cabinet-paper);
+    font-family: var(--utility-font);
+    font-size: clamp(1.5rem, 3.1vw, 2.65rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    text-align: left;
+    text-shadow: 3px 3px 0 rgba(8, 11, 26, 0.48);
+    text-wrap: pretty;
+    white-space: pre-line;
+}
+
+:is(.category-original, .clue-original) {
+    display: block;
+    max-height: 0;
+    margin: 0;
+    overflow: hidden;
+    color: #a8f6ff;
+    font-family: var(--utility-font);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.35;
+    opacity: 0;
+    text-shadow: none;
+    transition: max-height 180ms ease, opacity 180ms ease;
+}
+
+.category-original {
+    font-size: clamp(0.66rem, 1.2vw, 0.82rem);
+    line-height: 1.25;
+}
+
+.clue-original {
+    font-size: clamp(0.78rem, 1.4vw, 1rem);
+}
+
+.game-container .speech-bubble:hover .category-original,
+.game-container .speech-bubble:focus-within .category-original {
+    max-height: 3rem;
+    opacity: 0.7;
+}
+
+.game-container #questionBox:hover .clue-original,
+.game-container #questionBox:focus .clue-original,
+.game-container #questionBox:focus-within .clue-original {
+    max-height: 7rem;
+    opacity: 0.72;
+}
+
+body[data-theme="light"] :is(.category-original, .clue-original) {
+    color: #125793;
+}
+
+.game-container #answerBox {
+    display: none;
+    justify-content: center;
+    color: var(--neon-green);
+    font-family: var(--pixel-font);
+    font-size: clamp(0.74rem, 2.4vw, 1.16rem);
+    line-height: 1.75;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(119, 255, 138, 0.85);
+    white-space: pre-line;
+}
+
+.game-container[data-game-moment="clue"] .speech-bubble,
+.game-container[data-game-moment="reveal"] .speech-bubble {
+    animation: clue-card-arrive 420ms cubic-bezier(.2, .85, .25, 1.08) both;
+}
+
+.game-container[data-game-moment="correct"] .speech-bubble {
+    animation: correct-card-hit 560ms cubic-bezier(.16, .9, .23, 1.18) both;
+}
+
+.game-container[data-game-moment="incorrect"] .speech-bubble,
+.game-container[data-game-moment="error"] .speech-bubble {
+    animation: incorrect-card-hit 380ms ease-out both;
+}
+
+.game-container[data-game-moment="complete"] .speech-bubble {
+    border-color: var(--cabinet-gold);
+    box-shadow: 11px 13px 0 var(--cabinet-ink), 0 0 34px rgba(255, 216, 77, 0.34);
+}
+
+.game-container[data-game-moment="complete"] .clue-text {
+    color: #fff8df;
+    font-family: var(--pixel-font);
+    font-size: clamp(1rem, 2.4vw, 1.55rem);
+    text-transform: uppercase;
+}
+
+.game-container[data-round-phase="clue-intro"] .speech-bubble {
+    animation: round-clue-arrive 180ms cubic-bezier(.16, .9, .24, 1.12) both;
+}
+
+.game-container[data-round-phase="judging"] .speech-bubble {
+    filter: saturate(0.74) contrast(1.08);
+}
+
+.game-container[data-round-phase="judging"] .clue-content::after {
+    content: "JUDGES CONSULTING...";
+    position: absolute;
+    left: 50%;
+    bottom: 0.65rem;
+    padding: 0.36rem 0.55rem;
+    color: var(--ink);
+    background: var(--neon-yellow);
+    border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--neon-pink);
+    font-family: var(--pixel-font);
+    font-size: clamp(0.38rem, 1vw, 0.56rem);
+    transform: translateX(-50%) rotate(-1deg);
+}
+
+.translation-state {
+    position: absolute;
+    top: 0.75rem;
+    left: 1rem;
+    right: auto;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.5rem 0.24rem;
+    border: 2px solid var(--cabinet-ink);
+    border-radius: 999px;
+    color: var(--cabinet-ink);
+    background: var(--cabinet-cyan);
+    box-shadow: 3px 3px 0 var(--cabinet-ink);
+    font-family: var(--pixel-font);
+    font-size: 0.36rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.translation-state[hidden] {
+    display: none;
+}
+
+.translation-state[data-status="fallback"] {
+    color: #fff;
+    background: var(--cabinet-coral);
+}
+
+.translation-pulse {
+    width: 0.48rem;
+    height: 0.48rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+}
+
+.translation-state[data-status="loading"] .translation-pulse {
+    border-right-color: transparent;
+    animation: translation-spin 650ms linear infinite;
+}
+
+.dialogue-style-picker {
+    position: absolute;
+    top: 0.78rem;
+    right: 0.9rem;
+    z-index: 5;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    color: currentColor;
+    background: rgba(4, 7, 23, 0.2);
+    box-shadow: 2px 3px 0 var(--cabinet-ink);
+    backdrop-filter: blur(7px);
+}
+
+.game-container .dialogue-style-cycle {
+    width: 44px;
+    min-height: 42px;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    font: 900 1.1rem/1 var(--utility-font);
+    cursor: pointer;
+}
+
+.dialogue-style-cycle:hover {
+    background: rgba(255, 216, 77, 0.34);
+}
+
+.dialogue-style-readout {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0 0.35rem;
+    min-width: 118px;
+    padding: 0.25rem 0.4rem 0.2rem;
+    border-inline: 1px solid currentColor;
+    text-align: left;
+}
+
+.dialogue-style-readout small {
+    grid-column: 1 / -1;
+    font-family: var(--pixel-font);
+    font-size: 0.25rem;
+    line-height: 1.35;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.68;
+}
+
+.dialogue-style-readout strong {
+    font: 900 0.64rem/1.1 var(--utility-font);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.dialogue-style-readout > span {
+    font-family: var(--pixel-font);
+    font-size: 0.28rem;
+}
+
+@keyframes clue-card-arrive {
+    from { opacity: 0.72; transform: translateY(14px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes correct-card-hit {
+    0% { transform: scale(0.96) rotate(-0.5deg); }
+    58% { transform: scale(1.025) rotate(0.35deg); }
+    100% { transform: scale(1) rotate(0); }
+}
+
+@keyframes incorrect-card-hit {
+    0%, 100% { transform: translateX(0); }
+    22% { transform: translateX(-12px) rotate(-0.35deg); }
+    48% { transform: translateX(10px) rotate(0.25deg); }
+    72% { transform: translateX(-5px); }
+}
+
+@keyframes round-clue-arrive {
+    from { opacity: 0.35; transform: translateY(-10px) scale(1.018); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes translation-spin {
+    to { transform: rotate(1turn); }
+}
+
 /* Dialogue system v2: one content hierarchy, four deliberate broadcast skins. */
 body .game-container .speech-bubble[data-dialogue-style] {
     --dialogue-ink: #fff8df;
@@ -339,6 +694,55 @@ body .game-container[data-game-moment="error"] #answerBox:not(:empty) {
     color: #ffe3e8;
     background: linear-gradient(180deg, #6e2036, #2b101b);
     box-shadow: 0 4px 0 #090d12, inset 0 0 0 1px rgba(255, 227, 232, 0.2);
+}
+
+@media (max-width: 760px) {
+    .game-container .speech-bubble {
+        width: calc(100% - 0.4rem);
+        min-height: clamp(255px, 42vh, 330px);
+        max-height: calc(100% - 0.5rem);
+        margin: 0 auto;
+    }
+
+    .game-container .speech-bubble::after {
+        display: block;
+    }
+
+    .dialogue-style-picker {
+        top: 0.55rem;
+        right: 0.58rem;
+    }
+
+    .dialogue-style-readout {
+        min-width: 90px;
+    }
+
+    .dialogue-style-readout small {
+        display: none;
+    }
+
+    .dialogue-style-readout strong {
+        font-size: 0.52rem;
+    }
+
+    .game-container .translation-state {
+        top: 0.55rem;
+        left: 0.58rem;
+    }
+
+    .game-container .clue-header {
+        grid-template-columns: 1fr;
+        gap: 0.45rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .game-container .speech-bubble,
+    .category-original,
+    .clue-original {
+        animation-duration: 1ms;
+        transition-duration: 1ms;
+    }
 }
 
 }

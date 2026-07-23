@@ -1019,6 +1019,29 @@
     to { transform: scaleX(1); }
 }
 
+@media (max-width: 760px) {
+    .play-section {
+        padding-bottom: clamp(1.5rem, 6vw, 3rem);
+    }
+
+    .play-heading {
+        margin-bottom: 1rem;
+    }
+
+    .play-heading h2 {
+        font-size: clamp(2rem, 9vw, 2.8rem);
+    }
+
+    .play-heading p {
+        font-size: clamp(0.95rem, 4.3vw, 1.12rem);
+        line-height: 1.42;
+    }
+
+    .site-footer {
+        padding-bottom: calc(clamp(12rem, 32svh, 16rem) + env(safe-area-inset-bottom));
+    }
+}
+
 @media (max-width: 1040px) {
     .site-links {
         display: none;

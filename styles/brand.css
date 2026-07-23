@@ -1,0 +1,117 @@
+@layer components {
+    .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        width: max-content;
+        max-width: 100%;
+        color: var(--vision-gold);
+        font-family: "Bangers", Impact, sans-serif;
+        font-style: italic;
+        font-weight: 900;
+        line-height: 0.86;
+        letter-spacing: 0.025em;
+        white-space: nowrap;
+    }
+
+    :is(.brand-mark .brand-jeo, .brand-mark .brand-dy) {
+        color: var(--vision-gold);
+    }
+
+    .brand-mark .brand-par {
+        color: #fff7cf;
+    }
+
+    .brand-mark .brand-bang {
+        margin-left: 0.04em;
+        color: var(--neon-cyan);
+        transform: rotate(5deg);
+    }
+
+    .brand-o {
+        position: relative;
+        display: inline-grid;
+        flex: 0 0 auto;
+        place-items: center;
+        width: 0.82em;
+        height: 0.82em;
+        margin-inline: 0.025em;
+        border-radius: 50%;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+    .brand-o::before {
+        content: "";
+        position: absolute;
+        inset: 3%;
+        border: 0.07em solid var(--ink);
+        border-radius: inherit;
+        background: conic-gradient(var(--neon-pink), var(--neon-yellow), var(--neon-cyan), #7c3dff, var(--neon-pink));
+        box-shadow:
+            0 0 0 0.035em rgba(255, 255, 255, 0.55),
+            0 0 0.28em rgba(255, 61, 200, 0.72);
+        animation: parody-o-spin 7s linear infinite;
+    }
+
+    .brand-o::after {
+        content: "";
+        position: absolute;
+        inset: 31%;
+        border-radius: inherit;
+        background: var(--ink);
+        box-shadow: 0 0 0.08em rgba(255, 255, 255, 0.9);
+    }
+
+    .brand-o[data-o-token="eye"]::after {
+        inset: 35% 25%;
+        border: 0.05em solid white;
+        background: var(--neon-cyan);
+        box-shadow: inset 0 0 0 0.08em var(--ink);
+    }
+
+    .brand-o[data-o-token="donut"]::before {
+        background:
+            radial-gradient(circle at 30% 30%, var(--neon-cyan) 0 3%, transparent 4%),
+            radial-gradient(circle at 72% 62%, var(--neon-yellow) 0 3%, transparent 4%),
+            radial-gradient(circle at 58% 20%, white 0 3%, transparent 4%),
+            #ff83cc;
+    }
+
+    .brand-o[data-o-token="coin"]::before {
+        background: repeating-radial-gradient(circle, #ffef9a 0 8%, #b66d1f 9% 14%);
+    }
+
+    .brand-o[data-o-token="eclipse"]::before {
+        background: radial-gradient(circle at 65% 42%, var(--ink) 0 48%, transparent 50%), var(--neon-yellow);
+        box-shadow: 0 0 0.3em var(--neon-yellow);
+    }
+
+    .brand-o[data-o-token="disco"]::before {
+        background: conic-gradient(from 45deg, white, var(--neon-cyan), white, var(--neon-pink), white, #7c3dff, white);
+    }
+
+    .brand-o:focus-visible {
+        outline: 0.08em solid var(--neon-green);
+        outline-offset: 0.08em;
+    }
+
+    body[data-theme="light"] :is(.brand-mark .brand-jeo, .brand-mark .brand-dy) {
+        color: #28163f;
+    }
+
+    body[data-theme="light"] .brand-mark .brand-par {
+        color: #9f176f;
+    }
+
+    @keyframes parody-o-spin {
+        to {
+            transform: rotate(1turn);
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-o::before {
+        animation-duration: 1ms;
+    }
+}

@@ -2,14 +2,15 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [landingHtml, gameHtml, fixtureHtml, baseStyles, tokens, siteStyles, gameStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, controlStyles] = await Promise.all([
+const [landingHtml, gameHtml, fixtureHtml, baseStyles, tokens, brandStyles, preferenceStyles, siteStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, mediaStyles, controlStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../game.html', import.meta.url), 'utf8'),
   readFile(new URL('../visual-fixtures.html', import.meta.url), 'utf8'),
   readFile(new URL('../styles/base.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/tokens.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/brand.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/preferences.css', import.meta.url), 'utf8'),
   readFile(new URL('../style.css', import.meta.url), 'utf8'),
-  readFile(new URL('../styles/game/legacy.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/cabinet.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/scene.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/header.css', import.meta.url), 'utf8'),
@@ -17,6 +18,7 @@ const [landingHtml, gameHtml, fixtureHtml, baseStyles, tokens, siteStyles, gameS
   readFile(new URL('../styles/game/menu.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/host.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/dialogue.css', import.meta.url), 'utf8'),
+  readFile(new URL('../styles/game/media.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/game/controls.css', import.meta.url), 'utf8'),
 ]);
 
@@ -78,22 +80,27 @@ test('landing and standalone pages preserve the cabinet DOM contract', () => {
   assertHasIds(gameHtml, cabinetContractIds, 'game.html');
 });
 
-test('game shells load tokens, base, legacy game, and owned components in order', () => {
+test('game shells load foundations and owned components without a legacy runtime stylesheet', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const tokensIndex = html.indexOf('href="styles/tokens.css');
     const baseIndex = html.indexOf('href="styles/base.css');
-    const gameIndex = html.indexOf('href="styles/game/legacy.css');
+    const brandIndex = html.indexOf('href="styles/brand.css');
+    const preferenceIndex = html.indexOf('href="styles/preferences.css');
+    const cabinetIndex = html.indexOf('href="styles/game/cabinet.css');
     assert.ok(tokensIndex >= 0, `${surface} is missing design tokens`);
     assert.ok(baseIndex > tokensIndex, `${surface} must load base styles after tokens`);
-    assert.ok(gameIndex > baseIndex, `${surface} must load game styles after foundations`);
+    assert.ok(brandIndex > baseIndex, `${surface} must load brand styles after foundations`);
+    assert.ok(preferenceIndex > brandIndex, `${surface} must load preference styles after brand styles`);
+    assert.ok(cabinetIndex > preferenceIndex, `${surface} must load game components after shared components`);
     assert.match(html, /href="styles\/order\.css/);
-    assert.ok(html.indexOf('href="styles/game/cabinet.css') > gameIndex, `${surface} must load the owned cabinet after legacy game styles`);
-    assert.ok(html.indexOf('href="styles/game/scene.css') > gameIndex, `${surface} must load the owned scene after legacy game styles`);
-    assert.ok(html.indexOf('href="styles/game/header.css') > gameIndex, `${surface} must load owned header styles after legacy game styles`);
-    assert.ok(html.indexOf('href="styles/game/scoreboard.css') > gameIndex, `${surface} must load owned scoreboard styles after legacy game styles`);
-    assert.ok(html.indexOf('href="styles/game/menu.css') > gameIndex, `${surface} must load owned menu styles after legacy game styles`);
-    assert.ok(html.indexOf('href="styles/game/dialogue.css') > gameIndex, `${surface} must load owned dialogue styles after legacy game styles`);
-    assert.ok(html.indexOf('href="styles/game/controls.css') > gameIndex, `${surface} must load owned control styles after legacy game styles`);
+    assert.doesNotMatch(html, /styles\/game\/legacy\.css/, `${surface} still loads the retired legacy game stylesheet`);
+    assert.ok(html.indexOf('href="styles/game/scene.css') > cabinetIndex, `${surface} must load the owned scene after the cabinet`);
+    assert.ok(html.indexOf('href="styles/game/header.css') > cabinetIndex, `${surface} must load the owned header after the cabinet`);
+    assert.ok(html.indexOf('href="styles/game/scoreboard.css') > cabinetIndex, `${surface} must load the owned scoreboard after the cabinet`);
+    assert.ok(html.indexOf('href="styles/game/menu.css') > cabinetIndex, `${surface} must load the owned menu after the cabinet`);
+    assert.ok(html.indexOf('href="styles/game/dialogue.css') > cabinetIndex, `${surface} must load the owned dialogue after the cabinet`);
+    assert.ok(html.indexOf('href="styles/game/media.css') > cabinetIndex, `${surface} must load the owned media after the cabinet`);
+    assert.ok(html.indexOf('href="styles/game/controls.css') > cabinetIndex, `${surface} must load the owned controls after the cabinet`);
   }
   assert.match(landingHtml, /href="style\.css/, 'index.html must load landing-page styles');
   assert.doesNotMatch(gameHtml, /href="style\.css/, 'game.html must not load landing-page styles');
@@ -102,11 +109,9 @@ test('game shells load tokens, base, legacy game, and owned components in order'
 test('canonical cabinet components use layers and container-driven responsive rules', () => {
   assert.match(baseStyles, /^@layer reset/);
   assert.match(tokens, /^@layer tokens/);
+  assert.match(brandStyles, /^@layer components/);
+  assert.match(preferenceStyles, /^@layer components/);
   assert.match(siteStyles, /^@layer legacy/);
-  assert.match(gameStyles, /^@layer legacy/);
-  assert.ok(gameStyles.split('\n').length < 1_400, 'legacy cabinet CSS exceeded its migration ceiling');
-  assert.doesNotMatch(gameStyles, /\.host-stage|Dialogue system v2|\.scene-stage|\.main-content/,
-    'migrated host, dialogue, scene, or cabinet rules leaked back into legacy CSS');
   assert.match(cabinetStyles, /^@layer components/);
   assert.match(cabinetStyles, /container:\s*cabinet\s*\/\s*inline-size/);
   assert.match(sceneStyles, /^@layer components/);
@@ -115,6 +120,9 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(scoreboardStyles, /@layer components/);
   assert.match(menuStyles, /@layer components/);
   assert.match(dialogueStyles, /^@layer components/);
+  assert.match(dialogueStyles, /@keyframes clue-card-arrive/);
+  assert.match(mediaStyles, /^@layer components/);
+  assert.match(mediaStyles, /@keyframes media-pop-in/);
   assert.match(hostStyles, /@container cabinet \(max-width: 420px\)/);
   assert.match(hostStyles, /@keyframes host-streak/);
   assert.doesNotMatch(controlStyles, /\.host-cycle/,
@@ -178,7 +186,6 @@ test('signal maps have an offline visual fallback and reveal content is safe by 
 });
 
 test('dialogue skins use direct values instead of banknote background art', () => {
-  assert.doesNotMatch(gameStyles, /Dialogue system v2/);
   assert.match(dialogueStyles, /Dialogue system v2/);
   assert.doesNotMatch(dialogueStyles, /background-image:\s*url\(["']?assets\/images\/banknotes/);
   assert.match(dialogueStyles, /clip-path:\s*polygon\(0 0, 100% 0, 0 100%\)/);
@@ -187,5 +194,5 @@ test('dialogue skins use direct values instead of banknote background art', () =
 test('host reaction copy remains accessible without a visible cue badge', () => {
   assert.doesNotMatch(landingHtml, /id="hostCue"/);
   assert.doesNotMatch(gameHtml, /id="hostCue"/);
-  assert.doesNotMatch(gameStyles, /\.host-cue/);
+  assert.doesNotMatch(hostStyles, /\.host-cue/);
 });

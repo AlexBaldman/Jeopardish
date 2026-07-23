@@ -10,10 +10,10 @@ This sprint converted the game's styling and asset pipeline from a stack of accu
 
 | Area | Before | After |
 | --- | ---: | ---: |
-| Legacy game stylesheet | 3,174 lines | 1,372 lines |
-| Audited CSS | 5,409 lines | 4,661 lines |
-| Same-context duplicate selectors | 36 | 8 |
-| Production build | 88.5 MB | 34.2 MB |
+| Legacy game stylesheet | 3,174 lines | Retired |
+| Audited CSS | 5,409 lines | 4,287 lines |
+| Same-context duplicate selectors | 36 | 0 |
+| Production build | 88.5 MB | 34.1 MB |
 | Packaged question data | 53.0 MB | 2.3 MB |
 | Runtime clues | Full 216,930-clue archive | Deterministic 10,000-clue bank |
 
@@ -24,13 +24,16 @@ The complete clue archive and all source art remain available for research. The 
 - `styles/tokens.css` owns brand primitives and semantic theme tokens.
 - `styles/base.css` owns reset and document foundations.
 - `style.css` is landing-page-only and is no longer loaded by `game.html`.
-- `styles/game/legacy.css` is an explicitly temporary migration source; new component work does not belong there.
+- The legacy game stylesheet has been removed from both runtime shells.
+- `styles/brand.css` and `styles/preferences.css` own shared identity and preference-control internals.
 - `styles/game/cabinet.css` owns page framing, cabinet geometry, and the container-query boundary.
 - `styles/game/scene.css` owns layered art, scene treatment, parallax, and scene motion.
+- `styles/game/dialogue.css` owns clue hierarchy, translations, dialogue skins, state motion, and the style picker.
+- `styles/game/media.css` owns clue previews, failure-safe media affordances, and the modal viewer.
 - Host, dialogue, controls, header, scoreboard, menu, and study mode have named component owners.
 - Runtime stylesheet order is protected by cascade layers.
-- The CSS audit fails above 8 duplicate selectors or 5 reduced-motion `!important` declarations.
-- Static contracts fail if migrated cabinet, scene, host, or dialogue rules return to the legacy file, or if legacy CSS grows beyond 1,400 lines.
+- The CSS audit fails on any duplicate selector or above 5 reduced-motion `!important` declarations.
+- Static contracts fail if either game shell attempts to load a legacy game stylesheet.
 
 ## Asset And Data Architecture
 
@@ -52,9 +55,7 @@ Ten byte-identical asset groups remain. They are now visible in the audit and ca
 
 ## Remaining CSS Debt
 
-The 8 remaining duplicate selectors are concentrated entirely in dialogue-adjacent responsive rules and light-theme clue variants. The next migration should reconcile those historical clue rules with `dialogue.css`, then move media previews and the modal viewer into an owned `media.css`.
-
-The legacy file remains a runtime dependency until those shell rules are migrated. Its line ceiling should only move downward.
+The audited runtime styles now contain zero same-context duplicate selectors, and the legacy game stylesheet has been retired. Remaining cleanup is no longer cascade triage: it is component refinement, especially splitting the large dialogue owner into structural, translation, and skin modules if those areas begin evolving independently.
 
 ## Release Checks
 

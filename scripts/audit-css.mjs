@@ -12,8 +12,9 @@ const targets = files.length
   : [
       'styles/base.css',
       'styles/tokens.css',
+      'styles/brand.css',
+      'styles/preferences.css',
       'style.css',
-      'styles/game/legacy.css',
       'styles/game/cabinet.css',
       'styles/game/scene.css',
       'styles/game/header.css',
@@ -21,6 +22,7 @@ const targets = files.length
       'styles/game/menu.css',
       'styles/game/host.css',
       'styles/game/dialogue.css',
+      'styles/game/media.css',
       'styles/game/controls.css',
       'styles/game/study.css',
       'creative-room.css',
