@@ -2,7 +2,7 @@
     .game-container .host-stage {
         position: absolute;
         left: clamp(0.35rem, 1vw, 0.9rem);
-        bottom: -0.9rem;
+        bottom: -0.32rem;
         z-index: 34;
         display: grid;
         grid-template-columns: 40px minmax(148px, clamp(148px, calc(14vw + 6vh), 245px)) 40px;
@@ -21,9 +21,9 @@
         aspect-ratio: 1;
         border: 2px solid rgba(50, 246, 255, 0.2);
         border-radius: 50%;
-        opacity: 0.65;
-        background: radial-gradient(circle, rgba(50, 246, 255, 0.2), transparent 67%);
-        box-shadow: 0 0 30px rgba(50, 246, 255, 0.18);
+        opacity: 0.46;
+        background: radial-gradient(circle, rgba(50, 246, 255, 0.16), transparent 69%);
+        box-shadow: 0 0 26px rgba(50, 246, 255, 0.14);
         transform: translateX(-50%);
         transition:
             background 220ms ease,
@@ -68,8 +68,8 @@
         object-fit: contain;
         object-position: center bottom;
         filter:
-            drop-shadow(6px 7px 0 var(--cabinet-ink))
-            drop-shadow(0 0 18px rgba(56, 233, 255, 0.32));
+            drop-shadow(4px 6px 0 var(--cabinet-ink))
+            drop-shadow(0 0 14px rgba(56, 233, 255, 0.24));
         transform-origin: bottom left;
     }
 
@@ -112,8 +112,8 @@
 
     .game-container .host-pack-index {
         position: absolute;
-        right: 0.22rem;
-        bottom: 0.26rem;
+        right: 0.05rem;
+        bottom: 0.4rem;
         z-index: 47;
         padding: 0.16rem 0.22rem 0.12rem;
         border: 2px solid var(--ink);
@@ -136,7 +136,7 @@
         background:
             linear-gradient(180deg, rgba(15, 15, 24, 0.9), rgba(6, 7, 14, 0.96)),
             repeating-linear-gradient(90deg, rgba(50, 246, 255, 0.14) 0 2px, transparent 2px 9px);
-        box-shadow: 3px 3px 0 var(--cabinet-ink);
+        box-shadow: 0 3px 10px rgba(3, 6, 18, 0.38);
         font: 700 clamp(0.32rem, 0.65vw, 0.43rem)/1.45 var(--pixel-font);
         text-align: center;
         text-transform: uppercase;
@@ -146,20 +146,19 @@
         position: relative;
         z-index: 45;
         align-self: end;
-        width: 36px;
-        min-width: 36px;
-        height: 42px;
-        min-height: 42px;
-        margin-bottom: 0.8rem;
+        width: 38px;
+        min-width: 38px;
+        height: 38px;
+        min-height: 38px;
+        margin-bottom: 1rem;
         padding: 0 0 0.12rem;
         border: 2px solid #080b14;
-        border-radius: 7px;
+        border-radius: 50%;
         color: #dfeaff;
         background: linear-gradient(180deg, #303849, #111621);
         box-shadow:
             0 4px 0 #05060b,
             inset 0 1px 0 rgba(255, 255, 255, 0.16);
-        clip-path: polygon(18% 0, 82% 0, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0 82%, 0 18%);
         cursor: pointer;
         font: 900 1.15rem/1 var(--utility-font);
         pointer-events: auto;
@@ -250,7 +249,7 @@
     @container cabinet (max-width: 760px) {
         .game-container .host-stage {
             left: 0.15rem;
-            bottom: -0.7rem;
+            bottom: -0.25rem;
             z-index: 33;
             grid-template-columns: 36px minmax(132px, 148px) 36px;
             opacity: 1;
@@ -271,7 +270,7 @@
             min-width: 36px;
             height: 36px;
             min-height: 36px;
-            margin-bottom: 0.65rem;
+            margin-bottom: 0.8rem;
             padding: 0;
             font-size: 1.15rem;
         }

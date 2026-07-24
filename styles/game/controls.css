@@ -1,11 +1,11 @@
 @layer components {
     .game-container .control-footer {
         --deck-ink: #070912;
-        --deck-face: #222735;
+        --deck-face: #1b202c;
         position: relative;
         z-index: 40;
         display: grid;
-        grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+        grid-template-columns: minmax(0, 1.48fr) minmax(250px, 0.52fr);
         align-items: stretch;
         gap: clamp(0.5rem, 1.1cqw, 0.8rem);
         min-height: 88px;
@@ -14,7 +14,7 @@
         background:
             radial-gradient(circle at 13px 13px, #8a94a4 0 2px, #0b0d14 3px 5px, transparent 6px),
             radial-gradient(circle at calc(100% - 13px) 13px, #8a94a4 0 2px, #0b0d14 3px 5px, transparent 6px),
-            linear-gradient(180deg, #353b49 0 7%, var(--deck-face) 8% 62%, #0c0f17 100%);
+            linear-gradient(180deg, #303643 0 7%, var(--deck-face) 8% 62%, #090c13 100%);
         box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.14), inset 0 -5px 0 rgba(0, 0, 0, 0.42), 0 -7px 0 rgba(5, 7, 15, 0.24);
     }
 
@@ -89,8 +89,8 @@
 
     .game-container .cabinet-button {
         --control-accent: #5de9ff;
-        --control-face: #e9f8fa;
-        --control-edge: #66bac8;
+        --control-face: #242c3a;
+        --control-edge: #111722;
         position: relative;
         isolation: isolate;
         display: grid;
@@ -102,12 +102,12 @@
         padding: 0.48rem 1.8rem 0.48rem 0.58rem;
         overflow: hidden;
         border: 3px solid #060811;
-        border-radius: 8px;
-        color: #111521;
+        border-radius: 12px;
+        color: #f7fbff;
         background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.72), transparent 19%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 24%),
             linear-gradient(165deg, var(--control-face), var(--control-edge));
-        box-shadow: 0 5px 0 #05060b, inset 0 -4px 0 rgba(8, 11, 26, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+        box-shadow: 0 5px 0 #05060b, inset 0 -3px 0 rgba(2, 5, 12, 0.48), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
         cursor: pointer;
         transition: transform 110ms ease, box-shadow 110ms ease, filter 160ms ease;
     }
@@ -117,8 +117,8 @@
         position: absolute;
         inset: 4px;
         z-index: -1;
-        border: 1px solid rgba(9, 14, 28, 0.2);
-        border-radius: 4px;
+        border: 1px solid color-mix(in srgb, var(--control-accent) 36%, transparent);
+        border-radius: 8px;
         pointer-events: none;
     }
 
@@ -133,9 +133,9 @@
         box-shadow: 2px 0 0 rgba(255, 255, 255, 0.4);
     }
 
-    .game-container .clue-button { --control-accent: #38e9ff; --control-face: #e5f9ff; --control-edge: #62bde5; }
-    .game-container .answer-button { --control-accent: #ff64bc; --control-face: #ffeaf7; --control-edge: #e78cbd; }
-    .game-container .lock-button { --control-accent: #ffd84d; --control-face: #fff2aa; --control-edge: #e7a740; }
+    .game-container .clue-button { --control-accent: #38e9ff; --control-face: #17394d; --control-edge: #0a1822; }
+    .game-container .answer-button { --control-accent: #ff6fbd; --control-face: #4b213f; --control-edge: #21101d; }
+    .game-container .lock-button { --control-accent: #ffd84d; --control-face: #4e3f1a; --control-edge: #211a09; }
 
     .game-container .control-copy {
         display: grid;
@@ -145,7 +145,7 @@
     }
 
     .game-container .control-copy small {
-        color: rgba(16, 21, 33, 0.58);
+        color: color-mix(in srgb, var(--control-accent) 72%, white);
         font: 700 0.34rem/1 var(--pixel-font);
         letter-spacing: 0.09em;
         text-transform: uppercase;
@@ -157,14 +157,14 @@
         max-width: none;
         padding: 0;
         border: 0;
-        color: #111521;
+        color: #f7fbff;
         background: transparent;
         box-shadow: none;
         font: 900 clamp(0.76rem, 1.25cqw, 1rem)/1 var(--utility-font);
         letter-spacing: 0.015em;
         opacity: 1;
         text-align: left;
-        text-shadow: 0 1px rgba(255, 255, 255, 0.58);
+        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.46);
         text-transform: uppercase;
         transform: none;
         white-space: normal;
@@ -181,9 +181,9 @@
         min-height: 0;
         border: 3px solid #080b14;
         border-radius: 50%;
-        color: #101521;
-        background: radial-gradient(circle at 36% 30%, #fff 0 8%, var(--control-accent) 12% 58%, #172033 60% 66%, #080b14 68%);
-        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2), 2px 3px 0 rgba(8, 11, 20, 0.22);
+        color: #07101a;
+        background: radial-gradient(circle at 36% 28%, #fff 0 7%, var(--control-accent) 11% 58%, #182131 60% 67%, #080b14 69%);
+        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.24), 0 0 12px color-mix(in srgb, var(--control-accent) 28%, transparent);
         text-shadow: none;
     }
 
@@ -250,10 +250,10 @@
         padding-inline: 0.22rem;
         border: 2px solid #080b14;
         border-radius: 4px;
-        color: #eaf4ff;
-        background: #151b2a;
+        color: #07101a;
+        background: var(--control-accent);
         box-shadow: 0 2px 0 rgba(0, 0, 0, 0.36);
-        font: 700 0.28rem/1 var(--pixel-font);
+        font: 700 0.26rem/1 var(--pixel-font);
         transform: none;
     }
 
