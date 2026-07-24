@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BASE_BRANCH="${1:-main}"
+CURRENT_BRANCH="$(git branch --show-current 2>/dev/null || true)"
+BASE_BRANCH="${1:-${CURRENT_BRANCH:-master}}"
 OUT_DIR="${2:-reports}"
 DATE_UTC="$(date -u +%Y-%m-%d)"
 OUT_FILE="${OUT_DIR}/branch-triage-${DATE_UTC}.md"
@@ -36,9 +37,34 @@ fi
   if [ "$REMOTE_COUNT" -eq 0 ]; then
     echo "_No remotes configured in this clone._"
   else
-    git for-each-ref --sort=-committerdate refs/remotes --format='- `%(refname:short)` | %(committerdate:short) | %(authorname) | %(subject)'
+    git for-each-ref --sort=-committerdate refs/remotes \
+      --format='%(if)%(symref)%(then)%(else)- `%(refname:short)` | %(committerdate:short) | %(authorname) | %(subject)%(end)' | \
+      sed '/^$/d'
   fi
   echo
+
+  if [ "$HAS_BASE" -eq 1 ]; then
+    if git show-ref --verify --quiet "refs/heads/${BASE_BRANCH}"; then
+      MATRIX_BASE="$BASE_BRANCH"
+    else
+      MATRIX_BASE="origin/${BASE_BRANCH}"
+    fi
+
+    echo "## Divergence from ${MATRIX_BASE}"
+    echo
+    echo "| Branch | Base-only commits | Branch-only commits | Patch-unique commits |"
+    echo "|---|---:|---:|---:|"
+    while IFS= read -r branch; do
+      read -r base_only branch_only <<< "$(git rev-list --left-right --count "${MATRIX_BASE}...${branch}")"
+      patch_unique="$(git cherry "$MATRIX_BASE" "$branch" | awk '$1 == "+" { count += 1 } END { print count + 0 }')"
+      echo "| \`${branch}\` | ${base_only} | ${branch_only} | ${patch_unique} |"
+    done < <(
+      git for-each-ref --sort=refname refs/heads refs/remotes \
+        --format='%(if)%(symref)%(then)%(else)%(refname:short)%(end)' | \
+        sed '/^$/d'
+    )
+    echo
+  fi
 
   echo "## Historic branch names inferred from merge commits"
   echo
@@ -79,11 +105,11 @@ fi
 Fill this section during review:
 
 - merge-now:
-  - 
+  -
 - cherry-pick-later:
-  - 
+  -
 - archive-delete:
-  - 
+  -
 TEMPLATE
 } > "$OUT_FILE"
 
