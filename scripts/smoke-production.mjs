@@ -1,0 +1,175 @@
+import { createReadStream } from 'node:fs';
+import fs from 'node:fs/promises';
+import http from 'node:http';
+import path from 'node:path';
+import { chromium, webkit } from 'playwright';
+
+const root = process.cwd();
+const staticRoot = path.join(root, 'dist');
+const ownsServer = !process.env.BASE_URL;
+const baseUrl = process.env.BASE_URL || 'http://127.0.0.1:4198/';
+const base = new URL(baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
+const browserNames = (process.env.SMOKE_BROWSERS || 'chromium')
+  .split(',')
+  .map((name) => name.trim())
+  .filter(Boolean);
+const browsers = { chromium, webkit };
+const routes = [
+  { id: 'landing', path: 'index.html', budgetMb: 5, ready: '#heroTitle' },
+  { id: 'game', path: 'game.html', budgetMb: 10, ready: '#gameContainer' },
+  { id: 'creative-room', path: 'creative-room.html', budgetMb: 2.5, ready: '.room-hero' },
+];
+
+let server;
+
+async function startServer() {
+  if (!ownsServer) return;
+  const contentTypes = {
+    '.css': 'text/css; charset=utf-8',
+    '.html': 'text/html; charset=utf-8',
+    '.js': 'text/javascript; charset=utf-8',
+    '.json': 'application/json',
+    '.png': 'image/png',
+    '.svg': 'image/svg+xml',
+    '.webp': 'image/webp',
+  };
+  server = http.createServer(async (request, response) => {
+    const pathname = decodeURIComponent(new URL(request.url || '/', base).pathname);
+    const relativePath = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
+    const filePath = path.resolve(staticRoot, relativePath);
+    if (!filePath.startsWith(`${staticRoot}${path.sep}`)) {
+      response.writeHead(403).end();
+      return;
+    }
+    try {
+      const stat = await fs.stat(filePath);
+      if (!stat.isFile()) throw new Error('Not a file');
+      response.writeHead(200, {
+        'Cache-Control': 'no-store',
+        'Content-Type': contentTypes[path.extname(filePath).toLowerCase()] || 'application/octet-stream',
+      });
+      createReadStream(filePath).pipe(response);
+    } catch {
+      response.writeHead(404).end('Not found');
+    }
+  });
+  await new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(Number(base.port || 80), base.hostname, resolve);
+  });
+}
+
+function getArtifactPath(resourceUrl) {
+  const url = new URL(resourceUrl);
+  if (url.origin !== base.origin || !url.pathname.startsWith(base.pathname)) return null;
+  const relativePath = decodeURIComponent(url.pathname.slice(base.pathname.length)) || 'index.html';
+  const filePath = path.resolve(staticRoot, relativePath);
+  return filePath.startsWith(`${staticRoot}${path.sep}`) ? filePath : null;
+}
+
+async function gotoWithRetry(page, url, attempts = 5) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      if (response?.ok()) return response;
+      lastError = new Error(`HTTP ${response?.status() || 0} for ${url}`);
+    } catch (error) {
+      lastError = error;
+    }
+    await new Promise((resolve) => setTimeout(resolve, attempt * 1000));
+  }
+  throw lastError;
+}
+
+async function auditRoute(browser, browserName, route) {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const failures = [];
+  const resources = new Set();
+  page.on('pageerror', (error) => failures.push(`page error: ${error.message}`));
+  page.on('console', (message) => {
+    const text = message.text();
+    if (message.type() === 'error' && !text.startsWith('Failed to load resource')) {
+      failures.push(`console error: ${text}`);
+    }
+  });
+  page.on('response', (response) => {
+    const artifactPath = getArtifactPath(response.url());
+    if (artifactPath) resources.add(artifactPath);
+    if (response.url().startsWith(base.href) && response.status() >= 400) {
+      failures.push(`HTTP ${response.status()}: ${response.url()}`);
+    }
+  });
+
+  try {
+    await gotoWithRetry(page, new URL(route.path, base).href);
+    await page.waitForSelector(route.ready, { timeout: 15000 });
+    if (route.id === 'game') {
+      await page.waitForFunction(() => (
+        document.getElementById('gameContainer')?.dataset.gameMoment === 'clue'
+        && document.getElementById('questionButton')?.disabled === false
+      ), null, { timeout: 30000 });
+    }
+    await page.waitForTimeout(350);
+
+    const coldResources = new Set(resources);
+    let bytes = 0;
+    for (const file of coldResources) {
+      try {
+        bytes += (await fs.stat(file)).size;
+      } catch {
+        failures.push(`requested file missing from local artifact: ${file}`);
+      }
+    }
+    const megabytes = bytes / 1024 / 1024;
+    if (megabytes > route.budgetMb) {
+      failures.push(`cold route payload ${megabytes.toFixed(2)} MB exceeds ${route.budgetMb.toFixed(1)} MB`);
+    }
+
+    if (route.id === 'game') {
+      const originalTheme = await page.locator('body').getAttribute('data-theme');
+      await page.locator('#themeToggle').click();
+      await page.waitForFunction(
+        (theme) => document.body.dataset.theme !== theme,
+        originalTheme,
+      );
+      await page.locator('#hamburgerMenu').click();
+      await page.waitForFunction(() => document.getElementById('navMenu')?.getAttribute('aria-hidden') === 'false');
+      await page.keyboard.press('Escape');
+      await page.waitForFunction(() => document.getElementById('navMenu')?.getAttribute('aria-hidden') === 'true');
+    }
+    console.log(
+      `${browserName.padEnd(8)} ${route.id.padEnd(14)} `
+      + `${megabytes.toFixed(2)} MB across ${coldResources.size} cold first-party resources`,
+    );
+  } finally {
+    await page.close();
+  }
+  return failures.map((failure) => `${browserName}/${route.id}: ${failure}`);
+}
+
+await startServer();
+const failures = [];
+try {
+  for (const browserName of browserNames) {
+    const browserType = browsers[browserName];
+    if (!browserType) throw new Error(`Unsupported smoke browser: ${browserName}`);
+    const browser = await browserType.launch({ headless: true });
+    try {
+      for (const route of routes) {
+        failures.push(...await auditRoute(browser, browserName, route));
+      }
+    } finally {
+      await browser.close();
+    }
+  }
+} finally {
+  if (server) await new Promise((resolve) => server.close(resolve));
+}
+
+if (failures.length) {
+  console.error(failures.join('\n'));
+  process.exitCode = 1;
+} else {
+  console.log('Production browser smoke passed.');
+}

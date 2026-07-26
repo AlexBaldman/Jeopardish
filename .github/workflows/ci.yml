@@ -1,8 +1,17 @@
-name: basic-ci
+name: verify-and-deploy
 
 on:
   push:
+    branches: [master]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -15,5 +24,58 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci --ignore-scripts
-      - name: Run production verification
+      - name: Verify production artifact
         run: npm run verify
+      - name: Install smoke-test browsers
+        run: npx --no-install playwright install --with-deps chromium webkit
+      - name: Smoke-test the exact dist artifact
+        run: npm run smoke:dist
+        env:
+          SMOKE_BROWSERS: chromium,webkit
+      - name: Configure GitHub Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+      - name: Upload immutable Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy verified artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  canary:
+    if: github.event_name != 'pull_request'
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+      - name: Rebuild local artifact map
+        run: npm run build
+      - name: Install canary browsers
+        run: npx --no-install playwright install --with-deps chromium webkit
+      - name: Smoke-test deployed Pages URL
+        run: npm run smoke:dist
+        env:
+          BASE_URL: ${{ needs.deploy.outputs.page_url }}
+          SMOKE_BROWSERS: chromium,webkit

@@ -5,9 +5,6 @@ export const runtimeEntries = Object.freeze([
   'creative-room.html',
   'creative-room.css',
   'creative-room.js',
-  'visual-fixtures.html',
-  'visual-fixtures.css',
-  'visual-fixtures.js',
 
   // Shared runtime.
   'style.css',
@@ -27,6 +24,8 @@ export const runtimeEntries = Object.freeze([
   'assets/images/vision/malex-counterfeit-portrait.png',
   'assets/images/vision/memory-palace-studio.png',
   'assets/trebek/trebek-1.webp',
+  'assets/trebek/trebek-3.webp',
+  'assets/trebek/trebek-5.webp',
 
   // Game scene and host catalogs.
   'assets/scenes',

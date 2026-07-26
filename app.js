@@ -228,7 +228,6 @@ let gameStarted = false;
 let gameStartPromise = null;
 let currentOutcomeRecorded = false;
 let sessionCompleteVisible = false;
-const preloadedHostVisuals = new Set();
 
 function loadPersistedBestStreak() {
   try {
@@ -381,21 +380,6 @@ function renderScoreboard() {
   if (sessionManager) renderer.renderSessionProgress(sessionManager.getProgress());
 }
 
-function preloadActiveHostVisuals() {
-  if (!hostManager || typeof globalThis.Image !== 'function') {
-    return;
-  }
-
-  hostManager.getVisualSources().forEach((src) => {
-    if (preloadedHostVisuals.has(src)) {
-      return;
-    }
-    const image = new globalThis.Image();
-    image.src = src;
-    preloadedHostVisuals.add(src);
-  });
-}
-
 function renderHost(expression = 'idle') {
   const host = hostManager.getActiveHost();
   const performance = hostManager.getPerformance(expression);
@@ -430,7 +414,6 @@ function getCurrentHostExpression() {
 function cycleHostSkin(step) {
   hostManager.cycleSkin(step);
   persistHostSkin();
-  preloadActiveHostVisuals();
   renderHost(getCurrentHostExpression());
 }
 
@@ -954,7 +937,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   translationService = new translationModule.TranslationService();
   audioController = new audioModule.AudioController();
   hostManager.setActiveSkin(state.hostSkinId);
-  preloadActiveHostVisuals();
   consoleNarrator.start();
 
   renderer.bindDom();

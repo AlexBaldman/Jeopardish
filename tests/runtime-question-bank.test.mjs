@@ -12,6 +12,7 @@ test('runtime question bank is a bounded, playable browser payload', () => {
     assert.ok(clue.category?.trim());
     assert.ok(clue.question?.trim());
     assert.ok(clue.answer?.trim());
+    assert.doesNotMatch(JSON.stringify(clue), /http:\/\/[^"'<>\\\s]+/i);
   }
 });
 

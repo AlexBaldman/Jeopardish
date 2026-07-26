@@ -14,7 +14,7 @@ This creates `dist/` with only runtime files:
 
 - app shell: `index.html`, `game.html`, `style.css`, `app.js`, `landing.js`, `game-logic.js`
 - runtime modules: `src/`
-- active question bank: `questions/jeopardy-questions.json`
+- active question bank: `questions/runtime-bank.json`
 - active UI art: banknotes, vision images, scene layers, and current host-skin candidates
 - `.nojekyll` for GitHub Pages static serving
 
@@ -35,14 +35,18 @@ Open `http://127.0.0.1:4190/`, then check:
 - no console/page errors
 - no horizontal overflow on mobile width
 
-## GitHub Pages Preview
+## GitHub Pages Production
 
-Recommended settings for a preview branch:
+`.github/workflows/ci.yml` is the only supported production release path:
 
-- Build command: `npm run build`
-- Publish directory: `dist`
+1. verify source and build `dist/`;
+2. audit local links and archive exclusions;
+3. smoke-test that exact artifact in Chromium and WebKit;
+4. upload `dist/` as an immutable Pages artifact;
+5. deploy through GitHub Pages Actions;
+6. smoke-test the resulting public URL in Chromium and WebKit.
 
-If deploying manually from a branch, build first and publish `dist/` to the selected Pages source.
+GitHub Pages must use **GitHub Actions** as its source. Do not publish the repository root or the legacy `github-pages` branch.
 
 ## Before Online Deploy
 
@@ -56,3 +60,9 @@ npm run build
 ```
 
 Then run a browser smoke test against `dist/`.
+
+```bash
+npm run smoke:dist
+```
+
+Set `SMOKE_BROWSERS=chromium,webkit` to match CI. The smoke suite enforces route-level first-party payload budgets and checks the landing page, standalone game, and Creative Room.

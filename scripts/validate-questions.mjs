@@ -14,6 +14,7 @@ for (const questionPath of targets) {
   }
 
   let bad = 0;
+  let insecureMedia = 0;
   for (const [index, item] of data.entries()) {
     const hasCategory = typeof item.category === 'string' && item.category.trim().length > 0;
     const hasQuestion = typeof item.question === 'string' && item.question.trim().length > 0;
@@ -23,10 +24,15 @@ for (const questionPath of targets) {
       bad += 1;
       console.error(`${questionPath}: invalid question at index ${index}`);
     }
+    if (questionPath.endsWith('runtime-bank.json') && /http:\/\/[^"'<>\\\s]+/i.test(JSON.stringify(item))) {
+      insecureMedia += 1;
+    }
   }
 
-  if (bad > 0) {
-    throw new Error(`${questionPath}: ${bad} malformed question objects.`);
+  if (bad > 0 || insecureMedia > 0) {
+    throw new Error(
+      `${questionPath}: ${bad} malformed question objects, ${insecureMedia} clues with insecure media.`,
+    );
   }
 
   console.log(`Validated ${data.length} questions in ${questionPath}.`);

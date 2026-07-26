@@ -13,7 +13,12 @@ function isPlayableQuestion(question) {
     && typeof question.question === 'string'
     && question.question.trim()
     && typeof question.answer === 'string'
-    && question.answer.trim();
+    && question.answer.trim()
+    && !hasInsecureMedia(question);
+}
+
+function hasInsecureMedia(question) {
+  return /http:\/\/[^"'<>\\\s]+/i.test(JSON.stringify(question));
 }
 
 function sampleEvenly(items, count) {
