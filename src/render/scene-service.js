@@ -165,14 +165,14 @@
       return this.scenePacks.find((pack) => pack.id === this.activePackId) || this.scenePacks[0] || null;
     }
 
-    setPack(packId) {
+    setPack(packId, { render = true } = {}) {
       const pack = this.scenePacks.find((candidate) => candidate.id === packId) || this.getActivePack();
       if (!pack) return null;
       if (pack.id !== this.activePackId || !this.activeSceneId) {
         this.activePackId = pack.id;
         this.scenes = pack.scenes;
         this.activeSceneId = '';
-        this.setTheme(this.activeTheme);
+        if (render) this.setTheme(this.activeTheme);
       }
       return pack;
     }

@@ -228,6 +228,7 @@ let gameStarted = false;
 let gameStartPromise = null;
 let currentOutcomeRecorded = false;
 let sessionCompleteVisible = false;
+let sceneActivated = false;
 
 function loadPersistedBestStreak() {
   try {
@@ -289,12 +290,25 @@ function getCopy() {
   return UI_COPY[state.language] || UI_COPY.en;
 }
 
+function applyScenePreferences() {
+  const activeScenePack = sceneService?.setPack(state.scenePackId, { render: false });
+  sceneService?.setTheme(state.theme);
+  sceneActivated = true;
+  if (activeScenePack) {
+    state.scenePackId = activeScenePack.id;
+  }
+  return activeScenePack;
+}
+
 function applyPreferences() {
   const copy = getCopy();
   globalThis.document?.body?.setAttribute('data-theme', state.theme);
   globalThis.document?.body?.setAttribute('data-language', state.language);
-  sceneService?.setTheme(state.theme);
-  const activeScenePack = sceneService?.setPack(state.scenePackId);
+  const isStandaloneGame = globalThis.document?.body?.dataset?.appMode === 'game';
+  const activeScenePack = (isStandaloneGame || sceneActivated)
+    ? applyScenePreferences()
+    : sceneService?.getPacks().find((pack) => pack.id === state.scenePackId)
+      || sceneService?.getActivePack();
   if (activeScenePack) {
     state.scenePackId = activeScenePack.id;
     renderScenePicker(activeScenePack);
@@ -336,6 +350,7 @@ function renderScenePicker(pack = sceneService?.getActivePack()) {
 function cycleScenePack() {
   const pack = sceneService?.cyclePack(1);
   if (!pack) return;
+  sceneActivated = true;
   state.scenePackId = pack.id;
   persistPreference(SCENE_PACK_KEY, state.scenePackId);
   renderScenePicker(pack);
@@ -828,6 +843,7 @@ function startGame() {
   }
 
   gameStarted = true;
+  if (!sceneActivated) renderScenePicker(applyScenePreferences());
   renderer.setStatus(getCopy().initializing);
   gameEngine.init();
   gameStartPromise = loadQuestions()

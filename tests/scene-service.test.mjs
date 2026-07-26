@@ -143,6 +143,23 @@ test('SceneService cycles named scene packs while preserving the active theme', 
   assert.equal(service.cyclePack(1).id, 'long-beach-96');
 });
 
+test('SceneService can select a scene pack without painting it', () => {
+  const stage = createFakeElement('div');
+  const service = new SceneService({
+    documentRef: createFakeDocument(stage),
+    windowRef: createFakeWindow(),
+  }).bindDom();
+
+  const pack = service.setPack('long-beach-boardwalk', { render: false });
+
+  assert.equal(pack.id, 'long-beach-boardwalk');
+  assert.equal(service.getActivePack().id, 'long-beach-boardwalk');
+  assert.equal(stage.children.length, 0);
+
+  service.setTheme('light');
+  assert.equal(stage.dataset.scene, 'long-beach-day');
+});
+
 test('SceneService helpers normalize theme keys and layer sources', () => {
   assert.equal(normalizeSceneKey('light'), 'light');
   assert.equal(normalizeSceneKey('weird'), 'dark');
