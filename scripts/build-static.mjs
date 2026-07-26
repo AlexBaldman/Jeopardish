@@ -4,6 +4,7 @@ import { runtimeEntries } from './runtime-manifest.mjs';
 
 const root = process.cwd();
 const outDir = path.join(root, 'dist');
+const DEFAULT_BUILD_BUDGET_MB = 38;
 
 async function exists(filePath) {
   try {
@@ -57,3 +58,15 @@ await fs.writeFile(path.join(outDir, '.nojekyll'), '');
 const bytes = await getDirectorySize(outDir);
 const megabytes = (bytes / 1024 / 1024).toFixed(1);
 console.log(`Built static preview in dist/ (${megabytes} MB).`);
+
+const configuredBudget = Number(process.env.STATIC_BUILD_BUDGET_MB || DEFAULT_BUILD_BUDGET_MB);
+if (!Number.isFinite(configuredBudget) || configuredBudget <= 0) {
+  throw new Error('STATIC_BUILD_BUDGET_MB must be a positive number.');
+}
+const budgetBytes = configuredBudget * 1024 * 1024;
+if (bytes > budgetBytes) {
+  throw new Error(
+    `Static build is ${megabytes} MB, exceeding the ${configuredBudget.toFixed(1)} MB production budget.`,
+  );
+}
+console.log(`Production payload budget: ${megabytes}/${configuredBudget.toFixed(1)} MB.`);

@@ -1,11 +1,15 @@
 (function initRenderer(root, factory) {
   if (typeof module === 'object' && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require('../ui/focus-scope.js'));
   } else {
-    root.JeopardishRenderer = factory();
+    root.JeopardishRenderer = factory(root.JeoPARODYFocus);
   }
-}(typeof globalThis !== 'undefined' ? globalThis : this, function rendererFactory() {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function rendererFactory(focusModule) {
   'use strict';
+
+  if (!focusModule?.FocusScope) {
+    throw new Error('JeopardishRenderer requires JeoPARODYFocus.');
+  }
 
   const DefaultCopy = Object.freeze({
     lang: 'en',
@@ -227,13 +231,18 @@
   }
 
   class Renderer {
-    constructor({ documentRef = globalThis.document, random = Math.random } = {}) {
+    constructor({
+      documentRef = globalThis.document,
+      random = Math.random,
+      focusScope = null,
+    } = {}) {
       if (!documentRef) {
         throw new Error('Renderer requires a document.');
       }
 
       this.document = documentRef;
       this.random = random;
+      this.focusScope = focusScope || new focusModule.FocusScope({ documentRef });
       this.dom = {};
       this.copy = { ...DefaultCopy };
       this.mediaItems = [];
@@ -244,6 +253,7 @@
       this.lastBestStreak = null;
       this.lastEpisodeValue = null;
       this.scoreDrawerTimer = null;
+      this.onExitStudy = () => {};
     }
 
     bindDom() {
@@ -342,6 +352,7 @@
       onMediaFailure = () => {},
     }) {
       this.onMediaFailure = onMediaFailure;
+      this.onExitStudy = onExitStudy;
       this.dom.hamburgerMenu.addEventListener('click', () => {
         this.setMenuOpen(!this.dom.navMenu.classList.contains('active'));
       });
@@ -398,16 +409,6 @@
           onCheckAnswer();
         }
       });
-      this.document.addEventListener?.('keydown', (event) => {
-        if (event.key === 'Escape' && this.dom.mediaModal && !this.dom.mediaModal.hidden) {
-          this.closeMedia();
-        }
-        if (event.key === 'Escape' && this.dom.navMenu?.classList.contains('active')) {
-          this.setMenuOpen(false);
-          this.dom.hamburgerMenu?.focus?.();
-        }
-        if (event.key === 'Escape' && this.isStudyOpen()) onExitStudy();
-      });
     }
 
     setMenuOpen(open) {
@@ -415,7 +416,17 @@
       this.dom.navMenu.classList[open ? 'add' : 'remove']('active');
       this.dom.hamburgerMenu?.setAttribute('aria-expanded', String(Boolean(open)));
       this.dom.navMenu.setAttribute('aria-hidden', String(!open));
-      if (open) this.dom.menuClose?.focus?.();
+      this.dom.navMenu.inert = !open;
+      this.dom.navMenu.toggleAttribute?.('inert', !open);
+      if (open) {
+        this.focusScope.activate(this.dom.navMenu, {
+          initialFocus: this.dom.menuClose,
+          returnFocus: this.dom.hamburgerMenu,
+          onEscape: () => this.setMenuOpen(false),
+        });
+      } else {
+        this.focusScope.deactivate(this.dom.navMenu);
+      }
     }
 
     showScoreDrawer(duration = 2600) {
@@ -589,7 +600,15 @@
       this.document.body?.classList?.toggle('study-mode-open', open);
       if (this.dom.deepDiveButton) this.dom.deepDiveButton.disabled = open;
       if (this.dom.menuDeepDive) this.dom.menuDeepDive.disabled = open;
-      if (open) this.dom.studyClose?.focus?.();
+      if (open) {
+        this.focusScope.activate(this.dom.studyPanel, {
+          initialFocus: this.dom.studyClose,
+          returnFocus: null,
+          onEscape: () => this.onExitStudy(),
+        });
+      } else {
+        this.focusScope.deactivate(this.dom.studyPanel, { restoreFocus: false });
+      }
     }
 
     setSoundState(muted) {
@@ -801,7 +820,11 @@
       this.dom.mediaModal.hidden = false;
       this.dom.mediaModal.setAttribute('aria-hidden', 'false');
       this.document.body?.classList?.add('modal-open');
-      this.dom.mediaModalClose?.focus?.();
+      this.focusScope.activate(this.dom.mediaModal, {
+        initialFocus: this.dom.mediaModalClose,
+        returnFocus: trigger,
+        onEscape: () => this.closeMedia(),
+      });
     }
 
     closeMedia(restoreFocus = true) {
@@ -809,12 +832,13 @@
         return;
       }
 
+      const wasOpen = !this.dom.mediaModal.hidden;
       this.dom.mediaModal.hidden = true;
       this.dom.mediaModal.setAttribute('aria-hidden', 'true');
       this.dom.mediaModalBody?.replaceChildren?.();
       this.document.body?.classList?.remove('modal-open');
-      if (restoreFocus) {
-        this.lastMediaTrigger?.focus?.();
+      if (wasOpen) {
+        this.focusScope.deactivate(this.dom.mediaModal, { restoreFocus });
       }
     }
 

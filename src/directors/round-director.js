@@ -119,11 +119,17 @@
       this.cancel(RoundPhases.CLUE_INTRO);
       const token = this.generation;
       this.busy = true;
-      render();
-      this.audio?.play?.('clue');
-      if (await this.delay(this.timings.clueIntro, token)) {
-        this.busy = false;
-        this.setPhase(RoundPhases.ANSWERING);
+      try {
+        render();
+        this.audio?.play?.('clue');
+        if (await this.delay(this.timings.clueIntro, token)) {
+          this.setPhase(RoundPhases.ANSWERING);
+        }
+      } catch (error) {
+        if (token === this.generation) this.setPhase(RoundPhases.IDLE);
+        throw error;
+      } finally {
+        if (token === this.generation) this.busy = false;
       }
     }
 
@@ -132,15 +138,22 @@
         return false;
       }
       const token = this.generation;
+      const previousPhase = this.phase;
       this.busy = true;
-      this.setPhase(RoundPhases.REVEAL);
-      this.audio?.play?.('reveal');
-      render();
-      if (await this.delay(this.timings.reveal, token)) {
-        this.busy = false;
-        this.setPhase(RoundPhases.ADVANCE_READY);
+      try {
+        this.setPhase(RoundPhases.REVEAL);
+        this.audio?.play?.('reveal');
+        render();
+        if (await this.delay(this.timings.reveal, token)) {
+          this.setPhase(RoundPhases.ADVANCE_READY);
+        }
+        return true;
+      } catch (error) {
+        if (token === this.generation) this.setPhase(previousPhase);
+        throw error;
+      } finally {
+        if (token === this.generation) this.busy = false;
       }
-      return true;
     }
 
     async judge(resolveResult, presentResult) {
@@ -148,29 +161,40 @@
         return null;
       }
       const token = this.generation;
+      const previousPhase = this.phase;
+      let result = null;
+      let resultResolved = false;
       this.busy = true;
-      this.setPhase(RoundPhases.JUDGING);
-      this.audio?.play?.('lock');
-      if (!(await this.delay(this.timings.judging, token))) {
-        return null;
-      }
+      try {
+        this.setPhase(RoundPhases.JUDGING);
+        this.audio?.play?.('lock');
+        if (!(await this.delay(this.timings.judging, token))) {
+          return null;
+        }
 
-      const result = resolveResult();
-      if (!result || token !== this.generation) {
-        this.busy = false;
-        return result || null;
-      }
+        result = resolveResult();
+        resultResolved = Boolean(result);
+        if (!result || token !== this.generation) {
+          return result || null;
+        }
 
-      const resultPhase = result.isCorrect ? RoundPhases.CORRECT : RoundPhases.INCORRECT;
-      this.setPhase(resultPhase);
-      presentResult(result);
-      this.audio?.play?.(result.isCorrect && result.currentStreak >= 3 ? 'streak' : resultPhase);
+        const resultPhase = result.isCorrect ? RoundPhases.CORRECT : RoundPhases.INCORRECT;
+        this.setPhase(resultPhase);
+        presentResult(result);
+        this.audio?.play?.(result.isCorrect && result.currentStreak >= 3 ? 'streak' : resultPhase);
 
-      if (await this.delay(this.timings.resultHold, token)) {
-        this.busy = false;
-        this.setPhase(RoundPhases.ADVANCE_READY);
+        if (await this.delay(this.timings.resultHold, token)) {
+          this.setPhase(RoundPhases.ADVANCE_READY);
+        }
+        return result;
+      } catch (error) {
+        if (token === this.generation) {
+          this.setPhase(resultResolved ? RoundPhases.ADVANCE_READY : previousPhase);
+        }
+        throw error;
+      } finally {
+        if (token === this.generation) this.busy = false;
       }
-      return result;
     }
   }
 

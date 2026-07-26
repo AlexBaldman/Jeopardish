@@ -713,6 +713,7 @@ async function getNewQuestion() {
 }
 
 function handleMediaFailure({ item, reason }) {
+  mediaPreflight.markUnavailable(item, reason);
   eventBus.emit(contracts.GameEvents.MEDIA_RUNTIME_FAILED, {
     url: item?.url,
     type: item?.type,
@@ -829,6 +830,7 @@ async function loadQuestions() {
   } catch (error) {
     console.error('Error loading questions:', error);
     renderer.displayErrorJoke(jeopardyErrors);
+    throw error;
   } finally {
     clearTimeout(timer);
   }
@@ -838,11 +840,21 @@ function startGame() {
   if (gameStartPromise) {
     return gameStartPromise;
   }
+  if (gameStarted) {
+    return Promise.resolve(state.questions);
+  }
 
   gameStarted = true;
   renderer.setStatus(getCopy().initializing);
   gameEngine.init();
-  gameStartPromise = loadQuestions();
+  gameStartPromise = loadQuestions()
+    .catch(() => {
+      gameStarted = false;
+      return null;
+    })
+    .finally(() => {
+      gameStartPromise = null;
+    });
   return gameStartPromise;
 }
 

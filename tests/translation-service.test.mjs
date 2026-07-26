@@ -70,6 +70,52 @@ test('TranslationService prefers an available on-device translator', async () =>
   });
 });
 
+test('TranslationService bounds stalled providers and shares translator initialization', async () => {
+  let creates = 0;
+  let release;
+  const created = new Promise((resolve) => { release = resolve; });
+  class SharedTranslator {
+    static async availability() { return 'available'; }
+    static async create() {
+      creates += 1;
+      await created;
+      return { translate: async (text) => `PT:${text}` };
+    }
+  }
+  const service = new TranslationService({
+    TranslatorClass: SharedTranslator,
+    storage: createStorage(),
+    fetcher: null,
+    timeoutMs: 50,
+  });
+  const translations = [
+    service.translateText('One'),
+    service.translateText('Two'),
+    service.translateText('Three'),
+  ];
+  release();
+
+  assert.deepEqual(
+    await Promise.all(translations),
+    [
+      { translatedText: 'PT:One', provider: 'on-device' },
+      { translatedText: 'PT:Two', provider: 'on-device' },
+      { translatedText: 'PT:Three', provider: 'on-device' },
+    ],
+  );
+  assert.equal(creates, 1);
+
+  const stalled = new TranslationService({
+    TranslatorClass: {
+      create: () => new Promise(() => {}),
+    },
+    storage: createStorage(),
+    fetcher: null,
+    timeoutMs: 5,
+  });
+  await assert.rejects(stalled.translateText('Forever'), { name: 'TimeoutError' });
+});
+
 test('TranslationService preserves source text when languages match', async () => {
   const service = new TranslationService({
     TranslatorClass: null,

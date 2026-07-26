@@ -11,6 +11,47 @@
   const CACHE_KEY = 'jeoparody.translationCache.v1';
   const MAX_CACHE_ENTRIES = 240;
   const MAX_REMOTE_BYTES = 450;
+  const DEFAULT_TIMEOUT_MS = 8000;
+
+  function createAbortError() {
+    const error = new Error('Translation was aborted.');
+    error.name = 'AbortError';
+    return error;
+  }
+
+  function createTimeoutError() {
+    const error = new Error('Translation provider timed out.');
+    error.name = 'TimeoutError';
+    return error;
+  }
+
+  function withTimeout(promise, {
+    timeoutMs = DEFAULT_TIMEOUT_MS,
+    signal,
+    onTimeout = () => {},
+  } = {}) {
+    if (signal?.aborted) return Promise.reject(createAbortError());
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      const finish = (callback, value) => {
+        if (settled) return;
+        settled = true;
+        globalThis.clearTimeout(timer);
+        signal?.removeEventListener?.('abort', handleAbort);
+        callback(value);
+      };
+      const handleAbort = () => finish(reject, createAbortError());
+      const timer = globalThis.setTimeout(() => {
+        onTimeout();
+        finish(reject, createTimeoutError());
+      }, timeoutMs);
+      signal?.addEventListener?.('abort', handleAbort, { once: true });
+      Promise.resolve(promise).then(
+        (value) => finish(resolve, value),
+        (error) => finish(reject, error),
+      );
+    });
+  }
 
   function normalizeLanguage(language) {
     return String(language || 'en').toLowerCase().startsWith('pt') ? 'pt-BR' : 'en';
@@ -61,11 +102,13 @@
       TranslatorClass = globalThis.Translator,
       storage = globalThis.localStorage,
       endpoint = DEFAULT_ENDPOINT,
+      timeoutMs = DEFAULT_TIMEOUT_MS,
     } = {}) {
       this.fetcher = fetcher;
       this.TranslatorClass = TranslatorClass;
       this.storage = storage;
       this.endpoint = endpoint;
+      this.timeoutMs = timeoutMs;
       this.cache = new Map();
       this.translators = new Map();
       this.loadCache();
@@ -104,20 +147,27 @@
         return this.translators.get(key);
       }
 
-      const options = {
-        sourceLanguage: sourceLanguage.split('-')[0],
-        targetLanguage: targetLanguage.split('-')[0],
-      };
-      if (this.TranslatorClass.availability) {
-        const availability = await this.TranslatorClass.availability(options);
-        if (availability === 'unavailable') {
-          return null;
+      const translatorPromise = (async () => {
+        const options = {
+          sourceLanguage: sourceLanguage.split('-')[0],
+          targetLanguage: targetLanguage.split('-')[0],
+        };
+        if (this.TranslatorClass.availability) {
+          const availability = await this.TranslatorClass.availability(options);
+          if (availability === 'unavailable') {
+            return null;
+          }
         }
-      }
 
-      const translator = await this.TranslatorClass.create(options);
-      this.translators.set(key, translator);
-      return translator;
+        return this.TranslatorClass.create(options);
+      })();
+      this.translators.set(key, translatorPromise);
+      try {
+        return await translatorPromise;
+      } catch (error) {
+        this.translators.delete(key);
+        throw error;
+      }
     }
 
     async translateWithBrowser(text, sourceLanguage, targetLanguage) {
@@ -168,14 +218,37 @@
         return { translatedText: cached, provider: 'cache' };
       }
 
-      let result = null;
+      const localController = typeof globalThis.AbortController === 'function'
+        ? new globalThis.AbortController()
+        : null;
+      const handleAbort = () => localController?.abort();
+      signal?.addEventListener?.('abort', handleAbort, { once: true });
+      const translation = (async () => {
+        let providerResult = null;
+        try {
+          providerResult = await this.translateWithBrowser(normalizedText, source, target);
+        } catch {
+          providerResult = null;
+        }
+        if (!providerResult) {
+          providerResult = await this.translateWithRemote(
+            normalizedText,
+            source,
+            target,
+            localController?.signal || signal,
+          );
+        }
+        return providerResult;
+      })();
+      let result;
       try {
-        result = await this.translateWithBrowser(normalizedText, source, target);
-      } catch {
-        result = null;
-      }
-      if (!result) {
-        result = await this.translateWithRemote(normalizedText, source, target, signal);
+        result = await withTimeout(translation, {
+          timeoutMs: this.timeoutMs,
+          signal,
+          onTimeout: () => localController?.abort(),
+        });
+      } finally {
+        signal?.removeEventListener?.('abort', handleAbort);
       }
       if (!result?.translatedText) {
         throw new Error('No translation provider is available.');
@@ -217,12 +290,15 @@
 
   return {
     CACHE_KEY,
+    DEFAULT_TIMEOUT_MS,
     DEFAULT_ENDPOINT,
     MAX_REMOTE_BYTES,
     TranslationService,
+    createTimeoutError,
     decodeHtmlEntities,
     normalizeLanguage,
     normalizeText,
     splitByByteLength,
+    withTimeout,
   };
 }));

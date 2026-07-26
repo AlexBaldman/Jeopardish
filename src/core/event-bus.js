@@ -8,9 +8,13 @@
   'use strict';
 
   class EventBus {
-    constructor({ now = () => new Date().toISOString() } = {}) {
+    constructor({
+      now = () => new Date().toISOString(),
+      onListenerError = (error, event) => console.error(`Event listener failed for ${event.type}.`, error),
+    } = {}) {
       this.listeners = new Map();
       this.now = now;
+      this.onListenerError = onListenerError;
     }
 
     on(type, listener) {
@@ -37,12 +41,16 @@
         },
       };
 
-      for (const listener of this.listeners.get(type) || []) {
-        listener(event);
-      }
-
-      for (const listener of this.listeners.get('*') || []) {
-        listener(event);
+      const listeners = [
+        ...(this.listeners.get(type) || []),
+        ...(this.listeners.get('*') || []),
+      ];
+      for (const listener of listeners) {
+        try {
+          listener(event);
+        } catch (error) {
+          this.onListenerError(error, event);
+        }
       }
 
       return event;

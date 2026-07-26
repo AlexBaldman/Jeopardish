@@ -176,6 +176,13 @@
       });
     }
 
+    markUnavailable(item, reason = 'runtime-error') {
+      const url = resolveUrl(item?.url, this.locationRef);
+      if (!url) return false;
+      this.setCached(url, { ok: false, reason: String(reason || 'runtime-error') });
+      return true;
+    }
+
     async checkItem(item, { signal } = {}) {
       if (signal?.aborted) throw createAbortError();
       const url = resolveUrl(item?.url, this.locationRef);

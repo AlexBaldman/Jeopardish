@@ -48,6 +48,26 @@ test('EventBus emits targeted and wildcard events', () => {
   assert.equal(targeted[0].meta.source, 'test');
 });
 
+test('EventBus isolates listener failures from game transactions', () => {
+  const failures = [];
+  const calls = [];
+  const bus = new EventBus({
+    now: () => 'now',
+    onListenerError: (error, event) => failures.push([error.message, event.type]),
+  });
+  bus.on('score', () => {
+    throw new Error('display offline');
+  });
+  bus.on('score', () => calls.push('second-listener'));
+  bus.on('*', () => calls.push('wildcard'));
+
+  const event = bus.emit('score', { value: 200 });
+
+  assert.equal(event.type, 'score');
+  assert.deepEqual(calls, ['second-listener', 'wildcard']);
+  assert.deepEqual(failures, [['display offline', 'score']]);
+});
+
 test('GameEngine initializes and marks the game ready', () => {
   const { engine, events } = createEngine();
 

@@ -660,6 +660,25 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .dialogue-s
     }
 }
 
+@media (orientation: landscape) and (max-height: 560px) {
+    body .game-container .speech-bubble[data-dialogue-style] {
+        width: min(76%, 780px);
+        min-height: 0;
+        max-height: calc(100% - 0.3rem);
+        padding: 2.35rem 1rem 0.65rem;
+        overflow-y: auto;
+    }
+
+    body .game-container .speech-bubble[data-dialogue-style] .clue-category {
+        font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+    }
+
+    body .game-container .speech-bubble[data-dialogue-style] .clue-text {
+        font-size: clamp(0.92rem, 2.8vw, 1.28rem);
+        line-height: 1.08;
+    }
+}
+
 /* Result typography remains legible across every dialogue skin. */
 body .game-container[data-game-moment="correct"] .clue-header,
 body .game-container[data-game-moment="incorrect"] .clue-header,

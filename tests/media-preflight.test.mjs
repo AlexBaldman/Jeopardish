@@ -59,6 +59,27 @@ test('MediaPreflight caches failures so known dead assets are not repeatedly loa
   assert.equal(second.failures[0].cached, true);
 });
 
+test('MediaPreflight replaces a successful preflight cache entry after a runtime failure', async () => {
+  let probes = 0;
+  const preflight = new MediaPreflight({
+    locationRef: { href: 'https://game.test/', protocol: 'https:' },
+    probe: async () => {
+      probes += 1;
+      return { ok: true, reason: 'image-loaded' };
+    },
+  });
+  const item = { type: 'image', url: '/archive/photo.jpg' };
+
+  assert.equal((await preflight.checkItem(item)).ok, true);
+  assert.equal(preflight.markUnavailable(item, 'viewer-error'), true);
+  const retried = await preflight.checkItem(item);
+
+  assert.equal(retried.ok, false);
+  assert.equal(retried.reason, 'viewer-error');
+  assert.equal(retried.cached, true);
+  assert.equal(probes, 1);
+});
+
 test('MediaPreflight rejects mixed content before invoking the network probe', async () => {
   let probes = 0;
   const locationRef = { href: 'https://game.test/', protocol: 'https:' };

@@ -165,6 +165,17 @@ test('both game shells load the grounded study runtime and owned styles', () => 
   }
 });
 
+test('both game shells load focus management and keep the closed menu inert', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /src="src\/ui\/focus-scope\.js/, `${surface} is missing focus management`);
+    assert.match(
+      html,
+      /<nav class="nav-menu" id="navMenu"[^>]*aria-hidden="true"[^>]*inert/,
+      `${surface} exposes the closed game menu to keyboard navigation`,
+    );
+  }
+});
+
 test('HTML entry points contain no duplicate ids', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const ids = getIds(html);

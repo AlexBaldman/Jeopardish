@@ -139,6 +139,30 @@
         }
     }
 
+    @media (orientation: landscape) and (max-height: 560px) {
+        body.game-only {
+            min-height: 0;
+            height: 100svh;
+        }
+
+        body.game-only .game-page-shell {
+            min-height: 0;
+            height: 100svh;
+            padding: 0.12rem;
+        }
+
+        body.game-only .game-container-standalone {
+            height: calc(100svh - 0.24rem);
+            min-height: 0;
+            border-width: 3px;
+            border-radius: 8px;
+        }
+
+        .game-container .main-content {
+            padding: 0.35rem 0.65rem 0.2rem;
+        }
+    }
+
     @media (min-width: 1180px) and (min-height: 760px) {
         .game-page-shell {
             padding:
@@ -181,5 +205,11 @@
                 inset 0 0 0 3px rgba(255, 255, 255, 0.08);
         }
 
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .game-container[data-game-moment="correct"] .main-content::before {
+            animation: none;
+        }
     }
 }

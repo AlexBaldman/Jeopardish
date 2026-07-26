@@ -63,6 +63,22 @@ test('RoundDirector rejects duplicate judgment while a beat is active', async ()
   assert.equal(await director.judge(() => ({ isCorrect: true }), () => {}), null);
 });
 
+test('RoundDirector releases its transaction lock when presentation fails', async () => {
+  const director = new RoundDirector({ reducedMotion: true });
+  director.setPhase(RoundPhases.ANSWERING);
+
+  await assert.rejects(
+    director.judge(
+      () => ({ isCorrect: true, currentStreak: 1 }),
+      () => { throw new Error('renderer offline'); },
+    ),
+    /renderer offline/,
+  );
+
+  assert.equal(director.isBusy(), false);
+  assert.equal(director.phase, RoundPhases.ADVANCE_READY);
+});
+
 test('RoundDirector treats answer reveal as a one-way advance state', async () => {
   const cues = [];
   const director = new RoundDirector({

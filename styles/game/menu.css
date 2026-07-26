@@ -40,7 +40,7 @@
     .game-container .menu-header small,
     .game-container .menu-section h2 {
         color: var(--cabinet-cyan);
-        font: 400 0.4rem/1.5 var(--pixel-font);
+        font: 400 0.625rem/1.5 var(--pixel-font);
         letter-spacing: 0.08em;
         text-transform: uppercase;
     }
@@ -83,7 +83,7 @@
         border: 2px solid var(--jp-border-strong);
         border-radius: 7px;
         color: #fff;
-        background: linear-gradient(135deg, #b739ff, #ec3b88);
+        background: linear-gradient(135deg, #6d228f, #971d59);
         box-shadow: 3px 4px 0 var(--jp-border-strong);
         font: 900 0.86rem/1.2 var(--utility-font);
         text-align: left;
@@ -93,7 +93,10 @@
     }
 
     .game-container .menu-action-grid button:hover,
-    .game-container .menu-lab-link:hover {
+    .game-container .menu-action-grid button:focus-visible,
+    .game-container .menu-lab-link:hover,
+    .game-container .menu-lab-link:focus-visible {
+        color: #17121e;
         background: var(--cabinet-gold);
         transform: translate(-2px, -2px);
         box-shadow: 5px 6px 0 var(--jp-border-strong);
@@ -107,12 +110,12 @@
         border-radius: 4px;
         color: #17121e;
         background: var(--cabinet-cyan);
-        font: 400 0.34rem/1 var(--pixel-font);
+        font: 400 0.55rem/1 var(--pixel-font);
         text-align: center;
     }
 
     .game-container .scene-menu-copy { display: grid; gap: 0.1rem; }
-    .game-container .scene-menu-copy small { color: #5a5162; font: 400 0.28rem/1.4 var(--pixel-font); text-transform: uppercase; }
+    .game-container .scene-menu-copy small { color: #d3c7dd; font: 400 0.55rem/1.4 var(--pixel-font); text-transform: uppercase; }
     .game-container .scene-menu-copy strong { font: 900 0.86rem/1.1 var(--utility-font); }
     .game-container a.menu-lab-link { margin-top: 0.85rem; }
 }

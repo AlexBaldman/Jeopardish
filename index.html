@@ -31,6 +31,7 @@
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/media/media-preflight.js?v=media-1"></script>
     <script defer src="src/render/scene-service.js?v=scene-packs-4"></script>
+    <script defer src="src/ui/focus-scope.js?v=accessibility-1"></script>
     <script defer src="src/render/renderer.js?v=dialogue-1"></script>
     <script defer src="src/render/console-narrator.js?v=season-zero-2"></script>
     <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
@@ -389,7 +390,7 @@
                     <span class="score-drawer-tab"><i aria-hidden="true"></i> Live stats <i aria-hidden="true"></i></span>
                 </button>
 
-                <nav class="nav-menu" id="navMenu" aria-label="Game menu">
+                <nav class="nav-menu" id="navMenu" aria-label="Game menu" aria-hidden="true" inert>
                     <header class="menu-header">
                         <div><small>Channel O</small><p class="nav-kicker">Game Menu</p></div>
                         <button class="menu-close" id="menuClose" type="button" aria-label="Close game menu">×</button>
