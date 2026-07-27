@@ -107,6 +107,20 @@
           return `🧠 Xander considers “${payload.actionId || 'something educational'}” using ${payload.grounding || 'mysterious'} grounding. Fabricated certainty has been denied entry.`;
         case GameEvents.STUDY_EXITED:
           return '↩️ Study detour closed. The exact round state returns, looking rested and insisting it never left.';
+        case GameEvents.VOICE_ENABLED:
+          return `🎙️ Voice mode is live. Narration ${payload.capabilities?.narration ? 'ready' : 'unavailable'}; recognition ${payload.capabilities?.recognition ? 'ready' : 'unavailable'}. Xander has been asked not to answer himself.`;
+        case GameEvents.VOICE_DISABLED:
+          return '🔇 Voice mode signed off. Typed answers remain legally recognized in this jurisdiction.';
+        case GameEvents.VOICE_LISTENING:
+          return '🎧 Microphone open for one response. The host is maintaining a rare and medically significant silence.';
+        case GameEvents.VOICE_TRANSCRIPT:
+          return `📝 Speech transcript received: “${truncate(payload.transcript || 'inaudible Canadian murmuring')}”.`;
+        case GameEvents.VOICE_COMMAND:
+          return payload.type === 'answer'
+            ? `🗣️ Spoken response routed to the same fair judge: “${truncate(payload.answer)}”.`
+            : `🎛️ Voice command accepted: ${payload.command || 'unspecified studio business'}.`;
+        case GameEvents.VOICE_FAILED:
+          return `🎙️ Voice desk unavailable: ${payload.code || payload.message || 'the microphone has invoked its right to remain silent'}.`;
         case GameEvents.ERROR_REPORTED:
           return `⚠️ The rules desk has raised one eyebrow: ${payload.message || 'something got weird'}.`;
         default:

@@ -38,6 +38,7 @@
     <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
     <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
+    <script defer src="src/voice/voice-controller.js?v=voice-1"></script>
     <script defer src="src/directors/round-director.js?v=round-3"></script>
     <script defer src="src/session/session-manager.js?v=season-zero-2"></script>
     <script defer src="src/study/clue-packet.js?v=study-1"></script>
@@ -410,6 +411,9 @@
                         <button id="menuTheme" type="button"><span>Day / Night</span><b aria-hidden="true">☀</b></button>
                         <button id="menuLanguage" type="button"><span>English / Português</span><b aria-hidden="true">文</b></button>
                         <button id="menuSound" type="button"><span>Sound</span><b aria-hidden="true">♪</b></button>
+                        <button id="menuVoice" type="button" aria-pressed="false">
+                            <span id="menuVoiceLabel">Voice mode</span><b id="menuVoiceState" aria-hidden="true">OFF</b>
+                        </button>
                     </section>
                     <a class="menu-lab-link" href="creative-room.html">Enter the Creative Room <span aria-hidden="true">→</span></a>
                 </nav>
@@ -473,6 +477,11 @@
                             <span class="answer-field-label" id="answerFieldLabel">Your response</span>
                             <input class="answer-input" type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
                         </label>
+                        <button id="voiceButton" class="voice-button" type="button" aria-label="Enable voice mode" aria-pressed="false" aria-describedby="voiceHelp">
+                            <span class="voice-icon" aria-hidden="true"></span>
+                            <span class="voice-state" id="voiceState" aria-live="polite">Voice off</span>
+                        </button>
+                        <span id="voiceHelp" class="visually-hidden">Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask Xander.</span>
                         <button id="checkButton" class="cabinet-button lock-button" type="button" aria-label="Lock It In. Keyboard shortcut: Enter" data-tooltip="Lock It In" data-key="Enter" accesskey="l">
                             <span class="control-symbol lock-symbol" aria-hidden="true"><span class="lock-ring"></span><span class="lock-core">!</span></span>
                             <span class="control-copy"><small id="checkButtonKicker">Confirm</small><strong class="button-tooltip" aria-hidden="true">Lock It In</strong></span>

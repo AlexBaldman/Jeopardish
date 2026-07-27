@@ -47,6 +47,7 @@ const state = {
   dialogueStyleId: 'clue-card',
   scenePackId: 'long-beach-96',
   muted: false,
+  voiceEnabled: false,
   currentSourceClue: null,
   currentDisplayClue: null,
   translationRequestId: 0,
@@ -59,6 +60,7 @@ const HOST_SKIN_KEY = 'jeopardish.hostSkin';
 const DIALOGUE_STYLE_KEY = 'jeoparody.dialogueStyle';
 const SCENE_PACK_KEY = 'jeoparody.scenePack';
 const MUTED_KEY = 'jeoparody.muted';
+const VOICE_ENABLED_KEY = 'jeoparody.voiceEnabled';
 
 const UI_COPY = {
   en: {
@@ -73,6 +75,17 @@ const UI_COPY = {
     answerButtonKicker: 'Clue',
     soundOn: 'Sound',
     soundOff: 'Muted',
+    voiceMode: 'Voice mode',
+    voiceOff: 'Voice off',
+    voiceReady: 'Tap to answer',
+    voiceNarrationReady: 'Narration on',
+    voiceListening: 'Listening...',
+    voiceSpeaking: 'Xander speaking',
+    voiceDenied: 'Microphone blocked',
+    voiceUnavailable: 'Voice unavailable',
+    voiceError: 'Voice needs another try',
+    voiceHelp: 'Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask Xander.',
+    voiceWelcome: 'Voice mode online. Tap the microphone to answer or give me a command.',
     nextClueReady: 'NEXT CLUE READY',
     themeNight: 'Night',
     themeDay: 'Day',
@@ -101,6 +114,10 @@ const UI_COPY = {
     incorrectKicker: 'The Judges Have Spoken',
     incorrectMessage: 'Not quite.',
     correctResponseLabel: 'Correct response:',
+    yourResponseLabel: 'Your response:',
+    exactJudgment: 'Exact match',
+    variationJudgment: 'Accepted variation',
+    fuzzyJudgment: 'Minor typo accepted',
     streakReset: 'STREAK RESET!',
     hostCues: {
       idle: 'On Air',
@@ -119,6 +136,11 @@ const UI_COPY = {
     initializing: 'Initializing game...',
     correctStatus: (scoreDelta, quip) => `Correct. +$${scoreDelta}. ${quip} Press Enter or New Clue to keep rolling.`,
     incorrectStatus: (quip) => `Incorrect. ${quip} Press Enter or New Clue to continue.`,
+    voiceClue: (category, value, question) => `${category}, for ${value} dollars. ${question}`,
+    voiceCorrect: (value, streak) => `Correct. Add ${value} dollars. Your streak is ${streak}.`,
+    voiceIncorrect: (answer) => `Not quite. The correct response was ${answer}.`,
+    voiceReveal: (answer) => `The correct response is ${answer}.`,
+    voiceComplete: (score, correct, total) => `Broadcast complete. Final score, ${score} dollars. ${correct} correct out of ${total}.`,
   },
   'pt-BR': {
     lang: 'pt-BR',
@@ -132,6 +154,17 @@ const UI_COPY = {
     answerButtonKicker: 'Pista',
     soundOn: 'Som',
     soundOff: 'Mudo',
+    voiceMode: 'Modo de voz',
+    voiceOff: 'Voz desligada',
+    voiceReady: 'Toque para responder',
+    voiceNarrationReady: 'Narração ativa',
+    voiceListening: 'Ouvindo...',
+    voiceSpeaking: 'Xander falando',
+    voiceDenied: 'Microfone bloqueado',
+    voiceUnavailable: 'Voz indisponível',
+    voiceError: 'Tente a voz novamente',
+    voiceHelp: 'Toque para falar. Diga uma resposta, próxima pista, mostre a resposta, repita a pista, abra o menu ou pergunte ao Xander.',
+    voiceWelcome: 'Modo de voz ativado. Toque no microfone para responder ou dar um comando.',
     nextClueReady: 'PRÓXIMA PISTA',
     themeNight: 'Noite',
     themeDay: 'Dia',
@@ -160,6 +193,10 @@ const UI_COPY = {
     incorrectKicker: 'Os Juízes Decidiram',
     incorrectMessage: 'Quase, mas não.',
     correctResponseLabel: 'Resposta correta:',
+    yourResponseLabel: 'Sua resposta:',
+    exactJudgment: 'Resposta exata',
+    variationJudgment: 'Variação aceita',
+    fuzzyJudgment: 'Pequeno erro aceito',
     streakReset: 'SEQUÊNCIA ZERADA!',
     hostCues: {
       idle: 'No Ar',
@@ -178,6 +215,11 @@ const UI_COPY = {
     initializing: 'Inicializando o jogo...',
     correctStatus: (scoreDelta, quip) => `Correto. +$${scoreDelta}. ${quip} Aperte Enter ou Nova Pista para continuar.`,
     incorrectStatus: (quip) => `Incorreto. ${quip} Aperte Enter ou Nova Pista para continuar.`,
+    voiceClue: (category, value, question) => `${category}, por ${value} dólares. ${question}`,
+    voiceCorrect: (value, streak) => `Correto. Mais ${value} dólares. Sua sequência é ${streak}.`,
+    voiceIncorrect: (answer) => `Quase. A resposta correta era ${answer}.`,
+    voiceReveal: (answer) => `A resposta correta é ${answer}.`,
+    voiceComplete: (score, correct, total) => `Transmissão concluída. Placar final, ${score} dólares. ${correct} acertos em ${total}.`,
   },
 };
 
@@ -198,12 +240,13 @@ const hostModule = globalThis.JeopardishHost || null;
 const brandModule = globalThis.JeoPARODYBrand || null;
 const translationModule = globalThis.JeoPARODYTranslation || null;
 const audioModule = globalThis.JeoPARODYAudio || null;
+const voiceModule = globalThis.JeoPARODYVoice || null;
 const roundDirectorModule = globalThis.JeoPARODYRoundDirector || null;
 const sessionModule = globalThis.JeoPARODYSession || null;
 const cluePacketModule = globalThis.JeoPARODYCluePacket || null;
 const roundSnapshotModule = globalThis.JeoPARODYRoundSnapshot || null;
 
-if (!contracts || !eventBusModule || !engineModule || !dataModule || !mediaModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !roundDirectorModule || !sessionModule || !cluePacketModule || !roundSnapshotModule) {
+if (!contracts || !eventBusModule || !engineModule || !dataModule || !mediaModule || !rendererModule || !narratorModule || !hostModule || !brandModule || !translationModule || !audioModule || !voiceModule || !roundDirectorModule || !sessionModule || !cluePacketModule || !roundSnapshotModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
@@ -218,6 +261,7 @@ let hostManager;
 let brandController;
 let translationService;
 let audioController;
+let voiceController;
 let roundDirector;
 let sessionManager;
 let roundSnapshotStore;
@@ -265,6 +309,7 @@ function loadPersistedPreferences() {
       state.scenePackId = scenePackId;
     }
     state.muted = globalThis.localStorage?.getItem(MUTED_KEY) === 'true';
+    state.voiceEnabled = globalThis.localStorage?.getItem(VOICE_ENABLED_KEY) === 'true';
   } catch (error) {
     console.warn('Unable to read persisted UI preferences.', error);
   }
@@ -319,6 +364,14 @@ function applyPreferences() {
     language: state.language,
   });
   renderer.setSoundState(state.muted);
+  voiceController?.setLanguage(state.language);
+  if (voiceController) {
+    renderer.setVoiceState({
+      state: voiceController.state,
+      enabled: voiceController.enabled,
+      capabilities: voiceController.getCapabilities(),
+    });
+  }
   renderDialogueStyle();
   renderScoreboard();
 }
@@ -363,6 +416,108 @@ function toggleSound() {
   if (!state.muted) {
     audioController.unlock();
     audioController.play('clue');
+  }
+}
+
+function emitVoiceEvent(type, payload = {}) {
+  eventBus?.emit(type, payload, { source: 'VoiceController' });
+}
+
+function speakHost(message) {
+  return voiceController?.speak?.(message, {
+    language: state.language === 'pt-BR' ? 'pt-BR' : 'en-US',
+  }) || false;
+}
+
+function narrateCurrentClue() {
+  if (!state.currentDisplayClue) return false;
+  const clue = state.currentDisplayClue;
+  const question = getSourceClueContent(clue).questionText;
+  const value = gameEngine?.getState()?.currentClueValue || 0;
+  return speakHost(getCopy().voiceClue(clue.category || '', value, question));
+}
+
+function setVoiceEnabled(enabled, { announce = false } = {}) {
+  const active = voiceController.setEnabled(enabled);
+  state.voiceEnabled = active;
+  persistPreference(VOICE_ENABLED_KEY, String(active));
+  emitVoiceEvent(
+    active ? contracts.GameEvents.VOICE_ENABLED : contracts.GameEvents.VOICE_DISABLED,
+    { capabilities: voiceController.getCapabilities() },
+  );
+  if (active && announce) speakHost(getCopy().voiceWelcome);
+  return active;
+}
+
+function toggleVoice({ listen = false } = {}) {
+  if (!voiceController.enabled) {
+    if (!setVoiceEnabled(true, { announce: !listen })) return false;
+  } else if (!listen) {
+    setVoiceEnabled(false);
+    return false;
+  }
+
+  if (listen) {
+    const context = gameEngine?.getActiveClue()
+      && !renderer.isStudyOpen()
+      && !roundDirector.isAdvanceReady()
+      ? 'answer'
+      : 'command';
+    return voiceController.listen({ context });
+  }
+  return true;
+}
+
+async function handleVoiceIntent(intent) {
+  if (!intent || intent.type === 'empty' || intent.type === 'unknown') return;
+  emitVoiceEvent(contracts.GameEvents.VOICE_COMMAND, intent);
+
+  if (intent.type === 'answer') {
+    if (!gameEngine?.getActiveClue() || renderer.isStudyOpen() || roundDirector.isBusy()) {
+      speakHost(getCopy().noClue);
+      return;
+    }
+    renderer.setUserAnswer(intent.answer);
+    await checkAnswer();
+    return;
+  }
+
+  switch (intent.command) {
+    case voiceModule.VoiceCommands.NEW_CLUE:
+      await getNewQuestion();
+      break;
+    case voiceModule.VoiceCommands.REVEAL_ANSWER:
+      await showHideAnswer();
+      break;
+    case voiceModule.VoiceCommands.SUBMIT_ANSWER:
+      await checkAnswer();
+      break;
+    case voiceModule.VoiceCommands.REPEAT_CLUE:
+      narrateCurrentClue();
+      break;
+    case voiceModule.VoiceCommands.OPEN_MENU:
+      renderer.setMenuOpen(true);
+      break;
+    case voiceModule.VoiceCommands.CLOSE_MENU:
+      renderer.setMenuOpen(false);
+      break;
+    case voiceModule.VoiceCommands.STUDY:
+      enterStudyMode();
+      break;
+    case voiceModule.VoiceCommands.TOGGLE_THEME:
+      toggleTheme();
+      break;
+    case voiceModule.VoiceCommands.TOGGLE_LANGUAGE:
+      await toggleLanguage();
+      break;
+    case voiceModule.VoiceCommands.TOGGLE_SOUND:
+      toggleSound();
+      break;
+    case voiceModule.VoiceCommands.VOICE_OFF:
+      setVoiceEnabled(false);
+      break;
+    default:
+      break;
   }
 }
 
@@ -514,6 +669,9 @@ async function enterStudyMode() {
   renderer.setStudyOpen(true);
   renderer.setControlsEnabled(false);
   renderHost('clue');
+  speakHost(state.language === 'pt-BR'
+    ? 'Desvio de estudo aberto. Escolha uma direção.'
+    : 'Study detour open. Choose a direction.');
   return true;
 }
 
@@ -521,6 +679,7 @@ function selectStudyAction(actionId) {
   if (!renderer.isStudyOpen() || !activeStudyPacket) return;
   const response = cluePacketModule.getStudyResponse(activeStudyPacket, actionId);
   renderer.renderStudyResponse(response);
+  speakHost(response);
   eventBus.emit(contracts.GameEvents.STUDY_ACTION_SELECTED, {
     clueId: activeStudyPacket.canonical.clueId,
     actionId,
@@ -597,6 +756,7 @@ function showEpisodeComplete() {
   renderHost('streak');
   renderer.renderSessionProgress(progress);
   renderer.renderEpisodeComplete(progress);
+  speakHost(getCopy().voiceComplete(progress.score, progress.counts.correct, progress.total));
   return progress;
 }
 
@@ -662,6 +822,7 @@ async function refreshCurrentClueLanguage() {
   state.currentDisplayClue = displayClue;
   renderer.renderClue(displayClue, gameEngine.getState().currentClueValue);
   renderer.setRoundPhase(roundDirectorModule.RoundPhases.ANSWERING);
+  narrateCurrentClue();
 }
 
 async function getNewQuestion() {
@@ -707,6 +868,7 @@ async function getNewQuestion() {
   }
   await roundDirector.introduceClue(() => renderClue(clue, displayClue));
   renderer.setStudyAvailable(roundDirector.canPause());
+  narrateCurrentClue();
   return clue;
 }
 
@@ -753,7 +915,7 @@ async function checkAnswer() {
 
   renderer.setControlsEnabled(false);
   renderHost('reveal');
-  await roundDirector.judge(
+  const judgment = await roundDirector.judge(
     () => gameEngine.submitAnswer(userAnswer, {
       acceptedAnswers: state.currentDisplayClue?.translation
         ? [state.currentDisplayClue.answer]
@@ -769,13 +931,17 @@ async function checkAnswer() {
         state.bestStreak = result.bestStreak;
         persistBestStreak();
         renderHost(result.currentStreak >= 3 ? 'streak' : 'correct');
-        renderer.displayCorrectAnswerMessage(result);
+        renderer.displayCorrectAnswerMessage({
+          ...result,
+          correctAnswer: state.currentDisplayClue?.answer || result.correctAnswer,
+        });
         renderer.setStatus(getCopy().correctStatus(result.scoreDelta, hostManager.selectQuip('correct')));
       } else {
         renderHost('incorrect');
-        renderer.displayIncorrectAnswerMessage(
-          state.currentDisplayClue?.answer || result.correctAnswer || 'Unknown',
-        );
+        renderer.displayIncorrectAnswerMessage({
+          ...result,
+          correctAnswer: state.currentDisplayClue?.answer || result.correctAnswer || 'Unknown',
+        });
         renderer.setStatus(getCopy().incorrectStatus(hostManager.selectQuip('incorrect')));
       }
 
@@ -786,6 +952,13 @@ async function checkAnswer() {
       renderer.clearUserAnswer();
     },
   );
+  if (judgment?.ok) {
+    speakHost(judgment.isCorrect
+      ? getCopy().voiceCorrect(judgment.scoreDelta, judgment.currentStreak)
+      : getCopy().voiceIncorrect(
+        state.currentDisplayClue?.answer || judgment.correctAnswer || 'Unknown',
+      ));
+  }
   renderer.setStudyAvailable(roundDirector.canPause());
 }
 
@@ -795,12 +968,14 @@ async function showHideAnswer() {
     return;
   }
   renderer.setControlsEnabled(false);
-  await roundDirector.reveal(() => {
+  const revealedAnswer = state.currentDisplayClue?.answer || state.currentSourceClue?.answer || 'Unknown';
+  const revealed = await roundDirector.reveal(() => {
     renderer.toggleAnswer(true);
     renderer.setGameMoment('reveal');
     renderHost('reveal');
     recordSessionOutcome('revealed');
   });
+  if (revealed) speakHost(getCopy().voiceReveal(revealedAnswer));
   renderer.setStudyAvailable(roundDirector.canPause());
 }
 
@@ -896,6 +1071,7 @@ function bindEvents() {
     onToggleTheme: toggleTheme,
     onToggleLanguage: toggleLanguage,
     onToggleSound: toggleSound,
+    onToggleVoice: toggleVoice,
     onPreviousHostSkin: () => cycleHostSkin(-1),
     onNextHostSkin: () => cycleHostSkin(1),
     onPreviousDialogueStyle: () => cycleDialogueStyle(-1),
@@ -931,6 +1107,9 @@ function bindEvents() {
     } else if (key === 'd') {
       event.preventDefault();
       enterStudyMode();
+    } else if (key === 'm') {
+      event.preventDefault();
+      toggleVoice({ listen: true });
     }
   });
 }
@@ -952,12 +1131,38 @@ document.addEventListener('DOMContentLoaded', async () => {
   brandController = new brandModule.BrandController();
   translationService = new translationModule.TranslationService();
   audioController = new audioModule.AudioController();
+  voiceController = new voiceModule.VoiceController({
+    onState: (detail) => {
+      renderer?.setVoiceState(detail);
+      if (detail.state === voiceModule.VoiceStates.LISTENING) {
+        emitVoiceEvent(contracts.GameEvents.VOICE_LISTENING);
+      }
+    },
+    onTranscript: ({ transcript, final }) => {
+      renderer?.setVoiceState({
+        state: voiceModule.VoiceStates.LISTENING,
+        enabled: voiceController.enabled,
+        capabilities: voiceController.getCapabilities(),
+        transcript,
+      });
+      if (final) {
+        emitVoiceEvent(contracts.GameEvents.VOICE_TRANSCRIPT, { transcript });
+      }
+    },
+    onIntent: (intent) => {
+      Promise.resolve(handleVoiceIntent(intent)).catch((error) => {
+        emitVoiceEvent(contracts.GameEvents.VOICE_FAILED, { message: error.message });
+      });
+    },
+    onError: (error) => emitVoiceEvent(contracts.GameEvents.VOICE_FAILED, error),
+  });
   hostManager.setActiveSkin(state.hostSkinId);
   consoleNarrator.start();
 
   renderer.bindDom();
   brandController.bind();
   audioController.setMuted(state.muted);
+  state.voiceEnabled = voiceController.setEnabled(state.voiceEnabled);
   roundDirector = new roundDirectorModule.RoundDirector({
     audio: audioController,
     reducedMotion: globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches,

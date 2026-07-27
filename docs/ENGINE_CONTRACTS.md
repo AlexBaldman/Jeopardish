@@ -13,6 +13,8 @@ Jeopardish is moving toward a host-agnostic arcade engine. This document records
 - `src/media/media-preflight.js` owns media reachability checks, bounded timeouts, health caching, and playable-clue selection.
 - `src/render/renderer.js` owns DOM binding, rendering, user input reads, fallback clue display, and control state.
 - `src/host/host-manager.js` owns active host config, host visuals, and host quip selection.
+- `src/audio/audio-controller.js` owns deterministic synthesized game cues.
+- `src/voice/voice-controller.js` owns speech capability detection, narration, one-shot recognition, transcript normalization, and command parsing. It never judges an answer or mutates game state.
 - `app.js` owns application coordination and UI preference persistence. It asks `SessionManager` for episode candidates and never judges answers.
 
 ## Important Boundary
@@ -25,7 +27,7 @@ The current browser load order is:
 2. `src/contracts/events.js`
 3. `src/core/event-bus.js`
 4. `src/core/game-engine.js`
-5. Data, media, scene, renderer, narrator, host, brand, translation, audio, and round-director modules
+5. Data, media, scene, renderer, narrator, host, brand, translation, audio, voice, and round-director modules
 6. `src/session/session-manager.js`
 7. `app.js`
 
@@ -35,9 +37,9 @@ Media preflight happens before `GameEngine.loadClue()`. A rejected attachment ca
 
 ## Next Extraction Targets
 
-1. Replace full `questions/jeopardy-questions.json` loading with a manifest plus smaller shards.
-2. Route future voice behavior through `src/audio/audio-controller.js`.
-3. Convert renderer updates to event subscriptions once host/audio/data events are stable.
+1. Move voice orchestration from `app.js` into an event-driven performance director once host dialogue generation is introduced.
+2. Add curated clue explanations and citations for grounded coaching responses.
+3. Convert renderer updates to event subscriptions once host, voice, and data events are stable.
 
 ## Behavior Preserved
 
@@ -48,4 +50,5 @@ The first extraction intentionally preserves the current gameplay behavior:
 - best streak persists in localStorage
 - incorrect answers reset current streak to `0`
 - incorrect answers reset score to `0`
-- the app still loads the existing `questions/jeopardy-questions.json` dataset
+- the browser loads the curated `questions/runtime-bank.json`; the complete
+  `questions/jeopardy-questions.json` archive remains source material for rebuilding it

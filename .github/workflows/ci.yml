@@ -32,6 +32,15 @@ jobs:
         run: npm run smoke:dist
         env:
           SMOKE_BROWSERS: chromium,webkit
+      - name: Verify 108 gameplay visual states
+        run: npm run test:visual
+      - name: Upload visual evidence on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-state-failures
+          path: screenshots/visual-fixtures
+          retention-days: 5
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5

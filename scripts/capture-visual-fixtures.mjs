@@ -9,7 +9,17 @@ const outputDir = path.join(root, 'screenshots', 'visual-fixtures');
 const ownsServer = !process.env.BASE_URL;
 const baseUrl = process.env.BASE_URL || 'http://127.0.0.1:4197';
 const serverUrl = new URL(baseUrl);
-const fixtures = ['clue', 'reveal', 'correct', 'incorrect', 'menu', 'scoreboard', 'study'];
+const fixtures = [
+  'clue',
+  'reveal',
+  'correct',
+  'incorrect',
+  'menu',
+  'scoreboard',
+  'study',
+  'voice-listening',
+  'voice-speaking',
+];
 const themes = ['dark', 'light'];
 const viewports = [
   ['phone-320', 320, 568],
@@ -119,6 +129,7 @@ try {
             host: '#hostStage',
             footer: '.control-footer',
             study: '#studyPanel',
+            voice: '#voiceButton',
           };
           const result = {};
           for (const [name, selector] of Object.entries(selectors)) {
@@ -141,7 +152,7 @@ try {
             ? ['header', 'scoreboard', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer']
             : fixture === 'study'
               ? ['header', 'study', 'footer']
-            : ['header', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer'];
+            : ['header', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice'];
         const fixtureFailures = [];
         if (geometry.documentOverflow > 1) fixtureFailures.push(`document overflow ${geometry.documentOverflow}px`);
         for (const name of visibleNames) {

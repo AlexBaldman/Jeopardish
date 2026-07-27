@@ -45,7 +45,7 @@
         margin: 0;
     }
 
-    .game-container .input-div { grid-template-columns: minmax(0, 1fr) minmax(150px, 0.34fr); }
+    .game-container .input-div { grid-template-columns: minmax(0, 1fr) 76px minmax(150px, 0.34fr); }
     .game-container .button-div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
     .game-container .answer-field {
@@ -86,6 +86,98 @@
     }
 
     .game-container .answer-input::placeholder { color: rgba(199, 255, 215, 0.38); }
+
+    .game-container .voice-button {
+        --voice-accent: #7effa3;
+        position: relative;
+        display: grid;
+        place-items: center;
+        align-content: center;
+        gap: 0.26rem;
+        min-width: 0;
+        min-height: 62px;
+        padding: 0.35rem;
+        overflow: hidden;
+        border: 3px solid #05070a;
+        border-radius: 12px;
+        color: #dfffe8;
+        background:
+            radial-gradient(circle at 50% 38%, rgba(126, 255, 163, 0.2), transparent 48%),
+            linear-gradient(180deg, #183228, #09110e);
+        box-shadow: 0 5px 0 #05060b, inset 0 0 0 2px rgba(126, 255, 163, 0.12);
+        cursor: pointer;
+        transition: transform 110ms ease, box-shadow 110ms ease, filter 160ms ease;
+    }
+
+    .game-container .voice-button:hover,
+    .game-container .voice-button:focus-visible {
+        filter: brightness(1.12);
+        transform: translateY(-2px);
+        box-shadow: 0 7px 0 #05060b, 0 0 18px rgba(126, 255, 163, 0.36);
+    }
+
+    .game-container .voice-button:disabled {
+        cursor: not-allowed;
+        filter: grayscale(1);
+        opacity: 0.42;
+    }
+
+    .game-container .voice-icon {
+        position: relative;
+        width: 1rem;
+        height: 1.35rem;
+        border: 2px solid #07100b;
+        border-radius: 0.6rem;
+        background: var(--voice-accent);
+        box-shadow: 0 0 10px rgba(126, 255, 163, 0.38);
+    }
+
+    .game-container .voice-icon::before {
+        content: "";
+        position: absolute;
+        right: -0.35rem;
+        bottom: -0.35rem;
+        left: -0.35rem;
+        height: 0.82rem;
+        border: 2px solid var(--voice-accent);
+        border-top: 0;
+        border-radius: 0 0 1rem 1rem;
+    }
+
+    .game-container .voice-icon::after {
+        content: "";
+        position: absolute;
+        bottom: -0.62rem;
+        left: 50%;
+        width: 0.62rem;
+        height: 2px;
+        background: var(--voice-accent);
+        transform: translateX(-50%);
+    }
+
+    .game-container .voice-state {
+        max-width: 100%;
+        overflow: hidden;
+        font: 700 0.25rem/1.25 var(--pixel-font);
+        letter-spacing: 0.02em;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .game-container .voice-button[data-state="listening"] {
+        --voice-accent: #ff6fbd;
+        animation: voice-listening 0.82s ease-in-out infinite alternate;
+    }
+
+    .game-container .voice-button[data-state="speaking"] {
+        --voice-accent: #38e9ff;
+    }
+
+    .game-container .voice-button[data-state="denied"],
+    .game-container .voice-button[data-state="error"] {
+        --voice-accent: #ff8a63;
+    }
 
     .game-container .cabinet-button {
         --control-accent: #5de9ff;
@@ -284,6 +376,13 @@
     @keyframes control-ready {
         to { box-shadow: 0 6px 0 #05060b, 0 0 20px rgba(56, 233, 255, 0.58), inset 0 -4px 0 rgba(8, 11, 26, 0.14); }
     }
+
+    @keyframes voice-listening {
+        to {
+            filter: brightness(1.18);
+            box-shadow: 0 5px 0 #05060b, 0 0 22px rgba(255, 111, 189, 0.68), inset 0 0 0 2px rgba(255, 255, 255, 0.16);
+        }
+    }
 }
 
 @layer responsive {
@@ -296,10 +395,12 @@
         }
 
         .game-container .control-footer::before { display: none; }
-        .game-container .input-div { grid-template-columns: minmax(0, 1fr) minmax(112px, 0.38fr); }
-        .game-container :is(.answer-input, .cabinet-button) { min-height: 50px; }
+        .game-container .input-div { grid-template-columns: minmax(0, 1fr) 52px minmax(112px, 0.38fr); }
+        .game-container :is(.answer-input, .cabinet-button, .voice-button) { min-height: 50px; }
         .game-container .answer-input { padding-top: 1.2rem; font-size: clamp(0.52rem, 2.6cqw, 0.7rem); }
         .game-container .answer-field-label { top: 0.37rem; font-size: 0.27rem; }
+        .game-container .voice-state { display: none; }
+        .game-container .voice-icon { transform: scale(0.82); }
         .game-container .cabinet-button { grid-template-columns: 2.2rem minmax(0, 1fr); gap: 0.42rem; padding: 0.35rem 1.35rem 0.35rem 0.42rem; }
         .game-container .cabinet-button .control-symbol { width: 2rem; height: 2rem; border-width: 2px; }
         .game-container .cabinet-button .clue-symbol { font-size: 1.45rem; }
@@ -309,7 +410,7 @@
     }
 
     @container cabinet (max-width: 380px) {
-        .game-container .input-div { grid-template-columns: minmax(0, 1fr) 94px; }
+        .game-container .input-div { grid-template-columns: minmax(0, 1fr) 46px 94px; }
         .game-container .cabinet-button { grid-template-columns: 1.8rem minmax(0, 1fr); padding-inline: 0.34rem; }
         .game-container .cabinet-button .control-symbol { width: 1.7rem; height: 1.7rem; }
         .game-container .button-div .cabinet-button .button-tooltip { font-size: 0.55rem; }
@@ -318,6 +419,7 @@
 
 @media (prefers-reduced-motion: reduce) {
     .game-container[data-round-phase="advance-ready"] .clue-button { animation: none; }
+    .game-container .voice-button[data-state="listening"] { animation: none; }
 }
 
 @media (min-width: 1180px) and (min-height: 760px) {

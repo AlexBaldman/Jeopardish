@@ -59,3 +59,23 @@ test('ConsoleNarrator can unsubscribe cleanly', () => {
 
   assert.equal(messages.length, 1);
 });
+
+test('ConsoleNarrator explains voice capability and transcript flow', () => {
+  const { eventBus, messages, narrator } = createNarrator();
+
+  narrator.start();
+  eventBus.emit(GameEvents.VOICE_ENABLED, {
+    capabilities: { narration: true, recognition: true },
+  }, { source: 'test' });
+  eventBus.emit(GameEvents.VOICE_TRANSCRIPT, {
+    transcript: 'Who is Marie Curie',
+  }, { source: 'test' });
+  eventBus.emit(GameEvents.VOICE_COMMAND, {
+    type: 'answer',
+    answer: 'Marie Curie',
+  }, { source: 'test' });
+
+  assert.match(messages[1], /Narration ready; recognition ready/);
+  assert.match(messages[2], /Who is Marie Curie/);
+  assert.match(messages[3], /same fair judge/);
+});

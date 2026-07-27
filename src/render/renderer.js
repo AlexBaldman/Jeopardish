@@ -19,6 +19,16 @@
     inputPlaceholder: 'Type your response',
     soundOn: 'Sound',
     soundOff: 'Muted',
+    voiceMode: 'Voice mode',
+    voiceOff: 'Voice off',
+    voiceReady: 'Tap to answer',
+    voiceNarrationReady: 'Narration on',
+    voiceListening: 'Listening...',
+    voiceSpeaking: 'Xander speaking',
+    voiceDenied: 'Microphone blocked',
+    voiceUnavailable: 'Voice unavailable',
+    voiceError: 'Voice needs another try',
+    voiceHelp: 'Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask Xander.',
     nextClueReady: 'NEXT CLUE READY',
     themeNight: 'Night',
     themeDay: 'Day',
@@ -47,6 +57,10 @@
     incorrectKicker: 'The Judges Have Spoken',
     incorrectMessage: 'Not quite.',
     correctResponseLabel: 'Correct response:',
+    yourResponseLabel: 'Your response:',
+    exactJudgment: 'Exact match',
+    variationJudgment: 'Accepted variation',
+    fuzzyJudgment: 'Minor typo accepted',
     streakReset: 'STREAK RESET!',
     incorrectStatus: 'Incorrect. Load a new clue to continue.',
     keepTyping: 'Type an answer to keep the dignity damage contained.',
@@ -290,6 +304,9 @@
       this.dom.menuTheme = this.document.getElementById('menuTheme');
       this.dom.menuLanguage = this.document.getElementById('menuLanguage');
       this.dom.menuSound = this.document.getElementById('menuSound');
+      this.dom.menuVoice = this.document.getElementById('menuVoice');
+      this.dom.menuVoiceLabel = this.document.getElementById('menuVoiceLabel');
+      this.dom.menuVoiceState = this.document.getElementById('menuVoiceState');
       this.dom.menuScene = this.document.getElementById('menuScene');
       this.dom.menuSceneLabel = this.document.getElementById('menuSceneLabel');
       this.dom.menuSceneIndex = this.document.getElementById('menuSceneIndex');
@@ -311,6 +328,9 @@
       this.dom.languageToggleLabel = this.document.getElementById('languageToggleLabel');
       this.dom.soundToggle = this.document.getElementById('soundToggle');
       this.dom.soundToggleLabel = this.document.getElementById('soundToggleLabel');
+      this.dom.voiceButton = this.document.getElementById('voiceButton');
+      this.dom.voiceState = this.document.getElementById('voiceState');
+      this.dom.voiceHelp = this.document.getElementById('voiceHelp');
       this.dom.translationState = this.document.getElementById('translationState');
       this.dom.translationStateLabel = this.document.getElementById('translationStateLabel');
       this.dom.mediaModal = this.document.getElementById('mediaModal');
@@ -341,6 +361,7 @@
       onToggleTheme = () => {},
       onToggleLanguage = () => {},
       onToggleSound = () => {},
+      onToggleVoice = () => {},
       onPreviousHostSkin = () => {},
       onNextHostSkin = () => {},
       onPreviousDialogueStyle = () => {},
@@ -372,6 +393,7 @@
       this.dom.menuTheme?.addEventListener('click', onToggleTheme);
       this.dom.menuLanguage?.addEventListener('click', onToggleLanguage);
       this.dom.menuSound?.addEventListener('click', onToggleSound);
+      this.dom.menuVoice?.addEventListener('click', () => onToggleVoice({ listen: false }));
       this.dom.menuScene?.addEventListener('click', onCycleScene);
       this.dom.scoreDrawer?.addEventListener('pointerenter', () => this.showScoreDrawer(0));
       this.dom.scoreDrawer?.addEventListener('pointerleave', () => this.hideScoreDrawer());
@@ -391,6 +413,7 @@
       this.dom.themeToggle?.addEventListener('click', onToggleTheme);
       this.dom.languageToggle?.addEventListener('click', onToggleLanguage);
       this.dom.soundToggle?.addEventListener('click', onToggleSound);
+      this.dom.voiceButton?.addEventListener('click', () => onToggleVoice({ listen: true }));
       this.dom.hostPrevButton?.addEventListener('click', onPreviousHostSkin);
       this.dom.hostNextButton?.addEventListener('click', onNextHostSkin);
       this.dom.dialogueStylePrev?.addEventListener('click', onPreviousDialogueStyle);
@@ -467,6 +490,8 @@
       this.setText(this.dom.checkButtonKicker, this.copy.checkButtonKicker);
       this.setText(this.dom.questionButtonKicker, this.copy.questionButtonKicker);
       this.setText(this.dom.answerButtonKicker, this.copy.answerButtonKicker);
+      this.setText(this.dom.menuVoiceLabel, this.copy.voiceMode);
+      this.setText(this.dom.voiceHelp, this.copy.voiceHelp);
       this.dom.userInput.placeholder = this.copy.inputPlaceholder;
       this.dom.userInput.setAttribute?.('aria-label', this.copy.inputPlaceholder);
       this.document.documentElement?.setAttribute?.('lang', this.copy.lang);
@@ -513,7 +538,7 @@
     }
 
     setText(el, text) {
-      el.textContent = text;
+      if (el) el.textContent = text;
     }
 
     setStatus(message) {
@@ -541,6 +566,44 @@
       this.dom.checkButton.disabled = !enabled;
       this.dom.answerButton.disabled = !enabled;
       this.dom.userInput.disabled = !enabled;
+    }
+
+    setVoiceState({
+      state = 'off',
+      enabled = false,
+      capabilities = {},
+      transcript = '',
+    } = {}) {
+      const available = Boolean(capabilities.narration || capabilities.recognition);
+      const labels = {
+        off: this.copy.voiceOff,
+        idle: capabilities.recognition ? this.copy.voiceReady : this.copy.voiceNarrationReady,
+        listening: transcript || this.copy.voiceListening,
+        speaking: this.copy.voiceSpeaking,
+        denied: this.copy.voiceDenied,
+        unavailable: this.copy.voiceUnavailable,
+        error: this.copy.voiceError,
+      };
+      const label = labels[state] || this.copy.voiceOff;
+
+      if (this.dom.gameContainer) this.dom.gameContainer.dataset.voiceState = state;
+      if (this.dom.voiceButton) {
+        this.dom.voiceButton.disabled = !capabilities.recognition;
+        this.dom.voiceButton.dataset.state = state;
+        this.dom.voiceButton.setAttribute('aria-pressed', String(state === 'listening'));
+        this.dom.voiceButton.setAttribute(
+          'aria-label',
+          !capabilities.recognition
+            ? this.copy.voiceUnavailable
+            : enabled ? label : `Enable ${this.copy.voiceMode.toLowerCase()}`,
+        );
+      }
+      this.setText(this.dom.voiceState, label);
+      if (this.dom.menuVoice) {
+        this.dom.menuVoice.disabled = !available;
+        this.dom.menuVoice.setAttribute('aria-pressed', String(enabled));
+      }
+      this.setText(this.dom.menuVoiceState, !available ? 'N/A' : enabled ? 'ON' : 'OFF');
     }
 
     setStudyAvailable(available) {
@@ -854,6 +917,11 @@
       return this.dom.userInput.value;
     }
 
+    setUserAnswer(value) {
+      this.dom.userInput.value = String(value || '');
+      this.dom.userInput.scrollLeft = this.dom.userInput.scrollWidth || 0;
+    }
+
     clearUserAnswer() {
       this.dom.userInput.value = '';
       this.dom.userInput.scrollLeft = 0;
@@ -918,10 +986,13 @@
     }
 
     renderEpisodeComplete(progress) {
+      const accuracy = progress.total > 0
+        ? Math.round((progress.counts.correct / progress.total) * 100)
+        : 0;
       this.setGameMoment('complete');
       this.setText(this.dom.categoryBox, this.copy.episodeComplete);
       this.clearMedia();
-      this.setQuestionText(`$${progress.score} final score · ${progress.counts.correct} correct`);
+      this.setQuestionText(`$${progress.score} final score · ${accuracy}% accuracy`);
       this.setText(
         this.dom.answerBox,
         `${progress.total} clues aired\n${progress.counts.incorrect} incorrect · ${progress.counts.revealed} revealed · ${progress.counts.skipped} skipped`,
@@ -1047,20 +1118,36 @@
     displayCorrectAnswerMessage(result) {
       const currentStreak = typeof result === 'number' ? result : result?.currentStreak || 0;
       const scoreDelta = typeof result === 'number' ? 0 : result?.scoreDelta || 0;
+      const correctAnswer = typeof result === 'object' ? result?.correctAnswer || '' : '';
+      const judgment = {
+        exact: this.copy.exactJudgment,
+        variation: this.copy.variationJudgment,
+        fuzzy: this.copy.fuzzyJudgment,
+      }[result?.answerMatch?.reason] || '';
       this.setGameMoment('correct');
       this.setText(this.dom.categoryBox, this.copy.correctKicker);
       this.clearMedia();
       this.setQuestionText(scoreDelta > 0 ? `${this.copy.correctMessage} +$${scoreDelta}` : this.copy.correctMessage);
-      this.setText(this.dom.answerBox, `${this.copy.correctAnswerStreak}: ${currentStreak}`);
+      this.setText(this.dom.answerBox, [
+        correctAnswer ? `${this.copy.correctResponseLabel} ${correctAnswer}` : '',
+        judgment,
+        `${this.copy.correctAnswerStreak}: ${currentStreak}`,
+      ].filter(Boolean).join('\n'));
       this.toggleAnswer(true);
     }
 
-    displayIncorrectAnswerMessage(correctAnswer) {
+    displayIncorrectAnswerMessage(result) {
+      const correctAnswer = typeof result === 'string' ? result : result?.correctAnswer || 'Unknown';
+      const submittedAnswer = typeof result === 'object' ? result?.submittedAnswer || '' : '';
       this.setGameMoment('incorrect');
       this.setText(this.dom.categoryBox, this.copy.incorrectKicker);
       this.clearMedia();
       this.setQuestionText(this.copy.incorrectMessage);
-      this.setText(this.dom.answerBox, `${this.copy.correctResponseLabel} ${correctAnswer}\n${this.copy.streakReset}`);
+      this.setText(this.dom.answerBox, [
+        submittedAnswer ? `${this.copy.yourResponseLabel} ${submittedAnswer}` : '',
+        `${this.copy.correctResponseLabel} ${correctAnswer}`,
+        this.copy.streakReset,
+      ].filter(Boolean).join('\n'));
       this.setStatus(this.copy.incorrectStatus);
       this.toggleAnswer(true);
     }

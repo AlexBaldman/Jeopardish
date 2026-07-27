@@ -51,6 +51,20 @@
       answer: '',
       phase: 'paused',
     }),
+    'voice-listening': Object.freeze({
+      category: 'Oddly Specific History',
+      value: '$800',
+      clue: 'This accidental invention began as a failed attempt to make a very strong adhesive.',
+      answer: '',
+      phase: 'answering',
+    }),
+    'voice-speaking': Object.freeze({
+      category: 'Oddly Specific History',
+      value: '$800',
+      clue: 'This accidental invention began as a failed attempt to make a very strong adhesive.',
+      answer: '',
+      phase: 'answering',
+    }),
   });
 
   function appendCategory(document, container, fixture) {
@@ -87,7 +101,10 @@
 
     document.documentElement.dataset.visualFixture = fixtureName;
     document.body.dataset.theme = theme;
-    container.dataset.gameMoment = fixtureName === 'menu' || fixtureName === 'scoreboard' ? 'clue' : fixtureName;
+    const voiceFixture = fixtureName.startsWith('voice-');
+    container.dataset.gameMoment = fixtureName === 'menu' || fixtureName === 'scoreboard' || voiceFixture
+      ? 'clue'
+      : fixtureName;
     container.dataset.roundPhase = fixture.phase;
     document.getElementById('speechBubble')?.setAttribute('data-dialogue-style', options.dialogue || 'clue-card');
     appendCategory(document, categoryBox, fixture);
@@ -95,6 +112,22 @@
     answerBox.textContent = fixture.answer;
     document.getElementById('clueOriginal')?.setAttribute('hidden', '');
     document.getElementById('clueMedia')?.replaceChildren();
+
+    const voiceState = voiceFixture ? fixtureName.replace('voice-', '') : 'idle';
+    const voiceButton = document.getElementById('voiceButton');
+    if (voiceButton) {
+      voiceButton.disabled = false;
+      voiceButton.dataset.state = voiceState;
+      voiceButton.setAttribute('aria-pressed', String(voiceState === 'listening'));
+    }
+    const voiceLabel = document.getElementById('voiceState');
+    if (voiceLabel) {
+      voiceLabel.textContent = voiceState === 'listening' ? 'Listening...' : voiceState === 'speaking' ? 'Xander speaking' : 'Tap to answer';
+    }
+    const menuVoice = document.getElementById('menuVoice');
+    menuVoice?.setAttribute('aria-pressed', String(voiceFixture));
+    const menuVoiceState = document.getElementById('menuVoiceState');
+    if (menuVoiceState) menuVoiceState.textContent = voiceFixture ? 'ON' : 'OFF';
 
     const menuOpen = fixtureName === 'menu';
     menu?.classList.toggle('active', menuOpen);

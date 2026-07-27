@@ -44,12 +44,17 @@ const cabinetContractIds = [
   'questionButton',
   'answerButton',
   'answerFieldLabel',
+  'voiceButton',
+  'voiceState',
+  'voiceHelp',
   'checkButtonKicker',
   'questionButtonKicker',
   'answerButtonKicker',
   'statusMessage',
   'deepDiveButton',
   'menuDeepDive',
+  'menuVoice',
+  'menuVoiceState',
   'studyPanel',
   'studyActions',
   'studyResponse',
@@ -155,6 +160,16 @@ test('both game shells load the Season Zero session runtime', () => {
     assert.match(html, /src="src\/session\/session-manager\.js/,
       `${surface} does not load the session manager`);
   }
+});
+
+test('both game shells load voice mode as an optional progressive enhancement', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /src="src\/voice\/voice-controller\.js/, `${surface} is missing voice control`);
+    assert.match(html, /id="voiceButton"/, `${surface} is missing push-to-talk`);
+    assert.match(html, /id="menuVoice"/, `${surface} is missing the voice setting`);
+  }
+  assert.match(controlStyles, /\.voice-button/);
+  assert.match(controlStyles, /@keyframes voice-listening/);
 });
 
 test('both game shells load the grounded study runtime and owned styles', () => {

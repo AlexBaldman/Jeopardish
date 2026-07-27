@@ -101,6 +101,9 @@ function createFakeDocument() {
     'menuTheme',
     'menuLanguage',
     'menuSound',
+    'menuVoice',
+    'menuVoiceLabel',
+    'menuVoiceState',
     'menuScene',
     'menuSceneLabel',
     'menuSceneIndex',
@@ -122,6 +125,9 @@ function createFakeDocument() {
     'languageToggleLabel',
     'soundToggle',
     'soundToggleLabel',
+    'voiceButton',
+    'voiceState',
+    'voiceHelp',
     'translationState',
     'translationStateLabel',
     'mediaModal',
@@ -188,6 +194,24 @@ test('Renderer renders scoreboard state', () => {
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, undefined);
 });
 
+test('Renderer presents voice capability and listening state without replacing answer input', () => {
+  const { renderer } = createRenderer();
+  renderer.setUserAnswer('Marie Curie');
+
+  renderer.setVoiceState({
+    state: 'listening',
+    enabled: true,
+    capabilities: { narration: true, recognition: true },
+    transcript: 'Who is Marie',
+  });
+
+  assert.equal(renderer.dom.userInput.value, 'Marie Curie');
+  assert.equal(renderer.dom.voiceState.textContent, 'Who is Marie');
+  assert.equal(renderer.dom.voiceButton.dataset.state, 'listening');
+  assert.equal(renderer.dom.voiceButton.attributes['aria-pressed'], 'true');
+  assert.equal(renderer.dom.menuVoiceState.textContent, 'ON');
+});
+
 test('Renderer renders episode progress and a completion artifact', () => {
   const { renderer } = createRenderer();
   const progress = {
@@ -206,6 +230,7 @@ test('Renderer renders episode progress and a completion artifact', () => {
   assert.equal(renderer.dom.hudEpisode.textContent, '10/10');
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'complete');
   assert.match(renderer.dom.clueText.textContent, /\$2400/);
+  assert.match(renderer.dom.clueText.textContent, /70% accuracy/);
   assert.equal(renderer.dom.questionButton.disabled, false);
   assert.equal(renderer.dom.answerButton.disabled, true);
   assert.equal(renderer.dom.questionButton.dataset.tooltip, 'Replay Episode');
@@ -298,6 +323,7 @@ test('Renderer binds UI events to callbacks', () => {
     onToggleTheme: () => calls.push('theme'),
     onToggleLanguage: () => calls.push('language'),
     onToggleSound: () => calls.push('sound'),
+    onToggleVoice: ({ listen }) => calls.push(listen ? 'voice-listen' : 'voice-menu'),
     onPreviousHostSkin: () => calls.push('host-prev'),
     onNextHostSkin: () => calls.push('host-next'),
     onPreviousDialogueStyle: () => calls.push('dialogue-prev'),
@@ -311,6 +337,8 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.themeToggle.listeners.click();
   renderer.dom.languageToggle.listeners.click();
   renderer.dom.soundToggle.listeners.click();
+  renderer.dom.menuVoice.listeners.click();
+  renderer.dom.voiceButton.listeners.click();
   renderer.dom.hostPrevButton.listeners.click();
   renderer.dom.hostNextButton.listeners.click();
   renderer.dom.dialogueStylePrev.listeners.click();
@@ -319,7 +347,22 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.userInput.listeners.keydown({ key: 'Enter' });
   renderer.dom.hamburgerMenu.listeners.click();
 
-  assert.deepEqual(calls, ['toggle', 'new', 'check', 'theme', 'language', 'sound', 'host-prev', 'host-next', 'dialogue-prev', 'dialogue-next', 'scene', 'check']);
+  assert.deepEqual(calls, [
+    'toggle',
+    'new',
+    'check',
+    'theme',
+    'language',
+    'sound',
+    'voice-menu',
+    'voice-listen',
+    'host-prev',
+    'host-next',
+    'dialogue-prev',
+    'dialogue-next',
+    'scene',
+    'check',
+  ]);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
   assert.equal(renderer.dom.hamburgerMenu.attributes['aria-expanded'], 'true');
 });
@@ -436,24 +479,32 @@ test('Renderer creates a scored correct-answer payoff state', () => {
   renderer.displayCorrectAnswerMessage({
     currentStreak: 3,
     scoreDelta: 800,
+    correctAnswer: 'Post-it Notes',
+    answerMatch: { reason: 'fuzzy' },
   });
 
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'correct');
   assert.equal(renderer.dom.categoryBox.textContent, 'Right on the Money');
   assert.equal(renderer.dom.clueText.textContent, 'Correct. +$800');
-  assert.equal(renderer.dom.answerBox.textContent, 'Answer streak: 3');
+  assert.equal(
+    renderer.dom.answerBox.textContent,
+    'Correct response: Post-it Notes\nMinor typo accepted\nAnswer streak: 3',
+  );
   assert.equal(renderer.dom.answerBox.style.display, 'flex');
 });
 
 test('Renderer creates an informative incorrect-answer payoff state', () => {
   const { renderer } = createRenderer();
 
-  renderer.displayIncorrectAnswerMessage('Uncle');
+  renderer.displayIncorrectAnswerMessage({
+    submittedAnswer: 'Cousin',
+    correctAnswer: 'Uncle',
+  });
 
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'incorrect');
   assert.equal(renderer.dom.categoryBox.textContent, 'The Judges Have Spoken');
   assert.equal(renderer.dom.clueText.textContent, 'Not quite.');
-  assert.equal(renderer.dom.answerBox.textContent, 'Correct response: Uncle\nSTREAK RESET!');
+  assert.equal(renderer.dom.answerBox.textContent, 'Your response: Cousin\nCorrect response: Uncle\nSTREAK RESET!');
   assert.equal(renderer.dom.answerBox.style.display, 'flex');
 });
 

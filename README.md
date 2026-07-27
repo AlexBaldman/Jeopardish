@@ -17,6 +17,18 @@ Jeopardish can provide that same comforting presence to future potential contest
 
 Users can practice for the show using the simple click of a button to randomly generate question/answer pairs from a database of questions from old episodes, like flash cards to help learn random facts from a plethora of historical categories from the show.
 
+## Voice Mode
+
+Voice mode is an optional progressive enhancement. Enable it from the game menu or press the microphone button in the control deck:
+
+- Xander narrates clues, results, reveals, study responses, and the episode summary.
+- Push to talk accepts natural responses such as `Who is Marie Curie?` through the same deterministic answer judge as typed input.
+- Supported commands include `next clue`, `reveal the answer`, `repeat the clue`, `lock it in`, `open menu`, `ask Xander`, and `turn voice mode off`.
+- English and Brazilian Portuguese recognition and narration follow the current game language.
+- If speech synthesis, speech recognition, or microphone permission is unavailable, every typed and keyboard control continues to work normally.
+
+Microphone recognition requires a secure browser context such as HTTPS or localhost. The microphone opens only after an explicit player action and closes after one response.
+
 
 
 ## Repo Operations (Production MVP Hardening)
@@ -55,7 +67,7 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm test
   ```
 
-- Open the deterministic visual-state workbench at `visual-fixtures.html`, or capture and geometry-check all 72 supported state, theme, and viewport combinations:
+- Open the deterministic visual-state workbench at `visual-fixtures.html`, or capture and geometry-check all 108 supported state, theme, and viewport combinations:
 
   ```bash
   npm run test:visual
