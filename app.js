@@ -534,6 +534,30 @@ function presentEpisodeComplete(progress) {
   ].filter(Boolean).join(' '));
 }
 
+function refreshLearningQueue() {
+  const progress = episodeController.getProgress();
+  if (progress.complete) renderer.setReviewQueueState(progress.learning);
+  return progress;
+}
+
+async function openSavedReview() {
+  const context = episodeController.getNextReviewContext();
+  if (!context) {
+    renderer.setReviewQueueState(episodeController.getProgress().learning);
+    return false;
+  }
+  const displayClue = await translateClueForDisplay(
+    context.sourceClue,
+    undefined,
+    { showLoading: false },
+  );
+  return studyController.enter({
+    ...context,
+    displayClue: displayClue || context.sourceClue,
+    locale: preferenceStore.get('language'),
+  });
+}
+
 function presentEpisodeLoaded({ sourceCount, fallback = false } = {}) {
   const gameState = gameEngine.getState();
   state.bestStreak = Math.max(state.bestStreak, gameState.bestStreak || 0);
@@ -548,12 +572,12 @@ function presentEpisodeError(error) {
   renderer.displayErrorJoke(jeopardyErrors);
 }
 
-async function translateClueForDisplay(clue, signal) {
+async function translateClueForDisplay(clue, signal, { showLoading = true } = {}) {
   if (preferenceStore.get('language') !== 'pt-BR') {
     return clue;
   }
 
-  renderer.showTranslationLoading();
+  if (showLoading) renderer.showTranslationLoading();
   const sourceContent = getSourceClueContent(clue);
   try {
     const translated = await translationService.translateClue(clue, {
@@ -798,8 +822,12 @@ function createInputHandlers() {
     [InputCommands.NEXT_DIALOGUE]: () => cycleDialogueStyle(1),
     [InputCommands.CYCLE_SCENE]: cycleScenePack,
     [InputCommands.ENTER_STUDY]: () => studyController.enter(),
+    [InputCommands.REVIEW_SAVED_CLUES]: openSavedReview,
     [InputCommands.SELECT_STUDY_ACTION]: ({ actionId }) => (
       studyController.selectAction(actionId)
+    ),
+    [InputCommands.SUBMIT_REINFORCEMENT]: ({ answer }) => (
+      studyController.submitReinforcement(answer)
     ),
     [InputCommands.EXIT_STUDY]: () => studyController.exit(),
     [InputCommands.SET_CONFIDENCE]: setOutcomeConfidence,
@@ -894,6 +922,7 @@ function createCompositionOptions() {
       revealAnswer: showHideAnswer,
       renderHost,
       speak: speakHost,
+      onLearningProgress: refreshLearningQueue,
     },
     inputOptions: {
       isAdvanceReady: () => roundKernel.isAdvanceReady(),

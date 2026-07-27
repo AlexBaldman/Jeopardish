@@ -220,13 +220,20 @@ async function runEpisodeProof(browser, browserName) {
       && document.getElementById('studyPanel')?.hidden === false
     ));
     assert.equal(await page.locator('#studySources a').count(), 1);
-    await page.locator('#studyActions button').first().click();
-    assert.ok((await page.locator('#studyResponse').innerText()).length > 30);
+    await page.locator('[data-study-action="quiz"]').click();
+    assert.match(await page.locator('#studyReinforcementPrompt').innerText(), /Which character/i);
+    await page.locator('#studyReinforcementInput').fill('Marcellus');
+    await page.locator('#studyReinforcementCheck').click();
+    await page.waitForFunction(() => (
+      document.getElementById('studyReinforcementResult')?.dataset.state === 'correct'
+    ));
+    const scoreBeforeStudyResume = await page.locator('#hudScore').innerText();
     await page.locator('#studyResume').click();
     await page.waitForFunction(() => (
       document.getElementById('gameContainer')?.dataset.roundPhase === 'advance-ready'
       && document.getElementById('studyPanel')?.hidden === true
     ));
+    assert.equal(await page.locator('#hudScore').innerText(), scoreBeforeStudyResume);
 
     await advance(page, clueIds[5]);
     await page.locator('#languageToggle').click();
@@ -296,6 +303,48 @@ async function runEpisodeProof(browser, browserName) {
     ));
     assert.match(await page.locator('#questionBox').innerText(), /BROADCAST O/);
     assert.match(await page.locator('#answerBox').innerText(), /10 clues aired/);
+    assert.equal(
+      (await page.locator('#reviewQueueButton').innerText()).toLowerCase(),
+      'review 2 saved clues',
+    );
+
+    await page.locator('#reviewQueueButton').click();
+    await page.waitForFunction(() => (
+      document.getElementById('studyPanel')?.hidden === false
+    ));
+    await page.locator('[data-study-action="quiz"]').click();
+    assert.match(await page.locator('#studyReinforcementPrompt').innerText(), /earlier Apollo mission/i);
+    await page.locator('#studyReinforcementInput').fill('Apollo 8');
+    await page.locator('#studyReinforcementCheck').click();
+    await page.waitForFunction(() => (
+      document.getElementById('studyReinforcementResult')?.dataset.state === 'correct'
+    ));
+    await page.locator('#studyResume').click();
+    await page.waitForFunction(() => (
+      document.getElementById('studyPanel')?.hidden === true
+    ));
+    assert.equal(
+      (await page.locator('#reviewQueueButton').innerText()).toLowerCase(),
+      'review 1 saved clue',
+    );
+
+    await page.locator('#reviewQueueButton').click();
+    await page.waitForFunction(() => (
+      document.getElementById('studyPanel')?.hidden === false
+    ));
+    await page.locator('[data-study-action="quiz"]').click();
+    assert.match(await page.locator('#studyReinforcementPrompt').innerText(), /direction should a swimmer/i);
+    await page.locator('#studyReinforcementInput').fill('parallel to shore');
+    await page.locator('#studyReinforcementCheck').click();
+    await page.waitForFunction(() => (
+      document.getElementById('studyReinforcementResult')?.dataset.state === 'correct'
+    ));
+    await page.locator('#studyResume').click();
+    await page.waitForFunction(() => (
+      document.getElementById('studyPanel')?.hidden === true
+    ));
+    assert.equal(await page.locator('#reviewQueueButton').isHidden(), true);
+    assert.match(await page.locator('#reviewQueueStatus').innerText(), /review queue clear/);
 
     await page.locator('#questionButton').click();
     await waitForClue(page, clueIds[0]);

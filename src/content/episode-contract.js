@@ -148,7 +148,7 @@
       media,
       difficulty,
       tags: normalizeTextArray(input.tags),
-      learning: normalizeLearning(input.learning),
+      learning: normalizeLearning(input.learning, path, issues, { requireReviewed }),
       performance: normalizeObject(input.performance),
       provenance: normalizeObject(input.provenance),
     };
@@ -269,13 +269,71 @@
     };
   }
 
-  function normalizeLearning(learning) {
+  function normalizeLearning(learning, path = 'clue', issues = [], { requireReviewed = false } = {}) {
     if (!learning || typeof learning !== 'object' || Array.isArray(learning)) {
-      return { backstory: '', connections: [] };
+      if (requireReviewed) issues.push(`${path}.learning.reinforcement is required`);
+      return { backstory: '', connections: [], reinforcement: null };
+    }
+    const reinforcement = normalizeReinforcement(
+      learning.reinforcement,
+      path,
+      issues,
+      { requireLocalized: requireReviewed },
+    );
+    if (requireReviewed && !reinforcement) {
+      issues.push(`${path}.learning.reinforcement is required`);
     }
     return {
       backstory: cleanText(learning.backstory),
       connections: normalizeTextArray(learning.connections),
+      reinforcement,
+    };
+  }
+
+  function normalizeReinforcement(
+    reinforcement,
+    path,
+    issues,
+    { requireLocalized = false } = {},
+  ) {
+    if (reinforcement == null) return null;
+    if (typeof reinforcement !== 'object' || Array.isArray(reinforcement)) {
+      issues.push(`${path}.learning.reinforcement must be an object`);
+      return null;
+    }
+    const prompt = cleanText(reinforcement.prompt);
+    const answer = cleanText(reinforcement.answer);
+    const explanation = cleanText(reinforcement.explanation);
+    if (!prompt) issues.push(`${path}.learning.reinforcement.prompt is required`);
+    if (!answer) issues.push(`${path}.learning.reinforcement.answer is required`);
+    if (!explanation) issues.push(`${path}.learning.reinforcement.explanation is required`);
+    if (requireLocalized && !cleanText(reinforcement.promptPt)) {
+      issues.push(`${path}.learning.reinforcement.promptPt is required`);
+    }
+    if (requireLocalized && !cleanText(reinforcement.answerPt)) {
+      issues.push(`${path}.learning.reinforcement.answerPt is required`);
+    }
+    if (requireLocalized && !cleanText(reinforcement.explanationPt)) {
+      issues.push(`${path}.learning.reinforcement.explanationPt is required`);
+    }
+    if (reinforcement.acceptedAnswers != null && !Array.isArray(reinforcement.acceptedAnswers)) {
+      issues.push(`${path}.learning.reinforcement.acceptedAnswers must be an array`);
+    }
+    if (
+      reinforcement.acceptedAnswersPt != null
+      && !Array.isArray(reinforcement.acceptedAnswersPt)
+    ) {
+      issues.push(`${path}.learning.reinforcement.acceptedAnswersPt must be an array`);
+    }
+    return {
+      prompt,
+      answer,
+      acceptedAnswers: normalizeTextArray(reinforcement.acceptedAnswers),
+      explanation,
+      promptPt: cleanText(reinforcement.promptPt),
+      answerPt: cleanText(reinforcement.answerPt),
+      acceptedAnswersPt: normalizeTextArray(reinforcement.acceptedAnswersPt),
+      explanationPt: cleanText(reinforcement.explanationPt),
     };
   }
 

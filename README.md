@@ -22,6 +22,7 @@ an Accident** from `questions/episodes/season-zero-001.json`:
 - deterministic exact, variation, and typo-tolerant answer judgment;
 - `knew it`, `shaky`, and `learned it` confidence plus a dispute path;
 - revision-safe local resume, missed/revealed/shaky review queues, and replay;
+- bilingual memory rematches backed by a private local learning ledger;
 - a finale artifact decoded from the clue order;
 - automatic fallback to the compact archive bank only when episode transport
   fails.
@@ -34,9 +35,23 @@ The content format and editorial workflow are documented in
 `ProductTelemetry` observes the existing event bus through a no-op sink by
 default, so this build sends and stores no analytics. A future approved sink can
 receive only versioned aggregate facts for activation, completion, disputes,
-Study enter/resume, replay, and bounded failures. Player answers, clue text,
-transcripts, URLs, titles, and error messages are excluded at the adapter
-boundary and covered by tests.
+Study enter/resume, reinforcement outcomes, replay, and bounded failures.
+Player answers, clue text, reinforcement responses, transcripts, URLs, titles,
+and error messages are excluded at the adapter boundary and covered by tests.
+
+## Learning Return Loop
+
+Ask Xander now leads somewhere. Opening a reviewed clue in Study mode saves that
+clue to a versioned, local-only learning ledger. Its Memory Rematch reuses the
+same typo-tolerant judge as the main game and accepts the reviewed English and
+Brazilian Portuguese answer aliases.
+
+At episode completion, **Review saved clues** opens the remaining rematches in
+the Study panel. Correct retrieval clears each item from that episode's queue;
+an incorrect attempt keeps it available. Review attempts never change score,
+streak, episode outcome, or round position, and leaving Study restores the exact
+broadcast state that was paused. The ledger contains stable episode/clue IDs and
+aggregate learning counts only, not player responses or clue text.
 
 ## Overview
 
@@ -100,9 +115,9 @@ This repo now includes lightweight operations scripts so you can execute the bra
   ```
 
 - Open the deterministic visual-state workbench at `visual-fixtures.html`, or
-  capture and geometry-check all 168 supported state, theme, and viewport
+  capture and geometry-check all 180 supported state, theme, and viewport
   combinations. The matrix includes clue, result, confidence, translation,
-  menu, scoreboard, Study, media, finale, and voice states:
+  menu, scoreboard, Study, reinforcement, media, finale, and voice states:
 
   ```bash
   npm run test:visual

@@ -5,7 +5,7 @@
   "locale": "en",
   "kind": "authored",
   "sequenceMode": "authored-order",
-  "contentRevision": 1,
+  "contentRevision": 2,
   "reviewStatus": "reviewed",
   "episodeLength": 10,
   "description": "A ten-clue pilot broadcast that introduces the learning loop, Xander's suspicious station, and one extra letter that refuses to explain itself.",
@@ -44,7 +44,17 @@
         "connections": [
           "Think of each cell as a six-bit physical code: each dot position is either raised or flat.",
           "The 63 nonblank patterns come from the 64 possible on-off combinations of six positions, minus the all-flat cell."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "How many nonblank patterns can a six-dot braille cell produce?",
+          "answer": "63",
+          "acceptedAnswers": ["sixty-three", "63 patterns"],
+          "explanation": "Six on-off positions create 64 combinations; removing the all-flat cell leaves 63 nonblank patterns.",
+          "promptPt": "Quantos padrões não vazios uma célula braille de seis pontos pode produzir?",
+          "answerPt": "63",
+          "acceptedAnswersPt": ["sessenta e três", "63 padrões"],
+          "explanationPt": "Seis posições ligadas ou desligadas criam 64 combinações; sem a célula totalmente plana, restam 63 padrões não vazios."
+        }
       },
       "performance": {
         "act": 1,
@@ -75,7 +85,17 @@
         "connections": [
           "Picture a moving walkway aimed offshore: crossing it sideways is usually easier than running directly against it.",
           "This is practical beach knowledge, not merely a fact for converting panic into points."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "Which direction should a swimmer move to escape a rip current?",
+          "answer": "Parallel to shore",
+          "acceptedAnswers": ["parallel to the beach", "sideways across the current"],
+          "explanation": "Moving parallel to shore crosses the narrow current instead of exhausting the swimmer by fighting directly against it.",
+          "promptPt": "Em que direção um nadador deve se mover para escapar de uma corrente de retorno?",
+          "answerPt": "Paralelo à praia",
+          "acceptedAnswersPt": ["paralelamente à costa", "de lado atravessando a corrente"],
+          "explanationPt": "Mover-se paralelamente à praia atravessa a corrente estreita sem esgotar o nadador lutando diretamente contra ela."
+        }
       },
       "performance": {
         "act": 1,
@@ -106,7 +126,17 @@
         "connections": [
           "Ordinary oxygen gas is O2; ozone adds one more oxygen atom to make O3.",
           "The stratospheric ozone layer works like part of Earth's ultraviolet filter."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "How many oxygen atoms are in one ozone molecule?",
+          "answer": "Three",
+          "acceptedAnswers": ["3", "three oxygen atoms"],
+          "explanation": "Ozone is O3: one molecule contains three oxygen atoms.",
+          "promptPt": "Quantos átomos de oxigênio existem em uma molécula de ozônio?",
+          "answerPt": "Três",
+          "acceptedAnswersPt": ["3", "três átomos de oxigênio"],
+          "explanationPt": "O ozônio é O3: uma molécula contém três átomos de oxigênio."
+        }
       },
       "performance": {
         "act": 1,
@@ -137,7 +167,17 @@
         "connections": [
           "Apollo 11 was the landing mission; Apollo 8 had previously carried humans around the Moon without landing.",
           "Michael Collins piloted the command module Columbia while Armstrong and Aldrin explored the surface."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "Which earlier Apollo mission carried humans around the Moon without landing?",
+          "answer": "Apollo 8",
+          "acceptedAnswers": ["Apollo Eight", "the Apollo 8 mission"],
+          "explanation": "Apollo 8 orbited the Moon in 1968; Apollo 11 made the first crewed landing the following year.",
+          "promptPt": "Qual missão Apollo anterior levou humanos ao redor da Lua sem pousar?",
+          "answerPt": "Apollo 8",
+          "acceptedAnswersPt": ["Apollo Oito", "a missão Apollo 8"],
+          "explanationPt": "A Apollo 8 orbitou a Lua em 1968; a Apollo 11 realizou o primeiro pouso tripulado no ano seguinte."
+        }
       },
       "performance": {
         "act": 2,
@@ -168,7 +208,17 @@
         "connections": [
           "Hamlet is Prince of Denmark, and the play opens with guards encountering the ghost of his father.",
           "Marcellus speaks the line, not Hamlet, a detail that catches many otherwise confident memories."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "Which character says that something is rotten in the state of Denmark?",
+          "answer": "Marcellus",
+          "acceptedAnswers": ["Marcellus says it"],
+          "explanation": "Marcellus speaks the famous line after Hamlet follows the ghost.",
+          "promptPt": "Qual personagem diz que há algo de podre no reino da Dinamarca?",
+          "answerPt": "Marcellus",
+          "acceptedAnswersPt": ["Marcelo", "Marcellus diz isso"],
+          "explanationPt": "Marcellus pronuncia a famosa frase depois que Hamlet segue o fantasma."
+        }
       },
       "performance": {
         "act": 2,
@@ -199,7 +249,17 @@
         "connections": [
           "Canada touches three oceans: Atlantic, Pacific, and Arctic.",
           "Its many Arctic islands dramatically increase the total shore length."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "How many oceans touch Canada?",
+          "answer": "Three",
+          "acceptedAnswers": ["3", "three oceans"],
+          "explanation": "Canada borders the Atlantic, Pacific, and Arctic oceans.",
+          "promptPt": "Quantos oceanos banham o Canadá?",
+          "answerPt": "Três",
+          "acceptedAnswersPt": ["3", "três oceanos"],
+          "explanationPt": "O Canadá faz fronteira com os oceanos Atlântico, Pacífico e Ártico."
+        }
       },
       "performance": {
         "act": 2,
@@ -230,7 +290,17 @@
         "connections": [
           "The Analytical Engine was mechanical and never completed in Babbage's lifetime, but its design included concepts recognizable as memory and processing.",
           "The modern programming language Ada was named in her honor."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "For which proposed machine did Ada Lovelace write her famous notes?",
+          "answer": "Analytical Engine",
+          "acceptedAnswers": ["Babbage's Analytical Engine", "the Analytical Engine"],
+          "explanation": "Lovelace's notes described operations for Charles Babbage's proposed Analytical Engine.",
+          "promptPt": "Para qual máquina proposta Ada Lovelace escreveu suas famosas notas?",
+          "answerPt": "Máquina Analítica",
+          "acceptedAnswersPt": ["a Máquina Analítica de Babbage", "Analytical Engine"],
+          "explanationPt": "As notas de Lovelace descreviam operações para a Máquina Analítica proposta por Charles Babbage."
+        }
       },
       "performance": {
         "act": 3,
@@ -268,7 +338,17 @@
         "connections": [
           "Density compares mass with volume; a huge planet can still have low average density.",
           "Saturn is not the only planet with rings, but its ring system is the most extensive and visible."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "Which physical property of Saturn is lower than that of liquid water?",
+          "answer": "Average density",
+          "acceptedAnswers": ["density", "its average density"],
+          "explanation": "Saturn's mass spread across its enormous volume gives it an average density below that of water.",
+          "promptPt": "Qual propriedade física de Saturno é menor que a da água líquida?",
+          "answerPt": "Densidade média",
+          "acceptedAnswersPt": ["densidade", "sua densidade média"],
+          "explanationPt": "A massa de Saturno distribuída por seu enorme volume produz uma densidade média menor que a da água."
+        }
       },
       "performance": {
         "act": 3,
@@ -299,7 +379,17 @@
         "connections": [
           "Union Pacific built westward; Central Pacific built eastward.",
           "The ceremonial spike represented connection, but the history of the line includes costs that a victory photograph does not show."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "Which railroad built eastward toward Promontory Summit?",
+          "answer": "Central Pacific",
+          "acceptedAnswers": ["Central Pacific Railroad", "the Central Pacific"],
+          "explanation": "Central Pacific built eastward from California while Union Pacific built westward.",
+          "promptPt": "Qual ferrovia avançou para o leste em direção a Promontory Summit?",
+          "answerPt": "Central Pacific",
+          "acceptedAnswersPt": ["Central Pacific Railroad", "a Central Pacific"],
+          "explanationPt": "A Central Pacific avançou para o leste a partir da Califórnia, enquanto a Union Pacific avançou para o oeste."
+        }
       },
       "performance": {
         "act": 3,
@@ -330,7 +420,17 @@
         "connections": [
           "The ocean shapes weather and climate by storing and moving immense amounts of heat.",
           "The final response contributes one more O to a pattern the host has been avoiding."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "About what percentage of Earth's surface does the ocean cover?",
+          "answer": "71 percent",
+          "acceptedAnswers": ["71%", "roughly 71 percent", "about seventy-one percent"],
+          "explanation": "The connected global ocean covers roughly 71 percent of Earth's surface.",
+          "promptPt": "Aproximadamente que porcentagem da superfície da Terra é coberta pelo oceano?",
+          "answerPt": "71 por cento",
+          "acceptedAnswersPt": ["71%", "aproximadamente 71 por cento", "cerca de setenta e um por cento"],
+          "explanationPt": "O oceano global conectado cobre aproximadamente 71 por cento da superfície da Terra."
+        }
       },
       "performance": {
         "act": 3,
@@ -362,7 +462,17 @@
         "connections": [
           "Sodium chloride is ordinary table salt, but elemental sodium is a reactive metal.",
           "This clue is the reviewed standby for the Saturn media position, preserving the episode's S signal if the image cannot air."
-        ]
+        ],
+        "reinforcement": {
+          "prompt": "What familiar substance is the compound sodium chloride?",
+          "answer": "Table salt",
+          "acceptedAnswers": ["salt", "ordinary salt"],
+          "explanation": "Sodium chloride is ordinary table salt, unlike highly reactive elemental sodium.",
+          "promptPt": "Que substância conhecida é o composto cloreto de sódio?",
+          "answerPt": "Sal de cozinha",
+          "acceptedAnswersPt": ["sal", "sal comum"],
+          "explanationPt": "O cloreto de sódio é o sal de cozinha comum, diferente do sódio elementar altamente reativo."
+        }
       },
       "performance": {
         "act": 3,

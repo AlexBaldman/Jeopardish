@@ -101,6 +101,13 @@
       answer: '',
       phase: 'paused',
     }),
+    reinforcement: Object.freeze({
+      category: 'Rotten Geography',
+      value: '$600',
+      clue: 'In Shakespeare’s Hamlet, Marcellus locates a famous odor of political corruption in this kingdom.',
+      answer: '',
+      phase: 'paused',
+    }),
     'voice-listening': Object.freeze({
       category: 'Oddly Specific History',
       value: '$800',
@@ -168,6 +175,10 @@
 
     if (!container || !categoryBox || !clueText || !answerBox) return false;
 
+    document.activeElement?.blur?.();
+    document.defaultView?.scrollTo?.(0, 0);
+    const studyScroll = document.querySelector('.study-scroll');
+    if (studyScroll) studyScroll.scrollTop = 0;
     document.documentElement.dataset.visualFixture = fixtureName;
     document.body.dataset.theme = theme;
     const voiceFixture = fixtureName.startsWith('voice-');
@@ -261,18 +272,37 @@
       score.setAttribute('aria-pressed', String(scoreOpen));
     }
 
-    const studyOpen = fixtureName === 'study';
+    const studyOpen = fixtureName === 'study' || fixtureName === 'reinforcement';
     if (study) {
       study.hidden = !studyOpen;
       study.setAttribute('aria-hidden', String(!studyOpen));
+      study.classList.toggle('reinforcement-active', fixtureName === 'reinforcement');
     }
     document.getElementById('gameContainer')?.classList.toggle('study-open', studyOpen);
     if (studyOpen) {
       document.getElementById('studyGrounding').textContent = 'Archive text only';
       document.getElementById('studyCategory').textContent = fixture.category;
       document.getElementById('studyQuestion').textContent = fixture.clue;
-      document.getElementById('studyAnswer').textContent = 'What are Post-it Notes?';
+      document.getElementById('studyAnswer').textContent = fixtureName === 'reinforcement'
+        ? 'Denmark'
+        : 'What are Post-it Notes?';
       document.getElementById('studyResponse').textContent = 'The canonical response is protected while we take this useful little detour.';
+      const reinforcement = document.getElementById('studyReinforcement');
+      if (reinforcement) reinforcement.hidden = fixtureName !== 'reinforcement';
+      if (fixtureName === 'reinforcement') {
+        document.getElementById('studyGrounding').textContent = 'Reviewed sources attached';
+        document.getElementById('studyReinforcementPrompt').textContent = 'Which character says that something is rotten in the state of Denmark?';
+        document.getElementById('studyReinforcementInput').value = 'Marcell';
+        document.getElementById('studyReinforcementResult').textContent = 'Not quite. The answer is “Marcellus.” He speaks the famous line after Hamlet follows the ghost.';
+        document.getElementById('studyReinforcementResult').dataset.state = 'incorrect';
+        studyScroll.scrollTop = studyScroll.scrollHeight;
+      }
+    }
+
+    const reviewButton = document.getElementById('reviewQueueButton');
+    if (reviewButton) {
+      reviewButton.hidden = fixtureName !== 'complete';
+      reviewButton.textContent = 'Review 2 saved clues';
     }
 
     const scoreValue = document.getElementById('hudScore');

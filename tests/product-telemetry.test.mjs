@@ -61,6 +61,15 @@ test('ProductTelemetry maps learning and completion facts without content payloa
     clueId: 'hidden-clue',
     scoreIntegrity: true,
   });
+  eventBus.emit(GameEvents.STUDY_REINFORCEMENT_ANSWERED, {
+    clueId: 'hidden-clue',
+    answer: 'private learning answer',
+    correct: true,
+    reason: 'exact',
+    mastery: 'reinforced',
+    grounding: 'reviewed',
+    attemptCount: 1,
+  });
   eventBus.emit(GameEvents.SESSION_RESULT_ANNOTATED, {
     clueId: 'hidden-clue',
     confidence: 'shaky',
@@ -78,10 +87,12 @@ test('ProductTelemetry maps learning and completion facts without content payloa
   assert.deepEqual(sink.events.map(({ name }) => name), [
     ProductEventNames.STUDY_ENTERED,
     ProductEventNames.STUDY_RESUMED,
+    ProductEventNames.REINFORCEMENT_ANSWERED,
     ProductEventNames.JUDGMENT_DISPUTED,
     ProductEventNames.EPISODE_COMPLETED,
   ]);
   assert.doesNotMatch(JSON.stringify(sink.events), /hidden|shaky|episodeId|clueId/);
+  assert.doesNotMatch(JSON.stringify(sink.events), /private learning answer/);
   assert.deepEqual(sink.events.at(-1).properties, {
     total: 10,
     correct: 7,

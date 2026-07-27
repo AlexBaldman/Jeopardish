@@ -28,6 +28,31 @@
         background: var(--neon-yellow);
     }
 
+    .game-container .review-queue-trigger {
+        position: absolute;
+        right: clamp(0.8rem, 2vw, 1.4rem);
+        bottom: clamp(0.65rem, 1.5vw, 1rem);
+        z-index: 4;
+        padding: 0.7rem 0.95rem;
+        border: 3px solid var(--ink);
+        border-radius: 9px;
+        color: var(--ink);
+        background: var(--neon-yellow);
+        box-shadow: 4px 4px 0 var(--neon-cyan);
+        cursor: pointer;
+        font: 900 0.72rem/1.1 var(--pixel-font);
+        letter-spacing: 0.035em;
+        text-transform: uppercase;
+    }
+
+    .game-container .review-queue-trigger[hidden] {
+        display: none;
+    }
+
+    .game-container[data-game-moment="complete"] .deep-dive-trigger {
+        display: none;
+    }
+
     .game-container .study-panel {
         position: absolute;
         top: var(--jp-header-height);
@@ -192,6 +217,76 @@
         line-height: 1.5;
     }
 
+    .game-container .study-reinforcement {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 1rem;
+        padding: 0.9rem;
+        border: 3px solid var(--neon-cyan);
+        border-radius: 12px;
+        background: rgba(5, 17, 31, 0.72);
+        box-shadow: 5px 5px 0 rgba(255, 139, 216, 0.6);
+    }
+
+    .game-container .study-reinforcement[hidden] {
+        display: none;
+    }
+
+    .game-container .study-panel.reinforcement-active .study-sources,
+    .game-container .study-panel.reinforcement-active .study-answer,
+    .game-container .study-panel.reinforcement-active .study-actions,
+    .game-container .study-panel.reinforcement-active .study-response {
+        display: none;
+    }
+
+    .game-container .study-reinforcement small {
+        color: var(--neon-yellow);
+        font: 700 0.62rem/1.2 var(--pixel-font);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .game-container .study-reinforcement p {
+        margin: 0;
+        line-height: 1.45;
+    }
+
+    .game-container .study-reinforcement form {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.55rem;
+    }
+
+    .game-container .study-reinforcement input {
+        min-width: 0;
+        min-height: 2.8rem;
+        padding: 0.55rem 0.7rem;
+        border: 2px solid var(--ink);
+        border-radius: 8px;
+        color: var(--ink);
+        background: #fffdf4;
+        font: 700 0.95rem/1.2 var(--utility-font);
+    }
+
+    .game-container .study-reinforcement button {
+        min-height: 2.8rem;
+        padding: 0.55rem 0.7rem;
+        border: 2px solid var(--ink);
+        border-radius: 8px;
+        color: var(--ink);
+        background: var(--neon-cyan);
+        cursor: pointer;
+        font-weight: 900;
+    }
+
+    .game-container #studyReinforcementResult[data-state="correct"] {
+        color: #83f5a4;
+    }
+
+    .game-container #studyReinforcementResult[data-state="incorrect"] {
+        color: #ffb1dc;
+    }
+
     .game-container .study-resume {
         margin: 0.85rem 1.1rem 1rem;
         padding: 0.8rem;
@@ -237,6 +332,19 @@
         .game-container .deep-dive-trigger {
             padding: 0.4rem;
             font-size: 0;
+        }
+
+        .game-container .review-queue-trigger {
+            max-width: 42%;
+            font-size: 0.6rem;
+        }
+
+        .game-container .study-reinforcement form {
+            grid-template-columns: 1fr;
+        }
+
+        .game-container .study-panel.reinforcement-active .study-scroll {
+            padding: 0.85rem;
         }
     }
 }

@@ -38,8 +38,8 @@ Optimal Prime is the convergence of those truths.
 The convergence runtime now has a real authored Season Zero path, not merely a
 roadmap for one:
 
-- 179 automated tests pass.
-- The CSS audit reports 4,639 lines, 658 selector rules, five `!important`
+- 189 automated tests pass.
+- The CSS audit reports 4,747 lines, 677 selector rules, five `!important`
   declarations, and zero duplicate selectors.
 - The question validator covers 216,930 archive clues, the 10,000-clue runtime
   bank, and an eleven-clue reviewed episode pack.
@@ -52,37 +52,42 @@ roadmap for one:
 - `RoundKernel`, `CluePipeline`, `EpisodeController`, `StudyController`,
   `InputController`, `PreferenceStore`, and `ApplicationComposition` now own the
   critical workflows that previously competed inside `app.js`.
-- `ProductTelemetry` converts seven approved event facts into versioned,
+- `ProductTelemetry` converts eight approved event facts into versioned,
   content-free product events and uses a no-op sink by default; player answers,
-  clue text, transcripts, URLs, titles, and error messages never enter its
-  payloads.
+  clue text, reinforcement responses, transcripts, URLs, titles, and error
+  messages never enter its payloads.
+- `LearningLedger` persists local-only Study and retrieval evidence without
+  coupling mastery to score, streak, round phase, or the episode session.
 
 The convergence baseline is now verified:
 
-- `npm run verify` passes 171 unit and contract tests, content validation, CSS
+- `npm run verify` passes 189 unit and contract tests, content validation, CSS
   and asset audits, the static build, and the production artifact audit;
 - production smoke passes in Chromium and WebKit for the landing page, standalone
   game, and Creative Room;
 - the full Season Zero production proof passes in Chromium and WebKit across
   exact, alias, fuzzy, incorrect, reveal, confidence, dispute, translated-answer,
-  refresh-resume, sourced Study, media viewer, finale, replay, voice fallback,
-  and forced media-standby paths;
+  refresh-resume, sourced Study, bilingual memory reinforcement, completion
+  review queue, media viewer, finale, replay, voice fallback, and forced
+  media-standby paths;
 - cold first-party transfer is 6.01 MB or less in Chromium and 5.34 MB or less
   for the standalone game in either engine;
 - the smoke exercises theme switching, menu focus behavior, an authored correct
   answer with score change, and the protected Study pause/resume path.
-- the responsive visual gate captures 168 deterministic combinations across six
-  viewport families, two themes, and fourteen gameplay states, including
-  confidence, translation, media, Study, voice, and finale;
-- production accessibility audits pass in Chromium and WebKit across landing,
-  Creative Room, and eight critical game states at desktop and phone widths.
+- the responsive visual gate captures 180 deterministic combinations across six
+  viewport families, two themes, and fifteen gameplay states, including
+  confidence, translation, media, Study, reinforcement, voice, and finale;
+- the established production accessibility baseline passes in Chromium and
+  WebKit across landing, Creative Room, and eight critical game states at
+  desktop and phone widths. Reinforcement is now part of the audit matrix; its
+  expanded cross-engine rerun remains a release check.
 
 It is a trustworthy checkpoint, not yet a release candidate:
 
-- `app.js` remains 935 lines and `Renderer` remains 1,255 lines;
+- `app.js` remains 964 lines and `Renderer` remains 1,344 lines;
 - 200% zoom and real-device screen-reader passes remain manual release checks;
-- confidence and review queues exist, but there is no player-level due-date
-  scheduler or daily return flow;
+- the Season Zero learning ledger and completion review queue exist, but there
+  is no due-date scheduler, daily entry flow, or cross-episode curriculum yet;
 - host performance remains mostly provisional and public release still requires
   an original identity, rights review, and production-ready assets.
 
@@ -113,6 +118,7 @@ become episode rules and scene packs after that loop earns completion and return
 | Legal round phase and presentation transaction | `RoundKernel` |
 | Episode source, current clue, completion, restart | `EpisodeController` |
 | Episode order, outcome history, review queues, resume | `SessionManager` |
+| Local Study and retrieval mastery | `LearningLedger` |
 | Canonical clue content | `EpisodeContract` validated pack |
 | DOM presentation | Renderer and component owners |
 | Host expression and skin | Host performance layer |
@@ -482,21 +488,33 @@ PROOF_BROWSERS=chromium,webkit npm run test:episode
 
 ### Domino 2: Learning Return Loop
 
+**Status: complete for the Season Zero vertical slice**
+
 **Why third:** the existing confidence and review data makes this a relatively
 small step with direct learning and retention value.
 
-1. Add a versioned local `PlayerProfile`.
-2. Convert missed, revealed, and shaky queues into transparent review due dates.
-3. Add a short “review three” entry path and persist artifact ownership and
-   episode history.
-4. Finish the finale receipt with future reviews and a spoiler-safe result card.
+1. [x] Add a versioned local `LearningLedger` containing stable IDs and aggregate
+   learning evidence, never player responses or clue content.
+2. [x] Require reviewed bilingual memory prompts and reuse the deterministic,
+   typo-tolerant answer judge for retrieval.
+3. [x] Add a completion review path that clears reinforced items, persists
+   locally, and cannot mutate score, streak, outcome, or round position.
+4. [x] Prove the full Study, reinforcement, completion queue, and replay loop in
+   Chromium and WebKit, with deterministic visual and accessibility fixtures.
 
-**Exit:** tomorrow's session demonstrably depends on what the player did today.
+**Exit:** reopening the product preserves which reviewed facts still require
+retrieval, and the completed episode supplies an immediate educational next
+action. Due-date scheduling, daily entry, cross-episode history, and artifact
+ownership remain a later expansion of Gate 6 rather than hidden scope in this
+vertical slice.
 
-### Domino 3: Host Performance And Presentation Ownership
+### Domino 3: Host Intelligence Boundary And Presentation Ownership
 
-**Why fourth:** Season Zero now supplies enough real beats to design the
-abstraction from evidence.
+**Status: next**
+
+**Why next:** Season Zero and its learning loop now supply enough real clue,
+result, Study, reinforcement, and finale beats to design the abstraction from
+evidence.
 
 1. Define `HostPack` identity, line-bank, expression, voice, boundary, and rights
    contracts.
@@ -529,8 +547,10 @@ renderer.
 
 ## Immediate Next Domino
 
-Execute **Domino 2: Learning Return Loop**. The next code should add a versioned
-local player profile, transparent review due dates, and a short “review three”
-entry path using the missed, revealed, and shaky facts already owned by the
-session. Do not spend the next pass on another broad CSS overhaul, runtime AI,
-wager mechanics, accounts, or fresh branch mining.
+Execute **Domino 3: Host Intelligence Boundary And Presentation Ownership**.
+Define the deterministic host-performance packet and director first, then move
+static performance copy and choreography behind that boundary before adding any
+runtime model. The first proof is three distinct, original host packs performing
+the same Season Zero facts and learning beats while scoring, sources, and review
+mastery remain unchanged. Do not spend the next pass on another broad CSS
+overhaul, wager mechanics, accounts, or fresh branch mining.

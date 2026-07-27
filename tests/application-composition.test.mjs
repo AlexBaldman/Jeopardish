@@ -136,6 +136,7 @@ function createHarness() {
     VoiceController,
     RoundKernel,
     PreferenceStore,
+    LearningLedger: simpleConstructor('learning'),
     CluePipeline,
     SessionManager: simpleConstructor('session'),
     EpisodeController,
@@ -172,15 +173,17 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(services.cluePipeline.options.mediaPreflight, services.mediaPreflight);
   assert.equal(services.episodeController.options.sessionManager, services.sessionManager);
   assert.equal(services.episodeController.options.cluePipeline, services.cluePipeline);
+  assert.equal(services.episodeController.options.learningLedger, services.learningLedger);
   assert.equal(services.episodeController.options.sourceUrl, '/episode.json');
   assert.equal(services.studyController.options.renderer, services.renderer);
+  assert.equal(services.studyController.options.learningLedger, services.learningLedger);
   assert.equal(services.inputController.options.eventBus, services.eventBus);
   assert.equal(services.productTelemetry.options.eventBus, services.eventBus);
   assert.equal(typeof services.productTelemetry.options.sink.record, 'function');
   assert.equal(calls.filter(([action]) => action === 'load').length, 1);
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_COMPOSED
-    && event.payload.serviceCount === 20
+    && event.payload.serviceCount === 21
   )));
 });
 

@@ -62,6 +62,12 @@ const cabinetContractIds = [
   'studySources',
   'studyResponse',
   'studyResume',
+  'studyReinforcement',
+  'studyReinforcementInput',
+  'studyReinforcementCheck',
+  'studyReinforcementResult',
+  'reviewQueueButton',
+  'reviewQueueStatus',
   'outcomeFeedback',
   'confidenceKnew',
   'confidenceShaky',
@@ -233,12 +239,20 @@ test('both game shells load the grounded study runtime and owned styles', () => 
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     assert.match(html, /src="src\/study\/clue-packet\.js/, `${surface} is missing clue packets`);
     assert.match(html, /src="src\/study\/round-snapshot\.js/, `${surface} is missing round snapshots`);
+    assert.match(html, /src="src\/learning\/learning-ledger\.js/, `${surface} is missing learning persistence`);
     assert.match(html, /src="src\/application\/study-controller\.js/, `${surface} is missing the study controller`);
     assert.ok(
       html.indexOf('src/application/study-controller.js') < html.indexOf('src="app.js'),
       `${surface} must load the study controller before app.js`,
     );
     assert.match(html, /href="styles\/game\/study\.css/, `${surface} is missing study styles`);
+  }
+});
+
+test('both game shells expose the reinforcement and review-return controls', () => {
+  for (const [surface, html] of [['landing', landingHtml], ['game', gameHtml]]) {
+    assert.match(html, /id="studyReinforcementForm"/, `${surface} is missing reinforcement input`);
+    assert.match(html, /id="reviewQueueButton"/, `${surface} is missing the review return`);
   }
 });
 

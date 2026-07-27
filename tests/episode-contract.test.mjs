@@ -44,6 +44,16 @@ function createAuthoredPack() {
       learning: {
         backstory: 'A reviewed backstory.',
         connections: ['A reviewed connection.'],
+        reinforcement: {
+          prompt: 'What kind of planet is Saturn?',
+          answer: 'A gas giant',
+          acceptedAnswers: ['gas giant'],
+          explanation: 'Saturn is a gas giant composed mostly of hydrogen and helium.',
+          promptPt: 'Que tipo de planeta é Saturno?',
+          answerPt: 'Um gigante gasoso',
+          acceptedAnswersPt: ['gigante gasoso'],
+          explanationPt: 'Saturno é um gigante gasoso composto principalmente de hidrogênio e hélio.',
+        },
       },
       performance: { beat: 'opening' },
     }],
@@ -63,6 +73,7 @@ test('EpisodeContract validates and freezes a reviewed authored pack', () => {
   assert.equal(pack.sequenceMode, 'authored-order');
   assert.equal(pack.contentRevision, 3);
   assert.equal(pack.clues[0].learning.connections[0], 'A reviewed connection.');
+  assert.equal(pack.clues[0].learning.reinforcement.answerPt, 'Um gigante gasoso');
   assert.equal(pack.finale.artifactTitle, 'A decoded signal');
   assert.equal(Object.isFrozen(pack), true);
   assert.equal(Object.isFrozen(pack.clues[0].sources), true);
@@ -92,6 +103,23 @@ test('EpisodeContract rejects duplicate ids, insecure sources, and unreviewed pr
   assert.throws(
     () => validateEpisodePack(draft, { requireReviewed: true }),
     /episode\.reviewStatus must be reviewed/,
+  );
+});
+
+test('EpisodeContract requires bilingual reinforcement in reviewed episodes', () => {
+  const pack = createAuthoredPack();
+  delete pack.clues[0].learning.reinforcement.promptPt;
+  delete pack.clues[0].learning.reinforcement.answerPt;
+  delete pack.clues[0].learning.reinforcement.explanationPt;
+
+  assert.throws(
+    () => validateEpisodePack(pack, { requireReviewed: true }),
+    (error) => (
+      error instanceof EpisodeContractError
+      && error.issues.some((issue) => issue.includes('promptPt is required'))
+      && error.issues.some((issue) => issue.includes('answerPt is required'))
+      && error.issues.some((issue) => issue.includes('explanationPt is required'))
+    ),
   );
 });
 

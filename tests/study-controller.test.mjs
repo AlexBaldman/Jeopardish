@@ -7,6 +7,15 @@ const { EventBus } = require('../src/core/event-bus.js');
 const { GameEvents } = require('../src/contracts/events.js');
 const { RoundKernel, RoundPhases } = require('../src/core/round-kernel.js');
 const { StudyController } = require('../src/application/study-controller.js');
+const { LearningLedger } = require('../src/learning/learning-ledger.js');
+
+function createStorage() {
+  const values = new Map();
+  return {
+    getItem: (key) => values.get(key) ?? null,
+    setItem: (key, value) => values.set(key, value),
+  };
+}
 
 function createHarness({ locale = 'en', renderFailure = false, reviewed = false } = {}) {
   const eventBus = new EventBus({ now: () => 'now' });
@@ -27,6 +36,10 @@ function createHarness({ locale = 'en', renderFailure = false, reviewed = false 
       calls.push(['panel', packet, actions]);
     },
     renderStudyResponse: (response) => calls.push(['response', response]),
+    renderStudyReinforcement: (reinforcement, language) => (
+      calls.push(['reinforcement', reinforcement, language])
+    ),
+    renderStudyReinforcementResult: (result) => calls.push(['reinforcement-result', result]),
     setStudyOpen: (open) => calls.push(['open', open]),
     setControlsEnabled: (enabled) => calls.push(['controls', enabled]),
     setStudyAvailable: (available) => calls.push(['available', available]),
@@ -48,6 +61,16 @@ function createHarness({ locale = 'en', renderFailure = false, reviewed = false 
       learning: reviewed ? {
         backstory: 'Rome became the capital of a unified Italy in 1871.',
         connections: ['Vatican City is an enclave within Rome.'],
+        reinforcement: {
+          prompt: 'Which country has Rome as its capital?',
+          answer: 'Italy',
+          acceptedAnswers: ['the country of Italy'],
+          explanation: 'Rome is the capital of Italy.',
+          promptPt: 'De qual país Roma é a capital?',
+          answerPt: 'Itália',
+          acceptedAnswersPt: ['Italia'],
+          explanationPt: 'Roma é a capital da Itália.',
+        },
       } : {},
     },
     displayClue: locale === 'pt-BR' ? {
@@ -58,13 +81,20 @@ function createHarness({ locale = 'en', renderFailure = false, reviewed = false 
       value: '$400',
     } : null,
     locale,
-    episode: reviewed ? { reviewStatus: 'reviewed' } : { reviewStatus: 'archive' },
+    episode: reviewed
+      ? { id: 'reviewed-episode', reviewStatus: 'reviewed' }
+      : { id: 'archive-episode', reviewStatus: 'archive' },
   };
+  const learningLedger = new LearningLedger({
+    storage: createStorage(),
+    now: () => '2026-07-27T00:00:00.000Z',
+  });
   const controller = new StudyController({
     roundKernel,
     getGameState: () => ({ ...score }),
     renderer,
     eventBus,
+    learningLedger,
     getContext: () => context,
     extractContent: (clue) => ({
       questionText: clue.question,
@@ -74,7 +104,7 @@ function createHarness({ locale = 'en', renderFailure = false, reviewed = false 
     renderHost: (expression) => calls.push(['host', expression]),
     speak: (message) => calls.push(['speak', message]),
   });
-  return { controller, roundKernel, score, calls, events };
+  return { controller, roundKernel, score, calls, events, learningLedger };
 }
 
 test('StudyController owns entry, grounded actions, and exact round resume', async () => {
@@ -88,6 +118,8 @@ test('StudyController owns entry, grounded actions, and exact round resume', asy
     open: true,
     clueId: 'clue-42',
     grounding: 'canonical-only',
+    reinforcement: false,
+    mastery: 'studying',
   });
 
   const panel = harness.calls.find(([name]) => name === 'panel');
@@ -124,6 +156,33 @@ test('StudyController carries reviewed explanations, sources, and learning conte
   assert.match(packet.backstory, /1871/);
   assert.equal(packet.connections.length, 1);
   assert.ok(packet.canonical.acceptedAnswers.includes('roma'));
+  assert.equal(packet.reinforcement.answer, 'Italy');
+});
+
+test('StudyController records a fuzzy-matched reinforcement without touching score', async () => {
+  const harness = createHarness({ reviewed: true });
+  await harness.roundKernel.introduceClue(() => {});
+  await harness.controller.enter();
+
+  const prompt = harness.controller.selectAction('quiz');
+  const result = harness.controller.submitReinforcement('Itali');
+
+  assert.match(prompt, /Which country/i);
+  assert.deepEqual(result, {
+    correct: true,
+    reason: 'fuzzy',
+    mastery: 'reinforced',
+  });
+  assert.deepEqual(harness.score, { score: 400, currentStreak: 2, bestStreak: 3 });
+  assert.equal(
+    harness.learningLedger.getEntry('reviewed-episode', 'clue-42').mastery,
+    'reinforced',
+  );
+  assert.ok(harness.events.some((event) => (
+    event.type === GameEvents.STUDY_REINFORCEMENT_ANSWERED
+      && event.payload.correct === true
+      && !Object.hasOwn(event.payload, 'answer')
+  )));
 });
 
 test('StudyController detects score mutation without losing the resumable round', async () => {

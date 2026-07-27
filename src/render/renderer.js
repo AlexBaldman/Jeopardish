@@ -354,6 +354,8 @@
       this.dom.mediaModalClose = this.document.getElementById('mediaModalClose');
       this.dom.mediaModalLink = this.document.getElementById('mediaModalLink');
       this.dom.deepDiveButton = this.document.getElementById('deepDiveButton');
+      this.dom.reviewQueueButton = this.document.getElementById('reviewQueueButton');
+      this.dom.reviewQueueStatus = this.document.getElementById('reviewQueueStatus');
       this.dom.studyPanel = this.document.getElementById('studyPanel');
       this.dom.studyClose = this.document.getElementById('studyClose');
       this.dom.studyResume = this.document.getElementById('studyResume');
@@ -364,6 +366,12 @@
       this.dom.studySources = this.document.getElementById('studySources');
       this.dom.studyActions = this.document.getElementById('studyActions');
       this.dom.studyResponse = this.document.getElementById('studyResponse');
+      this.dom.studyReinforcement = this.document.getElementById('studyReinforcement');
+      this.dom.studyReinforcementPrompt = this.document.getElementById('studyReinforcementPrompt');
+      this.dom.studyReinforcementForm = this.document.getElementById('studyReinforcementForm');
+      this.dom.studyReinforcementInput = this.document.getElementById('studyReinforcementInput');
+      this.dom.studyReinforcementCheck = this.document.getElementById('studyReinforcementCheck');
+      this.dom.studyReinforcementResult = this.document.getElementById('studyReinforcementResult');
       this.updateStaticText();
       return this.dom;
     }
@@ -382,7 +390,9 @@
       onNextDialogueStyle = () => {},
       onCycleScene = () => {},
       onEnterStudy = () => {},
+      onReviewSavedClues = () => {},
       onStudyAction = () => {},
+      onSubmitReinforcement = () => {},
       onExitStudy = () => {},
       onConfidence = () => {},
       onDispute = () => {},
@@ -435,6 +445,7 @@
       this.dom.dialogueStylePrev?.addEventListener('click', onPreviousDialogueStyle);
       this.dom.dialogueStyleNext?.addEventListener('click', onNextDialogueStyle);
       this.dom.deepDiveButton?.addEventListener('click', onEnterStudy);
+      this.dom.reviewQueueButton?.addEventListener('click', onReviewSavedClues);
       this.dom.studyClose?.addEventListener('click', onExitStudy);
       this.dom.studyResume?.addEventListener('click', onExitStudy);
       this.dom.confidenceKnew?.addEventListener('click', () => onConfidence('knew-it'));
@@ -444,6 +455,10 @@
       this.dom.studyActions?.addEventListener('click', (event) => {
         const action = event.target?.closest?.('[data-study-action]');
         if (action) onStudyAction(action.dataset.studyAction);
+      });
+      this.dom.studyReinforcementForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        onSubmitReinforcement(this.dom.studyReinforcementInput?.value || '');
       });
       this.dom.mediaModalClose?.addEventListener('click', () => this.closeMedia());
       this.dom.mediaModalBackdrop?.addEventListener('click', () => this.closeMedia());
@@ -659,6 +674,7 @@
 
     renderStudyPanel(packet, actions = []) {
       const clue = packet.presentation || packet.canonical;
+      this.dom.studyPanel?.classList?.remove('reinforcement-active');
       this.setText(this.dom.studyCategory, clue.category);
       this.setText(this.dom.studyQuestion, clue.question);
       this.setText(this.dom.studyAnswer, clue.answer);
@@ -676,6 +692,15 @@
       this.setText(this.dom.studyResponse, clue.locale === 'pt-BR'
         ? 'Escolha um caminho. Continuarei preso aos fatos conhecidos, uma restrição que a televisão tradicionalmente considera opcional.'
         : 'Pick a direction. I will remain tethered to the known facts, a restriction television has traditionally considered optional.');
+      if (this.dom.studyReinforcement) this.dom.studyReinforcement.hidden = true;
+      if (this.dom.studyReinforcementForm) this.dom.studyReinforcementForm.hidden = false;
+      if (this.dom.studyReinforcementInput) {
+        this.dom.studyReinforcementInput.value = '';
+        this.dom.studyReinforcementInput.disabled = false;
+      }
+      if (this.dom.studyReinforcementCheck) this.dom.studyReinforcementCheck.disabled = false;
+      this.setText(this.dom.studyReinforcementResult, '');
+      this.dom.studyReinforcementResult?.removeAttribute?.('data-state');
       const buttons = actions.map((action) => {
         const button = this.document.createElement('button');
         button.type = 'button';
@@ -688,6 +713,65 @@
 
     renderStudyResponse(response) {
       this.setText(this.dom.studyResponse, response);
+    }
+
+    renderStudyReinforcement(reinforcement, locale = 'en') {
+      if (!this.dom.studyReinforcement || !reinforcement) return;
+      this.dom.studyPanel?.classList?.add('reinforcement-active');
+      this.dom.studyReinforcement.hidden = false;
+      this.setText(this.dom.studyReinforcementPrompt, reinforcement.prompt);
+      if (this.dom.studyReinforcementInput) {
+        this.dom.studyReinforcementInput.value = '';
+        this.dom.studyReinforcementInput.disabled = false;
+        this.dom.studyReinforcementInput.placeholder = locale === 'pt-BR'
+          ? 'Digite sua resposta'
+          : 'Type your answer';
+      }
+      if (this.dom.studyReinforcementCheck) {
+        this.dom.studyReinforcementCheck.disabled = false;
+        this.setText(
+          this.dom.studyReinforcementCheck,
+          locale === 'pt-BR' ? 'Verificar memória' : 'Check memory',
+        );
+      }
+      this.setText(this.dom.studyReinforcementResult, '');
+      this.dom.studyReinforcementResult?.removeAttribute?.('data-state');
+      this.dom.studyReinforcementInput?.focus?.();
+    }
+
+    renderStudyReinforcementResult({ correct = false, empty = false, message = '' } = {}) {
+      this.setText(this.dom.studyReinforcementResult, message);
+      if (this.dom.studyReinforcementResult) {
+        this.dom.studyReinforcementResult.dataset.state = empty
+          ? 'empty'
+          : correct ? 'correct' : 'incorrect';
+      }
+      if (correct) {
+        if (this.dom.studyReinforcementInput) this.dom.studyReinforcementInput.disabled = true;
+        if (this.dom.studyReinforcementCheck) this.dom.studyReinforcementCheck.disabled = true;
+        this.dom.studyResume?.focus?.();
+      } else {
+        this.dom.studyReinforcementInput?.select?.();
+      }
+      this.dom.studyReinforcementResult?.scrollIntoView?.({ block: 'nearest' });
+    }
+
+    setReviewQueueState(learning = {}) {
+      const due = Math.max(0, Number(learning.due) || 0);
+      const reinforced = Math.max(0, Number(learning.reviewReinforced) || 0);
+      if (this.dom.reviewQueueButton) {
+        this.dom.reviewQueueButton.hidden = due === 0;
+        this.setText(
+          this.dom.reviewQueueButton,
+          `Review ${due} saved clue${due === 1 ? '' : 's'}`,
+        );
+      }
+      this.setText(
+        this.dom.reviewQueueStatus,
+        due > 0
+          ? `${due} still due · ${reinforced} reinforced`
+          : reinforced > 0 ? `${reinforced} reinforced · review queue clear` : '',
+      );
     }
 
     setStudyOpen(open) {
@@ -1056,6 +1140,7 @@
       this.dom.userInput.disabled = true;
       this.decorateControlButton(this.dom.questionButton, this.copy.replayEpisode, 'Q');
       this.dom.questionButton.disabled = false;
+      this.setReviewQueueState(progress.learning);
       this.showScoreDrawer();
     }
 
@@ -1114,6 +1199,8 @@
       this.setStatus(this.copy.loadingBank);
       this.clearMedia();
       this.hideOutcomeFeedback();
+      if (this.dom.reviewQueueButton) this.dom.reviewQueueButton.hidden = true;
+      this.setText(this.dom.reviewQueueStatus, '');
       this.setQuestionText(this.copy.loadingQuestions);
     }
 
@@ -1152,6 +1239,8 @@
 
     renderClue(clue, clueValue) {
       this.setGameMoment('clue');
+      if (this.dom.reviewQueueButton) this.dom.reviewQueueButton.hidden = true;
+      this.setText(this.dom.reviewQueueStatus, '');
       this.decorateControlButton(this.dom.questionButton, this.copy.questionButton, 'Q');
       this.setCategory(
         String(clue.category || 'Unknown Category').toUpperCase(),

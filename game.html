@@ -41,6 +41,7 @@
     <script defer src="src/voice/voice-controller.js?v=voice-1"></script>
     <script defer src="src/core/round-kernel.js?v=kernel-1"></script>
     <script defer src="src/application/preference-store.js?v=preferences-1"></script>
+    <script defer src="src/learning/learning-ledger.js?v=learning-1"></script>
     <script defer src="src/application/clue-pipeline.js?v=pipeline-1"></script>
     <script defer src="src/session/session-manager.js?v=season-zero-2"></script>
     <script defer src="src/application/episode-controller.js?v=episode-1"></script>
@@ -169,6 +170,8 @@
                         <p class="visually-hidden" id="outcomeFeedbackStatus" aria-live="polite"></p>
                     </section>
                     <button class="deep-dive-trigger" id="deepDiveButton" type="button"><span aria-hidden="true">?</span> Ask Xander</button>
+                    <button class="review-queue-trigger" id="reviewQueueButton" type="button" hidden>Review saved clues</button>
+                    <p class="review-queue-status visually-hidden" id="reviewQueueStatus" aria-live="polite"></p>
                 </div>
                 <div class="host-stage" id="hostStage" aria-label="Host visual selector">
                     <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
@@ -194,6 +197,16 @@
                     <p class="study-answer"><span>Canonical response</span><strong id="studyAnswer"></strong></p>
                     <div class="study-actions" id="studyActions" role="group" aria-label="Study directions"></div>
                     <div class="study-response" id="studyResponse" aria-live="polite"></div>
+                    <section class="study-reinforcement" id="studyReinforcement" aria-labelledby="studyReinforcementPrompt" hidden>
+                        <small>Memory rematch</small>
+                        <p id="studyReinforcementPrompt"></p>
+                        <form id="studyReinforcementForm">
+                            <label class="visually-hidden" for="studyReinforcementInput">Reinforcement answer</label>
+                            <input id="studyReinforcementInput" type="text" autocomplete="off" placeholder="Type your answer">
+                            <button id="studyReinforcementCheck" type="submit">Check memory</button>
+                        </form>
+                        <p id="studyReinforcementResult" aria-live="polite"></p>
+                    </section>
                 </div>
                 <button class="study-resume" id="studyResume" type="button">Return to clue</button>
             </aside>

@@ -7,6 +7,7 @@ const { EventBus } = require('../src/core/event-bus.js');
 const { GameEngine } = require('../src/core/game-engine.js');
 const { GameEvents } = require('../src/contracts/events.js');
 const { SessionManager } = require('../src/session/session-manager.js');
+const { LearningLedger } = require('../src/learning/learning-ledger.js');
 const {
   EpisodeController,
   createOutcomeFacts,
@@ -43,6 +44,10 @@ function createHarness({
   const gameEngine = new GameEngine({ eventBus });
   const sessionManager = new SessionManager({
     eventBus,
+    storage: createStorage(),
+    now: () => '2026-07-27T00:00:00.000Z',
+  });
+  const learningLedger = new LearningLedger({
     storage: createStorage(),
     now: () => '2026-07-27T00:00:00.000Z',
   });
@@ -97,6 +102,7 @@ function createHarness({
     roundKernel,
     mediaPreflight,
     eventBus,
+    learningLedger,
     sourceUrl: failPrimary ? './primary.json' : undefined,
     fallbackSourceUrl: failPrimary ? './fallback.json' : null,
     legacyEpisode: {
@@ -126,6 +132,7 @@ function createHarness({
     eventBus,
     events,
     gameEngine,
+    learningLedger,
     mediaPreflight,
     roundKernel,
     sessionManager,
@@ -255,6 +262,16 @@ test('EpisodeController decorates progress with finale data and persists player 
       answer: 'Signal',
       explanation: 'The explanation is reviewed.',
       sources: [{ title: 'Example', url: 'https://example.com/' }],
+      learning: {
+        reinforcement: {
+          prompt: 'What was transmitted?',
+          answer: 'A signal',
+          explanation: 'The reviewed clue describes a signal.',
+          promptPt: 'O que foi transmitido?',
+          answerPt: 'Um sinal',
+          explanationPt: 'A pista revisada descreve um sinal.',
+        },
+      },
     }],
   };
   const harness = createHarness({ source, episodeLength: 1 });
@@ -270,6 +287,63 @@ test('EpisodeController decorates progress with finale data and persists player 
   assert.equal(progress.latestResult.confidence, 'shaky');
   assert.equal(progress.latestResult.disputed, true);
   assert.equal(progress.review.total, 1);
+});
+
+test('EpisodeController offers only actionable due review clues and advances after reinforcement', async () => {
+  const clue = {
+    id: 'authored-review-1',
+    category: 'Signals',
+    value: 200,
+    clue: 'This is a reviewed clue.',
+    answer: 'Signal',
+    explanation: 'The explanation is reviewed.',
+    sources: [{ title: 'Example', url: 'https://example.com/' }],
+    learning: {
+      reinforcement: {
+        prompt: 'What was transmitted?',
+        answer: 'A signal',
+        explanation: 'The reviewed clue describes a signal.',
+        promptPt: 'O que foi transmitido?',
+        answerPt: 'Um sinal',
+        explanationPt: 'A pista revisada descreve um sinal.',
+      },
+    },
+  };
+  const source = {
+    schemaVersion: 1,
+    id: 'review-loop',
+    title: 'Review Loop',
+    kind: 'authored',
+    sequenceMode: 'authored-order',
+    contentRevision: 1,
+    reviewStatus: 'reviewed',
+    episodeLength: 1,
+    clues: [clue],
+  };
+  const harness = createHarness({ source, episodeLength: 1 });
+  await harness.controller.start();
+  harness.controller.recordOutcome('incorrect');
+
+  assert.equal(harness.controller.getProgress().learning.due, 1);
+  assert.equal(harness.controller.getNextReviewContext().sourceClue.id, clue.id);
+  harness.learningLedger.recordReinforcement({
+    episodeId: 'review-loop',
+    clueId: clue.id,
+    correct: true,
+    reason: 'exact',
+  });
+  assert.equal(harness.controller.getProgress().learning.due, 0);
+  assert.equal(harness.controller.getNextReviewContext(), null);
+});
+
+test('EpisodeController does not advertise archive review items as clearable reinforcement', async () => {
+  const harness = createHarness({ episodeLength: 1 });
+  await harness.controller.start();
+  harness.controller.recordOutcome('incorrect');
+
+  assert.equal(harness.controller.getProgress().review.total, 1);
+  assert.equal(harness.controller.getProgress().learning.due, 0);
+  assert.equal(harness.controller.getNextReviewContext(), null);
 });
 
 test('EpisodeController replaces runtime media failures without consuming progress', async () => {

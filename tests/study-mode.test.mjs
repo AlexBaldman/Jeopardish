@@ -9,6 +9,7 @@ const {
   createGroundedCluePacket,
   getStudyResponse,
   getStudyActions,
+  judgeReinforcement,
 } = require('../src/study/clue-packet.js');
 const { RoundSnapshotStore } = require('../src/study/round-snapshot.js');
 
@@ -73,6 +74,41 @@ test('study presentation localizes independently from canonical truth', () => {
   assert.equal(grounded.presentation.answer, 'Roma');
   assert.match(getStudyResponse(grounded, 'why'), /resposta canônica.*Roma/i);
   assert.equal(getStudyActions('pt-BR')[0].label, 'Explique de forma simples');
+});
+
+test('reviewed reinforcement localizes presentation and judges all reviewed aliases', () => {
+  const canonical = createCanonicalCluePacket({
+    question: 'This molecule is O3.',
+    answer: 'Ozone',
+    category: 'Science',
+  });
+  const grounded = createGroundedCluePacket(canonical, {
+    reviewed: true,
+    explanation: 'Ozone contains three oxygen atoms.',
+    citations: [{ title: 'NASA', url: 'https://science.nasa.gov/' }],
+    presentation: {
+      locale: 'pt-BR',
+      category: 'Ciência',
+      question: 'Esta molécula é O3.',
+      answer: 'Ozônio',
+    },
+    reinforcement: {
+      prompt: 'How many oxygen atoms?',
+      answer: 'Three',
+      acceptedAnswers: ['3'],
+      explanation: 'O3 contains three atoms.',
+      promptPt: 'Quantos átomos de oxigênio?',
+      answerPt: 'Três',
+      acceptedAnswersPt: ['3'],
+      explanationPt: 'O3 contém três átomos.',
+    },
+  });
+
+  assert.equal(grounded.reinforcement.prompt, 'Quantos átomos de oxigênio?');
+  assert.equal(grounded.reinforcement.answer, 'Três');
+  assert.equal(judgeReinforcement(grounded, 'tres').isCorrect, true);
+  assert.equal(judgeReinforcement(grounded, '3').isCorrect, true);
+  assert.doesNotMatch(JSON.stringify(judgeReinforcement(grounded, '3')), /private/i);
 });
 
 test('round snapshots are immutable and resume tokens are single use', () => {

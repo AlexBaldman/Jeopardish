@@ -26,6 +26,7 @@ const gameStates = [
   'menu',
   'scoreboard',
   'study',
+  'reinforcement',
   'media-modal',
   'complete',
 ];

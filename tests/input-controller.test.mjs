@@ -54,7 +54,9 @@ test('InputController maps renderer callbacks into one command vocabulary', asyn
   await bindings.onToggleVoice({ listen: true });
   await bindings.onPreviousHostSkin();
   await bindings.onNextDialogueStyle();
+  await bindings.onReviewSavedClues();
   await bindings.onStudyAction('why');
+  await bindings.onSubmitReinforcement('three');
   await bindings.onConfidence('shaky');
   await bindings.onDispute();
 
@@ -67,12 +69,18 @@ test('InputController maps renderer callbacks into one command vocabulary', asyn
       InputCommands.LISTEN_VOICE,
       InputCommands.PREVIOUS_HOST,
       InputCommands.NEXT_DIALOGUE,
+      InputCommands.REVIEW_SAVED_CLUES,
       InputCommands.SELECT_STUDY_ACTION,
+      InputCommands.SUBMIT_REINFORCEMENT,
       InputCommands.SET_CONFIDENCE,
       InputCommands.TOGGLE_DISPUTE,
     ],
   );
   assert.deepEqual(harness.calls.at(-2).payload, { confidence: 'shaky' });
+  assert.deepEqual(
+    harness.calls.find(({ command }) => command === InputCommands.SUBMIT_REINFORCEMENT).payload,
+    { answer: 'three' },
+  );
   assert.ok(harness.calls.every(({ meta }) => meta.source === InputSources.UI));
 });
 

@@ -25,6 +25,11 @@ test('Season Zero pilot is a reviewed, authored ten-clue broadcast', () => {
       && clue.sources.every(({ url }) => url.startsWith('https://'))
       && clue.learning.backstory
       && clue.learning.connections.length > 0
+      && clue.learning.reinforcement?.prompt
+      && clue.learning.reinforcement?.answer
+      && clue.learning.reinforcement?.explanation
+      && clue.learning.reinforcement?.promptPt
+      && clue.learning.reinforcement?.answerPt
       && clue.performance.hostLine
   )));
 });

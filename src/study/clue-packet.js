@@ -75,12 +75,16 @@
       : [];
     const reviewed = Boolean(enrichment.reviewed && enrichment.explanation && citations.length);
     const presentation = enrichment.presentation || canonical;
+    const locale = presentation.locale || canonical.locale;
+    const reinforcement = reviewed
+      ? createReinforcement(enrichment.reinforcement, locale)
+      : null;
     return deepFreeze({
       schema: 'jeoparody.grounded-clue',
       version: PACKET_VERSION,
       canonical,
       presentation: {
-        locale: presentation.locale || canonical.locale,
+        locale,
         category: String(presentation.category || canonical.category),
         question: String(presentation.question || canonical.question),
         answer: String(presentation.answer || canonical.answer),
@@ -90,7 +94,38 @@
       backstory: reviewed ? String(enrichment.backstory || '') : '',
       connections: reviewed ? clone(enrichment.connections || []) : [],
       citations,
+      reinforcement,
     });
+  }
+
+  function createReinforcement(input, locale = 'en') {
+    if (!input || !String(input.prompt || '').trim() || !String(input.answer || '').trim()) {
+      return null;
+    }
+    const portuguese = locale === 'pt-BR';
+    const answer = portuguese && input.answerPt ? input.answerPt : input.answer;
+    const acceptedAnswers = [...new Set([
+      String(input.answer),
+      ...(Array.isArray(input.acceptedAnswers) ? input.acceptedAnswers : []),
+      ...(input.answerPt ? [input.answerPt] : []),
+      ...(Array.isArray(input.acceptedAnswersPt) ? input.acceptedAnswersPt : []),
+    ].map((value) => String(value || '').trim()).filter(Boolean))];
+    return {
+      prompt: String(
+        portuguese && input.promptPt ? input.promptPt : input.prompt,
+      ).trim(),
+      answer: String(answer).trim(),
+      acceptedAnswers,
+      explanation: String(
+        portuguese && input.explanationPt ? input.explanationPt : input.explanation,
+      ).trim(),
+    };
+  }
+
+  function judgeReinforcement(packet, response) {
+    if (!packet?.reinforcement) return null;
+    const accepted = packet.reinforcement.acceptedAnswers.join(' or ');
+    return Object.freeze(logic.compareAnswersDetailed(response, accepted));
   }
 
   function getStudyResponse(packet, actionId) {
@@ -103,7 +138,9 @@
         case 'why': return packet.explanation || `A resposta canônica é “${shown.answer}”. A correção normaliza maiúsculas, pontuação, espaços, fórmulas comuns de quiz e pequenos erros de digitação. ${unavailablePt}`;
         case 'backstory': return packet.backstory || unavailablePt;
         case 'connect': return packet.connections.length ? packet.connections.join(' ') : unavailablePt;
-        case 'quiz': return `Um passo de cada vez: sem olhar a resposta, diga qual é o detalhe mais importante desta pista: “${shown.question}”`;
+        case 'quiz': return packet.reinforcement
+          ? `Checagem rápida: ${packet.reinforcement.prompt}`
+          : `Um passo de cada vez: sem olhar a resposta, diga qual é o detalhe mais importante desta pista: “${shown.question}”`;
         default: return 'Escolha um caminho de estudo e eu continuarei preso aos fatos conhecidos.';
       }
     }
@@ -118,11 +155,21 @@
       case 'connect':
         return packet.connections.length ? packet.connections.join(' ') : unavailable;
       case 'quiz':
-        return `One step at a time: without looking at the response, name the most important detail in this clue: “${clue.question}”`;
+        return packet.reinforcement
+          ? `Quick check: ${packet.reinforcement.prompt}`
+          : `One step at a time: without looking at the response, name the most important detail in this clue: “${clue.question}”`;
       default:
         return 'Choose a study move and I will stay anchored to the clue packet.';
     }
   }
 
-  return { PACKET_VERSION, STUDY_ACTIONS, getStudyActions, createCanonicalCluePacket, createGroundedCluePacket, getStudyResponse };
+  return {
+    PACKET_VERSION,
+    STUDY_ACTIONS,
+    createCanonicalCluePacket,
+    createGroundedCluePacket,
+    getStudyActions,
+    getStudyResponse,
+    judgeReinforcement,
+  };
 }));

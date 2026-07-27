@@ -226,10 +226,12 @@ study responses, artifact finale, archive fallback, and replay.
 
 ### Pass C: Memory and Payoff
 
-1. Add local profile migration and mastery records.
-2. Add daily review selection.
-3. [x] Add the first episode result and artifact reveal.
-4. Add spoiler-safe share card.
+1. [x] Add a versioned local Study and retrieval mastery ledger.
+2. [x] Add the Season Zero completion review queue and score-invariant memory
+   rematches.
+3. [ ] Add transparent due-date scheduling and a daily review entry.
+4. [x] Add the first episode result and artifact reveal.
+5. [ ] Add spoiler-safe share card.
 
 ### Pass D: Ship Quality
 

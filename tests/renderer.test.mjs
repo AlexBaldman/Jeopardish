@@ -52,6 +52,9 @@ function createFakeElement(id) {
     getAttribute(name) {
       return this.attributes[name];
     },
+    removeAttribute(name) {
+      delete this.attributes[name];
+    },
     append(...children) {
       this.children.push(...children);
       this.textContent = children.map((child) => child.textContent).join('');
@@ -62,6 +65,9 @@ function createFakeElement(id) {
     },
     focus() {
       this.focused = true;
+    },
+    select() {
+      this.selected = true;
     },
   };
 }
@@ -145,6 +151,8 @@ function createFakeDocument() {
     'mediaModalClose',
     'mediaModalLink',
     'deepDiveButton',
+    'reviewQueueButton',
+    'reviewQueueStatus',
     'studyPanel',
     'studyClose',
     'studyResume',
@@ -155,6 +163,12 @@ function createFakeDocument() {
     'studySources',
     'studyActions',
     'studyResponse',
+    'studyReinforcement',
+    'studyReinforcementPrompt',
+    'studyReinforcementForm',
+    'studyReinforcementInput',
+    'studyReinforcementCheck',
+    'studyReinforcementResult',
   ];
   const elements = new Map(ids.map((id) => [id, createFakeElement(id)]));
   const body = createFakeElement('body');
@@ -231,6 +245,7 @@ test('Renderer renders episode progress and a completion artifact', () => {
     score: 2400,
     counts: { correct: 7, incorrect: 1, revealed: 1, skipped: 1 },
     review: { missed: 1, revealed: 1, shaky: 1, total: 2 },
+    learning: { reviewReinforced: 0, due: 2 },
     disputes: 1,
     finale: {
       artifactTitle: 'BROADCAST O',
@@ -252,6 +267,8 @@ test('Renderer renders episode progress and a completion artifact', () => {
   assert.equal(renderer.dom.questionButton.disabled, false);
   assert.equal(renderer.dom.answerButton.disabled, true);
   assert.equal(renderer.dom.questionButton.dataset.tooltip, 'Replay Episode');
+  assert.equal(renderer.dom.reviewQueueButton.hidden, false);
+  assert.equal(renderer.dom.reviewQueueButton.textContent, 'Review 2 saved clues');
 });
 
 test('Renderer renders a clue and prepares answer input', () => {
@@ -347,6 +364,8 @@ test('Renderer binds UI events to callbacks', () => {
     onPreviousDialogueStyle: () => calls.push('dialogue-prev'),
     onNextDialogueStyle: () => calls.push('dialogue-next'),
     onCycleScene: () => calls.push('scene'),
+    onReviewSavedClues: () => calls.push('review'),
+    onSubmitReinforcement: (answer) => calls.push(`reinforcement:${answer}`),
     onConfidence: (confidence) => calls.push(`confidence:${confidence}`),
     onDispute: () => calls.push('dispute'),
   });
@@ -364,8 +383,11 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.dialogueStylePrev.listeners.click();
   renderer.dom.dialogueStyleNext.listeners.click();
   renderer.dom.menuScene.listeners.click();
+  renderer.dom.reviewQueueButton.listeners.click();
   renderer.dom.confidenceShaky.listeners.click();
   renderer.dom.disputeButton.listeners.click();
+  renderer.dom.studyReinforcementInput.value = 'three';
+  renderer.dom.studyReinforcementForm.listeners.submit({ preventDefault() {} });
   renderer.dom.userInput.listeners.keydown({ key: 'Enter' });
   renderer.dom.hamburgerMenu.listeners.click();
 
@@ -383,8 +405,10 @@ test('Renderer binds UI events to callbacks', () => {
     'dialogue-prev',
     'dialogue-next',
     'scene',
+    'review',
     'confidence:shaky',
     'dispute',
+    'reinforcement:three',
     'check',
   ]);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
@@ -417,6 +441,29 @@ test('Renderer presents grounded study content and restores the round view', () 
   renderer.restoreRoundView(view);
   assert.equal(renderer.dom.userInput.value, 'half typed answer');
   assert.equal(renderer.isAnswerVisible(), false);
+});
+
+test('Renderer presents a reinforcement check and seals a correct result', () => {
+  const { renderer } = createRenderer();
+
+  renderer.renderStudyReinforcement({
+    prompt: 'How many oxygen atoms are in ozone?',
+  }, 'en');
+  assert.equal(renderer.dom.studyReinforcement.hidden, false);
+  assert.equal(
+    renderer.dom.studyReinforcementPrompt.textContent,
+    'How many oxygen atoms are in ozone?',
+  );
+  assert.equal(renderer.dom.studyReinforcementCheck.textContent, 'Check memory');
+
+  renderer.renderStudyReinforcementResult({
+    correct: true,
+    message: 'Ozone is O3.',
+  });
+  assert.equal(renderer.dom.studyReinforcementResult.dataset.state, 'correct');
+  assert.equal(renderer.dom.studyReinforcementInput.disabled, true);
+  assert.equal(renderer.dom.studyReinforcementCheck.disabled, true);
+  assert.equal(renderer.dom.studyResume.focused, true);
 });
 
 test('Renderer presents and updates lightweight outcome feedback', () => {

@@ -127,8 +127,12 @@
           return `🧭 Study detour opened for clue ${truncate(payload.clueId || 'unknown')}. The score has been placed in a tamper-evident Canadian envelope.`;
         case GameEvents.STUDY_ACTION_SELECTED:
           return `🧠 Xander considers “${payload.actionId || 'something educational'}” using ${payload.grounding || 'mysterious'} grounding. Fabricated certainty has been denied entry.`;
+        case GameEvents.STUDY_REINFORCEMENT_ANSWERED:
+          return payload.correct
+            ? `🧷 Memory check passed on attempt ${payload.attemptCount || 1}. The fact has been pinned down, though Xander has requested we not use the phrase “mastery achieved” near his brother’s old stationery.`
+            : `🪜 Memory check missed on attempt ${payload.attemptCount || 1}. Useful failure recorded; the ladder remains exactly where we left it.`;
         case GameEvents.STUDY_EXITED:
-          return '↩️ Study detour closed. The exact round state returns, looking rested and insisting it never left.';
+          return `↩️ Study detour closed with ${payload.mastery || 'unrated'} mastery. The exact round state returns, looking rested and insisting it never left.`;
         case GameEvents.INPUT_COMMAND_DISPATCHED:
           return `🎛️ ${payload.source || 'unknown'} routed “${payload.command || 'unspecified'}” through the control desk. One command path, fewer alibis.`;
         case GameEvents.INPUT_COMMAND_REJECTED:

@@ -67,6 +67,7 @@
       roundKernel,
       mediaPreflight,
       eventBus,
+      learningLedger,
       sourceUrl = DEFAULT_SOURCE_URL,
       fallbackSourceUrl = null,
       legacyEpisode = DEFAULT_LEGACY_EPISODE,
@@ -97,6 +98,7 @@
         roundKernel,
         mediaPreflight,
         eventBus,
+        learningLedger,
       };
       const missing = Object.entries(required)
         .filter(([, value]) => !value)
@@ -112,6 +114,7 @@
       this.roundKernel = roundKernel;
       this.mediaPreflight = mediaPreflight;
       this.eventBus = eventBus;
+      this.learningLedger = learningLedger;
       this.sourceUrl = sourceUrl;
       this.fallbackSourceUrl = fallbackSourceUrl;
       this.legacyEpisode = { ...DEFAULT_LEGACY_EPISODE, ...legacyEpisode };
@@ -371,6 +374,38 @@
       return this.sessionManager.getReviewQueues();
     }
 
+    getReviewItems({ dueOnly = false } = {}) {
+      const queues = this.sessionManager.getReviewQueues();
+      const seen = new Set();
+      const items = [];
+      [...queues.missed, ...queues.revealed, ...queues.shaky].forEach((item) => {
+        if (seen.has(item.clueId)) return;
+        seen.add(item.clueId);
+        if (dueOnly && !item.clue?.learning?.reinforcement) return;
+        const learning = this.learningLedger.getEntry(this.pack?.id, item.clueId);
+        if (dueOnly && learning?.mastery === 'reinforced') return;
+        items.push(Object.freeze({ ...item, learning }));
+      });
+      return Object.freeze(items);
+    }
+
+    getNextReviewContext() {
+      const item = this.getReviewItems({ dueOnly: true })[0];
+      if (!item?.clue || !this.pack) return null;
+      return Object.freeze({
+        sourceClue: item.clue,
+        displayClue: null,
+        episode: Object.freeze({
+          id: this.pack.id,
+          title: this.pack.title,
+          kind: this.pack.kind,
+          reviewStatus: this.pack.reviewStatus,
+          contentRevision: this.pack.contentRevision,
+          finale: this.pack.finale,
+        }),
+      });
+    }
+
     getState() {
       return Object.freeze({
         started: this.started,
@@ -385,6 +420,14 @@
     }
 
     decorateProgress(progress) {
+      const reviewQueues = this.sessionManager.getReviewQueues();
+      const reviewClueIds = [...new Set([
+        ...reviewQueues.missed.map(({ clueId }) => clueId),
+        ...reviewQueues.revealed.map(({ clueId }) => clueId),
+        ...reviewQueues.shaky.map(({ clueId }) => clueId),
+      ])].filter((clueId) => (
+        this.pack?.clues?.find(({ id }) => id === clueId)?.learning?.reinforcement
+      ));
       return Object.freeze({
         ...progress,
         episode: this.pack ? Object.freeze({
@@ -395,7 +438,11 @@
           contentRevision: this.pack.contentRevision,
         }) : null,
         finale: this.pack?.finale || null,
-        reviewQueues: this.sessionManager.getReviewQueues(),
+        reviewQueues,
+        learning: this.learningLedger.getSummary({
+          episodeId: this.pack?.id,
+          reviewClueIds,
+        }),
       });
     }
 

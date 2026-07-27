@@ -18,6 +18,7 @@
     JUDGMENT_DISPUTED: 'judgment_disputed',
     STUDY_ENTERED: 'study_entered',
     STUDY_RESUMED: 'study_resumed',
+    REINFORCEMENT_ANSWERED: 'reinforcement_answered',
     EPISODE_REPLAYED: 'episode_replayed',
     RECOVERABLE_FAILURE: 'recoverable_failure',
   });
@@ -103,6 +104,14 @@
         case GameEvents.STUDY_EXITED:
           return this.record(ProductEventNames.STUDY_RESUMED, {
             scoreIntegrity: payload.scoreIntegrity !== false,
+          });
+
+        case GameEvents.STUDY_REINFORCEMENT_ANSWERED:
+          return this.record(ProductEventNames.REINFORCEMENT_ANSWERED, {
+            correct: Boolean(payload.correct),
+            mastery: safeCode(payload.mastery, 'unknown'),
+            grounding: safeCode(payload.grounding, 'unknown'),
+            attemptCount: count(payload.attemptCount),
           });
 
         case GameEvents.EPISODE_RESTARTED:

@@ -23,6 +23,7 @@
     'VoiceController',
     'RoundKernel',
     'PreferenceStore',
+    'LearningLedger',
     'CluePipeline',
     'SessionManager',
     'EpisodeController',
@@ -47,6 +48,7 @@
       VoiceController: scope?.JeoPARODYVoice?.VoiceController,
       RoundKernel: scope?.JeoPARODYRoundKernel?.RoundKernel,
       PreferenceStore: scope?.JeoPARODYPreferences?.PreferenceStore,
+      LearningLedger: scope?.JeoPARODYLearning?.LearningLedger,
       CluePipeline: scope?.JeoPARODYCluePipeline?.CluePipeline,
       SessionManager: scope?.JeoPARODYSession?.SessionManager,
       EpisodeController: scope?.JeoPARODYEpisodeController?.EpisodeController,
@@ -81,6 +83,7 @@
     create({
       bestStreak = 0,
       preferenceOptions = {},
+      learningOptions = {},
       voiceOptions = {},
       roundOptions = {},
       cluePipelineOptions = {},
@@ -97,6 +100,7 @@
       const M = this.modules;
       const preferenceStore = new M.PreferenceStore(preferenceOptions);
       preferenceStore.load();
+      const learningLedger = new M.LearningLedger(learningOptions);
       const eventBus = new M.EventBus();
       const gameEngine = new M.GameEngine({ eventBus, bestStreak });
       const dataLoader = new M.DataLoader({ eventBus });
@@ -128,12 +132,14 @@
         roundKernel,
         mediaPreflight,
         eventBus,
+        learningLedger,
         ...episodeOptions,
       });
       const studyController = new M.StudyController({
         roundKernel,
         renderer,
         eventBus,
+        learningLedger,
         ...studyOptions,
       });
       const inputController = new M.InputController({
@@ -160,6 +166,7 @@
         voiceController,
         roundKernel,
         preferenceStore,
+        learningLedger,
         cluePipeline,
         episodeController,
         studyController,

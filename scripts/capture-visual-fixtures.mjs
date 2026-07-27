@@ -22,6 +22,7 @@ const fixtures = [
   'menu',
   'scoreboard',
   'study',
+  'reinforcement',
   'voice-listening',
   'voice-speaking',
 ];
@@ -152,6 +153,8 @@ try {
             host: '#hostStage',
             footer: '.control-footer',
             study: '#studyPanel',
+            reinforcement: '#studyReinforcement',
+            reviewQueue: '#reviewQueueButton',
             voice: '#voiceButton',
             outcome: '#outcomeFeedback',
             clueOriginal: '#clueOriginal',
@@ -183,6 +186,7 @@ try {
           }
           return {
             documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+            documentOverflowY: document.documentElement.scrollHeight - window.innerHeight,
             rects: result,
           };
         });
@@ -201,6 +205,8 @@ try {
           'host',
           'footer',
           'study',
+          'reinforcement',
+          'reviewQueue',
           'voice',
           'outcome',
           'clueOriginal',
@@ -210,8 +216,10 @@ try {
           ? ['header', 'menu', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer']
           : fixture === 'scoreboard'
             ? ['header', 'scoreboard', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer']
-            : fixture === 'study'
-              ? ['header', 'study', 'footer']
+            : fixture === 'study' || fixture === 'reinforcement'
+              ? ['header', 'study', ...(fixture === 'reinforcement' ? ['reinforcement'] : []), 'footer']
+              : fixture === 'complete'
+                ? ['header', 'dialogue', 'answer', 'reviewQueue', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice']
                 : fixture === 'outcome'
                 ? ['header', 'dialogue', 'answer', 'outcome', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice']
                 : fixture === 'translated'
@@ -225,11 +233,15 @@ try {
                         : ['header', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice'];
         const fixtureFailures = [];
         if (geometry.documentOverflow > 1) fixtureFailures.push(`document overflow ${geometry.documentOverflow}px`);
+        if (geometry.documentOverflowY > 1) fixtureFailures.push(`vertical document overflow ${geometry.documentOverflowY}px`);
         for (const name of visibleNames) {
           const rect = geometry.rects[name];
           if (!rect || rect.width < 1 || rect.height < 1) fixtureFailures.push(`${name} has no visible geometry`);
           if (rect && cabinet && cabinetBoundNames.has(name) && (rect.x < cabinet.x - 2 || rect.right > cabinet.right + 2)) {
             fixtureFailures.push(`${name} exceeds cabinet horizontally`);
+          }
+          if (rect && cabinet && cabinetBoundNames.has(name) && (rect.y < cabinet.y - 2 || rect.bottom > cabinet.bottom + 2)) {
+            fixtureFailures.push(`${name} exceeds cabinet vertically`);
           }
         }
         const clueRect = geometry.rects.clueText;
