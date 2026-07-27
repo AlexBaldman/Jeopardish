@@ -107,7 +107,17 @@ try {
   }, null, { timeout: 30000 });
   await page.addScriptTag({ path: path.join(root, 'src/dev/visual-fixture-state.js') });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.addStyleTag({ content: 'html { scroll-behavior: auto; } [data-visual-fixture] *, [data-visual-fixture] *::before, [data-visual-fixture] *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }' });
+  await page.addStyleTag({
+    content: `
+      html { scroll-behavior: auto; }
+      [data-visual-fixture] *,
+      [data-visual-fixture] *::before,
+      [data-visual-fixture] *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    `,
+  });
 
   for (const [viewportName, width, height] of viewports) {
     await page.setViewportSize({ width, height });
