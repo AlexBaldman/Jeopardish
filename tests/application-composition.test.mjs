@@ -105,6 +105,11 @@ function createHarness() {
     cancel() { calls.push(['cancel', 'pipeline']); }
   }
 
+  class ClueLocalization extends simpleConstructor('localization') {
+    prepare(clue) { return clue; }
+    cancel() { calls.push(['cancel', 'localization']); }
+  }
+
   class RoundKernel extends simpleConstructor('round') {
     cancel(nextPhase, reason) { calls.push(['cancel', 'round', nextPhase, reason]); }
   }
@@ -146,6 +151,7 @@ function createHarness() {
     PreferenceStore,
     LearningLedger: simpleConstructor('learning'),
     CluePipeline,
+    ClueLocalization,
     SessionManager: simpleConstructor('session'),
     EpisodeController,
     StudyController: simpleConstructor('study'),
@@ -166,6 +172,7 @@ test('ApplicationComposition constructs the service graph once with explicit dep
     cabinetOptions: { copyCatalog: { en: {} }, dialogueStyles: [] },
     roundOptions: { reducedMotion: true },
     cluePipelineOptions: { maxAttempts: 8 },
+    localizationOptions: { extractContent: () => ({ questionText: '', media: [] }) },
     episodeOptions: { sourceUrl: '/episode.json' },
     studyOptions: { getGameState: () => ({ score: 0 }) },
     inputOptions: { handlers: { 'new-clue': () => {} } },
@@ -196,6 +203,10 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(services.cabinetPresenter.options.voiceController, services.voiceController);
   assert.equal(services.cluePipeline.options.roundKernel, services.roundKernel);
   assert.equal(services.cluePipeline.options.mediaPreflight, services.mediaPreflight);
+  assert.equal(services.clueLocalization.options.translationService, services.translationService);
+  assert.equal(services.clueLocalization.options.preferenceStore, services.preferenceStore);
+  assert.equal(services.clueLocalization.options.renderer, services.renderer);
+  assert.equal(typeof services.episodeController.options.prepareDisplay, 'function');
   assert.equal(services.episodeController.options.sessionManager, services.sessionManager);
   assert.equal(services.episodeController.options.cluePipeline, services.cluePipeline);
   assert.equal(services.episodeController.options.learningLedger, services.learningLedger);
@@ -208,7 +219,7 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(calls.filter(([action]) => action === 'load').length, 1);
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_COMPOSED
-    && event.payload.serviceCount === 24
+    && event.payload.serviceCount === 25
   )));
 });
 
@@ -236,6 +247,7 @@ test('ApplicationComposition starts and destroys its lifecycle exactly once', ()
   assert.equal(composition.destroy(), false);
   assert.ok(calls.some((call) => call[0] === 'cancel' && call[1] === 'pipeline'));
   assert.equal(calls.filter((call) => call[0] === 'cancel' && call[1] === 'pipeline').length, 1);
+  assert.equal(calls.filter((call) => call[0] === 'cancel' && call[1] === 'localization').length, 1);
   assert.ok(calls.some((call) => (
     call[0] === 'cancel' && call[1] === 'round' && call[3] === 'test-complete'
   )));
@@ -273,6 +285,7 @@ test('ApplicationComposition rejects incomplete service registries', () => {
   assert.equal(REQUIRED_CONSTRUCTORS.includes('HostPerformanceDirector'), true);
   assert.equal(REQUIRED_CONSTRUCTORS.includes('BroadcastPresenter'), true);
   assert.equal(REQUIRED_CONSTRUCTORS.includes('CabinetPresenter'), true);
+  assert.equal(REQUIRED_CONSTRUCTORS.includes('ClueLocalization'), true);
   assert.throws(() => validateModules({ EventBus: class {} }), /missing constructors/);
 });
 
@@ -290,6 +303,9 @@ test('app.js delegates service construction and lifecycle binding to Application
   assert.match(appSource, /broadcastPresenter\.presentEpisodeComplete\(/);
   assert.match(appSource, /cabinetPresenter\.applyPreferences\(/);
   assert.match(appSource, /cabinetPresenter\.toggleLanguage\(/);
+  assert.match(appSource, /clueLocalization\.refreshCurrent\(/);
+  assert.doesNotMatch(appSource, /translationAbortController/);
+  assert.doesNotMatch(appSource, /translationRequestId/);
 });
 
 test('app.js delegates episode ownership without retaining shadow lifecycle state', () => {

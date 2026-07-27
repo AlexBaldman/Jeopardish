@@ -48,7 +48,10 @@ Jeopardish is moving toward a host-agnostic arcade engine. This document records
   narration copy plus the stable dialogue-style catalog.
 - `src/presentation/cabinet-presenter.js` owns preference, scene, dialogue-skin,
   host-picker, and control-deck presentation.
-- `app.js` supplies the remaining product-specific translation and command
+- `src/application/clue-localization.js` owns display-clue translation,
+  provider fallback, stale refresh cancellation, and exact round-view
+  restoration after a language change. Canonical clue truth remains unchanged.
+- `app.js` supplies the remaining product-specific command and presentation
   adapters. It delegates episode lifecycle to `EpisodeController` and never
   constructs services, selects candidates, judges answers, maps input devices,
   writes UI preferences to storage, or owns cabinet presentation.
@@ -70,7 +73,8 @@ The current browser load order is:
 6. Data, media, scene, focus, renderer, narrator, host, host presentation,
    brand, translation, audio, and voice modules
 7. `src/core/round-kernel.js`
-8. Application modules: `PreferenceStore` and `CluePipeline`
+8. Application modules: `PreferenceStore`, `CluePipeline`, and
+   `ClueLocalization`
 9. `SessionManager`
 10. `EpisodeController`
 11. Study data modules and `StudyController`
@@ -89,6 +93,12 @@ round.
 scene, audio, voice, and host-performance boundaries. It may cycle presentation
 preferences through `PreferenceStore`, but it cannot read or mutate round,
 episode, answer, or score state.
+
+`ClueLocalization` may receive canonical clue content, but it only prepares or
+commits a display variant through the `EpisodeController` callback. Its
+generation counter and abort controller reject stale provider work. It cannot
+replace the active source clue, judge localized answers, mutate score, or
+advance the episode.
 
 Media preflight happens before `GameEngine.loadClue()`. A rejected attachment can select another clue, but it cannot mutate score, streak, or answer correctness. Renderer-level media errors are a second recovery layer for assets that fail after preflight.
 
@@ -114,11 +124,10 @@ owns the active phase and rejects a pause snapshot from an older round id.
 
 ## Next Extraction Targets
 
-1. Extract the remaining language-change clue refresh transaction from
-   `app.js` without giving presentation code ownership of canonical clue truth.
-2. Continue splitting the large renderer into clue, Study, cabinet, and finale
-   view owners while retaining one DOM binding lifecycle. `OutcomeView` is the
-   first completed split.
+1. Extract a focused clue view from `Renderer`, now that localized display-clue
+   preparation has a stable upstream owner.
+2. Continue with Study, cabinet, and finale view owners only where the proven
+   flows support a clean boundary, retaining one DOM binding lifecycle.
 3. Convert renderer updates to event subscriptions only where the event facts
    are stable and doing so removes callback plumbing rather than hiding it.
 

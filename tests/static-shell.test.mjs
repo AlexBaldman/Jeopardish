@@ -225,6 +225,13 @@ test('both game shells load the authoritative round kernel', () => {
       `${surface} does not load the preference store`);
     assert.match(html, /src="src\/application\/clue-pipeline\.js/,
       `${surface} does not load the clue pipeline`);
+    assert.match(html, /src="src\/application\/clue-localization\.js/,
+      `${surface} does not load clue localization`);
+    assert.ok(
+      html.indexOf('src/application/clue-localization.js')
+        < html.indexOf('src/application/application-composition.js'),
+      `${surface} must load clue localization before composition`,
+    );
     assert.ok(
       html.indexOf('src/application/preference-store.js') < html.indexOf('src="app.js'),
       `${surface} must load the preference store before app.js`,

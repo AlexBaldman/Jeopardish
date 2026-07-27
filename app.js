@@ -34,7 +34,6 @@ const jeopardyErrors = [
 
 const state = {
   bestStreak: 0,
-  translationRequestId: 0,
 };
 
 const BEST_STREAK_KEY = 'jeopardish.bestStreak';
@@ -68,15 +67,14 @@ let hostManager;
 let hostPerformanceDirector;
 let broadcastPresenter;
 let cabinetPresenter;
-let translationService;
 let audioController;
 let voiceController;
 let roundKernel;
 let preferenceStore;
+let clueLocalization;
 let episodeController;
 let studyController;
 let inputController;
-let translationAbortController = null;
 
 function loadPersistedBestStreak() {
   try {
@@ -198,7 +196,7 @@ async function toggleLanguage() {
   renderScoreboard();
   renderHost(getCurrentHostExpression());
   if (getCurrentEpisodeContext().sourceClue && gameEngine.getActiveClue()) {
-    await refreshCurrentClueLanguage();
+    await clueLocalization.refreshCurrent();
   } else {
     renderer.setStatus(getCopy().newClue);
   }
@@ -296,11 +294,9 @@ async function openSavedReview() {
     renderer.setReviewQueueState(episodeController.getProgress().learning);
     return false;
   }
-  const displayClue = await translateClueForDisplay(
-    context.sourceClue,
-    undefined,
-    { showLoading: false },
-  );
+  const displayClue = await clueLocalization.prepare(context.sourceClue, {
+    showLoading: false,
+  });
   return studyController.enter({
     ...context,
     displayClue: displayClue || context.sourceClue,
@@ -320,58 +316,6 @@ function presentEpisodeLoaded({ sourceCount, fallback = false } = {}) {
 function presentEpisodeError(error) {
   console.error('Error loading episode:', error);
   renderer.displayErrorJoke(jeopardyErrors);
-}
-
-async function translateClueForDisplay(clue, signal, { showLoading = true } = {}) {
-  if (preferenceStore.get('language') !== 'pt-BR') {
-    return clue;
-  }
-
-  if (showLoading) renderer.showTranslationLoading();
-  const sourceContent = getSourceClueContent(clue);
-  try {
-    const translated = await translationService.translateClue(clue, {
-      questionText: sourceContent.questionText,
-      signal,
-    });
-    return {
-      ...translated,
-      media: [
-        ...(Array.isArray(clue.media) ? clue.media : []),
-        ...sourceContent.media,
-      ],
-    };
-  } catch (error) {
-    if (error?.name === 'AbortError') {
-      return null;
-    }
-    console.warn('Complete clue translation unavailable; showing the original clue.', error);
-    return {
-      ...clue,
-      translationFallback: true,
-    };
-  }
-}
-
-async function refreshCurrentClueLanguage() {
-  const { sourceClue } = getCurrentEpisodeContext();
-  if (!sourceClue) {
-    return;
-  }
-  const roundView = renderer.captureRoundView();
-  const requestId = ++state.translationRequestId;
-  translationAbortController?.abort();
-  translationAbortController = new AbortController();
-  const displayClue = await translateClueForDisplay(sourceClue, translationAbortController.signal);
-  if (!displayClue || requestId !== state.translationRequestId) {
-    return;
-  }
-  episodeController.updateCurrentDisplayClue(displayClue);
-  renderer.renderClue(displayClue, gameEngine.getState().currentClueValue);
-  renderer.setRoundPhase(roundKernel.phase);
-  renderer.restoreRoundView(roundView);
-  renderer.setControlsEnabled(roundKernel.phase === roundKernelModule.RoundPhases.ANSWERING);
-  narrateCurrentClue();
 }
 
 function getNewQuestion() {
@@ -531,11 +475,11 @@ function assignApplicationServices(services) {
     hostPerformanceDirector,
     broadcastPresenter,
     cabinetPresenter,
-    translationService,
     audioController,
     voiceController,
     roundKernel,
     preferenceStore,
+    clueLocalization,
     episodeController,
     studyController,
     inputController,
@@ -629,6 +573,20 @@ function createCompositionOptions() {
         exhausted: contracts.GameEvents.MEDIA_PREFLIGHT_EXHAUSTED,
       },
     },
+    localizationOptions: {
+      extractContent: getSourceClueContent,
+      getCurrentContext: getCurrentEpisodeContext,
+      hasActiveClue: () => Boolean(gameEngine?.getActiveClue()),
+      getRoundPresentation: () => ({
+        phase: roundKernel.phase,
+        canAnswer: roundKernel.phase === roundKernelModule.RoundPhases.ANSWERING,
+      }),
+      getClueValue: () => gameEngine.getState().currentClueValue,
+      updateDisplayClue: (displayClue) => (
+        episodeController.updateCurrentDisplayClue(displayClue)
+      ),
+      narrateCurrentClue,
+    },
     episodeOptions: {
       sourceUrl: QUESTION_SOURCE,
       fallbackSourceUrl: FALLBACK_QUESTION_SOURCE,
@@ -640,12 +598,10 @@ function createCompositionOptions() {
       },
       isBlocked: () => studyController?.isOpen() || false,
       getMedia: (clue) => getSourceClueContent(clue).media,
-      prepareDisplay: (clue, { signal }) => translateClueForDisplay(clue, signal),
       onEpisodeLoading: () => renderer.showLoading(),
       onEpisodeLoaded: presentEpisodeLoaded,
       onClueLoading: () => {
-        state.translationRequestId += 1;
-        translationAbortController?.abort();
+        clueLocalization.cancel();
         renderer.setControlsEnabled(false);
         renderer.setStudyAvailable(false);
       },
@@ -695,7 +651,6 @@ function initializeApplicationView() {
 
 function destroyApplication(event) {
   if (event?.persisted) return;
-  translationAbortController?.abort();
   applicationComposition?.destroy({ reason: 'pagehide' });
 }
 

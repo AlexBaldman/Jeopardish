@@ -28,6 +28,7 @@
     'PreferenceStore',
     'LearningLedger',
     'CluePipeline',
+    'ClueLocalization',
     'SessionManager',
     'EpisodeController',
     'StudyController',
@@ -56,6 +57,7 @@
       PreferenceStore: scope?.JeoPARODYPreferences?.PreferenceStore,
       LearningLedger: scope?.JeoPARODYLearning?.LearningLedger,
       CluePipeline: scope?.JeoPARODYCluePipeline?.CluePipeline,
+      ClueLocalization: scope?.JeoPARODYClueLocalization?.ClueLocalization,
       SessionManager: scope?.JeoPARODYSession?.SessionManager,
       EpisodeController: scope?.JeoPARODYEpisodeController?.EpisodeController,
       StudyController: scope?.JeoPARODYStudyController?.StudyController,
@@ -96,6 +98,7 @@
       voiceOptions = {},
       roundOptions = {},
       cluePipelineOptions = {},
+      localizationOptions = {},
       episodeOptions = {},
       studyOptions = {},
       inputOptions = {},
@@ -153,6 +156,12 @@
         mediaPreflight,
         ...cluePipelineOptions,
       });
+      const clueLocalization = new M.ClueLocalization({
+        translationService,
+        preferenceStore,
+        renderer,
+        ...localizationOptions,
+      });
       const sessionManager = new M.SessionManager({ eventBus });
       const episodeController = new M.EpisodeController({
         dataLoader,
@@ -164,6 +173,8 @@
         eventBus,
         learningLedger,
         ...episodeOptions,
+        prepareDisplay: episodeOptions.prepareDisplay
+          || ((clue, { signal } = {}) => clueLocalization.prepare(clue, { signal })),
       });
       const studyController = new M.StudyController({
         roundKernel,
@@ -201,6 +212,7 @@
         preferenceStore,
         learningLedger,
         cluePipeline,
+        clueLocalization,
         episodeController,
         studyController,
         inputController,
@@ -258,6 +270,7 @@
 
       this.emit(this.events.APPLICATION_STOPPED, { reason });
       this.safeInvoke('episode-controller-destroy', () => S.episodeController.destroy());
+      this.safeInvoke('clue-localization-cancel', () => S.clueLocalization.cancel());
       this.safeInvoke('round-kernel-cancel', () => S.roundKernel.cancel(undefined, reason));
       this.safeInvoke('input-controller-destroy', () => S.inputController.destroy());
       this.safeInvoke('product-telemetry-stop', () => S.productTelemetry.stop());
