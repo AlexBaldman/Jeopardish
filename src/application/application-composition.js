@@ -19,6 +19,7 @@
     'HostManager',
     'HostPerformanceDirector',
     'BroadcastPresenter',
+    'CabinetPresenter',
     'BrandController',
     'TranslationService',
     'AudioController',
@@ -46,6 +47,7 @@
       HostManager: scope?.JeopardishHost?.HostManager,
       HostPerformanceDirector: scope?.JeoPARODYHostPerformance?.HostPerformanceDirector,
       BroadcastPresenter: scope?.JeoPARODYBroadcastPresenter?.BroadcastPresenter,
+      CabinetPresenter: scope?.JeoPARODYCabinetPresenter?.CabinetPresenter,
       BrandController: scope?.JeoPARODYBrand?.BrandController,
       TranslationService: scope?.JeoPARODYTranslation?.TranslationService,
       AudioController: scope?.JeoPARODYAudio?.AudioController,
@@ -90,6 +92,7 @@
       learningOptions = {},
       hostPerformanceOptions = {},
       presentationOptions = {},
+      cabinetOptions = {},
       voiceOptions = {},
       roundOptions = {},
       cluePipelineOptions = {},
@@ -130,6 +133,15 @@
         preferenceStore,
         voiceController,
         ...presentationOptions,
+      });
+      const cabinetPresenter = new M.CabinetPresenter({
+        renderer,
+        preferenceStore,
+        sceneService,
+        audioController,
+        voiceController,
+        hostPerformanceDirector,
+        ...cabinetOptions,
       });
       const roundKernel = new M.RoundKernel({
         audio: audioController,
@@ -180,6 +192,7 @@
         hostManager,
         hostPerformanceDirector,
         broadcastPresenter,
+        cabinetPresenter,
         brandController,
         translationService,
         audioController,

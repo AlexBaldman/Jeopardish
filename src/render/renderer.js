@@ -1,14 +1,23 @@
 (function initRenderer(root, factory) {
   if (typeof module === 'object' && module.exports) {
-    module.exports = factory(require('../ui/focus-scope.js'));
+    module.exports = factory(
+      require('../ui/focus-scope.js'),
+      require('./outcome-view.js'),
+    );
   } else {
-    root.JeopardishRenderer = factory(root.JeoPARODYFocus);
+    root.JeopardishRenderer = factory(root.JeoPARODYFocus, root.JeoPARODYOutcomeView);
   }
-}(typeof globalThis !== 'undefined' ? globalThis : this, function rendererFactory(focusModule) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function rendererFactory(
+  focusModule,
+  outcomeModule,
+) {
   'use strict';
 
   if (!focusModule?.FocusScope) {
     throw new Error('JeopardishRenderer requires JeoPARODYFocus.');
+  }
+  if (!outcomeModule?.OutcomeView) {
+    throw new Error('JeopardishRenderer requires JeoPARODYOutcomeView.');
   }
 
   const DefaultCopy = Object.freeze({
@@ -275,6 +284,15 @@
       this.lastEpisodeValue = null;
       this.scoreDrawerTimer = null;
       this.onExitStudy = () => {};
+      this.outcomeView = new outcomeModule.OutcomeView({
+        dom: this.dom,
+        getCopy: () => this.copy,
+        setText: (element, value) => this.setText(element, value),
+        setGameMoment: (moment) => this.setGameMoment(moment),
+        clearMedia: () => this.clearMedia(),
+        setQuestionText: (message) => this.setQuestionText(message),
+        toggleAnswer: (visible) => this.toggleAnswer(visible),
+      });
     }
 
     bindDom() {
@@ -1300,74 +1318,19 @@
     }
 
     displayCorrectAnswerMessage(result) {
-      const currentStreak = typeof result === 'number' ? result : result?.currentStreak || 0;
-      const scoreDelta = typeof result === 'number' ? 0 : result?.scoreDelta || 0;
-      const correctAnswer = typeof result === 'object' ? result?.correctAnswer || '' : '';
-      const judgment = {
-        exact: this.copy.exactJudgment,
-        variation: this.copy.variationJudgment,
-        fuzzy: this.copy.fuzzyJudgment,
-      }[result?.answerMatch?.reason] || '';
-      this.setGameMoment('correct');
-      this.setText(this.dom.categoryBox, this.copy.correctKicker);
-      this.clearMedia();
-      this.setQuestionText(scoreDelta > 0 ? `${this.copy.correctMessage} +$${scoreDelta}` : this.copy.correctMessage);
-      this.setText(this.dom.answerBox, [
-        correctAnswer ? `${this.copy.correctResponseLabel} ${correctAnswer}` : '',
-        judgment,
-        `${this.copy.correctAnswerStreak}: ${currentStreak}`,
-      ].filter(Boolean).join('\n'));
-      this.toggleAnswer(true);
+      return this.outcomeView.displayCorrect(result);
     }
 
     displayIncorrectAnswerMessage(result) {
-      const correctAnswer = typeof result === 'string' ? result : result?.correctAnswer || 'Unknown';
-      const submittedAnswer = typeof result === 'object' ? result?.submittedAnswer || '' : '';
-      this.setGameMoment('incorrect');
-      this.setText(this.dom.categoryBox, this.copy.incorrectKicker);
-      this.clearMedia();
-      this.setQuestionText(this.copy.incorrectMessage);
-      this.setText(this.dom.answerBox, [
-        submittedAnswer ? `${this.copy.yourResponseLabel} ${submittedAnswer}` : '',
-        `${this.copy.correctResponseLabel} ${correctAnswer}`,
-        this.copy.streakReset,
-      ].filter(Boolean).join('\n'));
-      this.setStatus(this.copy.incorrectStatus);
-      this.toggleAnswer(true);
+      return this.outcomeView.displayIncorrect(result);
     }
 
-    renderOutcomeFeedback({ confidence = null, disputed = false } = {}) {
-      if (!this.dom.outcomeFeedback) return;
-      this.dom.outcomeFeedback.hidden = false;
-      const ratings = [
-        [this.dom.confidenceKnew, 'knew-it'],
-        [this.dom.confidenceShaky, 'shaky'],
-        [this.dom.confidenceLearned, 'learned-it'],
-      ];
-      ratings.forEach(([button, value]) => {
-        button?.setAttribute?.('aria-pressed', String(confidence === value));
-      });
-      this.dom.disputeButton?.setAttribute?.('aria-pressed', String(Boolean(disputed)));
-      this.setText(
-        this.dom.disputeButton,
-        disputed ? this.copy.disputeRecorded : this.copy.disputeJudgment,
-      );
-      this.setText(
-        this.dom.outcomeFeedbackStatus,
-        confidence
-          ? `${this.copy.confidencePrompt} ${{
-            'knew-it': this.copy.confidenceKnew,
-            shaky: this.copy.confidenceShaky,
-            'learned-it': this.copy.confidenceLearned,
-          }[confidence]}.`
-          : disputed ? this.copy.disputeRecorded : '',
-      );
+    renderOutcomeFeedback(result = {}) {
+      return this.outcomeView.renderFeedback(result);
     }
 
     hideOutcomeFeedback() {
-      if (!this.dom.outcomeFeedback) return;
-      this.dom.outcomeFeedback.hidden = true;
-      this.setText(this.dom.outcomeFeedbackStatus, '');
+      return this.outcomeView.hideFeedback();
     }
   }
 

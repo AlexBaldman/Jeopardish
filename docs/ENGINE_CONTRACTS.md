@@ -35,14 +35,23 @@ Jeopardish is moving toward a host-agnostic arcade engine. This document records
 - `src/data/data-loader.js` owns fetching and transport-level shape checks. It
   does not decide whether episode content is production-valid.
 - `src/media/media-preflight.js` owns media reachability checks, bounded timeouts, health caching, and playable-clue selection.
-- `src/render/renderer.js` owns DOM binding, rendering, user input reads, fallback clue display, and control state.
+- `src/render/renderer.js` owns the shared DOM binding lifecycle, user input
+  reads, fallback clue display, and control-state facade. Focused view owners
+  may render one stable surface behind that facade.
+- `src/render/outcome-view.js` owns correct, incorrect, confidence, and dispute
+  feedback. It receives approved outcome facts and cannot judge an answer or
+  mutate score.
 - `src/host/host-manager.js` owns active host config, host visuals, and host quip selection.
 - `src/audio/audio-controller.js` owns deterministic synthesized game cues.
 - `src/voice/voice-controller.js` owns speech capability detection, narration, one-shot recognition, transcript normalization, and command parsing. It never judges an answer or mutates game state.
-- `app.js` supplies product-specific display, translation, voice, and host
+- `src/presentation/ui-catalog.js` owns immutable bilingual interface and
+  narration copy plus the stable dialogue-style catalog.
+- `src/presentation/cabinet-presenter.js` owns preference, scene, dialogue-skin,
+  host-picker, and control-deck presentation.
+- `app.js` supplies the remaining product-specific translation and command
   adapters. It delegates episode lifecycle to `EpisodeController` and never
   constructs services, selects candidates, judges answers, maps input devices,
-  or writes UI preferences to storage.
+  writes UI preferences to storage, or owns cabinet presentation.
 
 ## Important Boundary
 
@@ -76,6 +85,11 @@ may call the renderer and optional voice controller. It cannot select a clue,
 judge an answer, record an outcome, mutate score, advance an episode, or pause a
 round.
 
+`CabinetPresenter` applies one validated preference snapshot to the renderer,
+scene, audio, voice, and host-performance boundaries. It may cycle presentation
+preferences through `PreferenceStore`, but it cannot read or mutate round,
+episode, answer, or score state.
+
 Media preflight happens before `GameEngine.loadClue()`. A rejected attachment can select another clue, but it cannot mutate score, streak, or answer correctness. Renderer-level media errors are a second recovery layer for assets that fail after preflight.
 
 `SessionManager` version 3 records `correct`, `incorrect`, `revealed`, and
@@ -100,12 +114,12 @@ owns the active phase and rejects a pause snapshot from an older round id.
 
 ## Next Extraction Targets
 
-1. Move remaining preference, scene, translation-refresh, and control-deck
-   presentation coordination out of `app.js`.
-2. Split the large renderer into clue, outcome, Study, cabinet, and finale view
-   owners while retaining one DOM binding lifecycle.
-3. Move the static locale catalog into a dedicated presentation module.
-4. Convert renderer updates to event subscriptions only where the event facts
+1. Extract the remaining language-change clue refresh transaction from
+   `app.js` without giving presentation code ownership of canonical clue truth.
+2. Continue splitting the large renderer into clue, Study, cabinet, and finale
+   view owners while retaining one DOM binding lifecycle. `OutcomeView` is the
+   first completed split.
+3. Convert renderer updates to event subscriptions only where the event facts
    are stable and doing so removes callback plumbing rather than hiding it.
 
 ## Behavior Preserved

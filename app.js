@@ -4,12 +4,6 @@ const QUESTION_SOURCE = './questions/episodes/season-zero-001.json';
 const FALLBACK_QUESTION_SOURCE = './questions/runtime-bank.json';
 const FETCH_TIMEOUT_MS = 30000;
 const MAX_MEDIA_PREFLIGHT_ATTEMPTS = 8;
-const DIALOGUE_STYLES = Object.freeze([
-  Object.freeze({ id: 'clue-card', label: Object.freeze({ en: 'Clue Card', 'pt-BR': 'Cartão da Pista' }) }),
-  Object.freeze({ id: 'speech', label: Object.freeze({ en: 'Comic Speech', 'pt-BR': 'Fala de Quadrinho' }) }),
-  Object.freeze({ id: 'thought', label: Object.freeze({ en: 'Host Thought', 'pt-BR': 'Pensamento do Host' }) }),
-  Object.freeze({ id: 'narration', label: Object.freeze({ en: 'Narration Box', 'pt-BR': 'Caixa do Narrador' }) }),
-]);
 
 const jeopardyErrors = [
   {
@@ -45,181 +39,6 @@ const state = {
 
 const BEST_STREAK_KEY = 'jeopardish.bestStreak';
 
-const UI_COPY = {
-  en: {
-    lang: 'en',
-    questionButton: 'New Clue',
-    answerButton: 'Reveal Answer',
-    checkButton: 'Lock It In',
-    inputPlaceholder: 'Type your response',
-    answerFieldLabel: 'Your response',
-    checkButtonKicker: 'Confirm',
-    questionButtonKicker: 'Board',
-    answerButtonKicker: 'Clue',
-    confidencePrompt: 'How did that one feel?',
-    confidenceKnew: 'Knew it',
-    confidenceShaky: 'Shaky',
-    confidenceLearned: 'Learned it',
-    disputeJudgment: 'Dispute ruling',
-    disputeRecorded: 'Ruling flagged',
-    soundOn: 'Sound',
-    soundOff: 'Muted',
-    voiceMode: 'Voice mode',
-    voiceOff: 'Voice off',
-    voiceReady: 'Tap to answer',
-    voiceNarrationReady: 'Narration on',
-    voiceListening: 'Listening...',
-    voiceSpeaking: 'Xander speaking',
-    voiceDenied: 'Microphone blocked',
-    voiceUnavailable: 'Voice unavailable',
-    voiceError: 'Voice needs another try',
-    voiceHelp: 'Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask Xander.',
-    voiceWelcome: 'Voice mode online. Tap the microphone to answer or give me a command.',
-    hostPersonality: 'Host personality',
-    nextClueReady: 'NEXT CLUE READY',
-    themeNight: 'Night',
-    themeDay: 'Day',
-    languageEnglish: 'English',
-    languagePortuguese: 'Português',
-    translatingClue: 'Translating the complete clue...',
-    translationOnDevice: 'PT · ON DEVICE',
-    translationNetwork: 'PT · MACHINE',
-    translationCache: 'PT · CACHED',
-    translationFallback: 'PT unavailable · English shown',
-    currentStreak: 'Current Streak',
-    bestStreak: 'Best Streak',
-    score: 'Score',
-    episode: 'Episode',
-    clueProgress: 'Clue',
-    episodeComplete: 'Broadcast Complete',
-    replayEpisode: 'Replay Episode',
-    emptyCategory: 'Host Advisory',
-    loadingBank: 'Loading question bank...',
-    loadingQuestions: 'Loading questions...',
-    fallbackClue: 'There was a problem loading a normal clue. Showing fallback clue.',
-    newClue: 'New clue loaded. Enter your answer and press Lock It In.',
-    correctKicker: 'Right on the Money',
-    correctMessage: 'Correct.',
-    correctAnswerStreak: 'Answer streak',
-    incorrectKicker: 'The Judges Have Spoken',
-    incorrectMessage: 'Not quite.',
-    correctResponseLabel: 'Correct response:',
-    yourResponseLabel: 'Your response:',
-    exactJudgment: 'Exact match',
-    variationJudgment: 'Accepted variation',
-    fuzzyJudgment: 'Minor typo accepted',
-    streakReset: 'STREAK RESET!',
-    hostCues: {
-      idle: 'On Air',
-      clue: 'Your Move',
-      reveal: 'The Truth',
-      correct: 'Approved',
-      incorrect: 'Judges Say No',
-      empty: '...Really?',
-      streak: 'On Fire',
-    },
-    noClue: 'No question available yet. Please load one first.',
-    emptyAnswer: 'Please enter an answer before checking.',
-    emptyAnswerFallback: 'Try words. They have served contestants reasonably well.',
-    keepTyping: 'Type an answer to keep the dignity damage contained.',
-    loadedClues: (count) => `Loaded ${count.toLocaleString()} clues.`,
-    initializing: 'Initializing game...',
-    correctStatus: (scoreDelta, quip) => `Correct. +$${scoreDelta}. ${quip} Press Enter or New Clue to keep rolling.`,
-    incorrectStatus: (quip) => `Incorrect. ${quip} Press Enter or New Clue to continue.`,
-    voiceClue: (category, value, question) => `${category}, for ${value} dollars. ${question}`,
-    voiceCorrect: (value, streak) => `Correct. Add ${value} dollars. Your streak is ${streak}.`,
-    voiceIncorrect: (answer) => `Not quite. The correct response was ${answer}.`,
-    voiceReveal: (answer) => `The correct response is ${answer}.`,
-    voiceComplete: (score, correct, total) => `Broadcast complete. Final score, ${score} dollars. ${correct} correct out of ${total}.`,
-  },
-  'pt-BR': {
-    lang: 'pt-BR',
-    questionButton: 'Nova Pista',
-    answerButton: 'Revelar Resposta',
-    checkButton: 'Valendo',
-    inputPlaceholder: 'Digite sua resposta',
-    answerFieldLabel: 'Sua resposta',
-    checkButtonKicker: 'Confirmar',
-    questionButtonKicker: 'Tabuleiro',
-    answerButtonKicker: 'Pista',
-    confidencePrompt: 'Como foi essa?',
-    confidenceKnew: 'Eu sabia',
-    confidenceShaky: 'Foi por pouco',
-    confidenceLearned: 'Aprendi agora',
-    disputeJudgment: 'Contestar decisão',
-    disputeRecorded: 'Decisão marcada',
-    soundOn: 'Som',
-    soundOff: 'Mudo',
-    voiceMode: 'Modo de voz',
-    voiceOff: 'Voz desligada',
-    voiceReady: 'Toque para responder',
-    voiceNarrationReady: 'Narração ativa',
-    voiceListening: 'Ouvindo...',
-    voiceSpeaking: 'Xander falando',
-    voiceDenied: 'Microfone bloqueado',
-    voiceUnavailable: 'Voz indisponível',
-    voiceError: 'Tente a voz novamente',
-    voiceHelp: 'Toque para falar. Diga uma resposta, próxima pista, mostre a resposta, repita a pista, abra o menu ou pergunte ao Xander.',
-    voiceWelcome: 'Modo de voz ativado. Toque no microfone para responder ou dar um comando.',
-    hostPersonality: 'Personalidade do host',
-    nextClueReady: 'PRÓXIMA PISTA',
-    themeNight: 'Noite',
-    themeDay: 'Dia',
-    languageEnglish: 'English',
-    languagePortuguese: 'Português',
-    translatingClue: 'Traduzindo categoria, pista e resposta...',
-    translationOnDevice: 'PT · NO DISPOSITIVO',
-    translationNetwork: 'PT · TRADUÇÃO AUTOMÁTICA',
-    translationCache: 'PT · EM CACHE',
-    translationFallback: 'PT indisponível · exibindo inglês',
-    currentStreak: 'Sequência Atual',
-    bestStreak: 'Melhor Sequência',
-    score: 'Placar',
-    episode: 'Episódio',
-    clueProgress: 'Pista',
-    episodeComplete: 'Transmissão Concluída',
-    replayEpisode: 'Repetir Episódio',
-    emptyCategory: 'Aviso do Host',
-    loadingBank: 'Carregando banco de pistas...',
-    loadingQuestions: 'Carregando perguntas...',
-    fallbackClue: 'Houve um problema ao carregar uma pista normal. Mostrando uma pista reserva.',
-    newClue: 'Nova pista carregada. Digite sua resposta e aperte Valendo.',
-    correctKicker: 'Dinheiro no Bolso',
-    correctMessage: 'Correto.',
-    correctAnswerStreak: 'Sequência de acertos',
-    incorrectKicker: 'Os Juízes Decidiram',
-    incorrectMessage: 'Quase, mas não.',
-    correctResponseLabel: 'Resposta correta:',
-    yourResponseLabel: 'Sua resposta:',
-    exactJudgment: 'Resposta exata',
-    variationJudgment: 'Variação aceita',
-    fuzzyJudgment: 'Pequeno erro aceito',
-    streakReset: 'SEQUÊNCIA ZERADA!',
-    hostCues: {
-      idle: 'No Ar',
-      clue: 'Sua Vez',
-      reveal: 'A Verdade',
-      correct: 'Aprovado',
-      incorrect: 'Juízes: Não',
-      empty: '...Sério?',
-      streak: 'Pegando Fogo',
-    },
-    noClue: 'Nenhuma pergunta disponível ainda. Carregue uma pista primeiro.',
-    emptyAnswer: 'Digite uma resposta antes de conferir.',
-    emptyAnswerFallback: 'Tente usar palavras. Elas costumam ajudar.',
-    keepTyping: 'Digite uma resposta para conter o dano à dignidade.',
-    loadedClues: (count) => `${count.toLocaleString('pt-BR')} pistas carregadas.`,
-    initializing: 'Inicializando o jogo...',
-    correctStatus: (scoreDelta, quip) => `Correto. +$${scoreDelta}. ${quip} Aperte Enter ou Nova Pista para continuar.`,
-    incorrectStatus: (quip) => `Incorreto. ${quip} Aperte Enter ou Nova Pista para continuar.`,
-    voiceClue: (category, value, question) => `${category}, por ${value} dólares. ${question}`,
-    voiceCorrect: (value, streak) => `Correto. Mais ${value} dólares. Sua sequência é ${streak}.`,
-    voiceIncorrect: (answer) => `Quase. A resposta correta era ${answer}.`,
-    voiceReveal: (answer) => `A resposta correta é ${answer}.`,
-    voiceComplete: (score, correct, total) => `Transmissão concluída. Placar final, ${score} dólares. ${correct} acertos em ${total}.`,
-  },
-};
-
 const logic = globalThis.JeopardishLogic || null;
 if (!logic) {
   throw new Error('JeopardishLogic failed to load. Ensure game-logic.js is included before app.js.');
@@ -232,10 +51,13 @@ const roundKernelModule = globalThis.JeoPARODYRoundKernel || null;
 const inputControllerModule = globalThis.JeoPARODYInputController || null;
 const applicationCompositionModule = globalThis.JeoPARODYApplicationComposition || null;
 const hostPackModule = globalThis.JeoPARODYHostPack || null;
+const uiCatalogModule = globalThis.JeoPARODYUiCatalog || null;
 
-if (!contracts || !rendererModule || !voiceModule || !roundKernelModule || !inputControllerModule || !applicationCompositionModule || !hostPackModule) {
+if (!contracts || !rendererModule || !voiceModule || !roundKernelModule || !inputControllerModule || !applicationCompositionModule || !hostPackModule || !uiCatalogModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
+
+const { DialogueStyles: DIALOGUE_STYLES, UiCopy: UI_COPY } = uiCatalogModule;
 
 let applicationComposition;
 let eventBus;
@@ -245,6 +67,7 @@ let renderer;
 let hostManager;
 let hostPerformanceDirector;
 let broadcastPresenter;
+let cabinetPresenter;
 let translationService;
 let audioController;
 let voiceController;
@@ -254,7 +77,6 @@ let episodeController;
 let studyController;
 let inputController;
 let translationAbortController = null;
-let sceneActivated = false;
 
 function loadPersistedBestStreak() {
   try {
@@ -277,7 +99,9 @@ function persistBestStreak() {
 }
 
 function getCopy() {
-  return UI_COPY[preferenceStore.get('language')] || UI_COPY.en;
+  return cabinetPresenter?.getCopy()
+    || UI_COPY[preferenceStore?.get('language')]
+    || UI_COPY.en;
 }
 
 function getCurrentEpisodeContext() {
@@ -287,102 +111,21 @@ function getCurrentEpisodeContext() {
   };
 }
 
-function applyScenePreferences() {
-  const scenePackId = preferenceStore.get('scenePackId');
-  const activeScenePack = sceneService?.setPack(scenePackId, { render: false });
-  sceneService?.setTheme(preferenceStore.get('theme'));
-  sceneActivated = true;
-  if (activeScenePack && activeScenePack.id !== scenePackId) {
-    preferenceStore.set('scenePackId', activeScenePack.id);
-  }
-  return activeScenePack;
-}
-
 function applyPreferences() {
-  const copy = getCopy();
-  const theme = preferenceStore.get('theme');
-  const language = preferenceStore.get('language');
-  const scenePackId = preferenceStore.get('scenePackId');
-  const activeHostPack = hostPerformanceDirector?.setActivePack(
-    preferenceStore.get('hostPackId'),
-  );
-  if (activeHostPack && activeHostPack.id !== preferenceStore.get('hostPackId')) {
-    preferenceStore.set('hostPackId', activeHostPack.id);
-  }
-  globalThis.document?.body?.setAttribute('data-theme', theme);
-  globalThis.document?.body?.setAttribute('data-language', language);
-  const isStandaloneGame = globalThis.document?.body?.dataset?.appMode === 'game';
-  const activeScenePack = (isStandaloneGame || sceneActivated)
-    ? applyScenePreferences()
-    : sceneService?.getPacks().find((pack) => pack.id === scenePackId)
-      || sceneService?.getActivePack();
-  if (activeScenePack) {
-    if (activeScenePack.id !== preferenceStore.get('scenePackId')) {
-      preferenceStore.set('scenePackId', activeScenePack.id);
-    }
-    renderScenePicker(activeScenePack);
-  }
-  renderer.setCopy(copy);
-  renderer.setToggleStates({
-    theme,
-    language,
-  });
-  renderer.setSoundState(preferenceStore.get('muted'));
-  voiceController?.setLanguage(language);
-  if (voiceController) {
-    renderer.setVoiceState({
-      state: voiceController.state,
-      enabled: voiceController.enabled,
-      capabilities: voiceController.getCapabilities(),
-    });
-  }
-  renderDialogueStyle();
-  renderHostPackPicker();
+  cabinetPresenter.applyPreferences();
   renderScoreboard();
 }
 
-function renderDialogueStyle() {
-  const dialogueStyleId = preferenceStore.get('dialogueStyleId');
-  const language = preferenceStore.get('language');
-  const index = Math.max(0, DIALOGUE_STYLES.findIndex((style) => style.id === dialogueStyleId));
-  const style = DIALOGUE_STYLES[index];
-  renderer.renderDialogueStyle({
-    ...style,
-    label: style.label[language] || style.label.en,
-  }, index, DIALOGUE_STYLES.length);
-}
-
 function cycleDialogueStyle(step) {
-  const currentId = preferenceStore.get('dialogueStyleId');
-  const currentIndex = Math.max(0, DIALOGUE_STYLES.findIndex((style) => style.id === currentId));
-  const nextIndex = (currentIndex + step + DIALOGUE_STYLES.length) % DIALOGUE_STYLES.length;
-  preferenceStore.set('dialogueStyleId', DIALOGUE_STYLES[nextIndex].id);
-  renderDialogueStyle();
-}
-
-function renderScenePicker(pack = sceneService?.getActivePack()) {
-  if (!pack || !sceneService) return;
-  const packs = sceneService.getPacks();
-  const index = Math.max(0, packs.findIndex((candidate) => candidate.id === pack.id));
-  renderer.renderScenePicker(pack, index, packs.length);
+  return cabinetPresenter.cycleDialogueStyle(step);
 }
 
 function cycleScenePack() {
-  const pack = sceneService?.cyclePack(1);
-  if (!pack) return;
-  sceneActivated = true;
-  preferenceStore.set('scenePackId', pack.id);
-  renderScenePicker(pack);
+  return cabinetPresenter.cycleScenePack();
 }
 
 function toggleSound() {
-  const muted = audioController.toggleMuted();
-  preferenceStore.set('muted', muted);
-  renderer.setSoundState(muted);
-  if (!muted) {
-    audioController.unlock();
-    audioController.play('clue');
-  }
+  return cabinetPresenter.toggleSound();
 }
 
 function emitVoiceEvent(type, payload = {}) {
@@ -447,15 +190,12 @@ async function submitSpokenAnswer({ answer } = {}) {
 }
 
 function toggleTheme() {
-  const theme = preferenceStore.get('theme') === 'dark' ? 'light' : 'dark';
-  preferenceStore.set('theme', theme);
-  applyPreferences();
+  return cabinetPresenter.toggleTheme();
 }
 
 async function toggleLanguage() {
-  const language = preferenceStore.get('language') === 'en' ? 'pt-BR' : 'en';
-  preferenceStore.set('language', language);
-  applyPreferences();
+  cabinetPresenter.toggleLanguage();
+  renderScoreboard();
   renderHost(getCurrentHostExpression());
   if (getCurrentEpisodeContext().sourceClue && gameEngine.getActiveClue()) {
     await refreshCurrentClueLanguage();
@@ -497,10 +237,7 @@ function cycleHostSkin(step) {
 }
 
 function renderHostPackPicker(pack = hostPerformanceDirector?.getActivePack()) {
-  if (!pack || !hostPerformanceDirector) return;
-  const packs = hostPerformanceDirector.getPacks();
-  const index = Math.max(0, packs.findIndex(({ id }) => id === pack.id));
-  renderer.renderHostPack(pack, index, packs.length);
+  return cabinetPresenter.renderHostPackPicker(pack);
 }
 
 function performHostBeat(beat, options = {}) {
@@ -748,7 +485,7 @@ function toggleOutcomeDispute() {
 }
 
 function startGame() {
-  if (!sceneActivated) renderScenePicker(applyScenePreferences());
+  cabinetPresenter.ensureSceneActive();
   renderer.setStatus(getCopy().initializing);
   return episodeController.start();
 }
@@ -793,6 +530,7 @@ function assignApplicationServices(services) {
     hostManager,
     hostPerformanceDirector,
     broadcastPresenter,
+    cabinetPresenter,
     translationService,
     audioController,
     voiceController,
@@ -851,6 +589,11 @@ function createCompositionOptions() {
     presentationOptions: {
       hostBeats: hostPackModule.HostBeats,
       getCopy,
+    },
+    cabinetOptions: {
+      copyCatalog: UI_COPY,
+      dialogueStyles: DIALOGUE_STYLES,
+      documentRef: globalThis.document,
     },
     voiceOptions: {
       onState: (detail) => {

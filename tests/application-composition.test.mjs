@@ -137,6 +137,7 @@ function createHarness() {
     HostManager,
     HostPerformanceDirector,
     BroadcastPresenter: simpleConstructor('broadcast-presenter'),
+    CabinetPresenter: simpleConstructor('cabinet-presenter'),
     BrandController,
     TranslationService: simpleConstructor('translation'),
     AudioController,
@@ -162,6 +163,7 @@ test('ApplicationComposition constructs the service graph once with explicit dep
     preferenceOptions: { allowedValues: { dialogueStyleId: ['clue-card'] } },
     voiceOptions: { language: 'en-US' },
     presentationOptions: { hostBeats: { CLUE: 'clue' }, getCopy: () => ({}) },
+    cabinetOptions: { copyCatalog: { en: {} }, dialogueStyles: [] },
     roundOptions: { reducedMotion: true },
     cluePipelineOptions: { maxAttempts: 8 },
     episodeOptions: { sourceUrl: '/episode.json' },
@@ -187,6 +189,11 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(services.broadcastPresenter.options.preferenceStore, services.preferenceStore);
   assert.equal(services.broadcastPresenter.options.voiceController, services.voiceController);
   assert.equal(services.broadcastPresenter.options.hostBeats.CLUE, 'clue');
+  assert.equal(services.cabinetPresenter.options.renderer, services.renderer);
+  assert.equal(services.cabinetPresenter.options.preferenceStore, services.preferenceStore);
+  assert.equal(services.cabinetPresenter.options.sceneService, services.sceneService);
+  assert.equal(services.cabinetPresenter.options.audioController, services.audioController);
+  assert.equal(services.cabinetPresenter.options.voiceController, services.voiceController);
   assert.equal(services.cluePipeline.options.roundKernel, services.roundKernel);
   assert.equal(services.cluePipeline.options.mediaPreflight, services.mediaPreflight);
   assert.equal(services.episodeController.options.sessionManager, services.sessionManager);
@@ -201,7 +208,7 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(calls.filter(([action]) => action === 'load').length, 1);
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_COMPOSED
-    && event.payload.serviceCount === 23
+    && event.payload.serviceCount === 24
   )));
 });
 
@@ -265,6 +272,7 @@ test('ApplicationComposition rejects incomplete service registries', () => {
   assert.equal(REQUIRED_CONSTRUCTORS.includes('GameEngine'), true);
   assert.equal(REQUIRED_CONSTRUCTORS.includes('HostPerformanceDirector'), true);
   assert.equal(REQUIRED_CONSTRUCTORS.includes('BroadcastPresenter'), true);
+  assert.equal(REQUIRED_CONSTRUCTORS.includes('CabinetPresenter'), true);
   assert.throws(() => validateModules({ EventBus: class {} }), /missing constructors/);
 });
 
@@ -280,6 +288,8 @@ test('app.js delegates service construction and lifecycle binding to Application
   assert.match(appSource, /broadcastPresenter\.presentClue\(/);
   assert.match(appSource, /broadcastPresenter\.presentJudgment\(/);
   assert.match(appSource, /broadcastPresenter\.presentEpisodeComplete\(/);
+  assert.match(appSource, /cabinetPresenter\.applyPreferences\(/);
+  assert.match(appSource, /cabinetPresenter\.toggleLanguage\(/);
 });
 
 test('app.js delegates episode ownership without retaining shadow lifecycle state', () => {

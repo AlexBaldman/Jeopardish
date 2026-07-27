@@ -143,6 +143,15 @@ test('game shells load foundations and owned components without a legacy runtime
   assert.doesNotMatch(gameHtml, /href="style\.css/, 'game.html must not load landing-page styles');
 });
 
+test('both game shells load focused renderer views before the renderer facade', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    const outcomeView = html.indexOf('src/render/outcome-view.js');
+    const renderer = html.indexOf('src/render/renderer.js');
+    assert.ok(outcomeView > 0, `${surface} is missing the outcome view`);
+    assert.ok(renderer > outcomeView, `${surface} must load the outcome view before the renderer`);
+  }
+});
+
 test('canonical cabinet components use layers and container-driven responsive rules', () => {
   assert.match(baseStyles, /^@layer reset/);
   assert.match(tokens, /^@layer tokens/);
@@ -239,12 +248,16 @@ test('both game shells load host packs and the performance director before compo
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const hostPack = html.indexOf('src/host/host-pack.js');
     const director = html.indexOf('src/host/host-performance-director.js');
+    const catalog = html.indexOf('src/presentation/ui-catalog.js');
     const presenter = html.indexOf('src/presentation/broadcast-presenter.js');
+    const cabinet = html.indexOf('src/presentation/cabinet-presenter.js');
     const composition = html.indexOf('src/application/application-composition.js');
     assert.ok(hostPack > 0, `${surface} is missing the HostPack contract`);
     assert.ok(director > hostPack, `${surface} must load HostPack before its director`);
-    assert.ok(presenter > director, `${surface} must load host performance before presentation`);
-    assert.ok(composition > presenter, `${surface} must load presentation before composition`);
+    assert.ok(catalog > director, `${surface} must load host performance before UI copy`);
+    assert.ok(presenter > catalog, `${surface} must load UI copy before presentation`);
+    assert.ok(cabinet > presenter, `${surface} must load broadcast before cabinet presentation`);
+    assert.ok(composition > cabinet, `${surface} must load presentation before composition`);
     assert.match(html, /id="menuHostPack"/, `${surface} is missing personality selection`);
   }
 });

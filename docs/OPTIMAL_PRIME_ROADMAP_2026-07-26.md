@@ -47,7 +47,7 @@ roadmap for one:
   accepted aliases, reviewed explanations and sources, confidence and dispute
   capture, review queues, one local media clue with a standby, and an earned
   finale artifact.
-- The static production artifact is 34.9 MB, below its 38 MB total-build budget,
+- The static production artifact is 35.0 MB, below its 38 MB total-build budget,
   with no archive leakage or broken local references found by the dist audit.
 - `RoundKernel`, `CluePipeline`, `EpisodeController`, `StudyController`,
   `InputController`, `PreferenceStore`, and `ApplicationComposition` now own the
@@ -61,7 +61,7 @@ roadmap for one:
 
 The convergence baseline is now verified:
 
-- `npm run verify` passes 202 unit and contract tests, content validation, CSS
+- `npm run verify` passes 209 unit and contract tests, content validation, CSS
   and asset audits, the static build, and the production artifact audit;
 - production smoke passes in Chromium and WebKit for the landing page, standalone
   game, and Creative Room;
@@ -84,7 +84,8 @@ The convergence baseline is now verified:
 
 It is a trustworthy checkpoint, not yet a release candidate:
 
-- `app.js` remains 964 lines and `Renderer` remains 1,344 lines;
+- `app.js` is down to 717 lines and `Renderer` is 1,346 lines after the first
+  focused view extraction;
 - 200% zoom and real-device screen-reader passes remain manual release checks;
 - the Season Zero learning ledger and completion review queue exist, but there
   is no due-date scheduler, daily entry flow, or cross-episode curriculum yet;
@@ -221,7 +222,7 @@ and score-callback lockout.
 
 ### Gate 2: Shrink The Composition Root
 
-**Status: workflow ownership landed; coordinator and renderer extraction remain**
+**Status: workflow ownership landed; coordinator and renderer extraction continue**
 
 **Goal:** turn `app.js` from a 1,175-line behavior owner into a readable bootstrap.
 
@@ -245,13 +246,21 @@ Completed first because it carried the highest stale-work risk:
 - `EpisodeController`: one owner now handles source loading, adaptation, resume,
   current clue identity, outcome locking, progress, completion, restart, and
   broken-media replacement.
+- `BroadcastPresenter`: one owner now turns approved clue, judgment, reveal, and
+  finale facts into host, voice, and renderer presentation.
+- `CabinetPresenter`: one owner now applies preferences and owns scene,
+  dialogue-skin, host-picker, and control-deck presentation.
+- `UiCatalog`: immutable bilingual interface and narration copy no longer lives
+  inside the coordinator.
+- `OutcomeView`: the first focused renderer view owns answer and confidence
+  feedback behind the shared renderer facade.
 
 Remaining coordinator extraction:
 
-1. Move static interface copy into an i18n catalog now that episode ownership is
-   no longer entangled with it.
-2. Extract presentation choreography only after the first authored episode
-   proves which beats are reusable.
+1. Move the language-change clue refresh transaction behind a focused boundary
+   without transferring canonical clue ownership.
+2. Continue renderer view extraction only where Season Zero demonstrates stable
+   clue, Study, cabinet, or finale ownership.
 
 Each extraction must preserve browser behavior and add a contract test. Avoid a
 framework migration during this gate; changing module boundaries and module
@@ -510,7 +519,7 @@ vertical slice.
 
 ### Domino 3: Host Intelligence Boundary And Presentation Ownership
 
-**Status: host foundation and first presentation owner complete; extraction continues**
+**Status: host foundation and three focused presentation owners complete; extraction continues**
 
 **Why next:** Season Zero and its learning loop now supply enough real clue,
 result, Study, reinforcement, and finale beats to design the abstraction from
@@ -524,11 +533,13 @@ evidence.
    reinforcement, finale, voice, persistence, and console choreography while
    keeping personality independent from placeholder artwork.
 4. [~] `BroadcastPresenter` now owns host visuals, clue narration, answer
-   payoff, reveal, voice composition, and finale choreography. Continue moving
-   preference, scene, translation-refresh, and control-deck presentation out of
-   `app.js`, then extract the static locale catalog.
-5. Split `Renderer` by clue, outcome, study, and finale views where the proven
-   flows show stable ownership.
+   payoff, reveal, voice composition, and finale choreography.
+   `CabinetPresenter` now owns preference, scene, dialogue-skin, host-picker,
+   and control-deck presentation, and `UiCatalog` owns static bilingual copy.
+   The remaining coordinator target is the language-change clue refresh.
+5. [~] `OutcomeView` is the first `Renderer` split and owns answer,
+   confidence, and dispute feedback. Continue with clue, Study, cabinet, and
+   finale views only where the proven flows show stable ownership.
 6. [x] Realize the proven host motion verbs (`enter`, `react`, `hold`, `recover`,
    and `exit`) with cancellable, reduced-motion-safe presentation effects. Do
    not add a registry, composer, or renderer factory until repeated real
@@ -557,13 +568,11 @@ renderer.
 
 ## Immediate Next Domino
 
-Continue **Domino 3: Presentation Ownership**. The deterministic host packet,
-director, and three original personality packs now exist. Extract clue,
-outcome, Study, and finale choreography from `app.js` behind those proven
-contracts, then split renderer ownership only where the extracted flows justify
-it. During that extraction, add only the five already-proven semantic motion
-verbs and their reduced-motion behavior. Then promote accessibility and
-initial-route budgets into the release gate before preview deployment. Do not
-add a runtime model, service locator, generic animation framework, Storybook,
-A/B system, broad CSS overhaul, wager mechanics, accounts, or fresh branch
-mining during this pass.
+Continue **Domino 3: Presentation Ownership**. Extract the remaining
+language-change clue refresh from `app.js`, then split the next renderer view
+only where Season Zero demonstrates a stable owner. Preserve the shared DOM
+binding lifecycle and the five proven reduced-motion-safe host motion verbs.
+Then promote accessibility and initial-route budgets into the release gate
+before preview deployment. Do not add a runtime model, service locator, generic
+animation framework, Storybook, A/B system, broad CSS overhaul, wager mechanics,
+accounts, or fresh branch mining during this pass.
