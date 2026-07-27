@@ -177,7 +177,7 @@ main { width: min(1240px, calc(100% - 2rem)); margin: 0 auto; padding-bottom: 8r
 blockquote { margin: 2rem 0 0; padding: 1.5rem; color: var(--ink); background: var(--gold); box-shadow: 7px 7px 0 var(--pink); font-size: 1.35rem; font-weight: 900; transform: rotate(-1deg); }
 
 .name-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-.name-card { position: relative; padding: 1.5rem 1.5rem 1.5rem 4.5rem; background: #11162f; border: 1px solid #4c567b; }
+.name-card { position: relative; padding: 1.5rem 1.5rem 1.5rem 4.5rem; color: var(--paper); background: #11162f; border: 1px solid #4c567b; }
 .name-card span { position: absolute; left: 1.2rem; top: 1.5rem; display: grid; place-items: center; width: 2rem; height: 2rem; color: var(--ink); background: var(--cyan); font-family: "Press Start 2P", monospace; }
 .name-card.preferred { border-color: var(--gold); background: linear-gradient(135deg, #302045, #12162e); }
 .name-card.preferred span { background: var(--gold); }

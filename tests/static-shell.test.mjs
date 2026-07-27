@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [landingHtml, gameHtml, fixtureHtml, smokeScript, baseStyles, tokens, brandStyles, preferenceStyles, siteStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, mediaStyles, controlStyles] = await Promise.all([
+const [landingHtml, gameHtml, creativeRoomHtml, fixtureHtml, smokeScript, baseStyles, tokens, brandStyles, preferenceStyles, siteStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, mediaStyles, controlStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../game.html', import.meta.url), 'utf8'),
+  readFile(new URL('../creative-room.html', import.meta.url), 'utf8'),
   readFile(new URL('../visual-fixtures.html', import.meta.url), 'utf8'),
   readFile(new URL('../scripts/smoke-production.mjs', import.meta.url), 'utf8'),
   readFile(new URL('../styles/base.css', import.meta.url), 'utf8'),
@@ -90,6 +91,19 @@ function assertHasIds(html, ids, surface) {
 test('landing and standalone pages preserve the cabinet DOM contract', () => {
   assertHasIds(landingHtml, cabinetContractIds, 'index.html');
   assertHasIds(gameHtml, cabinetContractIds, 'game.html');
+});
+
+test('interactive option collections expose valid accessible group semantics', () => {
+  assert.match(landingHtml, /id="studyActions" role="group" aria-label="Study directions"/);
+  assert.match(gameHtml, /id="studyActions" role="group" aria-label="Study directions"/);
+  assert.match(creativeRoomHtml, /class="direction-grid" role="group" aria-labelledby="directionTitle"/);
+});
+
+test('open scoreboard removes covered dialogue controls from interaction', () => {
+  assert.match(
+    scoreboardStyles,
+    /\.score-drawer\.active ~ \.main-content \.dialogue-style-picker[\s\S]*visibility: hidden;[\s\S]*pointer-events: none;/,
+  );
 });
 
 test('production smoke uses the canonical answer input id', () => {

@@ -38,8 +38,8 @@ Optimal Prime is the convergence of those truths.
 The convergence runtime now has a real authored Season Zero path, not merely a
 roadmap for one:
 
-- 171 automated tests pass.
-- The CSS audit reports 4,536 lines, 642 selector rules, five `!important`
+- 173 automated tests pass.
+- The CSS audit reports 4,639 lines, 658 selector rules, five `!important`
   declarations, and zero duplicate selectors.
 - The question validator covers 216,930 archive clues, the 10,000-clue runtime
   bank, and an eleven-clue reviewed episode pack.
@@ -67,12 +67,16 @@ The convergence baseline is now verified:
   for the standalone game in either engine;
 - the smoke exercises theme switching, menu focus behavior, an authored correct
   answer with score change, and the protected Study pause/resume path.
+- the responsive visual gate captures 168 deterministic combinations across six
+  viewport families, two themes, and fourteen gameplay states, including
+  confidence, translation, media, Study, voice, and finale;
+- production accessibility audits pass in Chromium and WebKit across landing,
+  Creative Room, and eight critical game states at desktop and phone widths.
 
 It is a trustworthy checkpoint, not yet a release candidate:
 
 - `app.js` remains 935 lines and `Renderer` remains 1,255 lines;
-- no visual, accessibility, or cross-browser evidence yet proves every Season
-  Zero layout state;
+- 200% zoom and real-device screen-reader passes remain manual release checks;
 - confidence and review queues exist, but there is no player-level due-date
   scheduler or daily return flow;
 - host performance remains mostly provisional and public release still requires
@@ -447,17 +451,18 @@ small, explicit residual-risk note.
 
 ### Domino 1: Vertical-Slice Proof
 
-**Status: in progress; complete episode behavior proven in Chromium and WebKit**
+**Status: in progress; behavior, responsive visuals, and automated accessibility proven**
 
 **Why second:** implementation confidence is not player evidence.
 
 1. [x] Expand browser paths to exact, alias, fuzzy, wrong, reveal, dispute,
    confidence, media success and substitution, translation, refresh-resume,
    study, finale, replay, keyboard, and voice fallback.
-2. Review deterministic fixtures at narrow phone, phone landscape, tablet,
+2. [x] Review deterministic fixtures at narrow phone, phone landscape, tablet,
    laptop, and large desktop sizes in both themes and reduced motion.
-3. Add automated keyboard, focus, live-region, zoom, contrast, and serious
-   accessibility checks.
+3. [x] Add automated keyboard/focus flow and production accessibility checks
+   that block critical and serious ARIA, contrast, target-size, and structure
+   violations. Keep 200% zoom and screen-reader passes on the manual release list.
 4. Define privacy-safe product events for activation, completion, dispute,
    study, replay, and failure; use a no-op adapter until collection is approved.
 
@@ -520,6 +525,7 @@ renderer.
 ## Immediate Next Domino
 
 Execute **Domino 1: Vertical-Slice Proof** against the verified convergence
-checkpoint. Do not spend the next pass on another broad CSS overhaul, runtime
-AI, wager mechanics, accounts, or fresh branch mining. The next code should
-increase evidence for the product already present.
+checkpoint by defining its privacy-safe product-event contract and no-op adapter.
+Then move directly to **Domino 2: Learning Return Loop**. Do not spend the next
+pass on another broad CSS overhaul, runtime AI, wager mechanics, accounts, or
+fresh branch mining.

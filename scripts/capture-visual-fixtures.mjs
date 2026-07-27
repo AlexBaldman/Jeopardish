@@ -14,6 +14,11 @@ const fixtures = [
   'reveal',
   'correct',
   'incorrect',
+  'outcome',
+  'translated',
+  'media',
+  'media-modal',
+  'complete',
   'menu',
   'scoreboard',
   'study',
@@ -126,6 +131,11 @@ try {
         await page.evaluate(({ fixtureName, themeName }) => {
           window.JeoparodyVisualFixtures.apply(document, { fixture: fixtureName, theme: themeName });
         }, { fixtureName: fixture, themeName: theme });
+        if (fixture === 'translated') {
+          await page.hover('#questionBox');
+        } else {
+          await page.mouse.move(0, 0);
+        }
         await page.waitForTimeout(40);
 
         const geometry = await page.evaluate(() => {
@@ -135,11 +145,19 @@ try {
             scoreboard: '#scoreDrawer',
             menu: '#navMenu',
             dialogue: '#speechBubble',
+            category: '#categoryBox',
             clueText: '#clueText',
+            answer: '#answerBox',
+            stylePicker: '#speechBubble .dialogue-style-picker',
             host: '#hostStage',
             footer: '.control-footer',
             study: '#studyPanel',
             voice: '#voiceButton',
+            outcome: '#outcomeFeedback',
+            clueOriginal: '#clueOriginal',
+            mediaPreview: '#clueMedia .media-preview',
+            mediaModal: '#mediaModal',
+            mediaDialog: '#mediaModal .media-dialog',
           };
           const result = {};
           for (const [name, selector] of Object.entries(selectors)) {
@@ -147,6 +165,21 @@ try {
             if (!element) continue;
             const rect = element.getBoundingClientRect();
             result[name] = { x: rect.x, y: rect.y, width: rect.width, height: rect.height, right: rect.right, bottom: rect.bottom };
+          }
+          const categoryText = document.querySelector('#categoryBox .category-primary')
+            || document.getElementById('categoryBox');
+          if (categoryText) {
+            const range = document.createRange();
+            range.selectNodeContents(categoryText);
+            const rect = range.getBoundingClientRect();
+            result.categoryText = {
+              x: rect.x,
+              y: rect.y,
+              width: rect.width,
+              height: rect.height,
+              right: rect.right,
+              bottom: rect.bottom,
+            };
           }
           return {
             documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -156,22 +189,71 @@ try {
 
         const cabinet = geometry.rects.cabinet;
         const hostIsVisible = width > 420 || height > 620;
+        const cabinetBoundNames = new Set([
+          'header',
+          'scoreboard',
+          'menu',
+          'dialogue',
+          'category',
+          'clueText',
+          'answer',
+          'stylePicker',
+          'host',
+          'footer',
+          'study',
+          'voice',
+          'outcome',
+          'clueOriginal',
+          'mediaPreview',
+        ]);
         const visibleNames = fixture === 'menu'
           ? ['header', 'menu', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer']
           : fixture === 'scoreboard'
             ? ['header', 'scoreboard', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer']
             : fixture === 'study'
               ? ['header', 'study', 'footer']
-            : ['header', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice'];
+                : fixture === 'outcome'
+                ? ['header', 'dialogue', 'answer', 'outcome', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice']
+                : fixture === 'translated'
+                  ? ['header', 'dialogue', 'clueOriginal', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice']
+                  : fixture === 'media-modal'
+                    ? ['header', 'dialogue', 'mediaPreview', 'mediaModal', 'mediaDialog', ...(hostIsVisible ? ['host'] : []), 'footer']
+                  : fixture === 'media'
+                      ? ['header', 'dialogue', 'mediaPreview', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice']
+                      : ['reveal', 'correct', 'incorrect', 'complete'].includes(fixture)
+                        ? ['header', 'dialogue', 'answer', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice']
+                        : ['header', 'dialogue', ...(hostIsVisible ? ['host'] : []), 'footer', 'voice'];
         const fixtureFailures = [];
         if (geometry.documentOverflow > 1) fixtureFailures.push(`document overflow ${geometry.documentOverflow}px`);
         for (const name of visibleNames) {
           const rect = geometry.rects[name];
           if (!rect || rect.width < 1 || rect.height < 1) fixtureFailures.push(`${name} has no visible geometry`);
-          if (rect && cabinet && (rect.x < cabinet.x - 2 || rect.right > cabinet.right + 2)) fixtureFailures.push(`${name} exceeds cabinet horizontally`);
+          if (rect && cabinet && cabinetBoundNames.has(name) && (rect.x < cabinet.x - 2 || rect.right > cabinet.right + 2)) {
+            fixtureFailures.push(`${name} exceeds cabinet horizontally`);
+          }
         }
         const clueRect = geometry.rects.clueText;
+        const answerRect = geometry.rects.answer;
+        const dialogueRect = geometry.rects.dialogue;
+        const categoryRect = geometry.rects.categoryText;
+        const stylePickerRect = geometry.rects.stylePicker;
+        const outcomeRect = geometry.rects.outcome;
         const hostRect = geometry.rects.host;
+        if (visibleNames.includes('answer') && answerRect && dialogueRect) {
+          if (answerRect.y < dialogueRect.y - 2 || answerRect.bottom > dialogueRect.bottom + 2) {
+            fixtureFailures.push('answer requires dialogue scrolling');
+          }
+        }
+        if (fixture === 'outcome' && outcomeRect && dialogueRect) {
+          if (outcomeRect.y < dialogueRect.y - 2 || outcomeRect.bottom > dialogueRect.bottom + 2) {
+            fixtureFailures.push('outcome controls require dialogue scrolling');
+          }
+        }
+        if (categoryRect && stylePickerRect && stylePickerRect.width > 0 && stylePickerRect.height > 0) {
+          const overlapWidth = Math.max(0, Math.min(categoryRect.right, stylePickerRect.right) - Math.max(categoryRect.x, stylePickerRect.x));
+          const overlapHeight = Math.max(0, Math.min(categoryRect.bottom, stylePickerRect.bottom) - Math.max(categoryRect.y, stylePickerRect.y));
+          if (overlapWidth * overlapHeight > 1) fixtureFailures.push('dialogue style picker overlaps category');
+        }
         if (hostIsVisible && clueRect && hostRect) {
           const overlapWidth = Math.max(0, Math.min(clueRect.right, hostRect.right) - Math.max(clueRect.x, hostRect.x));
           const overlapHeight = Math.max(0, Math.min(clueRect.bottom, hostRect.bottom) - Math.max(clueRect.y, hostRect.y));

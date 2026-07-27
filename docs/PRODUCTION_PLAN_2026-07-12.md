@@ -233,7 +233,7 @@ study responses, artifact finale, archive fallback, and replay.
 
 ### Pass D: Ship Quality
 
-1. Add browser-level critical-path tests and accessibility checks.
+1. [x] Add browser-level critical-path tests and accessibility checks.
 2. Add performance budgets and production asset allowlist.
 3. Add privacy-safe telemetry and error reporting adapters.
 4. Replace prototype likeness assets in the public build with original Malex art.

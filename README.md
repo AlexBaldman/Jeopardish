@@ -90,10 +90,21 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm test
   ```
 
-- Open the deterministic visual-state workbench at `visual-fixtures.html`, or capture and geometry-check all 108 supported state, theme, and viewport combinations:
+- Open the deterministic visual-state workbench at `visual-fixtures.html`, or
+  capture and geometry-check all 168 supported state, theme, and viewport
+  combinations. The matrix includes clue, result, confidence, translation,
+  menu, scoreboard, Study, media, finale, and voice states:
 
   ```bash
   npm run test:visual
+  ```
+
+- Audit the built landing, Creative Room, and critical game states at desktop
+  and phone widths:
+
+  ```bash
+  npm run build
+  A11Y_BROWSERS=chromium,webkit npm run audit:a11y
   ```
 
 - Enforce the shrinking CSS-debt ceiling:
@@ -114,10 +125,11 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm run verify
   ```
 
-- Before a preview or release, add real Chromium and WebKit smoke:
+- Before a preview or release, run the full build, browser smoke, accessibility,
+  and visual-fixture gates:
 
   ```bash
-  SMOKE_BROWSERS=chromium,webkit npm run verify:release
+  SMOKE_BROWSERS=chromium,webkit A11Y_BROWSERS=chromium,webkit npm run verify:release
   ```
 
 - Prove the complete authored episode against a fresh production build:

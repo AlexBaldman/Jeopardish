@@ -132,6 +132,11 @@
 }
 
 @layer states {
+    .game-container .score-drawer.active ~ .main-content .dialogue-style-picker {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
     .game-container .score-drawer .hud-readout strong.score-flip {
         animation: score-split-flap 680ms cubic-bezier(.16, .82, .26, 1);
     }

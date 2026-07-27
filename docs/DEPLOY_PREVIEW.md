@@ -57,15 +57,19 @@ Run:
 npm run verify:release
 ```
 
-This runs all non-browser checks, builds and audits `dist/`, then exercises the
-production artifact in Chromium. To match the full CI browser matrix, run:
+This runs all non-browser checks, builds and audits `dist/`, exercises the
+production artifact in Chromium, audits critical accessibility states, and
+captures the 168-state responsive visual matrix. To match the full cross-engine
+browser matrix, run:
 
 ```bash
-SMOKE_BROWSERS=chromium,webkit npm run verify:release
+SMOKE_BROWSERS=chromium,webkit A11Y_BROWSERS=chromium,webkit npm run verify:release
 ```
 
 The smoke suite enforces route-level first-party payload budgets and checks the
-landing page, standalone game, and Creative Room.
+landing page, standalone game, and Creative Room. The accessibility suite covers
+those surfaces plus clue, outcome, translation, menu, scoreboard, Study, media
+modal, and finale states at desktop and phone widths.
 
 Run the complete authored episode proof before promotion:
 
