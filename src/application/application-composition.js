@@ -17,6 +17,7 @@
     'Renderer',
     'ConsoleNarrator',
     'HostManager',
+    'HostPerformanceDirector',
     'BrandController',
     'TranslationService',
     'AudioController',
@@ -42,6 +43,7 @@
       Renderer: scope?.JeopardishRenderer?.Renderer,
       ConsoleNarrator: scope?.JeopardishConsoleNarrator?.ConsoleNarrator,
       HostManager: scope?.JeopardishHost?.HostManager,
+      HostPerformanceDirector: scope?.JeoPARODYHostPerformance?.HostPerformanceDirector,
       BrandController: scope?.JeoPARODYBrand?.BrandController,
       TranslationService: scope?.JeoPARODYTranslation?.TranslationService,
       AudioController: scope?.JeoPARODYAudio?.AudioController,
@@ -84,6 +86,7 @@
       bestStreak = 0,
       preferenceOptions = {},
       learningOptions = {},
+      hostPerformanceOptions = {},
       voiceOptions = {},
       roundOptions = {},
       cluePipelineOptions = {},
@@ -109,6 +112,10 @@
       const renderer = new M.Renderer();
       const consoleNarrator = new M.ConsoleNarrator({ eventBus });
       const hostManager = new M.HostManager();
+      const hostPerformanceDirector = new M.HostPerformanceDirector({
+        eventBus,
+        ...hostPerformanceOptions,
+      });
       const brandController = new M.BrandController();
       const translationService = new M.TranslationService();
       const audioController = new M.AudioController();
@@ -160,6 +167,7 @@
         renderer,
         consoleNarrator,
         hostManager,
+        hostPerformanceDirector,
         brandController,
         translationService,
         audioController,
@@ -197,6 +205,7 @@
         S.renderer.bindDom();
         S.brandController.bind();
         S.hostManager.setActiveSkin(S.preferenceStore.get('hostSkinId'));
+        S.hostPerformanceDirector.setActivePack(S.preferenceStore.get('hostPackId'));
         S.audioController.setMuted(S.preferenceStore.get('muted'));
         S.voiceController.setEnabled(S.preferenceStore.get('voiceEnabled'));
         S.sceneService?.bindDom();

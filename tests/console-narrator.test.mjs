@@ -129,6 +129,28 @@ test('ConsoleNarrator explains voice capability and transcript flow', () => {
   assert.match(messages[3], /same fair judge/);
 });
 
+test('ConsoleNarrator distinguishes host personality from factual authority', () => {
+  const { eventBus, messages, narrator } = createNarrator();
+
+  narrator.start();
+  eventBus.emit(GameEvents.HOST_PACK_CHANGED, {
+    packId: 'vera-static',
+    displayName: 'Vera Static',
+  }, { source: 'HostPerformanceDirector' });
+  eventBus.emit(GameEvents.HOST_PERFORMANCE_DIRECTED, {
+    packId: 'vera-static',
+    beat: 'correct',
+    expression: 'correct',
+    source: 'line-bank',
+    locale: 'en',
+  }, { source: 'HostPerformanceDirector' });
+
+  assert.match(messages[1], /Vera Static has taken the desk/);
+  assert.match(messages[1], /facts remain under separate management/);
+  assert.match(messages[2], /Host cue correct/);
+  assert.match(messages[2], /No scoring privileges issued/);
+});
+
 test('ConsoleNarrator identifies routed and rejected input commands', () => {
   const { eventBus, messages, narrator } = createNarrator();
 

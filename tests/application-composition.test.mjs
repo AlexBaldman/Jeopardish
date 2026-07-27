@@ -29,6 +29,7 @@ function createHarness() {
       this.options = options;
       this.values = {
         hostSkinId: 'dope-03',
+        hostPackId: 'vera-static',
         muted: true,
         voiceEnabled: true,
       };
@@ -67,6 +68,10 @@ function createHarness() {
 
   class HostManager extends simpleConstructor('host') {
     setActiveSkin(id) { calls.push(['skin', id]); }
+  }
+
+  class HostPerformanceDirector extends simpleConstructor('host-performance') {
+    setActivePack(id) { calls.push(['host-pack', id]); }
   }
 
   class BrandController extends simpleConstructor('brand') {
@@ -130,6 +135,7 @@ function createHarness() {
     Renderer,
     ConsoleNarrator,
     HostManager,
+    HostPerformanceDirector,
     BrandController,
     TranslationService: simpleConstructor('translation'),
     AudioController,
@@ -169,6 +175,7 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(services.roundKernel.options.audio, services.audioController);
   assert.equal(services.roundKernel.options.eventBus, services.eventBus);
   assert.equal(services.roundKernel.options.reducedMotion, true);
+  assert.equal(services.hostPerformanceDirector.options.eventBus, services.eventBus);
   assert.equal(services.cluePipeline.options.roundKernel, services.roundKernel);
   assert.equal(services.cluePipeline.options.mediaPreflight, services.mediaPreflight);
   assert.equal(services.episodeController.options.sessionManager, services.sessionManager);
@@ -183,7 +190,7 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(calls.filter(([action]) => action === 'load').length, 1);
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_COMPOSED
-    && event.payload.serviceCount === 21
+    && event.payload.serviceCount === 22
   )));
 });
 
@@ -201,6 +208,7 @@ test('ApplicationComposition starts and destroys its lifecycle exactly once', ()
   assert.equal(calls.filter((call) => call[1] === 'renderer-dom').length, 1);
   assert.equal(calls.filter((call) => call[1] === 'keyboard').length, 1);
   assert.equal(calls.filter((call) => call[0] === 'start' && call[1] === 'telemetry').length, 1);
+  assert.ok(calls.some((call) => call[0] === 'host-pack' && call[1] === 'vera-static'));
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_STARTED
     && event.payload.voiceEnabled === true
@@ -244,6 +252,7 @@ test('ApplicationComposition rolls back owned work when startup fails', () => {
 
 test('ApplicationComposition rejects incomplete service registries', () => {
   assert.equal(REQUIRED_CONSTRUCTORS.includes('GameEngine'), true);
+  assert.equal(REQUIRED_CONSTRUCTORS.includes('HostPerformanceDirector'), true);
   assert.throws(() => validateModules({ EventBus: class {} }), /missing constructors/);
 });
 

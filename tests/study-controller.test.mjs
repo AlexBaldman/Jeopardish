@@ -17,7 +17,12 @@ function createStorage() {
   };
 }
 
-function createHarness({ locale = 'en', renderFailure = false, reviewed = false } = {}) {
+function createHarness({
+  locale = 'en',
+  renderFailure = false,
+  reviewed = false,
+  directed = false,
+} = {}) {
   const eventBus = new EventBus({ now: () => 'now' });
   const events = [];
   eventBus.on('*', (event) => events.push(event));
@@ -102,7 +107,16 @@ function createHarness({ locale = 'en', renderFailure = false, reviewed = false 
     }),
     revealAnswer: () => roundKernel.reveal(() => calls.push(['reveal'])),
     renderHost: (expression) => calls.push(['host', expression]),
-    speak: (message) => calls.push(['speak', message]),
+    speak: (message, speech) => calls.push(['speak', message, speech]),
+    performHostBeat: directed
+      ? (beat, options) => {
+        calls.push(['host-performance', beat, options]);
+        return {
+          dialogue: { line: `Directed ${beat}` },
+          speech: { locale: locale === 'pt-BR' ? 'pt-BR' : 'en-US' },
+        };
+      }
+      : null,
   });
   return { controller, roundKernel, score, calls, events, learningLedger };
 }
@@ -182,6 +196,25 @@ test('StudyController records a fuzzy-matched reinforcement without touching sco
     event.type === GameEvents.STUDY_REINFORCEMENT_ANSWERED
       && event.payload.correct === true
       && !Object.hasOwn(event.payload, 'answer')
+  )));
+});
+
+test('StudyController routes learning beats through deterministic host performance', async () => {
+  const harness = createHarness({ reviewed: true, directed: true });
+  await harness.roundKernel.introduceClue(() => {});
+  await harness.controller.enter();
+  harness.controller.selectAction('quiz');
+  harness.controller.submitReinforcement('Italy');
+
+  assert.deepEqual(
+    harness.calls
+      .filter(([name]) => name === 'host-performance')
+      .map(([, beat]) => beat),
+    ['study-entered', 'reinforcement-correct'],
+  );
+  assert.equal(harness.calls.some(([name]) => name === 'host'), false);
+  assert.ok(harness.calls.some(([name, message]) => (
+    name === 'speak' && message.includes('Directed study-entered')
   )));
 });
 

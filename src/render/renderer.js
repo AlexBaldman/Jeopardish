@@ -68,6 +68,7 @@
     checkButtonKicker: 'Confirm',
     questionButtonKicker: 'Board',
     answerButtonKicker: 'Clue',
+    hostPersonality: 'Host personality',
     askHost: 'Ask Xander',
     returnToClue: 'Return to clue',
     confidencePrompt: 'How did that one feel?',
@@ -320,6 +321,10 @@
       this.dom.menuVoice = this.document.getElementById('menuVoice');
       this.dom.menuVoiceLabel = this.document.getElementById('menuVoiceLabel');
       this.dom.menuVoiceState = this.document.getElementById('menuVoiceState');
+      this.dom.menuHostPack = this.document.getElementById('menuHostPack');
+      this.dom.menuHostPackKicker = this.document.getElementById('menuHostPackKicker');
+      this.dom.menuHostPackLabel = this.document.getElementById('menuHostPackLabel');
+      this.dom.menuHostPackIndex = this.document.getElementById('menuHostPackIndex');
       this.dom.menuScene = this.document.getElementById('menuScene');
       this.dom.menuSceneLabel = this.document.getElementById('menuSceneLabel');
       this.dom.menuSceneIndex = this.document.getElementById('menuSceneIndex');
@@ -386,6 +391,7 @@
       onToggleVoice = () => {},
       onPreviousHostSkin = () => {},
       onNextHostSkin = () => {},
+      onCycleHostPack = () => {},
       onPreviousDialogueStyle = () => {},
       onNextDialogueStyle = () => {},
       onCycleScene = () => {},
@@ -420,6 +426,7 @@
       this.dom.menuLanguage?.addEventListener('click', onToggleLanguage);
       this.dom.menuSound?.addEventListener('click', onToggleSound);
       this.dom.menuVoice?.addEventListener('click', () => onToggleVoice({ listen: false }));
+      this.dom.menuHostPack?.addEventListener('click', onCycleHostPack);
       this.dom.menuScene?.addEventListener('click', onCycleScene);
       this.dom.scoreDrawer?.addEventListener('pointerenter', () => this.showScoreDrawer(0));
       this.dom.scoreDrawer?.addEventListener('pointerleave', () => this.hideScoreDrawer());
@@ -526,6 +533,7 @@
       this.setText(this.dom.questionButtonKicker, this.copy.questionButtonKicker);
       this.setText(this.dom.answerButtonKicker, this.copy.answerButtonKicker);
       this.setText(this.dom.menuVoiceLabel, this.copy.voiceMode);
+      this.setText(this.dom.menuHostPackKicker, this.copy.hostPersonality);
       this.setText(this.dom.voiceHelp, this.copy.voiceHelp);
       this.setText(this.dom.outcomeFeedbackPrompt, this.copy.confidencePrompt);
       this.setText(this.dom.confidenceKnew, this.copy.confidenceKnew);
@@ -827,6 +835,20 @@
       );
       this.dom.menuScene.setAttribute('aria-label', `Background: ${pack.label}. Activate to cycle.`);
       this.dom.menuScene.dataset.scenePack = pack.id;
+    }
+
+    renderHostPack(pack, index = 0, total = 1) {
+      if (!pack || !this.dom.menuHostPack) return;
+      this.setText(this.dom.menuHostPackLabel, pack.displayName);
+      this.setText(
+        this.dom.menuHostPackIndex,
+        `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`,
+      );
+      this.dom.menuHostPack.dataset.hostPack = pack.id;
+      this.dom.menuHostPack.setAttribute(
+        'aria-label',
+        `${this.copy.hostPersonality}: ${pack.displayName}, ${pack.subtitle}. Activate to cycle.`,
+      );
     }
 
     setTranslationState(status = 'original', provider = '') {
@@ -1168,20 +1190,26 @@
       if (nextVisual) {
         this.dom.hostImage.src = nextVisual;
       }
+      const hostDisplayName = performance?.hostDisplayName
+        || host.displayName
+        || 'Jeopardish host';
       this.dom.hostImage.alt = performance?.accessibleLabel
-        ? `${host.displayName || 'Jeopardish host'}, ${performance.accessibleLabel}`
-        : host.displayName || 'Jeopardish host';
+        ? `${hostDisplayName}, ${performance.accessibleLabel}`
+        : hostDisplayName;
       this.dom.hostImage.dataset.hostId = host.id || '';
       this.dom.hostImage.dataset.expression = activeState;
       this.dom.hostImage.dataset.skinId = activeSkin?.id || '';
       this.dom.hostImage.dataset.frame = performance?.frame || activeSkin?.frame || 'portrait';
       this.dom.hostImage.dataset.effect = performance?.effect || activeState;
       this.dom.hostImage.dataset.intensity = performance?.intensity || 'medium';
+      this.dom.hostImage.dataset.hostPack = performance?.hostPackId || '';
       if (this.dom.hostStage) {
         this.dom.hostStage.dataset.expression = activeState;
         this.dom.hostStage.dataset.frame = performance?.frame || activeSkin?.frame || 'portrait';
         this.dom.hostStage.dataset.effect = performance?.effect || activeState;
         this.dom.hostStage.dataset.intensity = performance?.intensity || 'medium';
+        this.dom.hostStage.dataset.hostPack = performance?.hostPackId || '';
+        this.dom.hostStage.dataset.motion = performance?.motion?.primitive || '';
       }
       if (this.dom.hostSkinLabel) {
         this.setText(this.dom.hostSkinLabel, activeSkin?.label || host.displayName || 'Host');

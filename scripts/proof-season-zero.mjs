@@ -11,6 +11,7 @@ const episode = JSON.parse(
   await fs.readFile(path.join(root, 'questions/episodes/season-zero-001.json'), 'utf8'),
 );
 const sessionKey = 'jeoparody.session.season-zero';
+const hostPackKey = 'jeoparody.hostPack';
 const ownsServer = !process.env.BASE_URL;
 const baseUrl = process.env.BASE_URL || 'http://127.0.0.1:4196/';
 const base = new URL(baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
@@ -180,6 +181,20 @@ async function runEpisodeProof(browser, browserName) {
     assert.equal(await page.locator('#voiceButton').isDisabled(), true);
     assert.equal(await page.locator('#inputbox').isEnabled(), true);
 
+    const openingClue = await page.locator('#clueText').innerText();
+    const openingScore = await page.locator('#hudScore').innerText();
+    await page.locator('#hamburgerMenu').click();
+    assert.equal(await page.locator('#menuHostPackLabel').innerText(), 'Xander Trefleck');
+    await page.locator('#menuHostPack').click();
+    assert.equal(await page.locator('#menuHostPackLabel').innerText(), 'Vera Static');
+    assert.equal(
+      await page.evaluate((key) => localStorage.getItem(key), hostPackKey),
+      'vera-static',
+    );
+    assert.equal(await page.locator('#clueText').innerText(), openingClue);
+    assert.equal(await page.locator('#hudScore').innerText(), openingScore);
+    await page.locator('#hamburgerMenu').click();
+
     const exact = await submitAnswer(page, 'Braille', 1);
     assert.equal(exact.isCorrect, true);
     assert.equal(exact.reason, 'exact');
@@ -268,6 +283,9 @@ async function runEpisodeProof(browser, browserName) {
     );
     await page.reload({ waitUntil: 'domcontentloaded' });
     await waitForClue(page, clueIds[6]);
+    await page.locator('#hamburgerMenu').click();
+    assert.equal(await page.locator('#menuHostPackLabel').innerText(), 'Vera Static');
+    await page.locator('#hamburgerMenu').click();
     const scoreAfterRefresh = Number(
       (await page.locator('#hudScore').innerText()).replace(/[^\d.-]/g, ''),
     );

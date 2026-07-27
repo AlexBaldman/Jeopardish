@@ -123,6 +123,10 @@
           return this.describeIncorrect(payload);
         case GameEvents.STREAK_MILESTONE:
           return `🔥 Streak milestone: ${payload.streak}. The scoreboard fans itself with a tiny program.`;
+        case GameEvents.HOST_PACK_CHANGED:
+          return `🎭 ${payload.displayName || 'A new host personality'} has taken the desk (${payload.packId || 'unfiled identity'}). The facts remain under separate management.`;
+        case GameEvents.HOST_PERFORMANCE_DIRECTED:
+          return `🎬 Host cue ${payload.beat || 'idle'} assigned to ${payload.packId || 'the active personality'}: ${payload.expression || 'neutral'} expression, ${payload.source || 'fallback'} line, ${payload.locale || 'en'} feed. No scoring privileges issued.`;
         case GameEvents.STUDY_ENTERED:
           return `🧭 Study detour opened for clue ${truncate(payload.clueId || 'unknown')}. The score has been placed in a tamper-evident Canadian envelope.`;
         case GameEvents.STUDY_ACTION_SELECTED:

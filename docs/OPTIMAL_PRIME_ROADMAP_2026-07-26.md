@@ -510,18 +510,22 @@ vertical slice.
 
 ### Domino 3: Host Intelligence Boundary And Presentation Ownership
 
-**Status: next**
+**Status: foundation complete; presentation extraction next**
 
 **Why next:** Season Zero and its learning loop now supply enough real clue,
 result, Study, reinforcement, and finale beats to design the abstraction from
 evidence.
 
-1. Define `HostPack` identity, line-bank, expression, voice, boundary, and rights
-   contracts.
-2. Add a deterministic `HostPerformanceDirector` consuming event facts.
-3. Move static copy into a locale catalog and extract presentation choreography
+1. [x] Define versioned `HostPack` identity, bilingual line-bank, voice,
+   boundary, generation-policy, and rights contracts.
+2. [x] Add a deterministic `HostPerformanceDirector` consuming bounded event
+   facts and emitting immutable, privacy-safe commands.
+3. [x] Prove three selectable personalities across gameplay, Study,
+   reinforcement, finale, voice, persistence, and console choreography while
+   keeping personality independent from placeholder artwork.
+4. Move remaining static copy into locale catalogs and extract presentation choreography
    from `app.js`.
-4. Split `Renderer` by clue, outcome, study, and finale views where the proven
+5. Split `Renderer` by clue, outcome, study, and finale views where the proven
    flows show stable ownership.
 
 **Exit:** three deterministic host packs can perform the same episode; `app.js`
@@ -547,10 +551,9 @@ renderer.
 
 ## Immediate Next Domino
 
-Execute **Domino 3: Host Intelligence Boundary And Presentation Ownership**.
-Define the deterministic host-performance packet and director first, then move
-static performance copy and choreography behind that boundary before adding any
-runtime model. The first proof is three distinct, original host packs performing
-the same Season Zero facts and learning beats while scoring, sources, and review
-mastery remain unchanged. Do not spend the next pass on another broad CSS
-overhaul, wager mechanics, accounts, or fresh branch mining.
+Continue **Domino 3: Presentation Ownership**. The deterministic host packet,
+director, and three original personality packs now exist. Extract clue,
+outcome, Study, and finale choreography from `app.js` behind those proven
+contracts, then split renderer ownership only where the extracted flows justify
+it. Do not add a runtime model, broad CSS overhaul, wager mechanics, accounts,
+or fresh branch mining during this pass.

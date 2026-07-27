@@ -41,6 +41,7 @@ const jeopardyErrors = [
 const state = {
   bestStreak: 0,
   translationRequestId: 0,
+  hostPerformance: null,
 };
 
 const BEST_STREAK_KEY = 'jeopardish.bestStreak';
@@ -75,6 +76,7 @@ const UI_COPY = {
     voiceError: 'Voice needs another try',
     voiceHelp: 'Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask Xander.',
     voiceWelcome: 'Voice mode online. Tap the microphone to answer or give me a command.',
+    hostPersonality: 'Host personality',
     nextClueReady: 'NEXT CLUE READY',
     themeNight: 'Night',
     themeDay: 'Day',
@@ -160,6 +162,7 @@ const UI_COPY = {
     voiceError: 'Tente a voz novamente',
     voiceHelp: 'Toque para falar. Diga uma resposta, próxima pista, mostre a resposta, repita a pista, abra o menu ou pergunte ao Xander.',
     voiceWelcome: 'Modo de voz ativado. Toque no microfone para responder ou dar um comando.',
+    hostPersonality: 'Personalidade do host',
     nextClueReady: 'PRÓXIMA PISTA',
     themeNight: 'Noite',
     themeDay: 'Dia',
@@ -229,8 +232,9 @@ const voiceModule = globalThis.JeoPARODYVoice || null;
 const roundKernelModule = globalThis.JeoPARODYRoundKernel || null;
 const inputControllerModule = globalThis.JeoPARODYInputController || null;
 const applicationCompositionModule = globalThis.JeoPARODYApplicationComposition || null;
+const hostPackModule = globalThis.JeoPARODYHostPack || null;
 
-if (!contracts || !rendererModule || !voiceModule || !roundKernelModule || !inputControllerModule || !applicationCompositionModule) {
+if (!contracts || !rendererModule || !voiceModule || !roundKernelModule || !inputControllerModule || !applicationCompositionModule || !hostPackModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
@@ -240,6 +244,7 @@ let gameEngine;
 let sceneService;
 let renderer;
 let hostManager;
+let hostPerformanceDirector;
 let translationService;
 let audioController;
 let voiceController;
@@ -298,6 +303,12 @@ function applyPreferences() {
   const theme = preferenceStore.get('theme');
   const language = preferenceStore.get('language');
   const scenePackId = preferenceStore.get('scenePackId');
+  const activeHostPack = hostPerformanceDirector?.setActivePack(
+    preferenceStore.get('hostPackId'),
+  );
+  if (activeHostPack && activeHostPack.id !== preferenceStore.get('hostPackId')) {
+    preferenceStore.set('hostPackId', activeHostPack.id);
+  }
   globalThis.document?.body?.setAttribute('data-theme', theme);
   globalThis.document?.body?.setAttribute('data-language', language);
   const isStandaloneGame = globalThis.document?.body?.dataset?.appMode === 'game';
@@ -326,6 +337,7 @@ function applyPreferences() {
     });
   }
   renderDialogueStyle();
+  renderHostPackPicker();
   renderScoreboard();
 }
 
@@ -377,9 +389,12 @@ function emitVoiceEvent(type, payload = {}) {
   eventBus?.emit(type, payload, { source: 'VoiceController' });
 }
 
-function speakHost(message) {
+function speakHost(message, speech = {}) {
   return voiceController?.speak?.(message, {
-    language: preferenceStore.get('language') === 'pt-BR' ? 'pt-BR' : 'en-US',
+    language: speech.locale
+      || (preferenceStore.get('language') === 'pt-BR' ? 'pt-BR' : 'en-US'),
+    rate: speech.rate,
+    pitch: speech.pitch,
   }) || false;
 }
 
@@ -392,10 +407,21 @@ function narrateCurrentClue() {
   const authoredLine = preferenceStore.get('language') === 'en'
     ? context.sourceClue?.performance?.hostLine
     : '';
+  const performance = (
+    state.hostPerformance?.beat === hostPackModule.HostBeats.CLUE
+    && state.hostPerformance?.receipt?.clueId === context.sourceClue?.id
+    && state.hostPerformance?.dialogue?.locale === preferenceStore.get('language')
+  ) ? state.hostPerformance : directHostBeat(hostPackModule.HostBeats.CLUE, {
+      authoredLine,
+      facts: {
+        clueId: context.sourceClue?.id,
+        sequence: episodeController.getProgress().current,
+      },
+    });
   return speakHost([
-    authoredLine,
+    performance.dialogue.line,
     getCopy().voiceClue(clue.category || '', value, question),
-  ].filter(Boolean).join(' '));
+  ].filter(Boolean).join(' '), performance.speech);
 }
 
 function setVoiceEnabled(enabled, { announce = false } = {}) {
@@ -467,7 +493,7 @@ function renderScoreboard() {
   if (episodeController) renderer.renderSessionProgress(episodeController.getProgress());
 }
 
-function renderHost(expression = 'idle') {
+function renderHost(expression = 'idle', directedPerformance = null) {
   const host = hostManager.getActiveHost();
   const performance = hostManager.getPerformance(expression);
   if (!performance) {
@@ -481,6 +507,13 @@ function renderHost(expression = 'idle') {
     performance.skin,
     {
       ...performance,
+      hostPackId: directedPerformance?.pack?.id
+        || hostPerformanceDirector?.getActivePack()?.id
+        || '',
+      hostDisplayName: directedPerformance?.pack?.displayName
+        || hostPerformanceDirector?.getActivePack()?.displayName
+        || host.displayName,
+      motion: directedPerformance?.motion || null,
       cue,
       accessibleLabel: cue,
     },
@@ -504,13 +537,56 @@ function cycleHostSkin(step) {
   renderHost(getCurrentHostExpression());
 }
 
+function renderHostPackPicker(pack = hostPerformanceDirector?.getActivePack()) {
+  if (!pack || !hostPerformanceDirector) return;
+  const packs = hostPerformanceDirector.getPacks();
+  const index = Math.max(0, packs.findIndex(({ id }) => id === pack.id));
+  renderer.renderHostPack(pack, index, packs.length);
+}
+
+function directHostBeat(beat, {
+  facts = {},
+  authoredLine = '',
+} = {}) {
+  return hostPerformanceDirector.direct(beat, {
+    locale: preferenceStore.get('language'),
+    facts,
+    authoredLine,
+  });
+}
+
+function performHostBeat(beat, options = {}) {
+  const performance = directHostBeat(beat, options);
+  renderHost(performance.expression, performance);
+  return performance;
+}
+
+function cycleHostPack() {
+  const pack = hostPerformanceDirector.cyclePack(1);
+  preferenceStore.set('hostPackId', pack.id);
+  state.hostPerformance = null;
+  renderHostPackPicker(pack);
+  const performance = performHostBeat(hostPackModule.HostBeats.WELCOME, {
+    facts: { sequence: 'personality-change' },
+  });
+  renderer.setStatus(`${pack.displayName}: ${performance.dialogue.line}`);
+  speakHost(performance.dialogue.line, performance.speech);
+  return pack;
+}
+
 function presentClue({ sourceClue, displayClue = sourceClue, gameState } = {}) {
   if (!sourceClue) {
     renderer.displayErrorJoke(jeopardyErrors);
     return;
   }
 
-  renderHost(sourceClue.performance?.expression || 'clue');
+  state.hostPerformance = performHostBeat(hostPackModule.HostBeats.CLUE, {
+    facts: {
+      clueId: sourceClue.id,
+      sequence: episodeController.getProgress().current,
+    },
+    authoredLine: sourceClue.performance?.hostLine,
+  });
   renderer.renderClue(displayClue, gameState.currentClueValue);
 }
 
@@ -524,14 +600,21 @@ function presentEpisodeProgress(progress) {
 }
 
 function presentEpisodeComplete(progress) {
-  renderHost('streak');
+  const performance = performHostBeat(hostPackModule.HostBeats.EPISODE_COMPLETE, {
+    facts: {
+      outcome: 'complete',
+      sequence: progress.total,
+      score: progress.score,
+    },
+    authoredLine: progress.finale?.hostLine,
+  });
   renderer.renderSessionProgress(progress);
   renderer.renderEpisodeComplete(progress);
   speakHost([
-    progress.finale?.hostLine,
+    performance.dialogue.line,
     getCopy().voiceComplete(progress.score, progress.counts.correct, progress.total),
     progress.finale?.teaser,
-  ].filter(Boolean).join(' '));
+  ].filter(Boolean).join(' '), performance.speech);
 }
 
 function refreshLearningQueue() {
@@ -653,13 +736,16 @@ async function checkAnswer() {
   const userAnswerCleaned = logic.cleanAnswer(userAnswer);
 
   if (!userAnswerCleaned) {
-    renderHost('empty');
-    renderer.displayEmptyAnswerQuip(hostManager.selectQuip('empty') || getCopy().emptyAnswerFallback);
+    const performance = performHostBeat(hostPackModule.HostBeats.EMPTY, {
+      facts: { clueId: getCurrentEpisodeContext().sourceClue?.id },
+    });
+    renderer.displayEmptyAnswerQuip(performance.dialogue.line || getCopy().emptyAnswerFallback);
     return;
   }
 
   renderer.setControlsEnabled(false);
   renderHost('reveal');
+  let resultPerformance = null;
   const judgment = await roundKernel.judge(
     () => gameEngine.submitAnswer(userAnswer, {
       acceptedAnswers: displayClue?.translation
@@ -675,19 +761,41 @@ async function checkAnswer() {
       if (result.isCorrect) {
         state.bestStreak = result.bestStreak;
         persistBestStreak();
-        renderHost(result.currentStreak >= 3 ? 'streak' : 'correct');
+        resultPerformance = performHostBeat(
+          result.currentStreak >= 3
+            ? hostPackModule.HostBeats.STREAK
+            : hostPackModule.HostBeats.CORRECT,
+          {
+            facts: {
+              clueId: result.clue?.id,
+              outcome: 'correct',
+              streak: result.currentStreak,
+              score: result.newScore,
+            },
+          },
+        );
         renderer.displayCorrectAnswerMessage({
           ...result,
           correctAnswer: displayClue?.answer || result.correctAnswer,
         });
-        renderer.setStatus(getCopy().correctStatus(result.scoreDelta, hostManager.selectQuip('correct')));
+        renderer.setStatus(getCopy().correctStatus(
+          result.scoreDelta,
+          resultPerformance.dialogue.line,
+        ));
       } else {
-        renderHost('incorrect');
+        resultPerformance = performHostBeat(hostPackModule.HostBeats.INCORRECT, {
+          facts: {
+            clueId: result.clue?.id,
+            outcome: 'incorrect',
+            streak: result.currentStreak,
+            score: result.newScore,
+          },
+        });
         renderer.displayIncorrectAnswerMessage({
           ...result,
           correctAnswer: displayClue?.answer || result.correctAnswer || 'Unknown',
         });
-        renderer.setStatus(getCopy().incorrectStatus(hostManager.selectQuip('incorrect')));
+        renderer.setStatus(getCopy().incorrectStatus(resultPerformance.dialogue.line));
       }
 
       const progress = episodeController.recordOutcome(result.isCorrect ? 'correct' : 'incorrect', {
@@ -702,11 +810,14 @@ async function checkAnswer() {
     },
   );
   if (judgment?.ok) {
-    speakHost(judgment.isCorrect
-      ? getCopy().voiceCorrect(judgment.scoreDelta, judgment.currentStreak)
-      : getCopy().voiceIncorrect(
-        displayClue?.answer || judgment.correctAnswer || 'Unknown',
-      ));
+    speakHost([
+      resultPerformance?.dialogue?.line,
+      judgment.isCorrect
+        ? getCopy().voiceCorrect(judgment.scoreDelta, judgment.currentStreak)
+        : getCopy().voiceIncorrect(
+          displayClue?.answer || judgment.correctAnswer || 'Unknown',
+        ),
+    ].filter(Boolean).join(' '), resultPerformance?.speech);
   }
   renderer.setStudyAvailable(roundKernel.canPause());
 }
@@ -719,14 +830,25 @@ async function showHideAnswer() {
   const { sourceClue, displayClue } = getCurrentEpisodeContext();
   renderer.setControlsEnabled(false);
   const revealedAnswer = displayClue?.answer || sourceClue?.answer || 'Unknown';
+  let performance = null;
   const revealed = await roundKernel.reveal(() => {
     renderer.toggleAnswer(true);
     renderer.setGameMoment('reveal');
-    renderHost('reveal');
+    performance = performHostBeat(hostPackModule.HostBeats.REVEAL, {
+      facts: {
+        clueId: sourceClue?.id,
+        outcome: 'revealed',
+      },
+    });
     const progress = episodeController.recordOutcome('revealed');
     renderer.renderOutcomeFeedback(progress.latestResult);
   });
-  if (revealed) speakHost(getCopy().voiceReveal(revealedAnswer));
+  if (revealed) {
+    speakHost([
+      performance?.dialogue?.line,
+      getCopy().voiceReveal(revealedAnswer),
+    ].filter(Boolean).join(' '), performance?.speech);
+  }
   renderer.setStudyAvailable(roundKernel.canPause());
 }
 
@@ -789,6 +911,7 @@ function assignApplicationServices(services) {
     sceneService,
     renderer,
     hostManager,
+    hostPerformanceDirector,
     translationService,
     audioController,
     voiceController,
@@ -818,6 +941,7 @@ function createInputHandlers() {
     [InputCommands.DISABLE_VOICE]: () => setVoiceEnabled(false),
     [InputCommands.PREVIOUS_HOST]: () => cycleHostSkin(-1),
     [InputCommands.NEXT_HOST]: () => cycleHostSkin(1),
+    [InputCommands.CYCLE_HOST_PACK]: cycleHostPack,
     [InputCommands.PREVIOUS_DIALOGUE]: () => cycleDialogueStyle(-1),
     [InputCommands.NEXT_DIALOGUE]: () => cycleDialogueStyle(1),
     [InputCommands.CYCLE_SCENE]: cycleScenePack,
@@ -922,6 +1046,7 @@ function createCompositionOptions() {
       revealAnswer: showHideAnswer,
       renderHost,
       speak: speakHost,
+      performHostBeat,
       onLearningProgress: refreshLearningQueue,
     },
     inputOptions: {
@@ -933,7 +1058,7 @@ function createCompositionOptions() {
 
 function initializeApplicationView() {
   applyPreferences();
-  renderHost('idle');
+  performHostBeat(hostPackModule.HostBeats.IDLE);
   renderer.setControlsEnabled(false);
   renderer.setStudyAvailable(false);
   renderer.setStatus('Studio standing by.');

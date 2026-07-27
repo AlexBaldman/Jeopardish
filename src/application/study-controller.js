@@ -41,6 +41,7 @@
       revealAnswer = async () => false,
       renderHost = () => {},
       speak = () => false,
+      performHostBeat = null,
       onLearningProgress = () => {},
       snapshotStore = new roundSnapshotModule.RoundSnapshotStore(),
     } = {}) {
@@ -63,6 +64,7 @@
       this.revealAnswer = revealAnswer;
       this.renderHost = renderHost;
       this.speak = speak;
+      this.performHostBeat = typeof performHostBeat === 'function' ? performHostBeat : null;
       this.onLearningProgress = onLearningProgress;
       this.snapshotStore = snapshotStore;
       this.activePacket = null;
@@ -127,10 +129,19 @@
           clueId: prepared.packet.canonical.clueId,
           grounding: prepared.packet.grounding,
         });
-        this.renderHost('clue');
-        this.speak(prepared.locale === 'pt-BR'
-          ? 'Desvio de estudo aberto. Escolha uma direção.'
-          : 'Study detour open. Choose a direction.');
+        const performance = this.performHostBeat?.('study-entered', {
+          facts: {
+            clueId: prepared.packet.canonical.clueId,
+            sequence: 'study',
+          },
+        });
+        if (!performance) this.renderHost('clue');
+        this.speak([
+          performance?.dialogue?.line,
+          prepared.locale === 'pt-BR'
+            ? 'Desvio de estudo aberto. Escolha uma direção.'
+            : 'Study detour open. Choose a direction.',
+        ].filter(Boolean).join(' '), performance?.speech);
         this.emit(GameEvents.STUDY_ENTERED, {
           clueId: prepared.packet.canonical.clueId,
           grounding: prepared.packet.grounding,
@@ -245,7 +256,20 @@
         answer: reinforcement.answer,
         message,
       });
-      this.speak(message);
+      const performance = this.performHostBeat?.(
+        judgment.isCorrect ? 'reinforcement-correct' : 'reinforcement-incorrect',
+        {
+          facts: {
+            clueId: this.activePacket.canonical.clueId,
+            outcome: judgment.isCorrect ? 'correct' : 'incorrect',
+            attemptCount: learning?.reinforcementAttempts || 1,
+          },
+        },
+      );
+      this.speak([
+        performance?.dialogue?.line,
+        message,
+      ].filter(Boolean).join(' '), performance?.speech);
       this.emit(GameEvents.STUDY_REINFORCEMENT_ANSWERED, {
         clueId: this.activePacket.canonical.clueId,
         correct: judgment.isCorrect,

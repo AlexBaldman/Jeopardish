@@ -30,6 +30,21 @@ an Accident** from `questions/episodes/season-zero-001.json`:
 The content format and editorial workflow are documented in
 [`docs/CONTENT_AUTHORING.md`](docs/CONTENT_AUTHORING.md).
 
+## Host Performance
+
+The host now has a deterministic performance system rather than scattered
+reaction copy. The menu cycles among Xander Trefleck, Vera Static, and Professor
+O.O.; the selection persists locally and is independent from the arrows that
+cycle the current placeholder host artwork.
+
+Each versioned HostPack supplies an original personality, bilingual line banks,
+teaching style, comedy boundaries, voice direction, and rights metadata. The
+director can choose dialogue, expression, and semantic motion, but it has no
+access to scoring or answer authority. Season Zero, Study mode, reinforcement,
+voice narration, and the finale all use the same boundary. The design and future
+AI gateway rules live in
+[`docs/HOST_AI_DIALOGUE_ROADMAP.md`](docs/HOST_AI_DIALOGUE_ROADMAP.md).
+
 ## Privacy-Safe Product Events
 
 `ProductTelemetry` observes the existing event bus through a no-op sink by

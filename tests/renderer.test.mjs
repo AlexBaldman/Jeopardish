@@ -117,6 +117,10 @@ function createFakeDocument() {
     'menuVoice',
     'menuVoiceLabel',
     'menuVoiceState',
+    'menuHostPack',
+    'menuHostPackKicker',
+    'menuHostPackLabel',
+    'menuHostPackIndex',
     'menuScene',
     'menuSceneLabel',
     'menuSceneIndex',
@@ -361,6 +365,7 @@ test('Renderer binds UI events to callbacks', () => {
     onToggleVoice: ({ listen }) => calls.push(listen ? 'voice-listen' : 'voice-menu'),
     onPreviousHostSkin: () => calls.push('host-prev'),
     onNextHostSkin: () => calls.push('host-next'),
+    onCycleHostPack: () => calls.push('host-pack'),
     onPreviousDialogueStyle: () => calls.push('dialogue-prev'),
     onNextDialogueStyle: () => calls.push('dialogue-next'),
     onCycleScene: () => calls.push('scene'),
@@ -380,6 +385,7 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.voiceButton.listeners.click();
   renderer.dom.hostPrevButton.listeners.click();
   renderer.dom.hostNextButton.listeners.click();
+  renderer.dom.menuHostPack.listeners.click();
   renderer.dom.dialogueStylePrev.listeners.click();
   renderer.dom.dialogueStyleNext.listeners.click();
   renderer.dom.menuScene.listeners.click();
@@ -402,6 +408,7 @@ test('Renderer binds UI events to callbacks', () => {
     'voice-listen',
     'host-prev',
     'host-next',
+    'host-pack',
     'dialogue-prev',
     'dialogue-next',
     'scene',
@@ -646,15 +653,20 @@ test('Renderer renders host visual state', () => {
     skin,
     skinIndex: 1,
     skinCount: 5,
+    hostPackId: 'vera-static',
+    hostDisplayName: 'Vera Static',
+    motion: { primitive: 'react' },
   });
 
   assert.equal(renderer.dom.hostImage.src, 'happy.gif');
-  assert.equal(renderer.dom.hostImage.alt, 'Afterlife Alex, Approved');
+  assert.equal(renderer.dom.hostImage.alt, 'Vera Static, Approved');
   assert.equal(renderer.dom.hostImage.dataset.hostId, 'afterlife-alex');
   assert.equal(renderer.dom.hostImage.dataset.expression, 'correct');
   assert.equal(renderer.dom.hostImage.dataset.skinId, 'sparkle-host');
   assert.equal(renderer.dom.hostImage.dataset.frame, 'bust');
+  assert.equal(renderer.dom.hostImage.dataset.hostPack, 'vera-static');
   assert.equal(renderer.dom.hostStage.dataset.effect, 'approve');
+  assert.equal(renderer.dom.hostStage.dataset.motion, 'react');
   assert.equal(renderer.dom.hostSkinLabel.textContent, 'Sparkle Host');
   assert.equal(renderer.dom.hostPackIndex.textContent, '02/05');
 });
@@ -664,6 +676,11 @@ test('Renderer applies dialogue skins and animates changed score tiles', () => {
 
   renderer.renderDialogueStyle({ id: 'thought', label: 'Host Thought' }, 2, 4);
   renderer.renderScenePicker({ id: 'long-beach-boardwalk', label: 'Long Beach Boardwalk' }, 1, 2);
+  renderer.renderHostPack({
+    id: 'professor-oo',
+    displayName: 'Professor O.O.',
+    subtitle: 'Cosmic pattern coach',
+  }, 2, 3);
   renderer.renderScoreboard({ currentStreak: 0, bestStreak: 0, score: 0 });
   renderer.renderScoreboard({ currentStreak: 1, bestStreak: 1, score: 400 });
 
@@ -674,6 +691,9 @@ test('Renderer applies dialogue skins and animates changed score tiles', () => {
   assert.equal(renderer.dom.menuSceneLabel.textContent, 'Long Beach Boardwalk');
   assert.equal(renderer.dom.menuSceneIndex.textContent, '02/02');
   assert.equal(renderer.dom.menuScene.dataset.scenePack, 'long-beach-boardwalk');
+  assert.equal(renderer.dom.menuHostPackLabel.textContent, 'Professor O.O.');
+  assert.equal(renderer.dom.menuHostPackIndex.textContent, '03/03');
+  assert.equal(renderer.dom.menuHostPack.dataset.hostPack, 'professor-oo');
   assert.equal(renderer.dom.hudScore.classList.has('score-flip'), true);
   assert.equal(renderer.dom.hudBest.classList.has('score-flip'), true);
   assert.equal(renderer.dom.scoreDrawer.classList.has('active'), true);

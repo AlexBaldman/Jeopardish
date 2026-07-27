@@ -11,6 +11,7 @@
     theme: 'jeopardish.theme',
     language: 'jeopardish.language',
     hostSkinId: 'jeopardish.hostSkin',
+    hostPackId: 'jeoparody.hostPack',
     dialogueStyleId: 'jeoparody.dialogueStyle',
     scenePackId: 'jeoparody.scenePack',
     muted: 'jeoparody.muted',
@@ -21,6 +22,7 @@
     theme: 'dark',
     language: 'en',
     hostSkinId: '',
+    hostPackId: 'xander-trefleck',
     dialogueStyleId: 'clue-card',
     scenePackId: 'long-beach-96',
     muted: false,
@@ -115,6 +117,7 @@
       if (BUILT_IN_VALUES[name]) return BUILT_IN_VALUES[name].includes(value);
       if (name === 'muted' || name === 'voiceEnabled') return typeof value === 'boolean';
       if (name === 'hostSkinId') return typeof value === 'string';
+      if (name === 'hostPackId') return typeof value === 'string' && value.length > 0;
       if (name === 'dialogueStyleId' || name === 'scenePackId') {
         return typeof value === 'string' && value.length > 0;
       }

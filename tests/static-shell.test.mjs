@@ -235,6 +235,18 @@ test('both game shells load voice mode as an optional progressive enhancement', 
   assert.match(controlStyles, /@keyframes voice-listening/);
 });
 
+test('both game shells load host packs and the performance director before composition', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    const hostPack = html.indexOf('src/host/host-pack.js');
+    const director = html.indexOf('src/host/host-performance-director.js');
+    const composition = html.indexOf('src/application/application-composition.js');
+    assert.ok(hostPack > 0, `${surface} is missing the HostPack contract`);
+    assert.ok(director > hostPack, `${surface} must load HostPack before its director`);
+    assert.ok(composition > director, `${surface} must load host performance before composition`);
+    assert.match(html, /id="menuHostPack"/, `${surface} is missing personality selection`);
+  }
+});
+
 test('both game shells load the grounded study runtime and owned styles', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     assert.match(html, /src="src\/study\/clue-packet\.js/, `${surface} is missing clue packets`);

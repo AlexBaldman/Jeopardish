@@ -53,6 +53,7 @@ test('InputController maps renderer callbacks into one command vocabulary', asyn
   await bindings.onCheckAnswer();
   await bindings.onToggleVoice({ listen: true });
   await bindings.onPreviousHostSkin();
+  await bindings.onCycleHostPack();
   await bindings.onNextDialogueStyle();
   await bindings.onReviewSavedClues();
   await bindings.onStudyAction('why');
@@ -68,6 +69,7 @@ test('InputController maps renderer callbacks into one command vocabulary', asyn
       InputCommands.SUBMIT_ANSWER,
       InputCommands.LISTEN_VOICE,
       InputCommands.PREVIOUS_HOST,
+      InputCommands.CYCLE_HOST_PACK,
       InputCommands.NEXT_DIALOGUE,
       InputCommands.REVIEW_SAVED_CLUES,
       InputCommands.SELECT_STUDY_ACTION,

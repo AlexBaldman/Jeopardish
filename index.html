@@ -35,7 +35,9 @@
     <script defer src="src/ui/focus-scope.js?v=accessibility-1"></script>
     <script defer src="src/render/renderer.js?v=dialogue-1"></script>
     <script defer src="src/render/console-narrator.js?v=optimal-prime-1"></script>
+    <script defer src="src/host/host-pack.js?v=host-performance-1"></script>
     <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
+    <script defer src="src/host/host-performance-director.js?v=host-performance-1"></script>
     <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
     <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
@@ -422,6 +424,10 @@
                         <button id="menuSound" type="button"><span>Sound</span><b aria-hidden="true">♪</b></button>
                         <button id="menuVoice" type="button" aria-pressed="false">
                             <span id="menuVoiceLabel">Voice mode</span><b id="menuVoiceState" aria-hidden="true">OFF</b>
+                        </button>
+                        <button id="menuHostPack" type="button">
+                            <span class="scene-menu-copy"><small id="menuHostPackKicker">Host personality</small><strong id="menuHostPackLabel">Xander Trefleck</strong></span>
+                            <b id="menuHostPackIndex" aria-hidden="true">01/03</b>
                         </button>
                     </section>
                     <a class="menu-lab-link" href="creative-room.html">Enter the Creative Room <span aria-hidden="true">→</span></a>
