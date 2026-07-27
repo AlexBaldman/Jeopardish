@@ -125,6 +125,72 @@ The audit's proposed clean-slate architecture, wholesale component promotion, an
 mode expansion remain declined. Its strongest new contribution is a more explicit
 attempt/credit model and review-queue requirement.
 
+## Comprehensive Implementation Plan Intake (2026-07-27)
+
+The supplied “Comprehensive Implementation Plan” was written against the donor
+JeoPARODY layout, not this executable branch. Paths such as
+`src/core/GameEngine.js`, `src/init/ui.js`, `src/state/index.js`,
+`src/components/*`, `src/services/HostSystem.js`, `src/styles/app-fixes.css`, and
+`vite.config.js` are absent here. Its six-to-eight-week sequence must therefore
+be treated as requirements research, not an implementation plan.
+
+### Architecture
+
+| Recommendation | Current decision |
+| --- | --- |
+| Make `GameEngine` the sole question-flow owner | **Reject the proposed owner; outcome already achieved.** `EpisodeController` owns episode order and progress, `CluePipeline` owns the cancellable media/translation transaction, `GameEngine` owns scoring truth, and `RoundKernel` owns legal phases. Moving all of that into `GameEngine` would recreate a god object. |
+| Eliminate duplicate state and add legal transitions | **Already solved more precisely.** State has one owner per domain rather than one global store. `RoundKernel` rejects illegal transitions; `SessionManager` persists episode facts; `GameEngine` owns score and active-clue judgment. |
+| Add a singleton service container | **Reject.** `ApplicationComposition` already performs explicit constructor injection and lifecycle rollback. A global service locator would hide dependencies and reduce testability. |
+| Add integration tests for duplicate loading and state divergence | **Keep the outcome.** Existing pipeline, episode, kernel, composition, and production-journey tests cover this. Add cases only when a newly discovered race is reproducible. |
+
+### Styling And Motion
+
+| Recommendation | Current decision |
+| --- | --- |
+| Split a 2,740-line `app-fixes.css` | **Obsolete.** The file does not exist. The live cascade is already split into owned cabinet, scene, header, scoreboard, menu, host, dialogue, media, controls, and Study layers, with zero duplicate selectors enforced. |
+| Rename every selector to BEM | **Reject wholesale churn.** Ownership layers, component files, and static DOM contracts provide the useful discipline. Rename locally only when touching an ambiguous component contract. |
+| Centralize motion timing | **Keep narrowly.** Extend existing `--jp-motion-*` tokens with a small semantic vocabulary while extracting presentation owners. Preserve reduced-motion behavior. |
+| Mirror every CSS duration in JavaScript | **Reject.** JavaScript should await lifecycle events or explicit transactions, not duplicate CSS timing constants. |
+| Add PurgeCSS immediately | **Delay.** Dynamic state classes and two shells make false deletion expensive. The explicit production manifest, CSS audit, visual matrix, and payload ceiling are safer gates until ownership settles. |
+| Build a generic animation utility and FPS logger | **Reject for now.** Use compositor-friendly CSS/Web Animations only for proven beats. Measure real journeys at the page level instead of logging synthetic FPS from every animation. |
+
+### UI, Verification, And Delivery
+
+| Recommendation | Current decision |
+| --- | --- |
+| React-style error boundaries | **Not applicable.** This is a vanilla runtime. Keep failures contained at transaction and service boundaries, emit bounded errors, and preserve playable fallback states. |
+| Mobile audit, touch targets, and responsive images | **Keep and partly complete.** The cabinet uses container queries, `clamp()`, a 44px target token, and a multi-viewport visual matrix. Add real narrow-device journey checks and art-direction work after presentation extraction. |
+| Loading skeleton components | **Decline for the current episode.** Local reviewed content appears immediately and the UI already has recoverable loading states. Reconsider only when measured latency creates a blank or misleading surface. |
+| Storybook | **Delay.** `visual-fixtures.html` already provides deterministic theme, viewport, and game-moment coverage without introducing a second component runtime. |
+| A/B testing framework | **Decline for MVP.** Privacy-safe product events and observed playtests come first. Experiments need a real hypothesis, sample, consent posture, and decision rule. |
+| More integration, accessibility, and performance testing | **Keep selectively.** The production Season Zero journey, media-standby proof, visual matrix, static contracts, and 197 tests already exist. Promote axe checks into CI and add initial-route budgets; do not duplicate suites by directory name. |
+| Vite optimization and deployment setup | **Obsolete as written.** The project intentionally uses an explicit static manifest, a 38 MB artifact ceiling, GitHub Pages deployment, and a post-deploy canary. Optimize measured initial-route work rather than introducing Vite for code splitting theater. |
+
+### Host System
+
+The plan correctly recognized that personality, voice, and animation should be
+data-driven, but its proposed registry, primitive subclasses, composer,
+sequence, renderer factory, performance monitor, and Trebek/Watson hierarchy
+would be premature.
+
+The current `HostPack` and `HostPerformanceDirector` already provide three
+immutable bilingual personalities, teaching boundaries, rights metadata, voice
+direction, expressions, and semantic motions without scoring authority. The
+next implementation should add only the presentation machinery demanded by
+real beats:
+
+1. extract clue, outcome, Study, and finale presenters from `app.js`;
+2. prove `enter`, `react`, `hold`, `recover`, and `exit` across those presenters;
+3. define CSS/Web Animation realizations with cancellation and reduced-motion
+   behavior;
+4. add a sprite renderer only after an original production host supplies a real
+   sprite-sheet requirement;
+5. introduce composition or a registry only when at least three sequences show
+   repeated orchestration that the presenters cannot express cleanly.
+
+This preserves the audit's creative goal without spending weeks constructing a
+general animation engine for five known verbs.
+
 ## Intake Rule
 
 No donor code is copied until a small ticket records:

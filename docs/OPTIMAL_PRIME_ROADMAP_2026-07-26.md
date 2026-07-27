@@ -61,7 +61,7 @@ roadmap for one:
 
 The convergence baseline is now verified:
 
-- `npm run verify` passes 189 unit and contract tests, content validation, CSS
+- `npm run verify` passes 197 unit and contract tests, content validation, CSS
   and asset audits, the static build, and the production artifact audit;
 - production smoke passes in Chromium and WebKit for the landing page, standalone
   game, and Creative Room;
@@ -527,6 +527,10 @@ evidence.
    from `app.js`.
 5. Split `Renderer` by clue, outcome, study, and finale views where the proven
    flows show stable ownership.
+6. Realize the proven host motion verbs (`enter`, `react`, `hold`, `recover`,
+   and `exit`) with cancellable, reduced-motion-safe presentation effects. Do
+   not add a registry, composer, or renderer factory until repeated real
+   sequences justify one.
 
 **Exit:** three deterministic host packs can perform the same episode; `app.js`
 is below 400 lines; AI, voice, and animation can each fail independently.
@@ -555,5 +559,9 @@ Continue **Domino 3: Presentation Ownership**. The deterministic host packet,
 director, and three original personality packs now exist. Extract clue,
 outcome, Study, and finale choreography from `app.js` behind those proven
 contracts, then split renderer ownership only where the extracted flows justify
-it. Do not add a runtime model, broad CSS overhaul, wager mechanics, accounts,
-or fresh branch mining during this pass.
+it. During that extraction, add only the five already-proven semantic motion
+verbs and their reduced-motion behavior. Then promote accessibility and
+initial-route budgets into the release gate before preview deployment. Do not
+add a runtime model, service locator, generic animation framework, Storybook,
+A/B system, broad CSS overhaul, wager mechanics, accounts, or fresh branch
+mining during this pass.
