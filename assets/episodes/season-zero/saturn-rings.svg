@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title description">
+  <title id="title">Station O sketch of Saturn</title>
+  <desc id="description">A stylized golden ringed planet against a navy star field with retro broadcast markings.</desc>
+  <defs>
+    <radialGradient id="space" cx="50%" cy="45%" r="72%">
+      <stop offset="0" stop-color="#1b3474"/>
+      <stop offset="0.58" stop-color="#0a1744"/>
+      <stop offset="1" stop-color="#04081d"/>
+    </radialGradient>
+    <linearGradient id="planet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0a6"/>
+      <stop offset="0.35" stop-color="#f4b94f"/>
+      <stop offset="0.72" stop-color="#d86b57"/>
+      <stop offset="1" stop-color="#6f2d55"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#43e8ff" stop-opacity=".28"/>
+      <stop offset=".2" stop-color="#fff2ad"/>
+      <stop offset=".5" stop-color="#ffcc55"/>
+      <stop offset=".8" stop-color="#ff8caa"/>
+      <stop offset="1" stop-color="#43e8ff" stop-opacity=".28"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="front"><path d="M160 280 Q480 415 800 280 L790 410 Q480 515 170 410Z"/></clipPath>
+  </defs>
+  <rect width="960" height="540" rx="34" fill="url(#space)"/>
+  <g fill="#e9fbff">
+    <circle cx="92" cy="82" r="3"/><circle cx="176" cy="164" r="5"/><circle cx="282" cy="72" r="2"/>
+    <circle cx="710" cy="88" r="4"/><circle cx="850" cy="176" r="3"/><circle cx="790" cy="424" r="5"/>
+    <circle cx="116" cy="414" r="3"/><circle cx="360" cy="458" r="2"/><circle cx="888" cy="72" r="2"/>
+  </g>
+  <g fill="none" stroke="#43e8ff" opacity=".45">
+    <path d="M46 62h62M77 31v62"/><path d="M852 454h62M883 423v62"/>
+    <circle cx="480" cy="270" r="224" stroke-dasharray="4 16"/>
+  </g>
+  <ellipse cx="480" cy="290" rx="350" ry="96" fill="none" stroke="#07102e" stroke-width="48" transform="rotate(-8 480 290)"/>
+  <ellipse cx="480" cy="290" rx="350" ry="96" fill="none" stroke="url(#ring)" stroke-width="32" transform="rotate(-8 480 290)" filter="url(#glow)"/>
+  <ellipse cx="480" cy="270" rx="172" ry="178" fill="url(#planet)" stroke="#07102e" stroke-width="12"/>
+  <path d="M323 225c98 26 218 26 315-3M311 278c112 27 236 28 340-2M325 335c97 21 210 21 309-4" fill="none" stroke="#8a3e52" stroke-width="13" opacity=".5"/>
+  <g clip-path="url(#front)">
+    <ellipse cx="480" cy="290" rx="350" ry="96" fill="none" stroke="#07102e" stroke-width="48" transform="rotate(-8 480 290)"/>
+    <ellipse cx="480" cy="290" rx="350" ry="96" fill="none" stroke="url(#ring)" stroke-width="32" transform="rotate(-8 480 290)" filter="url(#glow)"/>
+  </g>
+  <g transform="translate(72 446)">
+    <rect width="212" height="48" rx="8" fill="#ffdc55" stroke="#07102e" stroke-width="6"/>
+    <path d="M20 24h58m16 0h38m16 0h44" stroke="#07102e" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -74,13 +74,11 @@ test('GameEngine initializes and marks the game ready', () => {
   engine.init();
   engine.ready();
 
-  assert.equal(engine.getState().phase, 'board');
+  assert.equal(Object.hasOwn(engine.getState(), 'phase'), false);
   assert.deepEqual(
     events.map((event) => event.type),
     [
       GameEvents.GAME_INIT,
-      GameEvents.PHASE_CHANGED,
-      GameEvents.PHASE_CHANGED,
       GameEvents.GAME_READY,
     ],
   );
@@ -97,7 +95,7 @@ test('GameEngine hydrates persisted episode progress without changing phase owne
     answeredClueIds: ['one', 'two'],
   });
 
-  assert.equal(restored.phase, 'loading');
+  assert.equal(Object.hasOwn(restored, 'phase'), false);
   assert.equal(restored.score, 1400);
   assert.equal(restored.currentStreak, 2);
   assert.equal(restored.bestStreak, 5);
@@ -168,6 +166,25 @@ test('GameEngine accepts a localized answer without replacing canonical truth', 
   assert.equal(result.answerMatch.matchedAnswer, 'Roma');
 });
 
+test('GameEngine accepts reviewed aliases stored on the active clue', () => {
+  const { engine } = createEngine();
+  engine.init();
+  engine.loadClue({
+    id: 'apollo',
+    category: 'Space',
+    question: 'This mission first landed humans on the Moon.',
+    answer: 'Apollo 11',
+    acceptedAnswers: ['Apollo Eleven'],
+    value: 400,
+  });
+
+  const result = engine.submitAnswer('Apollo Eleven');
+
+  assert.equal(result.isCorrect, true);
+  assert.equal(result.correctAnswer, 'Apollo 11');
+  assert.equal(result.answerMatch.reason, 'variation');
+});
+
 test('GameEngine resets score and streak on incorrect answer to match existing behavior', () => {
   const { engine, events } = createEngine();
 
@@ -184,19 +201,14 @@ test('GameEngine resets score and streak on incorrect answer to match existing b
   assert.equal(events.some((event) => event.type === GameEvents.ANSWER_INCORRECT), true);
 });
 
-test('GameEngine protects scoring while paused and restores its prior phase', () => {
-  const { engine, events } = createEngine();
+test('GameEngine exposes scoring truth without owning round workflow controls', () => {
+  const { engine } = createEngine();
   engine.init();
   engine.loadClue(clue);
 
-  const snapshot = engine.pause('study');
-  const rejected = engine.submitAnswer('Chicago');
-
-  assert.equal(engine.getState().phase, 'paused');
-  assert.equal(rejected.error.code, 'answer-while-paused');
+  assert.equal(engine.pause, undefined);
+  assert.equal(engine.resume, undefined);
+  assert.equal(engine.setPhase, undefined);
   assert.equal(engine.getState().score, 0);
-  assert.equal(engine.resume(snapshot), true);
-  assert.equal(engine.getState().phase, 'answering');
-  assert.equal(events.some((event) => event.type === GameEvents.ROUND_PAUSED), true);
-  assert.equal(events.some((event) => event.type === GameEvents.ROUND_RESUMED), true);
+  assert.equal(engine.getActiveClue().answer, clue.answer);
 });

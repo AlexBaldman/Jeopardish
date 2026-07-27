@@ -42,7 +42,12 @@
     if (!clue || !String(clue.question || '').trim() || !String(clue.answer || '').trim()) {
       throw new Error('A canonical clue packet requires question and answer text.');
     }
-    const acceptedAnswers = logic?.getAcceptedAnswers?.(clue.answer) || [];
+    const acceptedAnswers = [...new Set([
+      ...(logic?.getAcceptedAnswers?.(clue.answer) || []),
+      ...(Array.isArray(clue.acceptedAnswers) ? clue.acceptedAnswers : [])
+        .map((answer) => logic?.cleanAnswer?.(answer) || String(answer || '').trim().toLowerCase())
+        .filter(Boolean),
+    ])];
     return deepFreeze({
       schema: 'jeoparody.canonical-clue',
       version: PACKET_VERSION,
@@ -61,7 +66,13 @@
     if (canonical?.schema !== 'jeoparody.canonical-clue') {
       throw new Error('A grounded clue packet requires a canonical clue packet.');
     }
-    const citations = Array.isArray(enrichment.citations) ? clone(enrichment.citations) : [];
+    const citations = Array.isArray(enrichment.citations)
+      ? clone(enrichment.citations).filter((citation) => (
+        citation
+        && String(citation.title || '').trim()
+        && /^https?:\/\//i.test(String(citation.url || ''))
+      ))
+      : [];
     const reviewed = Boolean(enrichment.reviewed && enrichment.explanation && citations.length);
     const presentation = enrichment.presentation || canonical;
     return deepFreeze({

@@ -18,8 +18,10 @@ The first deterministic slice is now live in the cabinet:
 
 - immutable, versioned canonical and grounded clue packets;
 - localized presentation kept separate from canonical truth;
-- explicit pausing, paused, and resuming phases in the engine and round director;
+- explicit pausing, paused, and resuming phases in the authoritative round kernel;
 - single-use round snapshots that preserve input, answer visibility, score references, focus, and UI moment;
+- a canonical `StudyController` transaction with score-integrity checks and
+  presentation-failure rollback;
 - a responsive Ask Xander side panel with five deterministic study moves;
 - event-bus narration for study entry, actions, exit, and integrity failures.
 
@@ -39,7 +41,7 @@ stateDiagram-v2
 ```
 
 1. The player presses **Ask Xander** while reading a clue or after its answer is revealed.
-2. The `RoundDirector` enters a reversible paused phase. Input, timers, and score mutation are locked.
+2. The `RoundKernel` enters a reversible paused phase. Input, timers, and score mutation are locked.
 3. A side panel expands from the host instead of navigating away.
 4. The panel begins with useful affordances:
    - Explain this simply
@@ -64,7 +66,7 @@ flowchart LR
     coach --> validator["Citation + fidelity validator"]
     validator --> panel["Deep Dive panel"]
     panel --> resume["Resume token"]
-    resume --> round["RoundDirector"]
+    resume --> round["RoundKernel"]
     coach -. "cannot mutate" .-> score["GameEngine score and truth"]
 ```
 
@@ -76,17 +78,21 @@ Every response should distinguish among:
 
 ## Core Modules
 
-### `DeepDiveController`
+### `StudyController` (implemented)
 
-Owns entry, conversation lifecycle, cancellation, and exit.
+Owns deterministic entry, grounded action selection, integrity checks, failure
+rollback, and exact exit.
 
 ```js
-enter({ cluePacket, roundSnapshot, hostProfile, playerContext })
-ask({ message, conversationId })
-exit({ resumeToken })
+enter()
+selectAction(actionId)
+exit()
 ```
 
-It cannot call scoring methods. It can request a mastery observation such as “player asked for a simpler explanation,” but the progression system decides whether and how to store that signal.
+It receives read-only game state and cannot call scoring methods. A future
+conversation controller can request mastery observations such as “player asked
+for a simpler explanation,” but the progression system decides whether and how
+to store that signal.
 
 ### `RoundSnapshot`
 
@@ -100,7 +106,9 @@ A versioned, serializable snapshot containing:
 - focused control and media-modal state;
 - a single-use resume token.
 
-Entering coaching cancels presentation timers. Resuming creates fresh timers from the remaining duration; old callbacks stay invalidated by the director generation token.
+Entering coaching cancels presentation timers. Resuming creates fresh timers from
+the remaining duration; old callbacks stay invalidated by the kernel generation
+token. Snapshots are tied to the originating round id and cannot resume a newer clue.
 
 ### `GroundedCluePacket`
 

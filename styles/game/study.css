@@ -103,6 +103,35 @@
         text-transform: uppercase;
     }
 
+    .game-container .study-sources {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin: 0.65rem 0 0;
+    }
+
+    .game-container .study-sources[hidden] {
+        display: none;
+    }
+
+    .game-container .study-sources a {
+        border: 1px solid color-mix(in srgb, var(--accent-cyan) 65%, transparent);
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--cabinet-ink) 80%, transparent);
+        color: var(--accent-cyan);
+        font: 700 0.66rem/1.2 var(--font-pixel);
+        letter-spacing: 0.04em;
+        padding: 0.48rem 0.7rem;
+        text-decoration: none;
+    }
+
+    .game-container .study-sources a:hover,
+    .game-container .study-sources a:focus-visible {
+        border-color: var(--accent-yellow);
+        color: var(--accent-yellow);
+        transform: translateY(-1px);
+    }
+
     .game-container .study-category {
         margin: 0 0 0.7rem;
         color: #ff8bd8;

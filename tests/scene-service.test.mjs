@@ -35,6 +35,9 @@ function createFakeElement(tagName) {
     addEventListener(type, listener) {
       this.listeners[type] = listener;
     },
+    removeEventListener(type, listener) {
+      if (this.listeners[type] === listener) delete this.listeners[type];
+    },
     append(child) {
       this.children.push(child);
     },
@@ -74,6 +77,9 @@ function createFakeWindow() {
     addEventListener(type, listener) {
       this.listeners[type] = listener;
     },
+    removeEventListener(type, listener) {
+      if (this.listeners[type] === listener) delete this.listeners[type];
+    },
     matchMedia() {
       return { matches: false };
     },
@@ -110,6 +116,22 @@ test('SceneService switches to dark scene and updates pointer parallax variables
   assert.equal(stage.children[0].src, 'assets/scenes/long-beach-96-night/long-beach-96-blue-hour-v1.png');
   assert.equal(stage.style.values['--scene-x'], '0.250');
   assert.equal(stage.style.values['--scene-y'], '-0.250');
+});
+
+test('SceneService releases pointer listeners during lifecycle teardown', () => {
+  const stage = createFakeElement('div');
+  const windowRef = createFakeWindow();
+  const service = new SceneService({
+    documentRef: createFakeDocument(stage),
+    windowRef,
+  }).bindDom();
+
+  assert.equal(typeof windowRef.listeners.pointermove, 'function');
+  assert.equal(typeof windowRef.listeners.pointerleave, 'function');
+  assert.equal(service.destroy(), true);
+  assert.equal(windowRef.listeners.pointermove, undefined);
+  assert.equal(windowRef.listeners.pointerleave, undefined);
+  assert.equal(service.stage, null);
 });
 
 test('SceneService cycles named scene packs while preserving the active theme', () => {

@@ -173,6 +173,62 @@ body[data-theme="light"] :is(.category-original, .clue-original) {
     white-space: pre-line;
 }
 
+.game-container .outcome-feedback {
+    display: grid;
+    justify-items: center;
+    gap: 0.48rem;
+    width: min(100%, 39rem);
+    margin: 0 auto;
+    padding-top: 0.15rem;
+}
+
+.game-container .outcome-feedback[hidden] {
+    display: none;
+}
+
+.game-container .outcome-feedback > p {
+    margin: 0;
+    color: var(--dialogue-ink, #fff8df);
+    font: 900 clamp(0.72rem, 1.4vw, 0.9rem)/1.2 var(--utility-font);
+}
+
+.game-container .confidence-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.game-container .confidence-controls button {
+    min-height: 34px;
+    padding: 0.42rem 0.62rem;
+    border: 2px solid #070a10;
+    border-radius: 7px;
+    color: #f8fbff;
+    background: linear-gradient(180deg, #34435e, #151c2a);
+    box-shadow: 0 3px 0 #070a10;
+    font: 800 clamp(0.62rem, 1.15vw, 0.76rem)/1 var(--utility-font);
+    cursor: pointer;
+}
+
+.game-container .confidence-controls button:hover,
+.game-container .confidence-controls button:focus-visible {
+    border-color: var(--cabinet-cyan);
+    transform: translateY(-1px);
+}
+
+.game-container .confidence-controls button[aria-pressed="true"] {
+    color: #07150d;
+    background: var(--neon-green);
+    box-shadow: 0 3px 0 #07150d, 0 0 14px rgba(119, 255, 138, 0.4);
+}
+
+.game-container .confidence-controls .dispute-button[aria-pressed="true"] {
+    color: #1b0a0d;
+    background: var(--cabinet-coral);
+    box-shadow: 0 3px 0 #1b0a0d, 0 0 14px rgba(255, 91, 110, 0.4);
+}
+
 .game-container[data-game-moment="clue"] .speech-bubble,
 .game-container[data-game-moment="reveal"] .speech-bubble {
     animation: clue-card-arrive 420ms cubic-bezier(.2, .85, .25, 1.08) both;

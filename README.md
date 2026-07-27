@@ -4,7 +4,30 @@
 
 Open `creative-room.html` to compare the current logo, host, and art-direction finalists. The front-running identity is **Channel O**, hosted provisionally by **Xander Trefleck**.
 
-The current architecture direction, including styling convergence, the local-first AI host, grounded clue rewriting, and pausable study mode, is documented in [`docs/ARCHITECTURE_CONVERGENCE_AND_AI_HOST_PLAN_2026-07-17.md`](docs/ARCHITECTURE_CONVERGENCE_AND_AI_HOST_PLAN_2026-07-17.md).
+The current executable roadmap is
+[`docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md`](docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md).
+Its source-by-source convergence decisions live in
+[`docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md`](docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md).
+Earlier plans remain useful historical design material, but these two documents
+govern new product work.
+
+## Current Playable Slice
+
+The flagship path now runs the reviewed ten-clue episode **The Extra O Is Not
+an Accident** from `questions/episodes/season-zero-001.json`:
+
+- ten clues in a deliberate three-act order, including one local-media clue;
+- reviewed explanations, institutional sources, accepted aliases, backstory,
+  and connections available through Ask Xander;
+- deterministic exact, variation, and typo-tolerant answer judgment;
+- `knew it`, `shaky`, and `learned it` confidence plus a dispute path;
+- revision-safe local resume, missed/revealed/shaky review queues, and replay;
+- a finale artifact decoded from the clue order;
+- automatic fallback to the compact archive bank only when episode transport
+  fails.
+
+The content format and editorial workflow are documented in
+[`docs/CONTENT_AUTHORING.md`](docs/CONTENT_AUTHORING.md).
 
 ## Overview
 
@@ -91,7 +114,16 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm run verify
   ```
 
-`questions/jeopardy-questions.json` is the complete research archive. The browser loads and production packages only `questions/runtime-bank.json`; regenerate it rather than hand-editing it.
+- Before a preview or release, add real Chromium and WebKit smoke:
+
+  ```bash
+  SMOKE_BROWSERS=chromium,webkit npm run verify:release
+  ```
+
+`questions/jeopardy-questions.json` is the complete research archive. The
+browser loads the reviewed Season Zero episode and production packages both
+that pack and `questions/runtime-bank.json`; the latter is a compact fallback
+and should be regenerated rather than hand-edited.
 
 Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture merge/cherry-pick/delete decisions after each report run.
 

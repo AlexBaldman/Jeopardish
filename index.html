@@ -25,26 +25,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bree+Serif&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
-    <script defer src="src/contracts/events.js?v=season-zero-2"></script>
+    <script defer src="src/contracts/events.js?v=optimal-prime-1"></script>
+    <script defer src="src/content/episode-contract.js?v=episode-1"></script>
     <script defer src="src/core/event-bus.js?v=arcade-2"></script>
-    <script defer src="src/core/game-engine.js?v=season-zero-2"></script>
+    <script defer src="src/core/game-engine.js?v=optimal-prime-1"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/media/media-preflight.js?v=media-1"></script>
     <script defer src="src/render/scene-service.js?v=scene-packs-4"></script>
     <script defer src="src/ui/focus-scope.js?v=accessibility-1"></script>
     <script defer src="src/render/renderer.js?v=dialogue-1"></script>
-    <script defer src="src/render/console-narrator.js?v=season-zero-2"></script>
+    <script defer src="src/render/console-narrator.js?v=optimal-prime-1"></script>
     <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
     <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
     <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/voice/voice-controller.js?v=voice-1"></script>
-    <script defer src="src/directors/round-director.js?v=round-3"></script>
+    <script defer src="src/core/round-kernel.js?v=kernel-1"></script>
+    <script defer src="src/application/preference-store.js?v=preferences-1"></script>
+    <script defer src="src/application/clue-pipeline.js?v=pipeline-1"></script>
     <script defer src="src/session/session-manager.js?v=season-zero-2"></script>
+    <script defer src="src/application/episode-controller.js?v=episode-1"></script>
     <script defer src="src/study/clue-packet.js?v=study-1"></script>
     <script defer src="src/study/round-snapshot.js?v=study-1"></script>
+    <script defer src="src/application/study-controller.js?v=study-controller-1"></script>
+    <script defer src="src/application/input-controller.js?v=input-controller-1"></script>
+    <script defer src="src/application/application-composition.js?v=composition-1"></script>
     <script defer src="landing.js?v=vision-2"></script>
-    <script defer src="app.js?v=dialogue-1"></script>
+    <script defer src="app.js?v=optimal-prime-1"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
@@ -442,6 +449,16 @@
                             <div id="clueMedia" class="clue-media" aria-label="Clue media"></div>
                         </div>
                         <div id="answerBox"></div>
+                        <section class="outcome-feedback" id="outcomeFeedback" aria-labelledby="outcomeFeedbackPrompt" hidden>
+                            <p id="outcomeFeedbackPrompt">How did that one feel?</p>
+                            <div class="confidence-controls">
+                                <button id="confidenceKnew" type="button" aria-pressed="false">Knew it</button>
+                                <button id="confidenceShaky" type="button" aria-pressed="false">Shaky</button>
+                                <button id="confidenceLearned" type="button" aria-pressed="false">Learned it</button>
+                                <button class="dispute-button" id="disputeButton" type="button" aria-pressed="false">Dispute ruling</button>
+                            </div>
+                            <p class="visually-hidden" id="outcomeFeedbackStatus" aria-live="polite"></p>
+                        </section>
                         <button class="deep-dive-trigger" id="deepDiveButton" type="button"><span aria-hidden="true">?</span> Ask Xander</button>
                     </div>
                     <div class="host-stage" id="hostStage" aria-label="Host visual selector">
@@ -462,6 +479,7 @@
                     </header>
                     <div class="study-scroll">
                         <p class="study-grounding" id="studyGrounding">Archive text only</p>
+                        <nav class="study-sources" id="studySources" aria-label="Reviewed clue sources" hidden></nav>
                         <p class="study-category" id="studyCategory"></p>
                         <p class="study-question" id="studyQuestion"></p>
                         <p class="study-answer"><span>Canonical response</span><strong id="studyAnswer"></strong></p>

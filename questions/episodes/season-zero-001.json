@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "id": "season-zero-001-extra-o",
+  "title": "The Extra O Is Not an Accident",
+  "locale": "en",
+  "kind": "authored",
+  "sequenceMode": "authored-order",
+  "contentRevision": 1,
+  "reviewStatus": "reviewed",
+  "episodeLength": 10,
+  "description": "A ten-clue pilot broadcast that introduces the learning loop, Xander's suspicious station, and one extra letter that refuses to explain itself.",
+  "provenance": {
+    "source": "JeoPARODY editorial",
+    "reviewedOn": "2026-07-27",
+    "editorialPolicy": "Original clue wording; factual claims checked against the attached primary or institutional sources."
+  },
+  "finale": {
+    "title": "Transmission Decoded",
+    "artifactTitle": "BROADCAST O",
+    "artifactBody": "The first letters of tonight's responses spell BROADCAST O. The extra O also appears in Station O's sealed records, which is either a clue or an unusually committed typo.",
+    "hostLine": "Well, there it is: BROADCAST O. A perfectly normal phrase if you have never encountered language.",
+    "teaser": "Next transmission: who authorized Station O, and why was the signature already crossed out?"
+  },
+  "clues": [
+    {
+      "id": "s0e1-01-braille",
+      "category": "Signals You Can Touch",
+      "value": 200,
+      "clue": "Its basic cell uses six raised-dot positions in two columns, producing 63 possible nonblank patterns for reading by touch.",
+      "answer": "Braille",
+      "acceptedAnswers": ["the Braille system"],
+      "explanation": "A standard braille cell has six dot positions arranged in two columns of three. Those positions can form 63 nonblank combinations used for letters, numbers, punctuation, and other symbols.",
+      "sources": [
+        {
+          "title": "Library of Congress: About Braille",
+          "url": "https://www.loc.gov/nls/services-and-resources/informational-publications/about-braille/"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.2,
+      "tags": ["accessibility", "language", "patterns"],
+      "learning": {
+        "backstory": "Louis Braille developed the system as a teenager in nineteenth-century France, adapting the idea of raised-dot night writing into a compact reading and writing method.",
+        "connections": [
+          "Think of each cell as a six-bit physical code: each dot position is either raised or flat.",
+          "The 63 nonblank patterns come from the 64 possible on-off combinations of six positions, minus the all-flat cell."
+        ]
+      },
+      "performance": {
+        "act": 1,
+        "expression": "clue",
+        "hostLine": "We begin with a communications system that works even when the studio lights have been repossessed.",
+        "storyBeat": "The broadcast introduces coded communication."
+      }
+    },
+    {
+      "id": "s0e1-02-rip-current",
+      "category": "Beach Intelligence",
+      "value": 200,
+      "clue": "This narrow, fast-moving flow carries water away from shore; experts advise swimmers caught in one to stay calm and swim parallel to the beach.",
+      "answer": "Rip current",
+      "acceptedAnswers": ["a rip current", "rip tide"],
+      "explanation": "A rip current is a concentrated flow moving away from shore. It does not pull a swimmer underwater; the safest response is to avoid fighting it, float or tread water, and move parallel to shore when possible.",
+      "sources": [
+        {
+          "title": "NOAA Ocean Service: What Is a Rip Current?",
+          "url": "https://oceanservice.noaa.gov/facts/ripcurrent.html"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.25,
+      "tags": ["ocean", "safety", "long-beach"],
+      "learning": {
+        "backstory": "Rip currents form where water pushed toward shore by breaking waves finds a concentrated route back seaward.",
+        "connections": [
+          "Picture a moving walkway aimed offshore: crossing it sideways is usually easier than running directly against it.",
+          "This is practical beach knowledge, not merely a fact for converting panic into points."
+        ]
+      },
+      "performance": {
+        "act": 1,
+        "expression": "clue",
+        "hostLine": "Long Beach safety now, because a prize budget is no substitute for municipal rescue services.",
+        "storyBeat": "The beach setting becomes part of the curriculum."
+      }
+    },
+    {
+      "id": "s0e1-03-ozone",
+      "category": "Tiny Molecules, Large Responsibilities",
+      "value": 400,
+      "clue": "Made of three oxygen atoms, this gas in the stratosphere absorbs much of the Sun's harmful ultraviolet radiation.",
+      "answer": "Ozone",
+      "acceptedAnswers": ["O3", "O-three"],
+      "explanation": "Ozone is O3, a molecule made of three oxygen atoms. High in the stratosphere, the ozone layer absorbs most of the Sun's damaging ultraviolet radiation.",
+      "sources": [
+        {
+          "title": "NASA Earth Observatory: Ozone",
+          "url": "https://science.nasa.gov/earth/earth-observatory/ozone/"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.3,
+      "tags": ["chemistry", "atmosphere", "space"],
+      "learning": {
+        "backstory": "The same molecule can be protective high in the atmosphere and harmful as a pollutant near the ground. Location performs a surprising amount of moral work.",
+        "connections": [
+          "Ordinary oxygen gas is O2; ozone adds one more oxygen atom to make O3.",
+          "The stratospheric ozone layer works like part of Earth's ultraviolet filter."
+        ]
+      },
+      "performance": {
+        "act": 1,
+        "expression": "clue",
+        "hostLine": "Three atoms, one atmosphere, and somehow less paperwork than this station requires for a sandwich.",
+        "storyBeat": "The recurring letter O begins to feel deliberate."
+      }
+    },
+    {
+      "id": "s0e1-04-apollo-11",
+      "category": "Very Expensive Footprints",
+      "value": 400,
+      "clue": "Neil Armstrong and Buzz Aldrin became the first humans to walk on the Moon during this 1969 NASA mission.",
+      "answer": "Apollo 11",
+      "acceptedAnswers": ["Apollo Eleven", "the Apollo 11 mission"],
+      "explanation": "Apollo 11 carried Neil Armstrong, Buzz Aldrin, and Michael Collins to the Moon in July 1969. Armstrong and Aldrin landed in the lunar module Eagle while Collins remained in lunar orbit.",
+      "sources": [
+        {
+          "title": "NASA: Apollo 11 Mission Overview",
+          "url": "https://www.nasa.gov/mission/apollo-11/"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.18,
+      "tags": ["space", "history", "engineering"],
+      "learning": {
+        "backstory": "The mission launched on July 16, landed on July 20, and returned to Earth on July 24, 1969.",
+        "connections": [
+          "Apollo 11 was the landing mission; Apollo 8 had previously carried humans around the Moon without landing.",
+          "Michael Collins piloted the command module Columbia while Armstrong and Aldrin explored the surface."
+        ]
+      },
+      "performance": {
+        "act": 2,
+        "expression": "clue",
+        "hostLine": "Humanity reached the Moon before this network learned to label its extension cords.",
+        "storyBeat": "Act two widens the broadcast from Earth to space."
+      }
+    },
+    {
+      "id": "s0e1-05-denmark",
+      "category": "Rotten Geography",
+      "value": 600,
+      "clue": "In Shakespeare's Hamlet, Marcellus locates a famous odor of political corruption in this kingdom.",
+      "answer": "Denmark",
+      "acceptedAnswers": ["the Kingdom of Denmark"],
+      "explanation": "After Hamlet follows the ghost, Marcellus says that something is rotten in the state of Denmark. The line signals that the kingdom's political and moral order has decayed.",
+      "sources": [
+        {
+          "title": "Folger Shakespeare Library: Hamlet",
+          "url": "https://www.folger.edu/explore/shakespeares-works/hamlet/"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.35,
+      "tags": ["literature", "shakespeare", "mystery"],
+      "learning": {
+        "backstory": "The phrase has become shorthand for suspect institutions and concealed wrongdoing, even when the institution is a low-budget trivia station.",
+        "connections": [
+          "Hamlet is Prince of Denmark, and the play opens with guards encountering the ghost of his father.",
+          "Marcellus speaks the line, not Hamlet, a detail that catches many otherwise confident memories."
+        ]
+      },
+      "performance": {
+        "act": 2,
+        "expression": "reveal",
+        "hostLine": "A rotten state. Completely unrelated to the station's accounting department, which is more of a province.",
+        "storyBeat": "Xander denies a parallel nobody mentioned."
+      }
+    },
+    {
+      "id": "s0e1-06-canada",
+      "category": "Coasts With the Most",
+      "value": 600,
+      "clue": "Measured along its vast mainland and island shores, this country has the world's longest coastline.",
+      "answer": "Canada",
+      "acceptedAnswers": ["the nation of Canada"],
+      "explanation": "Canada has the longest coastline of any country because its territory includes an enormous mainland shore and thousands of islands bordering the Atlantic, Pacific, and Arctic oceans.",
+      "sources": [
+        {
+          "title": "Statistics Canada: Canada's Coastline",
+          "url": "https://www150.statcan.gc.ca/n1/pub/16-002-x/2021001/article/00001-eng.htm"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.28,
+      "tags": ["geography", "canada", "ocean"],
+      "learning": {
+        "backstory": "Coastline totals depend on measurement scale, a phenomenon called the coastline paradox, but authoritative comparisons consistently place Canada first.",
+        "connections": [
+          "Canada touches three oceans: Atlantic, Pacific, and Arctic.",
+          "Its many Arctic islands dramatically increase the total shore length."
+        ]
+      },
+      "performance": {
+        "act": 2,
+        "expression": "clue",
+        "hostLine": "A Canadian question. I have been advised this establishes warmth without creating legal obligations.",
+        "storyBeat": "The host's oddly defensive Canadian identity enters the foreground."
+      }
+    },
+    {
+      "id": "s0e1-07-ada-lovelace",
+      "category": "Code Before Computers",
+      "value": 800,
+      "clue": "Her notes on Charles Babbage's Analytical Engine included a published procedure for calculating Bernoulli numbers, often called the first computer program.",
+      "answer": "Ada Lovelace",
+      "acceptedAnswers": ["Augusta Ada King", "Countess of Lovelace", "Lady Lovelace"],
+      "explanation": "Ada Lovelace's 1843 notes on the proposed Analytical Engine included a detailed method for calculating Bernoulli numbers. It is widely described as the first published computer algorithm.",
+      "sources": [
+        {
+          "title": "Science Museum: The Human Machine",
+          "url": "https://www.sciencemuseum.org.uk/objects-and-stories/human-machine"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.42,
+      "tags": ["computing", "history", "mathematics"],
+      "learning": {
+        "backstory": "Lovelace also understood that a general-purpose symbolic machine might manipulate more than numbers, anticipating uses far beyond arithmetic.",
+        "connections": [
+          "The Analytical Engine was mechanical and never completed in Babbage's lifetime, but its design included concepts recognizable as memory and processing.",
+          "The modern programming language Ada was named in her honor."
+        ]
+      },
+      "performance": {
+        "act": 3,
+        "expression": "clue",
+        "hostLine": "A program written before the computer existed, the traditional relationship between software schedules and hardware reality.",
+        "storyBeat": "Act three turns toward systems, authorship, and hidden instructions."
+      }
+    },
+    {
+      "id": "s0e1-08-saturn",
+      "category": "Portraits of Low Density",
+      "value": 800,
+      "clue": "The ringed world in this station sketch is the only planet in our solar system with an average density lower than water.",
+      "answer": "Saturn",
+      "acceptedAnswers": ["the planet Saturn"],
+      "explanation": "Saturn's average density is lower than the density of liquid water. The popular image of it floating is only a thought experiment because no ocean large enough exists and the planet has no solid surface.",
+      "sources": [
+        {
+          "title": "NASA Science: Saturn Facts",
+          "url": "https://science.nasa.gov/saturn/facts/"
+        }
+      ],
+      "media": [
+        {
+          "type": "image",
+          "url": "./assets/episodes/season-zero/saturn-rings.svg",
+          "title": "Station O sketch of a ringed planet",
+          "alt": "A stylized golden ringed planet against a dark star field"
+        }
+      ],
+      "difficulty": 0.32,
+      "tags": ["space", "physics", "visual-clue"],
+      "learning": {
+        "backstory": "Saturn is a gas giant made mostly of hydrogen and helium. Its bright rings are composed of countless particles of ice and rock.",
+        "connections": [
+          "Density compares mass with volume; a huge planet can still have low average density.",
+          "Saturn is not the only planet with rings, but its ring system is the most extensive and visible."
+        ]
+      },
+      "performance": {
+        "act": 3,
+        "expression": "clue",
+        "hostLine": "Our art department drew this from memory after its telescope was exchanged for store credit.",
+        "storyBeat": "The episode demonstrates resilient local media."
+      }
+    },
+    {
+      "id": "s0e1-09-transcontinental-railroad",
+      "category": "A Country Says Done",
+      "value": 1000,
+      "clue": "A golden spike at Promontory Summit in 1869 ceremonially completed this rail link between the eastern and western United States.",
+      "answer": "Transcontinental Railroad",
+      "acceptedAnswers": ["the First Transcontinental Railroad", "Pacific Railroad"],
+      "explanation": "On May 10, 1869, the Union Pacific and Central Pacific railroads met at Promontory Summit in Utah. The Golden Spike ceremony marked completion of the first transcontinental railroad.",
+      "sources": [
+        {
+          "title": "National Park Service: Golden Spike National Historical Park",
+          "url": "https://www.nps.gov/articles/getaway-gosp.htm"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.48,
+      "tags": ["history", "transportation", "united-states"],
+      "learning": {
+        "backstory": "The railroad dramatically reduced cross-country travel time, while its construction also depended on exploited immigrant labor and accelerated the displacement of Indigenous peoples.",
+        "connections": [
+          "Union Pacific built westward; Central Pacific built eastward.",
+          "The ceremonial spike represented connection, but the history of the line includes costs that a victory photograph does not show."
+        ]
+      },
+      "performance": {
+        "act": 3,
+        "expression": "reveal",
+        "hostLine": "The nation joined both coasts and immediately began arguing over who had packed the good sandwiches.",
+        "storyBeat": "Connections now carry both achievement and consequence."
+      }
+    },
+    {
+      "id": "s0e1-10-ocean",
+      "category": "The Blue Majority",
+      "value": 1000,
+      "clue": "Covering roughly 71 percent of Earth's surface, this connected body contains about 97 percent of the planet's water.",
+      "answer": "Ocean",
+      "acceptedAnswers": ["the ocean", "world ocean", "global ocean", "oceans"],
+      "explanation": "The ocean covers about 71 percent of Earth's surface and holds roughly 97 percent of Earth's water. Although people name separate oceans, they form one connected global body of salt water.",
+      "sources": [
+        {
+          "title": "USGS Science Explorer: Ocean",
+          "url": "https://www.usgs.gov/science/science-explorer/ocean"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.2,
+      "tags": ["earth-science", "ocean", "finale"],
+      "learning": {
+        "backstory": "The named Atlantic, Pacific, Indian, Arctic, and Southern oceans are regions of one global ocean linked by currents.",
+        "connections": [
+          "The ocean shapes weather and climate by storing and moving immense amounts of heat.",
+          "The final response contributes one more O to a pattern the host has been avoiding."
+        ]
+      },
+      "performance": {
+        "act": 3,
+        "expression": "streak",
+        "hostLine": "Seventy-one percent of the planet, yet management insists the beach view is a premium feature.",
+        "storyBeat": "The response completes the hidden phrase BROADCAST O.",
+        "callbackTo": "s0e1-03-ozone"
+      }
+    },
+    {
+      "id": "s0e1-standby-sodium",
+      "category": "Emergency Elements",
+      "value": 800,
+      "clue": "Atomic number 11 and the symbol Na identify this soft, highly reactive metal found most commonly in compounds such as table salt.",
+      "answer": "Sodium",
+      "acceptedAnswers": ["the element sodium", "Na"],
+      "explanation": "Sodium is element 11, represented by the symbol Na. The pure metal reacts vigorously with water, so sodium occurs naturally in compounds rather than as an uncombined metal.",
+      "sources": [
+        {
+          "title": "Royal Society of Chemistry: Sodium",
+          "url": "https://periodic-table.rsc.org/element/11/sodium"
+        }
+      ],
+      "media": [],
+      "difficulty": 0.32,
+      "tags": ["chemistry", "standby", "media-fallback"],
+      "learning": {
+        "backstory": "The symbol Na comes from natrium, a Latinized name connected to natron. Humphry Davy isolated sodium metal by electrolysis in 1807.",
+        "connections": [
+          "Sodium chloride is ordinary table salt, but elemental sodium is a reactive metal.",
+          "This clue is the reviewed standby for the Saturn media position, preserving the episode's S signal if the image cannot air."
+        ]
+      },
+      "performance": {
+        "act": 3,
+        "expression": "clue",
+        "hostLine": "The picture department has left the building, so chemistry will now be portraying Saturn.",
+        "storyBeat": "A text-only standby preserves the episode when media cannot air.",
+        "standbyFor": "s0e1-08-saturn"
+      }
+    }
+  ]
+}

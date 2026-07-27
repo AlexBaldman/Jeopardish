@@ -14,7 +14,8 @@ This creates `dist/` with only runtime files:
 
 - app shell: `index.html`, `game.html`, `style.css`, `app.js`, `landing.js`, `game-logic.js`
 - runtime modules: `src/`
-- active question bank: `questions/runtime-bank.json`
+- active episode: `questions/episodes/season-zero-001.json`
+- transport fallback: `questions/runtime-bank.json`
 - active UI art: banknotes, vision images, scene layers, and current host-skin candidates
 - `.nojekyll` for GitHub Pages static serving
 
@@ -53,16 +54,15 @@ GitHub Pages must use **GitHub Actions** as its source. Do not publish the repos
 Run:
 
 ```bash
-npm run check:js
-npm test
-npm run validate:questions
-npm run build
+npm run verify:release
 ```
 
-Then run a browser smoke test against `dist/`.
+This runs all non-browser checks, builds and audits `dist/`, then exercises the
+production artifact in Chromium. To match the full CI browser matrix, run:
 
 ```bash
-npm run smoke:dist
+SMOKE_BROWSERS=chromium,webkit npm run verify:release
 ```
 
-Set `SMOKE_BROWSERS=chromium,webkit` to match CI. The smoke suite enforces route-level first-party payload budgets and checks the landing page, standalone game, and Creative Room.
+The smoke suite enforces route-level first-party payload budgets and checks the
+landing page, standalone game, and Creative Room.

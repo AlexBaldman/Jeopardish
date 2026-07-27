@@ -21,7 +21,6 @@
   const {
     AudioStates,
     GameEvents,
-    GamePhases,
     NetworkStates,
     ScoreRules,
   } = contracts;
@@ -41,13 +40,11 @@
       this.scoreRules = scoreRules;
       this.now = now;
       this.activeClue = null;
-      this.pausedState = null;
       this.state = this.createInitialState({ bestStreak });
     }
 
     createInitialState({ bestStreak = 0 } = {}) {
       return {
-        phase: GamePhases.IDLE,
         score: 0,
         currentStreak: 0,
         bestStreak,
@@ -69,13 +66,10 @@
         updatedAt: this.now(),
       };
       this.activeClue = null;
-      this.pausedState = null;
       this.emit(GameEvents.GAME_INIT, { state: this.getState() });
-      this.setPhase(GamePhases.LOADING, 'game-init');
     }
 
     ready() {
-      this.setPhase(GamePhases.BOARD, 'game-ready');
       this.emit(GameEvents.GAME_READY, { state: this.getState() });
     }
 
@@ -106,16 +100,10 @@
         clue,
         clueValue,
       });
-      this.setPhase(GamePhases.ANSWERING, 'clue-loaded');
       return this.getState();
     }
 
     submitAnswer(answer, { acceptedAnswers = [] } = {}) {
-      if (this.state.phase === GamePhases.PAUSED) {
-        const error = { code: 'answer-while-paused', message: 'Resume the round before submitting an answer.' };
-        this.emit(GameEvents.ERROR_REPORTED, error);
-        return { ok: false, error };
-      }
       if (!this.activeClue) {
         const error = {
           code: 'answer-without-active-clue',
@@ -139,18 +127,25 @@
 
       const answerCandidates = [
         this.activeClue.answer || '',
+        ...(Array.isArray(this.activeClue.acceptedAnswers)
+          ? this.activeClue.acceptedAnswers
+          : []),
         ...acceptedAnswers,
       ].filter((candidate, index, values) => candidate && values.indexOf(candidate) === index);
       if (answerCandidates.length === 0) {
         answerCandidates.push('');
       }
-      const answerMatches = answerCandidates.map((candidate) => ({
+      const answerMatches = answerCandidates.map((candidate, index) => ({
         candidate,
+        index,
         match: logic.compareAnswersDetailed(submittedAnswer, candidate),
       }));
       const selectedMatch = answerMatches.find(({ match }) => match.isCorrect) || answerMatches[0];
       const answerMatch = {
         ...selectedMatch.match,
+        reason: selectedMatch.index > 0 && selectedMatch.match.reason === 'exact'
+          ? 'variation'
+          : selectedMatch.match.reason,
         matchedAnswer: selectedMatch.candidate,
       };
       const isCorrect = answerMatch.isCorrect;
@@ -209,7 +204,6 @@
       }
 
       this.activeClue = null;
-      this.setPhase(GamePhases.REVEALING, 'answer-submitted');
       return result;
     }
 
@@ -231,41 +225,6 @@
 
     getActiveClue() {
       return this.activeClue;
-    }
-
-    pause(reason = 'study') {
-      if (this.state.phase === GamePhases.PAUSED || ![GamePhases.ANSWERING, GamePhases.REVEALING].includes(this.state.phase)) {
-        return null;
-      }
-      this.pausedState = Object.freeze({ version: 1, phase: this.state.phase, reason });
-      this.setPhase(GamePhases.PAUSING, reason);
-      this.setPhase(GamePhases.PAUSED, reason);
-      this.emit(GameEvents.ROUND_PAUSED, { reason, pausedFromPhase: this.pausedState.phase });
-      return this.pausedState;
-    }
-
-    resume(snapshot = this.pausedState) {
-      if (this.state.phase !== GamePhases.PAUSED || !snapshot || snapshot.version !== 1) return false;
-      this.setPhase(GamePhases.RESUMING, snapshot.reason);
-      const resumePhase = snapshot.phase;
-      this.pausedState = null;
-      this.setPhase(resumePhase, snapshot.reason);
-      this.emit(GameEvents.ROUND_RESUMED, { reason: snapshot.reason, resumedPhase: resumePhase });
-      return true;
-    }
-
-    setPhase(nextPhase, reason) {
-      const previousPhase = this.state.phase;
-      this.state = {
-        ...this.state,
-        phase: nextPhase,
-        updatedAt: this.now(),
-      };
-      this.emit(GameEvents.PHASE_CHANGED, {
-        previousPhase,
-        nextPhase,
-        reason,
-      });
     }
 
     emit(type, payload = {}) {

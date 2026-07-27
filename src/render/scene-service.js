@@ -117,6 +117,7 @@
       this.activeSceneId = '';
       this.reduceMotion = false;
       this.pointerListener = null;
+      this.resetPointerListener = null;
     }
 
     bindDom(stage = this.document?.getElementById?.('sceneStage')) {
@@ -142,12 +143,26 @@
         this.stage.style.setProperty('--scene-x', x.toFixed(3));
         this.stage.style.setProperty('--scene-y', y.toFixed(3));
       };
-
-      this.window?.addEventListener?.('pointermove', this.pointerListener);
-      this.window?.addEventListener?.('pointerleave', () => {
+      this.resetPointerListener = () => {
         this.stage?.style?.setProperty('--scene-x', '0');
         this.stage?.style?.setProperty('--scene-y', '0');
-      });
+      };
+
+      this.window?.addEventListener?.('pointermove', this.pointerListener);
+      this.window?.addEventListener?.('pointerleave', this.resetPointerListener);
+    }
+
+    destroy() {
+      if (this.pointerListener) {
+        this.window?.removeEventListener?.('pointermove', this.pointerListener);
+      }
+      if (this.resetPointerListener) {
+        this.window?.removeEventListener?.('pointerleave', this.resetPointerListener);
+      }
+      this.pointerListener = null;
+      this.resetPointerListener = null;
+      this.stage = null;
+      return true;
     }
 
     setTheme(theme) {

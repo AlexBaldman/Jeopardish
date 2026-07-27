@@ -84,6 +84,13 @@ function createFakeDocument() {
     'clueOriginal',
     'clueMedia',
     'answerBox',
+    'outcomeFeedback',
+    'outcomeFeedbackPrompt',
+    'confidenceKnew',
+    'confidenceShaky',
+    'confidenceLearned',
+    'disputeButton',
+    'outcomeFeedbackStatus',
     'hudScore',
     'hudStreak',
     'hudBest',
@@ -145,6 +152,7 @@ function createFakeDocument() {
     'studyQuestion',
     'studyAnswer',
     'studyGrounding',
+    'studySources',
     'studyActions',
     'studyResponse',
   ];
@@ -222,6 +230,12 @@ test('Renderer renders episode progress and a completion artifact', () => {
     complete: true,
     score: 2400,
     counts: { correct: 7, incorrect: 1, revealed: 1, skipped: 1 },
+    review: { missed: 1, revealed: 1, shaky: 1, total: 2 },
+    disputes: 1,
+    finale: {
+      artifactTitle: 'BROADCAST O',
+      artifactBody: 'The signal has been decoded.',
+    },
   };
 
   renderer.renderSessionProgress(progress);
@@ -231,6 +245,10 @@ test('Renderer renders episode progress and a completion artifact', () => {
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, 'complete');
   assert.match(renderer.dom.clueText.textContent, /\$2400/);
   assert.match(renderer.dom.clueText.textContent, /70% accuracy/);
+  assert.match(renderer.dom.clueText.textContent, /BROADCAST O/);
+  assert.match(renderer.dom.answerBox.textContent, /signal has been decoded/);
+  assert.match(renderer.dom.answerBox.textContent, /2 clues saved for review/);
+  assert.match(renderer.dom.answerBox.textContent, /1 ruling flagged/);
   assert.equal(renderer.dom.questionButton.disabled, false);
   assert.equal(renderer.dom.answerButton.disabled, true);
   assert.equal(renderer.dom.questionButton.dataset.tooltip, 'Replay Episode');
@@ -329,6 +347,8 @@ test('Renderer binds UI events to callbacks', () => {
     onPreviousDialogueStyle: () => calls.push('dialogue-prev'),
     onNextDialogueStyle: () => calls.push('dialogue-next'),
     onCycleScene: () => calls.push('scene'),
+    onConfidence: (confidence) => calls.push(`confidence:${confidence}`),
+    onDispute: () => calls.push('dispute'),
   });
 
   renderer.dom.answerButton.listeners.click();
@@ -344,6 +364,8 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.dialogueStylePrev.listeners.click();
   renderer.dom.dialogueStyleNext.listeners.click();
   renderer.dom.menuScene.listeners.click();
+  renderer.dom.confidenceShaky.listeners.click();
+  renderer.dom.disputeButton.listeners.click();
   renderer.dom.userInput.listeners.keydown({ key: 'Enter' });
   renderer.dom.hamburgerMenu.listeners.click();
 
@@ -361,6 +383,8 @@ test('Renderer binds UI events to callbacks', () => {
     'dialogue-prev',
     'dialogue-next',
     'scene',
+    'confidence:shaky',
+    'dispute',
     'check',
   ]);
   assert.equal(renderer.dom.navMenu.classList.has('active'), true);
@@ -375,19 +399,43 @@ test('Renderer presents grounded study content and restores the round view', () 
   const view = renderer.captureRoundView();
 
   renderer.renderStudyPanel({
-    grounding: 'canonical-only',
+    grounding: 'reviewed',
     canonical: { category: 'Science', question: 'A grounded question', answer: 'A grounded answer' },
+    citations: [{ title: 'Reviewed source', url: 'https://example.com/source' }],
   }, [{ id: 'simple', label: 'Explain this simply' }]);
   renderer.setStudyOpen(true);
 
   assert.equal(renderer.isStudyOpen(), true);
   assert.equal(renderer.dom.studyCategory.textContent, 'Science');
+  assert.equal(renderer.dom.studySources.hidden, false);
+  assert.equal(renderer.dom.studySources.children[0].textContent, 'Reviewed source');
+  assert.equal(renderer.dom.studySources.children[0].attributes.href, undefined);
+  assert.equal(renderer.dom.studySources.children[0].href, 'https://example.com/source');
   assert.equal(renderer.dom.studyActions.children[0].dataset.studyAction, 'simple');
   renderer.dom.userInput.value = '';
   renderer.setStudyOpen(false);
   renderer.restoreRoundView(view);
   assert.equal(renderer.dom.userInput.value, 'half typed answer');
   assert.equal(renderer.isAnswerVisible(), false);
+});
+
+test('Renderer presents and updates lightweight outcome feedback', () => {
+  const { renderer } = createRenderer();
+
+  renderer.renderOutcomeFeedback({ confidence: 'shaky', disputed: true });
+
+  assert.equal(renderer.dom.outcomeFeedback.hidden, false);
+  assert.equal(renderer.dom.confidenceKnew.attributes['aria-pressed'], 'false');
+  assert.equal(renderer.dom.confidenceShaky.attributes['aria-pressed'], 'true');
+  assert.equal(renderer.dom.disputeButton.attributes['aria-pressed'], 'true');
+  assert.equal(renderer.dom.disputeButton.textContent, 'Ruling flagged');
+
+  renderer.renderClue({
+    category: 'Science',
+    question: 'A new clue',
+    answer: 'An answer',
+  }, 200);
+  assert.equal(renderer.dom.outcomeFeedback.hidden, true);
 });
 
 test('Renderer applies localized static UI copy and toggle states', () => {

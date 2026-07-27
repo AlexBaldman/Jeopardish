@@ -137,6 +137,30 @@ async function auditRoute(browser, browserName, route) {
       await page.waitForFunction(() => document.getElementById('navMenu')?.getAttribute('aria-hidden') === 'false');
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => document.getElementById('navMenu')?.getAttribute('aria-hidden') === 'true');
+
+      const answer = await page.locator('#answerBox').innerText();
+      await page.locator('#inputbox').fill(answer);
+      await page.locator('#checkButton').click();
+      await page.waitForFunction(
+        () => document.getElementById('gameContainer')?.dataset.roundPhase === 'advance-ready',
+      );
+      const score = Number((await page.locator('#hudScore').innerText()).replace(/[^\d.-]/g, ''));
+      if (!(score > 0)) failures.push('correct-answer flow did not increase score');
+
+      await page.locator('#questionButton').click();
+      await page.waitForFunction(
+        () => document.getElementById('gameContainer')?.dataset.roundPhase === 'answering',
+      );
+      await page.locator('#deepDiveButton').click();
+      await page.waitForFunction(() => (
+        document.getElementById('gameContainer')?.dataset.roundPhase === 'paused'
+        && document.getElementById('studyPanel')?.hidden === false
+      ));
+      await page.locator('#studyResume').click();
+      await page.waitForFunction(() => (
+        document.getElementById('gameContainer')?.dataset.roundPhase === 'advance-ready'
+        && document.getElementById('studyPanel')?.hidden === true
+      ));
     }
     console.log(
       `${browserName.padEnd(8)} ${route.id.padEnd(14)} `

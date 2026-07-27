@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [landingHtml, gameHtml, fixtureHtml, baseStyles, tokens, brandStyles, preferenceStyles, siteStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, mediaStyles, controlStyles] = await Promise.all([
+const [landingHtml, gameHtml, fixtureHtml, smokeScript, baseStyles, tokens, brandStyles, preferenceStyles, siteStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, mediaStyles, controlStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../game.html', import.meta.url), 'utf8'),
   readFile(new URL('../visual-fixtures.html', import.meta.url), 'utf8'),
+  readFile(new URL('../scripts/smoke-production.mjs', import.meta.url), 'utf8'),
   readFile(new URL('../styles/base.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/tokens.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/brand.css', import.meta.url), 'utf8'),
@@ -57,8 +58,14 @@ const cabinetContractIds = [
   'menuVoiceState',
   'studyPanel',
   'studyActions',
+  'studySources',
   'studyResponse',
   'studyResume',
+  'outcomeFeedback',
+  'confidenceKnew',
+  'confidenceShaky',
+  'confidenceLearned',
+  'disputeButton',
 ];
 
 const mediaContractIds = [
@@ -83,6 +90,11 @@ function assertHasIds(html, ids, surface) {
 test('landing and standalone pages preserve the cabinet DOM contract', () => {
   assertHasIds(landingHtml, cabinetContractIds, 'index.html');
   assertHasIds(gameHtml, cabinetContractIds, 'game.html');
+});
+
+test('production smoke uses the canonical answer input id', () => {
+  assert.match(smokeScript, /locator\('#inputbox'\)/);
+  assert.doesNotMatch(smokeScript, /locator\('#inputBox'\)/);
 });
 
 test('game shells load foundations and owned components without a legacy runtime stylesheet', () => {
@@ -155,10 +167,41 @@ test('landing and standalone pages both provide the clue media viewer', () => {
   assertHasIds(gameHtml, mediaContractIds, 'game.html');
 });
 
-test('both game shells load the Season Zero session runtime', () => {
+test('both game shells load the episode contract and controller before composition', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     assert.match(html, /src="src\/session\/session-manager\.js/,
       `${surface} does not load the session manager`);
+    assert.match(html, /src="src\/content\/episode-contract\.js/,
+      `${surface} does not load the episode contract`);
+    assert.match(html, /src="src\/application\/episode-controller\.js/,
+      `${surface} does not load the episode controller`);
+    assert.ok(
+      html.indexOf('src/content/episode-contract.js')
+        < html.indexOf('src/application/episode-controller.js'),
+      `${surface} must load the contract before the episode controller`,
+    );
+    assert.ok(
+      html.indexOf('src/application/episode-controller.js')
+        < html.indexOf('src/application/application-composition.js'),
+      `${surface} must load the episode controller before composition`,
+    );
+  }
+});
+
+test('both game shells load the authoritative round kernel', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /src="src\/core\/round-kernel\.js/,
+      `${surface} does not load the round kernel`);
+    assert.match(html, /src="src\/application\/preference-store\.js/,
+      `${surface} does not load the preference store`);
+    assert.match(html, /src="src\/application\/clue-pipeline\.js/,
+      `${surface} does not load the clue pipeline`);
+    assert.ok(
+      html.indexOf('src/application/preference-store.js') < html.indexOf('src="app.js'),
+      `${surface} must load the preference store before app.js`,
+    );
+    assert.doesNotMatch(html, /src\/directors\/round-director\.js/,
+      `${surface} still loads the retired round director`);
   }
 });
 
@@ -176,7 +219,34 @@ test('both game shells load the grounded study runtime and owned styles', () => 
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     assert.match(html, /src="src\/study\/clue-packet\.js/, `${surface} is missing clue packets`);
     assert.match(html, /src="src\/study\/round-snapshot\.js/, `${surface} is missing round snapshots`);
+    assert.match(html, /src="src\/application\/study-controller\.js/, `${surface} is missing the study controller`);
+    assert.ok(
+      html.indexOf('src/application/study-controller.js') < html.indexOf('src="app.js'),
+      `${surface} must load the study controller before app.js`,
+    );
     assert.match(html, /href="styles\/game\/study\.css/, `${surface} is missing study styles`);
+  }
+});
+
+test('both game shells load the canonical input controller before app coordination', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /src="src\/application\/input-controller\.js/,
+      `${surface} is missing the input controller`);
+    assert.ok(
+      html.indexOf('src/application/input-controller.js') < html.indexOf('src="app.js'),
+      `${surface} must load the input controller before app.js`,
+    );
+  }
+});
+
+test('both game shells load the composition root immediately before app coordination', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /src="src\/application\/application-composition\.js/,
+      `${surface} is missing the application composition root`);
+    assert.ok(
+      html.indexOf('src/application/application-composition.js') < html.indexOf('src="app.js'),
+      `${surface} must load the composition root before app.js`,
+    );
   }
 });
 

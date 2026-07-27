@@ -18,6 +18,7 @@ test('canonical clue packets preserve truth and accepted-answer policy immutably
     category: 'History',
     question: 'This city hosted the 1893 exposition.',
     answer: 'What is Chicago?',
+    acceptedAnswers: ['The Windy City'],
     value: '$400',
   };
   const packet = createCanonicalCluePacket(clue, { media: [{ type: 'image', url: '/fair.jpg' }] });
@@ -25,9 +26,31 @@ test('canonical clue packets preserve truth and accepted-answer policy immutably
   clue.answer = 'Boston';
   assert.equal(packet.clueId, '42');
   assert.equal(packet.answer, 'What is Chicago?');
-  assert.deepEqual(packet.acceptedAnswers, ['chicago']);
+  assert.deepEqual(packet.acceptedAnswers, ['chicago', 'windycity']);
   assert.equal(Object.isFrozen(packet), true);
   assert.equal(Object.isFrozen(packet.media), true);
+});
+
+test('reviewed study packets retain validated citations and reject unsafe citation schemes', () => {
+  const canonical = createCanonicalCluePacket({
+    question: 'A ringed planet',
+    answer: 'Saturn',
+    category: 'Space',
+  });
+  const grounded = createGroundedCluePacket(canonical, {
+    reviewed: true,
+    explanation: 'Saturn has a prominent ring system.',
+    citations: [
+      { title: 'NASA Saturn facts', url: 'https://science.nasa.gov/saturn/facts/' },
+      { title: 'Unsafe', url: 'javascript:alert(1)' },
+    ],
+  });
+
+  assert.equal(grounded.grounding, 'reviewed');
+  assert.deepEqual(grounded.citations, [{
+    title: 'NASA Saturn facts',
+    url: 'https://science.nasa.gov/saturn/facts/',
+  }]);
 });
 
 test('canonical-only study responses disclose missing reviewed grounding', () => {

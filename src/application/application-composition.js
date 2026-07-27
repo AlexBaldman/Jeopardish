@@ -1,0 +1,243 @@
+(function initApplicationComposition(root, factory) {
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory(root);
+  } else {
+    root.JeoPARODYApplicationComposition = factory(root);
+  }
+}(typeof globalThis !== 'undefined' ? globalThis : this, function applicationCompositionFactory(
+  root,
+) {
+  'use strict';
+
+  const REQUIRED_CONSTRUCTORS = Object.freeze([
+    'EventBus',
+    'GameEngine',
+    'DataLoader',
+    'MediaPreflight',
+    'Renderer',
+    'ConsoleNarrator',
+    'HostManager',
+    'BrandController',
+    'TranslationService',
+    'AudioController',
+    'VoiceController',
+    'RoundKernel',
+    'PreferenceStore',
+    'CluePipeline',
+    'SessionManager',
+    'EpisodeController',
+    'StudyController',
+    'InputController',
+  ]);
+
+  function resolveBrowserModules(scope = root) {
+    return {
+      EventBus: scope?.JeopardishEventBus?.EventBus,
+      GameEngine: scope?.JeopardishEngine?.GameEngine,
+      DataLoader: scope?.JeopardishData?.DataLoader,
+      MediaPreflight: scope?.JeoPARODYMedia?.MediaPreflight,
+      SceneService: scope?.JeopardishSceneService?.SceneService,
+      Renderer: scope?.JeopardishRenderer?.Renderer,
+      ConsoleNarrator: scope?.JeopardishConsoleNarrator?.ConsoleNarrator,
+      HostManager: scope?.JeopardishHost?.HostManager,
+      BrandController: scope?.JeoPARODYBrand?.BrandController,
+      TranslationService: scope?.JeoPARODYTranslation?.TranslationService,
+      AudioController: scope?.JeoPARODYAudio?.AudioController,
+      VoiceController: scope?.JeoPARODYVoice?.VoiceController,
+      RoundKernel: scope?.JeoPARODYRoundKernel?.RoundKernel,
+      PreferenceStore: scope?.JeoPARODYPreferences?.PreferenceStore,
+      CluePipeline: scope?.JeoPARODYCluePipeline?.CluePipeline,
+      SessionManager: scope?.JeoPARODYSession?.SessionManager,
+      EpisodeController: scope?.JeoPARODYEpisodeController?.EpisodeController,
+      StudyController: scope?.JeoPARODYStudyController?.StudyController,
+      InputController: scope?.JeoPARODYInputController?.InputController,
+    };
+  }
+
+  function validateModules(modules = {}) {
+    const missing = REQUIRED_CONSTRUCTORS.filter((name) => typeof modules[name] !== 'function');
+    if (missing.length) {
+      throw new Error(`ApplicationComposition is missing constructors: ${missing.join(', ')}.`);
+    }
+    return modules;
+  }
+
+  class ApplicationComposition {
+    constructor({
+      modules = resolveBrowserModules(root),
+      events = root?.JeopardishContracts?.GameEvents,
+      environment = root,
+    } = {}) {
+      this.modules = validateModules(modules);
+      this.events = events || {};
+      this.environment = environment || {};
+      this.services = null;
+      this.started = false;
+      this.destroyed = false;
+    }
+
+    create({
+      bestStreak = 0,
+      preferenceOptions = {},
+      voiceOptions = {},
+      roundOptions = {},
+      cluePipelineOptions = {},
+      episodeOptions = {},
+      studyOptions = {},
+      inputOptions = {},
+    } = {}) {
+      if (this.destroyed) {
+        throw new Error('ApplicationComposition cannot be recreated after destroy().');
+      }
+      if (this.services) return this.services;
+
+      const M = this.modules;
+      const preferenceStore = new M.PreferenceStore(preferenceOptions);
+      preferenceStore.load();
+      const eventBus = new M.EventBus();
+      const gameEngine = new M.GameEngine({ eventBus, bestStreak });
+      const dataLoader = new M.DataLoader({ eventBus });
+      const mediaPreflight = new M.MediaPreflight({ eventBus });
+      const sceneService = typeof M.SceneService === 'function' ? new M.SceneService() : null;
+      const renderer = new M.Renderer();
+      const consoleNarrator = new M.ConsoleNarrator({ eventBus });
+      const hostManager = new M.HostManager();
+      const brandController = new M.BrandController();
+      const translationService = new M.TranslationService();
+      const audioController = new M.AudioController();
+      const voiceController = new M.VoiceController(voiceOptions);
+      const roundKernel = new M.RoundKernel({
+        audio: audioController,
+        eventBus,
+        ...roundOptions,
+      });
+      const cluePipeline = new M.CluePipeline({
+        roundKernel,
+        mediaPreflight,
+        ...cluePipelineOptions,
+      });
+      const sessionManager = new M.SessionManager({ eventBus });
+      const episodeController = new M.EpisodeController({
+        dataLoader,
+        sessionManager,
+        cluePipeline,
+        gameEngine,
+        roundKernel,
+        mediaPreflight,
+        eventBus,
+        ...episodeOptions,
+      });
+      const studyController = new M.StudyController({
+        roundKernel,
+        renderer,
+        eventBus,
+        ...studyOptions,
+      });
+      const inputController = new M.InputController({
+        eventBus,
+        ...inputOptions,
+      });
+
+      this.services = Object.freeze({
+        eventBus,
+        gameEngine,
+        dataLoader,
+        mediaPreflight,
+        sceneService,
+        renderer,
+        consoleNarrator,
+        hostManager,
+        brandController,
+        translationService,
+        audioController,
+        voiceController,
+        roundKernel,
+        preferenceStore,
+        cluePipeline,
+        episodeController,
+        studyController,
+        inputController,
+        sessionManager,
+      });
+      this.emit(this.events.APPLICATION_COMPOSED, {
+        serviceCount: Object.keys(this.services).length,
+      });
+      return this.services;
+    }
+
+    start({
+      rendererEvents = {},
+      initialize = () => {},
+    } = {}) {
+      if (!this.services) {
+        throw new Error('ApplicationComposition.create() must run before start().');
+      }
+      if (this.destroyed) {
+        throw new Error('ApplicationComposition cannot start after destroy().');
+      }
+      if (this.started) return this.services;
+
+      const S = this.services;
+      try {
+        S.renderer.bindDom();
+        S.brandController.bind();
+        S.hostManager.setActiveSkin(S.preferenceStore.get('hostSkinId'));
+        S.audioController.setMuted(S.preferenceStore.get('muted'));
+        S.voiceController.setEnabled(S.preferenceStore.get('voiceEnabled'));
+        S.sceneService?.bindDom();
+        S.renderer.bindEvents(rendererEvents);
+        S.inputController.bindKeyboard();
+        S.consoleNarrator.start();
+        this.started = true;
+        initialize(S);
+        this.emit(this.events.APPLICATION_STARTED, {
+          voiceEnabled: S.voiceController.enabled,
+        });
+        return S;
+      } catch (error) {
+        this.destroy({ reason: 'startup-failed' });
+        throw error;
+      }
+    }
+
+    destroy({ reason = 'application-destroyed' } = {}) {
+      if (this.destroyed) return false;
+      this.destroyed = true;
+      const S = this.services;
+      if (!S) return true;
+
+      this.emit(this.events.APPLICATION_STOPPED, { reason });
+      this.safeInvoke('episode-controller-destroy', () => S.episodeController.destroy());
+      this.safeInvoke('round-kernel-cancel', () => S.roundKernel.cancel(undefined, reason));
+      this.safeInvoke('input-controller-destroy', () => S.inputController.destroy());
+      this.safeInvoke('voice-controller-stop', () => S.voiceController.stop());
+      this.safeInvoke('scene-service-destroy', () => S.sceneService?.destroy?.());
+      this.safeInvoke('console-narrator-stop', () => S.consoleNarrator.stop());
+      this.started = false;
+      return true;
+    }
+
+    safeInvoke(code, operation) {
+      try {
+        operation();
+      } catch (error) {
+        this.emit(this.events.ERROR_REPORTED, {
+          code,
+          message: error?.message || String(error),
+        });
+      }
+    }
+
+    emit(type, payload = {}) {
+      if (!type || !this.services?.eventBus?.emit) return null;
+      return this.services.eventBus.emit(type, payload, { source: 'ApplicationComposition' });
+    }
+  }
+
+  return {
+    ApplicationComposition,
+    REQUIRED_CONSTRUCTORS,
+    resolveBrowserModules,
+    validateModules,
+  };
+}));

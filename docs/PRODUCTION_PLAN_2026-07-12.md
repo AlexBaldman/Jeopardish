@@ -4,13 +4,29 @@
 **Decision:** Build one complete ten-minute episode before expanding the platform.  
 **North star:** A player laughs, learns a fact they can recall tomorrow, uncovers one piece of the Malex mystery, and immediately wants another broadcast.
 
+> **Status note, 2026-07-27:** This document preserves the original Season Zero
+> product rationale. The authoritative execution order now lives in
+> `OPTIMAL_PRIME_ROADMAP_2026-07-26.md`. The authored episode, deterministic round
+> kernel, sourced study material, confidence/dispute capture, review queues, and
+> finale artifact described here are implemented. The active bottleneck is a
+> verified checkpoint and complete episode proof matrix, followed by the
+> player-level return loop.
+
 > This council uses the design lenses associated with elite engine, game, product, learning, accessibility, and entertainment teams. It is a product exercise, not an endorsement by the named people or companies.
 
 ## Executive Verdict
 
-Jeopardish has crossed the line from rough experiment to visually distinctive prototype. The responsive cabinet, deterministic answer judge, media handling, scene system, console narration, and host performance packs are real foundations.
+Jeopardish has crossed the line from rough experiment to an authored vertical
+slice. The responsive cabinet, deterministic answer judge, round kernel, media
+handling, scene system, console narration, sourced study flow, and Season Zero
+episode are real foundations.
 
-The bottleneck is now **authored content and payoff**. The app has a deterministic ten-clue session, explicit round timing, persisted outcomes/score/streak, a completion summary, replay, and media-safe clue substitution. It still selects those ten clues from the 53 MB archive and lacks authored explanations, wager/finale beats, mastery, and a story artifact.
+The bottleneck is now **proof and return**. The app has a directed ten-clue
+episode, explicit round timing, persisted outcomes/score/streak, confidence and
+dispute capture, reviewed explanations, media-safe substitution, completion
+summary, replay, and a story artifact. It still needs complete browser and visual
+evidence, a player-level review schedule, production host identity, and the first
+wager beat.
 
 The highest-leverage release is **Season Zero**, a single polished vertical slice with:
 
@@ -198,18 +214,21 @@ Recommended new boundaries:
 
 ### Pass B: Content and Episode
 
-Foundation complete: deterministic ten-clue order, progress UI, refresh-safe resume, outcome accounting, completion summary, and replay.
+Vertical slice complete: authored ten-clue order, reviewed content, progress UI,
+revision-safe resume, outcome accounting, confidence/dispute capture, sourced
+study responses, artifact finale, archive fallback, and replay.
 
-1. Define and validate the production clue schema.
-2. Curate the ten-clue Season Zero pack.
-3. Add explanation, source, confidence, wager, callback, and finale rendering.
-4. Move the 53 MB archive out of the first-load path.
+1. [x] Define and validate the production clue schema.
+2. [x] Curate the ten-clue Season Zero pack.
+3. [x] Add explanation, sources, confidence, callback, and finale rendering.
+4. [x] Move the full archive out of the first-load path.
+5. [ ] Add one explicit wager/risk decision after the base episode is visually QA'd.
 
 ### Pass C: Memory and Payoff
 
 1. Add local profile migration and mastery records.
 2. Add daily review selection.
-3. Add episode results and artifact reveal.
+3. [x] Add the first episode result and artifact reveal.
 4. Add spoiler-safe share card.
 
 ### Pass D: Ship Quality

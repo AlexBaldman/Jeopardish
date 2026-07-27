@@ -16,6 +16,8 @@ export const runtimeEntries = Object.freeze([
 
   // Question delivery.
   'questions/runtime-bank.json',
+  'questions/episodes',
+  'assets/episodes',
 
   // Site and Creative Room artwork.
   'assets/images/favicon.svg',

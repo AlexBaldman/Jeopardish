@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+const require = createRequire(import.meta.url);
+const { adaptLegacyQuestionBank } = require('../src/content/episode-contract.js');
 const runtimeBank = JSON.parse(
   await readFile(new URL('../questions/runtime-bank.json', import.meta.url), 'utf8'),
 );
@@ -27,4 +30,19 @@ test('runtime question bank preserves broad historical and round coverage', () =
   assert.ok(rounds.has('Jeopardy!'));
   assert.ok(rounds.has('Double Jeopardy!'));
   assert.ok(rounds.has('Final Jeopardy!'));
+});
+
+test('the complete runtime bank adapts into one immutable compatibility episode', () => {
+  const episode = adaptLegacyQuestionBank(runtimeBank, {
+    id: 'season-zero-pilot',
+    title: 'Season Zero: Pilot Broadcast',
+    episodeLength: 10,
+  });
+
+  assert.equal(episode.kind, 'legacy-adapter');
+  assert.equal(episode.reviewStatus, 'archive');
+  assert.equal(episode.clues.length, 10_000);
+  assert.equal(episode.episodeLength, 10);
+  assert.equal(new Set(episode.clues.map(({ id }) => id)).size, 10_000);
+  assert.equal(Object.isFrozen(episode.clues.at(-1)), true);
 });

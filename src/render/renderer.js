@@ -70,6 +70,12 @@
     answerButtonKicker: 'Clue',
     askHost: 'Ask Xander',
     returnToClue: 'Return to clue',
+    confidencePrompt: 'How did that one feel?',
+    confidenceKnew: 'Knew it',
+    confidenceShaky: 'Shaky',
+    confidenceLearned: 'Learned it',
+    disputeJudgment: 'Dispute ruling',
+    disputeRecorded: 'Ruling flagged',
   });
 
   const MediaTypes = Object.freeze({
@@ -287,6 +293,13 @@
       this.dom.clueOriginal = this.document.getElementById('clueOriginal');
       this.dom.clueMedia = this.document.getElementById('clueMedia');
       this.dom.answerBox = this.document.getElementById('answerBox');
+      this.dom.outcomeFeedback = this.document.getElementById('outcomeFeedback');
+      this.dom.outcomeFeedbackPrompt = this.document.getElementById('outcomeFeedbackPrompt');
+      this.dom.confidenceKnew = this.document.getElementById('confidenceKnew');
+      this.dom.confidenceShaky = this.document.getElementById('confidenceShaky');
+      this.dom.confidenceLearned = this.document.getElementById('confidenceLearned');
+      this.dom.disputeButton = this.document.getElementById('disputeButton');
+      this.dom.outcomeFeedbackStatus = this.document.getElementById('outcomeFeedbackStatus');
       this.dom.hudScore = this.document.getElementById('hudScore');
       this.dom.hudStreak = this.document.getElementById('hudStreak');
       this.dom.hudBest = this.document.getElementById('hudBest');
@@ -348,6 +361,7 @@
       this.dom.studyQuestion = this.document.getElementById('studyQuestion');
       this.dom.studyAnswer = this.document.getElementById('studyAnswer');
       this.dom.studyGrounding = this.document.getElementById('studyGrounding');
+      this.dom.studySources = this.document.getElementById('studySources');
       this.dom.studyActions = this.document.getElementById('studyActions');
       this.dom.studyResponse = this.document.getElementById('studyResponse');
       this.updateStaticText();
@@ -370,6 +384,8 @@
       onEnterStudy = () => {},
       onStudyAction = () => {},
       onExitStudy = () => {},
+      onConfidence = () => {},
+      onDispute = () => {},
       onMediaFailure = () => {},
     }) {
       this.onMediaFailure = onMediaFailure;
@@ -421,6 +437,10 @@
       this.dom.deepDiveButton?.addEventListener('click', onEnterStudy);
       this.dom.studyClose?.addEventListener('click', onExitStudy);
       this.dom.studyResume?.addEventListener('click', onExitStudy);
+      this.dom.confidenceKnew?.addEventListener('click', () => onConfidence('knew-it'));
+      this.dom.confidenceShaky?.addEventListener('click', () => onConfidence('shaky'));
+      this.dom.confidenceLearned?.addEventListener('click', () => onConfidence('learned-it'));
+      this.dom.disputeButton?.addEventListener('click', onDispute);
       this.dom.studyActions?.addEventListener('click', (event) => {
         const action = event.target?.closest?.('[data-study-action]');
         if (action) onStudyAction(action.dataset.studyAction);
@@ -492,6 +512,11 @@
       this.setText(this.dom.answerButtonKicker, this.copy.answerButtonKicker);
       this.setText(this.dom.menuVoiceLabel, this.copy.voiceMode);
       this.setText(this.dom.voiceHelp, this.copy.voiceHelp);
+      this.setText(this.dom.outcomeFeedbackPrompt, this.copy.confidencePrompt);
+      this.setText(this.dom.confidenceKnew, this.copy.confidenceKnew);
+      this.setText(this.dom.confidenceShaky, this.copy.confidenceShaky);
+      this.setText(this.dom.confidenceLearned, this.copy.confidenceLearned);
+      this.setText(this.dom.disputeButton, this.copy.disputeJudgment);
       this.dom.userInput.placeholder = this.copy.inputPlaceholder;
       this.dom.userInput.setAttribute?.('aria-label', this.copy.inputPlaceholder);
       this.document.documentElement?.setAttribute?.('lang', this.copy.lang);
@@ -638,6 +663,16 @@
       this.setText(this.dom.studyQuestion, clue.question);
       this.setText(this.dom.studyAnswer, clue.answer);
       this.setText(this.dom.studyGrounding, packet.grounding === 'reviewed' ? 'Reviewed sources attached' : 'Archive text only');
+      const sourceLinks = (packet.citations || []).map((citation) => {
+        const link = this.document.createElement('a');
+        link.href = citation.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = citation.title;
+        return link;
+      });
+      this.dom.studySources?.replaceChildren?.(...sourceLinks);
+      if (this.dom.studySources) this.dom.studySources.hidden = sourceLinks.length === 0;
       this.setText(this.dom.studyResponse, clue.locale === 'pt-BR'
         ? 'Escolha um caminho. Continuarei preso aos fatos conhecidos, uma restrição que a televisão tradicionalmente considera opcional.'
         : 'Pick a direction. I will remain tethered to the known facts, a restriction television has traditionally considered optional.');
@@ -990,12 +1025,30 @@
         ? Math.round((progress.counts.correct / progress.total) * 100)
         : 0;
       this.setGameMoment('complete');
+      this.hideOutcomeFeedback();
       this.setText(this.dom.categoryBox, this.copy.episodeComplete);
       this.clearMedia();
-      this.setQuestionText(`$${progress.score} final score · ${accuracy}% accuracy`);
+      const artifactTitle = progress.finale?.artifactTitle || progress.finale?.title || '';
+      this.setQuestionText([
+        artifactTitle,
+        `$${progress.score} final score · ${accuracy}% accuracy`,
+      ].filter(Boolean).join('\n'));
+      const artifactBody = progress.finale?.artifactBody || '';
+      const reviewLine = progress.review?.total
+        ? `${progress.review.total} clue${progress.review.total === 1 ? '' : 's'} saved for review`
+        : 'No clues queued for review';
+      const disputeLine = progress.disputes
+        ? `${progress.disputes} ruling${progress.disputes === 1 ? '' : 's'} flagged`
+        : '';
       this.setText(
         this.dom.answerBox,
-        `${progress.total} clues aired\n${progress.counts.incorrect} incorrect · ${progress.counts.revealed} revealed · ${progress.counts.skipped} skipped`,
+        [
+          artifactBody,
+          `${progress.total} clues aired`,
+          `${progress.counts.incorrect} incorrect · ${progress.counts.revealed} revealed · ${progress.counts.skipped} skipped`,
+          reviewLine,
+          disputeLine,
+        ].filter(Boolean).join('\n'),
       );
       this.toggleAnswer(true);
       this.dom.checkButton.disabled = true;
@@ -1060,6 +1113,7 @@
       this.setControlsEnabled(false);
       this.setStatus(this.copy.loadingBank);
       this.clearMedia();
+      this.hideOutcomeFeedback();
       this.setQuestionText(this.copy.loadingQuestions);
     }
 
@@ -1068,6 +1122,7 @@
       this.setStatus(message);
       this.setText(this.dom.categoryBox, 'Error');
       this.clearMedia();
+      this.hideOutcomeFeedback();
       this.setQuestionText(message);
       this.setText(this.dom.answerBox, '');
       this.toggleAnswer(true);
@@ -1087,6 +1142,7 @@
       this.setStatus(this.copy.fallbackClue);
       this.setCategory(String(randomError.category || this.copy.emptyCategory).toUpperCase(), randomError.value);
       this.clearMedia();
+      this.hideOutcomeFeedback();
       this.setQuestionText(randomError.question);
       this.setText(this.dom.answerBox, randomError.answer);
       this.toggleAnswer(true);
@@ -1103,6 +1159,7 @@
         String(clue?.translation?.original?.category || '').toUpperCase(),
       );
       this.renderClueContent(clue);
+      this.hideOutcomeFeedback();
       this.setText(this.dom.answerBox, clue.answer || 'No answer available.');
       this.setStatus(this.copy.newClue);
       this.toggleAnswer(false);
@@ -1150,6 +1207,40 @@
       ].filter(Boolean).join('\n'));
       this.setStatus(this.copy.incorrectStatus);
       this.toggleAnswer(true);
+    }
+
+    renderOutcomeFeedback({ confidence = null, disputed = false } = {}) {
+      if (!this.dom.outcomeFeedback) return;
+      this.dom.outcomeFeedback.hidden = false;
+      const ratings = [
+        [this.dom.confidenceKnew, 'knew-it'],
+        [this.dom.confidenceShaky, 'shaky'],
+        [this.dom.confidenceLearned, 'learned-it'],
+      ];
+      ratings.forEach(([button, value]) => {
+        button?.setAttribute?.('aria-pressed', String(confidence === value));
+      });
+      this.dom.disputeButton?.setAttribute?.('aria-pressed', String(Boolean(disputed)));
+      this.setText(
+        this.dom.disputeButton,
+        disputed ? this.copy.disputeRecorded : this.copy.disputeJudgment,
+      );
+      this.setText(
+        this.dom.outcomeFeedbackStatus,
+        confidence
+          ? `${this.copy.confidencePrompt} ${{
+            'knew-it': this.copy.confidenceKnew,
+            shaky: this.copy.confidenceShaky,
+            'learned-it': this.copy.confidenceLearned,
+          }[confidence]}.`
+          : disputed ? this.copy.disputeRecorded : '',
+      );
+    }
+
+    hideOutcomeFeedback() {
+      if (!this.dom.outcomeFeedback) return;
+      this.dom.outcomeFeedback.hidden = true;
+      this.setText(this.dom.outcomeFeedbackStatus, '');
     }
   }
 
