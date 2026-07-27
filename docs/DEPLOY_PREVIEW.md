@@ -66,3 +66,14 @@ SMOKE_BROWSERS=chromium,webkit npm run verify:release
 
 The smoke suite enforces route-level first-party payload budgets and checks the
 landing page, standalone game, and Creative Room.
+
+Run the complete authored episode proof before promotion:
+
+```bash
+PROOF_BROWSERS=chromium,webkit npm run test:episode
+```
+
+This builds and audits `dist/`, then covers answer variants, learning
+annotations, translation, persistence, Study mode, media success and
+substitution, finale, replay, keyboard advance, and typed-input fallback when
+speech recognition is unavailable.

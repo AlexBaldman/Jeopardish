@@ -59,6 +59,10 @@ The convergence baseline is now verified:
   and asset audits, the static build, and the production artifact audit;
 - production smoke passes in Chromium and WebKit for the landing page, standalone
   game, and Creative Room;
+- the full Season Zero production proof passes in Chromium and WebKit across
+  exact, alias, fuzzy, incorrect, reveal, confidence, dispute, translated-answer,
+  refresh-resume, sourced Study, media viewer, finale, replay, voice fallback,
+  and forced media-standby paths;
 - cold first-party transfer is 6.01 MB or less in Chromium and 5.34 MB or less
   for the standalone game in either engine;
 - the smoke exercises theme switching, menu focus behavior, an authored correct
@@ -67,9 +71,8 @@ The convergence baseline is now verified:
 It is a trustworthy checkpoint, not yet a release candidate:
 
 - `app.js` remains 935 lines and `Renderer` remains 1,255 lines;
-- the browser smoke still covers only a small happy path;
 - no visual, accessibility, or cross-browser evidence yet proves every Season
-  Zero state;
+  Zero layout state;
 - confidence and review queues exist, but there is no player-level due-date
   scheduler or daily return flow;
 - host performance remains mostly provisional and public release still requires
@@ -444,9 +447,11 @@ small, explicit residual-risk note.
 
 ### Domino 1: Vertical-Slice Proof
 
+**Status: in progress; complete episode behavior proven in Chromium and WebKit**
+
 **Why second:** implementation confidence is not player evidence.
 
-1. Expand browser paths to exact, alias, fuzzy, wrong, reveal, dispute,
+1. [x] Expand browser paths to exact, alias, fuzzy, wrong, reveal, dispute,
    confidence, media success and substitution, translation, refresh-resume,
    study, finale, replay, keyboard, and voice fallback.
 2. Review deterministic fixtures at narrow phone, phone landscape, tablet,
@@ -458,6 +463,12 @@ small, explicit residual-risk note.
 
 **Exit:** one evidence bundle proves the authored episode across supported
 states, viewports, themes, and release routes.
+
+Run the behavioral proof against a freshly built production artifact:
+
+```bash
+PROOF_BROWSERS=chromium,webkit npm run test:episode
+```
 
 ### Domino 2: Learning Return Loop
 

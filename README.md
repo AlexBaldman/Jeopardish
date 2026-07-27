@@ -120,6 +120,12 @@ This repo now includes lightweight operations scripts so you can execute the bra
   SMOKE_BROWSERS=chromium,webkit npm run verify:release
   ```
 
+- Prove the complete authored episode against a fresh production build:
+
+  ```bash
+  PROOF_BROWSERS=chromium,webkit npm run test:episode
+  ```
+
 `questions/jeopardy-questions.json` is the complete research archive. The
 browser loads the reviewed Season Zero episode and production packages both
 that pack and `questions/runtime-bank.json`; the latter is a compact fallback
