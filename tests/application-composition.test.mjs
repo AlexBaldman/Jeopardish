@@ -109,6 +109,11 @@ function createHarness() {
     destroy() { calls.push(['destroy', 'input']); }
   }
 
+  class ProductTelemetry extends simpleConstructor('telemetry') {
+    start() { calls.push(['start', 'telemetry']); }
+    stop() { calls.push(['stop', 'telemetry']); }
+  }
+
   class EpisodeController extends simpleConstructor('episode') {
     destroy() {
       calls.push(['destroy', 'episode']);
@@ -136,6 +141,7 @@ function createHarness() {
     EpisodeController,
     StudyController: simpleConstructor('study'),
     InputController,
+    ProductTelemetry,
   };
   const composition = new ApplicationComposition({ modules, events: GameEvents });
   return { calls, composition, events };
@@ -152,6 +158,7 @@ test('ApplicationComposition constructs the service graph once with explicit dep
     episodeOptions: { sourceUrl: '/episode.json' },
     studyOptions: { getGameState: () => ({ score: 0 }) },
     inputOptions: { handlers: { 'new-clue': () => {} } },
+    telemetryOptions: { sink: { record() {} } },
   });
 
   assert.equal(Object.isFrozen(services), true);
@@ -168,10 +175,12 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(services.episodeController.options.sourceUrl, '/episode.json');
   assert.equal(services.studyController.options.renderer, services.renderer);
   assert.equal(services.inputController.options.eventBus, services.eventBus);
+  assert.equal(services.productTelemetry.options.eventBus, services.eventBus);
+  assert.equal(typeof services.productTelemetry.options.sink.record, 'function');
   assert.equal(calls.filter(([action]) => action === 'load').length, 1);
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_COMPOSED
-    && event.payload.serviceCount === 19
+    && event.payload.serviceCount === 20
   )));
 });
 
@@ -188,6 +197,7 @@ test('ApplicationComposition starts and destroys its lifecycle exactly once', ()
   assert.equal(services.renderer.events, rendererEvents);
   assert.equal(calls.filter((call) => call[1] === 'renderer-dom').length, 1);
   assert.equal(calls.filter((call) => call[1] === 'keyboard').length, 1);
+  assert.equal(calls.filter((call) => call[0] === 'start' && call[1] === 'telemetry').length, 1);
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_STARTED
     && event.payload.voiceEnabled === true
@@ -205,6 +215,7 @@ test('ApplicationComposition starts and destroys its lifecycle exactly once', ()
   assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'scene'));
   assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'voice'));
   assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'narrator'));
+  assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'telemetry'));
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_STOPPED
     && event.payload.reason === 'test-complete'

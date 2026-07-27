@@ -235,7 +235,7 @@ study responses, artifact finale, archive fallback, and replay.
 
 1. [x] Add browser-level critical-path tests and accessibility checks.
 2. Add performance budgets and production asset allowlist.
-3. Add privacy-safe telemetry and error reporting adapters.
+3. [x] Add a privacy-safe product-event contract and no-op telemetry adapter.
 4. Replace prototype likeness assets in the public build with original Malex art.
 5. Deploy to preview, run a small playtest, fix the top observed failures, then promote.
 

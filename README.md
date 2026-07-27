@@ -29,6 +29,15 @@ an Accident** from `questions/episodes/season-zero-001.json`:
 The content format and editorial workflow are documented in
 [`docs/CONTENT_AUTHORING.md`](docs/CONTENT_AUTHORING.md).
 
+## Privacy-Safe Product Events
+
+`ProductTelemetry` observes the existing event bus through a no-op sink by
+default, so this build sends and stores no analytics. A future approved sink can
+receive only versioned aggregate facts for activation, completion, disputes,
+Study enter/resume, replay, and bounded failures. Player answers, clue text,
+transcripts, URLs, titles, and error messages are excluded at the adapter
+boundary and covered by tests.
+
 ## Overview
 
 A 'Jeopardish' question/answer (answer/question?) practice application.  MVP intended to function initially

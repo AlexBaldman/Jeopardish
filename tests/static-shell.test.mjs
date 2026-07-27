@@ -264,6 +264,14 @@ test('both game shells load the composition root immediately before app coordina
   }
 });
 
+test('both game shells load privacy-safe telemetry before the composition root', () => {
+  for (const html of [landingHtml, gameHtml]) {
+    const telemetry = html.indexOf('src/telemetry/product-telemetry.js');
+    const composition = html.indexOf('src/application/application-composition.js');
+    assert.ok(telemetry > 0 && telemetry < composition);
+  }
+});
+
 test('both game shells load focus management and keep the closed menu inert', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     assert.match(html, /src="src\/ui\/focus-scope\.js/, `${surface} is missing focus management`);

@@ -38,7 +38,7 @@ Optimal Prime is the convergence of those truths.
 The convergence runtime now has a real authored Season Zero path, not merely a
 roadmap for one:
 
-- 173 automated tests pass.
+- 179 automated tests pass.
 - The CSS audit reports 4,639 lines, 658 selector rules, five `!important`
   declarations, and zero duplicate selectors.
 - The question validator covers 216,930 archive clues, the 10,000-clue runtime
@@ -52,6 +52,10 @@ roadmap for one:
 - `RoundKernel`, `CluePipeline`, `EpisodeController`, `StudyController`,
   `InputController`, `PreferenceStore`, and `ApplicationComposition` now own the
   critical workflows that previously competed inside `app.js`.
+- `ProductTelemetry` converts seven approved event facts into versioned,
+  content-free product events and uses a no-op sink by default; player answers,
+  clue text, transcripts, URLs, titles, and error messages never enter its
+  payloads.
 
 The convergence baseline is now verified:
 
@@ -114,6 +118,7 @@ become episode rules and scene packs after that loop earns completion and return
 | Host expression and skin | Host performance layer |
 | Generated dialogue | Optional performance adapter |
 | Learning conversation | Grounded coach gateway |
+| Product measurement | `ProductTelemetry` with an approved injectable sink |
 
 No renderer may infer game state from CSS. No host or AI module may mutate score.
 No stale async task may apply work to a newer round. No translation may replace
@@ -451,7 +456,7 @@ small, explicit residual-risk note.
 
 ### Domino 1: Vertical-Slice Proof
 
-**Status: in progress; behavior, responsive visuals, and automated accessibility proven**
+**Status: complete**
 
 **Why second:** implementation confidence is not player evidence.
 
@@ -463,7 +468,7 @@ small, explicit residual-risk note.
 3. [x] Add automated keyboard/focus flow and production accessibility checks
    that block critical and serious ARIA, contrast, target-size, and structure
    violations. Keep 200% zoom and screen-reader passes on the manual release list.
-4. Define privacy-safe product events for activation, completion, dispute,
+4. [x] Define privacy-safe product events for activation, completion, dispute,
    study, replay, and failure; use a no-op adapter until collection is approved.
 
 **Exit:** one evidence bundle proves the authored episode across supported
@@ -524,8 +529,8 @@ renderer.
 
 ## Immediate Next Domino
 
-Execute **Domino 1: Vertical-Slice Proof** against the verified convergence
-checkpoint by defining its privacy-safe product-event contract and no-op adapter.
-Then move directly to **Domino 2: Learning Return Loop**. Do not spend the next
-pass on another broad CSS overhaul, runtime AI, wager mechanics, accounts, or
-fresh branch mining.
+Execute **Domino 2: Learning Return Loop**. The next code should add a versioned
+local player profile, transparent review due dates, and a short “review three”
+entry path using the missed, revealed, and shaky facts already owned by the
+session. Do not spend the next pass on another broad CSS overhaul, runtime AI,
+wager mechanics, accounts, or fresh branch mining.

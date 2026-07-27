@@ -28,6 +28,7 @@
     'EpisodeController',
     'StudyController',
     'InputController',
+    'ProductTelemetry',
   ]);
 
   function resolveBrowserModules(scope = root) {
@@ -51,6 +52,7 @@
       EpisodeController: scope?.JeoPARODYEpisodeController?.EpisodeController,
       StudyController: scope?.JeoPARODYStudyController?.StudyController,
       InputController: scope?.JeoPARODYInputController?.InputController,
+      ProductTelemetry: scope?.JeoPARODYTelemetry?.ProductTelemetry,
     };
   }
 
@@ -85,6 +87,7 @@
       episodeOptions = {},
       studyOptions = {},
       inputOptions = {},
+      telemetryOptions = {},
     } = {}) {
       if (this.destroyed) {
         throw new Error('ApplicationComposition cannot be recreated after destroy().');
@@ -137,6 +140,10 @@
         eventBus,
         ...inputOptions,
       });
+      const productTelemetry = new M.ProductTelemetry({
+        eventBus,
+        ...telemetryOptions,
+      });
 
       this.services = Object.freeze({
         eventBus,
@@ -157,6 +164,7 @@
         episodeController,
         studyController,
         inputController,
+        productTelemetry,
         sessionManager,
       });
       this.emit(this.events.APPLICATION_COMPOSED, {
@@ -187,6 +195,7 @@
         S.sceneService?.bindDom();
         S.renderer.bindEvents(rendererEvents);
         S.inputController.bindKeyboard();
+        S.productTelemetry.start();
         S.consoleNarrator.start();
         this.started = true;
         initialize(S);
@@ -210,6 +219,7 @@
       this.safeInvoke('episode-controller-destroy', () => S.episodeController.destroy());
       this.safeInvoke('round-kernel-cancel', () => S.roundKernel.cancel(undefined, reason));
       this.safeInvoke('input-controller-destroy', () => S.inputController.destroy());
+      this.safeInvoke('product-telemetry-stop', () => S.productTelemetry.stop());
       this.safeInvoke('voice-controller-stop', () => S.voiceController.stop());
       this.safeInvoke('scene-service-destroy', () => S.sceneService?.destroy?.());
       this.safeInvoke('console-narrator-stop', () => S.consoleNarrator.stop());
