@@ -61,7 +61,7 @@ roadmap for one:
 
 The convergence baseline is now verified:
 
-- `npm run verify` passes 197 unit and contract tests, content validation, CSS
+- `npm run verify` passes 202 unit and contract tests, content validation, CSS
   and asset audits, the static build, and the production artifact audit;
 - production smoke passes in Chromium and WebKit for the landing page, standalone
   game, and Creative Room;
@@ -510,7 +510,7 @@ vertical slice.
 
 ### Domino 3: Host Intelligence Boundary And Presentation Ownership
 
-**Status: foundation complete; presentation extraction next**
+**Status: host foundation and first presentation owner complete; extraction continues**
 
 **Why next:** Season Zero and its learning loop now supply enough real clue,
 result, Study, reinforcement, and finale beats to design the abstraction from
@@ -523,11 +523,13 @@ evidence.
 3. [x] Prove three selectable personalities across gameplay, Study,
    reinforcement, finale, voice, persistence, and console choreography while
    keeping personality independent from placeholder artwork.
-4. Move remaining static copy into locale catalogs and extract presentation choreography
-   from `app.js`.
+4. [~] `BroadcastPresenter` now owns host visuals, clue narration, answer
+   payoff, reveal, voice composition, and finale choreography. Continue moving
+   preference, scene, translation-refresh, and control-deck presentation out of
+   `app.js`, then extract the static locale catalog.
 5. Split `Renderer` by clue, outcome, study, and finale views where the proven
    flows show stable ownership.
-6. Realize the proven host motion verbs (`enter`, `react`, `hold`, `recover`,
+6. [x] Realize the proven host motion verbs (`enter`, `react`, `hold`, `recover`,
    and `exit`) with cancellable, reduced-motion-safe presentation effects. Do
    not add a registry, composer, or renderer factory until repeated real
    sequences justify one.

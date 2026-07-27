@@ -239,12 +239,25 @@ test('both game shells load host packs and the performance director before compo
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const hostPack = html.indexOf('src/host/host-pack.js');
     const director = html.indexOf('src/host/host-performance-director.js');
+    const presenter = html.indexOf('src/presentation/broadcast-presenter.js');
     const composition = html.indexOf('src/application/application-composition.js');
     assert.ok(hostPack > 0, `${surface} is missing the HostPack contract`);
     assert.ok(director > hostPack, `${surface} must load HostPack before its director`);
-    assert.ok(composition > director, `${surface} must load host performance before composition`);
+    assert.ok(presenter > director, `${surface} must load host performance before presentation`);
+    assert.ok(composition > presenter, `${surface} must load presentation before composition`);
     assert.match(html, /id="menuHostPack"/, `${surface} is missing personality selection`);
   }
+});
+
+test('host presentation realizes semantic motion with a reduced-motion exit', () => {
+  for (const primitive of ['enter', 'react', 'hold', 'recover', 'exit']) {
+    assert.match(hostStyles, new RegExp(`data-motion="${primitive}"`));
+    assert.match(hostStyles, new RegExp(`@keyframes host-motion-${primitive}`));
+  }
+  assert.match(tokens, /--jp-motion-response:/);
+  assert.match(tokens, /--jp-ease-enter:/);
+  assert.match(hostStyles, /prefers-reduced-motion: reduce/);
+  assert.match(hostStyles, /\.host-stage \.host-stand/);
 });
 
 test('both game shells load the grounded study runtime and owned styles', () => {

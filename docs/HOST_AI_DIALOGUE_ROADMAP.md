@@ -98,14 +98,20 @@ Generated clue text never becomes the answer judge's source of truth.
 
 ## Next Presentation Work
 
-The next host-system pass should extract choreography still coordinated in
-`app.js` into small presentation owners:
+`BroadcastPresenter` now owns:
 
-1. clue and narration presenter;
-2. outcome and reveal presenter;
-3. Study and reinforcement presenter;
-4. finale presenter.
+- host visual and semantic-motion rendering;
+- clue performance and narration;
+- empty-answer, correct, incorrect, and streak payoff;
+- answer reveal narration;
+- episode-finale rendering and narration.
 
-That extraction should preserve the existing event, director, renderer, voice,
-and episode contracts. It is complete when `app.js` only coordinates lifecycle
-and cross-system commands, rather than composing individual scenes.
+`StudyController` continues to own the pause, grounded actions, reinforcement,
+and exact resume transaction while routing its host beats through the same
+presenter boundary.
+
+The next extraction should move preference, scene, translation-refresh, and
+control-deck presentation coordination out of `app.js`, followed by splitting
+the renderer into focused view owners. The work is complete when `app.js` only
+coordinates lifecycle and cross-system commands rather than composing
+individual scenes.

@@ -58,8 +58,8 @@ The current browser load order is:
 3. `src/content/episode-contract.js`
 4. `src/core/event-bus.js`
 5. `src/core/game-engine.js`
-6. Data, media, scene, focus, renderer, narrator, host, brand, translation,
-   audio, and voice modules
+6. Data, media, scene, focus, renderer, narrator, host, host presentation,
+   brand, translation, audio, and voice modules
 7. `src/core/round-kernel.js`
 8. Application modules: `PreferenceStore` and `CluePipeline`
 9. `SessionManager`
@@ -68,6 +68,13 @@ The current browser load order is:
 12. `InputController`
 13. `ApplicationComposition`
 14. `app.js`
+
+`BroadcastPresenter` is the presentation owner for host visuals, semantic
+motion, deterministic host beats, clue narration, answer payoff, reveal
+narration, and the episode finale. It receives already-approved domain facts and
+may call the renderer and optional voice controller. It cannot select a clue,
+judge an answer, record an outcome, mutate score, advance an episode, or pause a
+round.
 
 Media preflight happens before `GameEngine.loadClue()`. A rejected attachment can select another clue, but it cannot mutate score, streak, or answer correctness. Renderer-level media errors are a second recovery layer for assets that fail after preflight.
 
@@ -93,12 +100,13 @@ owns the active phase and rejects a pause snapshot from an older round id.
 
 ## Next Extraction Targets
 
-1. Build scheduled local review selection from the immutable missed, revealed,
-   and shaky queues.
-2. Move static interface copy and presentation choreography out of `app.js`
-   after the authored episode proves the required beats.
-3. Convert renderer updates to event subscriptions once host and voice events
-   are stable.
+1. Move remaining preference, scene, translation-refresh, and control-deck
+   presentation coordination out of `app.js`.
+2. Split the large renderer into clue, outcome, Study, cabinet, and finale view
+   owners while retaining one DOM binding lifecycle.
+3. Move the static locale catalog into a dedicated presentation module.
+4. Convert renderer updates to event subscriptions only where the event facts
+   are stable and doing so removes callback plumbing rather than hiding it.
 
 ## Behavior Preserved
 

@@ -1209,7 +1209,7 @@
         this.dom.hostStage.dataset.effect = performance?.effect || activeState;
         this.dom.hostStage.dataset.intensity = performance?.intensity || 'medium';
         this.dom.hostStage.dataset.hostPack = performance?.hostPackId || '';
-        this.dom.hostStage.dataset.motion = performance?.motion?.primitive || '';
+        this.applyHostMotion(performance?.motion);
       }
       if (this.dom.hostSkinLabel) {
         this.setText(this.dom.hostSkinLabel, activeSkin?.label || host.displayName || 'Host');
@@ -1219,6 +1219,16 @@
         const total = Number(performance?.skinCount || 1);
         this.setText(this.dom.hostPackIndex, `${String(position).padStart(2, '0')}/${String(total).padStart(2, '0')}`);
       }
+    }
+
+    applyHostMotion(motion = null) {
+      if (!this.dom.hostStage) return false;
+      const primitive = motion?.primitive || '';
+      this.dom.hostStage.dataset.motion = '';
+      if (!primitive) return false;
+      void this.dom.hostStage.offsetWidth;
+      this.dom.hostStage.dataset.motion = primitive;
+      return true;
     }
 
     showLoading() {

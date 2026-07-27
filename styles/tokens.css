@@ -42,8 +42,14 @@
         --jp-border-strong: var(--cabinet-ink, #080b1a);
         --jp-focus-ring: var(--cabinet-gold, #ffd84d);
         --jp-text-on-dark: #fff8df;
+        --jp-motion-instant: 120ms;
         --jp-motion-fast: 180ms;
+        --jp-motion-response: 320ms;
         --jp-motion-panel: 420ms;
+        --jp-motion-dramatic: 620ms;
+        --jp-ease-enter: cubic-bezier(0.16, 0.9, 0.25, 1.08);
+        --jp-ease-react: cubic-bezier(0.18, 0.9, 0.28, 1.16);
+        --jp-ease-recover: cubic-bezier(0.22, 0.72, 0.3, 1);
         --jp-header-height: 68px;
         --jp-hit-target: 44px;
         color-scheme: dark;

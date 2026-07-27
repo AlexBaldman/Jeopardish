@@ -56,6 +56,26 @@
         margin: 0;
     }
 
+    .game-container .host-stage[data-motion="enter"] .host-stand {
+        animation: host-motion-enter var(--jp-motion-panel) var(--jp-ease-enter) both;
+    }
+
+    .game-container .host-stage[data-motion="react"] .host-stand {
+        animation: host-motion-react var(--jp-motion-dramatic) var(--jp-ease-react) both;
+    }
+
+    .game-container .host-stage[data-motion="hold"] .host-stand {
+        animation: host-motion-hold var(--jp-motion-response) ease-out both;
+    }
+
+    .game-container .host-stage[data-motion="recover"] .host-stand {
+        animation: host-motion-recover var(--jp-motion-panel) var(--jp-ease-recover) both;
+    }
+
+    .game-container .host-stage[data-motion="exit"] .host-stand {
+        animation: host-motion-exit var(--jp-motion-response) ease-in both;
+    }
+
     .game-container .trebek {
         position: relative;
         z-index: 31;
@@ -108,6 +128,66 @@
 
     .game-container .trebek[data-expression="streak"] {
         animation: host-streak 760ms cubic-bezier(0.14, 0.9, 0.2, 1.16) both;
+    }
+
+    @keyframes host-motion-enter {
+        from {
+            opacity: 0.35;
+            transform: translate3d(-10%, 9%, 0) rotate(-1.5deg);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotate(0);
+        }
+    }
+
+    @keyframes host-motion-react {
+        0% {
+            transform: translate3d(0, 0, 0) rotate(0);
+        }
+        42% {
+            transform: translate3d(2%, -4%, 0) rotate(1.2deg);
+        }
+        100% {
+            transform: translate3d(0, 0, 0) rotate(0);
+        }
+    }
+
+    @keyframes host-motion-hold {
+        0% {
+            filter: brightness(1);
+            transform: translate3d(0, 0, 0);
+        }
+        45% {
+            filter: brightness(1.08);
+            transform: translate3d(0, -1.2%, 0);
+        }
+        100% {
+            filter: brightness(1);
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+    @keyframes host-motion-recover {
+        from {
+            opacity: 0.72;
+            transform: translate3d(-2%, 2%, 0) rotate(-0.8deg);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotate(0);
+        }
+    }
+
+    @keyframes host-motion-exit {
+        from {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+        to {
+            opacity: 0;
+            transform: translate3d(-8%, 6%, 0);
+        }
     }
 
     .game-container .host-pack-index {
@@ -286,7 +366,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .game-container .trebek {
+    .game-container .trebek,
+    .game-container .host-stage .host-stand {
         animation: none;
     }
 }

@@ -18,6 +18,7 @@
     'ConsoleNarrator',
     'HostManager',
     'HostPerformanceDirector',
+    'BroadcastPresenter',
     'BrandController',
     'TranslationService',
     'AudioController',
@@ -44,6 +45,7 @@
       ConsoleNarrator: scope?.JeopardishConsoleNarrator?.ConsoleNarrator,
       HostManager: scope?.JeopardishHost?.HostManager,
       HostPerformanceDirector: scope?.JeoPARODYHostPerformance?.HostPerformanceDirector,
+      BroadcastPresenter: scope?.JeoPARODYBroadcastPresenter?.BroadcastPresenter,
       BrandController: scope?.JeoPARODYBrand?.BrandController,
       TranslationService: scope?.JeoPARODYTranslation?.TranslationService,
       AudioController: scope?.JeoPARODYAudio?.AudioController,
@@ -87,6 +89,7 @@
       preferenceOptions = {},
       learningOptions = {},
       hostPerformanceOptions = {},
+      presentationOptions = {},
       voiceOptions = {},
       roundOptions = {},
       cluePipelineOptions = {},
@@ -120,6 +123,14 @@
       const translationService = new M.TranslationService();
       const audioController = new M.AudioController();
       const voiceController = new M.VoiceController(voiceOptions);
+      const broadcastPresenter = new M.BroadcastPresenter({
+        renderer,
+        hostManager,
+        hostPerformanceDirector,
+        preferenceStore,
+        voiceController,
+        ...presentationOptions,
+      });
       const roundKernel = new M.RoundKernel({
         audio: audioController,
         eventBus,
@@ -168,6 +179,7 @@
         consoleNarrator,
         hostManager,
         hostPerformanceDirector,
+        broadcastPresenter,
         brandController,
         translationService,
         audioController,
