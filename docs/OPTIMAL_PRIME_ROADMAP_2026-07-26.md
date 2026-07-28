@@ -38,8 +38,8 @@ Optimal Prime is the convergence of those truths.
 The convergence runtime now has a real authored Season Zero path, not merely a
 roadmap for one:
 
-- 189 automated tests pass.
-- The CSS audit reports 4,747 lines, 677 selector rules, five `!important`
+- 219 automated tests pass.
+- The CSS audit reports 4,834 lines, 683 selector rules, five `!important`
   declarations, and zero duplicate selectors.
 - The question validator covers 216,930 archive clues, the 10,000-clue runtime
   bank, and an eleven-clue reviewed episode pack.
@@ -61,7 +61,7 @@ roadmap for one:
 
 The convergence baseline is now verified:
 
-- `npm run verify` passes 216 unit and contract tests, content validation, CSS
+- `npm run verify` passes 219 unit and contract tests, content validation, CSS
   and asset audits, the static build, and the production artifact audit;
 - production smoke passes in Chromium and WebKit for the landing page, standalone
   game, and Creative Room;
@@ -257,6 +257,10 @@ Completed first because it carried the highest stale-work risk:
 - `ClueView`: sanitized clue markup, translated source labels, translation
   loading, and media-preview state now sit behind the shared renderer facade;
   modal focus and runtime failure routing remain centralized.
+- `StudyView`: grounded responses, reviewed source links, approved Study
+  actions, and reinforcement presentation now sit behind the shared renderer
+  facade; packet truth, judging, learning records, score integrity, panel
+  visibility, and focus remain with their established owners.
 - `ClueLocalization`: one cancellable display transaction now serves episode
   loading, saved review, and live language changes while preserving canonical
   clue truth and the exact round presentation.
@@ -264,7 +268,7 @@ Completed first because it carried the highest stale-work risk:
 Remaining coordinator extraction:
 
 1. Continue renderer view extraction only where Season Zero demonstrates stable
-   clue, Study, cabinet, or finale ownership.
+   scoreboard, finale, or cabinet ownership.
 
 Each extraction must preserve browser behavior and add a contract test. Avoid a
 framework migration during this gate; changing module boundaries and module
@@ -542,10 +546,11 @@ evidence.
    and control-deck presentation, and `UiCatalog` owns static bilingual copy.
    `ClueLocalization` now owns provider fallback, cancellation, and exact
    round-view restoration for language changes.
-5. [~] `OutcomeView` owns answer, confidence, and dispute feedback, and
-   `ClueView` owns clue markup, translation display, and media-preview state.
-   Continue with Study, cabinet, and finale views only where the proven flows
-   show stable ownership.
+5. [~] `OutcomeView` owns answer, confidence, and dispute feedback;
+   `ClueView` owns clue markup, translation display, and media-preview state;
+   and `StudyView` owns grounded packet and reinforcement presentation.
+   Continue with scoreboard, finale, and cabinet views only where the proven
+   flows show stable ownership.
 6. [x] Realize the proven host motion verbs (`enter`, `react`, `hold`, `recover`,
    and `exit`) with cancellable, reduced-motion-safe presentation effects. Do
    not add a registry, composer, or renderer factory until repeated real
@@ -574,11 +579,11 @@ renderer.
 
 ## Immediate Next Domino
 
-Continue **Domino 3: Presentation Ownership**. Extract the grounded Study and
-reinforcement surface as the next focused renderer view, using its existing
-packet contract while preserving the shared DOM binding and modal focus
-lifecycle. Continue with cabinet or finale views only when the resulting
-contracts remain concrete.
+Continue **Domino 3: Presentation Ownership**. Extract score-tile and
+episode-progress presentation as the next focused renderer view while leaving
+score calculation, persistence, drawer timing, and focus with their current
+owners. Prove that boundary before extracting the finale surface, then continue
+with cabinet views only when the resulting contracts remain concrete.
 Then promote accessibility and initial-route budgets into the release gate
 before preview deployment. Do not add a runtime model, service locator, generic
 animation framework, Storybook, A/B system, broad CSS overhaul, wager mechanics,

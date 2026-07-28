@@ -147,10 +147,12 @@ test('both game shells load focused renderer views before the renderer facade', 
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const outcomeView = html.indexOf('src/render/outcome-view.js');
     const clueView = html.indexOf('src/render/clue-view.js');
+    const studyView = html.indexOf('src/render/study-view.js');
     const renderer = html.indexOf('src/render/renderer.js');
     assert.ok(outcomeView > 0, `${surface} is missing the outcome view`);
     assert.ok(clueView > outcomeView, `${surface} must load the clue view after the outcome view`);
-    assert.ok(renderer > clueView, `${surface} must load focused views before the renderer`);
+    assert.ok(studyView > clueView, `${surface} must load the study view after the clue view`);
+    assert.ok(renderer > studyView, `${surface} must load focused views before the renderer`);
   }
 });
 

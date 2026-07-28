@@ -4,18 +4,21 @@
       require('../ui/focus-scope.js'),
       require('./outcome-view.js'),
       require('./clue-view.js'),
+      require('./study-view.js'),
     );
   } else {
     root.JeopardishRenderer = factory(
       root.JeoPARODYFocus,
       root.JeoPARODYOutcomeView,
       root.JeoPARODYClueView,
+      root.JeoPARODYStudyView,
     );
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this, function rendererFactory(
   focusModule,
   outcomeModule,
   clueModule,
+  studyModule,
 ) {
   'use strict';
 
@@ -27,6 +30,9 @@
   }
   if (!clueModule?.ClueView) {
     throw new Error('JeopardishRenderer requires JeoPARODYClueView.');
+  }
+  if (!studyModule?.StudyView) {
+    throw new Error('JeopardishRenderer requires JeoPARODYStudyView.');
   }
 
   const DefaultCopy = Object.freeze({
@@ -152,6 +158,11 @@
         closeMedia: (restoreFocus) => this.closeMedia(restoreFocus),
         openMedia: (index, trigger) => this.openMedia(index, trigger),
         reportMediaFailure: (item, reason) => this.reportMediaFailure(item, reason),
+      });
+      this.studyView = new studyModule.StudyView({
+        documentRef: this.document,
+        dom: this.dom,
+        setText: (element, value) => this.setText(element, value),
       });
     }
 
@@ -559,87 +570,19 @@
     }
 
     renderStudyPanel(packet, actions = []) {
-      const clue = packet.presentation || packet.canonical;
-      this.dom.studyPanel?.classList?.remove('reinforcement-active');
-      this.setText(this.dom.studyCategory, clue.category);
-      this.setText(this.dom.studyQuestion, clue.question);
-      this.setText(this.dom.studyAnswer, clue.answer);
-      this.setText(this.dom.studyGrounding, packet.grounding === 'reviewed' ? 'Reviewed sources attached' : 'Archive text only');
-      const sourceLinks = (packet.citations || []).map((citation) => {
-        const link = this.document.createElement('a');
-        link.href = citation.url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.textContent = citation.title;
-        return link;
-      });
-      this.dom.studySources?.replaceChildren?.(...sourceLinks);
-      if (this.dom.studySources) this.dom.studySources.hidden = sourceLinks.length === 0;
-      this.setText(this.dom.studyResponse, clue.locale === 'pt-BR'
-        ? 'Escolha um caminho. Continuarei preso aos fatos conhecidos, uma restrição que a televisão tradicionalmente considera opcional.'
-        : 'Pick a direction. I will remain tethered to the known facts, a restriction television has traditionally considered optional.');
-      if (this.dom.studyReinforcement) this.dom.studyReinforcement.hidden = true;
-      if (this.dom.studyReinforcementForm) this.dom.studyReinforcementForm.hidden = false;
-      if (this.dom.studyReinforcementInput) {
-        this.dom.studyReinforcementInput.value = '';
-        this.dom.studyReinforcementInput.disabled = false;
-      }
-      if (this.dom.studyReinforcementCheck) this.dom.studyReinforcementCheck.disabled = false;
-      this.setText(this.dom.studyReinforcementResult, '');
-      this.dom.studyReinforcementResult?.removeAttribute?.('data-state');
-      const buttons = actions.map((action) => {
-        const button = this.document.createElement('button');
-        button.type = 'button';
-        button.dataset.studyAction = action.id;
-        button.textContent = action.label;
-        return button;
-      });
-      this.dom.studyActions?.replaceChildren?.(...buttons);
+      return this.studyView.renderPanel(packet, actions);
     }
 
     renderStudyResponse(response) {
-      this.setText(this.dom.studyResponse, response);
+      return this.studyView.renderResponse(response);
     }
 
     renderStudyReinforcement(reinforcement, locale = 'en') {
-      if (!this.dom.studyReinforcement || !reinforcement) return;
-      this.dom.studyPanel?.classList?.add('reinforcement-active');
-      this.dom.studyReinforcement.hidden = false;
-      this.setText(this.dom.studyReinforcementPrompt, reinforcement.prompt);
-      if (this.dom.studyReinforcementInput) {
-        this.dom.studyReinforcementInput.value = '';
-        this.dom.studyReinforcementInput.disabled = false;
-        this.dom.studyReinforcementInput.placeholder = locale === 'pt-BR'
-          ? 'Digite sua resposta'
-          : 'Type your answer';
-      }
-      if (this.dom.studyReinforcementCheck) {
-        this.dom.studyReinforcementCheck.disabled = false;
-        this.setText(
-          this.dom.studyReinforcementCheck,
-          locale === 'pt-BR' ? 'Verificar memória' : 'Check memory',
-        );
-      }
-      this.setText(this.dom.studyReinforcementResult, '');
-      this.dom.studyReinforcementResult?.removeAttribute?.('data-state');
-      this.dom.studyReinforcementInput?.focus?.();
+      return this.studyView.renderReinforcement(reinforcement, locale);
     }
 
     renderStudyReinforcementResult({ correct = false, empty = false, message = '' } = {}) {
-      this.setText(this.dom.studyReinforcementResult, message);
-      if (this.dom.studyReinforcementResult) {
-        this.dom.studyReinforcementResult.dataset.state = empty
-          ? 'empty'
-          : correct ? 'correct' : 'incorrect';
-      }
-      if (correct) {
-        if (this.dom.studyReinforcementInput) this.dom.studyReinforcementInput.disabled = true;
-        if (this.dom.studyReinforcementCheck) this.dom.studyReinforcementCheck.disabled = true;
-        this.dom.studyResume?.focus?.();
-      } else {
-        this.dom.studyReinforcementInput?.select?.();
-      }
-      this.dom.studyReinforcementResult?.scrollIntoView?.({ block: 'nearest' });
+      return this.studyView.renderReinforcementResult({ correct, empty, message });
     }
 
     setReviewQueueState(learning = {}) {

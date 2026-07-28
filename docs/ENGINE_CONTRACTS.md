@@ -108,6 +108,13 @@ translating, or judging content. Unsafe embedded media schemes are discarded.
 It exposes selected preview items to the renderer's shared media modal but does
 not own modal focus or application callbacks.
 
+`StudyView` receives one grounded packet plus approved action callbacks and owns
+the Study panel's reviewed source links, initial grounded response, action
+controls, reinforcement prompt, and reinforcement result state. It cannot
+create or alter the packet, judge a response, record learning evidence, mutate
+score, pause a round, or resume gameplay. `Renderer` retains panel visibility,
+the shared focus lifecycle, and exact round-view capture and restoration.
+
 Media preflight happens before `GameEngine.loadClue()`. A rejected attachment can select another clue, but it cannot mutate score, streak, or answer correctness. Renderer-level media errors are a second recovery layer for assets that fail after preflight.
 
 `SessionManager` version 3 records `correct`, `incorrect`, `revealed`, and
@@ -132,11 +139,14 @@ owns the active phase and rejects a pause snapshot from an older round id.
 
 ## Next Extraction Targets
 
-1. Extract a focused Study view from `Renderer`; the grounded packet and
-   reinforcement contracts already provide a stable input boundary.
-2. Continue with cabinet and finale view owners only where the proven flows
-   support a clean boundary, retaining one DOM binding lifecycle.
-3. Convert renderer updates to event subscriptions only where the event facts
+1. Extract a focused scoreboard view from `Renderer`; it may own score-tile and
+   episode-progress presentation but cannot calculate score, persist progress,
+   or own drawer timing and focus.
+2. Extract the finale surface only after the scoreboard boundary is proven,
+   keeping finale facts and choreography in `BroadcastPresenter`.
+3. Continue with cabinet view owners only where the proven flows support a
+   clean boundary, retaining one DOM binding lifecycle.
+4. Convert renderer updates to event subscriptions only where the event facts
    are stable and doing so removes callback plumbing rather than hiding it.
 
 ## Behavior Preserved
