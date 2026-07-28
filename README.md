@@ -8,7 +8,10 @@ The current executable roadmap is
 [`docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md`](docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md).
 Its source-by-source convergence decisions live in
 [`docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md`](docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md).
-Earlier plans remain useful historical design material, but these two documents
+The repository identity decision and side-by-side comparison with the older
+JeoPARODY codebase live in
+[`docs/REPOSITORY_TRUTH_COMPARATIVE_AUDIT_2026-07-28.md`](docs/REPOSITORY_TRUTH_COMPARATIVE_AUDIT_2026-07-28.md).
+Earlier plans remain useful historical design material, but these documents
 govern new product work.
 
 ## Current Playable Slice
