@@ -11,6 +11,8 @@ Its source-by-source convergence decisions live in
 The repository identity decision and side-by-side comparison with the older
 JeoPARODY codebase live in
 [`docs/REPOSITORY_TRUTH_COMPARATIVE_AUDIT_2026-07-28.md`](docs/REPOSITORY_TRUTH_COMPARATIVE_AUDIT_2026-07-28.md).
+The safety-reviewed, phased operational plan is
+[`docs/REPOSITORY_REALIGNMENT_RUNBOOK_2026-07-28.md`](docs/REPOSITORY_REALIGNMENT_RUNBOOK_2026-07-28.md).
 Earlier plans remain useful historical design material, but these documents
 govern new product work.
 

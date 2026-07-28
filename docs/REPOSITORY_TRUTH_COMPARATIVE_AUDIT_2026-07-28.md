@@ -4,6 +4,13 @@
 **Decision scope:** Repository identity, executable ownership, donor preservation,
 and the safest path to one canonical JeoPARODY product.
 
+> **Preflight amendment:** The expert migration review found additional
+> preservation, credential, GitHub Pages, and redirect risks. Do not execute the
+> rename sequence in this document yet. The governing operational plan is now
+> [`REPOSITORY_REALIGNMENT_RUNBOOK_2026-07-28.md`](REPOSITORY_REALIGNMENT_RUNBOOK_2026-07-28.md).
+> Preserve, protect, and promote the canonical runtime before reconsidering any
+> repository rename.
+
 ## Executive Verdict
 
 The concern behind this audit is correct: the original plan treated the
@@ -22,10 +29,12 @@ The current situation is:
 - **We should make the repository identity match the product identity** after
   preserving the dirty donor work.
 
-The recommended end state is to preserve the current JeoPARODY repository as a
-clearly named legacy/donor repository, then rename the current executable
-repository from `Jeopardish` to `JeoPARODY`. That preserves both histories,
-avoids an unrelated-history merge, and removes the product/repository mismatch.
+The intended end state is one unmistakable canonical JeoPARODY product, but the
+repository slug is no longer an immediate decision. First preserve all local
+work, rotate the exposed credential, promote the convergence runtime to its
+default branch, and prove its deployment. A later rename may use `JeoPARODY`,
+`jeoparody-game`, or no slug change at all depending on domain and provenance
+decisions.
 
 ## What Changed
 
@@ -261,9 +270,9 @@ Preserve the current JeoPARODY history and dirty work as a legacy donor. Do not
 merge its unrelated root history into the executable merely to make the graph
 look unified.
 
-## Recommended Repository Realignment
+## Superseded Rename-First Sequence
 
-The cleanest route is:
+The original audit proposed the following route:
 
 1. Freeze new implementation briefly.
 2. Create and push a dated preservation branch containing the dirty
@@ -280,9 +289,10 @@ The cleanest route is:
 9. Keep the donor ledger in the canonical repository and link every future port
    to its source commit.
 
-GitHub repository renames normally preserve redirects, but remote names,
-deployment settings, Pages configuration, and local automation must still be
-verified after the change.
+Do not execute that sequence directly. GitHub does not redirect project Pages
+URLs, and reusing the old `JeoPARODY` name would destroy the donor repository's
+redirect. The realignment runbook adds the required preservation, deployment,
+domain, and explicit-acceptance gates.
 
 ## Why Not Move The Current Tree Into The Old Repository?
 
