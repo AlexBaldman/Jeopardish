@@ -41,6 +41,9 @@ Jeopardish is moving toward a host-agnostic arcade engine. This document records
 - `src/render/outcome-view.js` owns correct, incorrect, confidence, and dispute
   feedback. It receives approved outcome facts and cannot judge an answer or
   mutate score.
+- `src/render/clue-view.js` owns sanitized clue content, category/value markup,
+  translated source labels, translation loading state, and media-preview state.
+  The renderer facade retains modal focus management and runtime failure routing.
 - `src/host/host-manager.js` owns active host config, host visuals, and host quip selection.
 - `src/audio/audio-controller.js` owns deterministic synthesized game cues.
 - `src/voice/voice-controller.js` owns speech capability detection, narration, one-shot recognition, transcript normalization, and command parsing. It never judges an answer or mutates game state.
@@ -100,6 +103,11 @@ generation counter and abort controller reject stale provider work. It cannot
 replace the active source clue, judge localized answers, mutate score, or
 advance the episode.
 
+`ClueView` receives one approved display clue and renders it without selecting,
+translating, or judging content. Unsafe embedded media schemes are discarded.
+It exposes selected preview items to the renderer's shared media modal but does
+not own modal focus or application callbacks.
+
 Media preflight happens before `GameEngine.loadClue()`. A rejected attachment can select another clue, but it cannot mutate score, streak, or answer correctness. Renderer-level media errors are a second recovery layer for assets that fail after preflight.
 
 `SessionManager` version 3 records `correct`, `incorrect`, `revealed`, and
@@ -124,10 +132,10 @@ owns the active phase and rejects a pause snapshot from an older round id.
 
 ## Next Extraction Targets
 
-1. Extract a focused clue view from `Renderer`, now that localized display-clue
-   preparation has a stable upstream owner.
-2. Continue with Study, cabinet, and finale view owners only where the proven
-   flows support a clean boundary, retaining one DOM binding lifecycle.
+1. Extract a focused Study view from `Renderer`; the grounded packet and
+   reinforcement contracts already provide a stable input boundary.
+2. Continue with cabinet and finale view owners only where the proven flows
+   support a clean boundary, retaining one DOM binding lifecycle.
 3. Convert renderer updates to event subscriptions only where the event facts
    are stable and doing so removes callback plumbing rather than hiding it.
 

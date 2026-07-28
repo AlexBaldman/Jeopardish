@@ -61,7 +61,7 @@ roadmap for one:
 
 The convergence baseline is now verified:
 
-- `npm run verify` passes 213 unit and contract tests, content validation, CSS
+- `npm run verify` passes 216 unit and contract tests, content validation, CSS
   and asset audits, the static build, and the production artifact audit;
 - production smoke passes in Chromium and WebKit for the landing page, standalone
   game, and Creative Room;
@@ -84,8 +84,8 @@ The convergence baseline is now verified:
 
 It is a trustworthy checkpoint, not yet a release candidate:
 
-- `app.js` is down to 672 lines and `Renderer` is 1,345 lines after the first
-  focused view extraction;
+- `app.js` is down to 672 lines and `Renderer` is 1,092 lines after two focused
+  view extractions;
 - 200% zoom and real-device screen-reader passes remain manual release checks;
 - the Season Zero learning ledger and completion review queue exist, but there
   is no due-date scheduler, daily entry flow, or cross-episode curriculum yet;
@@ -254,6 +254,9 @@ Completed first because it carried the highest stale-work risk:
   inside the coordinator.
 - `OutcomeView`: the first focused renderer view owns answer and confidence
   feedback behind the shared renderer facade.
+- `ClueView`: sanitized clue markup, translated source labels, translation
+  loading, and media-preview state now sit behind the shared renderer facade;
+  modal focus and runtime failure routing remain centralized.
 - `ClueLocalization`: one cancellable display transaction now serves episode
   loading, saved review, and live language changes while preserving canonical
   clue truth and the exact round presentation.
@@ -539,9 +542,10 @@ evidence.
    and control-deck presentation, and `UiCatalog` owns static bilingual copy.
    `ClueLocalization` now owns provider fallback, cancellation, and exact
    round-view restoration for language changes.
-5. [~] `OutcomeView` is the first `Renderer` split and owns answer,
-   confidence, and dispute feedback. Continue with clue, Study, cabinet, and
-   finale views only where the proven flows show stable ownership.
+5. [~] `OutcomeView` owns answer, confidence, and dispute feedback, and
+   `ClueView` owns clue markup, translation display, and media-preview state.
+   Continue with Study, cabinet, and finale views only where the proven flows
+   show stable ownership.
 6. [x] Realize the proven host motion verbs (`enter`, `react`, `hold`, `recover`,
    and `exit`) with cancellable, reduced-motion-safe presentation effects. Do
    not add a registry, composer, or renderer factory until repeated real
@@ -570,10 +574,11 @@ renderer.
 
 ## Immediate Next Domino
 
-Continue **Domino 3: Presentation Ownership**. Extract the clue surface as the
-next focused renderer view, using the now-stable localized display-clue boundary
-while preserving the shared DOM binding lifecycle. Continue with Study,
-cabinet, or finale views only when the resulting contracts remain concrete.
+Continue **Domino 3: Presentation Ownership**. Extract the grounded Study and
+reinforcement surface as the next focused renderer view, using its existing
+packet contract while preserving the shared DOM binding and modal focus
+lifecycle. Continue with cabinet or finale views only when the resulting
+contracts remain concrete.
 Then promote accessibility and initial-route budgets into the release gate
 before preview deployment. Do not add a runtime model, service locator, generic
 animation framework, Storybook, A/B system, broad CSS overhaul, wager mechanics,

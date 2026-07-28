@@ -146,9 +146,11 @@ test('game shells load foundations and owned components without a legacy runtime
 test('both game shells load focused renderer views before the renderer facade', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const outcomeView = html.indexOf('src/render/outcome-view.js');
+    const clueView = html.indexOf('src/render/clue-view.js');
     const renderer = html.indexOf('src/render/renderer.js');
     assert.ok(outcomeView > 0, `${surface} is missing the outcome view`);
-    assert.ok(renderer > outcomeView, `${surface} must load the outcome view before the renderer`);
+    assert.ok(clueView > outcomeView, `${surface} must load the clue view after the outcome view`);
+    assert.ok(renderer > clueView, `${surface} must load focused views before the renderer`);
   }
 });
 
