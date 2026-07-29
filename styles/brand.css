@@ -8,17 +8,24 @@
         font-family: "Bangers", Impact, sans-serif;
         font-style: italic;
         font-weight: 900;
-        line-height: 0.86;
-        letter-spacing: 0.025em;
+        line-height: 0.82;
+        letter-spacing: -0.015em;
         white-space: nowrap;
+        filter: drop-shadow(0 0.08em 0 #070713);
     }
 
-    :is(.brand-mark .brand-jeo, .brand-mark .brand-dy) {
+    .brand-mark .brand-jeo {
         color: var(--vision-gold);
+        text-shadow:
+            0.035em 0.035em 0 #7c244c,
+            -0.025em -0.025em 0 #fff4bf;
     }
 
-    .brand-mark .brand-par {
-        color: #fff7cf;
+    :is(.brand-mark .brand-par, .brand-mark .brand-dy) {
+        color: #ff6fbd;
+        text-shadow:
+            0.035em 0.035em 0 #632071,
+            -0.025em -0.025em 0 #fff7cf;
     }
 
     .brand-mark .brand-bang {
@@ -32,9 +39,9 @@
         display: inline-grid;
         flex: 0 0 auto;
         place-items: center;
-        width: 0.82em;
-        height: 0.82em;
-        margin-inline: 0.025em;
+        width: 0.98em;
+        height: 0.98em;
+        margin: -0.08em 0.025em;
         border-radius: 50%;
         cursor: pointer;
         vertical-align: middle;
@@ -101,6 +108,29 @@
 
     body[data-theme="light"] .brand-mark .brand-par {
         color: #9f176f;
+    }
+
+    .game-container .game-mark :is(.brand-jeo, .brand-par, .brand-dy) {
+        -webkit-text-stroke: 0.018em #080914;
+    }
+
+    body[data-theme="light"] .game-container .game-mark .brand-jeo {
+        color: var(--vision-gold);
+    }
+
+    body[data-theme="light"] .game-container .game-mark :is(.brand-par, .brand-dy) {
+        color: #ff6fbd;
+    }
+
+    .game-container .brand-tagline {
+        display: block;
+        margin-top: 0.32rem;
+        color: #8fffb2;
+        font: 700 clamp(0.28rem, 0.56cqw, 0.4rem)/1 var(--pixel-font);
+        letter-spacing: 0.16em;
+        text-align: center;
+        text-shadow: 0 0 8px rgba(119, 255, 138, 0.6);
+        text-transform: uppercase;
     }
 
     @keyframes parody-o-spin {

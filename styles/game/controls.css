@@ -99,7 +99,7 @@
         padding: 0.35rem;
         overflow: hidden;
         border: 3px solid #05070a;
-        border-radius: 12px;
+        border-radius: 10px 10px 14px 14px;
         color: #dfffe8;
         background:
             radial-gradient(circle at 50% 38%, rgba(126, 255, 163, 0.2), transparent 48%),
@@ -199,7 +199,11 @@
         background:
             linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 24%),
             linear-gradient(165deg, var(--control-face), var(--control-edge));
-        box-shadow: 0 5px 0 #05060b, inset 0 -3px 0 rgba(2, 5, 12, 0.48), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+        box-shadow:
+            0 5px 0 #05060b,
+            0 0 0 1px color-mix(in srgb, var(--control-accent) 52%, transparent),
+            inset 0 -4px 0 rgba(2, 5, 12, 0.42),
+            inset 0 2px 0 rgba(255, 255, 255, 0.2);
         cursor: pointer;
         transition: transform 110ms ease, box-shadow 110ms ease, filter 160ms ease;
     }
@@ -225,9 +229,9 @@
         box-shadow: 2px 0 0 rgba(255, 255, 255, 0.4);
     }
 
-    .game-container .clue-button { --control-accent: #38e9ff; --control-face: #17394d; --control-edge: #0a1822; }
-    .game-container .answer-button { --control-accent: #ff6fbd; --control-face: #4b213f; --control-edge: #21101d; }
-    .game-container .lock-button { --control-accent: #ffd84d; --control-face: #4e3f1a; --control-edge: #211a09; }
+    .game-container .clue-button { --control-accent: #38e9ff; --control-face: #22566c; --control-edge: #0c2030; }
+    .game-container .answer-button { --control-accent: #ff6fbd; --control-face: #713557; --control-edge: #2a1226; }
+    .game-container .lock-button { --control-accent: #ffd84d; --control-face: #765d20; --control-edge: #2b210b; }
 
     .game-container .control-copy {
         display: grid;
@@ -237,7 +241,7 @@
     }
 
     .game-container .control-copy small {
-        color: color-mix(in srgb, var(--control-accent) 72%, white);
+        color: color-mix(in srgb, var(--control-accent) 80%, white);
         font: 700 0.34rem/1 var(--pixel-font);
         letter-spacing: 0.09em;
         text-transform: uppercase;
@@ -252,7 +256,7 @@
         color: #f7fbff;
         background: transparent;
         box-shadow: none;
-        font: 900 clamp(0.76rem, 1.25cqw, 1rem)/1 var(--utility-font);
+        font: 900 clamp(0.8rem, 1.3cqw, 1.04rem)/1 var(--utility-font);
         letter-spacing: 0.015em;
         opacity: 1;
         text-align: left;

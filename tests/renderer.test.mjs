@@ -530,6 +530,8 @@ test('Renderer applies localized static UI copy and toggle states', () => {
   assert.equal(renderer.dom.answerButtonKicker.textContent, 'Pista');
   assert.equal(renderer.dom.themeToggleLabel.textContent, 'Dia');
   assert.equal(renderer.dom.languageToggleLabel.textContent, 'Português');
+  assert.equal(renderer.dom.themeToggle.dataset.help, 'Switch to night mode');
+  assert.equal(renderer.dom.languageToggle.dataset.help, 'Switch to English');
   assert.equal(renderer.dom.hudStreakLabel.textContent, 'Sequência Atual');
   assert.equal(renderer.dom.hudBestLabel.textContent, 'Melhor Sequência');
   assert.equal(documentRef.documentElement.getAttribute('lang'), 'pt-BR');
@@ -552,6 +554,7 @@ test('Renderer exposes round phase and audio state without a visible status pane
   assert.equal(renderer.dom.soundToggle.dataset.muted, 'true');
   assert.equal(renderer.dom.soundToggleLabel.textContent, 'Muted');
   assert.equal(renderer.dom.soundToggle.getAttribute('aria-label'), 'Enable game audio');
+  assert.equal(renderer.dom.soundToggle.dataset.help, 'Enable game audio');
 });
 
 test('Renderer shows empty-answer host quip without replacing the active clue', () => {

@@ -360,9 +360,9 @@ test('HTML entry points contain no duplicate ids', () => {
   }
 });
 
-test('static scene picker copy matches the three-pack runtime', () => {
-  assert.match(landingHtml, /id="menuSceneIndex"[^>]*>01\/03</);
-  assert.match(gameHtml, /id="menuSceneIndex"[^>]*>01\/03</);
+test('static scene picker copy matches the four-pack runtime', () => {
+  assert.match(landingHtml, /id="menuSceneIndex"[^>]*>01\/04</);
+  assert.match(gameHtml, /id="menuSceneIndex"[^>]*>01\/04</);
   assert.match(landingHtml, /id="menuSceneLabel">Long Beach '96</);
   assert.match(gameHtml, /id="menuSceneLabel">Long Beach '96</);
 });

@@ -57,6 +57,7 @@
         element.dataset.oToken = token;
         if (element.hasAttribute?.('data-brand-o')) {
           element.setAttribute?.('aria-label', `Parody O: ${token}. Activate to change it.`);
+          element.setAttribute?.('title', `The interchangeable O is currently ${token}. Activate to change it.`);
         }
       });
     }

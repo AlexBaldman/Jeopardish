@@ -99,10 +99,53 @@
         letter-spacing: 0;
         white-space: nowrap;
     }
+
+    .game-container [data-help] {
+        position: relative;
+    }
+
+    .game-container [data-help]::after {
+        content: attr(data-help);
+        position: absolute;
+        top: calc(100% + 0.62rem);
+        left: 50%;
+        z-index: 120;
+        width: max-content;
+        max-width: 13rem;
+        padding: 0.48rem 0.62rem;
+        border: 2px solid #090b18;
+        border-radius: 6px;
+        color: #090b18;
+        background: #fff4b8;
+        box-shadow: 3px 3px 0 #090b18, 0 0 0 2px rgba(255, 255, 255, 0.45);
+        font: 700 0.58rem/1.25 var(--utility-font);
+        letter-spacing: 0.025em;
+        opacity: 0;
+        pointer-events: none;
+        text-align: center;
+        text-transform: none;
+        transform: translate(-50%, -0.28rem);
+        transition: opacity 120ms ease, transform 120ms ease;
+        white-space: normal;
+    }
+
+    .game-container [data-help]:is(:hover, :focus-visible)::after {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    .game-container :is(.host-cycle, .dialogue-style-cycle)[data-help]::after {
+        top: auto;
+        bottom: calc(100% + 0.55rem);
+    }
 }
 
 @layer responsive {
     @media (max-width: 760px) {
+        .game-container [data-help]::after {
+            display: none;
+        }
+
         .sound-icon {
             width: 28px;
             height: 21px;

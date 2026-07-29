@@ -1,0 +1,10 @@
+{
+  "id": "west-end-field-day",
+  "label": "West End Field Day",
+  "variants": {
+    "light": "west-end-field-day-v1.jpg",
+    "dark": "west-end-field-night-v1.jpg"
+  },
+  "artDirection": "docs/BRAND_AND_SCENE_ART_DIRECTION.md",
+  "status": "candidate"
+}

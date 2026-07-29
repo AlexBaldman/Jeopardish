@@ -9,17 +9,17 @@
     <link rel="stylesheet" href="styles/order.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/tokens.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/base.css?v=architecture-3" type="text/css">
-    <link rel="stylesheet" href="styles/brand.css?v=architecture-6" type="text/css">
-    <link rel="stylesheet" href="styles/preferences.css?v=architecture-6" type="text/css">
+    <link rel="stylesheet" href="styles/brand.css?v=architecture-7" type="text/css">
+    <link rel="stylesheet" href="styles/preferences.css?v=architecture-7" type="text/css">
     <link rel="stylesheet" href="styles/game/cabinet.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/scene.css?v=architecture-4" type="text/css">
-    <link rel="stylesheet" href="styles/game/header.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/header.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/game/menu.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/game/host.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/dialogue.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/media.css?v=architecture-5" type="text/css">
-    <link rel="stylesheet" href="styles/game/controls.css?v=architecture-4" type="text/css">
+    <link rel="stylesheet" href="styles/game/controls.css?v=architecture-5" type="text/css">
     <link rel="stylesheet" href="styles/game/study.css?v=architecture-3" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bree+Serif&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -31,12 +31,12 @@
     <script defer src="src/core/game-engine.js?v=optimal-prime-1"></script>
     <script defer src="src/data/data-loader.js?v=arcade-2"></script>
     <script defer src="src/media/media-preflight.js?v=media-1"></script>
-    <script defer src="src/render/scene-service.js?v=scene-packs-4"></script>
+    <script defer src="src/render/scene-service.js?v=scene-packs-5"></script>
     <script defer src="src/ui/focus-scope.js?v=accessibility-1"></script>
     <script defer src="src/render/outcome-view.js?v=outcome-view-1"></script>
     <script defer src="src/render/clue-view.js?v=clue-view-1"></script>
     <script defer src="src/render/study-view.js?v=study-view-1"></script>
-    <script defer src="src/render/renderer.js?v=dialogue-1"></script>
+    <script defer src="src/render/renderer.js?v=dialogue-2"></script>
     <script defer src="src/render/console-narrator.js?v=optimal-prime-1"></script>
     <script defer src="src/host/host-pack.js?v=host-performance-1"></script>
     <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
@@ -44,7 +44,7 @@
     <script defer src="src/presentation/ui-catalog.js?v=ui-catalog-1"></script>
     <script defer src="src/presentation/broadcast-presenter.js?v=broadcast-presenter-1"></script>
     <script defer src="src/presentation/cabinet-presenter.js?v=cabinet-presenter-1"></script>
-    <script defer src="src/brand/brand-controller.js?v=brand-2"></script>
+    <script defer src="src/brand/brand-controller.js?v=brand-3"></script>
     <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/voice/voice-controller.js?v=voice-1"></script>
@@ -73,24 +73,25 @@
                     <div class="brand-mark game-mark" data-brand-mark aria-label="JeoPARODY">
                         <span class="brand-jeo">JEO</span><span class="brand-par">PAR</span><span class="brand-o" data-brand-o data-o-token="portal" role="button" tabindex="0"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-dy">DY</span><span class="brand-bang" aria-hidden="true">!</span>
                     </div>
+                    <span class="brand-tagline" aria-hidden="true">Trivia got weird</span>
                 </div>
                 <div class="header-controls" aria-label="Game preferences">
-                    <button class="theme-toggle game-theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false">
+                    <button class="theme-toggle game-theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false" data-help="Switch to day mode">
                         <span class="toggle-track" aria-hidden="true">
                             <span class="toggle-bulb"></span>
                         </span>
                         <span class="toggle-label" id="themeToggleLabel">Night</span>
                     </button>
-                    <button class="language-toggle" id="languageToggle" type="button" aria-label="Toggle English or Brazilian Portuguese" aria-pressed="false">
+                    <button class="language-toggle" id="languageToggle" type="button" aria-label="Toggle English or Brazilian Portuguese" aria-pressed="false" data-help="Switch to Brazilian Portuguese">
                         <span class="flag-stack" aria-hidden="true"><span class="flag flag-us">US</span><span class="flag flag-br">BR</span></span>
                         <span class="toggle-label" id="languageToggleLabel">English</span>
                     </button>
-                    <button class="sound-toggle" id="soundToggle" type="button" aria-label="Mute game audio" aria-pressed="false">
+                    <button class="sound-toggle" id="soundToggle" type="button" aria-label="Mute game audio" aria-pressed="false" data-help="Mute game audio">
                         <span class="sound-icon" aria-hidden="true">SFX</span>
                         <span class="toggle-label" id="soundToggleLabel">Sound</span>
                     </button>
                 </div>
-                <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open game menu" aria-expanded="false" aria-controls="navMenu">
+                <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open game menu" aria-expanded="false" aria-controls="navMenu" data-help="Open game menu">
                     <span aria-hidden="true">☰</span>
                 </button>
             </header>
@@ -133,7 +134,7 @@
                     <h2 id="menuSettingsTitle">Settings</h2>
                     <button id="menuScene" type="button">
                         <span class="scene-menu-copy"><small>Background</small><strong id="menuSceneLabel">Long Beach '96</strong></span>
-                        <b id="menuSceneIndex" aria-hidden="true">01/03</b>
+                        <b id="menuSceneIndex" aria-hidden="true">01/04</b>
                     </button>
                     <button id="menuTheme" type="button"><span>Day / Night</span><b aria-hidden="true">☀</b></button>
                     <button id="menuLanguage" type="button"><span>English / Português</span><b aria-hidden="true">文</b></button>
@@ -152,13 +153,13 @@
             <div class="main-content">
                 <div class="speech-bubble" id="speechBubble" data-dialogue-style="clue-card">
                     <div class="dialogue-style-picker" aria-label="Dialogue panel style">
-                        <button class="dialogue-style-cycle" id="dialogueStylePrev" type="button" aria-label="Previous dialogue style">‹</button>
+                    <button class="dialogue-style-cycle" id="dialogueStylePrev" type="button" aria-label="Previous dialogue style" data-help="Previous panel style">‹</button>
                         <span class="dialogue-style-readout">
                             <small>Panel skin</small>
                             <strong id="dialogueStyleLabel">Clue Card</strong>
                             <span id="dialogueStyleIndex" aria-hidden="true">01/04</span>
                         </span>
-                        <button class="dialogue-style-cycle" id="dialogueStyleNext" type="button" aria-label="Next dialogue style">›</button>
+                        <button class="dialogue-style-cycle" id="dialogueStyleNext" type="button" aria-label="Next dialogue style" data-help="Next panel style">›</button>
                     </div>
                     <div class="translation-state" id="translationState" data-status="original" hidden>
                         <span class="translation-pulse" aria-hidden="true"></span>
@@ -188,13 +189,13 @@
                     <p class="review-queue-status visually-hidden" id="reviewQueueStatus" aria-live="polite"></p>
                 </div>
                 <div class="host-stage" id="hostStage" aria-label="Host visual selector">
-                    <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
+                    <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look" data-help="Previous host look">‹</button>
                     <figure class="host-stand">
                         <img class="trebek" id="hostImage" alt="Xander Trefleck, the provisional JeoPARODY host" src="assets/trebek/trebek-dope-02.png" decoding="async" fetchpriority="high">
                         <figcaption class="host-skin-label" id="hostSkinLabel">Channel O Xander</figcaption>
                         <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/06</span>
                     </figure>
-                    <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look">›</button>
+                    <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look" data-help="Next host look">›</button>
                 </div>
             </div>
 

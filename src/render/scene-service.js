@@ -64,6 +64,25 @@
     },
   });
 
+  const WEST_END_FIELD_DAY_SCENES = Object.freeze({
+    light: {
+      id: 'west-end-field-day',
+      label: 'West End Field Day',
+      basePath: 'assets/scenes/west-end-field-day/',
+      layers: [
+        { id: 'illustration', src: 'west-end-field-day-v1.jpg', depth: 0.04, drift: 8 },
+      ],
+    },
+    dark: {
+      id: 'west-end-field-night',
+      label: 'West End Field Night',
+      basePath: 'assets/scenes/west-end-field-day/',
+      layers: [
+        { id: 'illustration', src: 'west-end-field-night-v1.jpg', depth: 0.04, drift: 8 },
+      ],
+    },
+  });
+
   const DEFAULT_SCENE_PACKS = Object.freeze([
     Object.freeze({
       id: 'long-beach-96',
@@ -79,6 +98,11 @@
       id: 'beach-broadcast',
       label: 'Beach Broadcast',
       scenes: BEACH_BROADCAST_SCENES,
+    }),
+    Object.freeze({
+      id: 'west-end-field-day',
+      label: 'West End Field Day',
+      scenes: WEST_END_FIELD_DAY_SCENES,
     }),
   ]);
   const DEFAULT_SCENES = LONG_BEACH_96_SCENES;
@@ -242,6 +266,7 @@
     DEFAULT_SCENE_PACKS,
     LONG_BEACH_SCENES,
     SceneService,
+    WEST_END_FIELD_DAY_SCENES,
     getLayerSource,
     normalizeSceneKey,
   };

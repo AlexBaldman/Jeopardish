@@ -3,7 +3,7 @@
         position: relative;
         z-index: 70;
         display: grid;
-        grid-template-columns: minmax(12rem, 1fr) auto 46px;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
         align-items: center;
         gap: 0.6rem;
         min-height: var(--jp-header-height);
@@ -18,7 +18,19 @@
     }
 
     .game-container .title-div {
+        grid-column: 2;
         min-width: 0;
+        padding: 0.38rem 1.35rem 0.28rem;
+        border: 3px solid #080914;
+        border-radius: 8px 8px 15px 15px;
+        background:
+            radial-gradient(circle at 50% -20%, rgba(255, 216, 77, 0.28), transparent 64%),
+            linear-gradient(180deg, #302747, #0b0d1b);
+        box-shadow:
+            0 4px 0 #080914,
+            inset 0 0 0 2px rgba(56, 233, 255, 0.15),
+            0 0 18px rgba(255, 61, 200, 0.2);
+        text-align: center;
     }
 
     .game-container .game-mark {
@@ -30,11 +42,13 @@
     .game-container .header-controls {
         position: relative;
         z-index: 3;
+        grid-column: 3;
         display: flex;
         align-items: center;
         justify-content: flex-end;
         gap: 0.55rem;
         min-width: 0;
+        padding-right: 3.6rem;
     }
 
     .game-container :is(.theme-toggle, .language-toggle, .sound-toggle, .hamburger-menu) {
@@ -58,7 +72,8 @@
     }
 
     .game-container .hamburger-menu {
-        position: relative;
+        position: absolute;
+        right: clamp(0.65rem, 1.8cqw, 1.2rem);
         z-index: 3;
         display: grid;
         place-items: center;
@@ -75,7 +90,7 @@
 @layer responsive {
     @container cabinet (max-width: 760px) {
         .game-container .game-header {
-            grid-template-columns: minmax(7rem, 1fr) 44px 44px;
+            grid-template-columns: 44px minmax(0, 1fr) 44px;
             min-height: 62px;
             gap: 0.3rem;
             padding: 0.38rem 0.48rem;
@@ -87,9 +102,21 @@
             letter-spacing: 0;
         }
 
-        .game-container .header-controls {
+        .game-container .title-div {
             grid-column: 2;
+            padding: 0.32rem 0.52rem 0.24rem;
+            border-width: 2px;
+        }
+
+        .game-container .brand-tagline {
+            display: none;
+        }
+
+        .game-container .header-controls {
+            grid-column: 1;
+            justify-self: start;
             gap: 0;
+            padding-right: 0;
         }
 
         .game-container .header-controls .toggle-label,
@@ -105,7 +132,7 @@
         }
 
         .game-container .hamburger-menu {
-            grid-column: 3;
+            right: 0.48rem;
             width: 44px;
         }
     }
@@ -117,18 +144,8 @@
             }
 
             body.game-only .game-header .title-div {
-                position: absolute;
-                top: 0.48rem;
-                left: 50%;
                 z-index: 2;
                 min-width: min(34cqw, 420px);
-                padding: 0.62rem 1.35rem 0.48rem;
-                border: 4px solid var(--jp-border-strong);
-                border-radius: 10px 10px 18px 18px;
-                background: radial-gradient(circle at 50% 0, rgba(255, 216, 77, 0.22), transparent 68%), linear-gradient(180deg, #29233d, #0b0c17);
-                box-shadow: 0 5px 0 var(--jp-border-strong), inset 0 0 0 2px rgba(56, 233, 255, 0.16), 0 0 20px rgba(255, 61, 200, 0.22);
-                text-align: center;
-                transform: translateX(-50%);
             }
 
             body.game-only .game-header .game-mark {
@@ -138,7 +155,6 @@
 
             body.game-only .game-header .header-controls {
                 justify-self: end;
-                margin-right: 3.75rem;
             }
         }
     }

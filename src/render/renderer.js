@@ -457,6 +457,8 @@
       if (this.dom.themeToggle) {
         this.dom.themeToggle.setAttribute('aria-pressed', String(isLight));
         this.dom.themeToggle.dataset.mode = theme;
+        this.dom.themeToggle.dataset.help = isLight ? 'Switch to night mode' : 'Switch to day mode';
+        this.dom.themeToggle.setAttribute('title', this.dom.themeToggle.dataset.help);
       }
       if (this.dom.themeToggleLabel) {
         this.setText(this.dom.themeToggleLabel, isLight ? this.copy.themeDay : this.copy.themeNight);
@@ -465,6 +467,10 @@
       if (this.dom.languageToggle) {
         this.dom.languageToggle.setAttribute('aria-pressed', String(isPortuguese));
         this.dom.languageToggle.dataset.language = language;
+        this.dom.languageToggle.dataset.help = isPortuguese
+          ? 'Switch to English'
+          : 'Switch to Brazilian Portuguese';
+        this.dom.languageToggle.setAttribute('title', this.dom.languageToggle.dataset.help);
       }
       if (this.dom.languageToggleLabel) {
         this.setText(
@@ -628,6 +634,8 @@
       }
       this.dom.soundToggle.setAttribute('aria-pressed', String(Boolean(muted)));
       this.dom.soundToggle.setAttribute('aria-label', muted ? 'Enable game audio' : 'Mute game audio');
+      this.dom.soundToggle.dataset.help = muted ? 'Enable game audio' : 'Mute game audio';
+      this.dom.soundToggle.setAttribute('title', this.dom.soundToggle.dataset.help);
       this.dom.soundToggle.dataset.muted = String(Boolean(muted));
       if (this.dom.soundToggleLabel) {
         this.setText(this.dom.soundToggleLabel, muted ? this.copy.soundOff : this.copy.soundOn);

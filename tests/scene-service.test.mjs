@@ -144,7 +144,7 @@ test('SceneService cycles named scene packs while preserving the active theme', 
   service.setTheme('light');
   const pack = service.cyclePack(1);
 
-  assert.equal(DEFAULT_SCENE_PACKS.length, 3);
+  assert.equal(DEFAULT_SCENE_PACKS.length, 4);
   assert.equal(pack.id, 'long-beach-boardwalk');
   assert.equal(stage.dataset.scene, 'long-beach-day');
   assert.equal(stage.children[0].src, 'assets/scenes/long-beach-day/long-beach-west-sunset-v2.png');
@@ -161,6 +161,14 @@ test('SceneService cycles named scene packs while preserving the active theme', 
   service.setTheme('light');
   assert.equal(stage.dataset.scene, 'beach-day');
   assert.equal(stage.children[0].src, 'assets/scenes/beach-day/beach-seek-and-find-v1.png');
+
+  const fieldDayPack = service.cyclePack(1);
+  assert.equal(fieldDayPack.id, 'west-end-field-day');
+  assert.equal(stage.dataset.scene, 'west-end-field-day');
+  assert.equal(
+    stage.children[0].src,
+    'assets/scenes/west-end-field-day/west-end-field-day-v1.jpg',
+  );
 
   assert.equal(service.cyclePack(1).id, 'long-beach-96');
 });
