@@ -52,46 +52,45 @@
         position: relative;
         display: inline-grid;
         place-items: center;
-        width: 48px;
-        height: 28px;
+        width: 38px;
+        height: 26px;
     }
 
     .flag {
         position: absolute;
-        display: grid;
-        place-items: center;
-        width: 34px;
-        height: 22px;
+        display: block;
+        width: 38px;
+        height: 24px;
+        overflow: hidden;
         border: 2px solid var(--ink);
         border-radius: 4px;
-        font-size: 0.62rem;
-        line-height: 1;
-        transition: transform 180ms ease, z-index 180ms ease;
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.34);
+        object-fit: cover;
+        transition: opacity 160ms ease, transform 180ms ease;
     }
 
     .flag-us {
         z-index: 2;
-        color: #fff;
-        background: repeating-linear-gradient(180deg, #c71f37 0 3px, #fff 3px 6px);
-        text-shadow: 1px 1px 0 #16368c;
-        transform: rotate(-7deg) translateX(-5px);
+        opacity: 1;
+        transform: rotate(-3deg) scale(1);
     }
 
     .flag-br {
         z-index: 1;
-        color: #072d13;
-        background: radial-gradient(circle, #f8e34b 0 28%, transparent 29%), #24a65a;
-        transform: rotate(8deg) translateX(7px);
+        opacity: 0;
+        transform: rotate(5deg) scale(0.72);
     }
 
     body[data-language="pt-BR"] .flag-us {
         z-index: 1;
-        transform: rotate(-12deg) translateX(-9px) translateY(3px);
+        opacity: 0;
+        transform: rotate(-5deg) scale(0.72);
     }
 
     body[data-language="pt-BR"] .flag-br {
         z-index: 2;
-        transform: rotate(5deg) translateX(3px) translateY(-2px);
+        opacity: 1;
+        transform: rotate(3deg) scale(1);
     }
 
     .toggle-label {
@@ -171,15 +170,16 @@
         }
 
         .flag-stack {
-            width: 30px;
-            height: 21px;
+            width: 28px;
+            height: 20px;
         }
 
         .flag {
-            width: 23px;
-            height: 15px;
+            width: 28px;
+            height: 18px;
             border-width: 1px;
-            font-size: 0.4rem;
+            border-radius: 3px;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.38);
         }
     }
 }

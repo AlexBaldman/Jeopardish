@@ -30,6 +30,7 @@ export const runtimeEntries = Object.freeze([
   'assets/trebek/trebek-5.webp',
 
   // Game scene and host catalogs.
+  'assets/ui',
   'assets/scenes',
   'assets/images/trebek-vector.png',
   'assets/trebek/trebek-dope-01.png',

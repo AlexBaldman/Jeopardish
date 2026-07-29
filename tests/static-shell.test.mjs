@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
+import { runtimeEntries } from '../scripts/runtime-manifest.mjs';
 
 const [landingHtml, gameHtml, creativeRoomHtml, fixtureHtml, smokeScript, baseStyles, tokens, brandStyles, preferenceStyles, siteStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, mediaStyles, controlStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
@@ -375,6 +376,20 @@ test('brand marks put the interchangeable O in JEO while keeping PARODY intact',
   }
 });
 
+test('game headers use explicit flag artwork and current architecture styles', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /assets\/ui\/flag-us\.svg/, `${surface} is missing the US flag`);
+    assert.match(html, /assets\/ui\/flag-br\.svg/, `${surface} is missing the Brazilian flag`);
+    assert.match(html, /styles\/preferences\.css\?v=architecture-8/);
+    assert.match(html, /styles\/game\/header\.css\?v=architecture-5/);
+    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-5/);
+  }
+  assert.match(headerStyles, /\.title-div\s*\{[\s\S]*?grid-row:\s*1;/);
+  assert.match(headerStyles, /\.header-controls\s*\{[\s\S]*?grid-row:\s*1;/);
+  assert.match(preferenceStyles, /body\[data-language="pt-BR"\]\s+\.flag-br\s*\{[\s\S]*?opacity:\s*1;/);
+  assert.ok(runtimeEntries.includes('assets/ui'), 'production manifest must ship header flag artwork');
+});
+
 test('static scene picker copy matches the four-pack runtime', () => {
   assert.match(landingHtml, /id="menuSceneIndex"[^>]*>01\/04</);
   assert.match(gameHtml, /id="menuSceneIndex"[^>]*>01\/04</);
@@ -391,7 +406,13 @@ test('signal maps have an offline visual fallback and reveal content is safe by 
 test('dialogue skins use direct values instead of banknote background art', () => {
   assert.match(dialogueStyles, /Dialogue system v2/);
   assert.doesNotMatch(dialogueStyles, /background-image:\s*url\(["']?assets\/images\/banknotes/);
-  assert.match(dialogueStyles, /clip-path:\s*polygon\(0 0, 100% 0, 0 100%\)/);
+  assert.match(dialogueStyles, /--dialogue-tail-anchor:/);
+  assert.match(dialogueStyles, /clip-path:\s*polygon\(36% 0, 100% 0, 0 100%\)/);
+  assert.match(dialogueStyles, /#questionBox\s*\{[\s\S]*?overflow-y:\s*auto;/);
+  assert.match(
+    dialogueStyles,
+    /@media \(max-height: 620px\)[\s\S]*?speech-bubble\[data-dialogue-style\]::after\s*\{[\s\S]*?display:\s*none;/,
+  );
 });
 
 test('host reaction copy remains accessible without a visible cue badge', () => {

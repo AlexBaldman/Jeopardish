@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 24" role="img" aria-labelledby="title">
+  <title id="title">Brazilian flag</title>
+  <rect width="38" height="24" rx="2" fill="#169b62"/>
+  <path fill="#ffdf00" d="m19 2.7 15.2 9.3L19 21.3 3.8 12z"/>
+  <circle cx="19" cy="12" r="6.1" fill="#002776"/>
+  <path d="M13.8 10.1c4.2-.3 8.1.7 11.4 3" fill="none" stroke="#fff" stroke-width="1.15"/>
+  <g fill="#fff">
+    <circle cx="16" cy="13.2" r=".45"/><circle cx="18.5" cy="9.3" r=".45"/><circle cx="20.4" cy="14.5" r=".45"/><circle cx="22.8" cy="11" r=".45"/><circle cx="24" cy="14.1" r=".45"/>
+  </g>
+</svg>

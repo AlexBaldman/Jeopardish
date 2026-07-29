@@ -19,6 +19,7 @@
 
     .game-container .title-div {
         grid-column: 2;
+        grid-row: 1;
         min-width: 0;
         padding: 0.38rem 1.35rem 0.28rem;
         border: 3px solid #080914;
@@ -43,6 +44,7 @@
         position: relative;
         z-index: 3;
         grid-column: 3;
+        grid-row: 1;
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -66,6 +68,7 @@
 
     .game-container :is(.theme-toggle, .language-toggle, .sound-toggle) {
         display: inline-flex;
+        flex: 0 0 auto;
         align-items: center;
         gap: 0.45rem;
         padding: 0.35rem 0.6rem;
@@ -88,6 +91,22 @@
 }
 
 @layer responsive {
+    @container cabinet (max-width: 980px) {
+        .game-container .header-controls {
+            gap: 0.35rem;
+            padding-right: 3.35rem;
+        }
+
+        .game-container .header-controls .toggle-label {
+            display: none;
+        }
+
+        .game-container :is(.theme-toggle, .language-toggle, .sound-toggle) {
+            justify-content: center;
+            padding: 0.3rem 0.42rem;
+        }
+    }
+
     @container cabinet (max-width: 760px) {
         .game-container .game-header {
             grid-template-columns: 44px minmax(0, 1fr) 44px;
@@ -114,6 +133,7 @@
 
         .game-container .header-controls {
             grid-column: 1;
+            grid-row: 1;
             justify-self: start;
             gap: 0;
             padding-right: 0;
