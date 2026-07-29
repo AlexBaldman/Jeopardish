@@ -7,15 +7,15 @@ It combines game-show authority, 16-bit immediacy, comic-book mischief, and the 
 sun-faded eccentricity of Long Beach, New York.
 
 The visual test is simple: if the Jeopardy reference disappears, the identity must still
-feel ownable. The interchangeable **O** is the signature device. It can become a portal,
-eye, donut, disco ball, coin, eclipse, or future episode-specific object without changing
-the core wordmark.
+feel ownable. The first **O**, in **JEO**, is the interchangeable signature device. It can
+become a portal, eye, donut, disco ball, coin, eclipse, or future episode-specific object
+without changing the core wordmark. The added O in **PARODY** remains a stable letter.
 
 ## Logo Hierarchy
 
-1. Read **JEO** first as the familiar setup.
+1. Read **JE + [O]** first as the familiar setup and changing visual signature.
 2. Read **PARODY** as the colorful interruption and actual promise.
-3. Discover the animated **O** as a replayable visual joke.
+3. Discover that the first **O** changes while **PARODY** remains legible and stable.
 4. Use **TRIVIA GOT WEIRD** as attitude, not explanation.
 
 The logo should feel like a marquee, not a navigation label. Keep it centered in the
@@ -111,7 +111,7 @@ Reject a scene unless it passes all five checks:
 
 ## Current Exploration Assets
 
-- `assets/brand/concepts/jeoparody-logo-directions-v1.png` is a direction board, not a
+- `assets/brand/concepts/jeoparody-logo-directions-v2.png` is a direction board, not a
   production wordmark. The portal-eye is the leading mascot concept.
 - `assets/scenes/west-end-field-day/west-end-field-day-v1.jpg` and its matched night
   companion are the first scene pair produced under this brief.

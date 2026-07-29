@@ -13,9 +13,12 @@ This document supersedes **Jeopardish** as the public-facing title and treats ol
 
 `JEOPARDY` becomes `JEOPARODY` through one inserted O:
 
-`JEO + PAR + O + DY`
+`JE + O + PAR + O + DY`
 
-The new O is the whole thesis. It is a visual interruption that turns respectable game-show authority into parody. The surrounding letters remain stable enough to build recognition; the O changes costumes.
+The added O between `R` and `D` is the one-letter pun that turns respectable game-show
+authority into parody. The visual costume system belongs to the original O in `JEO`, so
+the displayed lockup is `JE + [changing O] + PARODY`. The added O remains stable enough
+to keep the word **PARODY** immediately legible.
 
 ### O-of-the-Day System
 
@@ -28,7 +31,9 @@ Approved starting forms:
 - eclipse;
 - disco ball.
 
-Future forms can be tied to episodes, holidays, subject packs, story evidence, or earned player cosmetics. The silhouette must remain circular and the insertion point must never move.
+Future forms can be tied to episodes, holidays, subject packs, story evidence, or earned
+player cosmetics. The silhouette must remain circular and its position between `E` and `P`
+must never move.
 
 ## Host Front-Runner: Xander Trefleck
 

@@ -360,6 +360,21 @@ test('HTML entry points contain no duplicate ids', () => {
   }
 });
 
+test('brand marks put the interchangeable O in JEO while keeping PARODY intact', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(
+      html,
+      /brand-jeo">JE<\/span><span class="brand-o"[\s\S]*?<span class="brand-par">PAR<\/span><span class="brand-dy">ODY<\/span>/,
+      `${surface} does not render JE + interchangeable O + PARODY`,
+    );
+    assert.doesNotMatch(
+      html,
+      /brand-jeo">JEO<\/span><span class="brand-par">PAR<\/span><span class="brand-o"/,
+      `${surface} still inserts the changing O inside PARODY`,
+    );
+  }
+});
+
 test('static scene picker copy matches the four-pack runtime', () => {
   assert.match(landingHtml, /id="menuSceneIndex"[^>]*>01\/04</);
   assert.match(gameHtml, /id="menuSceneIndex"[^>]*>01\/04</);

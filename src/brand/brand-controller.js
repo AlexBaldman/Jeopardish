@@ -56,8 +56,8 @@
       this.document?.querySelectorAll?.('[data-brand-o], [data-brand-o-display]')?.forEach?.((element) => {
         element.dataset.oToken = token;
         if (element.hasAttribute?.('data-brand-o')) {
-          element.setAttribute?.('aria-label', `Parody O: ${token}. Activate to change it.`);
-          element.setAttribute?.('title', `The interchangeable O is currently ${token}. Activate to change it.`);
+          element.setAttribute?.('aria-label', `Jeo O: ${token}. Activate to change it.`);
+          element.setAttribute?.('title', `The O in Jeo is currently ${token}. Activate to change it.`);
         }
       });
     }
