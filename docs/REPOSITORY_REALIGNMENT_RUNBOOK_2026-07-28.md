@@ -1,7 +1,7 @@
 # JeoPARODY Repository Realignment Runbook
 
 **Prepared:** 2026-07-28  
-**Status:** Preflight complete; no migration operations approved  
+**Status:** Private preservation and restore drill complete; promotion not approved
 **Governs:** Preservation, canonical branch promotion, deployment continuity,
 and any future repository rename
 
@@ -11,8 +11,8 @@ Do not rename either repository now.
 
 The immediate problem is not the GitHub slug. It is that:
 
-- the strongest runtime is 13 commits ahead of its default and deployed branch;
-- three historical worktrees contain unpreserved changes;
+- the strongest runtime is ahead of its default and deployed branch;
+- three historical worktrees contain preserved but uncurated changes;
 - an older tracked integration test contains a live-shaped Gemini credential;
 - neither repository has branch protection or a ruleset;
 - both repositories publish separate GitHub Pages project sites;
@@ -59,8 +59,8 @@ provenance cost. It unanimously agreed on the first five phases below.
 | Default branch | `master` |
 | Deployed commit | `b9dc873` |
 | Candidate branch | `convergence/jeoparody-v3` |
-| Candidate commit | `29f507a` |
-| Divergence | 13 commits ahead, clean linear descendant |
+| Preservation baseline | `205d746` |
+| Divergence at preservation | 14 commits ahead, clean linear descendant |
 | Pages | `https://alexbaldman.github.io/Jeopardish/` |
 | Pages mode | GitHub Actions |
 | Open PRs | 7 historical PRs; none for convergence |
@@ -105,20 +105,25 @@ contains a hard-coded string matching the shape of a Gemini API key.
 The value must never be printed into logs, docs, patches, or chat. Treat it as
 compromised because the repository and its history are public.
 
+**Rotation status:** The repository owner confirmed on 2026-07-28 that the key
+was deleted at the provider. A replacement may be created later only through
+the server-side `HostDialogueGateway` contract in
+`HOST_AI_DIALOGUE_ROADMAP.md`; it must never be placed in browser code.
+
 ### Required actions
 
-1. Revoke or rotate the key in the owning Google AI Studio or Google Cloud
-   project.
-2. Confirm the old key can no longer authenticate.
-3. Replace the tracked test value with an environment-variable contract.
-4. Run a repository-wide secret scan across all refs and dirty files.
-5. Keep pre-sanitization bundles private and encrypted.
-6. Do not rewrite public history until complete verified backups exist and the
+1. Record the owner's provider-side deletion confirmation.
+2. Replace the tracked test value with an environment-variable contract during
+   curated donor preservation.
+3. Run a repository-wide secret scan across all refs and dirty files.
+4. Keep pre-sanitization bundles private with restrictive local permissions.
+5. Do not rewrite public history until complete verified backups exist and the
    consequences for existing clones are separately approved.
 
 ### Gate
 
-**STOP** until credential rotation is confirmed.
+**CLEARED FOR PRIVATE PRESERVATION.** Public archival branches remain blocked
+until the tracked test is sanitized and the all-ref secret scan is reviewed.
 
 ## Phase 1: Forensic Preservation
 
@@ -161,7 +166,9 @@ Git until rights, authorship, and runtime need are classified.
 
 ### Gate
 
-**STOP** unless every bundle and archive has two matching checksum records.
+**PASSED 2026-07-28.** Complete Git bundles, separate dirty-state captures,
+private permissions, manifests, and checksums are recorded in
+`REPOSITORY_PRESERVATION_REPORT_2026-07-28.md`.
 
 ## Phase 2: Restore Drill
 
@@ -176,8 +183,8 @@ Backups are not proven until restored.
 
 ### Gate
 
-**STOP** on any missing ref, checksum mismatch, patch failure, or unexplained
-status difference.
+**PASSED 2026-07-28.** Every captured worktree restored to the same HEAD and
+the exact same porcelain status. Independent checksum verification passed.
 
 ## Phase 3: Curated Preservation Branches
 
@@ -238,7 +245,7 @@ Do not rename `master` during this campaign.
 ## Phase 5: Promote And Deploy
 
 1. Open a PR from `convergence/jeoparody-v3` to `master`.
-2. Review the 13-commit, 89-file convergence delta.
+2. Review the complete convergence delta at the PR head.
 3. Run the complete GitHub PR gate.
 4. Preserve the individual convergence commits; do not squash them.
 5. Merge only after required checks pass.

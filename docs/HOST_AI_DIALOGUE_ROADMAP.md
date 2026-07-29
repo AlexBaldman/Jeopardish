@@ -60,6 +60,20 @@ GitHub Pages must never call a paid model with a shared API key. A future
 `HostDialogueGateway` should live behind a small server or worker and return the
 same performance-command shape.
 
+The first provider candidate may use Gemini's free tier, but "free" changes
+neither the trust boundary nor the failure policy:
+
+- the Gemini key exists only in server or worker secret storage;
+- no key enters browser JavaScript, HTML, query parameters, localStorage,
+  sessionStorage, logs, telemetry, screenshots, or generated artifacts;
+- local development reads an ignored environment variable through the gateway,
+  with a committed `.env.example` containing names but no values;
+- provider quotas, rate limits, model changes, and free-tier exhaustion trigger
+  the same deterministic local fallback as an outage;
+- the provider adapter is replaceable and has no scoring, answer, episode, or
+  canonical-clue authority;
+- key rotation and a repository-wide secret scan are release requirements.
+
 The gateway request may include:
 
 - pack ID and prompt version;
