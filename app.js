@@ -5,33 +5,6 @@ const FALLBACK_QUESTION_SOURCE = './questions/runtime-bank.json';
 const FETCH_TIMEOUT_MS = 30000;
 const MAX_MEDIA_PREFLIGHT_ATTEMPTS = 8;
 
-const jeopardyErrors = [
-  {
-    category: 'TECHNICAL DIFFICULTIES',
-    question: "This term describes what happens when your app can't load the local question database.",
-    answer: "What is 'a file reading error'?",
-    value: '$0',
-  },
-  {
-    category: 'OOOPS!',
-    question: "This famous line was uttered by every programmer ever when their code didn't work as expected.",
-    answer: "What is 'It works on my machine'?",
-    value: '$0',
-  },
-  {
-    category: 'MYSTERY OF CODING',
-    question: "It's the spooky thing that happens when your API call goes into the void and never returns.",
-    answer: "What is 'the ghost in the machine'?",
-    value: '$0',
-  },
-  {
-    category: 'SOFTWARE SNAFUS',
-    question: 'This phrase is often said when an application stops working right as you show it to someone.',
-    answer: "What is 'demo demon'?",
-    value: '$0',
-  },
-];
-
 const state = {
   bestStreak: 0,
 };
@@ -51,6 +24,7 @@ const inputControllerModule = globalThis.JeoPARODYInputController || null;
 const applicationCompositionModule = globalThis.JeoPARODYApplicationComposition || null;
 const hostPackModule = globalThis.JeoPARODYHostPack || null;
 const uiCatalogModule = globalThis.JeoPARODYUiCatalog || null;
+const emergencyEpisodeModule = globalThis.JeoPARODYEmergencyEpisode || null;
 
 if (!contracts || !rendererModule || !voiceModule || !roundKernelModule || !inputControllerModule || !applicationCompositionModule || !hostPackModule || !uiCatalogModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
@@ -304,18 +278,22 @@ async function openSavedReview() {
   });
 }
 
-function presentEpisodeLoaded({ sourceCount, fallback = false } = {}) {
+function presentEpisodeLoaded({ sourceCount, fallback = false, emergency = false } = {}) {
   const gameState = gameEngine.getState();
   state.bestStreak = Math.max(state.bestStreak, gameState.bestStreak || 0);
-  renderer.setStatus(fallback
-    ? `${getCopy().loadedClues(sourceCount || 0)} Authored broadcast unavailable; archive transmission active.`
-    : getCopy().loadedClues(sourceCount || 0));
+  renderer.setStatus(
+    emergency
+      ? `${getCopy().loadedClues(sourceCount || 0)} Question files are offline; reviewed emergency broadcast active.`
+      : fallback
+        ? `${getCopy().loadedClues(sourceCount || 0)} Authored broadcast unavailable; archive transmission active.`
+        : getCopy().loadedClues(sourceCount || 0),
+  );
   renderScoreboard();
 }
 
 function presentEpisodeError(error) {
   console.error('Error loading episode:', error);
-  renderer.displayErrorJoke(jeopardyErrors);
+  renderer.displayErrorMessage('Question transmission is unavailable. Reconnect the preview and request another clue.');
 }
 
 function getNewQuestion() {
@@ -590,6 +568,7 @@ function createCompositionOptions() {
     episodeOptions: {
       sourceUrl: QUESTION_SOURCE,
       fallbackSourceUrl: FALLBACK_QUESTION_SOURCE,
+      emergencySource: emergencyEpisodeModule?.EmergencyEpisode || null,
       timeoutMs: FETCH_TIMEOUT_MS,
       legacyEpisode: {
         id: 'season-zero-pilot',
@@ -614,7 +593,7 @@ function createCompositionOptions() {
         renderer.setStudyAvailable(roundKernel.canPause());
         narrateCurrentClue();
       },
-      onEmpty: () => renderer.displayErrorJoke(jeopardyErrors),
+      onEmpty: () => renderer.displayErrorMessage('No playable clues remain in this transmission. Request a new broadcast.'),
       onError: presentEpisodeError,
       onProgress: presentEpisodeProgress,
       onComplete: presentEpisodeComplete,

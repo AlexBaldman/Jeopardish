@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const { validateEpisodePack } = require('../src/content/episode-contract.js');
+const { EmergencyEpisode } = require('../src/content/emergency-episode.js');
 const episodeUrl = new URL('../questions/episodes/season-zero-001.json', import.meta.url);
 const episode = validateEpisodePack(
   JSON.parse(await readFile(episodeUrl, 'utf8')),
@@ -63,5 +64,22 @@ test('Season Zero local media ships from a resolvable production path', async ()
   assert.equal(localMedia.length, 1);
   await Promise.all(localMedia.map(({ url }) => (
     access(fileURLToPath(new URL(`../../${url.replace(/^\.\//, '')}`, episodeUrl)))
+  )));
+});
+
+test('embedded emergency broadcast contains only reviewed playable clues', () => {
+  const emergency = validateEpisodePack(EmergencyEpisode, {
+    requireReviewed: true,
+  });
+
+  assert.equal(emergency.id, 'season-zero-emergency-broadcast');
+  assert.equal(emergency.episodeLength, 3);
+  assert.equal(emergency.clues.length, 3);
+  assert.ok(emergency.clues.every((clue) => (
+    clue.explanation
+      && clue.sources.length > 0
+      && clue.learning.reinforcement?.prompt
+      && clue.learning.reinforcement?.promptPt
+      && clue.answer
   )));
 });

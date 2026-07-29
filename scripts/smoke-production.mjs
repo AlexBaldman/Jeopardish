@@ -172,6 +172,38 @@ async function auditRoute(browser, browserName, route) {
   return failures.map((failure) => `${browserName}/${route.id}: ${failure}`);
 }
 
+async function auditEmergencyBroadcast(browser, browserName) {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const failures = [];
+  page.on('pageerror', (error) => failures.push(`page error: ${error.message}`));
+  await page.route('**/questions/**', (route) => route.abort());
+
+  try {
+    await gotoWithRetry(page, new URL('game.html', base).href);
+    await page.waitForFunction(() => (
+      document.getElementById('gameContainer')?.dataset.gameMoment === 'clue'
+      && document.getElementById('gameContainer')?.dataset.roundPhase === 'answering'
+    ), null, { timeout: 15000 });
+
+    const category = await page.locator('#categoryBox').innerText();
+    const clue = await page.locator('#clueText').innerText();
+    if (!/signals you can touch/i.test(category) || !/raised-dot positions/i.test(clue)) {
+      failures.push('embedded emergency broadcast did not present its first reviewed clue');
+    }
+    if (/file reading error|works on my machine|ghost in the machine|demo demon/i.test(clue)) {
+      failures.push('technical placeholder appeared as playable clue content');
+    }
+    console.log(
+      `${browserName.padEnd(8)} ${'emergency'.padEnd(14)} `
+      + 'reviewed embedded clue available with question transport blocked',
+    );
+  } finally {
+    await page.close();
+  }
+
+  return failures.map((failure) => `${browserName}/emergency: ${failure}`);
+}
+
 await startServer();
 const failures = [];
 try {
@@ -183,6 +215,7 @@ try {
       for (const route of routes) {
         failures.push(...await auditRoute(browser, browserName, route));
       }
+      failures.push(...await auditEmergencyBroadcast(browser, browserName));
     } finally {
       await browser.close();
     }

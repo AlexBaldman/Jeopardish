@@ -36,7 +36,11 @@ function createHarness({
   source = createBank(),
   episodeLength = 2,
   failPrimary = false,
+  failFallback = false,
   fallbackSource = createBank(),
+  emergencySource = null,
+  pipelineGate = null,
+  onPipelineStart = null,
 } = {}) {
   const eventBus = new EventBus({ now: () => 'now' });
   const events = [];
@@ -58,6 +62,9 @@ function createHarness({
       if (failPrimary && url === './primary.json') {
         throw new Error('primary transport unavailable');
       }
+      if (failFallback && url === './fallback.json') {
+        throw new Error('fallback transport unavailable');
+      }
       return url === './fallback.json' ? fallbackSource : source;
     },
   };
@@ -65,6 +72,8 @@ function createHarness({
     cancelled: 0,
     async load(options) {
       calls.push(['pipeline']);
+      onPipelineStart?.();
+      if (pipelineGate) await pipelineGate;
       options.onLoading();
       const candidates = options.getCandidates(8);
       const selected = candidates[0];
@@ -105,6 +114,7 @@ function createHarness({
     learningLedger,
     sourceUrl: failPrimary ? './primary.json' : undefined,
     fallbackSourceUrl: failPrimary ? './fallback.json' : null,
+    emergencySource,
     legacyEpisode: {
       id: 'test-episode',
       title: 'The Test Broadcast',
@@ -178,6 +188,94 @@ test('EpisodeController falls back only when the primary source transport fails'
   )));
   const loaded = harness.calls.find(([name]) => name === 'episode-loaded')[1];
   assert.equal(loaded.fallback, true);
+  assert.equal(loaded.emergency, false);
+});
+
+test('EpisodeController uses reviewed embedded clues when both transports fail', async () => {
+  const emergencySource = {
+    schemaVersion: 1,
+    id: 'emergency-test',
+    title: 'Emergency Test',
+    locale: 'en',
+    kind: 'authored',
+    sequenceMode: 'authored-order',
+    contentRevision: 1,
+    reviewStatus: 'reviewed',
+    episodeLength: 1,
+    clues: [{
+      id: 'emergency-clue',
+      category: 'Resilience',
+      value: 200,
+      clue: 'This reviewed clue survives without a question-file request.',
+      answer: 'Emergency clue',
+      explanation: 'The clue is embedded as the final transport fallback.',
+      sources: [{ title: 'Example', url: 'https://example.com/' }],
+      learning: {
+        reinforcement: {
+          prompt: 'What survived?',
+          answer: 'The clue',
+          explanation: 'The embedded clue remained available.',
+          promptPt: 'O que sobreviveu?',
+          answerPt: 'A pista',
+          explanationPt: 'A pista incorporada continuou disponível.',
+        },
+      },
+    }],
+  };
+  const harness = createHarness({
+    failPrimary: true,
+    failFallback: true,
+    emergencySource,
+    episodeLength: 1,
+  });
+
+  const pack = await harness.controller.start();
+
+  assert.equal(pack.id, 'emergency-test');
+  assert.equal(pack.kind, 'authored');
+  assert.deepEqual(
+    harness.calls.filter(([name]) => name === 'source').map(([, url]) => url),
+    ['./primary.json', './fallback.json'],
+  );
+  const loaded = harness.calls.find(([name]) => name === 'episode-loaded')[1];
+  assert.equal(loaded.fallback, true);
+  assert.equal(loaded.emergency, true);
+  assert.equal(loaded.sourceUrl, 'embedded://season-zero-emergency');
+  assert.ok(harness.events.some((event) => (
+    event.type === GameEvents.EPISODE_FALLBACK_ACTIVATED
+      && event.payload.emergency === true
+  )));
+});
+
+test('EpisodeController coalesces activation and New Clue during startup', async () => {
+  let releasePipeline;
+  let markPipelineStarted;
+  const pipelineGate = new Promise((resolve) => {
+    releasePipeline = resolve;
+  });
+  const pipelineStarted = new Promise((resolve) => {
+    markPipelineStarted = resolve;
+  });
+  const harness = createHarness({
+    pipelineGate,
+    onPipelineStart: markPipelineStarted,
+  });
+
+  const activation = harness.controller.start();
+  await pipelineStarted;
+  const newClue = harness.controller.nextClue();
+  releasePipeline();
+  await Promise.all([activation, newClue]);
+
+  assert.equal(
+    harness.calls.filter(([name]) => name === 'pipeline').length,
+    1,
+  );
+  assert.equal(harness.sessionManager.session.results.length, 0);
+  assert.equal(
+    harness.controller.getCurrentContext().sourceClue.id,
+    harness.gameEngine.getActiveClue().id,
+  );
 });
 
 test('EpisodeController persists correctness separately from competitive credit', async () => {

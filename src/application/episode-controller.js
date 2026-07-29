@@ -70,6 +70,7 @@
       learningLedger,
       sourceUrl = DEFAULT_SOURCE_URL,
       fallbackSourceUrl = null,
+      emergencySource = null,
       legacyEpisode = DEFAULT_LEGACY_EPISODE,
       requireReviewedAuthored = true,
       timeoutMs = 30000,
@@ -117,6 +118,7 @@
       this.learningLedger = learningLedger;
       this.sourceUrl = sourceUrl;
       this.fallbackSourceUrl = fallbackSourceUrl;
+      this.emergencySource = emergencySource;
       this.legacyEpisode = { ...DEFAULT_LEGACY_EPISODE, ...legacyEpisode };
       this.requireReviewedAuthored = requireReviewedAuthored;
       this.timeoutMs = timeoutMs;
@@ -143,6 +145,7 @@
       this.completeVisible = false;
       this.started = false;
       this.startPromise = null;
+      this.cluePromise = null;
       this.loadAbortController = null;
       this.loadTimer = null;
       this.destroyed = false;
@@ -202,6 +205,7 @@
         resumed: sessionState.resumed,
         sourceCount: this.pack.clues.length,
         fallback: loaded.fallback,
+        emergency: loaded.emergency || false,
         sourceUrl: loaded.url,
       });
       this.onProgress(progress);
@@ -213,6 +217,7 @@
         sourceCount: this.pack.clues.length,
         resumed: sessionState.resumed,
         fallback: loaded.fallback,
+        emergency: loaded.emergency || false,
       });
       if (this.sessionManager.isComplete()) {
         this.showComplete();
@@ -230,27 +235,72 @@
           fallback: false,
         };
       } catch (error) {
-        if (!this.fallbackSourceUrl || error?.name === 'AbortError') throw error;
-        this.emit(GameEvents.EPISODE_FALLBACK_ACTIVATED, {
-          sourceUrl: this.sourceUrl,
-          fallbackSourceUrl: this.fallbackSourceUrl,
-          reason: error?.message || String(error),
-        });
-        return {
-          source: await this.dataLoader.loadEpisodeSource(this.fallbackSourceUrl, { signal }),
-          url: this.fallbackSourceUrl,
-          fallback: true,
-        };
+        if (error?.name === 'AbortError') throw error;
+        if (this.fallbackSourceUrl) {
+          this.emit(GameEvents.EPISODE_FALLBACK_ACTIVATED, {
+            sourceUrl: this.sourceUrl,
+            fallbackSourceUrl: this.fallbackSourceUrl,
+            reason: error?.message || String(error),
+          });
+          try {
+            return {
+              source: await this.dataLoader.loadEpisodeSource(this.fallbackSourceUrl, { signal }),
+              url: this.fallbackSourceUrl,
+              fallback: true,
+              emergency: false,
+            };
+          } catch (fallbackError) {
+            if (fallbackError?.name === 'AbortError' || !this.emergencySource) {
+              throw fallbackError;
+            }
+            this.emit(GameEvents.EPISODE_FALLBACK_ACTIVATED, {
+              sourceUrl: this.fallbackSourceUrl,
+              fallbackSourceUrl: 'embedded://season-zero-emergency',
+              reason: fallbackError?.message || String(fallbackError),
+              emergency: true,
+            });
+            return {
+              source: this.emergencySource,
+              url: 'embedded://season-zero-emergency',
+              fallback: true,
+              emergency: true,
+            };
+          }
+        }
+        if (this.emergencySource) {
+          this.emit(GameEvents.EPISODE_FALLBACK_ACTIVATED, {
+            sourceUrl: this.sourceUrl,
+            fallbackSourceUrl: 'embedded://season-zero-emergency',
+            reason: error?.message || String(error),
+            emergency: true,
+          });
+          return {
+            source: this.emergencySource,
+            url: 'embedded://season-zero-emergency',
+            fallback: true,
+            emergency: true,
+          };
+        }
+        throw error;
       }
     }
 
     async nextClue({ recordSkip = true } = {}) {
       if (this.destroyed) return null;
       if (this.isBlocked()) return null;
-      if (!this.started) return this.start();
+      if (!this.started || !this.pack) return this.start();
+      if (this.cluePromise) return this.cluePromise;
       if (this.completeVisible) return this.restart();
       if (this.sessionManager.isComplete()) return this.showComplete();
 
+      this.cluePromise = this.loadNextClue({ recordSkip })
+        .finally(() => {
+          this.cluePromise = null;
+        });
+      return this.cluePromise;
+    }
+
+    async loadNextClue({ recordSkip }) {
       if (recordSkip && this.currentSourceClue && !this.outcomeRecorded) {
         const progress = this.recordOutcome('skipped');
         if (progress?.complete) return this.showComplete();

@@ -206,12 +206,19 @@ test('both game shells load the episode contract and controller before compositi
       `${surface} does not load the session manager`);
     assert.match(html, /src="src\/content\/episode-contract\.js/,
       `${surface} does not load the episode contract`);
+    assert.match(html, /src="src\/content\/emergency-episode\.js/,
+      `${surface} does not load the emergency episode`);
     assert.match(html, /src="src\/application\/episode-controller\.js/,
       `${surface} does not load the episode controller`);
     assert.ok(
       html.indexOf('src/content/episode-contract.js')
+        < html.indexOf('src/content/emergency-episode.js'),
+      `${surface} must load the contract before the emergency episode`,
+    );
+    assert.ok(
+      html.indexOf('src/content/emergency-episode.js')
         < html.indexOf('src/application/episode-controller.js'),
-      `${surface} must load the contract before the episode controller`,
+      `${surface} must load the emergency episode before the episode controller`,
     );
     assert.ok(
       html.indexOf('src/application/episode-controller.js')
