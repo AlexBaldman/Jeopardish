@@ -3,6 +3,12 @@
 This ledger prevents vague instructions to “mine the old repo.” Every candidate
 must have provenance, a disposition, a target boundary, and acceptance evidence.
 
+The live, validated implementation queue is
+[`convergence/registry.json`](convergence/registry.json), governed by
+[`convergence/README.md`](convergence/README.md). This ledger remains the broad
+comparative record; the registry is the current control plane and permits only
+one active integration at a time.
+
 ## Dispositions
 
 - **Port:** behavior is strong and can enter the current architecture with modest adaptation.

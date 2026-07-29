@@ -15,6 +15,9 @@ The safety-reviewed, phased operational plan is
 [`docs/REPOSITORY_REALIGNMENT_RUNBOOK_2026-07-28.md`](docs/REPOSITORY_REALIGNMENT_RUNBOOK_2026-07-28.md).
 Its verified private-backup and restore-drill evidence is summarized in
 [`docs/REPOSITORY_PRESERVATION_REPORT_2026-07-28.md`](docs/REPOSITORY_PRESERVATION_REPORT_2026-07-28.md).
+The live, validated queue for incorporating donor behavior without creating
+competing systems is
+[`docs/convergence/README.md`](docs/convergence/README.md).
 Earlier plans remain useful historical design material, but these documents
 govern new product work.
 

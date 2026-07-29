@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-07-28",
+  "canonical": {
+    "product": "JeoPARODY",
+    "repository": "AlexBaldman/Jeopardish",
+    "branch": "convergence/jeoparody-v3",
+    "rule": "Improve the canonical runtime in place. Donor histories supply evidence, requirements, fixtures, and bounded behavior ports; they never supply a wholesale architecture."
+  },
+  "workflow": {
+    "states": [
+      "captured",
+      "evaluating",
+      "approved",
+      "implementing",
+      "blocked",
+      "verified",
+      "archived",
+      "rejected"
+    ],
+    "activeImplementationLimit": 1
+  },
+  "candidates": [
+    {
+      "id": "SEC-001",
+      "title": "Sanitize donor credential path and scan all preserved refs",
+      "kind": "security-gate",
+      "priority": "P0",
+      "status": "approved",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "1f97c4dc6ddda28df5d263cc8972c9220410facc",
+          "paths": [
+            "tests/integration/test-gemini-integration.js"
+          ]
+        }
+      ],
+      "canonicalOwner": "repository security boundary",
+      "targetPaths": [
+        "docs/REPOSITORY_REALIGNMENT_RUNBOOK_2026-07-28.md",
+        "docs/HOST_AI_DIALOGUE_ROADMAP.md"
+      ],
+      "dependencies": [],
+      "decision": "The provider credential was deleted, but tracked donor code and preserved history must be classified before any public archival branch or AI integration.",
+      "acceptance": [
+        "Tracked donor tests read credentials only from ignored environment configuration.",
+        "All refs and dirty files are scanned without printing credential values.",
+        "Findings and remediation decisions are recorded in a public-safe report.",
+        "Pre-sanitization preservation bundles remain private."
+      ],
+      "evidence": [],
+      "rightsRisk": "none",
+      "supersededAction": "Replace the tracked donor test credential literal with an environment-variable contract; retain pre-sanitization history only in private preservation.",
+      "nextAction": "Perform the value-safe scan and prepare a narrowly scoped donor sanitation patch without publishing donor history."
+    },
+    {
+      "id": "OPS-001",
+      "title": "Curate preserved donor work into reviewable evidence commits",
+      "kind": "preservation",
+      "priority": "P0",
+      "status": "captured",
+      "disposition": "archive",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "1f97c4dc6ddda28df5d263cc8972c9220410facc",
+          "paths": [
+            "src/init/",
+            "src/services/",
+            "src/components/pao/",
+            "src/styles/",
+            "docs/"
+          ]
+        },
+        {
+          "repositoryRole": "jeopardish-historical",
+          "revision": "a27b36696a899a5b776e0056cb5ee7dc96418f31",
+          "paths": [
+            "game-session.js",
+            "question-bank.js",
+            "scripts/shard-questions.mjs",
+            "tests/",
+            "docs/"
+          ]
+        }
+      ],
+      "canonicalOwner": "repository preservation",
+      "targetPaths": [
+        "docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md"
+      ],
+      "dependencies": [
+        "SEC-001"
+      ],
+      "decision": "Preservation is complete, but review requires small thematic commits and asset classifications rather than giant dirty snapshots.",
+      "acceptance": [
+        "Security, runtime, content, styling, PAO, documentation, and asset work are separated.",
+        "Generated output and likeness-dependent assets are classified before publication.",
+        "No curated commit changes the canonical runtime.",
+        "Every retained behavior points to a registry candidate or an archival rationale."
+      ],
+      "evidence": [
+        "docs/REPOSITORY_PRESERVATION_REPORT_2026-07-28.md"
+      ],
+      "rightsRisk": "mixed donor assets require classification",
+      "supersededAction": "Freeze dirty donor worktrees as historical sources after their curated evidence commits are verified; do not develop features in them.",
+      "nextAction": "Begin only after SEC-001 is verified."
+    },
+    {
+      "id": "CORE-001",
+      "title": "Finish focused presentation ownership in the canonical runtime",
+      "kind": "canonical-refactor",
+      "priority": "P1",
+      "status": "evaluating",
+      "disposition": "port",
+      "source": [
+        {
+          "repositoryRole": "canonical-runtime",
+          "revision": "81f447a",
+          "paths": [
+            "app.js",
+            "src/render/renderer.js",
+            "src/presentation/",
+            "src/render/"
+          ]
+        }
+      ],
+      "canonicalOwner": "ApplicationComposition and focused presenters/views",
+      "targetPaths": [
+        "src/render/",
+        "src/presentation/",
+        "app.js"
+      ],
+      "dependencies": [],
+      "decision": "Reducing the remaining coordinator surface lowers the cost and ambiguity of every later mode or visual system.",
+      "acceptance": [
+        "Extract only ownership demonstrated by the Season Zero journey.",
+        "No command bypasses RoundKernel or established domain owners.",
+        "Browser behavior and production journey evidence remain unchanged.",
+        "Each extraction adds a focused contract test."
+      ],
+      "evidence": [],
+      "rightsRisk": "none",
+      "supersededAction": "Remove each extracted presentation responsibility from app.js or the renderer facade in the same verified change.",
+      "nextAction": "Measure the current coordinator and select one bounded view or presenter extraction after the repository security gate."
+    },
+    {
+      "id": "ASSET-001",
+      "title": "Classify fonts, host art, audio, backgrounds, and generated visuals",
+      "kind": "asset-review",
+      "priority": "P1",
+      "status": "captured",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "1f97c4d",
+          "paths": [
+            "assets/",
+            "JeoPARODY-Infographic-01.png",
+            "JeoPARODY-Trebek-Character-Sheet-01.png"
+          ]
+        },
+        {
+          "repositoryRole": "canonical-runtime",
+          "revision": "81f447a",
+          "paths": [
+            "assets/",
+            "docs/HOST_ASSET_CATALOG_2026-07-13.md",
+            "docs/ASSET_AUDIT_2026-05-24.md"
+          ]
+        }
+      ],
+      "canonicalOwner": "rights-reviewed asset manifest",
+      "targetPaths": [
+        "assets/",
+        "docs/HOST_ASSET_CATALOG_2026-07-13.md"
+      ],
+      "dependencies": [
+        "OPS-001"
+      ],
+      "decision": "Visual quality cannot converge while placeholders, historical references, generated work, and shippable originals are mixed together.",
+      "acceptance": [
+        "Every production candidate records origin, rights status, intended use, dimensions, transparency, and derivative risk.",
+        "Reference-only likeness and audio assets are excluded from production manifests.",
+        "Duplicate and superseded assets receive an archive or deletion decision.",
+        "Canonical runtime references resolve to manifest-approved assets."
+      ],
+      "evidence": [],
+      "rightsRisk": "high",
+      "supersededAction": "Move rejected, duplicate, reference-only, and likeness-dependent assets out of production manifests; delete only after preservation evidence is confirmed.",
+      "nextAction": "Wait for curated asset inventories from OPS-001."
+    },
+    {
+      "id": "PAO-001",
+      "title": "Port PAO as an isolated unlockable easter egg",
+      "kind": "behavior-port",
+      "priority": "P2",
+      "status": "captured",
+      "disposition": "port",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "1f97c4d",
+          "paths": [
+            "src/components/pao/"
+          ]
+        }
+      ],
+      "canonicalOwner": "lazy isolated mode adapter",
+      "targetPaths": [
+        "src/pao/",
+        "tests/"
+      ],
+      "dependencies": [
+        "OPS-001",
+        "CORE-001"
+      ],
+      "decision": "Preserve the desired nostalgic secret while preventing PAO state, rendering, or content from competing with the canonical game loop.",
+      "acceptance": [
+        "PAO loads only after an explicit secret unlock.",
+        "Its storage namespace and lifecycle are isolated.",
+        "Editable content is rendered without unsafe HTML interpolation.",
+        "Entering and leaving PAO preserves the exact canonical session."
+      ],
+      "evidence": [],
+      "rightsRisk": "review PAO content and art",
+      "supersededAction": "Keep the donor component hierarchy archived after its behavior is represented by the isolated canonical mode.",
+      "nextAction": "Extract behavior requirements after donor curation; do not copy the donor component hierarchy."
+    },
+    {
+      "id": "FORMAT-001",
+      "title": "Reinterpret full-board play through canonical episode contracts",
+      "kind": "behavior-reinterpretation",
+      "priority": "P2",
+      "status": "captured",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "e71d0dc",
+          "paths": [
+            "src/services/FullboardGameService.js"
+          ]
+        }
+      ],
+      "canonicalOwner": "EpisodeController plus RoundKernel format adapter",
+      "targetPaths": [
+        "src/content/",
+        "src/application/",
+        "src/core/"
+      ],
+      "dependencies": [
+        "CORE-001"
+      ],
+      "decision": "The board prototype contains useful selection rules, but its competing runtime ownership must not enter the canonical application.",
+      "acceptance": [
+        "Board selection produces canonical episode clues rather than a parallel game state.",
+        "Reveal, answer, score, Study, media, translation, and resume use existing owners.",
+        "No incomplete mode is exposed as production-ready.",
+        "A complete board journey passes against the built artifact."
+      ],
+      "evidence": [],
+      "rightsRisk": "content provenance remains required",
+      "supersededAction": "Archive the donor FullboardGameService after required selection rules are covered by canonical format-contract evidence.",
+      "nextAction": "Write a format contract after CORE-001 reduces presentation coupling."
+    },
+    {
+      "id": "AI-001",
+      "title": "Introduce a provider-neutral HostDialogueGateway",
+      "kind": "behavior-reinterpretation",
+      "priority": "P2",
+      "status": "captured",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "1f97c4d",
+          "paths": [
+            "src/services/ai/",
+            "src/services/HostSystem.js"
+          ]
+        },
+        {
+          "repositoryRole": "canonical-runtime",
+          "revision": "81f447a",
+          "paths": [
+            "src/host/",
+            "docs/HOST_AI_DIALOGUE_ROADMAP.md"
+          ]
+        }
+      ],
+      "canonicalOwner": "server-side HostDialogueGateway plus deterministic HostPerformanceDirector fallback",
+      "targetPaths": [
+        "src/host/",
+        "docs/HOST_AI_DIALOGUE_ROADMAP.md"
+      ],
+      "dependencies": [
+        "SEC-001",
+        "CORE-001"
+      ],
+      "decision": "Gemini free tier may be an initial provider, but provider code, credentials, and generated dialogue cannot own canonical clues, scoring, or episode progression.",
+      "acceptance": [
+        "No provider credential enters browser-delivered code, storage, logs, telemetry, or artifacts.",
+        "Provider outage, quota exhaustion, and invalid output fall back deterministically.",
+        "Generated output conforms to a versioned performance-command schema.",
+        "Canonical clue, answer, scoring, and episode facts remain immutable."
+      ],
+      "evidence": [],
+      "rightsRisk": "generated-output policy required",
+      "supersededAction": "Archive browser-side provider orchestration and direct-DOM rewrite integrations; retain only provider-neutral requirements and safe fixtures.",
+      "nextAction": "Defer implementation until the security gate and presentation ownership work are verified."
+    },
+    {
+      "id": "CONTENT-001",
+      "title": "Mine historical sharding and validation work for missing fixtures",
+      "kind": "behavior-reinterpretation",
+      "priority": "P3",
+      "status": "captured",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "jeopardish-historical",
+          "revision": "a27b366",
+          "paths": [
+            "question-bank.js",
+            "scripts/shard-questions.mjs",
+            "tests/question-bank.test.mjs",
+            "questions/manifest.json"
+          ]
+        }
+      ],
+      "canonicalOwner": "build-time content pipeline and EpisodeContract",
+      "targetPaths": [
+        "scripts/build-runtime-questions.mjs",
+        "scripts/validate-questions.mjs",
+        "tests/runtime-question-bank.test.mjs"
+      ],
+      "dependencies": [
+        "OPS-001"
+      ],
+      "decision": "The canonical pipeline is already stronger; historical code should contribute only uncovered validation cases and reproducible fixtures.",
+      "acceptance": [
+        "Each imported fixture demonstrates a previously uncovered failure.",
+        "No second runtime question loader or shard format is introduced.",
+        "Archive content remains build-time research input rather than authored production truth."
+      ],
+      "evidence": [],
+      "rightsRisk": "archive provenance remains non-production",
+      "supersededAction": "Archive the historical loader and shard format after any genuinely missing fixtures are represented in canonical tests.",
+      "nextAction": "Compare test cases after historical work is curated."
+    }
+  ]
+}
