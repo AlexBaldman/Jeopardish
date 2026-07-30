@@ -109,7 +109,7 @@
 
     @container cabinet (max-width: 760px) {
         .game-container .game-header {
-            grid-template-columns: 44px minmax(0, 1fr) 44px;
+            grid-template-columns: minmax(90px, auto) minmax(0, 1fr) minmax(90px, auto);
             min-height: 62px;
             gap: 0.3rem;
             padding: 0.38rem 0.48rem;
@@ -135,17 +135,16 @@
             grid-column: 1;
             grid-row: 1;
             justify-self: start;
-            gap: 0;
+            gap: 0.25rem;
             padding-right: 0;
         }
 
         .game-container .header-controls .toggle-label,
-        .game-container .theme-toggle,
         .game-container .sound-toggle {
             display: none;
         }
 
-        .game-container .language-toggle {
+        .game-container :is(.theme-toggle, .language-toggle) {
             justify-content: center;
             width: 44px;
             padding: 0.2rem;

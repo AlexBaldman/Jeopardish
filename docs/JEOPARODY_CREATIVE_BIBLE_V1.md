@@ -4,7 +4,7 @@
 
 **Title:** JeoPARODY  
 **Provisional host:** Xander Trefleck  
-**Front-running visual direction:** Channel O  
+**Front-running visual direction:** The Interloper
 **Interactive comparison:** `creative-room.html`
 
 This document supersedes **Jeopardish** as the public-facing title and treats older Malex naming as development history. Xander remains provisional until the creative-room review is complete.
@@ -16,9 +16,9 @@ This document supersedes **Jeopardish** as the public-facing title and treats ol
 `JE + O + PAR + O + DY`
 
 The added O between `R` and `D` is the one-letter pun that turns respectable game-show
-authority into parody. The visual costume system belongs to the original O in `JEO`, so
-the displayed lockup is `JE + [changing O] + PARODY`. The added O remains stable enough
-to keep the word **PARODY** immediately legible.
+authority into parody. The familiar `JEOPARDY!` rhythm is the setup, so the original O
+in `JEO` remains ordinary. The visual costume system belongs exclusively to the inserted
+O after `R`: `JEOPAR + [changing O] + DY!`.
 
 ### O-of-the-Day System
 
@@ -32,8 +32,8 @@ Approved starting forms:
 - disco ball.
 
 Future forms can be tied to episodes, holidays, subject packs, story evidence, or earned
-player cosmetics. The silhouette must remain circular and its position between `E` and `P`
-must never move.
+player cosmetics. The silhouette must remain circular and its position between `R` and
+`D` must never move.
 
 ## Host Front-Runner: Xander Trefleck
 
@@ -121,7 +121,7 @@ Pixel art is structural, not a low-resolution filter. Modern lighting, compositi
 - Eyebrows capable of issuing rulings independently.
 - Tailored midnight jacket with an unauthorized magenta lining.
 - Small maple-leaf cuff link that changes sides between scenes.
-- Counterfeit trivia note, slim microphone, evidence envelope, and Channel O lapel pin.
+- Counterfeit trivia note, slim microphone, evidence envelope, and Intruder O lapel pin.
 - Sunglasses remain an occasional performance prop, not his permanent face.
 
 ### Expression Pack
@@ -165,7 +165,7 @@ An elegant, less derivative public alias whose credentials were printed at a pha
 ## Logo Production Rules
 
 - Always spell the title `JeoPARODY` in prose when mixed case is useful.
-- Visually emphasize `PAR` and the inserted `O`, without breaking whole-word readability.
+- Keep the inherited `JEOPARDY!` rhythm calm and emphasize only the inserted `O`.
 - Keep the O circular, animated sparingly, and clickable where interaction is appropriate.
 - Use a static O inside navigation links to avoid nested interactive controls.
 - Preserve a one-color version for small icons, print, and accessibility modes.
@@ -173,7 +173,7 @@ An elegant, less derivative public alias whose credentials were printed at a pha
 
 ## Next Art Deliverables
 
-1. Select Channel O, Counterfeit Crown, or Substitute Signal.
+1. Compare The Interloper, Undercover O, Impact O, and O of the Day.
 2. Lock the host name or choose an alternate.
 3. Produce an original turnaround sheet for Xander.
 4. Produce the ten-state expression pack.

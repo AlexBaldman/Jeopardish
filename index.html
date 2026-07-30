@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="styles/order.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/tokens.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/base.css?v=architecture-3" type="text/css">
-    <link rel="stylesheet" href="styles/brand.css?v=architecture-8" type="text/css">
+    <link rel="stylesheet" href="styles/brand.css?v=architecture-9" type="text/css">
     <link rel="stylesheet" href="styles/preferences.css?v=architecture-9" type="text/css">
     <link rel="stylesheet" href="style.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/game/cabinet.css?v=architecture-5" type="text/css">
     <link rel="stylesheet" href="styles/game/scene.css?v=architecture-4" type="text/css">
-    <link rel="stylesheet" href="styles/game/header.css?v=architecture-6" type="text/css">
+    <link rel="stylesheet" href="styles/game/header.css?v=architecture-8" type="text/css">
     <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/menu.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/game/host.css?v=architecture-5" type="text/css">
@@ -45,7 +45,7 @@
     <script defer src="src/presentation/ui-catalog.js?v=ui-catalog-2"></script>
     <script defer src="src/presentation/broadcast-presenter.js?v=broadcast-presenter-1"></script>
     <script defer src="src/presentation/cabinet-presenter.js?v=cabinet-presenter-1"></script>
-    <script defer src="src/brand/brand-controller.js?v=brand-5"></script>
+    <script defer src="src/brand/brand-controller.js?v=brand-6"></script>
     <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/voice/voice-controller.js?v=voice-1"></script>
@@ -71,7 +71,7 @@
 
     <header class="broadcast-nav" aria-label="Primary navigation">
         <a class="wordmark" href="#top" aria-label="JeoPARODY home">
-            <span class="brand-mark wordmark-main" data-brand-mark aria-label="JeoPARODY"><span class="brand-jeo">JE</span><span class="brand-o" data-brand-o-display data-o-token="portal"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-par">PAR</span><span class="brand-o-stable">O</span><span class="brand-dy">DY</span></span>
+            <span class="brand-mark wordmark-main" data-brand-mark aria-label="JeoPARODY"><span class="brand-base brand-base-before">JEOPAR</span><span class="brand-o" data-brand-o-display data-o-token="intruder"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-base brand-base-after">DY</span><span class="brand-bang" aria-hidden="true">!</span></span>
             <span class="wordmark-sub">THE FORBIDDEN BROADCAST</span>
         </a>
         <nav class="site-links" aria-label="Site sections">
@@ -83,11 +83,11 @@
             <a href="creative-room.html">Creative Room</a>
         </nav>
         <div class="nav-actions">
-            <button class="theme-toggle site-theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false">
+            <button class="theme-toggle site-theme-toggle" id="siteThemeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false" data-theme-toggle>
                 <span class="toggle-track" aria-hidden="true">
                     <span class="toggle-bulb"></span>
                 </span>
-                <span class="toggle-label" id="themeToggleLabel">Night</span>
+                <span class="toggle-label" id="siteThemeToggleLabel" data-theme-toggle-label>Night</span>
             </button>
             <a class="nav-launch" href="#play" data-launch-game>Enter Studio</a>
         </div>
@@ -370,10 +370,16 @@
                 <div class="scene-stage" id="sceneStage" aria-hidden="true"></div>
                 <header class="header game-header">
                     <div class="title-div">
-                        <div class="brand-mark game-mark" data-brand-mark aria-label="JeoPARODY"><span class="brand-jeo">JE</span><span class="brand-o" data-brand-o data-o-token="portal" role="button" tabindex="0"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-par">PAR</span><span class="brand-o-stable">O</span><span class="brand-dy">DY</span><span class="brand-bang" aria-hidden="true">!</span></div>
+                        <div class="brand-mark game-mark" data-brand-mark aria-label="JeoPARODY"><span class="brand-base brand-base-before">JEOPAR</span><span class="brand-o" data-brand-o-display data-o-token="intruder"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-base brand-base-after">DY</span><span class="brand-bang" aria-hidden="true">!</span></div>
                         <span class="brand-tagline" aria-hidden="true">Trivia got weird</span>
                     </div>
                     <div class="header-controls" aria-label="Game preferences">
+                        <button class="theme-toggle game-theme-toggle" id="gameThemeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false" data-help="Switch to day mode" data-theme-toggle>
+                            <span class="toggle-track" aria-hidden="true">
+                                <span class="toggle-bulb"></span>
+                            </span>
+                            <span class="toggle-label" id="gameThemeToggleLabel" data-theme-toggle-label>Night</span>
+                        </button>
                         <button class="language-toggle" id="languageToggle" type="button" aria-label="Language: English. Switch to Brazilian Portuguese" aria-pressed="false" data-help="Language: English. Switch to Brazilian Portuguese" title="Language: English. Switch to Brazilian Portuguese">
                             <span class="flag-stack" aria-hidden="true">
                                 <img class="flag flag-us" src="assets/ui/flag-us.svg" alt="">
@@ -560,7 +566,7 @@
     </main>
 
     <footer class="site-footer">
-        <p class="brand-mark wordmark-main" data-brand-mark aria-label="JeoPARODY"><span class="brand-jeo">JE</span><span class="brand-o" data-brand-o data-o-token="portal" role="button" tabindex="0"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-par">PAR</span><span class="brand-o-stable">O</span><span class="brand-dy">DY</span></p>
+        <p class="brand-mark wordmark-main" data-brand-mark aria-label="JeoPARODY"><span class="brand-base brand-base-before">JEOPAR</span><span class="brand-o" data-brand-o-display data-o-token="intruder"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-base brand-base-after">DY</span><span class="brand-bang" aria-hidden="true">!</span></p>
         <p>An original fictional comedy-learning broadcast universe. The host is fictional; the truth layer is not.</p>
         <a href="#top">Return to frequency</a>
     </footer>

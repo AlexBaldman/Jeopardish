@@ -2,17 +2,21 @@
   'use strict';
 
   const DIRECTIONS = {
-    'channel-o': {
-      label: 'CHANNEL O / XANDER TREFLECK',
-      rationale: 'The most ownable bridge between prestige trivia, parody, mystery, and the interchangeable O.',
+    interloper: {
+      label: 'THE INTERLOPER',
+      rationale: 'Preserve the iconic setup, then let one unmistakably foreign O create the entire joke.',
     },
-    counterfeit: {
-      label: 'COUNTERFEIT CROWN / M. ALEC TREBÈQUE',
-      rationale: 'The richest editorial-parody direction, with fake currency and forged authority carrying the joke.',
+    undercover: {
+      label: 'THE UNDERCOVER O',
+      rationale: 'The most restrained homage, but subtlety may hide the punchline at small sizes.',
     },
-    substitute: {
-      label: 'SUBSTITUTE SIGNAL / GORD TREBECKETT',
-      rationale: 'The warmest and strangest direction, built from public-access television and one heroic misunderstanding.',
+    impact: {
+      label: 'THE IMPACT O',
+      rationale: 'The strongest title-sequence gag, best reserved as motion behavior around a calmer static mark.',
+    },
+    daily: {
+      label: 'THE O OF THE DAY',
+      rationale: 'A powerful content system once one unmistakable default O has earned recognition.',
     },
   };
 

@@ -379,7 +379,7 @@ test('HTML entry points contain no duplicate ids', () => {
   }
 });
 
-test('brand marks put the interchangeable O in JEO while keeping PARODY intact', () => {
+test('brand marks keep JEOPARDY as the setup and insert the interchangeable O between R and D', () => {
   for (const [surface, html] of [
     ['index.html', landingHtml],
     ['game.html', gameHtml],
@@ -387,13 +387,13 @@ test('brand marks put the interchangeable O in JEO while keeping PARODY intact',
   ]) {
     assert.match(
       html,
-      /brand-jeo">JE<\/span><span class="brand-o"[\s\S]*?<span class="brand-par">PAR<\/span><span class="brand-o-stable">O<\/span><span class="brand-dy">DY<\/span>/,
-      `${surface} does not render JE + interchangeable O + PAR + fixed O + DY`,
+      /brand-base brand-base-before">JEOPAR<\/span><span class="brand-o"[\s\S]*?<span class="brand-base brand-base-after">DY<\/span>/,
+      `${surface} does not render JEOPAR + interchangeable O + DY`,
     );
     assert.doesNotMatch(
       html,
-      /brand-jeo">JEO<\/span><span class="brand-par">PAR<\/span><span class="brand-o"/,
-      `${surface} still inserts the changing O inside PARODY`,
+      /brand-jeo">JE<\/span><span class="brand-o"/,
+      `${surface} still mutates the original O inside JEO`,
     );
     assert.match(
       html,
@@ -401,7 +401,9 @@ test('brand marks put the interchangeable O in JEO while keeping PARODY intact',
       `${surface} does not use the compact Channel O mark`,
     );
   }
-  assert.match(brandStyles, /\.brand-o-stable/);
+  assert.match(brandStyles, /\.brand-base-before/);
+  assert.match(brandStyles, /data-o-token="intruder"/);
+  assert.doesNotMatch(brandStyles, /\.brand-o-stable/);
   assert.match(brandStyles, /\.brand-o \.brand-o-core/);
   assert.ok(
     runtimeEntries.includes('assets/brand/channel-o-mark.svg'),
@@ -414,18 +416,29 @@ test('game headers use explicit flag artwork and current architecture styles', (
     assert.match(html, /assets\/ui\/flag-us\.svg/, `${surface} is missing the US flag`);
     assert.match(html, /assets\/ui\/flag-br\.svg/, `${surface} is missing the Brazilian flag`);
     assert.match(html, /styles\/preferences\.css\?v=architecture-9/);
-    assert.match(html, /styles\/game\/header\.css\?v=architecture-6/);
+    assert.match(html, /styles\/game\/header\.css\?v=architecture-8/);
     assert.match(html, /styles\/tokens\.css\?v=architecture-4/);
     assert.match(html, /styles\/game\/cabinet\.css\?v=architecture-5/);
-    assert.match(html, /styles\/brand\.css\?v=architecture-8/);
+    assert.match(html, /styles\/brand\.css\?v=architecture-9/);
     assert.match(html, /styles\/game\/host\.css\?v=architecture-5/);
     assert.match(html, /styles\/game\/scoreboard\.css\?v=architecture-4/);
     assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-7/);
     assert.match(html, /styles\/game\/controls\.css\?v=architecture-7/);
     assert.match(html, /styles\/game\/study\.css\?v=architecture-4/);
   }
+  assert.equal(
+    Array.from(landingHtml.matchAll(/data-theme-toggle(?:\s|>)/g)).length,
+    2,
+    'landing must expose synchronized site and embedded-game theme controls',
+  );
+  assert.equal(
+    Array.from(gameHtml.matchAll(/data-theme-toggle(?:\s|>)/g)).length,
+    1,
+    'standalone game must expose its header theme control',
+  );
   assert.match(headerStyles, /\.title-div\s*\{[\s\S]*?grid-row:\s*1;/);
   assert.match(headerStyles, /\.header-controls\s*\{[\s\S]*?grid-row:\s*1;/);
+  assert.match(headerStyles, /:is\(\.theme-toggle,\s*\.language-toggle\)/);
   assert.match(preferenceStyles, /body\[data-language="pt-BR"\]\s+\.flag-br\s*\{[\s\S]*?opacity:\s*1;/);
   assert.match(preferenceStyles, /\.language-toggle\[data-help\]::after[\s\S]*display:\s*block/);
   assert.ok(runtimeEntries.includes('assets/ui'), 'production manifest must ship header flag artwork');

@@ -233,8 +233,18 @@
       this.dom.hostNextButton = this.document.getElementById('hostNextButton');
       this.dom.hostSkinLabel = this.document.getElementById('hostSkinLabel');
       this.dom.hostPackIndex = this.document.getElementById('hostPackIndex');
-      this.dom.themeToggle = this.document.getElementById('themeToggle');
-      this.dom.themeToggleLabel = this.document.getElementById('themeToggleLabel');
+      this.dom.themeToggle = this.document.getElementById('themeToggle')
+        || this.document.querySelector?.('[data-theme-toggle]')
+        || null;
+      this.dom.themeToggleLabel = this.document.getElementById('themeToggleLabel')
+        || this.document.querySelector?.('[data-theme-toggle-label]')
+        || null;
+      this.dom.themeToggles = Array.from(
+        this.document.querySelectorAll?.('[data-theme-toggle]') || [this.dom.themeToggle],
+      ).filter(Boolean);
+      this.dom.themeToggleLabels = Array.from(
+        this.document.querySelectorAll?.('[data-theme-toggle-label]') || [this.dom.themeToggleLabel],
+      ).filter(Boolean);
       this.dom.languageToggle = this.document.getElementById('languageToggle');
       this.dom.languageToggleLabel = this.document.getElementById('languageToggleLabel');
       this.dom.soundToggle = this.document.getElementById('soundToggle');
@@ -338,7 +348,7 @@
       this.dom.answerButton.addEventListener('click', onToggleAnswer);
       this.dom.questionButton.addEventListener('click', onNewQuestion);
       this.dom.checkButton.addEventListener('click', onCheckAnswer);
-      this.dom.themeToggle?.addEventListener('click', onToggleTheme);
+      this.dom.themeToggles.forEach((toggle) => toggle.addEventListener('click', onToggleTheme));
       this.dom.languageToggle?.addEventListener('click', onToggleLanguage);
       this.dom.soundToggle?.addEventListener('click', onToggleSound);
       this.dom.voiceButton?.addEventListener('click', () => onToggleVoice({ listen: true }));
@@ -471,15 +481,15 @@
       const isLight = theme === 'light';
       const isPortuguese = language === 'pt-BR';
 
-      if (this.dom.themeToggle) {
-        this.dom.themeToggle.setAttribute('aria-pressed', String(isLight));
-        this.dom.themeToggle.dataset.mode = theme;
-        this.dom.themeToggle.dataset.help = isLight ? 'Switch to night mode' : 'Switch to day mode';
-        this.dom.themeToggle.setAttribute('title', this.dom.themeToggle.dataset.help);
-      }
-      if (this.dom.themeToggleLabel) {
-        this.setText(this.dom.themeToggleLabel, isLight ? this.copy.themeDay : this.copy.themeNight);
-      }
+      this.dom.themeToggles.forEach((toggle) => {
+        toggle.setAttribute('aria-pressed', String(isLight));
+        toggle.dataset.mode = theme;
+        toggle.dataset.help = isLight ? 'Switch to night mode' : 'Switch to day mode';
+        toggle.setAttribute('title', toggle.dataset.help);
+      });
+      this.dom.themeToggleLabels.forEach((label) => {
+        this.setText(label, isLight ? this.copy.themeDay : this.copy.themeNight);
+      });
 
       if (this.dom.languageToggle) {
         const languageHelp = isPortuguese

@@ -1,10 +1,14 @@
 # JeoPARODY Brand Identity System v2
 
-**Status:** Recommended direction implemented as a responsive prototype  
+**Status:** Superseded by `BRAND_IDENTITY_EXPLORATION_V3.md`
 **Direction:** Channel O / The Unauthorized Letter  
 **Date:** 2026-07-30
 
-## Executive Decision
+> This version incorrectly assigned the costume system to the original O in `JEO`.
+> It remains as design-history context. The canonical exploration now preserves the
+> original wordmark setup and treats only the inserted O between R and D as mutable.
+
+## Former Executive Decision
 
 The JeoPARODY identity is not a rainbow wordmark with a novelty object dropped into it.
 It is a disciplined two-O system:

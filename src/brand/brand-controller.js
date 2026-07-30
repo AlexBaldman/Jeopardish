@@ -7,8 +7,9 @@
 }(typeof globalThis !== 'undefined' ? globalThis : this, function brandControllerFactory() {
   'use strict';
 
-  const O_TOKENS = Object.freeze(['portal', 'eye', 'donut', 'coin', 'eclipse', 'disco']);
+  const O_TOKENS = Object.freeze(['intruder', 'portal', 'eye', 'donut', 'coin', 'eclipse', 'disco']);
   const O_TOKEN_LABELS = Object.freeze({
+    intruder: 'unauthorized letter',
     portal: 'portal eye',
     eye: 'witness eye',
     donut: 'donut',
@@ -67,11 +68,11 @@
         if (element.hasAttribute?.('data-brand-o')) {
           element.setAttribute?.(
             'aria-label',
-            `Channel O is dressed as a ${tokenLabel}. Activate to change it.`,
+            `The inserted O is dressed as a ${tokenLabel}. Activate to change it.`,
           );
           element.setAttribute?.(
             'title',
-            `The first O in Jeo is the ${tokenLabel}. Activate to change the signal.`,
+            `The extra O between R and D is the ${tokenLabel}. Activate to change it.`,
           );
         }
       });

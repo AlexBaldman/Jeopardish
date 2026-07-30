@@ -1,7 +1,9 @@
 # JeoPARODY Brand and Scene Art Direction
 
-The logo system is now defined in `docs/BRAND_IDENTITY_SYSTEM_V2.md`. This document
-continues to own environmental art direction and scene-production rules.
+The current logo exploration is defined in
+`docs/BRAND_IDENTITY_EXPLORATION_V3.md`. `docs/BRAND_IDENTITY_SYSTEM_V2.md` is
+retained as superseded design history. This document continues to own environmental art
+direction and scene-production rules.
 
 ## Brand Thesis
 

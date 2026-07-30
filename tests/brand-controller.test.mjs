@@ -12,7 +12,9 @@ test('BrandController cycles and wraps interchangeable O tokens', () => {
   assert.equal(brand.cycle(), 'donut');
   assert.equal(brand.cycle(2), 'portal');
   assert.equal(brand.cycle(-1), 'eye');
+  assert.equal(O_TOKENS[0], 'intruder');
   assert.ok(O_TOKENS.includes('coin'));
+  assert.equal(O_TOKEN_LABELS.intruder, 'unauthorized letter');
   assert.equal(O_TOKEN_LABELS.coin, 'counterfeit coin');
 });
 

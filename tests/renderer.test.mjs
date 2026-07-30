@@ -551,6 +551,31 @@ test('Renderer applies localized static UI copy and toggle states', () => {
   assert.equal(documentRef.documentElement.getAttribute('lang'), 'pt-BR');
 });
 
+test('Renderer synchronizes multiple theme controls on composite pages', () => {
+  const documentRef = createFakeDocument();
+  const embeddedToggle = createFakeElement('gameThemeToggle');
+  const embeddedLabel = createFakeElement('gameThemeToggleLabel');
+  documentRef.querySelectorAll = (selector) => {
+    if (selector === '[data-theme-toggle]') {
+      return [documentRef.getElementById('themeToggle'), embeddedToggle];
+    }
+    if (selector === '[data-theme-toggle-label]') {
+      return [documentRef.getElementById('themeToggleLabel'), embeddedLabel];
+    }
+    return [];
+  };
+
+  const renderer = new Renderer({ documentRef, random: () => 0 });
+  renderer.bindDom();
+  renderer.setToggleStates({ theme: 'light', language: 'en' });
+
+  assert.equal(renderer.dom.themeToggles.length, 2);
+  assert.equal(documentRef.getElementById('themeToggle').getAttribute('aria-pressed'), 'true');
+  assert.equal(embeddedToggle.getAttribute('aria-pressed'), 'true');
+  assert.equal(documentRef.getElementById('themeToggleLabel').textContent, 'Day');
+  assert.equal(embeddedLabel.textContent, 'Day');
+});
+
 test('Renderer exposes round phase and audio state without a visible status panel', () => {
   const { renderer } = createRenderer();
 

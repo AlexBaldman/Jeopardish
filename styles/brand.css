@@ -1,84 +1,57 @@
 @layer components {
     .brand-mark {
-        --brand-prestige: #fff0b8;
-        --brand-parody: #ff5bbb;
-        --brand-illegal-o: #ffd84d;
+        --brand-classic-face: #edf2ff;
+        --brand-classic-edge: #4150db;
+        --brand-intruder-face: #ffe04f;
+        --brand-intruder-shadow: #ff3dc8;
         --brand-signal: #46efff;
         display: inline-flex;
         align-items: center;
         width: max-content;
         max-width: 100%;
-        color: var(--brand-prestige);
-        font-family: "Bangers", Impact, sans-serif;
-        font-style: italic;
-        font-weight: 900;
-        line-height: 0.78;
-        letter-spacing: -0.035em;
-        white-space: nowrap;
-        filter:
-            drop-shadow(0.045em 0.065em 0 #090a18)
-            drop-shadow(0 0.09em 0 #090a18);
-    }
-
-    .brand-mark .brand-jeo {
-        position: relative;
-        z-index: 2;
-        color: var(--brand-prestige);
-        font-family: "Bree Serif", Georgia, serif;
-        font-size: 0.92em;
+        color: var(--brand-classic-face);
+        font-family: "Roboto Condensed", "Arial Narrow", Impact, sans-serif;
+        font-size-adjust: 0.58;
         font-style: normal;
-        letter-spacing: -0.09em;
-        text-shadow:
-            0.025em 0.035em 0 #a76025,
-            -0.018em -0.018em 0 #fffbea;
+        font-weight: 900;
+        line-height: 0.76;
+        white-space: nowrap;
+        filter: drop-shadow(0 0.075em 0 #080914);
     }
 
-    :is(.brand-mark .brand-par, .brand-mark .brand-dy) {
+    .brand-mark .brand-base {
         position: relative;
         z-index: 1;
-        color: var(--brand-parody);
+        color: var(--brand-classic-face);
+        letter-spacing: -0.095em;
         text-shadow:
-            0.038em 0.045em 0 #552170,
-            -0.02em -0.02em 0 #fff7cf;
+            0.018em 0.025em 0 #ffffff,
+            0.045em 0.065em 0 var(--brand-classic-edge),
+            0.075em 0.095em 0 #111662;
+        transform: scaleX(0.84);
+        transform-origin: center;
     }
 
-    .brand-mark .brand-par {
-        margin-left: 0.015em;
+    .brand-mark .brand-base-before {
+        margin-right: -0.47em;
+        transform-origin: right center;
     }
 
-    .brand-mark .brand-o-stable {
-        position: relative;
-        z-index: 2;
-        display: inline-grid;
-        place-items: center;
-        width: 0.68em;
-        margin-inline: 0.012em 0.02em;
-        color: var(--brand-illegal-o);
-        letter-spacing: 0;
-        text-shadow:
-            0.038em 0.045em 0 #8a431d,
-            -0.02em -0.02em 0 #fff7cf,
-            0 0 0.2em rgba(255, 216, 77, 0.3);
-        transform: rotate(-2deg);
-    }
-
-    .brand-mark .brand-o-stable::after {
-        content: "";
-        position: absolute;
-        right: 0.01em;
-        bottom: -0.06em;
-        width: 0.16em;
-        height: 0.08em;
-        border-radius: 999px;
-        background: var(--brand-signal);
-        box-shadow: 0 0 0.12em var(--brand-signal);
-        transform: rotate(-24deg);
+    .brand-mark .brand-base-after {
+        margin-left: -0.15em;
+        transform-origin: left center;
     }
 
     .brand-mark .brand-bang {
-        margin-left: 0.04em;
-        color: var(--neon-cyan);
-        transform: rotate(5deg);
+        position: relative;
+        z-index: 1;
+        margin-left: -0.04em;
+        color: var(--brand-signal);
+        font-size: 0.94em;
+        text-shadow:
+            0.035em 0.055em 0 #1c2cb7,
+            0 0 0.16em rgba(70, 239, 255, 0.65);
+        transform: rotate(3deg);
     }
 
     .brand-o {
@@ -87,57 +60,77 @@
         display: inline-grid;
         flex: 0 0 auto;
         place-items: center;
-        width: 0.92em;
+        width: 0.76em;
         height: 0.92em;
-        margin: -0.085em 0.018em -0.055em -0.005em;
+        margin: -0.1em -0.035em -0.04em -0.17em;
         border-radius: 50%;
-        cursor: pointer;
+        cursor: default;
         vertical-align: middle;
+        transform: rotate(-5deg) scale(1.06);
+        transform-origin: center;
     }
 
     .brand-o::before {
         content: "";
         position: absolute;
-        inset: 3%;
-        border: 0.07em solid var(--ink);
-        border-radius: inherit;
-        background: conic-gradient(var(--neon-pink), var(--neon-yellow), var(--neon-cyan), #7c3dff, var(--neon-pink));
+        inset: 5% 2%;
+        border: 0.065em solid #080914;
+        border-radius: 48% 52% 46% 54%;
+        background: var(--brand-intruder-face);
         box-shadow:
-            0 0 0 0.032em rgba(255, 255, 255, 0.68),
-            0 0 0.24em rgba(255, 61, 200, 0.66);
-        animation: parody-o-acquire 780ms cubic-bezier(0.18, 0.86, 0.22, 1.1) both;
+            0.055em 0.065em 0 var(--brand-intruder-shadow),
+            inset -0.06em -0.06em 0 #e79a1f,
+            inset 0.04em 0.04em 0 rgba(255, 255, 255, 0.72);
+        animation: intruder-o-arrival 720ms cubic-bezier(0.2, 0.9, 0.24, 1.15) both;
         transition: transform 180ms ease, filter 180ms ease;
     }
 
     .brand-o::after {
         content: "";
         position: absolute;
-        inset: 31%;
-        border-radius: inherit;
-        background: var(--ink);
-        box-shadow: 0 0 0.08em rgba(255, 255, 255, 0.9);
+        inset: 28% 25%;
+        border: 0.04em solid #080914;
+        border-radius: 50%;
+        background: #20133b;
+        box-shadow: inset 0 0 0 0.035em rgba(255, 255, 255, 0.18);
     }
 
     .brand-o .brand-o-core {
         position: absolute;
         z-index: 2;
-        inset: 31%;
-        border: 0.045em solid #fff8d9;
+        inset: 32%;
+        border: 0.04em solid #fff8d9;
         border-radius: 50%;
         background:
             radial-gradient(circle at 38% 32%, #fff 0 8%, transparent 9%),
             radial-gradient(circle, #07101b 0 23%, var(--brand-signal) 25% 55%, #2f2477 57%);
         box-shadow:
-            0 0 0 0.045em #080914,
+            0 0 0 0.04em #080914,
             0 0 0.12em var(--brand-signal);
         pointer-events: none;
     }
 
+    .brand-o[data-o-token="intruder"] .brand-o-core {
+        display: none;
+    }
+
+    .brand-o[data-o-token="portal"]::before {
+        background: conic-gradient(#ff3dc8, #ffe04f, #46efff, #7c3dff, #ff3dc8);
+        box-shadow:
+            0 0 0 0.032em rgba(255, 255, 255, 0.68),
+            0.055em 0.065em 0 var(--brand-intruder-shadow),
+            0 0 0.24em rgba(255, 61, 200, 0.66);
+    }
+
+    .brand-o[data-o-token="eye"]::before {
+        background: #fff5cc;
+    }
+
     .brand-o[data-o-token="eye"]::after {
-        inset: 35% 25%;
+        inset: 35% 22%;
         border: 0.05em solid white;
-        background: var(--neon-cyan);
-        box-shadow: inset 0 0 0 0.08em var(--ink);
+        background: var(--brand-signal);
+        box-shadow: inset 0 0 0 0.08em #080914;
     }
 
     .brand-o[data-o-token="eye"] .brand-o-core {
@@ -149,10 +142,23 @@
 
     .brand-o[data-o-token="donut"]::before {
         background:
-            radial-gradient(circle at 30% 30%, var(--neon-cyan) 0 3%, transparent 4%),
-            radial-gradient(circle at 72% 62%, var(--neon-yellow) 0 3%, transparent 4%),
+            radial-gradient(circle at 30% 30%, #46efff 0 3%, transparent 4%),
+            radial-gradient(circle at 72% 62%, #ffe04f 0 3%, transparent 4%),
             radial-gradient(circle at 58% 20%, white 0 3%, transparent 4%),
             #ff83cc;
+    }
+
+    .brand-o[data-o-token="coin"]::before {
+        background: repeating-radial-gradient(circle, #ffef9a 0 8%, #b66d1f 9% 14%);
+    }
+
+    .brand-o[data-o-token="eclipse"]::before {
+        background: radial-gradient(circle at 65% 42%, #080914 0 48%, transparent 50%), #ffe04f;
+        box-shadow: 0.055em 0.065em 0 var(--brand-intruder-shadow), 0 0 0.3em #ffe04f;
+    }
+
+    .brand-o[data-o-token="disco"]::before {
+        background: conic-gradient(from 45deg, white, #46efff, white, #ff3dc8, white, #7c3dff, white);
     }
 
     .brand-o[data-o-token="donut"] .brand-o-core,
@@ -162,55 +168,35 @@
         display: none;
     }
 
-    .brand-o[data-o-token="coin"]::before {
-        background: repeating-radial-gradient(circle, #ffef9a 0 8%, #b66d1f 9% 14%);
+    .brand-o[data-brand-o] {
+        cursor: pointer;
     }
 
-    .brand-o[data-o-token="eclipse"]::before {
-        background: radial-gradient(circle at 65% 42%, var(--ink) 0 48%, transparent 50%), var(--neon-yellow);
-        box-shadow: 0 0 0.3em var(--neon-yellow);
-    }
-
-    .brand-o[data-o-token="disco"]::before {
-        background: conic-gradient(from 45deg, white, var(--neon-cyan), white, var(--neon-pink), white, #7c3dff, white);
-    }
-
-    .brand-o:focus-visible {
-        outline: 0.08em solid var(--neon-green);
+    .brand-o[data-brand-o]:focus-visible {
+        outline: 0.08em solid #7effa3;
         outline-offset: 0.08em;
     }
 
-    .brand-o:hover::before {
-        filter: brightness(1.16) saturate(1.1);
-        transform: rotate(8deg) scale(1.04);
+    .brand-o[data-brand-o]:hover::before {
+        filter: brightness(1.1) saturate(1.12);
+        transform: rotate(8deg) scale(1.05);
     }
 
-    body[data-theme="light"] :is(.brand-mark .brand-jeo, .brand-mark .brand-dy) {
-        color: #28163f;
+    body[data-theme="light"] .brand-mark {
+        --brand-classic-face: #3345cd;
+        --brand-classic-edge: #b8c7ff;
+        filter: drop-shadow(0 0.055em 0 #f8f3e5);
     }
 
-    body[data-theme="light"] .brand-mark .brand-par {
-        color: #9f176f;
+    body[data-theme="light"] .brand-mark .brand-base {
+        text-shadow:
+            -0.018em -0.018em 0 #f8fbff,
+            0.035em 0.05em 0 var(--brand-classic-edge),
+            0.055em 0.075em 0 #191f69;
     }
 
-    body[data-theme="light"] .brand-mark .brand-o-stable {
-        color: #bb681c;
-    }
-
-    .game-container .game-mark :is(.brand-jeo, .brand-par, .brand-o-stable, .brand-dy) {
-        -webkit-text-stroke: 0.018em #080914;
-    }
-
-    body[data-theme="light"] .game-container .game-mark .brand-jeo {
-        color: var(--vision-gold);
-    }
-
-    body[data-theme="light"] .game-container .game-mark :is(.brand-par, .brand-dy) {
-        color: #ff6fbd;
-    }
-
-    body[data-theme="light"] .game-container .game-mark .brand-o-stable {
-        color: var(--brand-illegal-o);
+    .game-container .game-mark :is(.brand-base, .brand-bang) {
+        -webkit-text-stroke: 0.012em #080914;
     }
 
     .game-container .brand-tagline {
@@ -224,21 +210,21 @@
         text-transform: uppercase;
     }
 
-    @keyframes parody-o-acquire {
+    @keyframes intruder-o-arrival {
         0% {
-            opacity: 0.35;
-            filter: brightness(1.7) saturate(0.2);
-            transform: rotate(-34deg) scale(0.72);
+            opacity: 0;
+            transform: translateY(-0.85em) rotate(-32deg) scale(0.72);
         }
-        62% {
+        64% {
             opacity: 1;
-            filter: brightness(1.2) saturate(1.2);
-            transform: rotate(7deg) scale(1.08);
+            transform: translateY(0.06em) rotate(8deg) scale(1.12);
+        }
+        82% {
+            transform: translateY(-0.025em) rotate(-3deg) scale(0.98);
         }
         100% {
             opacity: 1;
-            filter: brightness(1) saturate(1);
-            transform: rotate(0) scale(1);
+            transform: translateY(0) rotate(0) scale(1);
         }
     }
 }
