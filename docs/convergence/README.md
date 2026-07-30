@@ -64,6 +64,21 @@ The registry is ordered by leverage and dependency:
 Priority does not override dependencies. A visually exciting candidate stays
 captured until the systems it depends on are verified.
 
+## Verified Canonical Foundations
+
+`UI-001` establishes the visual ownership rule for future convergence work:
+
+- `styles/tokens.css` owns shared tactile and semantic primitives;
+- `styles/game/cabinet.css` owns stage geometry;
+- `styles/game/dialogue.css` owns clue hierarchy, skins, and attribution;
+- `styles/game/controls.css` owns the answer deck and primary action keycaps;
+- `styles/game/host.css` owns host presentation and host-selection controls.
+
+Historical Jeopardish and donor JeoPARODY styles remain reference material, not
+runtime layers. A useful donor behavior may enter through one of these owners
+only after it is named, tested, and verified across the deterministic light/dark
+viewport matrix. The project is converging in place; it is not starting over.
+
 ## Updating The Registry
 
 Use `TICKET_TEMPLATE.md` for investigation notes or implementation plans. Then

@@ -136,6 +136,8 @@
         .game-container .main-content {
             height: 100%;
             align-content: start;
+            padding-right: clamp(0.35rem, 1.8vw, 0.55rem);
+            padding-left: clamp(0.35rem, 1.8vw, 0.55rem);
         }
     }
 

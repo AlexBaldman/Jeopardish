@@ -52,6 +52,11 @@
         --jp-ease-recover: cubic-bezier(0.22, 0.72, 0.3, 1);
         --jp-header-height: 68px;
         --jp-hit-target: 44px;
+        --jp-keycap-travel: 6px;
+        --jp-keycap-base: #05060b;
+        --jp-keycap-ink: #f8fbff;
+        --jp-keycap-highlight: rgba(255, 255, 255, 0.24);
+        --jp-keycap-shadow: rgba(1, 3, 9, 0.62);
         color-scheme: dark;
     }
 

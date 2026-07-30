@@ -233,12 +233,15 @@
         margin-bottom: 1rem;
         padding: 0 0 0.12rem;
         border: 2px solid #080b14;
-        border-radius: 50%;
-        color: #dfeaff;
-        background: linear-gradient(180deg, #303849, #111621);
+        border-radius: 9px;
+        color: #0a101b;
+        background:
+            linear-gradient(145deg, rgba(255, 255, 255, 0.62), transparent 24%),
+            linear-gradient(155deg, var(--host-cycle-accent), color-mix(in srgb, var(--host-cycle-accent) 48%, #0a101b));
         box-shadow:
-            0 4px 0 #05060b,
-            inset 0 1px 0 rgba(255, 255, 255, 0.16);
+            0 5px 0 var(--jp-keycap-base),
+            0 7px 12px var(--jp-keycap-shadow),
+            inset 0 1px 0 var(--jp-keycap-highlight);
         cursor: pointer;
         font: 900 1.15rem/1 var(--utility-font);
         pointer-events: auto;
@@ -246,21 +249,22 @@
     }
 
     .game-container .host-cycle-prev {
-        color: #74efff;
+        --host-cycle-accent: #74efff;
     }
 
     .game-container .host-cycle-next {
-        color: #ff82d7;
+        --host-cycle-accent: #ff82d7;
     }
 
     .game-container .host-cycle:hover,
     .game-container .host-cycle:focus-visible {
         color: #0c111e;
-        background: var(--cabinet-gold);
+        filter: brightness(1.12) saturate(1.08);
         box-shadow:
-            0 5px 0 #05060b,
-            0 0 14px rgba(255, 216, 77, 0.46);
-        transform: translateY(-1px);
+            0 7px 0 var(--jp-keycap-base),
+            0 0 14px color-mix(in srgb, var(--host-cycle-accent) 52%, transparent),
+            inset 0 1px 0 var(--jp-keycap-highlight);
+        transform: translateY(-2px);
     }
 
     .game-container .host-cycle:active {

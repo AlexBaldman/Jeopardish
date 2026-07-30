@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-07-28",
+  "updated": "2026-07-30",
   "canonical": {
     "product": "JeoPARODY",
     "repository": "AlexBaldman/Jeopardish",
@@ -144,6 +144,58 @@
       "rightsRisk": "none",
       "supersededAction": "Remove each extracted presentation responsibility from app.js or the renderer facade in the same verified change.",
       "nextAction": "Measure the current coordinator and select one bounded view or presenter extraction after the repository security gate."
+    },
+    {
+      "id": "UI-001",
+      "title": "Converge dialogue and controls into canonical component owners",
+      "kind": "canonical-design-system",
+      "priority": "P1",
+      "status": "verified",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "canonical-runtime",
+          "revision": "b96d13e",
+          "paths": [
+            "styles/tokens.css",
+            "styles/game/cabinet.css",
+            "styles/game/dialogue.css",
+            "styles/game/controls.css",
+            "styles/game/host.css"
+          ]
+        },
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "e71d0dc",
+          "paths": [
+            "src/styles/"
+          ]
+        }
+      ],
+      "canonicalOwner": "semantic tokens plus one owned stylesheet per cabinet component",
+      "targetPaths": [
+        "styles/tokens.css",
+        "styles/game/cabinet.css",
+        "styles/game/dialogue.css",
+        "styles/game/controls.css",
+        "styles/game/host.css"
+      ],
+      "dependencies": [],
+      "decision": "Keep the canonical owned cascade, reject donor CSS wholesale, and carry useful arcade-control requirements through shared tactile tokens and deterministic responsive fixtures.",
+      "acceptance": [
+        "Dialogue uses available phone and tablet space without colliding with the host or control deck.",
+        "Primary, voice, host, and panel controls share tactile travel and focus behavior.",
+        "Light and dark visual fixtures cover the supported viewport matrix.",
+        "CSS ownership and duplicate-selector gates remain clean."
+      ],
+      "evidence": [
+        "tests/static-shell.test.mjs",
+        "screenshots/visual-fixtures/geometry.json",
+        "screenshots/visual-fixtures/manifest.json"
+      ],
+      "rightsRisk": "none",
+      "supersededAction": "Keep donor styling archived as visual research; do not reintroduce app-fixes.css, a legacy runtime sheet, or competing control and dialogue owners.",
+      "nextAction": "Iterate through the deterministic visual matrix and component owners; mine donor versions only for documented behaviors that the canonical fixtures do not cover."
     },
     {
       "id": "ASSET-001",

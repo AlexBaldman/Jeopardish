@@ -180,6 +180,9 @@ test('canonical cabinet components use layers and container-driven responsive ru
     'host selectors belong to host.css, not controls.css');
   assert.match(controlStyles, /CHANNEL O CONTROL DECK/);
   assert.match(controlStyles, /@container cabinet \(max-width: 700px\)/);
+  assert.match(tokens, /--jp-keycap-travel:\s*6px/);
+  assert.match(controlStyles, /translateY\(calc\(var\(--jp-keycap-travel\) - 1px\)\)/);
+  assert.match(controlStyles, /--control-face:\s*#087d9c/);
 });
 
 test('visual state lab exposes deterministic game fixtures', () => {
@@ -382,7 +385,11 @@ test('game headers use explicit flag artwork and current architecture styles', (
     assert.match(html, /assets\/ui\/flag-br\.svg/, `${surface} is missing the Brazilian flag`);
     assert.match(html, /styles\/preferences\.css\?v=architecture-8/);
     assert.match(html, /styles\/game\/header\.css\?v=architecture-5/);
-    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-5/);
+    assert.match(html, /styles\/tokens\.css\?v=architecture-4/);
+    assert.match(html, /styles\/game\/cabinet\.css\?v=architecture-5/);
+    assert.match(html, /styles\/game\/host\.css\?v=architecture-5/);
+    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-6/);
+    assert.match(html, /styles\/game\/controls\.css\?v=architecture-6/);
   }
   assert.match(headerStyles, /\.title-div\s*\{[\s\S]*?grid-row:\s*1;/);
   assert.match(headerStyles, /\.header-controls\s*\{[\s\S]*?grid-row:\s*1;/);
@@ -407,6 +414,11 @@ test('dialogue skins use direct values instead of banknote background art', () =
   assert.match(dialogueStyles, /Dialogue system v2/);
   assert.doesNotMatch(dialogueStyles, /background-image:\s*url\(["']?assets\/images\/banknotes/);
   assert.match(dialogueStyles, /--dialogue-tail-anchor:/);
+  assert.match(dialogueStyles, /min-height:\s*clamp\(345px, 45vh, 430px\)/);
+  assert.match(dialogueStyles, /\.dialogue-style-cycle:active\s*\{[\s\S]*?translateY\(2px\)/);
+  assert.match(dialogueStyles, /@media \(min-width: 761px\) and \(max-width: 900px\)/);
+  assert.match(dialogueStyles, /--dialogue-tail-length:\s*clamp\(128px, 15vh, 154px\)/);
+  assert.match(dialogueStyles, /height:\s*min\(315px, calc\(100svh - var\(--jp-header-height\) - var\(--footer-height\) - 1\.25rem\)\)/);
   assert.match(dialogueStyles, /clip-path:\s*polygon\(36% 0, 100% 0, 0 100%\)/);
   assert.match(dialogueStyles, /#questionBox\s*\{[\s\S]*?overflow-y:\s*auto;/);
   assert.match(

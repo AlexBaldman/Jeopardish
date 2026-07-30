@@ -337,18 +337,31 @@ body[data-theme="light"] :is(.category-original, .clue-original) {
 }
 
 .game-container .dialogue-style-cycle {
+    position: relative;
     width: 38px;
     min-height: 38px;
     padding: 0;
     border: 0;
+    border-bottom: 3px solid var(--jp-keycap-base);
     color: inherit;
-    background: transparent;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 30%),
+        rgba(8, 18, 48, 0.2);
+    box-shadow: inset 0 1px 0 var(--jp-keycap-highlight);
     font: 900 1.1rem/1 var(--utility-font);
     cursor: pointer;
+    transition: transform var(--jp-motion-instant) ease, background var(--jp-motion-instant) ease;
 }
 
 .dialogue-style-cycle:hover {
-    background: rgba(255, 216, 77, 0.34);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 34%),
+        rgba(255, 216, 77, 0.42);
+}
+
+.dialogue-style-cycle:active {
+    border-bottom-width: 1px;
+    transform: translateY(2px);
 }
 
 .dialogue-style-readout {
@@ -422,7 +435,7 @@ body .game-container .speech-bubble[data-dialogue-style] {
     --dialogue-tail-width: clamp(82px, 8cqw, 104px);
     --dialogue-tail-length: clamp(68px, 9vh, 88px);
     width: min(82%, 920px);
-    min-height: min(clamp(290px, 39vh, 370px), calc(100% - 1rem));
+    min-height: min(clamp(310px, 42vh, 430px), calc(100% - 1rem));
     margin: 0 auto;
     padding: clamp(3rem, 5.5vh, 3.55rem) clamp(1.5rem, 4.5vw, 3.8rem) clamp(1.4rem, 3vh, 2rem);
     overflow: visible;
@@ -701,9 +714,10 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .dialogue-s
     body .game-container .speech-bubble[data-dialogue-style] {
         --dialogue-tail-anchor: 15%;
         --dialogue-tail-width: clamp(76px, 13cqw, 96px);
-        --dialogue-tail-length: clamp(100px, 13vh, 132px);
-        width: calc(100% - 0.8rem);
-        min-height: clamp(260px, 40vh, 330px);
+        --dialogue-tail-length: clamp(88px, 11.5vh, 116px);
+        width: calc(100% - 0.28rem);
+        min-height: clamp(345px, 45vh, 430px);
+        max-height: calc(100% - 0.35rem);
         padding: 3rem 1rem 1.1rem;
         overflow: visible;
     }
@@ -759,8 +773,22 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .dialogue-s
     }
 }
 
+@media (min-width: 761px) and (max-width: 900px) {
+    body .game-container .speech-bubble[data-dialogue-style] {
+        --dialogue-tail-length: clamp(128px, 15vh, 154px);
+        width: min(90%, 760px);
+        min-height: clamp(390px, 42vh, 430px);
+    }
+}
+
 @media (max-height: 620px) {
     @container cabinet (max-width: 420px) {
+        body .game-container .speech-bubble[data-dialogue-style] {
+            height: min(315px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
+            min-height: min(315px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
+            max-height: min(315px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
+        }
+
         body .game-container .speech-bubble[data-dialogue-style]::after {
             display: none;
         }
@@ -812,9 +840,9 @@ body .game-container[data-game-moment="error"] #answerBox:not(:empty) {
 
 @media (max-width: 760px) {
     .game-container .speech-bubble {
-        width: calc(100% - 0.4rem);
-        min-height: clamp(255px, 42vh, 330px);
-        max-height: calc(100% - 0.5rem);
+        width: calc(100% - 0.28rem);
+        min-height: clamp(345px, 45vh, 430px);
+        max-height: calc(100% - 0.35rem);
         margin: 0 auto;
     }
 

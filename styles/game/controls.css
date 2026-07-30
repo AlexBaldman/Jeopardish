@@ -1,7 +1,7 @@
 @layer components {
     .game-container .control-footer {
         --deck-ink: #070912;
-        --deck-face: #1b202c;
+        --deck-face: #252b39;
         position: relative;
         z-index: 40;
         display: grid;
@@ -14,8 +14,12 @@
         background:
             radial-gradient(circle at 13px 13px, #8a94a4 0 2px, #0b0d14 3px 5px, transparent 6px),
             radial-gradient(circle at calc(100% - 13px) 13px, #8a94a4 0 2px, #0b0d14 3px 5px, transparent 6px),
-            linear-gradient(180deg, #303643 0 7%, var(--deck-face) 8% 62%, #090c13 100%);
-        box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.14), inset 0 -5px 0 rgba(0, 0, 0, 0.42), 0 -7px 0 rgba(5, 7, 15, 0.24);
+            repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 8px),
+            linear-gradient(180deg, #3b4252 0 8%, var(--deck-face) 9% 66%, #0b0e16 100%);
+        box-shadow:
+            inset 0 3px 0 rgba(255, 255, 255, 0.16),
+            inset 0 -5px 0 rgba(0, 0, 0, 0.46),
+            0 -7px 0 rgba(5, 7, 15, 0.24);
     }
 
     body.game-only .control-footer {
@@ -99,12 +103,16 @@
         padding: 0.35rem;
         overflow: hidden;
         border: 3px solid #05070a;
-        border-radius: 10px 10px 14px 14px;
+        border-radius: 10px;
         color: #dfffe8;
         background:
             radial-gradient(circle at 50% 38%, rgba(126, 255, 163, 0.2), transparent 48%),
             linear-gradient(180deg, #183228, #09110e);
-        box-shadow: 0 5px 0 #05060b, inset 0 0 0 2px rgba(126, 255, 163, 0.12);
+        box-shadow:
+            0 var(--jp-keycap-travel) 0 var(--jp-keycap-base),
+            0 8px 15px var(--jp-keycap-shadow),
+            inset 0 2px 0 var(--jp-keycap-highlight),
+            inset 0 -3px 0 rgba(0, 0, 0, 0.3);
         cursor: pointer;
         transition: transform 110ms ease, box-shadow 110ms ease, filter 160ms ease;
     }
@@ -113,7 +121,17 @@
     .game-container .voice-button:focus-visible {
         filter: brightness(1.12);
         transform: translateY(-2px);
-        box-shadow: 0 7px 0 #05060b, 0 0 18px rgba(126, 255, 163, 0.36);
+        box-shadow:
+            0 calc(var(--jp-keycap-travel) + 2px) 0 var(--jp-keycap-base),
+            0 0 18px rgba(126, 255, 163, 0.36),
+            inset 0 2px 0 var(--jp-keycap-highlight);
+    }
+
+    .game-container .voice-button:active {
+        transform: translateY(calc(var(--jp-keycap-travel) - 1px));
+        box-shadow:
+            0 1px 0 var(--jp-keycap-base),
+            inset 0 3px 7px rgba(0, 0, 0, 0.35);
     }
 
     .game-container .voice-button:disabled {
@@ -181,8 +199,8 @@
 
     .game-container .cabinet-button {
         --control-accent: #5de9ff;
-        --control-face: #242c3a;
-        --control-edge: #111722;
+        --control-face: #176f87;
+        --control-edge: #083444;
         position: relative;
         isolation: isolate;
         display: grid;
@@ -194,16 +212,17 @@
         padding: 0.48rem 1.8rem 0.48rem 0.58rem;
         overflow: hidden;
         border: 3px solid #060811;
-        border-radius: 12px;
-        color: #f7fbff;
+        border-radius: 11px;
+        color: var(--jp-keycap-ink);
         background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 24%),
-            linear-gradient(165deg, var(--control-face), var(--control-edge));
+            linear-gradient(180deg, var(--jp-keycap-highlight), transparent 20%),
+            linear-gradient(155deg, var(--control-face) 0 58%, var(--control-edge) 100%);
         box-shadow:
-            0 5px 0 #05060b,
-            0 0 0 1px color-mix(in srgb, var(--control-accent) 52%, transparent),
-            inset 0 -4px 0 rgba(2, 5, 12, 0.42),
-            inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            0 var(--jp-keycap-travel) 0 var(--jp-keycap-base),
+            0 8px 15px var(--jp-keycap-shadow),
+            0 0 0 1px color-mix(in srgb, var(--control-accent) 78%, transparent),
+            inset 0 -4px 0 rgba(2, 5, 12, 0.38),
+            inset 0 2px 0 var(--jp-keycap-highlight);
         cursor: pointer;
         transition: transform 110ms ease, box-shadow 110ms ease, filter 160ms ease;
     }
@@ -213,25 +232,27 @@
         position: absolute;
         inset: 4px;
         z-index: -1;
-        border: 1px solid color-mix(in srgb, var(--control-accent) 36%, transparent);
-        border-radius: 8px;
+        border: 2px solid color-mix(in srgb, var(--control-accent) 62%, transparent);
+        border-radius: 7px;
         pointer-events: none;
     }
 
     .game-container .cabinet-button::after {
         content: "";
         position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 0.34rem;
-        background: var(--control-accent);
-        box-shadow: 2px 0 0 rgba(255, 255, 255, 0.4);
+        top: 4px;
+        right: 8px;
+        bottom: auto;
+        left: 8px;
+        height: 2px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--control-accent) 72%, white);
+        box-shadow: 0 1px 7px color-mix(in srgb, var(--control-accent) 46%, transparent);
     }
 
-    .game-container .clue-button { --control-accent: #38e9ff; --control-face: #22566c; --control-edge: #0c2030; }
-    .game-container .answer-button { --control-accent: #ff6fbd; --control-face: #713557; --control-edge: #2a1226; }
-    .game-container .lock-button { --control-accent: #ffd84d; --control-face: #765d20; --control-edge: #2b210b; }
+    .game-container .clue-button { --control-accent: #42efff; --control-face: #087d9c; --control-edge: #07394e; }
+    .game-container .answer-button { --control-accent: #ff7bc4; --control-face: #a22d70; --control-edge: #54183d; }
+    .game-container .lock-button { --control-accent: #ffe05d; --control-face: #aa801b; --control-edge: #594006; }
 
     .game-container .control-copy {
         display: grid;
@@ -241,8 +262,8 @@
     }
 
     .game-container .control-copy small {
-        color: color-mix(in srgb, var(--control-accent) 80%, white);
-        font: 700 0.34rem/1 var(--pixel-font);
+        color: color-mix(in srgb, var(--control-accent) 66%, white);
+        font: 700 0.36rem/1 var(--pixel-font);
         letter-spacing: 0.09em;
         text-transform: uppercase;
     }
@@ -253,10 +274,10 @@
         max-width: none;
         padding: 0;
         border: 0;
-        color: #f7fbff;
+        color: var(--jp-keycap-ink);
         background: transparent;
         box-shadow: none;
-        font: 900 clamp(0.8rem, 1.3cqw, 1.04rem)/1 var(--utility-font);
+        font: 900 clamp(0.84rem, 1.35cqw, 1.08rem)/0.96 var(--utility-font);
         letter-spacing: 0.015em;
         opacity: 1;
         text-align: left;
@@ -276,10 +297,16 @@
         min-width: 0;
         min-height: 0;
         border: 3px solid #080b14;
-        border-radius: 50%;
+        border-radius: 9px;
         color: #07101a;
-        background: radial-gradient(circle at 36% 28%, #fff 0 7%, var(--control-accent) 11% 58%, #182131 60% 67%, #080b14 69%);
-        box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.24), 0 0 12px color-mix(in srgb, var(--control-accent) 28%, transparent);
+        background:
+            linear-gradient(145deg, rgba(255, 255, 255, 0.72), transparent 22%),
+            linear-gradient(155deg, var(--control-accent), color-mix(in srgb, var(--control-accent) 48%, #07101a));
+        box-shadow:
+            0 3px 0 #05070d,
+            inset 0 -3px 0 rgba(0, 0, 0, 0.24),
+            inset 0 1px 0 rgba(255, 255, 255, 0.52),
+            0 0 12px color-mix(in srgb, var(--control-accent) 32%, transparent);
         text-shadow: none;
     }
 
@@ -355,15 +382,20 @@
 
     .game-container .cabinet-button:hover,
     .game-container .cabinet-button:focus-visible {
-        filter: brightness(1.04) saturate(1.06);
+        filter: brightness(1.1) saturate(1.08);
         transform: translateY(-2px);
-        box-shadow: 0 7px 0 #05060b, 0 0 18px color-mix(in srgb, var(--control-accent) 48%, transparent), inset 0 -4px 0 rgba(8, 11, 26, 0.14);
+        box-shadow:
+            0 calc(var(--jp-keycap-travel) + 2px) 0 var(--jp-keycap-base),
+            0 10px 17px var(--jp-keycap-shadow),
+            0 0 19px color-mix(in srgb, var(--control-accent) 52%, transparent),
+            inset 0 -4px 0 rgba(8, 11, 26, 0.14),
+            inset 0 2px 0 rgba(255, 255, 255, 0.3);
     }
 
     .game-container .cabinet-button:active {
         filter: brightness(0.98);
-        transform: translateY(4px);
-        box-shadow: 0 1px 0 #05060b, inset 0 3px 7px rgba(8, 11, 26, 0.24);
+        transform: translateY(calc(var(--jp-keycap-travel) - 1px));
+        box-shadow: 0 1px 0 var(--jp-keycap-base), inset 0 3px 8px rgba(8, 11, 26, 0.34);
     }
 
     .game-container .cabinet-button:disabled {
@@ -378,7 +410,12 @@
     }
 
     @keyframes control-ready {
-        to { box-shadow: 0 6px 0 #05060b, 0 0 20px rgba(56, 233, 255, 0.58), inset 0 -4px 0 rgba(8, 11, 26, 0.14); }
+        to {
+            box-shadow:
+                0 calc(var(--jp-keycap-travel) + 1px) 0 var(--jp-keycap-base),
+                0 0 22px rgba(56, 233, 255, 0.66),
+                inset 0 -4px 0 rgba(8, 11, 26, 0.14);
+        }
     }
 
     @keyframes voice-listening {
@@ -400,15 +437,15 @@
 
         .game-container .control-footer::before { display: none; }
         .game-container .input-div { grid-template-columns: minmax(0, 1fr) 52px minmax(112px, 0.38fr); }
-        .game-container :is(.answer-input, .cabinet-button, .voice-button) { min-height: 50px; }
+        .game-container :is(.answer-input, .cabinet-button, .voice-button) { min-height: 52px; }
         .game-container .answer-input { padding-top: 1.2rem; font-size: clamp(0.52rem, 2.6cqw, 0.7rem); }
         .game-container .answer-field-label { top: 0.37rem; font-size: 0.27rem; }
         .game-container .voice-state { display: none; }
         .game-container .voice-icon { transform: scale(0.82); }
-        .game-container .cabinet-button { grid-template-columns: 2.2rem minmax(0, 1fr); gap: 0.42rem; padding: 0.35rem 1.35rem 0.35rem 0.42rem; }
-        .game-container .cabinet-button .control-symbol { width: 2rem; height: 2rem; border-width: 2px; }
+        .game-container .cabinet-button { grid-template-columns: 2.3rem minmax(0, 1fr); gap: 0.44rem; padding: 0.35rem 1.35rem 0.35rem 0.42rem; }
+        .game-container .cabinet-button .control-symbol { width: 2.08rem; height: 2.08rem; border-width: 2px; border-radius: 7px; }
         .game-container .cabinet-button .clue-symbol { font-size: 1.45rem; }
-        .game-container .cabinet-button .button-tooltip { font-size: clamp(0.58rem, 3cqw, 0.72rem); }
+        .game-container .cabinet-button .button-tooltip { font-size: clamp(0.64rem, 3.2cqw, 0.78rem); }
         .game-container .control-copy small,
         .game-container .control-footer .key-hint { display: none; }
     }
@@ -417,7 +454,7 @@
         .game-container .input-div { grid-template-columns: minmax(0, 1fr) 46px 94px; }
         .game-container .cabinet-button { grid-template-columns: 1.8rem minmax(0, 1fr); padding-inline: 0.34rem; }
         .game-container .cabinet-button .control-symbol { width: 1.7rem; height: 1.7rem; }
-        .game-container .button-div .cabinet-button .button-tooltip { font-size: 0.55rem; }
+        .game-container .button-div .cabinet-button .button-tooltip { font-size: 0.59rem; }
     }
 }
 
