@@ -13,7 +13,11 @@ test('UI catalog exposes immutable bilingual control and narration copy', () => 
     'questionButton',
     'answerButton',
     'checkButton',
+    'askHost',
+    'askHostAboutClue',
     'hostPersonality',
+    'languageSwitchToPortuguese',
+    'languageSwitchToEnglish',
     'voiceClue',
     'voiceCorrect',
     'voiceIncorrect',
@@ -22,6 +26,8 @@ test('UI catalog exposes immutable bilingual control and narration copy', () => 
   ]) {
     assert.equal(typeof UiCopy.en[key], typeof UiCopy['pt-BR'][key], key);
   }
+  assert.equal(UiCopy.en.askHost, 'Ask Host');
+  assert.equal(UiCopy['pt-BR'].askHost, 'Pergunte ao Host');
   assert.equal(getUiCopy('unknown'), UiCopy.en);
 });
 

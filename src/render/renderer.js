@@ -52,19 +52,21 @@
     voiceDenied: 'Microphone blocked',
     voiceUnavailable: 'Voice unavailable',
     voiceError: 'Voice needs another try',
-    voiceHelp: 'Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask Xander.',
+    voiceHelp: 'Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask the host.',
     nextClueReady: 'NEXT CLUE READY',
     themeNight: 'Night',
     themeDay: 'Day',
     languageEnglish: 'English',
     languagePortuguese: 'Português',
+    languageSwitchToPortuguese: 'Language: English. Switch to Brazilian Portuguese',
+    languageSwitchToEnglish: 'Language: Portuguese. Switch to English',
     translatingClue: 'Translating the complete clue...',
     translationOnDevice: 'PT · ON DEVICE',
     translationNetwork: 'PT · MACHINE',
     translationCache: 'PT · CACHED',
     translationFallback: 'PT unavailable · English shown',
-    currentStreak: 'Current Streak',
-    bestStreak: 'Best Streak',
+    currentStreak: 'Streak',
+    bestStreak: 'Best',
     score: 'Score',
     episode: 'Episode',
     clueProgress: 'Clue',
@@ -93,7 +95,8 @@
     questionButtonKicker: 'Board',
     answerButtonKicker: 'Clue',
     hostPersonality: 'Host personality',
-    askHost: 'Ask Xander',
+    askHost: 'Ask Host',
+    askHostAboutClue: 'Ask Host about this clue',
     returnToClue: 'Return to clue',
     confidencePrompt: 'How did that one feel?',
     confidenceKnew: 'Knew it',
@@ -204,6 +207,7 @@
       this.dom.menuNewClue = this.document.getElementById('menuNewClue');
       this.dom.menuRevealAnswer = this.document.getElementById('menuRevealAnswer');
       this.dom.menuDeepDive = this.document.getElementById('menuDeepDive');
+      this.dom.menuDeepDiveLabel = this.document.getElementById('menuDeepDiveLabel');
       this.dom.menuTheme = this.document.getElementById('menuTheme');
       this.dom.menuLanguage = this.document.getElementById('menuLanguage');
       this.dom.menuSound = this.document.getElementById('menuSound');
@@ -248,9 +252,11 @@
       this.dom.mediaModalClose = this.document.getElementById('mediaModalClose');
       this.dom.mediaModalLink = this.document.getElementById('mediaModalLink');
       this.dom.deepDiveButton = this.document.getElementById('deepDiveButton');
+      this.dom.deepDiveLabel = this.document.getElementById('deepDiveLabel');
       this.dom.reviewQueueButton = this.document.getElementById('reviewQueueButton');
       this.dom.reviewQueueStatus = this.document.getElementById('reviewQueueStatus');
       this.dom.studyPanel = this.document.getElementById('studyPanel');
+      this.dom.studyTitle = this.document.getElementById('studyTitle');
       this.dom.studyClose = this.document.getElementById('studyClose');
       this.dom.studyResume = this.document.getElementById('studyResume');
       this.dom.studyCategory = this.document.getElementById('studyCategory');
@@ -421,6 +427,9 @@
       this.setText(this.dom.checkButtonKicker, this.copy.checkButtonKicker);
       this.setText(this.dom.questionButtonKicker, this.copy.questionButtonKicker);
       this.setText(this.dom.answerButtonKicker, this.copy.answerButtonKicker);
+      this.setText(this.dom.menuDeepDiveLabel, this.copy.askHost);
+      this.setText(this.dom.deepDiveLabel, this.copy.askHost);
+      this.setText(this.dom.studyTitle, this.copy.askHost);
       this.setText(this.dom.menuVoiceLabel, this.copy.voiceMode);
       this.setText(this.dom.menuHostPackKicker, this.copy.hostPersonality);
       this.setText(this.dom.voiceHelp, this.copy.voiceHelp);
@@ -429,6 +438,14 @@
       this.setText(this.dom.confidenceShaky, this.copy.confidenceShaky);
       this.setText(this.dom.confidenceLearned, this.copy.confidenceLearned);
       this.setText(this.dom.disputeButton, this.copy.disputeJudgment);
+      if (this.dom.deepDiveButton) {
+        this.dom.deepDiveButton.dataset.help = this.copy.askHost;
+        this.dom.deepDiveButton.setAttribute('title', this.copy.askHost);
+        this.dom.deepDiveButton.setAttribute('aria-label', this.copy.askHostAboutClue);
+      }
+      if (this.dom.menuDeepDive) {
+        this.dom.menuDeepDive.setAttribute('title', this.copy.askHost);
+      }
       this.dom.userInput.placeholder = this.copy.inputPlaceholder;
       this.dom.userInput.setAttribute?.('aria-label', this.copy.inputPlaceholder);
       this.document.documentElement?.setAttribute?.('lang', this.copy.lang);
@@ -465,12 +482,14 @@
       }
 
       if (this.dom.languageToggle) {
+        const languageHelp = isPortuguese
+          ? this.copy.languageSwitchToEnglish
+          : this.copy.languageSwitchToPortuguese;
         this.dom.languageToggle.setAttribute('aria-pressed', String(isPortuguese));
         this.dom.languageToggle.dataset.language = language;
-        this.dom.languageToggle.dataset.help = isPortuguese
-          ? 'Switch to English'
-          : 'Switch to Brazilian Portuguese';
-        this.dom.languageToggle.setAttribute('title', this.dom.languageToggle.dataset.help);
+        this.dom.languageToggle.dataset.help = languageHelp;
+        this.dom.languageToggle.setAttribute('title', languageHelp);
+        this.dom.languageToggle.setAttribute('aria-label', languageHelp);
       }
       if (this.dom.languageToggleLabel) {
         this.setText(

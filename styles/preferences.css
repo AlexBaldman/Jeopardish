@@ -145,6 +145,18 @@
             display: none;
         }
 
+        .game-container .language-toggle[data-help]::after {
+            display: block;
+            top: calc(100% + 0.45rem);
+            left: 0;
+            max-width: min(13rem, calc(100vw - 1rem));
+            transform: translateY(-0.25rem);
+        }
+
+        .game-container .language-toggle[data-help]:is(:hover, :focus-visible)::after {
+            transform: translateY(0);
+        }
+
         .sound-icon {
             width: 28px;
             height: 21px;

@@ -161,7 +161,10 @@
             "styles/game/cabinet.css",
             "styles/game/dialogue.css",
             "styles/game/controls.css",
-            "styles/game/host.css"
+            "styles/game/host.css",
+            "styles/game/scoreboard.css",
+            "styles/game/study.css",
+            "styles/preferences.css"
           ]
         },
         {
@@ -178,13 +181,18 @@
         "styles/game/cabinet.css",
         "styles/game/dialogue.css",
         "styles/game/controls.css",
-        "styles/game/host.css"
+        "styles/game/host.css",
+        "styles/game/scoreboard.css",
+        "styles/game/study.css",
+        "styles/preferences.css"
       ],
       "dependencies": [],
-      "decision": "Keep the canonical owned cascade, reject donor CSS wholesale, and carry useful arcade-control requirements through shared tactile tokens and deterministic responsive fixtures.",
+      "decision": "Keep the canonical owned cascade, reject donor CSS wholesale, and carry useful arcade-control requirements through shared tactile tokens, a readable arena scoreboard, paper dialogue variants, and deterministic responsive fixtures.",
       "acceptance": [
         "Dialogue uses available phone and tablet space without colliding with the host or control deck.",
         "Primary, voice, host, and panel controls share tactile travel and focus behavior.",
+        "Scoreboard digits remain readable, animate without decorative strike-throughs, and use compact localized labels.",
+        "Generic host-study and language-help copy remains localized and accessible at icon-only widths.",
         "Light and dark visual fixtures cover the supported viewport matrix.",
         "CSS ownership and duplicate-selector gates remain clean."
       ],

@@ -7,18 +7,24 @@
         align-items: center;
         gap: 0.45rem;
         padding: 0.55rem 0.8rem;
-        border: 2px solid var(--neon-cyan);
-        border-radius: 999px;
-        color: #fff8d9;
-        background: #24204b;
-        box-shadow: 3px 3px 0 var(--ink);
+        border: 3px solid #10131c;
+        border-radius: 8px;
+        color: #17131b;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.86), transparent 24%),
+            linear-gradient(155deg, #fff8df, #d9d3c5);
+        box-shadow:
+            0 5px 0 #16758a,
+            0 8px 0 #080a12,
+            inset 0 2px 0 rgba(255, 255, 255, 0.9);
         cursor: pointer;
         font: 700 0.78rem/1 var(--utility-font);
         letter-spacing: 0.05em;
         text-transform: uppercase;
+        transition: transform 120ms ease, box-shadow 120ms ease, filter 160ms ease;
     }
 
-    .game-container .deep-dive-trigger span {
+    .game-container .deep-dive-trigger .deep-dive-icon {
         display: grid;
         place-items: center;
         width: 1.35rem;
@@ -26,6 +32,29 @@
         border-radius: 50%;
         color: var(--ink);
         background: var(--neon-yellow);
+        box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.62), 0 2px 0 #17131b;
+    }
+
+    .game-container .deep-dive-trigger:hover,
+    .game-container .deep-dive-trigger:focus-visible {
+        filter: brightness(1.04);
+        transform: translateY(-2px);
+        box-shadow:
+            0 7px 0 #16758a,
+            0 10px 0 #080a12,
+            0 0 14px rgba(56, 233, 255, 0.38),
+            inset 0 2px 0 rgba(255, 255, 255, 0.94);
+    }
+
+    .game-container .deep-dive-trigger:active {
+        transform: translateY(4px);
+        box-shadow: 0 1px 0 #16758a, 0 3px 0 #080a12;
+    }
+
+    body[data-theme="light"] .game-container .deep-dive-trigger {
+        background:
+            linear-gradient(180deg, #fff, transparent 24%),
+            linear-gradient(155deg, #fff9e8, #e8d7bb);
     }
 
     .game-container .review-queue-trigger {
@@ -331,7 +360,23 @@
 
         .game-container .deep-dive-trigger {
             padding: 0.4rem;
-            font-size: 0;
+        }
+
+        .game-container .deep-dive-trigger .deep-dive-label {
+            display: none;
+        }
+
+        .game-container .deep-dive-trigger[data-help]::after {
+            display: block;
+            top: auto;
+            right: 0;
+            bottom: calc(100% + 0.65rem);
+            left: auto;
+            transform: translateY(0.25rem);
+        }
+
+        .game-container .deep-dive-trigger[data-help]:is(:hover, :focus-visible)::after {
+            transform: translateY(0);
         }
 
         .game-container .review-queue-trigger {

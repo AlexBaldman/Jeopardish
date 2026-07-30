@@ -618,17 +618,32 @@ body .game-container .speech-bubble[data-dialogue-style="speech"] .clue-value {
 }
 
 body .game-container .speech-bubble[data-dialogue-style="thought"] {
-    --dialogue-ink: #fff7df;
-    --dialogue-accent: #fff7df;
-    --dialogue-value: #65e6ef;
-    --dialogue-rule: rgba(255, 247, 223, 0.42);
+    --dialogue-ink: #17131b;
+    --dialogue-accent: #64296f;
+    --dialogue-value: #17653b;
+    --dialogue-rule: rgba(23, 19, 27, 0.34);
     --dialogue-outline: #050409;
+    --thought-fill: #f1efe5;
+    --thought-shadow: #36cbd9;
     background:
-        radial-gradient(circle at 36% 15%, rgba(255, 255, 255, 0.1), transparent 30%),
-        linear-gradient(155deg, #1a1823, #0d0c12 70%);
+        radial-gradient(circle at 36% 15%, rgba(255, 255, 255, 0.88), transparent 34%),
+        radial-gradient(circle, rgba(23, 19, 27, 0.055) 0 1px, transparent 1.3px) 0 0 / 8px 8px,
+        linear-gradient(155deg, #faf8ef, var(--thought-fill) 72%);
     border: 6px solid #050409;
     border-radius: 52px 44px 58px 47px / 43px 54px 46px 57px;
-    box-shadow: 9px 11px 0 #050409, 15px 17px 0 #36cbd9;
+    box-shadow: 9px 11px 0 #050409, 15px 17px 0 var(--thought-shadow);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="thought"] :is(.clue-category, .clue-text) {
+    text-shadow: none;
+}
+
+body .game-container .speech-bubble[data-dialogue-style="thought"] .clue-value {
+    background: rgba(226, 239, 216, 0.9);
+}
+
+body .game-container .speech-bubble[data-dialogue-style="thought"] .dialogue-style-picker {
+    background: rgba(250, 248, 239, 0.94);
 }
 
 body .game-container .speech-bubble[data-dialogue-style="thought"]::after {
@@ -638,22 +653,28 @@ body .game-container .speech-bubble[data-dialogue-style="thought"]::after {
     height: 28px;
     border: 4px solid #050409;
     border-radius: 50%;
-    background: #121018;
+    background: var(--thought-fill);
     box-shadow:
-        -25px 28px 0 -4px #121018,
+        -25px 28px 0 -4px var(--thought-fill),
         -25px 28px 0 0 #050409,
-        -47px 57px 0 -7px #121018,
+        -47px 57px 0 -7px var(--thought-fill),
         -47px 57px 0 -3px #050409,
-        -63px 85px 0 -10px #121018,
+        -63px 85px 0 -10px var(--thought-fill),
         -63px 85px 0 -6px #050409;
     filter: none;
     transform: none;
 }
 
 body[data-theme="light"] .game-container .speech-bubble[data-dialogue-style="thought"] {
-    --dialogue-ink: #fff9e9;
-    --dialogue-value: #8cf2df;
-    background: linear-gradient(155deg, #252343, #12152d 72%);
+    --dialogue-ink: #20151b;
+    --dialogue-accent: #a71955;
+    --dialogue-value: #17613a;
+    --thought-fill: #fff9e8;
+    --thought-shadow: #ed3d92;
+    background:
+        radial-gradient(circle at 36% 15%, #fff 0, transparent 35%),
+        radial-gradient(circle, rgba(92, 32, 56, 0.05) 0 1px, transparent 1.3px) 0 0 / 8px 8px,
+        linear-gradient(155deg, #fffef6, var(--thought-fill) 72%);
 }
 
 body .game-container .speech-bubble[data-dialogue-style="narration"] {
@@ -726,13 +747,13 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .dialogue-s
         left: 22%;
         bottom: -32px;
         box-shadow:
-            -23px 31px 0 -4px #121018,
+            -23px 31px 0 -4px var(--thought-fill),
             -23px 31px 0 0 #050409,
-            -41px 68px 0 -7px #121018,
+            -41px 68px 0 -7px var(--thought-fill),
             -41px 68px 0 -3px #050409,
-            -53px 108px 0 -10px #121018,
+            -53px 108px 0 -10px var(--thought-fill),
             -53px 108px 0 -6px #050409,
-            -59px 148px 0 -11px #121018,
+            -59px 148px 0 -11px var(--thought-fill),
             -59px 148px 0 -7px #050409;
     }
 

@@ -55,10 +55,13 @@ const cabinetContractIds = [
   'answerButtonKicker',
   'statusMessage',
   'deepDiveButton',
+  'deepDiveLabel',
   'menuDeepDive',
+  'menuDeepDiveLabel',
   'menuVoice',
   'menuVoiceState',
   'studyPanel',
+  'studyTitle',
   'studyActions',
   'studySources',
   'studyResponse',
@@ -111,6 +114,14 @@ test('open scoreboard removes covered dialogue controls from interaction', () =>
     scoreboardStyles,
     /\.score-drawer\.active ~ \.main-content \.dialogue-style-picker[\s\S]*visibility: hidden;[\s\S]*pointer-events: none;/,
   );
+});
+
+test('scoreboard uses readable LED bays without a line through its digits', () => {
+  assert.match(scoreboardStyles, /@keyframes scoreboard-digit-change/);
+  assert.match(scoreboardStyles, /font-variant-numeric:\s*tabular-nums/);
+  assert.match(scoreboardStyles, /white-space:\s*nowrap/);
+  assert.match(scoreboardStyles, /body\[data-theme="light"\] \.game-container \.score-drawer/);
+  assert.doesNotMatch(scoreboardStyles, /\.hud-readout strong::after/);
 });
 
 test('production smoke uses the canonical answer input id', () => {
@@ -182,7 +193,11 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(controlStyles, /@container cabinet \(max-width: 700px\)/);
   assert.match(tokens, /--jp-keycap-travel:\s*6px/);
   assert.match(controlStyles, /translateY\(calc\(var\(--jp-keycap-travel\) - 1px\)\)/);
-  assert.match(controlStyles, /--control-face:\s*#087d9c/);
+  assert.match(controlStyles, /--control-face:\s*#f5f1df/);
+  assert.match(controlStyles, /0 var\(--jp-keycap-travel\) 0 var\(--control-edge\)/);
+  assert.match(controlStyles, /\.control-symbol[\s\S]*border-radius:\s*50%/);
+  assert.match(dialogueStyles, /--thought-fill:\s*#f1efe5/);
+  assert.match(dialogueStyles, /body\[data-theme="light"\][\s\S]*--thought-fill:\s*#fff9e8/);
 });
 
 test('visual state lab exposes deterministic game fixtures', () => {
@@ -383,18 +398,34 @@ test('game headers use explicit flag artwork and current architecture styles', (
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     assert.match(html, /assets\/ui\/flag-us\.svg/, `${surface} is missing the US flag`);
     assert.match(html, /assets\/ui\/flag-br\.svg/, `${surface} is missing the Brazilian flag`);
-    assert.match(html, /styles\/preferences\.css\?v=architecture-8/);
+    assert.match(html, /styles\/preferences\.css\?v=architecture-9/);
     assert.match(html, /styles\/game\/header\.css\?v=architecture-5/);
     assert.match(html, /styles\/tokens\.css\?v=architecture-4/);
     assert.match(html, /styles\/game\/cabinet\.css\?v=architecture-5/);
     assert.match(html, /styles\/game\/host\.css\?v=architecture-5/);
-    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-6/);
-    assert.match(html, /styles\/game\/controls\.css\?v=architecture-6/);
+    assert.match(html, /styles\/game\/scoreboard\.css\?v=architecture-4/);
+    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-7/);
+    assert.match(html, /styles\/game\/controls\.css\?v=architecture-7/);
+    assert.match(html, /styles\/game\/study\.css\?v=architecture-4/);
   }
   assert.match(headerStyles, /\.title-div\s*\{[\s\S]*?grid-row:\s*1;/);
   assert.match(headerStyles, /\.header-controls\s*\{[\s\S]*?grid-row:\s*1;/);
   assert.match(preferenceStyles, /body\[data-language="pt-BR"\]\s+\.flag-br\s*\{[\s\S]*?opacity:\s*1;/);
+  assert.match(preferenceStyles, /\.language-toggle\[data-help\]::after[\s\S]*display:\s*block/);
   assert.ok(runtimeEntries.includes('assets/ui'), 'production manifest must ship header flag artwork');
+});
+
+test('host study entry uses localized generic copy in both game shells', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /id="menuDeepDiveLabel">Ask Host</, `${surface} menu uses stale host copy`);
+    assert.match(html, /id="deepDiveLabel">Ask Host</, `${surface} trigger uses stale host copy`);
+    assert.match(html, /id="studyTitle">Ask Host</, `${surface} study title uses stale host copy`);
+    assert.match(
+      html,
+      /id="languageToggle"[\s\S]*?data-help="Language: English\. Switch to Brazilian Portuguese"/,
+      `${surface} language toggle lacks descriptive hover help`,
+    );
+  }
 });
 
 test('static scene picker copy matches the four-pack runtime', () => {

@@ -111,6 +111,7 @@ function createFakeDocument() {
     'menuNewClue',
     'menuRevealAnswer',
     'menuDeepDive',
+    'menuDeepDiveLabel',
     'menuTheme',
     'menuLanguage',
     'menuSound',
@@ -155,9 +156,11 @@ function createFakeDocument() {
     'mediaModalClose',
     'mediaModalLink',
     'deepDiveButton',
+    'deepDiveLabel',
     'reviewQueueButton',
     'reviewQueueStatus',
     'studyPanel',
+    'studyTitle',
     'studyClose',
     'studyResume',
     'studyCategory',
@@ -216,7 +219,7 @@ test('Renderer renders scoreboard state', () => {
   assert.equal(renderer.dom.hudScore.textContent, '$1200');
   assert.equal(renderer.dom.hudStreak.textContent, 'x2');
   assert.equal(renderer.dom.hudBest.textContent, 'x5');
-  assert.equal(renderer.dom.hudBestLabel.textContent, 'Best Streak');
+  assert.equal(renderer.dom.hudBestLabel.textContent, 'Best');
   assert.equal(renderer.dom.gameContainer.dataset.gameMoment, undefined);
 });
 
@@ -505,8 +508,11 @@ test('Renderer applies localized static UI copy and toggle states', () => {
     checkButtonKicker: 'Confirmar',
     questionButtonKicker: 'Tabuleiro',
     answerButtonKicker: 'Pista',
+    askHost: 'Pergunte ao Host',
+    askHostAboutClue: 'Pergunte ao host sobre esta pista',
     themeDay: 'Dia',
     languagePortuguese: 'Português',
+    languageSwitchToEnglish: 'Idioma: português. Mudar para inglês',
     currentStreak: 'Sequência Atual',
     bestStreak: 'Melhor Sequência',
     score: 'Placar',
@@ -528,10 +534,18 @@ test('Renderer applies localized static UI copy and toggle states', () => {
   assert.equal(renderer.dom.checkButtonKicker.textContent, 'Confirmar');
   assert.equal(renderer.dom.questionButtonKicker.textContent, 'Tabuleiro');
   assert.equal(renderer.dom.answerButtonKicker.textContent, 'Pista');
+  assert.equal(renderer.dom.menuDeepDiveLabel.textContent, 'Pergunte ao Host');
+  assert.equal(renderer.dom.deepDiveLabel.textContent, 'Pergunte ao Host');
+  assert.equal(renderer.dom.studyTitle.textContent, 'Pergunte ao Host');
+  assert.equal(renderer.dom.deepDiveButton.dataset.help, 'Pergunte ao Host');
+  assert.equal(renderer.dom.deepDiveButton.getAttribute('title'), 'Pergunte ao Host');
+  assert.equal(renderer.dom.deepDiveButton.getAttribute('aria-label'), 'Pergunte ao host sobre esta pista');
   assert.equal(renderer.dom.themeToggleLabel.textContent, 'Dia');
   assert.equal(renderer.dom.languageToggleLabel.textContent, 'Português');
   assert.equal(renderer.dom.themeToggle.dataset.help, 'Switch to night mode');
-  assert.equal(renderer.dom.languageToggle.dataset.help, 'Switch to English');
+  assert.equal(renderer.dom.languageToggle.dataset.help, 'Idioma: português. Mudar para inglês');
+  assert.equal(renderer.dom.languageToggle.getAttribute('title'), 'Idioma: português. Mudar para inglês');
+  assert.equal(renderer.dom.languageToggle.getAttribute('aria-label'), 'Idioma: português. Mudar para inglês');
   assert.equal(renderer.dom.hudStreakLabel.textContent, 'Sequência Atual');
   assert.equal(renderer.dom.hudBestLabel.textContent, 'Melhor Sequência');
   assert.equal(documentRef.documentElement.getAttribute('lang'), 'pt-BR');

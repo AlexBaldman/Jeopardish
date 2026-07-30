@@ -10,17 +10,17 @@
     <link rel="stylesheet" href="styles/tokens.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/base.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/brand.css?v=architecture-7" type="text/css">
-    <link rel="stylesheet" href="styles/preferences.css?v=architecture-8" type="text/css">
+    <link rel="stylesheet" href="styles/preferences.css?v=architecture-9" type="text/css">
     <link rel="stylesheet" href="styles/game/cabinet.css?v=architecture-5" type="text/css">
     <link rel="stylesheet" href="styles/game/scene.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/header.css?v=architecture-5" type="text/css">
-    <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/menu.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/game/host.css?v=architecture-5" type="text/css">
-    <link rel="stylesheet" href="styles/game/dialogue.css?v=architecture-6" type="text/css">
+    <link rel="stylesheet" href="styles/game/dialogue.css?v=architecture-7" type="text/css">
     <link rel="stylesheet" href="styles/game/media.css?v=architecture-5" type="text/css">
-    <link rel="stylesheet" href="styles/game/controls.css?v=architecture-6" type="text/css">
-    <link rel="stylesheet" href="styles/game/study.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="styles/game/controls.css?v=architecture-7" type="text/css">
+    <link rel="stylesheet" href="styles/game/study.css?v=architecture-4" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bree+Serif&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -36,12 +36,12 @@
     <script defer src="src/render/outcome-view.js?v=outcome-view-1"></script>
     <script defer src="src/render/clue-view.js?v=clue-view-1"></script>
     <script defer src="src/render/study-view.js?v=study-view-1"></script>
-    <script defer src="src/render/renderer.js?v=dialogue-2"></script>
+    <script defer src="src/render/renderer.js?v=dialogue-3"></script>
     <script defer src="src/render/console-narrator.js?v=optimal-prime-1"></script>
     <script defer src="src/host/host-pack.js?v=host-performance-1"></script>
     <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
     <script defer src="src/host/host-performance-director.js?v=host-performance-1"></script>
-    <script defer src="src/presentation/ui-catalog.js?v=ui-catalog-1"></script>
+    <script defer src="src/presentation/ui-catalog.js?v=ui-catalog-2"></script>
     <script defer src="src/presentation/broadcast-presenter.js?v=broadcast-presenter-1"></script>
     <script defer src="src/presentation/cabinet-presenter.js?v=cabinet-presenter-1"></script>
     <script defer src="src/brand/brand-controller.js?v=brand-4"></script>
@@ -82,7 +82,7 @@
                         </span>
                         <span class="toggle-label" id="themeToggleLabel">Night</span>
                     </button>
-                    <button class="language-toggle" id="languageToggle" type="button" aria-label="Toggle English or Brazilian Portuguese" aria-pressed="false" data-help="Switch to Brazilian Portuguese">
+                    <button class="language-toggle" id="languageToggle" type="button" aria-label="Language: English. Switch to Brazilian Portuguese" aria-pressed="false" data-help="Language: English. Switch to Brazilian Portuguese" title="Language: English. Switch to Brazilian Portuguese">
                         <span class="flag-stack" aria-hidden="true">
                             <img class="flag flag-us" src="assets/ui/flag-us.svg" alt="">
                             <img class="flag flag-br" src="assets/ui/flag-br.svg" alt="">
@@ -100,7 +100,7 @@
             </header>
 
             <button class="score-drawer" id="scoreDrawer" type="button" aria-label="Show or pin live scoreboard" aria-live="polite" aria-pressed="false">
-                <span class="scoreboard-kicker" aria-hidden="true"><i></i> Channel O Live <i></i></span>
+                <span class="scoreboard-kicker" aria-hidden="true"><i></i> Channel O Arena Scoreboard <i></i></span>
                 <span class="quick-score">
                     <span class="hud-readout">
                         <span class="hud-label" id="hudScoreLabel">Score</span>
@@ -119,7 +119,7 @@
                         <strong id="hudEpisode">1/10</strong>
                     </span>
                 </span>
-                <span class="score-drawer-tab"><i aria-hidden="true"></i> Live stats <i aria-hidden="true"></i></span>
+                <span class="score-drawer-tab"><i aria-hidden="true"></i> Score <i aria-hidden="true"></i></span>
             </button>
 
             <nav class="nav-menu" id="navMenu" aria-label="Game menu" aria-hidden="true" inert>
@@ -131,7 +131,7 @@
                     <h2 id="menuRoundTitle">Round</h2>
                     <button id="menuNewClue" type="button"><span>New clue</span><kbd>Q</kbd></button>
                     <button id="menuRevealAnswer" type="button"><span>Reveal answer</span><kbd>A</kbd></button>
-                    <button id="menuDeepDive" type="button"><span>Ask Xander</span><kbd>D</kbd></button>
+                    <button id="menuDeepDive" type="button"><span id="menuDeepDiveLabel">Ask Host</span><kbd>D</kbd></button>
                 </section>
                 <section class="menu-section menu-action-grid" aria-labelledby="menuSettingsTitle">
                     <h2 id="menuSettingsTitle">Settings</h2>
@@ -187,7 +187,10 @@
                         </div>
                         <p class="visually-hidden" id="outcomeFeedbackStatus" aria-live="polite"></p>
                     </section>
-                    <button class="deep-dive-trigger" id="deepDiveButton" type="button"><span aria-hidden="true">?</span> Ask Xander</button>
+                    <button class="deep-dive-trigger" id="deepDiveButton" type="button" aria-label="Ask Host about this clue" data-help="Ask Host" title="Ask Host">
+                        <span class="deep-dive-icon" aria-hidden="true">?</span>
+                        <span class="deep-dive-label" id="deepDiveLabel">Ask Host</span>
+                    </button>
                     <button class="review-queue-trigger" id="reviewQueueButton" type="button" hidden>Review saved clues</button>
                     <p class="review-queue-status visually-hidden" id="reviewQueueStatus" aria-live="polite"></p>
                 </div>
@@ -204,7 +207,7 @@
 
             <aside class="study-panel" id="studyPanel" aria-hidden="true" hidden>
                 <header class="study-header">
-                    <div><small>Clue detour</small><h2>Ask Xander</h2></div>
+                    <div><small>Clue detour</small><h2 id="studyTitle">Ask Host</h2></div>
                     <button id="studyClose" type="button" aria-label="Close study detour">×</button>
                 </header>
                 <div class="study-scroll">
@@ -239,7 +242,7 @@
                         <span class="voice-icon" aria-hidden="true"></span>
                         <span class="voice-state" id="voiceState" aria-live="polite">Voice off</span>
                     </button>
-                    <span id="voiceHelp" class="visually-hidden">Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask Xander.</span>
+                    <span id="voiceHelp" class="visually-hidden">Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask the host.</span>
                     <button id="checkButton" class="cabinet-button lock-button" type="button" aria-label="Lock It In. Keyboard shortcut: Enter" data-tooltip="Lock It In" data-key="Enter" accesskey="l">
                         <span class="control-symbol lock-symbol" aria-hidden="true"><span class="lock-ring"></span><span class="lock-core">!</span></span>
                         <span class="control-copy"><small id="checkButtonKicker">Confirm</small><strong class="button-tooltip" aria-hidden="true">Lock It In</strong></span>

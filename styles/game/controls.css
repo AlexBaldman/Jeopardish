@@ -93,6 +93,7 @@
 
     .game-container .voice-button {
         --voice-accent: #7effa3;
+        --voice-edge: #207d48;
         position: relative;
         display: grid;
         place-items: center;
@@ -102,17 +103,18 @@
         min-height: 62px;
         padding: 0.35rem;
         overflow: hidden;
-        border: 3px solid #05070a;
-        border-radius: 10px;
-        color: #dfffe8;
+        border: 3px solid #090b13;
+        border-radius: 8px;
+        color: #14161b;
         background:
-            radial-gradient(circle at 50% 38%, rgba(126, 255, 163, 0.2), transparent 48%),
-            linear-gradient(180deg, #183228, #09110e);
+            linear-gradient(180deg, rgba(255, 255, 255, 0.84), transparent 23%),
+            linear-gradient(155deg, #f6f2df, #cbd1cb);
         box-shadow:
-            0 var(--jp-keycap-travel) 0 var(--jp-keycap-base),
-            0 8px 15px var(--jp-keycap-shadow),
-            inset 0 2px 0 var(--jp-keycap-highlight),
-            inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+            0 var(--jp-keycap-travel) 0 var(--voice-edge),
+            0 calc(var(--jp-keycap-travel) + 3px) 0 var(--jp-keycap-base),
+            0 11px 15px var(--jp-keycap-shadow),
+            inset 0 2px 0 rgba(255, 255, 255, 0.86),
+            inset 0 -3px 0 rgba(38, 46, 43, 0.22);
         cursor: pointer;
         transition: transform 110ms ease, box-shadow 110ms ease, filter 160ms ease;
     }
@@ -122,9 +124,10 @@
         filter: brightness(1.12);
         transform: translateY(-2px);
         box-shadow:
-            0 calc(var(--jp-keycap-travel) + 2px) 0 var(--jp-keycap-base),
+            0 calc(var(--jp-keycap-travel) + 2px) 0 var(--voice-edge),
+            0 calc(var(--jp-keycap-travel) + 5px) 0 var(--jp-keycap-base),
             0 0 18px rgba(126, 255, 163, 0.36),
-            inset 0 2px 0 var(--jp-keycap-highlight);
+            inset 0 2px 0 rgba(255, 255, 255, 0.9);
     }
 
     .game-container .voice-button:active {
@@ -144,10 +147,14 @@
         position: relative;
         width: 1rem;
         height: 1.35rem;
-        border: 2px solid #07100b;
+        border: 3px solid #07100b;
         border-radius: 0.6rem;
         background: var(--voice-accent);
-        box-shadow: 0 0 10px rgba(126, 255, 163, 0.38);
+        box-shadow:
+            inset 0 2px 0 rgba(255, 255, 255, 0.72),
+            inset 0 -3px 0 rgba(7, 16, 11, 0.22),
+            0 3px 0 #07100b,
+            0 0 10px rgba(126, 255, 163, 0.38);
     }
 
     .game-container .voice-icon::before {
@@ -176,6 +183,7 @@
     .game-container .voice-state {
         max-width: 100%;
         overflow: hidden;
+        color: #173422;
         font: 700 0.25rem/1.25 var(--pixel-font);
         letter-spacing: 0.02em;
         text-overflow: ellipsis;
@@ -185,22 +193,26 @@
 
     .game-container .voice-button[data-state="listening"] {
         --voice-accent: #ff6fbd;
+        --voice-edge: #8f235d;
         animation: voice-listening 0.82s ease-in-out infinite alternate;
     }
 
     .game-container .voice-button[data-state="speaking"] {
         --voice-accent: #38e9ff;
+        --voice-edge: #146a82;
     }
 
     .game-container .voice-button[data-state="denied"],
     .game-container .voice-button[data-state="error"] {
         --voice-accent: #ff8a63;
+        --voice-edge: #9a3d25;
     }
 
     .game-container .cabinet-button {
         --control-accent: #5de9ff;
-        --control-face: #176f87;
-        --control-edge: #083444;
+        --control-face: #f5f1df;
+        --control-face-bottom: #c8ced1;
+        --control-edge: #126d83;
         position: relative;
         isolation: isolate;
         display: grid;
@@ -211,18 +223,18 @@
         min-height: 62px;
         padding: 0.48rem 1.8rem 0.48rem 0.58rem;
         overflow: hidden;
-        border: 3px solid #060811;
-        border-radius: 11px;
-        color: var(--jp-keycap-ink);
+        border: 3px solid #080a12;
+        border-radius: 8px;
+        color: #14161c;
         background:
-            linear-gradient(180deg, var(--jp-keycap-highlight), transparent 20%),
-            linear-gradient(155deg, var(--control-face) 0 58%, var(--control-edge) 100%);
+            linear-gradient(180deg, rgba(255, 255, 255, 0.86), transparent 22%),
+            linear-gradient(155deg, var(--control-face) 0 58%, var(--control-face-bottom) 100%);
         box-shadow:
-            0 var(--jp-keycap-travel) 0 var(--jp-keycap-base),
-            0 8px 15px var(--jp-keycap-shadow),
-            0 0 0 1px color-mix(in srgb, var(--control-accent) 78%, transparent),
-            inset 0 -4px 0 rgba(2, 5, 12, 0.38),
-            inset 0 2px 0 var(--jp-keycap-highlight);
+            0 var(--jp-keycap-travel) 0 var(--control-edge),
+            0 calc(var(--jp-keycap-travel) + 3px) 0 var(--jp-keycap-base),
+            0 11px 16px var(--jp-keycap-shadow),
+            inset 0 -4px 0 rgba(48, 55, 61, 0.2),
+            inset 0 2px 0 rgba(255, 255, 255, 0.92);
         cursor: pointer;
         transition: transform 110ms ease, box-shadow 110ms ease, filter 160ms ease;
     }
@@ -232,8 +244,8 @@
         position: absolute;
         inset: 4px;
         z-index: -1;
-        border: 2px solid color-mix(in srgb, var(--control-accent) 62%, transparent);
-        border-radius: 7px;
+        border: 1px solid color-mix(in srgb, var(--control-edge) 42%, transparent);
+        border-radius: 5px;
         pointer-events: none;
     }
 
@@ -246,13 +258,28 @@
         left: 8px;
         height: 2px;
         border-radius: 999px;
-        background: color-mix(in srgb, var(--control-accent) 72%, white);
-        box-shadow: 0 1px 7px color-mix(in srgb, var(--control-accent) 46%, transparent);
+        background: color-mix(in srgb, var(--control-accent) 78%, white);
+        box-shadow: 0 1px 6px color-mix(in srgb, var(--control-accent) 38%, transparent);
     }
 
-    .game-container .clue-button { --control-accent: #42efff; --control-face: #087d9c; --control-edge: #07394e; }
-    .game-container .answer-button { --control-accent: #ff7bc4; --control-face: #a22d70; --control-edge: #54183d; }
-    .game-container .lock-button { --control-accent: #ffe05d; --control-face: #aa801b; --control-edge: #594006; }
+    .game-container .clue-button { --control-accent: #39def2; --control-edge: #0c7f98; }
+    .game-container .answer-button { --control-accent: #ff72bd; --control-edge: #9b2869; }
+    .game-container .lock-button {
+        --control-accent: #ffda45;
+        --control-face: #fff5c8;
+        --control-face-bottom: #d9c477;
+        --control-edge: #a8780b;
+    }
+
+    body[data-theme="light"] .game-container .cabinet-button {
+        --control-face: #fffaf0;
+        --control-face-bottom: #dcd7ce;
+    }
+
+    body[data-theme="light"] .game-container .lock-button {
+        --control-face: #fff7c9;
+        --control-face-bottom: #dfc86d;
+    }
 
     .game-container .control-copy {
         display: grid;
@@ -262,7 +289,7 @@
     }
 
     .game-container .control-copy small {
-        color: color-mix(in srgb, var(--control-accent) 66%, white);
+        color: color-mix(in srgb, var(--control-edge) 82%, #14161c);
         font: 700 0.36rem/1 var(--pixel-font);
         letter-spacing: 0.09em;
         text-transform: uppercase;
@@ -274,14 +301,14 @@
         max-width: none;
         padding: 0;
         border: 0;
-        color: var(--jp-keycap-ink);
+        color: #14161c;
         background: transparent;
         box-shadow: none;
         font: 900 clamp(0.84rem, 1.35cqw, 1.08rem)/0.96 var(--utility-font);
         letter-spacing: 0.015em;
         opacity: 1;
         text-align: left;
-        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.46);
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.64);
         text-transform: uppercase;
         transform: none;
         white-space: normal;
@@ -297,16 +324,16 @@
         min-width: 0;
         min-height: 0;
         border: 3px solid #080b14;
-        border-radius: 9px;
+        border-radius: 50%;
         color: #07101a;
         background:
-            linear-gradient(145deg, rgba(255, 255, 255, 0.72), transparent 22%),
-            linear-gradient(155deg, var(--control-accent), color-mix(in srgb, var(--control-accent) 48%, #07101a));
+            radial-gradient(circle at 36% 26%, #fff 0 8%, transparent 9%),
+            radial-gradient(circle at 50% 43%, var(--control-accent) 0 55%, color-mix(in srgb, var(--control-accent) 55%, #07101a) 58% 100%);
         box-shadow:
             0 3px 0 #05070d,
-            inset 0 -3px 0 rgba(0, 0, 0, 0.24),
-            inset 0 1px 0 rgba(255, 255, 255, 0.52),
-            0 0 12px color-mix(in srgb, var(--control-accent) 32%, transparent);
+            inset 0 -5px 0 rgba(0, 0, 0, 0.2),
+            inset 0 2px 0 rgba(255, 255, 255, 0.5),
+            0 0 10px color-mix(in srgb, var(--control-accent) 28%, transparent);
         text-shadow: none;
     }
 
@@ -373,29 +400,33 @@
         padding-inline: 0.22rem;
         border: 2px solid #080b14;
         border-radius: 4px;
-        color: #07101a;
-        background: var(--control-accent);
-        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.36);
+        color: #f8f2dd;
+        background: #191c24;
+        box-shadow: 0 2px 0 var(--control-edge);
         font: 700 0.26rem/1 var(--pixel-font);
         transform: none;
     }
 
     .game-container .cabinet-button:hover,
     .game-container .cabinet-button:focus-visible {
-        filter: brightness(1.1) saturate(1.08);
+        filter: brightness(1.04) saturate(1.04);
         transform: translateY(-2px);
         box-shadow:
-            0 calc(var(--jp-keycap-travel) + 2px) 0 var(--jp-keycap-base),
-            0 10px 17px var(--jp-keycap-shadow),
-            0 0 19px color-mix(in srgb, var(--control-accent) 52%, transparent),
-            inset 0 -4px 0 rgba(8, 11, 26, 0.14),
-            inset 0 2px 0 rgba(255, 255, 255, 0.3);
+            0 calc(var(--jp-keycap-travel) + 2px) 0 var(--control-edge),
+            0 calc(var(--jp-keycap-travel) + 5px) 0 var(--jp-keycap-base),
+            0 12px 18px var(--jp-keycap-shadow),
+            0 0 16px color-mix(in srgb, var(--control-accent) 38%, transparent),
+            inset 0 -4px 0 rgba(48, 55, 61, 0.18),
+            inset 0 2px 0 rgba(255, 255, 255, 0.94);
     }
 
     .game-container .cabinet-button:active {
         filter: brightness(0.98);
         transform: translateY(calc(var(--jp-keycap-travel) - 1px));
-        box-shadow: 0 1px 0 var(--jp-keycap-base), inset 0 3px 8px rgba(8, 11, 26, 0.34);
+        box-shadow:
+            0 1px 0 var(--control-edge),
+            0 3px 0 var(--jp-keycap-base),
+            inset 0 3px 8px rgba(8, 11, 26, 0.22);
     }
 
     .game-container .cabinet-button:disabled {
@@ -412,9 +443,10 @@
     @keyframes control-ready {
         to {
             box-shadow:
-                0 calc(var(--jp-keycap-travel) + 1px) 0 var(--jp-keycap-base),
+                0 calc(var(--jp-keycap-travel) + 1px) 0 var(--control-edge),
+                0 calc(var(--jp-keycap-travel) + 4px) 0 var(--jp-keycap-base),
                 0 0 22px rgba(56, 233, 255, 0.66),
-                inset 0 -4px 0 rgba(8, 11, 26, 0.14);
+                inset 0 -4px 0 rgba(8, 11, 26, 0.1);
         }
     }
 
@@ -443,7 +475,7 @@
         .game-container .voice-state { display: none; }
         .game-container .voice-icon { transform: scale(0.82); }
         .game-container .cabinet-button { grid-template-columns: 2.3rem minmax(0, 1fr); gap: 0.44rem; padding: 0.35rem 1.35rem 0.35rem 0.42rem; }
-        .game-container .cabinet-button .control-symbol { width: 2.08rem; height: 2.08rem; border-width: 2px; border-radius: 7px; }
+        .game-container .cabinet-button .control-symbol { width: 2.08rem; height: 2.08rem; border-width: 2px; }
         .game-container .cabinet-button .clue-symbol { font-size: 1.45rem; }
         .game-container .cabinet-button .button-tooltip { font-size: clamp(0.64rem, 3.2cqw, 0.78rem); }
         .game-container .control-copy small,
