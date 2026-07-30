@@ -1,5 +1,8 @@
 # JeoPARODY Brand and Scene Art Direction
 
+The logo system is now defined in `docs/BRAND_IDENTITY_SYSTEM_V2.md`. This document
+continues to own environmental art direction and scene-production rules.
+
 ## Brand Thesis
 
 JeoPARODY is a counterfeit prestige game show broadcast from a beachside arcade cabinet.

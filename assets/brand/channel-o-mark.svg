@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Channel O mark</title>
+  <desc id="desc">A bright portal shaped like an O with a curious eye at its center.</desc>
+  <defs>
+    <linearGradient id="cabinet" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#241d43"/>
+      <stop offset="1" stop-color="#080914"/>
+    </linearGradient>
+    <linearGradient id="signal" x1="14" y1="12" x2="51" y2="53" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#39efff"/>
+      <stop offset=".38" stop-color="#6554ff"/>
+      <stop offset=".72" stop-color="#ff4fc4"/>
+      <stop offset="1" stop-color="#ffd84d"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#cabinet)" stroke="#ffd84d" stroke-width="3"/>
+  <circle cx="32" cy="32" r="21" fill="none" stroke="#050611" stroke-width="9"/>
+  <circle cx="32" cy="32" r="21" fill="none" stroke="url(#signal)" stroke-width="6"/>
+  <path d="M14 32c5-8 11-12 18-12s13 4 18 12c-5 8-11 12-18 12s-13-4-18-12Z" fill="#fff5d8" stroke="#050611" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="7.5" fill="#39efff" stroke="#050611" stroke-width="3"/>
+  <circle cx="32" cy="32" r="3" fill="#050611"/>
+  <circle cx="29.5" cy="29.5" r="1.5" fill="#fff"/>
+  <path d="m48 10 2.2 4.8L55 17l-4.8 2.2L48 24l-2.2-4.8L41 17l4.8-2.2L48 10Z" fill="#ffd84d" stroke="#050611" stroke-width="1.4" stroke-linejoin="round"/>
+</svg>

@@ -20,7 +20,8 @@ export const runtimeEntries = Object.freeze([
   'assets/episodes',
 
   // Site and Creative Room artwork.
-  'assets/images/favicon.svg',
+  'assets/brand/channel-o-mark.svg',
+  'assets/brand/concepts/jeoparody-logo-directions-v2-preview.jpg',
   'assets/images/banknotes/trivia-note-questionable.png',
   'assets/images/vision/malex-broadcast-hero.png',
   'assets/images/vision/malex-counterfeit-portrait.png',

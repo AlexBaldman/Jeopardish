@@ -1,31 +1,78 @@
 @layer components {
     .brand-mark {
+        --brand-prestige: #fff0b8;
+        --brand-parody: #ff5bbb;
+        --brand-illegal-o: #ffd84d;
+        --brand-signal: #46efff;
         display: inline-flex;
         align-items: center;
         width: max-content;
         max-width: 100%;
-        color: var(--vision-gold);
+        color: var(--brand-prestige);
         font-family: "Bangers", Impact, sans-serif;
         font-style: italic;
         font-weight: 900;
-        line-height: 0.82;
-        letter-spacing: -0.015em;
+        line-height: 0.78;
+        letter-spacing: -0.035em;
         white-space: nowrap;
-        filter: drop-shadow(0 0.08em 0 #070713);
+        filter:
+            drop-shadow(0.045em 0.065em 0 #090a18)
+            drop-shadow(0 0.09em 0 #090a18);
     }
 
     .brand-mark .brand-jeo {
-        color: var(--vision-gold);
+        position: relative;
+        z-index: 2;
+        color: var(--brand-prestige);
+        font-family: "Bree Serif", Georgia, serif;
+        font-size: 0.92em;
+        font-style: normal;
+        letter-spacing: -0.09em;
         text-shadow:
-            0.035em 0.035em 0 #7c244c,
-            -0.025em -0.025em 0 #fff4bf;
+            0.025em 0.035em 0 #a76025,
+            -0.018em -0.018em 0 #fffbea;
     }
 
     :is(.brand-mark .brand-par, .brand-mark .brand-dy) {
-        color: #ff6fbd;
+        position: relative;
+        z-index: 1;
+        color: var(--brand-parody);
         text-shadow:
-            0.035em 0.035em 0 #632071,
-            -0.025em -0.025em 0 #fff7cf;
+            0.038em 0.045em 0 #552170,
+            -0.02em -0.02em 0 #fff7cf;
+    }
+
+    .brand-mark .brand-par {
+        margin-left: 0.015em;
+    }
+
+    .brand-mark .brand-o-stable {
+        position: relative;
+        z-index: 2;
+        display: inline-grid;
+        place-items: center;
+        width: 0.68em;
+        margin-inline: 0.012em 0.02em;
+        color: var(--brand-illegal-o);
+        letter-spacing: 0;
+        text-shadow:
+            0.038em 0.045em 0 #8a431d,
+            -0.02em -0.02em 0 #fff7cf,
+            0 0 0.2em rgba(255, 216, 77, 0.3);
+        transform: rotate(-2deg);
+    }
+
+    .brand-mark .brand-o-stable::after {
+        content: "";
+        position: absolute;
+        right: 0.01em;
+        bottom: -0.06em;
+        width: 0.16em;
+        height: 0.08em;
+        border-radius: 999px;
+        background: var(--brand-signal);
+        box-shadow: 0 0 0.12em var(--brand-signal);
+        transform: rotate(-24deg);
     }
 
     .brand-mark .brand-bang {
@@ -36,12 +83,13 @@
 
     .brand-o {
         position: relative;
+        z-index: 3;
         display: inline-grid;
         flex: 0 0 auto;
         place-items: center;
-        width: 0.98em;
-        height: 0.98em;
-        margin: -0.08em 0.025em;
+        width: 0.92em;
+        height: 0.92em;
+        margin: -0.085em 0.018em -0.055em -0.005em;
         border-radius: 50%;
         cursor: pointer;
         vertical-align: middle;
@@ -55,9 +103,10 @@
         border-radius: inherit;
         background: conic-gradient(var(--neon-pink), var(--neon-yellow), var(--neon-cyan), #7c3dff, var(--neon-pink));
         box-shadow:
-            0 0 0 0.035em rgba(255, 255, 255, 0.55),
-            0 0 0.28em rgba(255, 61, 200, 0.72);
-        animation: parody-o-spin 7s linear infinite;
+            0 0 0 0.032em rgba(255, 255, 255, 0.68),
+            0 0 0.24em rgba(255, 61, 200, 0.66);
+        animation: parody-o-acquire 780ms cubic-bezier(0.18, 0.86, 0.22, 1.1) both;
+        transition: transform 180ms ease, filter 180ms ease;
     }
 
     .brand-o::after {
@@ -69,11 +118,33 @@
         box-shadow: 0 0 0.08em rgba(255, 255, 255, 0.9);
     }
 
+    .brand-o .brand-o-core {
+        position: absolute;
+        z-index: 2;
+        inset: 31%;
+        border: 0.045em solid #fff8d9;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 38% 32%, #fff 0 8%, transparent 9%),
+            radial-gradient(circle, #07101b 0 23%, var(--brand-signal) 25% 55%, #2f2477 57%);
+        box-shadow:
+            0 0 0 0.045em #080914,
+            0 0 0.12em var(--brand-signal);
+        pointer-events: none;
+    }
+
     .brand-o[data-o-token="eye"]::after {
         inset: 35% 25%;
         border: 0.05em solid white;
         background: var(--neon-cyan);
         box-shadow: inset 0 0 0 0.08em var(--ink);
+    }
+
+    .brand-o[data-o-token="eye"] .brand-o-core {
+        inset: 38% 39%;
+        border: 0;
+        background: #080914;
+        box-shadow: 0 0 0 0.035em white;
     }
 
     .brand-o[data-o-token="donut"]::before {
@@ -82,6 +153,13 @@
             radial-gradient(circle at 72% 62%, var(--neon-yellow) 0 3%, transparent 4%),
             radial-gradient(circle at 58% 20%, white 0 3%, transparent 4%),
             #ff83cc;
+    }
+
+    .brand-o[data-o-token="donut"] .brand-o-core,
+    .brand-o[data-o-token="coin"] .brand-o-core,
+    .brand-o[data-o-token="eclipse"] .brand-o-core,
+    .brand-o[data-o-token="disco"] .brand-o-core {
+        display: none;
     }
 
     .brand-o[data-o-token="coin"]::before {
@@ -102,6 +180,11 @@
         outline-offset: 0.08em;
     }
 
+    .brand-o:hover::before {
+        filter: brightness(1.16) saturate(1.1);
+        transform: rotate(8deg) scale(1.04);
+    }
+
     body[data-theme="light"] :is(.brand-mark .brand-jeo, .brand-mark .brand-dy) {
         color: #28163f;
     }
@@ -110,7 +193,11 @@
         color: #9f176f;
     }
 
-    .game-container .game-mark :is(.brand-jeo, .brand-par, .brand-dy) {
+    body[data-theme="light"] .brand-mark .brand-o-stable {
+        color: #bb681c;
+    }
+
+    .game-container .game-mark :is(.brand-jeo, .brand-par, .brand-o-stable, .brand-dy) {
         -webkit-text-stroke: 0.018em #080914;
     }
 
@@ -120,6 +207,10 @@
 
     body[data-theme="light"] .game-container .game-mark :is(.brand-par, .brand-dy) {
         color: #ff6fbd;
+    }
+
+    body[data-theme="light"] .game-container .game-mark .brand-o-stable {
+        color: var(--brand-illegal-o);
     }
 
     .game-container .brand-tagline {
@@ -133,9 +224,21 @@
         text-transform: uppercase;
     }
 
-    @keyframes parody-o-spin {
-        to {
-            transform: rotate(1turn);
+    @keyframes parody-o-acquire {
+        0% {
+            opacity: 0.35;
+            filter: brightness(1.7) saturate(0.2);
+            transform: rotate(-34deg) scale(0.72);
+        }
+        62% {
+            opacity: 1;
+            filter: brightness(1.2) saturate(1.2);
+            transform: rotate(7deg) scale(1.08);
+        }
+        100% {
+            opacity: 1;
+            filter: brightness(1) saturate(1);
+            transform: rotate(0) scale(1);
         }
     }
 }

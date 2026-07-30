@@ -24,6 +24,19 @@
 
     documentRef.getElementById('cycleOButton')?.addEventListener('click', () => brand?.cycle());
 
+    const tokenButtons = Array.from(documentRef.querySelectorAll('[data-o-token-choice]'));
+    tokenButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const selectedToken = brand?.setToken(button.dataset.oTokenChoice);
+        tokenButtons.forEach((candidate) => {
+          candidate.setAttribute(
+            'aria-pressed',
+            String(candidate.dataset.oTokenChoice === selectedToken),
+          );
+        });
+      });
+    });
+
     const cards = Array.from(documentRef.querySelectorAll('[data-direction-choice]'));
     const selectedDirection = documentRef.getElementById('selectedDirection');
     const selectedRationale = documentRef.getElementById('selectedRationale');

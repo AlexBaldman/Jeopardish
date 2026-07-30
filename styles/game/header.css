@@ -36,7 +36,7 @@
 
     .game-container .game-mark {
         max-width: 100%;
-        font-size: clamp(1.65rem, 3.2cqw, 2.55rem);
+        font-size: clamp(1.85rem, 3.6cqw, 2.85rem);
         letter-spacing: 0.035em;
     }
 
@@ -117,7 +117,7 @@
         }
 
         .game-container .game-mark {
-            font-size: clamp(1.05rem, 6.4cqw, 1.72rem);
+            font-size: clamp(1.3rem, 7.2cqw, 1.95rem);
             letter-spacing: 0;
         }
 

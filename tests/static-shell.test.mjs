@@ -380,18 +380,33 @@ test('HTML entry points contain no duplicate ids', () => {
 });
 
 test('brand marks put the interchangeable O in JEO while keeping PARODY intact', () => {
-  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+  for (const [surface, html] of [
+    ['index.html', landingHtml],
+    ['game.html', gameHtml],
+    ['creative-room.html', creativeRoomHtml],
+  ]) {
     assert.match(
       html,
-      /brand-jeo">JE<\/span><span class="brand-o"[\s\S]*?<span class="brand-par">PAR<\/span><span class="brand-dy">ODY<\/span>/,
-      `${surface} does not render JE + interchangeable O + PARODY`,
+      /brand-jeo">JE<\/span><span class="brand-o"[\s\S]*?<span class="brand-par">PAR<\/span><span class="brand-o-stable">O<\/span><span class="brand-dy">DY<\/span>/,
+      `${surface} does not render JE + interchangeable O + PAR + fixed O + DY`,
     );
     assert.doesNotMatch(
       html,
       /brand-jeo">JEO<\/span><span class="brand-par">PAR<\/span><span class="brand-o"/,
       `${surface} still inserts the changing O inside PARODY`,
     );
+    assert.match(
+      html,
+      /assets\/brand\/channel-o-mark\.svg/,
+      `${surface} does not use the compact Channel O mark`,
+    );
   }
+  assert.match(brandStyles, /\.brand-o-stable/);
+  assert.match(brandStyles, /\.brand-o \.brand-o-core/);
+  assert.ok(
+    runtimeEntries.includes('assets/brand/channel-o-mark.svg'),
+    'production manifest must ship the compact Channel O mark',
+  );
 });
 
 test('game headers use explicit flag artwork and current architecture styles', () => {
@@ -399,9 +414,10 @@ test('game headers use explicit flag artwork and current architecture styles', (
     assert.match(html, /assets\/ui\/flag-us\.svg/, `${surface} is missing the US flag`);
     assert.match(html, /assets\/ui\/flag-br\.svg/, `${surface} is missing the Brazilian flag`);
     assert.match(html, /styles\/preferences\.css\?v=architecture-9/);
-    assert.match(html, /styles\/game\/header\.css\?v=architecture-5/);
+    assert.match(html, /styles\/game\/header\.css\?v=architecture-6/);
     assert.match(html, /styles\/tokens\.css\?v=architecture-4/);
     assert.match(html, /styles\/game\/cabinet\.css\?v=architecture-5/);
+    assert.match(html, /styles\/brand\.css\?v=architecture-8/);
     assert.match(html, /styles\/game\/host\.css\?v=architecture-5/);
     assert.match(html, /styles\/game\/scoreboard\.css\?v=architecture-4/);
     assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-7/);
