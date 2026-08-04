@@ -32,7 +32,8 @@ Open `http://127.0.0.1:4190/`, then check:
 - `#play` loads the game stage
 - day/night toggle swaps scenes
 - host arrows cycle skins and persist after reload
-- clue loading fetches `questions/jeopardy-questions.json`
+- clue loading starts the reviewed Season Zero episode and falls back to
+  `questions/runtime-bank.json` only when the authored pack cannot load
 - no console/page errors
 - no horizontal overflow on mobile width
 
@@ -59,11 +60,11 @@ npm run verify:release
 
 This runs all non-browser checks, builds and audits `dist/`, exercises the
 production artifact in Chromium, audits critical accessibility states, and
-captures the 168-state responsive visual matrix. To match the full cross-engine
+captures the 180-state responsive visual matrix. To match the full cross-engine
 browser matrix, run:
 
 ```bash
-SMOKE_BROWSERS=chromium,webkit A11Y_BROWSERS=chromium,webkit npm run verify:release
+SMOKE_BROWSERS=chromium,webkit PROOF_BROWSERS=chromium,webkit A11Y_BROWSERS=chromium,webkit npm run verify:release
 ```
 
 The smoke suite enforces route-level first-party payload budgets and checks the
@@ -71,7 +72,8 @@ landing page, standalone game, and Creative Room. The accessibility suite covers
 those surfaces plus clue, outcome, translation, menu, scoreboard, Study, media
 modal, and finale states at desktop and phone widths.
 
-Run the complete authored episode proof before promotion:
+The release command includes the complete authored episode proof. To rerun only
+that focused proof during development:
 
 ```bash
 PROOF_BROWSERS=chromium,webkit npm run test:episode
@@ -81,3 +83,7 @@ This builds and audits `dist/`, then covers answer variants, learning
 annotations, translation, persistence, Study mode, media success and
 substitution, finale, replay, keyboard advance, and typed-input fallback when
 speech recognition is unavailable.
+
+The deployment workflow enforces the same complete Season Zero proof,
+cross-engine accessibility audit, and 180-state visual gate before GitHub Pages
+receives an artifact. The deployed URL then receives a second smoke test.

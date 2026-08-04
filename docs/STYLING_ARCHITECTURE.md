@@ -56,7 +56,7 @@ Component migration follows the page from back to front:
 
 `visual-fixtures.html` deterministically presents clue, reveal, correct, incorrect, menu, scoreboard, study, voice-listening, and voice-speaking states in day or night mode at each supported cabinet size.
 
-Run `npm run test:visual` to capture 108 combinations under `screenshots/visual-fixtures/`. The runner fails on document overflow, component escape from the cabinet, missing visible geometry, or host overlap with clue text. Captures are local build artifacts and are intentionally ignored by git.
+Run `npm run test:visual` to capture 180 combinations under `screenshots/visual-fixtures/`. The runner fails on document overflow, component escape from the cabinet, missing visible geometry, or host overlap with clue text. Captures are local build artifacts and are intentionally ignored by git.
 
 The current audited ceiling is zero same-context duplicate selectors. The baseline after the cabinet, scene, host, dialogue, media, and control-deck migrations is zero. A later component migration must preserve that invariant.
 

@@ -38,8 +38,8 @@ Optimal Prime is the convergence of those truths.
 The convergence runtime now has a real authored Season Zero path, not merely a
 roadmap for one:
 
-- 219 automated tests pass.
-- The CSS audit reports 4,834 lines, 683 selector rules, five `!important`
+- 232 automated tests pass.
+- The CSS audit reports 5,370 lines, 731 selector rules, five `!important`
   declarations, and zero duplicate selectors.
 - The question validator covers 216,930 archive clues, the 10,000-clue runtime
   bank, and an eleven-clue reviewed episode pack.
@@ -47,7 +47,7 @@ roadmap for one:
   accepted aliases, reviewed explanations and sources, confidence and dispute
   capture, review queues, one local media clue with a standby, and an earned
   finale artifact.
-- The static production artifact is 35.0 MB, below its 38 MB total-build budget,
+- The static production artifact is 36.7 MB, below its 38 MB total-build budget,
   with no archive leakage or broken local references found by the dist audit.
 - `RoundKernel`, `CluePipeline`, `EpisodeController`, `StudyController`,
   `InputController`, `PreferenceStore`, and `ApplicationComposition` now own the
@@ -70,8 +70,8 @@ The convergence baseline is now verified:
   refresh-resume, sourced Study, bilingual memory reinforcement, completion
   review queue, media viewer, finale, replay, voice fallback, and forced
   media-standby paths;
-- cold first-party transfer is 6.01 MB or less in Chromium and 5.34 MB or less
-  for the standalone game in either engine;
+- cold first-party transfer is 6.13 MB or less, with the standalone game at
+  5.47 MB in either engine;
 - the smoke exercises theme switching, menu focus behavior, an authored correct
   answer with score change, and the protected Study pause/resume path.
 - the responsive visual gate captures 180 deterministic combinations across six
@@ -84,8 +84,8 @@ The convergence baseline is now verified:
 
 It is a trustworthy checkpoint, not yet a release candidate:
 
-- `app.js` is down to 672 lines and `Renderer` is 1,092 lines after two focused
-  view extractions;
+- `app.js` is 651 lines and `Renderer` is 991 lines after focused clue, outcome,
+  Study, scoreboard, and finale view extractions;
 - 200% zoom and real-device screen-reader passes remain manual release checks;
 - the Season Zero learning ledger and completion review queue exist, but there
   is no due-date scheduler, daily entry flow, or cross-episode curriculum yet;
@@ -548,9 +548,10 @@ evidence.
    round-view restoration for language changes.
 5. [~] `OutcomeView` owns answer, confidence, and dispute feedback;
    `ClueView` owns clue markup, translation display, and media-preview state;
-   and `StudyView` owns grounded packet and reinforcement presentation.
-   Continue with scoreboard, finale, and cabinet views only where the proven
-   flows show stable ownership.
+   `StudyView` owns grounded packet and reinforcement presentation;
+   `ScoreboardView` owns score/progress presentation and drawer interaction; and
+   `FinaleView` owns the completion receipt. Continue with cabinet views only
+   where the proven flows show stable ownership.
 6. [x] Realize the proven host motion verbs (`enter`, `react`, `hold`, `recover`,
    and `exit`) with cancellable, reduced-motion-safe presentation effects. Do
    not add a registry, composer, or renderer factory until repeated real
@@ -579,12 +580,14 @@ renderer.
 
 ## Immediate Next Domino
 
-Continue **Domino 3: Presentation Ownership**. Extract score-tile and
-episode-progress presentation as the next focused renderer view while leaving
-score calculation, persistence, drawer timing, and focus with their current
-owners. Prove that boundary before extracting the finale surface, then continue
-with cabinet views only when the resulting contracts remain concrete.
-Then promote accessibility and initial-route budgets into the release gate
-before preview deployment. Do not add a runtime model, service locator, generic
-animation framework, Storybook, A/B system, broad CSS overhaul, wager mechanics,
-accounts, or fresh branch mining during this pass.
+Begin **Domino 4: Original Identity And Preview Release** while continuing only
+bounded coordinator cleanup. The production release path now blocks on route
+budgets, the complete Season Zero proof, cross-engine accessibility, and 180
+visual states. The next public-launch constraint is a rights-reviewed original
+asset pack, followed immediately by reviewed authored Portuguese clue content
+and an instrumented private alpha. See
+`docs/PRODUCTION_READINESS_REVIEW_2026-08-04.md` for the current gates.
+
+Do not add payments, accounts, a runtime model, service locator, generic
+animation framework, Storybook, A/B infrastructure, wager mechanics, or fresh
+branch mining before original-IP, bilingual-content, and playtest evidence exist.

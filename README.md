@@ -6,6 +6,9 @@ Open `creative-room.html` to compare the current logo, host, and art-direction f
 
 The current executable roadmap is
 [`docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md`](docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md).
+The current private-alpha scorecard, public-launch gates, and paid-product domino
+order are in
+[`docs/PRODUCTION_READINESS_REVIEW_2026-08-04.md`](docs/PRODUCTION_READINESS_REVIEW_2026-08-04.md).
 Its source-by-source convergence decisions live in
 [`docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md`](docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md).
 The repository identity decision and side-by-side comparison with the older
@@ -174,11 +177,11 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm run verify
   ```
 
-- Before a preview or release, run the full build, browser smoke, accessibility,
-  and visual-fixture gates:
+- Before a preview or release, run the full build, browser smoke, complete
+  authored episode proof, accessibility, and visual-fixture gates:
 
   ```bash
-  SMOKE_BROWSERS=chromium,webkit A11Y_BROWSERS=chromium,webkit npm run verify:release
+  SMOKE_BROWSERS=chromium,webkit PROOF_BROWSERS=chromium,webkit A11Y_BROWSERS=chromium,webkit npm run verify:release
   ```
 
 - Prove the complete authored episode against a fresh production build:

@@ -3,12 +3,13 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { runtimeEntries } from '../scripts/runtime-manifest.mjs';
 
-const [landingHtml, gameHtml, creativeRoomHtml, fixtureHtml, smokeScript, baseStyles, tokens, brandStyles, preferenceStyles, siteStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, mediaStyles, controlStyles] = await Promise.all([
+const [landingHtml, gameHtml, creativeRoomHtml, fixtureHtml, smokeScript, releaseWorkflow, baseStyles, tokens, brandStyles, preferenceStyles, siteStyles, cabinetStyles, sceneStyles, headerStyles, scoreboardStyles, menuStyles, hostStyles, dialogueStyles, mediaStyles, controlStyles] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../game.html', import.meta.url), 'utf8'),
   readFile(new URL('../creative-room.html', import.meta.url), 'utf8'),
   readFile(new URL('../visual-fixtures.html', import.meta.url), 'utf8'),
   readFile(new URL('../scripts/smoke-production.mjs', import.meta.url), 'utf8'),
+  readFile(new URL('../.github/workflows/ci.yml', import.meta.url), 'utf8'),
   readFile(new URL('../styles/base.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/tokens.css', import.meta.url), 'utf8'),
   readFile(new URL('../styles/brand.css', import.meta.url), 'utf8'),
@@ -129,6 +130,15 @@ test('production smoke uses the canonical answer input id', () => {
   assert.doesNotMatch(smokeScript, /locator\('#inputBox'\)/);
 });
 
+test('release workflow blocks on episode, accessibility, and visual proof', () => {
+  assert.match(releaseWorkflow, /npm run proof:episode/);
+  assert.match(releaseWorkflow, /PROOF_BROWSERS:\s*chromium,webkit/);
+  assert.match(releaseWorkflow, /npm run audit:a11y/);
+  assert.match(releaseWorkflow, /A11Y_BROWSERS:\s*chromium,webkit/);
+  assert.match(releaseWorkflow, /Verify 180 gameplay visual states/);
+  assert.match(releaseWorkflow, /npm run test:visual/);
+});
+
 test('game shells load foundations and owned components without a legacy runtime stylesheet', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const tokensIndex = html.indexOf('href="styles/tokens.css');
@@ -160,11 +170,15 @@ test('both game shells load focused renderer views before the renderer facade', 
     const outcomeView = html.indexOf('src/render/outcome-view.js');
     const clueView = html.indexOf('src/render/clue-view.js');
     const studyView = html.indexOf('src/render/study-view.js');
+    const scoreboardView = html.indexOf('src/render/scoreboard-view.js');
+    const finaleView = html.indexOf('src/render/finale-view.js');
     const renderer = html.indexOf('src/render/renderer.js');
     assert.ok(outcomeView > 0, `${surface} is missing the outcome view`);
     assert.ok(clueView > outcomeView, `${surface} must load the clue view after the outcome view`);
     assert.ok(studyView > clueView, `${surface} must load the study view after the clue view`);
-    assert.ok(renderer > studyView, `${surface} must load focused views before the renderer`);
+    assert.ok(scoreboardView > studyView, `${surface} must load the scoreboard view after the study view`);
+    assert.ok(finaleView > scoreboardView, `${surface} must load the finale view after the scoreboard view`);
+    assert.ok(renderer > finaleView, `${surface} must load focused views before the renderer`);
   }
 });
 

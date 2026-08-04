@@ -32,7 +32,15 @@ jobs:
         run: npm run smoke:dist
         env:
           SMOKE_BROWSERS: chromium,webkit
-      - name: Verify 108 gameplay visual states
+      - name: Prove the complete Season Zero episode
+        run: npm run proof:episode
+        env:
+          PROOF_BROWSERS: chromium,webkit
+      - name: Block critical and serious accessibility regressions
+        run: npm run audit:a11y
+        env:
+          A11Y_BROWSERS: chromium,webkit
+      - name: Verify 180 gameplay visual states
         run: npm run test:visual
       - name: Upload visual evidence on failure
         if: failure()

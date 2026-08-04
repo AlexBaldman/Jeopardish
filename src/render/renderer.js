@@ -5,6 +5,8 @@
       require('./outcome-view.js'),
       require('./clue-view.js'),
       require('./study-view.js'),
+      require('./scoreboard-view.js'),
+      require('./finale-view.js'),
     );
   } else {
     root.JeopardishRenderer = factory(
@@ -12,6 +14,8 @@
       root.JeoPARODYOutcomeView,
       root.JeoPARODYClueView,
       root.JeoPARODYStudyView,
+      root.JeoPARODYScoreboardView,
+      root.JeoPARODYFinaleView,
     );
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this, function rendererFactory(
@@ -19,6 +23,8 @@
   outcomeModule,
   clueModule,
   studyModule,
+  scoreboardModule,
+  finaleModule,
 ) {
   'use strict';
 
@@ -33,6 +39,12 @@
   }
   if (!studyModule?.StudyView) {
     throw new Error('JeopardishRenderer requires JeoPARODYStudyView.');
+  }
+  if (!scoreboardModule?.ScoreboardView) {
+    throw new Error('JeopardishRenderer requires JeoPARODYScoreboardView.');
+  }
+  if (!finaleModule?.FinaleView) {
+    throw new Error('JeopardishRenderer requires JeoPARODYFinaleView.');
   }
 
   const DefaultCopy = Object.freeze({
@@ -130,11 +142,6 @@
       this.copy = { ...DefaultCopy };
       this.lastMediaTrigger = null;
       this.onMediaFailure = () => {};
-      this.lastScore = null;
-      this.lastStreak = null;
-      this.lastBestStreak = null;
-      this.lastEpisodeValue = null;
-      this.scoreDrawerTimer = null;
       this.onExitStudy = () => {};
       this.outcomeView = new outcomeModule.OutcomeView({
         dom: this.dom,
@@ -166,6 +173,24 @@
         documentRef: this.document,
         dom: this.dom,
         setText: (element, value) => this.setText(element, value),
+      });
+      this.scoreboardView = new scoreboardModule.ScoreboardView({
+        dom: this.dom,
+        getCopy: () => this.copy,
+        setText: (element, value) => this.setText(element, value),
+      });
+      this.finaleView = new finaleModule.FinaleView({
+        dom: this.dom,
+        getCopy: () => this.copy,
+        setGameMoment: (moment) => this.setGameMoment(moment),
+        hideOutcomeFeedback: () => this.hideOutcomeFeedback(),
+        setText: (element, value) => this.setText(element, value),
+        clearMedia: () => this.clearMedia(),
+        setQuestionText: (message) => this.setQuestionText(message),
+        toggleAnswer: (visible) => this.toggleAnswer(visible),
+        decorateControlButton: (...args) => this.decorateControlButton(...args),
+        setReviewQueueState: (learning) => this.setReviewQueueState(learning),
+        showScoreDrawer: (duration) => this.showScoreDrawer(duration),
       });
     }
 
@@ -333,17 +358,7 @@
       this.dom.menuVoice?.addEventListener('click', () => onToggleVoice({ listen: false }));
       this.dom.menuHostPack?.addEventListener('click', onCycleHostPack);
       this.dom.menuScene?.addEventListener('click', onCycleScene);
-      this.dom.scoreDrawer?.addEventListener('pointerenter', () => this.showScoreDrawer(0));
-      this.dom.scoreDrawer?.addEventListener('pointerleave', () => this.hideScoreDrawer());
-      this.dom.scoreDrawer?.addEventListener('focus', () => this.showScoreDrawer(0));
-      this.dom.scoreDrawer?.addEventListener('blur', () => this.hideScoreDrawer());
-      this.dom.scoreDrawer?.addEventListener('click', () => {
-        const pinned = this.dom.scoreDrawer.dataset.pinned === 'true';
-        this.dom.scoreDrawer.dataset.pinned = String(!pinned);
-        this.dom.scoreDrawer.setAttribute('aria-pressed', String(!pinned));
-        if (!pinned) this.showScoreDrawer(0);
-        else this.hideScoreDrawer(true);
-      });
+      this.scoreboardView.bindInteractions();
 
       this.dom.answerButton.addEventListener('click', onToggleAnswer);
       this.dom.questionButton.addEventListener('click', onNewQuestion);
@@ -400,21 +415,11 @@
     }
 
     showScoreDrawer(duration = 2600) {
-      if (!this.dom.scoreDrawer) return;
-      clearTimeout(this.scoreDrawerTimer);
-      this.dom.scoreDrawer.classList.add('active');
-      if (duration > 0) {
-        this.scoreDrawerTimer = setTimeout(() => this.hideScoreDrawer(), duration);
-        this.scoreDrawerTimer?.unref?.();
-      }
+      return this.scoreboardView.showDrawer(duration);
     }
 
     hideScoreDrawer(force = false) {
-      if (!this.dom.scoreDrawer) return;
-      clearTimeout(this.scoreDrawerTimer);
-      if (force || this.dom.scoreDrawer.dataset.pinned !== 'true') {
-        this.dom.scoreDrawer.classList.remove('active');
-      }
+      return this.scoreboardView.hideDrawer(force);
     }
 
     setCopy(copy = {}) {
@@ -842,101 +847,15 @@
     }
 
     renderScoreboard(gameState) {
-      const scoreChanged = this.lastScore !== null && this.lastScore !== gameState.score;
-      const streakChanged = this.lastStreak !== null && this.lastStreak !== gameState.currentStreak;
-      const bestChanged = this.lastBestStreak !== null && this.lastBestStreak !== gameState.bestStreak;
-      if (this.dom.hudScore) {
-        this.setText(this.dom.hudScore, `$${gameState.score}`);
-        this.dom.hudScore.dataset.value = `$${gameState.score}`;
-        if (scoreChanged) this.animateScoreTile(this.dom.hudScore);
-      }
-      if (this.dom.hudStreak) {
-        this.setText(this.dom.hudStreak, `x${gameState.currentStreak}`);
-        this.dom.hudStreak.dataset.value = `x${gameState.currentStreak}`;
-        if (streakChanged) this.animateScoreTile(this.dom.hudStreak);
-      }
-      if (this.dom.hudBest) {
-        this.setText(this.dom.hudBest, `x${gameState.bestStreak}`);
-        this.dom.hudBest.dataset.value = `x${gameState.bestStreak}`;
-        if (bestChanged) this.animateScoreTile(this.dom.hudBest);
-      }
-      if (this.dom.hudScoreLabel) {
-        this.setText(this.dom.hudScoreLabel, this.copy.score);
-      }
-      if (this.dom.hudStreakLabel) {
-        this.setText(this.dom.hudStreakLabel, this.copy.currentStreak);
-      }
-      if (this.dom.hudBestLabel) {
-        this.setText(this.dom.hudBestLabel, this.copy.bestStreak);
-      }
-      if (scoreChanged || streakChanged || bestChanged) this.showScoreDrawer();
-      this.lastScore = gameState.score;
-      this.lastStreak = gameState.currentStreak;
-      this.lastBestStreak = gameState.bestStreak;
+      return this.scoreboardView.renderScore(gameState);
     }
 
     renderSessionProgress(progress) {
-      if (!progress) return;
-      const value = progress.complete ? `${progress.total}/${progress.total}` : `${progress.current}/${progress.total}`;
-      this.setText(this.dom.hudEpisode, value);
-      this.setText(this.dom.hudEpisodeLabel, this.copy.clueProgress);
-      if (this.dom.hudEpisode) {
-        const episodeChanged = this.lastEpisodeValue !== null && this.lastEpisodeValue !== value;
-        this.dom.hudEpisode.dataset.value = value;
-        if (episodeChanged) {
-          this.animateScoreTile(this.dom.hudEpisode);
-          this.showScoreDrawer();
-        }
-      }
-      this.lastEpisodeValue = value;
+      return this.scoreboardView.renderProgress(progress);
     }
 
     renderEpisodeComplete(progress) {
-      const accuracy = progress.total > 0
-        ? Math.round((progress.counts.correct / progress.total) * 100)
-        : 0;
-      this.setGameMoment('complete');
-      this.hideOutcomeFeedback();
-      this.setText(this.dom.categoryBox, this.copy.episodeComplete);
-      this.clearMedia();
-      const artifactTitle = progress.finale?.artifactTitle || progress.finale?.title || '';
-      this.setQuestionText([
-        artifactTitle,
-        `$${progress.score} final score · ${accuracy}% accuracy`,
-      ].filter(Boolean).join('\n'));
-      const artifactBody = progress.finale?.artifactBody || '';
-      const reviewLine = progress.review?.total
-        ? `${progress.review.total} clue${progress.review.total === 1 ? '' : 's'} saved for review`
-        : 'No clues queued for review';
-      const disputeLine = progress.disputes
-        ? `${progress.disputes} ruling${progress.disputes === 1 ? '' : 's'} flagged`
-        : '';
-      this.setText(
-        this.dom.answerBox,
-        [
-          artifactBody,
-          `${progress.total} clues aired`,
-          `${progress.counts.incorrect} incorrect · ${progress.counts.revealed} revealed · ${progress.counts.skipped} skipped`,
-          reviewLine,
-          disputeLine,
-        ].filter(Boolean).join('\n'),
-      );
-      this.toggleAnswer(true);
-      this.dom.checkButton.disabled = true;
-      this.dom.answerButton.disabled = true;
-      this.dom.userInput.disabled = true;
-      this.decorateControlButton(this.dom.questionButton, this.copy.replayEpisode, 'Q');
-      this.dom.questionButton.disabled = false;
-      this.setReviewQueueState(progress.learning);
-      this.showScoreDrawer();
-    }
-
-    animateScoreTile(tile) {
-      tile.classList.remove('score-flip');
-      void tile.offsetWidth;
-      tile.classList.add('score-flip');
-      const timer = setTimeout(() => tile.classList.remove('score-flip'), 720);
-      timer?.unref?.();
+      return this.finaleView.render(progress);
     }
 
     renderHost(host, expression = 'idle', visual = null, skin = null, performance = null) {

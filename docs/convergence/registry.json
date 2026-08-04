@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-07-30",
+  "updated": "2026-08-04",
   "canonical": {
     "product": "JeoPARODY",
     "repository": "AlexBaldman/Jeopardish",
@@ -112,7 +112,7 @@
       "title": "Finish focused presentation ownership in the canonical runtime",
       "kind": "canonical-refactor",
       "priority": "P1",
-      "status": "evaluating",
+      "status": "implementing",
       "disposition": "port",
       "source": [
         {
@@ -140,10 +140,16 @@
         "Browser behavior and production journey evidence remain unchanged.",
         "Each extraction adds a focused contract test."
       ],
-      "evidence": [],
+      "evidence": [
+        "src/render/scoreboard-view.js",
+        "src/render/finale-view.js",
+        "tests/scoreboard-view.test.mjs",
+        "tests/finale-view.test.mjs",
+        "npm run verify:release"
+      ],
       "rightsRisk": "none",
       "supersededAction": "Remove each extracted presentation responsibility from app.js or the renderer facade in the same verified change.",
-      "nextAction": "Measure the current coordinator and select one bounded view or presenter extraction after the repository security gate."
+      "nextAction": "Keep the Renderer facade stable and extract the next proven command/presentation workflow from the 651-line app coordinator without delaying original-IP and bilingual-content work."
     },
     {
       "id": "UI-001",
