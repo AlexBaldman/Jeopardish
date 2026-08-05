@@ -110,6 +110,16 @@ test('interactive option collections expose valid accessible group semantics', (
   assert.match(creativeRoomHtml, /class="direction-grid" role="group" aria-labelledby="directionTitle"/);
 });
 
+test('internal Creative Room cannot leak into the public product artifact', () => {
+  assert.match(creativeRoomHtml, /name="robots" content="noindex, nofollow, noarchive"/);
+  assert.doesNotMatch(landingHtml, /creative-room\.html/);
+  assert.doesNotMatch(gameHtml, /creative-room\.html/);
+  assert.ok(!runtimeEntries.includes('creative-room.html'));
+  assert.ok(!runtimeEntries.includes('creative-room.css'));
+  assert.ok(!runtimeEntries.includes('creative-room.js'));
+  assert.doesNotMatch(smokeScript, /creative-room/);
+});
+
 test('open scoreboard removes covered dialogue controls from interaction', () => {
   assert.match(
     scoreboardStyles,

@@ -2,7 +2,8 @@
 
 > Formerly developed under the working title **Jeopardish**. The public creative direction is now **JeoPARODY**, where one unauthorized O turns game-show prestige into a comedy-learning universe.
 
-Open `creative-room.html` to compare the current logo, host, and art-direction finalists. The front-running identity is **Channel O**, hosted provisionally by **Xander Trefleck**.
+`creative-room.html` is an internal brand lab retained for the team. It is
+deliberately absent from player navigation and production builds.
 
 The current executable roadmap is
 [`docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md`](docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md).
@@ -11,6 +12,8 @@ order are in
 [`docs/PRODUCTION_READINESS_REVIEW_2026-08-04.md`](docs/PRODUCTION_READINESS_REVIEW_2026-08-04.md).
 Its source-by-source convergence decisions live in
 [`docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md`](docs/CONVERGENCE_DONOR_LEDGER_2026-07-26.md).
+The current all-branch audit and final promotion decision are recorded in
+[`docs/BRANCH_CONVERGENCE_2026-08-05.md`](docs/BRANCH_CONVERGENCE_2026-08-05.md).
 The repository identity decision and side-by-side comparison with the older
 JeoPARODY codebase live in
 [`docs/REPOSITORY_TRUTH_COMPARATIVE_AUDIT_2026-07-28.md`](docs/REPOSITORY_TRUTH_COMPARATIVE_AUDIT_2026-07-28.md).
@@ -151,8 +154,7 @@ This repo now includes lightweight operations scripts so you can execute the bra
   npm run test:visual
   ```
 
-- Audit the built landing, Creative Room, and critical game states at desktop
-  and phone widths:
+- Audit the built landing and critical game states at desktop and phone widths:
 
   ```bash
   npm run build
@@ -195,9 +197,9 @@ browser loads the reviewed Season Zero episode and production packages both
 that pack and `questions/runtime-bank.json`; the latter is a compact fallback
 and should be regenerated rather than hand-edited.
 
-Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture merge/cherry-pick/delete decisions after each report run.
-
-Latest filled decision pass: `docs/BRANCH_DECISIONS_2026-04-05.md`.
+Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture future
+merge/cherry-pick/delete decisions. The latest completed pass is
+`docs/BRANCH_CONVERGENCE_2026-08-05.md`.
 
 ## API and Data Sample
 

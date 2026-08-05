@@ -174,11 +174,6 @@ try {
           path: 'index.html',
           ready: '#heroTitle',
         }));
-        failures.push(...await auditStaticRoute(browser, browserName, viewport, {
-          id: 'creative-room',
-          path: 'creative-room.html',
-          ready: '.room-hero',
-        }));
         failures.push(...await auditGame(browser, browserName, viewport));
       }
     } finally {

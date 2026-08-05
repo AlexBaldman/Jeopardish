@@ -19,6 +19,10 @@ This creates `dist/` with only runtime files:
 - active UI art: banknotes, vision images, scene layers, and current host-skin candidates
 - `.nojekyll` for GitHub Pages static serving
 
+Internal planning surfaces such as `creative-room.html`, its scripts, and its
+styles remain available in source but are intentionally excluded from `dist/`.
+Product strategy and logo deliberation are not player navigation.
+
 ## Verify Locally
 
 ```bash
@@ -68,8 +72,8 @@ SMOKE_BROWSERS=chromium,webkit PROOF_BROWSERS=chromium,webkit A11Y_BROWSERS=chro
 ```
 
 The smoke suite enforces route-level first-party payload budgets and checks the
-landing page, standalone game, and Creative Room. The accessibility suite covers
-those surfaces plus clue, outcome, translation, menu, scoreboard, Study, media
+landing page and standalone game. The accessibility suite covers those surfaces
+plus clue, outcome, translation, menu, scoreboard, Study, media
 modal, and finale states at desktop and phone widths.
 
 The release command includes the complete authored episode proof. To rerun only

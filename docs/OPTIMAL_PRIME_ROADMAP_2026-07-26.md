@@ -2,7 +2,7 @@
 
 **Decision date:** 2026-07-26
 **Status reviewed:** 2026-07-27
-**Working branch:** `convergence/jeoparody-v3`
+**Canonical branch:** `master`
 **Executable base:** Jeopardish `b9dc873`
 **Architecture donor:** JeoPARODY `e71d0dc`
 
@@ -38,8 +38,8 @@ Optimal Prime is the convergence of those truths.
 The convergence runtime now has a real authored Season Zero path, not merely a
 roadmap for one:
 
-- 232 automated tests pass.
-- The CSS audit reports 5,370 lines, 731 selector rules, five `!important`
+- 233 automated tests pass.
+- The CSS audit reports 5,366 lines, 727 selector rules, five `!important`
   declarations, and zero duplicate selectors.
 - The question validator covers 216,930 archive clues, the 10,000-clue runtime
   bank, and an eleven-clue reviewed episode pack.
@@ -47,7 +47,7 @@ roadmap for one:
   accepted aliases, reviewed explanations and sources, confidence and dispute
   capture, review queues, one local media clue with a standby, and an earned
   finale artifact.
-- The static production artifact is 36.7 MB, below its 38 MB total-build budget,
+- The static production artifact is 35.6 MB, below its 38 MB total-build budget,
   with no archive leakage or broken local references found by the dist audit.
 - `RoundKernel`, `CluePipeline`, `EpisodeController`, `StudyController`,
   `InputController`, `PreferenceStore`, and `ApplicationComposition` now own the
@@ -61,10 +61,10 @@ roadmap for one:
 
 The convergence baseline is now verified:
 
-- `npm run verify` passes 219 unit and contract tests, content validation, CSS
+- `npm run verify` passes 233 unit and contract tests, content validation, CSS
   and asset audits, the static build, and the production artifact audit;
-- production smoke passes in Chromium and WebKit for the landing page, standalone
-  game, and Creative Room;
+- production smoke passes in Chromium and WebKit for the landing page and
+  standalone game;
 - the full Season Zero production proof passes in Chromium and WebKit across
   exact, alias, fuzzy, incorrect, reveal, confidence, dispute, translated-answer,
   refresh-resume, sourced Study, bilingual memory reinforcement, completion
@@ -78,9 +78,8 @@ The convergence baseline is now verified:
   viewport families, two themes, and fifteen gameplay states, including
   confidence, translation, media, Study, reinforcement, voice, and finale;
 - the established production accessibility baseline passes in Chromium and
-  WebKit across landing, Creative Room, and eight critical game states at
-  desktop and phone widths. Reinforcement is now part of the audit matrix; its
-  expanded cross-engine rerun remains a release check.
+  WebKit across the landing page and nine critical game states at desktop and
+  phone widths. Reinforcement is part of the enforced cross-engine matrix.
 
 It is a trustworthy checkpoint, not yet a release candidate:
 

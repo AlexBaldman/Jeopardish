@@ -46,7 +46,7 @@ one active integration at a time.
 
 ## Jeopardish Branch History
 
-The branch-level audit in `BRANCH_CONVERGENCE_2026-07-24.md` remains authoritative.
+The branch-level audit in `BRANCH_CONVERGENCE_2026-08-05.md` is authoritative.
 No remote branch is approved for wholesale merge.
 
 | Area | Current status |

@@ -2,9 +2,6 @@ export const runtimeEntries = Object.freeze([
   // Pages and page-specific assets.
   'index.html',
   'game.html',
-  'creative-room.html',
-  'creative-room.css',
-  'creative-room.js',
 
   // Shared runtime.
   'style.css',
@@ -19,15 +16,12 @@ export const runtimeEntries = Object.freeze([
   'questions/episodes',
   'assets/episodes',
 
-  // Site and Creative Room artwork.
+  // Public site artwork.
   'assets/brand/channel-o-mark.svg',
   'assets/images/banknotes/trivia-note-questionable.png',
   'assets/images/vision/malex-broadcast-hero.png',
   'assets/images/vision/malex-counterfeit-portrait.png',
   'assets/images/vision/memory-palace-studio.png',
-  'assets/trebek/trebek-1.webp',
-  'assets/trebek/trebek-3.webp',
-  'assets/trebek/trebek-5.webp',
 
   // Game scene and host catalogs.
   'assets/ui',
@@ -43,5 +37,4 @@ export const runtimeEntries = Object.freeze([
 export const productionPageEntries = Object.freeze([
   'index.html',
   'game.html',
-  'creative-room.html',
 ]);

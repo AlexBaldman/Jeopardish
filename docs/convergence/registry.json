@@ -4,7 +4,7 @@
   "canonical": {
     "product": "JeoPARODY",
     "repository": "AlexBaldman/Jeopardish",
-    "branch": "convergence/jeoparody-v3",
+    "branch": "master",
     "rule": "Improve the canonical runtime in place. Donor histories supply evidence, requirements, fixtures, and bounded behavior ports; they never supply a wholesale architecture."
   },
   "workflow": {

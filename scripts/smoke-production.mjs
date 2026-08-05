@@ -17,7 +17,6 @@ const browsers = { chromium, webkit };
 const routes = [
   { id: 'landing', path: 'index.html', budgetMb: 6.25, ready: '#heroTitle' },
   { id: 'game', path: 'game.html', budgetMb: 10, ready: '#gameContainer' },
-  { id: 'creative-room', path: 'creative-room.html', budgetMb: 2.5, ready: '.room-hero' },
 ];
 
 let server;

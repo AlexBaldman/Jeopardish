@@ -1,7 +1,7 @@
 # JeoPARODY Production Readiness Review
 
 **Reviewed:** 2026-08-04  
-**Canonical branch:** `convergence/jeoparody-v3`  
+**Canonical branch:** `master`
 **Purpose:** identify the shortest honest path from a strong vertical slice to a product people can trust, return to, and eventually buy.
 
 ## Executive Verdict
@@ -42,8 +42,8 @@ observable enough that charging for it would be an honest exchange.
 | Media | Preflight, substitution, modal, local standby | Strong |
 | Presentation | Owned component styles and 180-state responsive fixture matrix | Strong alpha |
 | Accessibility | Automated desktop/phone Chromium and WebKit gate | Strong automated baseline |
-| Reliability | 232 tests, complete episode proof, emergency transport proof | Strong |
-| Performance | 5.47 MB standalone cold first-party route; 36.7 MB total artifact | Acceptable alpha |
+| Reliability | 233 tests, complete episode proof, emergency transport proof | Strong |
+| Performance | 5.47 MB standalone cold first-party route; 35.6 MB total artifact | Acceptable alpha |
 | Security | No package vulnerabilities; secret isolation and CSP record incomplete | Needs release gate |
 | Rights | Prototype likeness and reference-heavy identity remain | Public-launch blocker |
 | Content depth | One authored episode | Paid-product blocker |

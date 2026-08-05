@@ -24,9 +24,9 @@ The visual system should feel authored, playful, and game-like without making th
 | `styles/game/media.css` | Clue previews, media fallbacks, modal viewer, and media-specific motion | `index.html`, `game.html` |
 | `styles/game/controls.css` | Answer input and cabinet control deck | `index.html`, `game.html` |
 | `styles/game/study.css` | Study-mode drawer and learning actions | `index.html`, `game.html` |
-| `creative-room.css` | Creative Room documentation tool | `creative-room.html` |
+| `creative-room.css` | Internal brand-lab documentation tool; excluded from production | `creative-room.html` |
 
-The order is enforced by `@layer`: `reset`, `tokens`, `legacy`, `components`, `variants`, `states`, `responsive`, and `utilities`. The `legacy` layer now contains only the landing-page composition and shared body foundation; the game has no legacy runtime stylesheet. `creative-room.css` remains isolated because its interface and information density are different from the game.
+The order is enforced by `@layer`: `reset`, `tokens`, `legacy`, `components`, `variants`, `states`, `responsive`, and `utilities`. The `legacy` layer now contains only the landing-page composition and shared body foundation; the game has no legacy runtime stylesheet. `creative-room.css` remains isolated because it is an internal planning surface and is not packaged into `dist/`.
 
 ## Component Ownership
 
