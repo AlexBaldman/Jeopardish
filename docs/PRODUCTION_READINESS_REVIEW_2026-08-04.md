@@ -42,7 +42,7 @@ observable enough that charging for it would be an honest exchange.
 | Media | Preflight, substitution, modal, local standby | Strong |
 | Presentation | Owned component styles and 180-state responsive fixture matrix | Strong alpha |
 | Accessibility | Automated desktop/phone Chromium and WebKit gate | Strong automated baseline |
-| Reliability | 233 tests, complete episode proof, emergency transport proof | Strong |
+| Reliability | 234 tests, complete episode proof, emergency transport proof | Strong |
 | Performance | 5.47 MB standalone cold first-party route; 35.6 MB total artifact | Acceptable alpha |
 | Security | No package vulnerabilities; secret isolation and CSP record incomplete | Needs release gate |
 | Rights | Prototype likeness and reference-heavy identity remain | Public-launch blocker |

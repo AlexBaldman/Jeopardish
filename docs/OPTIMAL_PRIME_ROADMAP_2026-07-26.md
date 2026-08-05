@@ -38,8 +38,8 @@ Optimal Prime is the convergence of those truths.
 The convergence runtime now has a real authored Season Zero path, not merely a
 roadmap for one:
 
-- 233 automated tests pass.
-- The CSS audit reports 5,366 lines, 727 selector rules, five `!important`
+- 234 automated tests pass.
+- The CSS audit reports 5,401 lines, 733 selector rules, five `!important`
   declarations, and zero duplicate selectors.
 - The question validator covers 216,930 archive clues, the 10,000-clue runtime
   bank, and an eleven-clue reviewed episode pack.
@@ -61,7 +61,7 @@ roadmap for one:
 
 The convergence baseline is now verified:
 
-- `npm run verify` passes 233 unit and contract tests, content validation, CSS
+- `npm run verify` passes 234 unit and contract tests, content validation, CSS
   and asset audits, the static build, and the production artifact audit;
 - production smoke passes in Chromium and WebKit for the landing page and
   standalone game;

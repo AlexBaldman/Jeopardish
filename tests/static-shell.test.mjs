@@ -120,6 +120,14 @@ test('internal Creative Room cannot leak into the public product artifact', () =
   assert.doesNotMatch(smokeScript, /creative-room/);
 });
 
+test('landing theme control owns a high-contrast skin instead of browser defaults', () => {
+  assert.match(siteStyles, /\.site-theme-toggle\s*\{[\s\S]*?color:\s*#fff8df;[\s\S]*?background:\s*#171b38;/);
+  assert.match(
+    siteStyles,
+    /body\[data-theme="light"\] \.site-theme-toggle\s*\{[\s\S]*?color:\s*#251a2a;[\s\S]*?background:\s*#fff8df;/,
+  );
+});
+
 test('open scoreboard removes covered dialogue controls from interaction', () => {
   assert.match(
     scoreboardStyles,
