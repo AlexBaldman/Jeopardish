@@ -64,6 +64,8 @@ access to scoring or answer authority. Season Zero, Study mode, reinforcement,
 voice narration, and the finale all use the same boundary. The design and future
 AI gateway rules live in
 [`docs/HOST_AI_DIALOGUE_ROADMAP.md`](docs/HOST_AI_DIALOGUE_ROADMAP.md).
+The canonical visual identity and premium pixel-art production rules live in
+[`docs/CHARACTER_ART_DIRECTION.md`](docs/CHARACTER_ART_DIRECTION.md).
 
 ## Privacy-Safe Product Events
 
