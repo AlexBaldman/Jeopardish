@@ -1,11 +1,17 @@
 (function initHostManager(root, factory) {
   if (typeof module === 'object' && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require('./host-avatar.js'));
   } else {
-    root.JeopardishHost = factory();
+    root.JeopardishHost = factory(root.JeoPARODYHostAvatar);
   }
-}(typeof globalThis !== 'undefined' ? globalThis : this, function hostManagerFactory() {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function hostManagerFactory(avatarModule) {
   'use strict';
+
+  if (!avatarModule?.DefaultXanderAvatarPack || !avatarModule?.selectAvatarLook) {
+    throw new Error('HostManager requires JeoPARODYHostAvatar.');
+  }
+
+  const { DefaultXanderAvatarPack, selectAvatarLook } = avatarModule;
 
   const HostPerformanceStates = Object.freeze({
     IDLE: 'idle',
@@ -46,70 +52,19 @@
     return HostPerformanceStates.IDLE;
   }
 
-  const DefaultHostSkins = Object.freeze([
-    {
-      id: 'dope-broadcast',
-      label: 'Channel O Xander',
-      frame: 'bust',
-      visuals: Object.freeze({
-        idle: 'assets/trebek/trebek-dope-02.png',
-        clue: 'assets/trebek/trebek-dope-05.png',
-        reveal: 'assets/trebek/trebek-dope-03.png',
-        correct: 'assets/trebek/trebek-dope-01.png',
-        incorrect: 'assets/trebek/trebek-dope-05.png',
-        empty: 'assets/trebek/trebek-dope-03.png',
-        streak: 'assets/trebek/trebek-dope-01.png',
-      }),
-      note: 'Primary reaction pack restored from the true-alpha neon masters.',
-    },
-    {
-      id: 'dope-question',
-      label: 'Question Mark Xander',
-      frame: 'bust',
-      src: 'assets/trebek/trebek-dope-02.png',
-      note: 'True-alpha question-mark portrait.',
-    },
-    {
-      id: 'dope-mustache',
-      label: 'Mustache Xander',
-      frame: 'bust',
-      src: 'assets/trebek/trebek-dope-03.png',
-      note: 'True-alpha mustache portrait.',
-    },
-    {
-      id: 'dope-halo',
-      label: 'Halo Xander',
-      frame: 'bust',
-      src: 'assets/trebek/trebek-dope-01.png',
-      note: 'True-alpha halo portrait.',
-    },
-    {
-      id: 'dope-after-hours',
-      label: 'After-Hours Xander',
-      frame: 'bust',
-      src: 'assets/trebek/trebek-good-01.png',
-      note: 'Distinct true-alpha comic candidate recovered from the JeoPARODY rebuild.',
-    },
-    {
-      id: 'legacy-cutout',
-      label: 'Legacy Cutout',
-      frame: 'portrait',
-      src: 'assets/images/trebek-vector.png',
-      note: 'Transparent-background legacy placeholder.',
-    },
-  ]);
+  const DefaultHostSkins = Object.freeze(DefaultXanderAvatarPack.looks.map((look) => Object.freeze({
+    ...look,
+    avatarPackId: DefaultXanderAvatarPack.id,
+    anchors: DefaultXanderAvatarPack.anchors,
+    note: `${look.wardrobe.shorts}; ${look.wardrobe.shirt}.`,
+  })));
 
   const DefaultHost = Object.freeze({
     id: 'xander-trefleck',
     displayName: 'Xander Trefleck',
+    avatarPack: DefaultXanderAvatarPack,
     skins: DefaultHostSkins,
-    visuals: {
-      idle: 'assets/trebek/trebek-dope-02.png',
-      clue: 'assets/trebek/trebek-dope-05.png',
-      reveal: 'assets/trebek/trebek-dope-03.png',
-      correct: 'assets/trebek/trebek-dope-01.png',
-      incorrect: 'assets/trebek/trebek-dope-05.png',
-    },
+    visuals: DefaultHostSkins[0].visuals,
     quips: {
       idle: [
         'The board is waiting. It has retained counsel.',
@@ -222,6 +177,15 @@
       return skins[nextIndex];
     }
 
+    selectShowLook(seed, { previousLookId = this.activeSkinId } = {}) {
+      const avatarPack = this.activeHost?.avatarPack;
+      if (!avatarPack) return this.getActiveSkin();
+      const look = selectAvatarLook(avatarPack, { seed, previousLookId });
+      if (!look) return this.getActiveSkin();
+      this.activeSkinId = look.id;
+      return this.getActiveSkin();
+    }
+
     getPerformance(expression = HostPerformanceStates.IDLE) {
       if (!this.activeHost) {
         return null;
@@ -248,6 +212,11 @@
         effect: meta.effect,
         intensity: meta.intensity,
         frame: skin?.frame || 'portrait',
+        avatarPackId: skin?.avatarPackId || this.activeHost.avatarPack?.id || '',
+        anchors: skin?.anchors || this.activeHost.avatarPack?.anchors || null,
+        wardrobe: skin?.wardrobe || null,
+        eyewear: skin?.eyewear || null,
+        layers: skin?.layers || null,
         skin,
         skinIndex,
         skinCount: skins.length,
@@ -283,6 +252,7 @@
   return {
     DefaultHost,
     DefaultHostSkins,
+    DefaultXanderAvatarPack,
     HostPerformanceStates,
     HostManager,
     normalizePerformanceState,

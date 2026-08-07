@@ -132,7 +132,9 @@ function createFakeDocument() {
     'dialogueStyleLabel',
     'dialogueStyleIndex',
     'hostStage',
+    'hostAvatar',
     'hostImage',
+    'hostLensSignal',
     'hostPrevButton',
     'hostNextButton',
     'hostSkinLabel',
@@ -707,10 +709,18 @@ test('Renderer renders host visual state', () => {
   assert.equal(renderer.dom.hostImage.dataset.skinId, 'sparkle-host');
   assert.equal(renderer.dom.hostImage.dataset.frame, 'bust');
   assert.equal(renderer.dom.hostImage.dataset.hostPack, 'vera-static');
+  assert.equal(renderer.dom.hostImage.dataset.lookId, 'sparkle-host');
   assert.equal(renderer.dom.hostStage.dataset.effect, 'approve');
   assert.equal(renderer.dom.hostStage.dataset.motion, 'react');
+  assert.equal(renderer.dom.hostImage.dataset.assetState, 'loading');
   assert.equal(renderer.dom.hostSkinLabel.textContent, 'Sparkle Host');
   assert.equal(renderer.dom.hostPackIndex.textContent, '02/05');
+
+  renderer.dom.hostImage.listeners.error();
+  assert.equal(renderer.dom.hostImage.src, 'assets/hosts/xander/v1/looks/question-pink.png');
+  assert.equal(renderer.dom.hostImage.dataset.assetState, 'fallback');
+  renderer.dom.hostImage.listeners.load();
+  assert.equal(renderer.dom.hostImage.dataset.assetState, 'ready');
 });
 
 test('Renderer applies dialogue skins and animates changed score tiles', () => {

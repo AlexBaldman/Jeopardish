@@ -65,7 +65,12 @@ voice narration, and the finale all use the same boundary. The design and future
 AI gateway rules live in
 [`docs/HOST_AI_DIALOGUE_ROADMAP.md`](docs/HOST_AI_DIALOGUE_ROADMAP.md).
 The canonical visual identity and premium pixel-art production rules live in
-[`docs/CHARACTER_ART_DIRECTION.md`](docs/CHARACTER_ART_DIRECTION.md).
+[`docs/CHARACTER_ART_DIRECTION.md`](docs/CHARACTER_ART_DIRECTION.md). Xander's
+first avatar pack now includes 12 transparent production looks, deterministic
+per-show wardrobe selection, manual cycling, semantic motion, lens reactions,
+and asset fallback. The future character creator and local-first AI boundaries
+are specified in
+[`docs/HOST_STUDIO_ARCHITECTURE.md`](docs/HOST_STUDIO_ARCHITECTURE.md).
 
 ## Privacy-Safe Product Events
 

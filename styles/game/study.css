@@ -8,11 +8,12 @@
         gap: 0.45rem;
         padding: 0.55rem 0.8rem;
         border: 3px solid #10131c;
-        border-radius: 8px;
-        color: #17131b;
+        border-radius: 11px;
+        color: #071124;
         background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.86), transparent 24%),
-            linear-gradient(155deg, #fff8df, #d9d3c5);
+            repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.16) 0 2px, transparent 2px 9px),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.68), transparent 24%),
+            linear-gradient(155deg, rgba(67, 232, 242, 0.96), rgba(33, 173, 211, 0.92));
         box-shadow:
             0 5px 0 #16758a,
             0 8px 0 #080a12,
@@ -29,7 +30,7 @@
         place-items: center;
         width: 1.35rem;
         aspect-ratio: 1;
-        border-radius: 50%;
+        border-radius: 7px;
         color: var(--ink);
         background: var(--neon-yellow);
         box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.62), 0 2px 0 #17131b;
@@ -53,8 +54,9 @@
 
     body[data-theme="light"] .game-container .deep-dive-trigger {
         background:
+            repeating-linear-gradient(115deg, rgba(37, 26, 42, 0.08) 0 2px, transparent 2px 9px),
             linear-gradient(180deg, #fff, transparent 24%),
-            linear-gradient(155deg, #fff9e8, #e8d7bb);
+            linear-gradient(155deg, #8cf8ff, #44cfd9);
     }
 
     .game-container .review-queue-trigger {
@@ -218,9 +220,12 @@
         min-height: 3.2rem;
         padding: 0.65rem;
         border: 2px solid rgba(102, 237, 242, 0.55);
-        border-radius: 10px;
+        border-radius: 11px;
         color: #f8f2dc;
-        background: rgba(255, 255, 255, 0.08);
+        background:
+            repeating-linear-gradient(115deg, var(--jp-heather-line) 0 2px, transparent 2px 9px),
+            linear-gradient(145deg, rgba(67, 232, 242, 0.18), rgba(244, 71, 168, 0.13));
+        box-shadow: 0 4px 0 rgba(3, 7, 20, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         cursor: pointer;
         text-align: left;
     }
@@ -232,7 +237,11 @@
     .game-container .study-actions button:hover,
     .game-container .study-actions button:focus-visible {
         color: var(--ink);
-        background: var(--neon-cyan);
+        background:
+            repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.16) 0 2px, transparent 2px 9px),
+            linear-gradient(145deg, var(--neon-cyan), #3a9dde);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 0 rgba(3, 7, 20, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.32);
     }
 
     .game-container .study-response {

@@ -47,6 +47,8 @@
     throw new Error('JeopardishRenderer requires JeoPARODYFinaleView.');
   }
 
+  const DEFAULT_HOST_VISUAL = 'assets/hosts/xander/v1/looks/question-pink.png';
+
   const DefaultCopy = Object.freeze({
     lang: 'en',
     questionButton: 'New Clue',
@@ -253,7 +255,9 @@
       this.dom.dialogueStyleLabel = this.document.getElementById('dialogueStyleLabel');
       this.dom.dialogueStyleIndex = this.document.getElementById('dialogueStyleIndex');
       this.dom.hostStage = this.document.getElementById('hostStage');
+      this.dom.hostAvatar = this.document.getElementById('hostAvatar');
       this.dom.hostImage = this.document.getElementById('hostImage');
+      this.dom.hostLensSignal = this.document.getElementById('hostLensSignal');
       this.dom.hostPrevButton = this.document.getElementById('hostPrevButton');
       this.dom.hostNextButton = this.document.getElementById('hostNextButton');
       this.dom.hostSkinLabel = this.document.getElementById('hostSkinLabel');
@@ -307,6 +311,17 @@
       this.dom.studyReinforcementInput = this.document.getElementById('studyReinforcementInput');
       this.dom.studyReinforcementCheck = this.document.getElementById('studyReinforcementCheck');
       this.dom.studyReinforcementResult = this.document.getElementById('studyReinforcementResult');
+      this.dom.hostImage?.addEventListener('load', () => {
+        this.dom.hostImage.dataset.assetState = 'ready';
+      });
+      this.dom.hostImage?.addEventListener('error', () => {
+        if (this.dom.hostImage.src.endsWith(DEFAULT_HOST_VISUAL)) {
+          this.dom.hostImage.dataset.assetState = 'error';
+          return;
+        }
+        this.dom.hostImage.dataset.assetState = 'fallback';
+        this.dom.hostImage.src = DEFAULT_HOST_VISUAL;
+      });
       this.updateStaticText();
       return this.dom;
     }
@@ -873,6 +888,7 @@
         || host.visuals?.idle;
       if (nextVisual) {
         this.dom.hostImage.src = nextVisual;
+        this.dom.hostImage.dataset.assetState = 'loading';
       }
       const hostDisplayName = performance?.hostDisplayName
         || host.displayName
@@ -887,12 +903,32 @@
       this.dom.hostImage.dataset.effect = performance?.effect || activeState;
       this.dom.hostImage.dataset.intensity = performance?.intensity || 'medium';
       this.dom.hostImage.dataset.hostPack = performance?.hostPackId || '';
+      this.dom.hostImage.dataset.avatarPack = performance?.avatarPackId || '';
+      this.dom.hostImage.dataset.lookId = activeSkin?.id || '';
+      if (this.dom.hostAvatar) {
+        this.dom.hostAvatar.dataset.avatarPack = performance?.avatarPackId || '';
+        this.dom.hostAvatar.dataset.lookId = activeSkin?.id || '';
+        this.dom.hostAvatar.dataset.expression = activeState;
+        this.dom.hostAvatar.dataset.eyewearEffect = performance?.eyewear?.effect || '';
+        const lensAnchor = performance?.anchors?.lenses;
+        if (lensAnchor && this.dom.hostAvatar.style?.setProperty) {
+          this.dom.hostAvatar.style.setProperty('--host-lens-x', `${Number(lensAnchor.x) * 100}%`);
+          this.dom.hostAvatar.style.setProperty('--host-lens-y', `${Number(lensAnchor.y) * 100}%`);
+          this.dom.hostAvatar.style.setProperty('--host-lens-width', `${Number(lensAnchor.width) * 100}%`);
+        }
+      }
+      if (this.dom.hostLensSignal) {
+        this.dom.hostLensSignal.dataset.expression = activeState;
+        this.dom.hostLensSignal.dataset.intensity = performance?.intensity || 'medium';
+      }
       if (this.dom.hostStage) {
         this.dom.hostStage.dataset.expression = activeState;
         this.dom.hostStage.dataset.frame = performance?.frame || activeSkin?.frame || 'portrait';
         this.dom.hostStage.dataset.effect = performance?.effect || activeState;
         this.dom.hostStage.dataset.intensity = performance?.intensity || 'medium';
         this.dom.hostStage.dataset.hostPack = performance?.hostPackId || '';
+        this.dom.hostStage.dataset.avatarPack = performance?.avatarPackId || '';
+        this.dom.hostStage.dataset.lookId = activeSkin?.id || '';
         this.applyHostMotion(performance?.motion);
       }
       if (this.dom.hostSkinLabel) {

@@ -15,8 +15,8 @@ test('HostManager exposes the default host', () => {
 
   assert.equal(hostManager.getActiveHost().id, DefaultHost.id);
   assert.equal(hostManager.getActiveHost().displayName, 'Xander Trefleck');
-  assert.equal(hostManager.getVisual('neutral'), 'assets/trebek/trebek-dope-02.png');
-  assert.equal(hostManager.getActiveSkin().id, DefaultHostSkins[0].id);
+  assert.equal(hostManager.getVisual('neutral'), 'assets/hosts/xander/v1/looks/question-pink.png');
+  assert.equal(hostManager.getActiveSkin().id, 'question-pink');
 });
 
 test('HostManager falls back to neutral visual for unknown expression', () => {
@@ -48,40 +48,53 @@ test('HostManager can register and activate another host', () => {
 test('HostManager cycles host skins and wraps around the catalog', () => {
   const hostManager = new HostManager();
 
-  assert.equal(hostManager.getActiveSkin().id, 'dope-broadcast');
-  assert.equal(hostManager.cycleSkin(1).id, 'dope-question');
-  assert.equal(hostManager.getVisual('happy'), 'assets/trebek/trebek-dope-02.png');
-  assert.equal(hostManager.cycleSkin(-1).id, 'dope-broadcast');
-  assert.equal(hostManager.cycleSkin(-1).id, 'legacy-cutout');
+  assert.equal(hostManager.getActiveSkin().id, 'question-pink');
+  assert.equal(hostManager.cycleSkin(1).id, 'exclamation-blue');
+  assert.equal(hostManager.getVisual('happy'), 'assets/hosts/xander/v1/looks/exclamation-blue.png');
+  assert.equal(hostManager.cycleSkin(-1).id, 'question-pink');
+  assert.equal(hostManager.cycleSkin(-1).id, 'question-constellation');
 });
 
 test('HostManager restores a known skin and ignores an unknown skin', () => {
-  const hostManager = new HostManager({ activeSkinId: 'dope-question' });
+  const hostManager = new HostManager({ activeSkinId: 'exclamation-blue' });
 
-  assert.equal(hostManager.getActiveSkin().id, 'dope-question');
-  assert.equal(hostManager.setActiveSkin('not-real').id, 'dope-question');
+  assert.equal(hostManager.getActiveSkin().id, 'exclamation-blue');
+  assert.equal(hostManager.setActiveSkin('not-real').id, 'exclamation-blue');
 });
 
-test('HostManager resolves a complete dope reaction performance pack', () => {
+test('HostManager resolves a complete modular avatar performance pack', () => {
   const hostManager = new HostManager();
   const clue = hostManager.getPerformance('thinking');
   const correct = hostManager.getPerformance('happy');
 
   assert.equal(clue.state, 'clue');
-  assert.equal(clue.visual, 'assets/trebek/trebek-dope-05.png');
+  assert.equal(clue.visual, 'assets/hosts/xander/v1/looks/question-pink.png');
   assert.equal(clue.effect, 'lean-in');
-  assert.equal(clue.frame, 'bust');
+  assert.equal(clue.frame, 'full');
+  assert.equal(clue.avatarPackId, 'xander-surf-v1');
+  assert.equal(clue.eyewear.effect, 'question-reflection');
   assert.equal(correct.state, 'correct');
-  assert.equal(correct.visual, 'assets/trebek/trebek-dope-01.png');
+  assert.equal(correct.visual, 'assets/hosts/xander/v1/looks/question-pink.png');
   assert.equal(correct.skinIndex, 0);
   assert.equal(correct.skinCount, DefaultHostSkins.length);
   assert.deepEqual(hostManager.getVisualSources(), [
-    'assets/trebek/trebek-dope-02.png',
-    'assets/trebek/trebek-dope-05.png',
-    'assets/trebek/trebek-dope-03.png',
-    'assets/trebek/trebek-dope-01.png',
+    'assets/hosts/xander/v1/looks/question-pink.png',
   ]);
   assert.equal(normalizePerformanceState('not-a-state'), 'idle');
+});
+
+test('HostManager chooses a stable no-repeat show look', () => {
+  const hostManager = new HostManager({ activeSkinId: 'question-pink' });
+  const selected = hostManager.selectShowLook('season-zero:show-2', {
+    previousLookId: 'question-pink',
+  });
+  const repeat = new HostManager({ activeSkinId: 'question-pink' }).selectShowLook(
+    'season-zero:show-2',
+    { previousLookId: 'question-pink' },
+  );
+
+  assert.notEqual(selected.id, 'question-pink');
+  assert.equal(selected.id, repeat.id);
 });
 
 test('HostManager selects deterministic quips when random is injected', () => {

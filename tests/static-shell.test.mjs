@@ -240,9 +240,11 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(controlStyles, /@container cabinet \(max-width: 700px\)/);
   assert.match(tokens, /--jp-keycap-travel:\s*6px/);
   assert.match(controlStyles, /translateY\(calc\(var\(--jp-keycap-travel\) - 1px\)\)/);
-  assert.match(controlStyles, /--control-face:\s*#f5f1df/);
+  assert.match(controlStyles, /--control-face:\s*rgba\(67, 232, 242, 0\.96\)/);
   assert.match(controlStyles, /0 var\(--jp-keycap-travel\) 0 var\(--control-edge\)/);
-  assert.match(controlStyles, /\.control-symbol[\s\S]*border-radius:\s*50%/);
+  assert.match(controlStyles, /\.control-symbol[\s\S]*border-radius:\s*10px/);
+  assert.match(tokens, /--jp-surf-pink:\s*#f447a8/);
+  assert.match(controlStyles, /repeating-linear-gradient\(115deg, var\(--jp-heather-line\)/);
   assert.match(dialogueStyles, /--thought-fill:\s*#f1efe5/);
   assert.match(dialogueStyles, /body\[data-theme="light"\][\s\S]*--thought-fill:\s*#fff9e8/);
 });
@@ -523,9 +525,9 @@ test('host study entry uses localized generic copy in both game shells', () => {
   }
 });
 
-test('static scene picker copy matches the four-pack runtime', () => {
-  assert.match(landingHtml, /id="menuSceneIndex"[^>]*>01\/04</);
-  assert.match(gameHtml, /id="menuSceneIndex"[^>]*>01\/04</);
+test('static scene picker copy matches the five-pack runtime', () => {
+  assert.match(landingHtml, /id="menuSceneIndex"[^>]*>01\/05</);
+  assert.match(gameHtml, /id="menuSceneIndex"[^>]*>01\/05</);
   assert.match(landingHtml, /id="menuSceneLabel">Long Beach '96</);
   assert.match(gameHtml, /id="menuSceneLabel">Long Beach '96</);
 });

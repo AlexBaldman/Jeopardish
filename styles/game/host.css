@@ -56,6 +56,17 @@
         margin: 0;
     }
 
+    .game-container .host-avatar {
+        --host-lens-x: 50%;
+        --host-lens-y: 14.5%;
+        --host-lens-width: 25.5%;
+        position: relative;
+        z-index: 31;
+        width: clamp(148px, calc(14vw + 6vh), 245px);
+        isolation: isolate;
+        transform-origin: center bottom;
+    }
+
     .game-container .host-stage[data-motion="enter"] .host-stand {
         animation: host-motion-enter var(--jp-motion-panel) var(--jp-ease-enter) both;
     }
@@ -80,7 +91,7 @@
         position: relative;
         z-index: 31;
         display: block;
-        width: clamp(148px, calc(14vw + 6vh), 245px);
+        width: 100%;
         height: auto;
         max-height: clamp(190px, 27vw, 345px);
         border: 0;
@@ -91,6 +102,47 @@
             drop-shadow(4px 6px 0 var(--cabinet-ink))
             drop-shadow(0 0 14px rgba(56, 233, 255, 0.24));
         transform-origin: bottom left;
+    }
+
+    .game-container .trebek[data-frame="full"] {
+        max-height: none;
+    }
+
+    .game-container .host-lens-signal {
+        position: absolute;
+        left: var(--host-lens-x);
+        top: var(--host-lens-y);
+        z-index: 35;
+        display: flex;
+        width: var(--host-lens-width);
+        justify-content: space-around;
+        color: #fff4a3;
+        opacity: 0;
+        font: 900 clamp(0.42rem, 1.15vw, 0.72rem)/1 var(--pixel-font);
+        pointer-events: none;
+        text-shadow:
+            0 0 3px #fff,
+            0 0 8px #ff3dc8,
+            0 0 14px rgba(255, 61, 200, 0.8);
+        transform: translate(-50%, -50%) scale(0.82);
+        mix-blend-mode: screen;
+    }
+
+    .game-container .host-lens-signal i {
+        display: block;
+        font-style: normal;
+    }
+
+    .game-container .host-lens-signal:is(
+        [data-expression="reveal"],
+        [data-expression="correct"],
+        [data-expression="streak"]
+    ) {
+        animation: host-lens-flash 720ms steps(5, end) both;
+    }
+
+    .game-container .host-lens-signal[data-expression="incorrect"] {
+        animation: host-lens-dim 520ms ease-out both;
     }
 
     .game-container .trebek[data-frame="bust"] {
@@ -327,6 +379,18 @@
         72% { transform: translateY(-5px) scale(1.03) rotate(-0.8deg); }
         100% { transform: translateY(0) scale(1) rotate(0); }
     }
+
+    @keyframes host-lens-flash {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.65); }
+        28% { opacity: 1; transform: translate(-50%, -50%) scale(1.18); }
+        62% { opacity: 0.72; transform: translate(-50%, -50%) scale(0.96); }
+        100% { opacity: 0; transform: translate(-50%, -50%) scale(1.04); }
+    }
+
+    @keyframes host-lens-dim {
+        0% { opacity: 0.7; filter: saturate(1); }
+        100% { opacity: 0; filter: saturate(0.2); }
+    }
 }
 
 @layer responsive {
@@ -339,8 +403,11 @@
             opacity: 1;
         }
 
-        .game-container .trebek {
+        .game-container .host-avatar {
             width: clamp(132px, 38cqw, 148px);
+        }
+
+        .game-container .trebek {
             height: auto;
             max-height: 185px;
         }
@@ -380,11 +447,15 @@
                 box-shadow: 4px 5px 0 #080914, 0 0 14px rgba(56, 233, 255, 0.32);
             }
 
-            .game-container .trebek {
+            .game-container .host-avatar {
                 width: 92px;
+                margin-left: -9px;
+            }
+
+            .game-container .trebek {
+                width: 100%;
                 max-width: none;
                 max-height: none;
-                margin-left: -9px;
                 object-fit: cover;
                 object-position: top center;
             }
@@ -398,7 +469,8 @@
 
 @media (prefers-reduced-motion: reduce) {
     .game-container .trebek,
-    .game-container .host-stage .host-stand {
+    .game-container .host-stage .host-stand,
+    .game-container .host-lens-signal {
         animation: none;
     }
 }

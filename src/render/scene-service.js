@@ -83,11 +83,35 @@
     },
   });
 
+  const NEON_WEST_END_SCENES = Object.freeze({
+    light: {
+      id: 'neon-west-end-day',
+      label: 'Neon West End Day',
+      basePath: 'assets/scenes/neon-west-end-day/',
+      layers: [
+        { id: 'illustration', src: 'neon-west-end-day-v1.png', depth: 0.04, drift: 8 },
+      ],
+    },
+    dark: {
+      id: 'neon-west-end-night',
+      label: 'Neon West End Night',
+      basePath: 'assets/scenes/neon-west-end-night/',
+      layers: [
+        { id: 'illustration', src: 'neon-west-end-night-v1.png', depth: 0.04, drift: 8 },
+      ],
+    },
+  });
+
   const DEFAULT_SCENE_PACKS = Object.freeze([
     Object.freeze({
       id: 'long-beach-96',
       label: "Long Beach '96",
       scenes: LONG_BEACH_96_SCENES,
+    }),
+    Object.freeze({
+      id: 'neon-west-end',
+      label: 'Neon West End',
+      scenes: NEON_WEST_END_SCENES,
     }),
     Object.freeze({
       id: 'long-beach-boardwalk',
@@ -265,6 +289,7 @@
     DEFAULT_SCENES,
     DEFAULT_SCENE_PACKS,
     LONG_BEACH_SCENES,
+    NEON_WEST_END_SCENES,
     SceneService,
     WEST_END_FIELD_DAY_SCENES,
     getLayerSource,

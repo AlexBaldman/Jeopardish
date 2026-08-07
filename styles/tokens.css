@@ -57,6 +57,15 @@
         --jp-keycap-ink: #f8fbff;
         --jp-keycap-highlight: rgba(255, 255, 255, 0.24);
         --jp-keycap-shadow: rgba(1, 3, 9, 0.62);
+        --jp-surf-cyan: #43e8f2;
+        --jp-surf-pink: #f447a8;
+        --jp-surf-yellow: #ffd53d;
+        --jp-surf-orange: #ff783d;
+        --jp-surf-purple: #7136c9;
+        --jp-surf-navy: #111a4b;
+        --jp-glass-dark: rgba(9, 15, 43, 0.82);
+        --jp-glass-light: rgba(255, 255, 255, 0.2);
+        --jp-heather-line: rgba(255, 255, 255, 0.13);
         color-scheme: dark;
     }
 
@@ -72,6 +81,9 @@
         --jp-surface-menu: rgba(255, 248, 223, 0.98);
         --jp-surface-control: linear-gradient(180deg, #fff6b9, #f4c3ff);
         --jp-text-on-dark: #171322;
+        --jp-glass-dark: rgba(255, 248, 223, 0.78);
+        --jp-glass-light: rgba(255, 255, 255, 0.56);
+        --jp-heather-line: rgba(36, 28, 67, 0.09);
         color-scheme: light;
     }
 

@@ -42,7 +42,8 @@
     <script defer src="src/render/renderer.js?v=dialogue-3"></script>
     <script defer src="src/render/console-narrator.js?v=optimal-prime-1"></script>
     <script defer src="src/host/host-pack.js?v=host-performance-1"></script>
-    <script defer src="src/host/host-manager.js?v=host-catalog-2"></script>
+    <script defer src="src/host/host-avatar.js?v=avatar-pack-1"></script>
+    <script defer src="src/host/host-manager.js?v=host-catalog-3"></script>
     <script defer src="src/host/host-performance-director.js?v=host-performance-1"></script>
     <script defer src="src/presentation/ui-catalog.js?v=ui-catalog-2"></script>
     <script defer src="src/presentation/broadcast-presenter.js?v=broadcast-presenter-1"></script>
@@ -359,7 +360,7 @@
                         <h2 id="menuSettingsTitle">Settings</h2>
                         <button id="menuScene" type="button">
                             <span class="scene-menu-copy"><small>Background</small><strong id="menuSceneLabel">Long Beach '96</strong></span>
-                            <b id="menuSceneIndex" aria-hidden="true">01/04</b>
+                            <b id="menuSceneIndex" aria-hidden="true">01/05</b>
                         </button>
                         <button id="menuTheme" type="button"><span>Day / Night</span><b aria-hidden="true">☀</b></button>
                         <button id="menuLanguage" type="button"><span>English / Português</span><b aria-hidden="true">文</b></button>
@@ -418,9 +419,12 @@
                     <div class="host-stage" id="hostStage" aria-label="Host visual selector">
                         <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look" data-help="Previous host look">‹</button>
                         <figure class="host-stand">
-                        <img class="trebek" id="hostImage" alt="Xander Trefleck, the provisional JeoPARODY host" src="assets/trebek/trebek-dope-02.png" loading="lazy" decoding="async">
+                            <div class="host-avatar" id="hostAvatar">
+                                <img class="trebek" id="hostImage" alt="Xander Trefleck, the JeoPARODY host" src="assets/hosts/xander/v1/looks/question-pink.png" loading="lazy" decoding="async">
+                                <span class="host-lens-signal" id="hostLensSignal" aria-hidden="true"><i>?</i><i>?</i></span>
+                            </div>
                             <figcaption class="host-skin-label" id="hostSkinLabel">Channel O Xander</figcaption>
-                            <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/06</span>
+                            <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/12</span>
                         </figure>
                         <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look" data-help="Next host look">›</button>
                     </div>

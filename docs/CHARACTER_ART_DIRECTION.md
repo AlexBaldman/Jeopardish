@@ -23,6 +23,10 @@ are:
 
 ![Xander board-short catalog](../assets/character-concepts/xander-boardshort-catalog-v1.png)
 
+The approved special-event wardrobe remains part of the same collection:
+
+![Xander special wardrobe](../assets/character-concepts/xander-special-wardrobe-v1.png)
+
 This is a style target and identity study, not a production sprite sheet. It
 still needs pixel cleanup, pose separation, transparent extraction, and a final
 identity pass before runtime use.
@@ -47,6 +51,8 @@ The main host should retain these invariants in every pose and costume:
 
 - late-middle-aged to older face with visible history, not a generic young hero;
 - tall, angular head with a long nose, high forehead, and tired intelligent brow;
+- a lean, weathered surfer build with restrained definition, never a widened
+  bodybuilder or superhero reinterpretation;
 - thick silver hair swept upward and back, with dark indigo interior shadows;
 - hot-pink wayfarer frames with simple question-mark or scene reflections;
 - dry resting expression that can turn delighted without becoming a different
@@ -80,8 +86,11 @@ brighten, disappear, change scale, reflect the scene, or react to a clue while
 remaining readable at phone size.
 
 Suits, robes, punk layers, skate clothes, tracksuits, professor looks, and
-formalwear are guest looks or story beats. Their rarity makes them funny. The
-open-shirt surf wardrobe should remain the visual baseline across most shows.
+formalwear are guest looks or story beats. The midnight tuxedo, mustard leisure
+suit, public-access windbreaker, burgundy professor jacket, ivory finale jacket,
+and tropical-shirt-with-trousers look are all approved inventory. Their rarity
+makes them funny; none should be discarded. The open-shirt surf wardrobe should
+remain the visual baseline across most shows.
 
 ## Custom Board-Short Library
 
@@ -220,6 +229,27 @@ This supports blinking, breathing, glances, mouth movement, shoulder shifts,
 prop entrances, and reaction hits without generating a new inconsistent body
 for every frame.
 
+## Runtime Avatar Pack
+
+The first canonical runtime pack is now implemented in
+`src/host/host-avatar.js`. It contains all 12 board-short designs as full
+transparent host looks, including the signature question-mark pink,
+exclamation blue, yellow lightning, sunset cyan, neon tropical navy, contour
+purple, hibiscus cream, diagonal orange, broadcast grid, sun-wave turquoise,
+checker lightning coral, and question constellation variants.
+
+Each look uses a shared `720 x 900` canvas and bottom baseline. New shows choose
+a deterministic weighted look while avoiding the previous show outfit. The
+player can cycle every look manually, and a missing asset falls back to the
+signature pink look without interrupting play.
+
+The six special-occasion outfits and eight performance poses remain approved
+inventory. They are not discarded merely because their layered production
+exports are not yet complete.
+
+Future editing, generation, voice, and export architecture is defined in
+[`HOST_STUDIO_ARCHITECTURE.md`](HOST_STUDIO_ARCHITECTURE.md).
+
 ## Anti-Slop Review
 
 Reject or redraw artwork when:
@@ -245,6 +275,8 @@ Reject or redraw artwork when:
 6. Hand-clean edges, clusters, reflections, patterns, and anatomy.
 7. Export transparent PNG masters plus lossless WebP runtime copies.
 8. Test against every day/night scene, dialogue skin, and phone breakpoint.
+9. Register approved exports in a versioned `HostAvatarPack`; never add loose
+   runtime filenames directly to application coordination code.
 
 AI generation can accelerate exploration and underdrawing. A final character
 asset still requires a human-quality pixel cleanup pass and identity review.

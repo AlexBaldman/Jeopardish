@@ -29,7 +29,8 @@ synthesize the entire broadcast live.
 
 | Need | Recommended starting point | Why | Production caution |
 | --- | --- | --- | --- |
-| English and Portuguese character voice | [Chatterbox](https://github.com/resemble-ai/chatterbox) | Open implementation, multilingual and smaller variants, reference-audio voice transfer, and Brazilian Portuguese support | Record consent, pin model/checkpoint versions, preserve watermarking, and audit every shipped model license |
+| English and Portuguese character voice | [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) | Apache-2.0 implementation with English and Portuguese, voice design, style control, streaming, and short-reference cloning | Record consent, isolate the large local runtime, pin model/checkpoint versions, and audit every shipped checkpoint license |
+| Secondary voice research | [Chatterbox](https://github.com/resemble-ai/chatterbox) | Useful independent comparison for multilingual reference-audio transfer | Preserve watermarking, verify Brazilian Portuguese quality, and audit code plus checkpoint licenses |
 | Local speech recognition | [whisper.cpp](https://github.com/ggml-org/whisper.cpp) | Mature local transcription path with no required cloud round trip | Device performance varies; keep typed input first-class |
 | Fast generic offline voice | [Piper](https://github.com/OHF-Voice/piper1-gpl) | Useful for accessibility and non-character fallback speech | GPL code and individual voice-model licenses require review and architectural isolation |
 | Experimental expressive research | [F5-TTS](https://github.com/SWivid/F5-TTS) | Strong research baseline and useful prototyping reference | Current pretrained weights are noncommercial; do not build a commercial release around them |

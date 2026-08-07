@@ -18,12 +18,7 @@ export const runtimeEntries = Object.freeze([
   // Game scene and host catalogs.
   'assets/ui',
   'assets/scenes',
-  'assets/images/trebek-vector.png',
-  'assets/trebek/trebek-dope-01.png',
-  'assets/trebek/trebek-dope-02.png',
-  'assets/trebek/trebek-dope-03.png',
-  'assets/trebek/trebek-dope-05.png',
-  'assets/trebek/trebek-good-01.png',
+  'assets/hosts/xander/v1',
 ]);
 
 export const productionPageEntries = Object.freeze([

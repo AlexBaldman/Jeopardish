@@ -144,21 +144,26 @@ test('SceneService cycles named scene packs while preserving the active theme', 
   service.setTheme('light');
   const pack = service.cyclePack(1);
 
-  assert.equal(DEFAULT_SCENE_PACKS.length, 4);
-  assert.equal(pack.id, 'long-beach-boardwalk');
-  assert.equal(stage.dataset.scene, 'long-beach-day');
-  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-day/long-beach-west-sunset-v2.png');
+  assert.equal(DEFAULT_SCENE_PACKS.length, 5);
+  assert.equal(pack.id, 'neon-west-end');
+  assert.equal(stage.dataset.scene, 'neon-west-end-day');
+  assert.equal(stage.children[0].src, 'assets/scenes/neon-west-end-day/neon-west-end-day-v1.png');
 
   service.setTheme('dark');
+  assert.equal(stage.dataset.scene, 'neon-west-end-night');
+  assert.equal(stage.children[0].src, 'assets/scenes/neon-west-end-night/neon-west-end-night-v1.png');
+
+  const boardwalkPack = service.cyclePack(1);
+  assert.equal(boardwalkPack.id, 'long-beach-boardwalk');
   assert.equal(stage.dataset.scene, 'long-beach-night');
   assert.equal(stage.children[0].src, 'assets/scenes/long-beach-night/long-beach-west-blue-hour-v2.png');
 
+  service.setTheme('light');
+  assert.equal(stage.dataset.scene, 'long-beach-day');
+  assert.equal(stage.children[0].src, 'assets/scenes/long-beach-day/long-beach-west-sunset-v2.png');
+
   const archivePack = service.cyclePack(1);
   assert.equal(archivePack.id, 'beach-broadcast');
-  assert.equal(stage.dataset.scene, 'beach-night');
-  assert.equal(stage.children[0].src, 'assets/scenes/beach-night/beach-seek-and-find-v1.png');
-
-  service.setTheme('light');
   assert.equal(stage.dataset.scene, 'beach-day');
   assert.equal(stage.children[0].src, 'assets/scenes/beach-day/beach-seek-and-find-v1.png');
 

@@ -203,10 +203,12 @@ body[data-theme="light"] :is(.category-original, .clue-original) {
     min-height: 34px;
     padding: 0.42rem 0.62rem;
     border: 2px solid #070a10;
-    border-radius: 7px;
+    border-radius: 9px;
     color: #f8fbff;
-    background: linear-gradient(180deg, #34435e, #151c2a);
-    box-shadow: 0 3px 0 #070a10;
+    background:
+        repeating-linear-gradient(115deg, var(--jp-heather-line) 0 2px, transparent 2px 9px),
+        linear-gradient(155deg, rgba(45, 62, 112, 0.94), rgba(17, 26, 75, 0.96));
+    box-shadow: 0 4px 0 #070a10, inset 0 1px 0 rgba(255, 255, 255, 0.2);
     font: 800 clamp(0.62rem, 1.15vw, 0.76rem)/1 var(--utility-font);
     cursor: pointer;
 }
@@ -214,18 +216,19 @@ body[data-theme="light"] :is(.category-original, .clue-original) {
 .game-container .confidence-controls button:hover,
 .game-container .confidence-controls button:focus-visible {
     border-color: var(--cabinet-cyan);
-    transform: translateY(-1px);
+    filter: brightness(1.12);
+    transform: translateY(-2px);
 }
 
 .game-container .confidence-controls button[aria-pressed="true"] {
     color: #07150d;
-    background: var(--neon-green);
+    background: linear-gradient(145deg, #a1ffba, var(--neon-green));
     box-shadow: 0 3px 0 #07150d, 0 0 14px rgba(119, 255, 138, 0.4);
 }
 
 .game-container .confidence-controls .dispute-button[aria-pressed="true"] {
     color: #1b0a0d;
-    background: var(--cabinet-coral);
+    background: linear-gradient(145deg, #ff91c8, var(--cabinet-coral));
     box-shadow: 0 3px 0 #1b0a0d, 0 0 14px rgba(255, 91, 110, 0.4);
 }
 

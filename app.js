@@ -220,6 +220,7 @@ function cycleHostSkin(step) {
   hostManager.cycleSkin(step);
   persistHostSkin();
   renderHost(getCurrentHostExpression());
+  renderer.applyHostMotion({ primitive: 'recover' });
 }
 
 function renderHostPackPicker(pack = hostPerformanceDirector?.getActivePack()) {
@@ -292,7 +293,29 @@ async function openSavedReview() {
   });
 }
 
-function presentEpisodeLoaded({ sourceCount, fallback = false, emergency = false } = {}) {
+function createShowLookSeed(episodeId = 'broadcast') {
+  const nonce = globalThis.crypto?.randomUUID?.()
+    || `${Date.now()}-${Math.floor(Math.random() * 1_000_000)}`;
+  return `${episodeId}:${nonce}`;
+}
+
+function presentEpisodeLoaded({
+  pack,
+  resumed = false,
+  sourceCount,
+  fallback = false,
+  emergency = false,
+} = {}) {
+  const previousLookId = preferenceStore.get('hostSkinId');
+  const showLook = resumed
+    ? hostManager.setActiveSkin(previousLookId)
+    : hostManager.selectShowLook(createShowLookSeed(pack?.id), { previousLookId });
+  if (showLook?.id) {
+    preferenceStore.set('hostSkinId', showLook.id);
+    renderHost(getCurrentHostExpression());
+    renderer.applyHostMotion({ primitive: 'enter' });
+    console.info(`%c[Xander Wardrobe] ${showLook.label} has entered the broadcast. Nobody approved the shorts.`, 'color:#ff4fb8;font-weight:bold');
+  }
   const gameState = gameEngine.getState();
   state.bestStreak = Math.max(state.bestStreak, gameState.bestStreak || 0);
   renderer.setStatus(
