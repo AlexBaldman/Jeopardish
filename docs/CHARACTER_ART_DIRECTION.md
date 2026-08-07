@@ -16,6 +16,13 @@ The first direction board is:
 
 ![Premium pixel host direction](../assets/character-concepts/xander-premium-pixel-direction-v1.png)
 
+The approved everyday wardrobe direction and first board-short textile catalog
+are:
+
+![Xander core surf wardrobe](../assets/character-concepts/xander-core-surf-wardrobe-v1.png)
+
+![Xander board-short catalog](../assets/character-concepts/xander-boardshort-catalog-v1.png)
+
 This is a style target and identity study, not a production sprite sheet. It
 still needs pixel cleanup, pose separation, transparent extraction, and a final
 identity pass before runtime use.
@@ -52,6 +59,74 @@ The main host should retain these invariants in every pose and costume:
 The cigar or joint, halo, forehead mark, microphone, drink, and other props are
 performance vocabulary. They appear only when the scene calls for them. They
 are not permanent identity features.
+
+## Core Wardrobe Lock
+
+Xander's default wardrobe is beach-idol broadcast attire, not conventional
+game-show tailoring. His instantly readable everyday silhouette is:
+
+- custom board shorts in a loud, beautifully controlled print;
+- a vintage Hawaiian or camp shirt worn completely or mostly unbuttoned;
+- a fit, weathered torso with visible chest hair;
+- silver swept hair and bright yellow wayfarer-style frames;
+- mirrored hot-pink lenses, usually carrying clean question-mark reflections;
+- one or two restrained accessories such as a gold watch, chain, shell necklace,
+  ring, or surf leash.
+
+The primary glasses are yellow frames with pink mirrored lenses. Turquoise,
+cream, orange, white, and magenta frames are supporting variations. Do not add
+brand marks. Lens question marks are an iconic performance device: they can
+brighten, disappear, change scale, reflect the scene, or react to a clue while
+remaining readable at phone size.
+
+Suits, robes, punk layers, skate clothes, tracksuits, professor looks, and
+formalwear are guest looks or story beats. Their rarity makes them funny. The
+open-shirt surf wardrobe should remain the visual baseline across most shows.
+
+## Custom Board-Short Library
+
+Board shorts are Xander's equivalent of a broadcast suit and one of the game's
+collectible visual systems. Every design should feel like desirable surfwear he
+plausibly commissioned, not novelty boxer shorts.
+
+The first canonical pattern families are:
+
+1. hot pink with yellow question marks;
+2. broadcast blue with yellow exclamation points;
+3. sunshine yellow with an orange side-seam lightning bolt;
+4. electric cyan with magenta sunset-wave geometry;
+5. deep navy with neon tropical linework;
+6. purple with turquoise contour waves and coral O marks;
+7. cream with coral hibiscus and aqua wave bands;
+8. orange-to-magenta 1990s diagonal surf graphics;
+9. black with an abstract neon broadcast grid;
+10. turquoise with golden suns and indigo waves;
+11. coral checkerboard with cyan lightning accents;
+12. midnight indigo with question-mark constellations and one hidden
+    exclamation point.
+
+Future collections can be tied to episode topics, locations, eras, mastery
+rewards, story clues, or seasonal events. Pattern humor should reward close
+inspection without hurting the character's silhouette.
+
+## Modular Wardrobe Production
+
+Wardrobe should be built around a shared body rig rather than generating a new
+character for every show. The production stack is:
+
+1. stable body and head master;
+2. board-short cut and textile layer;
+3. shirt cut and textile layer;
+4. eyewear frame and lens-reflection layer;
+5. jewelry and small accessory layer;
+6. optional foreground prop;
+7. lighting and episode-effect pass.
+
+Choose one show look at episode start and keep it stable for that episode.
+Selection should be seeded by episode identity so reloading does not change his
+clothes mid-broadcast. Avoid immediately repeating the previous show look.
+Special wardrobe can override the normal selection for authored story beats,
+finales, or earned player rewards.
 
 No artwork should contain `Jeopardy`, malformed pseudo-text, or another brand
 inside the glasses. The lenses use question marks, controlled reflections, or
@@ -116,6 +191,10 @@ not automatically more premium.
 
 ## Expression and Animation Set
 
+The first canonical key-pose study uses the core surf wardrobe:
+
+![Xander animation key poses](../assets/character-concepts/xander-animation-key-poses-v1.png)
+
 The first production host pack should prove these states with the same face:
 
 1. idle deadpan;
@@ -169,4 +248,3 @@ Reject or redraw artwork when:
 
 AI generation can accelerate exploration and underdrawing. A final character
 asset still requires a human-quality pixel cleanup pass and identity review.
-
