@@ -15,8 +15,8 @@ const browserNames = (process.env.SMOKE_BROWSERS || 'chromium')
   .filter(Boolean);
 const browsers = { chromium, webkit };
 const routes = [
-  { id: 'landing', path: 'index.html', budgetMb: 6.25, ready: '#heroTitle' },
-  { id: 'game', path: 'game.html', budgetMb: 10, ready: '#gameContainer' },
+  { id: 'root-game', path: 'index.html', budgetMb: 10, ready: '#gameContainer', interactive: true },
+  { id: 'game', path: 'game.html', budgetMb: 10, ready: '#gameContainer', interactive: true },
 ];
 
 let server;
@@ -103,7 +103,7 @@ async function auditRoute(browser, browserName, route) {
   try {
     await gotoWithRetry(page, new URL(route.path, base).href);
     await page.waitForSelector(route.ready, { timeout: 15000 });
-    if (route.id === 'game') {
+    if (route.interactive) {
       await page.waitForFunction(() => (
         document.getElementById('gameContainer')?.dataset.gameMoment === 'clue'
         && document.getElementById('questionButton')?.disabled === false
@@ -125,7 +125,7 @@ async function auditRoute(browser, browserName, route) {
       failures.push(`cold route payload ${megabytes.toFixed(2)} MB exceeds ${route.budgetMb.toFixed(1)} MB`);
     }
 
-    if (route.id === 'game') {
+    if (route.interactive) {
       const originalTheme = await page.locator('body').getAttribute('data-theme');
       await page.locator('#themeToggle').click();
       await page.waitForFunction(
@@ -203,6 +203,43 @@ async function auditEmergencyBroadcast(browser, browserName) {
   return failures.map((failure) => `${browserName}/emergency: ${failure}`);
 }
 
+async function auditPrivateContentBoundary(browser, browserName) {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  const failures = [];
+  const archiveRequests = [];
+  page.on('request', (request) => {
+    if (request.url().includes('runtime-bank.json')) archiveRequests.push(request.url());
+  });
+  page.on('pageerror', (error) => failures.push(`page error: ${error.message}`));
+
+  try {
+    await gotoWithRetry(page, new URL('game.html?mode=archive', base).href);
+    await page.waitForSelector('#gameContainer', { timeout: 15000 });
+    await page.waitForFunction(() => (
+      document.getElementById('gameContainer')?.dataset.gameMoment === 'clue'
+    ), null, { timeout: 30000 });
+
+    if (await page.locator('#menuArchiveMode').isVisible()) {
+      failures.push('local archive control became visible in the production artifact');
+    }
+    if (archiveRequests.length) {
+      failures.push('production artifact requested the private historical archive');
+    }
+    if (await page.locator('body').getAttribute('data-release-channel') !== 'production') {
+      failures.push('production release marker is missing');
+    }
+
+    console.log(
+      `${browserName.padEnd(8)} ${'private-boundary'.padEnd(14)} `
+      + 'archive query remained on the reviewed public episode',
+    );
+  } finally {
+    await page.close();
+  }
+
+  return failures.map((failure) => `${browserName}/private-boundary: ${failure}`);
+}
+
 await startServer();
 const failures = [];
 try {
@@ -215,6 +252,7 @@ try {
         failures.push(...await auditRoute(browser, browserName, route));
       }
       failures.push(...await auditEmergencyBroadcast(browser, browserName));
+      failures.push(...await auditPrivateContentBoundary(browser, browserName));
     } finally {
       await browser.close();
     }

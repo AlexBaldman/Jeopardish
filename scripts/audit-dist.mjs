@@ -60,11 +60,20 @@ const relativeFiles = new Set(files.map((file) => path.relative(distRoot, file).
 const forbidden = [...relativeFiles].filter((file) => (
   file.split('/').some((segment) => forbiddenSegments.has(segment))
   || file === 'questions/jeopardy-questions.json'
+  || file === 'questions/runtime-bank.json'
   || file.startsWith('visual-fixtures.')
 ));
 
 for (const page of productionPageEntries) {
   if (!relativeFiles.has(page)) missing.push(`${page} (production entry)`);
+}
+
+const [rootPage, cabinetPage] = await Promise.all([
+  fs.readFile(path.join(distRoot, 'index.html'), 'utf8'),
+  fs.readFile(path.join(distRoot, 'game.html'), 'utf8'),
+]);
+if (rootPage !== cabinetPage) {
+  missing.push('index.html must be the promoted standalone game cabinet');
 }
 
 for (const file of files.filter((candidate) => /\.(?:css|html)$/i.test(candidate))) {

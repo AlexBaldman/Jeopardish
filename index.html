@@ -5,23 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeoPARODY | The Forbidden Broadcast</title>
-    <meta name="description" content="JeoPARODY is an original comedy-learning game-show universe: verified facts, counterfeit stakes, and a suspiciously polite fictional host.">
+    <meta name="description" content="JeoPARODY is a comedy-learning game show with reviewed facts, fair answer judging, Study detours, and one suspiciously polite fictional host.">
     <link rel="stylesheet" href="styles/order.css?v=architecture-3" type="text/css">
     <link rel="stylesheet" href="styles/tokens.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/base.css?v=architecture-3" type="text/css">
-    <link rel="stylesheet" href="styles/brand.css?v=architecture-9" type="text/css">
+    <link rel="stylesheet" href="styles/brand.css?v=architecture-10" type="text/css">
     <link rel="stylesheet" href="styles/preferences.css?v=architecture-9" type="text/css">
-    <link rel="stylesheet" href="style.css?v=architecture-3" type="text/css">
+    <link rel="stylesheet" href="style.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/cabinet.css?v=architecture-5" type="text/css">
     <link rel="stylesheet" href="styles/game/scene.css?v=architecture-4" type="text/css">
     <link rel="stylesheet" href="styles/game/header.css?v=architecture-8" type="text/css">
     <link rel="stylesheet" href="styles/game/scoreboard.css?v=architecture-4" type="text/css">
-    <link rel="stylesheet" href="styles/game/menu.css?v=architecture-3" type="text/css">
-    <link rel="stylesheet" href="styles/game/host.css?v=architecture-5" type="text/css">
-    <link rel="stylesheet" href="styles/game/dialogue.css?v=architecture-7" type="text/css">
+    <link rel="stylesheet" href="styles/game/menu.css?v=architecture-5" type="text/css">
+    <link rel="stylesheet" href="styles/game/host.css?v=architecture-6" type="text/css">
+    <link rel="stylesheet" href="styles/game/dialogue.css?v=architecture-8" type="text/css">
     <link rel="stylesheet" href="styles/game/media.css?v=architecture-5" type="text/css">
     <link rel="stylesheet" href="styles/game/controls.css?v=architecture-7" type="text/css">
-    <link rel="stylesheet" href="styles/game/study.css?v=architecture-4" type="text/css">
+    <link rel="stylesheet" href="styles/game/study.css?v=architecture-5" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bree+Serif&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/brand/channel-o-mark.svg">
     <script defer src="game-logic.js?v=arcade-4"></script>
@@ -47,7 +47,7 @@
     <script defer src="src/presentation/ui-catalog.js?v=ui-catalog-2"></script>
     <script defer src="src/presentation/broadcast-presenter.js?v=broadcast-presenter-1"></script>
     <script defer src="src/presentation/cabinet-presenter.js?v=cabinet-presenter-1"></script>
-    <script defer src="src/brand/brand-controller.js?v=brand-6"></script>
+    <script defer src="src/brand/brand-controller.js?v=brand-7"></script>
     <script defer src="src/i18n/translation-service.js?v=i18n-1"></script>
     <script defer src="src/audio/audio-controller.js?v=round-1"></script>
     <script defer src="src/voice/voice-controller.js?v=voice-1"></script>
@@ -65,7 +65,7 @@
     <script defer src="src/telemetry/product-telemetry.js?v=telemetry-1"></script>
     <script defer src="src/application/application-composition.js?v=composition-1"></script>
     <script defer src="landing.js?v=vision-2"></script>
-    <script defer src="app.js?v=optimal-prime-2"></script>
+    <script defer src="app.js?v=optimal-prime-3"></script>
 </head>
 
 <body lang="en" data-theme="dark" data-language="en">
@@ -77,11 +77,10 @@
             <span class="wordmark-sub">THE FORBIDDEN BROADCAST</span>
         </a>
         <nav class="site-links" aria-label="Site sections">
-            <a href="#evidence">Evidence</a>
-            <a href="#formats">Formats</a>
-            <a href="#system">System</a>
-            <a href="#maps">Maps</a>
-            <a href="#roadmap">Roadmap</a>
+            <a href="#episodes">Episodes</a>
+            <a href="#story">The Host</a>
+            <a href="#formats">Ways to Play</a>
+            <a href="#play">Play</a>
         </nav>
         <div class="nav-actions">
             <button class="theme-toggle site-theme-toggle" id="siteThemeToggle" type="button" aria-label="Toggle light or dark mode" aria-pressed="false" data-theme-toggle>
@@ -97,12 +96,12 @@
     <main class="site-shell" id="top">
         <section class="hero" aria-labelledby="heroTitle">
             <div class="hero-copy reveal">
-                <p class="eyebrow"><span class="signal-dot"></span> Midnight frequency acquired / Season zero</p>
-                <h1 id="heroTitle">The forbidden broadcast that makes learning feel illicitly fun.</h1>
-                <p class="hero-lede">An original comedy-learning game-show universe built on verified facts, counterfeit stakes, and one suspiciously polite host broadcasting through the unauthorized O.</p>
+                <p class="eyebrow"><span class="signal-dot"></span> Season Zero is on the air</p>
+                <h1 id="heroTitle">A trivia show with excellent facts and questionable management.</h1>
+                <p class="hero-lede">Play a ten-clue comedy-learning episode, detour into any answer that catches your interest, then return to the show without losing your place.</p>
                 <div class="hero-actions">
                     <a class="action-primary" href="#play" data-launch-game>Play the Prototype</a>
-                    <a class="action-secondary" href="#premise">Unseal the Premise</a>
+                    <a class="action-secondary" href="#episodes">How Episodes Work</a>
                 </div>
                 <div class="broadcast-code" aria-label="Broadcast principles">
                     <span>TRUTH AT THE CORE</span>
@@ -113,22 +112,60 @@
                 <img src="assets/images/vision/malex-broadcast-hero.png" alt="Fictional quiz host Xander Trefleck at a neon celestial game-show podium holding questionable trivia currency." decoding="async" fetchpriority="high">
                 <figcaption>
                     <span>ON AIR</span>
-                    Xander Trefleck insists the unauthorized O is standard Canadian punctuation.
+                    Xander Trefleck says the unauthorized O has always been there. Records disagree.
                 </figcaption>
             </figure>
         </section>
 
         <section class="manifesto reveal" id="premise" aria-label="The premise">
-            <p class="manifesto-kicker">The Pivot</p>
-            <p class="manifesto-statement">Keep trivia as the spine. Leave the single-show clone behind.</p>
-            <p class="manifesto-copy">JeoPARODY becomes a late-night learning network assembled from the joyous grammar of old game shows: wagers, lightning rounds, puzzles, artifacts, fake prizes, and escalating finales.</p>
+            <p class="manifesto-kicker">The Deal</p>
+            <p class="manifesto-statement">The facts are straight. The television network is not.</p>
+            <p class="manifesto-copy">Every scored answer comes from reviewed material. Xander may embroider the occasion, but he does not get a vote on truth, scoring, or whether your typo counts.</p>
+        </section>
+
+        <section class="episodes section" id="episodes" aria-labelledby="episodesTitle">
+            <div class="section-heading reveal">
+                <p class="eyebrow">How Episodes Work</p>
+                <h2 id="episodesTitle">The pilot has ten clues. The cupboard has 216,930.</h2>
+                <p>The archive is source material, not a slot machine. Finished episodes select, verify, order, and connect a small set of clues so each session has pacing, callbacks, a finale, and something worth remembering.</p>
+            </div>
+            <div class="episode-pipeline reveal" aria-label="Question archive to finished episode">
+                <article class="episode-stage archive-stage">
+                    <span class="episode-stage-number">01</span>
+                    <p class="micro-label">The Library</p>
+                    <strong>216,930 archival clues</strong>
+                    <p>Historical records help us find subjects, edge cases, media, and forgotten oddities. They are research material, not automatic publication.</p>
+                </article>
+                <div class="episode-arrow" aria-hidden="true">+</div>
+                <article class="episode-stage workshop-stage">
+                    <span class="episode-stage-number">02</span>
+                    <p class="micro-label">The Writers' Room</p>
+                    <strong>Verify, rewrite, arrange</strong>
+                    <p>Sources, accepted answers, explanations, translations, media, host beats, and a standby clue are reviewed as one show.</p>
+                </article>
+                <div class="episode-arrow" aria-hidden="true">=</div>
+                <article class="episode-stage broadcast-stage">
+                    <span class="episode-stage-number">03</span>
+                    <p class="micro-label">The Broadcast</p>
+                    <strong>10 aired clues + 1 standby</strong>
+                    <p>Three acts build from an easy entrance to a thematic turn and a final reveal. Study mode may pause the show; it always returns you to the same seat.</p>
+                </article>
+            </div>
+            <aside class="episode-now reveal" aria-label="Current episode status">
+                <div>
+                    <p class="micro-label">Now Playing</p>
+                    <h3>The Extra O Is Not an Accident</h3>
+                    <p>Season Zero's pilot is the first fully reviewed episode. The larger archive currently supplies research and a labeled emergency fallback while more authored episodes are produced.</p>
+                </div>
+                <a href="#play" data-launch-game>Play Episode 001</a>
+            </aside>
         </section>
 
         <section class="evidence section" id="evidence" aria-labelledby="evidenceTitle">
             <div class="section-heading reveal">
-                <p class="eyebrow">Corpus Proof</p>
-                <h2 id="evidenceTitle">The seed library is enormous, strange, and already demanding a platform.</h2>
-                <p>Measured locally from the active archival question bank. These numbers are product requirements, not trivia.</p>
+                <p class="eyebrow">Inside the Library</p>
+                <h2 id="evidenceTitle">The other questions are waiting for an editor, not a roulette wheel.</h2>
+                <p>These are measured archival records. They reveal the size and messiness of the raw material, including media links, disputed formats, and wager amounts that are not ordinary clue values.</p>
             </div>
             <div class="metric-grid reveal" aria-label="Question bank statistics">
                 <article class="metric-card metric-gold">
@@ -177,9 +214,9 @@
                 <figcaption>PUBLICLY: M. ALEX. &nbsp; EVENTUALLY: MALEX.</figcaption>
             </figure>
             <div class="story-copy reveal">
-                <p class="eyebrow">Original Host IP</p>
+                <p class="eyebrow">Your Alleged Host</p>
                 <h2 id="storyTitle">A respectable host with an inconvenient identity problem.</h2>
-                <p>Xander assumes control of a forbidden after-hours signal and assures players the money is legal in several provinces. The more a player masters, the more his story falls apart.</p>
+                <p>Xander has assumed control of an after-hours signal and assures players the money is legal in several provinces. He is calm, prepared, and increasingly unable to explain the stationery. The more you learn, the less his story holds.</p>
                 <ol class="host-states" aria-label="Host story escalation">
                     <li><strong>Polite</strong><span>Immaculate and reassuring.</span></li>
                     <li><strong>Slippery</strong><span>Unasked anecdotes emerge.</span></li>
@@ -191,8 +228,8 @@
 
         <section class="formats section" id="formats" aria-labelledby="formatsTitle">
             <div class="section-heading reveal">
-                <p class="eyebrow">Mode Design</p>
-                <h2 id="formatsTitle">Three experiences share a brain; none should compromise the others.</h2>
+                <p class="eyebrow">Ways to Play</p>
+                <h2 id="formatsTitle">One show can move at three different speeds.</h2>
             </div>
             <div class="format-switcher reveal">
                 <div class="format-tabs" role="tablist" aria-label="JeoPARODY game modes">
@@ -223,111 +260,6 @@
             </div>
         </section>
 
-        <section class="system section" id="system" aria-labelledby="systemTitle">
-            <div class="section-heading reveal">
-                <p class="eyebrow">AI Trust Boundary</p>
-                <h2 id="systemTitle">Let the host improvise. Never let it become the judge.</h2>
-                <p>A performance layer can be delightfully unreliable only because a deterministic fact kernel is boring and correct.</p>
-            </div>
-            <div class="boundary reveal">
-                <article class="boundary-panel truth">
-                    <p>Deterministic kernel</p>
-                    <ul>
-                        <li>Canonical fact + sources</li>
-                        <li>Accepted answer policy</li>
-                        <li>Wager / timer / scoring</li>
-                        <li>Mastery + dispute ledger</li>
-                    </ul>
-                    <strong>Score / Truth / Fairness</strong>
-                </article>
-                <div class="packet" aria-hidden="true"><span>FACT</span><span>PACKET</span></div>
-                <article class="boundary-panel theater">
-                    <p>Generative show</p>
-                    <ul>
-                        <li>Clue phrasing candidate</li>
-                        <li>Xander banter + reactions</li>
-                        <li>Artifact flavor copy</li>
-                        <li>Audio / visual direction</li>
-                    </ul>
-                    <strong>Performance / Surprise / Tone</strong>
-                </article>
-            </div>
-        </section>
-
-        <section class="maps section" id="maps" aria-labelledby="mapsTitle">
-            <div class="section-heading reveal">
-                <p class="eyebrow">Signal Maps</p>
-                <h2 id="mapsTitle">A strange show becomes clearer when you can see the circuitry.</h2>
-                <p>These living diagrams show how learning moves the plot, and why the host can be unpredictable without the game becoming unfair.</p>
-            </div>
-            <div class="map-grid">
-                <article class="diagram-card reveal">
-                    <div class="diagram-heading">
-                        <p class="micro-label">Player-to-plot loop</p>
-                        <h3>Learning rebuilds the studio.</h3>
-                    </div>
-                    <div class="diagram-flow" role="img" aria-label="Verified facts pass through a mechanic and fair answer judge. Correct answers and useful corrections grow mastery, rebuild the studio, and expose evidence about Xander.">
-                        <div class="diagram-node"><span>01</span><strong>Verified fact</strong><small>Archive checked</small></div>
-                        <i class="flow-arrow" aria-hidden="true"></i>
-                        <div class="diagram-node"><span>02</span><strong>Mechanic lens</strong><small>Recall, wager, puzzle</small></div>
-                        <i class="flow-arrow" aria-hidden="true"></i>
-                        <div class="diagram-node diagram-decision"><span>03</span><strong>Player response</strong><small>The truth fork</small></div>
-                        <div class="diagram-branches">
-                            <div class="diagram-branch" data-tone="correct"><b>Correct / near typo</b><strong>Fair judge</strong></div>
-                            <div class="diagram-branch" data-tone="correction"><b>Wrong</b><strong>Correction + callback</strong></div>
-                        </div>
-                        <i class="flow-arrow" aria-hidden="true"></i>
-                        <div class="diagram-node diagram-payoff"><span>04</span><strong>Mastery grows</strong><small>Studio rebuilds · evidence leaks</small></div>
-                    </div>
-                    <details class="diagram-source">
-                        <summary>View Mermaid source</summary>
-                        <pre>flowchart TB
-    fact["Verified fact"] --&gt; lens["Mechanic lens"]
-    lens --&gt; answer{"Player response"}
-    answer --&gt;|"Correct / near typo"| judge["Fair judge"]
-    answer --&gt;|"Wrong"| correction["Correction + comic callback"]
-    judge --&gt; mastery["Mastery grows"]
-    correction --&gt; mastery
-    mastery --&gt; studio["Studio rebuilds"]
-    studio --&gt; evidence["Xander leaks evidence"]</pre>
-                    </details>
-                </article>
-                <article class="diagram-card reveal">
-                    <div class="diagram-heading">
-                        <p class="micro-label">Trust boundary</p>
-                        <h3>The show may lie. The engine cannot.</h3>
-                    </div>
-                    <div class="diagram-flow" role="img" aria-label="Archive facts and legacy tests create a validated fact packet. The deterministic kernel owns scoring while a separate performance layer owns banter. Both paths earn player trust.">
-                        <div class="diagram-inputs">
-                            <div class="diagram-node"><span>A</span><strong>Archive facts</strong><small>Original clue truth</small></div>
-                            <div class="diagram-node"><span>B</span><strong>Legacy tests</strong><small>Hard-won edge cases</small></div>
-                        </div>
-                        <i class="flow-arrow" aria-hidden="true"></i>
-                        <div class="diagram-node diagram-decision"><span>01</span><strong>Validated fact packet</strong><small>Value · media · answer policy</small></div>
-                        <div class="diagram-branches">
-                            <div class="diagram-branch" data-tone="correct"><b>Truth kernel</b><strong>Score · mastery · disputes</strong></div>
-                            <div class="diagram-branch" data-tone="theater"><b>Performance layer</b><strong>Banter · art · mystery</strong></div>
-                        </div>
-                        <i class="flow-arrow" aria-hidden="true"></i>
-                        <div class="diagram-node diagram-payoff"><span>02</span><strong>Player trust</strong><small>The show may lie. The engine cannot.</small></div>
-                    </div>
-                    <details class="diagram-source">
-                        <summary>View Mermaid source</summary>
-                        <pre>flowchart TB
-    archive["Archive + original facts"] --&gt; normalize["Normalize value / media / answer"]
-    legacy["Legacy harvest tests"] --&gt; kernel["Truth kernel"]
-    normalize --&gt; packet["Validated fact packet"]
-    packet --&gt; kernel
-    packet --&gt; show["Performance layer"]
-    kernel --&gt; result["Score + mastery + disputes"]
-    show --&gt; theater["Banter + art + mystery"]
-    result --&gt; trust["Player trust"]
-    theater --&gt; trust</pre>
-                    </details>
-                </article>
-            </div>
-        </section>
-
         <section class="sparks section" id="sparks" aria-labelledby="sparksTitle">
             <figure class="studio-art reveal">
                 <img src="assets/images/vision/memory-palace-studio.png" alt="An expansive neon memory-palace studio rebuilt through mastered knowledge." loading="lazy" decoding="async">
@@ -341,19 +273,6 @@
                     <article><b>03</b><h3>Knowledge exposes him</h3><p>Mastery domains unlock evidence about the host's increasingly shaky claims.</p></article>
                     <article><b>04</b><h3>Creator channels</h3><p>Teachers and families assemble original learning television.</p></article>
                 </div>
-            </div>
-        </section>
-
-        <section class="roadmap section" id="roadmap" aria-labelledby="roadmapTitle">
-            <div class="section-heading reveal">
-                <p class="eyebrow">Delivery Roadmap</p>
-                <h2 id="roadmapTitle">Build truth before theater; then let theater drive retention.</h2>
-            </div>
-            <div class="roadmap-line reveal">
-                <article><span>0-A</span><h3>Legacy + Truth</h3><p>Harvest better judging, normalize values, fix finale scoring.</p><strong>Trusted prototype</strong></article>
-                <article><span>B</span><h3>Arcade Slice</h3><p>Original fact pack, Xander art kit, wager and evidence.</p><strong>Signature session</strong></article>
-                <article><span>C</span><h3>AI Performance</h3><p>Secure gateway, validated rewrites, cached reactions.</p><strong>Living host</strong></article>
-                <article><span>D</span><h3>Network</h3><p>More mechanics, creators, co-op, new story seasons.</p><strong>Learning platform</strong></article>
             </div>
         </section>
 
@@ -426,12 +345,16 @@
                         <div><small>Channel O</small><p class="nav-kicker">Game Menu</p></div>
                         <button class="menu-close" id="menuClose" type="button" aria-label="Close game menu">×</button>
                     </header>
-                    <section class="menu-section menu-action-grid" aria-labelledby="menuRoundTitle">
-                        <h2 id="menuRoundTitle">Round</h2>
-                        <button id="menuNewClue" type="button"><span>New clue</span><kbd>Q</kbd></button>
-                        <button id="menuRevealAnswer" type="button"><span>Reveal answer</span><kbd>A</kbd></button>
-                        <button id="menuDeepDive" type="button"><span id="menuDeepDiveLabel">Ask Host</span><kbd>D</kbd></button>
-                    </section>
+                <section class="menu-section menu-action-grid" aria-labelledby="menuRoundTitle">
+                    <h2 id="menuRoundTitle">Round</h2>
+                    <button id="menuNewClue" type="button"><span>New clue</span><kbd>Q</kbd></button>
+                    <button id="menuRevealAnswer" type="button"><span>Reveal answer</span><kbd>A</kbd></button>
+                    <button id="menuDeepDive" type="button"><span id="menuDeepDiveLabel">Ask Host</span><kbd>D</kbd></button>
+                    <a class="archive-mode-link" id="menuArchiveMode" href="game.html?mode=archive" hidden>
+                        <span class="scene-menu-copy"><small>Local research mode</small><strong id="menuArchiveModeLabel">Archive Practice</strong></span>
+                        <b aria-hidden="true">10K</b>
+                    </a>
+                </section>
                     <section class="menu-section menu-action-grid" aria-labelledby="menuSettingsTitle">
                         <h2 id="menuSettingsTitle">Settings</h2>
                         <button id="menuScene" type="button">
@@ -567,8 +490,8 @@
 
     <footer class="site-footer">
         <p class="brand-mark wordmark-main" data-brand-mark aria-label="JeoPARODY"><span class="brand-base brand-base-before">JEOPAR</span><span class="brand-o" data-brand-o-display data-o-token="intruder"><span class="brand-o-core" aria-hidden="true"></span></span><span class="brand-base brand-base-after">DY</span><span class="brand-bang" aria-hidden="true">!</span></p>
-        <p>An original fictional comedy-learning broadcast universe. The host is fictional; the truth layer is not.</p>
-        <a href="#top">Return to frequency</a>
+        <p>An original comedy-learning game show. The host is fictional; the cited facts are not.</p>
+        <a href="#top">Back to top</a>
     </footer>
 
     <div class="media-modal" id="mediaModal" aria-hidden="true" hidden>

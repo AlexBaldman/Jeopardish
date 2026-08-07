@@ -72,7 +72,7 @@
         border-bottom: 1px dashed rgba(255, 216, 77, 0.34);
     }
 
-    .game-container .menu-action-grid button {
+    .game-container .menu-action-grid :is(button, a) {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -91,8 +91,8 @@
         transition: transform 120ms ease, background var(--jp-motion-fast) ease, box-shadow 120ms ease;
     }
 
-    .game-container .menu-action-grid button:hover,
-    .game-container .menu-action-grid button:focus-visible {
+    .game-container .menu-action-grid :is(button, a):hover,
+    .game-container .menu-action-grid :is(button, a):focus-visible {
         color: #17121e;
         background: var(--cabinet-gold);
         transform: translate(-2px, -2px);
@@ -114,6 +114,15 @@
     .game-container .scene-menu-copy { display: grid; gap: 0.1rem; }
     .game-container .scene-menu-copy small { color: #d3c7dd; font: 400 0.55rem/1.4 var(--pixel-font); text-transform: uppercase; }
     .game-container .scene-menu-copy strong { font: 900 0.86rem/1.1 var(--utility-font); }
+
+    .game-container .archive-mode-link {
+        border-color: var(--cabinet-gold);
+        background: linear-gradient(135deg, #25316b, #60306f);
+    }
+
+    .game-container .archive-mode-link[hidden] {
+        display: none;
+    }
 }
 
 @layer responsive {

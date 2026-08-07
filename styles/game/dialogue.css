@@ -805,13 +805,22 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .dialogue-s
 @media (max-height: 620px) {
     @container cabinet (max-width: 420px) {
         body .game-container .speech-bubble[data-dialogue-style] {
-            height: min(315px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
-            min-height: min(315px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
-            max-height: min(315px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
+            height: min(252px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
+            min-height: min(252px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
+            max-height: min(252px, calc(100svh - var(--jp-header-height) - var(--footer-height) - 1.25rem));
+            padding-top: 2.8rem;
         }
 
         body .game-container .speech-bubble[data-dialogue-style]::after {
             display: none;
+        }
+
+        body .game-container .speech-bubble[data-dialogue-style] .clue-category {
+            font-size: clamp(1rem, 5.2cqw, 1.25rem);
+        }
+
+        body .game-container .speech-bubble[data-dialogue-style] .clue-text {
+            font-size: clamp(1.05rem, 5.5cqw, 1.3rem);
         }
     }
 }

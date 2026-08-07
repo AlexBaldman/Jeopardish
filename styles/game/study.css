@@ -392,6 +392,14 @@
             padding: 0.85rem;
         }
     }
+
+    @media (max-height: 620px) {
+        @container cabinet (max-width: 420px) {
+            .game-container .deep-dive-trigger {
+                display: none;
+            }
+        }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

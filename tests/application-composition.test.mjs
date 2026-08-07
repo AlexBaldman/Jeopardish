@@ -319,3 +319,12 @@ test('app.js delegates episode ownership without retaining shadow lifecycle stat
   assert.doesNotMatch(appSource, /\bsessionCompleteVisible\b/);
   assert.doesNotMatch(appSource, /state\.current(?:Source|Display)Clue/);
 });
+
+test('app.js gates historical archive practice behind a local non-production release boundary', () => {
+  assert.match(appSource, /const IS_PRIVATE_PREVIEW = isLocalContentHost\(\)/);
+  assert.match(appSource, /dataset\?\.releaseChannel !== 'production'/);
+  assert.match(appSource, /const ARCHIVE_PRACTICE = IS_PRIVATE_PREVIEW/);
+  assert.match(appSource, /URL_PARAMETERS\.get\('mode'\) === 'archive'/);
+  assert.match(appSource, /ARCHIVE_PRACTICE[\s\S]*?questions\/runtime-bank\.json/);
+  assert.match(appSource, /archiveMenuItem\.hidden = false/);
+});

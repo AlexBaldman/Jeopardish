@@ -1,27 +1,19 @@
 export const runtimeEntries = Object.freeze([
-  // Pages and page-specific assets.
-  'index.html',
+  // The build promotes the standalone cabinet to index.html.
   'game.html',
 
   // Shared runtime.
-  'style.css',
   'styles',
   'app.js',
-  'landing.js',
   'game-logic.js',
   'src',
 
   // Question delivery.
-  'questions/runtime-bank.json',
   'questions/episodes',
   'assets/episodes',
 
-  // Public site artwork.
+  // Public identity artwork.
   'assets/brand/channel-o-mark.svg',
-  'assets/images/banknotes/trivia-note-questionable.png',
-  'assets/images/vision/malex-broadcast-hero.png',
-  'assets/images/vision/malex-counterfeit-portrait.png',
-  'assets/images/vision/memory-palace-studio.png',
 
   // Game scene and host catalogs.
   'assets/ui',

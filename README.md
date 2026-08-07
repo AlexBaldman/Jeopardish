@@ -40,11 +40,15 @@ an Accident** from `questions/episodes/season-zero-001.json`:
 - revision-safe local resume, missed/revealed/shaky review queues, and replay;
 - bilingual memory rematches backed by a private local learning ledger;
 - a finale artifact decoded from the clue order;
-- automatic fallback to the compact archive bank only when episode transport
-  fails.
+- automatic fallback to a compact reviewed emergency episode when transport
+  fails; the historical bank is available only in local Archive Practice.
 
 The content format and editorial workflow are documented in
-[`docs/CONTENT_AUTHORING.md`](docs/CONTENT_AUTHORING.md).
+[`docs/CONTENT_AUTHORING.md`](docs/CONTENT_AUTHORING.md), with the broader
+episode model in
+[`docs/EPISODE_AND_EDITORIAL_PLAYBOOK.md`](docs/EPISODE_AND_EDITORIAL_PLAYBOOK.md)
+and the consent-first voice plan in
+[`docs/VOICE_PRODUCTION_AND_AI_STACK.md`](docs/VOICE_PRODUCTION_AND_AI_STACK.md).
 
 ## Host Performance
 
@@ -193,9 +197,10 @@ This repo now includes lightweight operations scripts so you can execute the bra
   ```
 
 `questions/jeopardy-questions.json` is the complete research archive. The
-browser loads the reviewed Season Zero episode and production packages both
-that pack and `questions/runtime-bank.json`; the latter is a compact fallback
-and should be regenerated rather than hand-edited.
+browser loads the reviewed Season Zero episode. Production ships reviewed
+episode packs and a small embedded emergency broadcast, not the historical
+archive or `questions/runtime-bank.json`. The runtime bank remains a local
+research and migration fixture and should be regenerated rather than hand-edited.
 
 Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture future
 merge/cherry-pick/delete decisions. The latest completed pass is

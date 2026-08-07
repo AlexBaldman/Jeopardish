@@ -41,7 +41,9 @@ The complete clue archive and all source art remain available for research. The 
 - `scripts/audit-assets.mjs` reports packaged, archival, duplicate, and unreferenced source assets without deleting research material.
 - `scripts/build-runtime-questions.mjs` derives a validated, deterministic runtime bank from the complete archive.
 - `scripts/validate-questions.mjs` validates both archive and runtime data by default.
-- `scripts/build-static.mjs` packages the runtime bank and explicit artwork dependencies instead of copying broad directories.
+- `scripts/build-static.mjs` promotes the standalone cabinet to the root route
+  and packages reviewed episodes plus explicit artwork dependencies. The local
+  runtime bank is no longer copied into production.
 
 Current source art inventory:
 

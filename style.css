@@ -472,6 +472,121 @@
     line-height: 1.6;
 }
 
+.episode-pipeline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: clamp(0.7rem, 1.6vw, 1.2rem);
+    align-items: stretch;
+}
+
+.episode-stage {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.9rem;
+    min-width: 0;
+    min-height: 280px;
+    overflow: hidden;
+    padding: clamp(1.25rem, 2.6vw, 2rem);
+    border: 2px solid #080914;
+    background:
+        radial-gradient(circle at 100% 0, rgba(70, 239, 255, 0.16), transparent 42%),
+        var(--vision-panel);
+    box-shadow: 8px 9px 0 #080914;
+}
+
+.episode-stage::after {
+    position: absolute;
+    inset: auto -12% -35% 45%;
+    height: 72%;
+    content: "";
+    border: 2px solid rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    background: repeating-radial-gradient(circle, rgba(255, 255, 255, 0.04) 0 2px, transparent 3px 8px);
+    transform: rotate(-12deg);
+}
+
+.workshop-stage {
+    border-top-color: var(--neon-pink);
+}
+
+.broadcast-stage {
+    border-top-color: var(--vision-gold);
+}
+
+.episode-stage-number {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: rgba(255, 255, 255, 0.13);
+    font: 900 clamp(2.6rem, 5vw, 4.7rem)/0.8 var(--question-font);
+}
+
+.episode-stage strong {
+    position: relative;
+    z-index: 1;
+    max-width: 14rem;
+    color: var(--paper);
+    font: 900 clamp(1.55rem, 2.5vw, 2.2rem)/1.02 var(--question-font);
+}
+
+.episode-stage > p:last-child {
+    position: relative;
+    z-index: 1;
+    color: var(--vision-copy);
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.episode-arrow {
+    align-self: center;
+    color: var(--vision-gold);
+    font: 900 2rem/1 var(--question-font);
+    text-shadow: 3px 3px 0 #080914;
+}
+
+.episode-now {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: clamp(1.5rem, 3vw, 2.4rem);
+    padding: clamp(1.3rem, 3vw, 2.1rem);
+    border: 2px solid #080914;
+    border-left: 8px solid var(--neon-green);
+    background: linear-gradient(100deg, rgba(14, 24, 59, 0.98), rgba(45, 22, 66, 0.96));
+    box-shadow: 8px 9px 0 #080914;
+}
+
+.episode-now h3 {
+    margin: 0.45rem 0;
+    color: var(--paper);
+    font: 900 clamp(1.65rem, 3vw, 2.5rem)/1.05 var(--question-font);
+}
+
+.episode-now > div > p:last-child {
+    max-width: 52rem;
+    color: var(--vision-copy);
+    line-height: 1.55;
+}
+
+.episode-now > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0.85rem 1rem;
+    border: 2px solid #080914;
+    border-radius: 6px;
+    color: #080914;
+    background: var(--neon-green);
+    box-shadow: 5px 6px 0 #080914;
+    font: 700 clamp(0.49rem, 0.8vw, 0.6rem)/1.5 var(--pixel-font);
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
 .metric-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1114,6 +1229,19 @@
     .roadmap-line::before {
         display: none;
     }
+
+    .episode-pipeline {
+        grid-template-columns: 1fr;
+    }
+
+    .episode-stage {
+        min-height: 0;
+    }
+
+    .episode-arrow {
+        justify-self: center;
+        transform: rotate(90deg);
+    }
 }
 
 @media (max-width: 720px) {
@@ -1152,6 +1280,14 @@
     .map-grid,
     .roadmap-line {
         grid-template-columns: 1fr;
+    }
+
+    .episode-now {
+        grid-template-columns: 1fr;
+    }
+
+    .episode-now > a {
+        justify-self: stretch;
     }
 
     .chart-row {
@@ -1225,7 +1361,9 @@ body[data-theme="light"] :is(
     .boundary-panel,
     .diagram-card,
     .sparks-copy,
-    .roadmap-line strong
+    .roadmap-line strong,
+    .episode-stage,
+    .episode-now
 ) {
     background: rgba(255, 248, 223, 0.86);
 }
@@ -1245,8 +1383,15 @@ body[data-theme="light"] .diagram-node strong,
 body[data-theme="light"] .diagram-branch strong,
 body[data-theme="light"] .spark-list p,
 body[data-theme="light"] .roadmap-line p,
-body[data-theme="light"] .site-footer {
+body[data-theme="light"] .site-footer,
+body[data-theme="light"] .episode-stage > p:last-child,
+body[data-theme="light"] .episode-now > div > p:last-child {
     color: #343047;
+}
+
+body[data-theme="light"] .episode-stage strong,
+body[data-theme="light"] .episode-now h3 {
+    color: #17152b;
 }
 
 body[data-theme="light"] .diagram-card {

@@ -170,9 +170,9 @@ try {
     try {
       for (const viewport of viewports) {
         failures.push(...await auditStaticRoute(browser, browserName, viewport, {
-          id: 'landing',
+          id: 'root-game',
           path: 'index.html',
-          ready: '#heroTitle',
+          ready: '#gameContainer',
         }));
         failures.push(...await auditGame(browser, browserName, viewport));
       }

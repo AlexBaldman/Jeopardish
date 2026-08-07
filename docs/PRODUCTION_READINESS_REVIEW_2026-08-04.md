@@ -161,7 +161,8 @@ more content.
 - Complete 200% zoom and real-device screen-reader checks manually.
 - Preserve the no-secret client rule for future AI, translation, and commerce.
 - Keep archive questions as research/fallback input, not the paid editorial
-  product.
+  product. The public artifact no longer ships the normalized historical bank;
+  reviewed embedded content owns transport failure.
 
 ## Go/No-Go Gates
 

@@ -78,6 +78,8 @@ const cabinetContractIds = [
   'confidenceShaky',
   'confidenceLearned',
   'disputeButton',
+  'menuArchiveMode',
+  'menuArchiveModeLabel',
 ];
 
 const mediaContractIds = [
@@ -118,6 +120,19 @@ test('internal Creative Room cannot leak into the public product artifact', () =
   assert.ok(!runtimeEntries.includes('creative-room.css'));
   assert.ok(!runtimeEntries.includes('creative-room.js'));
   assert.doesNotMatch(smokeScript, /creative-room/);
+});
+
+test('archive practice is an explicit local-only research mode', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /id="menuArchiveMode"[^>]*href="game\.html\?mode=archive"[^>]*hidden/,
+      `${surface} must keep archive practice hidden until local runtime approval`);
+    assert.match(html, /id="menuArchiveModeLabel">Archive Practice</,
+      `${surface} is missing the archive practice label`);
+  }
+  assert.ok(!runtimeEntries.includes('questions/runtime-bank.json'),
+    'the historical archive must not ship in the public runtime');
+  assert.ok(!runtimeEntries.includes('creative-room.html'),
+    'the internal room must not ship in the public runtime');
 });
 
 test('landing theme control owns a high-contrast skin instead of browser defaults', () => {
@@ -437,6 +452,16 @@ test('brand marks keep JEOPARDY as the setup and insert the interchangeable O be
   assert.match(brandStyles, /data-o-token="intruder"/);
   assert.doesNotMatch(brandStyles, /\.brand-o-stable/);
   assert.match(brandStyles, /\.brand-o \.brand-o-core/);
+  assert.doesNotMatch(
+    brandStyles,
+    /\.brand-mark \.brand-base[\s\S]*?transform:\s*scaleX/,
+    'the surrounding letters must not be crushed to make room for the inserted O',
+  );
+  assert.doesNotMatch(
+    brandStyles,
+    /\.brand-base-before\s*\{[^}]*margin-right:\s*-0\.[2-9]/,
+    'the R and inserted O must not be stacked with a large negative margin',
+  );
   assert.ok(
     runtimeEntries.includes('assets/brand/channel-o-mark.svg'),
     'production manifest must ship the compact Channel O mark',
@@ -451,12 +476,12 @@ test('game headers use explicit flag artwork and current architecture styles', (
     assert.match(html, /styles\/game\/header\.css\?v=architecture-8/);
     assert.match(html, /styles\/tokens\.css\?v=architecture-4/);
     assert.match(html, /styles\/game\/cabinet\.css\?v=architecture-5/);
-    assert.match(html, /styles\/brand\.css\?v=architecture-9/);
-    assert.match(html, /styles\/game\/host\.css\?v=architecture-5/);
+    assert.match(html, /styles\/brand\.css\?v=architecture-10/);
+    assert.match(html, /styles\/game\/host\.css\?v=architecture-6/);
     assert.match(html, /styles\/game\/scoreboard\.css\?v=architecture-4/);
-    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-7/);
+    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-8/);
     assert.match(html, /styles\/game\/controls\.css\?v=architecture-7/);
-    assert.match(html, /styles\/game\/study\.css\?v=architecture-4/);
+    assert.match(html, /styles\/game\/study\.css\?v=architecture-5/);
   }
   assert.equal(
     Array.from(landingHtml.matchAll(/data-theme-toggle(?:\s|>)/g)).length,
@@ -474,6 +499,15 @@ test('game headers use explicit flag artwork and current architecture styles', (
   assert.match(preferenceStyles, /body\[data-language="pt-BR"\]\s+\.flag-br\s*\{[\s\S]*?opacity:\s*1;/);
   assert.match(preferenceStyles, /\.language-toggle\[data-help\]::after[\s\S]*display:\s*block/);
   assert.ok(runtimeEntries.includes('assets/ui'), 'production manifest must ship header flag artwork');
+});
+
+test('public landing explains how archive questions become authored episodes', () => {
+  assert.match(landingHtml, /id="episodes"/);
+  assert.match(landingHtml, /216,930 archival clues/);
+  assert.match(landingHtml, /10 aired clues \+ 1 standby/);
+  assert.match(landingHtml, /research material, not automatic publication/i);
+  assert.match(landingHtml, /first fully reviewed episode/i);
+  assert.match(siteStyles, /\.episode-pipeline/);
 });
 
 test('host study entry uses localized generic copy in both game shells', () => {
@@ -496,9 +530,10 @@ test('static scene picker copy matches the four-pack runtime', () => {
   assert.match(gameHtml, /id="menuSceneLabel">Long Beach '96</);
 });
 
-test('signal maps have an offline visual fallback and reveal content is safe by default', () => {
-  assert.equal((landingHtml.match(/class="diagram-flow"/g) || []).length, 2);
-  assert.doesNotMatch(landingHtml, /<pre class="mermaid">/);
+test('landing keeps internal architecture material out of the player-facing page', () => {
+  assert.doesNotMatch(landingHtml, /class="diagram-flow"/);
+  assert.doesNotMatch(landingHtml, /AI Trust Boundary/);
+  assert.doesNotMatch(landingHtml, /Delivery Roadmap/);
   assert.match(siteStyles, /\.reveal\s*\{\s*opacity:\s*1;/);
 });
 
@@ -510,13 +545,16 @@ test('dialogue skins use direct values instead of banknote background art', () =
   assert.match(dialogueStyles, /\.dialogue-style-cycle:active\s*\{[\s\S]*?translateY\(2px\)/);
   assert.match(dialogueStyles, /@media \(min-width: 761px\) and \(max-width: 900px\)/);
   assert.match(dialogueStyles, /--dialogue-tail-length:\s*clamp\(128px, 15vh, 154px\)/);
-  assert.match(dialogueStyles, /height:\s*min\(315px, calc\(100svh - var\(--jp-header-height\) - var\(--footer-height\) - 1\.25rem\)\)/);
+  assert.match(dialogueStyles, /height:\s*min\(252px, calc\(100svh - var\(--jp-header-height\) - var\(--footer-height\) - 1\.25rem\)\)/);
   assert.match(dialogueStyles, /clip-path:\s*polygon\(36% 0, 100% 0, 0 100%\)/);
   assert.match(dialogueStyles, /#questionBox\s*\{[\s\S]*?overflow-y:\s*auto;/);
   assert.match(
     dialogueStyles,
     /@media \(max-height: 620px\)[\s\S]*?speech-bubble\[data-dialogue-style\]::after\s*\{[\s\S]*?display:\s*none;/,
   );
+  assert.match(hostStyles, /@media \(max-height: 620px\)[\s\S]*?\.host-stand\s*\{[\s\S]*?border-radius:\s*50%/);
+  assert.match(menuStyles, /\.archive-mode-link/);
+  assert.match(menuStyles, /\.archive-mode-link\[hidden\]\s*\{[\s\S]*?display:\s*none/);
 });
 
 test('host reaction copy remains accessible without a visible cue badge', () => {

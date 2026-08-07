@@ -1,5 +1,9 @@
 # JeoPARODY Content Authoring
 
+See also [Episode and Editorial Playbook](EPISODE_AND_EDITORIAL_PLAYBOOK.md) for
+the product rationale, episode factory, house voice, and cross-discipline review
+lenses behind this contract.
+
 Production episodes are small, reviewed JSON packs. The historical question
 archive is research material and a runtime fallback; it is not the editorial
 model for a finished broadcast.
@@ -89,4 +93,5 @@ npm run verify
 
 The validator checks the contract, review requirements, HTTPS sources, and
 existence of local media. The production manifest ships `questions/episodes`
-and `assets/episodes` alongside the compact archive fallback.
+and `assets/episodes`; transport failure uses the embedded reviewed emergency
+broadcast rather than the historical runtime bank.

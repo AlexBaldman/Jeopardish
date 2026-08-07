@@ -127,10 +127,10 @@ sessions migrate in place; a changed episode `contentRevision` starts a fresh
 session rather than restoring incompatible progress.
 
 Authored packs use `authored-order`; adapted archives use
-`deterministic-sample`. `EpisodeController` attempts the reviewed authored
-source first and activates the explicitly configured archive fallback only
-when transport fails. Contract failures do not silently downgrade to archive
-content.
+`deterministic-sample` in local compatibility tests. `EpisodeController`
+attempts the reviewed authored source first. Public builds omit the configured
+archive URL, so transport failure proceeds to the embedded reviewed emergency
+broadcast. Contract failures do not silently downgrade to archive content.
 
 Broken-media substitutions replace the current episode slot without consuming
 progress. `GameEngine.restoreProgress()` hydrates score and streak after a
@@ -159,7 +159,9 @@ The first extraction intentionally preserves the current gameplay behavior:
 - incorrect answers reset current streak to `0`
 - incorrect answers reset score to `0`
 - the browser loads `questions/episodes/season-zero-001.json` as the flagship
-  reviewed pack and uses `questions/runtime-bank.json` only as a labeled
-  transport fallback through the `legacy-adapter`
+  reviewed pack and uses the embedded reviewed emergency broadcast when that
+  source cannot be transported
+- `questions/runtime-bank.json` remains available to local compatibility tests
+  through the `legacy-adapter` but is not shipped
 - the complete `questions/jeopardy-questions.json` archive remains research
   source material and is not shipped

@@ -1,7 +1,21 @@
 'use strict';
 
-const QUESTION_SOURCE = './questions/episodes/season-zero-001.json';
-const FALLBACK_QUESTION_SOURCE = './questions/runtime-bank.json';
+function isLocalContentHost(locationRef = globalThis.location) {
+  const hostname = String(locationRef?.hostname || '').toLowerCase();
+  return locationRef?.protocol === 'file:'
+    || hostname === 'localhost'
+    || hostname === '127.0.0.1'
+    || hostname === '[::1]';
+}
+
+const URL_PARAMETERS = new URLSearchParams(globalThis.location?.search || '');
+const IS_PRIVATE_PREVIEW = isLocalContentHost()
+  && globalThis.document?.body?.dataset?.releaseChannel !== 'production';
+const ARCHIVE_PRACTICE = IS_PRIVATE_PREVIEW && URL_PARAMETERS.get('mode') === 'archive';
+const QUESTION_SOURCE = ARCHIVE_PRACTICE
+  ? './questions/runtime-bank.json'
+  : './questions/episodes/season-zero-001.json';
+const FALLBACK_QUESTION_SOURCE = null;
 const FETCH_TIMEOUT_MS = 30000;
 const MAX_MEDIA_PREFLIGHT_ATTEMPTS = 8;
 
@@ -282,7 +296,9 @@ function presentEpisodeLoaded({ sourceCount, fallback = false, emergency = false
   const gameState = gameEngine.getState();
   state.bestStreak = Math.max(state.bestStreak, gameState.bestStreak || 0);
   renderer.setStatus(
-    emergency
+    ARCHIVE_PRACTICE
+      ? `Archive Practice loaded ${sourceCount || 0} historical clues. Original television wording is active in this local research mode.`
+      : emergency
       ? `${getCopy().loadedClues(sourceCount || 0)} Question files are offline; reviewed emergency broadcast active.`
       : fallback
         ? `${getCopy().loadedClues(sourceCount || 0)} Authored broadcast unavailable; archive transmission active.`
@@ -571,9 +587,9 @@ function createCompositionOptions() {
       emergencySource: emergencyEpisodeModule?.EmergencyEpisode || null,
       timeoutMs: FETCH_TIMEOUT_MS,
       legacyEpisode: {
-        id: 'season-zero-pilot',
-        title: 'Season Zero: Pilot Broadcast',
-        episodeLength: 10,
+        id: ARCHIVE_PRACTICE ? 'archive-practice-local' : 'season-zero-pilot',
+        title: ARCHIVE_PRACTICE ? 'Archive Practice: Historical Clues' : 'Season Zero: Pilot Broadcast',
+        episodeLength: ARCHIVE_PRACTICE ? 10000 : 10,
       },
       isBlocked: () => studyController?.isOpen() || false,
       getMedia: (clue) => getSourceClueContent(clue).media,
@@ -620,6 +636,15 @@ function createCompositionOptions() {
 }
 
 function initializeApplicationView() {
+  const archiveMenuItem = globalThis.document?.getElementById('menuArchiveMode');
+  const archiveMenuLabel = globalThis.document?.getElementById('menuArchiveModeLabel');
+  if (archiveMenuItem && IS_PRIVATE_PREVIEW) {
+    archiveMenuItem.hidden = false;
+    archiveMenuItem.href = ARCHIVE_PRACTICE ? 'game.html' : 'game.html?mode=archive';
+    if (archiveMenuLabel) {
+      archiveMenuLabel.textContent = ARCHIVE_PRACTICE ? 'Return to Season Zero' : 'Archive Practice';
+    }
+  }
   applyPreferences();
   performHostBeat(hostPackModule.HostBeats.IDLE);
   renderer.setControlsEnabled(false);

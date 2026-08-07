@@ -24,3 +24,55 @@ test('BrandController ignores unknown tokens', () => {
   assert.equal(brand.setToken('eclipse'), 'eclipse');
   assert.equal(brand.setToken('questionable-poutine'), 'eclipse');
 });
+
+test('BrandController opens the internal room only after seven quick local activations', () => {
+  let time = 1000;
+  const destinations = [];
+  const brand = new BrandController({
+    documentRef: { body: { dataset: {} } },
+    locationRef: {
+      hostname: '127.0.0.1',
+      protocol: 'http:',
+      assign: (destination) => destinations.push(destination),
+    },
+    now: () => time,
+  });
+
+  for (let index = 0; index < 6; index += 1) {
+    brand.activate();
+    time += 300;
+  }
+  assert.deepEqual(destinations, []);
+  brand.activate();
+  assert.deepEqual(destinations, ['creative-room.html']);
+});
+
+test('BrandController never exposes the internal room from a public host', () => {
+  const destinations = [];
+  const brand = new BrandController({
+    documentRef: null,
+    locationRef: {
+      hostname: 'alexbaldman.github.io',
+      protocol: 'https:',
+      assign: (destination) => destinations.push(destination),
+    },
+  });
+
+  for (let index = 0; index < 14; index += 1) brand.activate();
+  assert.deepEqual(destinations, []);
+});
+
+test('BrandController keeps internal navigation closed in a production build preview', () => {
+  const destinations = [];
+  const brand = new BrandController({
+    documentRef: { body: { dataset: { releaseChannel: 'production' } } },
+    locationRef: {
+      hostname: '127.0.0.1',
+      protocol: 'http:',
+      assign: (destination) => destinations.push(destination),
+    },
+  });
+
+  for (let index = 0; index < 7; index += 1) brand.activate();
+  assert.deepEqual(destinations, []);
+});

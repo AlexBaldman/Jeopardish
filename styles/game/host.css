@@ -363,6 +363,33 @@
     @media (max-height: 620px) {
         @container cabinet (max-width: 420px) {
             .game-container .host-stage {
+                left: 0.55rem;
+                bottom: 0.15rem;
+                display: block;
+                width: 74px;
+                pointer-events: none;
+            }
+
+            .game-container .host-stand {
+                width: 74px;
+                height: 74px;
+                overflow: hidden;
+                border: 3px solid #080914;
+                border-radius: 50%;
+                background: radial-gradient(circle at 50% 35%, #4e2e7c, #11152b 72%);
+                box-shadow: 4px 5px 0 #080914, 0 0 14px rgba(56, 233, 255, 0.32);
+            }
+
+            .game-container .trebek {
+                width: 92px;
+                max-width: none;
+                max-height: none;
+                margin-left: -9px;
+                object-fit: cover;
+                object-position: top center;
+            }
+
+            .game-container .host-cycle {
                 display: none;
             }
         }

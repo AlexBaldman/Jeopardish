@@ -53,6 +53,18 @@ for (const entry of runtimeEntries) {
   await copyEntry(entry);
 }
 
+// Public visitors enter the cabinet immediately. The release marker keeps
+// local-only research modes unavailable when the built artifact is previewed.
+const gameSource = await fs.readFile(path.join(root, 'game.html'), 'utf8');
+const productionGameSource = gameSource.replace(
+  '<body class="game-only"',
+  '<body class="game-only" data-release-channel="production"',
+);
+await Promise.all([
+  fs.writeFile(path.join(outDir, 'game.html'), productionGameSource),
+  fs.writeFile(path.join(outDir, 'index.html'), productionGameSource),
+]);
+
 await fs.writeFile(path.join(outDir, '.nojekyll'), '');
 
 const bytes = await getDirectorySize(outDir);

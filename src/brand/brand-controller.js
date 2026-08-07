@@ -19,21 +19,29 @@
   });
 
   class BrandController {
-    constructor({ documentRef = globalThis.document, tokens = O_TOKENS } = {}) {
+    constructor({
+      documentRef = globalThis.document,
+      locationRef = globalThis.location,
+      now = () => Date.now(),
+      tokens = O_TOKENS,
+    } = {}) {
       this.document = documentRef;
+      this.location = locationRef;
+      this.now = now;
       this.tokens = [...tokens];
       this.index = 0;
+      this.secretActivations = [];
     }
 
     bind() {
       const marks = Array.from(this.document?.querySelectorAll?.('[data-brand-mark]') || []);
       marks.forEach((mark) => {
         const trigger = mark.querySelector?.('[data-brand-o]');
-        trigger?.addEventListener?.('click', () => this.cycle());
+        trigger?.addEventListener?.('click', () => this.activate());
         trigger?.addEventListener?.('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            this.cycle();
+            this.activate();
           }
         });
       });
@@ -45,6 +53,33 @@
       this.index = (this.index + step + this.tokens.length) % this.tokens.length;
       this.render();
       return this.getToken();
+    }
+
+    activate() {
+      const token = this.cycle();
+      this.registerSecretActivation();
+      return token;
+    }
+
+    registerSecretActivation() {
+      if (!this.isLocalPreview()) return false;
+      const currentTime = this.now();
+      this.secretActivations = this.secretActivations
+        .filter((time) => currentTime - time <= 4500);
+      this.secretActivations.push(currentTime);
+      if (this.secretActivations.length < 7) return false;
+      this.secretActivations = [];
+      this.location?.assign?.('creative-room.html');
+      return true;
+    }
+
+    isLocalPreview() {
+      const hostname = String(this.location?.hostname || '').toLowerCase();
+      const local = this.location?.protocol === 'file:'
+        || hostname === 'localhost'
+        || hostname === '127.0.0.1'
+        || hostname === '[::1]';
+      return local && this.document?.body?.dataset?.releaseChannel !== 'production';
     }
 
     setToken(token) {

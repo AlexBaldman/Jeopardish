@@ -14,7 +14,7 @@
         font-size-adjust: 0.58;
         font-style: normal;
         font-weight: 900;
-        line-height: 0.76;
+        line-height: 0.82;
         white-space: nowrap;
         filter: drop-shadow(0 0.075em 0 #080914);
     }
@@ -22,24 +22,22 @@
     .brand-mark .brand-base {
         position: relative;
         z-index: 1;
+        display: inline-block;
         color: var(--brand-classic-face);
-        letter-spacing: -0.095em;
+        letter-spacing: -0.055em;
         text-shadow:
             0.018em 0.025em 0 #ffffff,
             0.045em 0.065em 0 var(--brand-classic-edge),
             0.075em 0.095em 0 #111662;
-        transform: scaleX(0.84);
-        transform-origin: center;
+        transform: none;
     }
 
     .brand-mark .brand-base-before {
-        margin-right: -0.47em;
-        transform-origin: right center;
+        margin-right: -0.045em;
     }
 
     .brand-mark .brand-base-after {
-        margin-left: -0.15em;
-        transform-origin: left center;
+        margin-left: -0.035em;
     }
 
     .brand-mark .brand-bang {
@@ -60,9 +58,9 @@
         display: inline-grid;
         flex: 0 0 auto;
         place-items: center;
-        width: 0.76em;
-        height: 0.92em;
-        margin: -0.1em -0.035em -0.04em -0.17em;
+        width: 0.78em;
+        height: 0.9em;
+        margin: -0.08em 0.015em -0.03em;
         border-radius: 50%;
         cursor: default;
         vertical-align: middle;
