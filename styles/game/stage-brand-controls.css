@@ -1,0 +1,212 @@
+@layer components {
+  .brand-mark[data-brand-grammar="jeo-parody"] {
+    align-items: baseline;
+    gap: 0;
+  }
+
+  .brand-mark[data-brand-grammar="jeo-parody"] .brand-base-before {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .brand-mark[data-brand-grammar="jeo-parody"] .brand-heritage {
+    display: inline-block;
+    margin-right: .035em;
+    font-size: .72em;
+    font-weight: 900;
+    letter-spacing: -.045em;
+    text-transform: lowercase;
+    transform: translateY(-.03em) rotate(-1deg);
+  }
+
+  .brand-mark[data-brand-grammar="jeo-parody"] .brand-parody {
+    display: inline-block;
+    font-size: 1.02em;
+    font-weight: 900;
+    letter-spacing: -.045em;
+  }
+
+  body[data-theme="dark"] .brand-mark[data-brand-grammar="jeo-parody"] {
+    --parody-pink: #ff3da9;
+    --parody-orange: #ff7a28;
+    --parody-yellow: #ffd84a;
+    --parody-white: #fffdf5;
+  }
+
+  body[data-theme="dark"] .brand-mark[data-brand-grammar="jeo-parody"] .brand-heritage {
+    color: #78a7ff;
+    text-shadow:
+      .025em .035em 0 #ffe764,
+      .06em .075em 0 #1231a9,
+      0 0 .12em rgb(94 130 255 / .8);
+  }
+
+  body[data-theme="dark"] .brand-mark[data-brand-grammar="jeo-parody"] .brand-parody-before {
+    color: var(--parody-pink);
+    text-shadow:
+      .02em .03em 0 var(--parody-white),
+      .055em .07em 0 #8f125f,
+      0 0 .11em rgb(255 61 169 / .9),
+      0 0 .28em rgb(255 61 169 / .42);
+  }
+
+  body[data-theme="dark"] .brand-mark[data-brand-grammar="jeo-parody"] .brand-parody-after {
+    color: var(--parody-orange);
+    text-shadow:
+      .02em .03em 0 #fff0b5,
+      .055em .07em 0 #a43e13,
+      0 0 .12em rgb(255 122 40 / .88),
+      0 0 .3em rgb(255 216 74 / .38);
+  }
+
+  body[data-theme="dark"] .brand-mark[data-brand-grammar="jeo-parody"] .brand-bang {
+    color: var(--parody-white);
+    text-shadow:
+      .035em .05em 0 var(--parody-pink),
+      -.025em -.025em 0 var(--parody-yellow),
+      0 0 .12em white,
+      0 0 .28em rgb(255 61 169 / .72);
+  }
+
+  body[data-theme="dark"] .brand-mark[data-brand-grammar="jeo-parody"] .brand-o {
+    filter:
+      drop-shadow(0 0 .11em rgb(255 216 74 / .85))
+      drop-shadow(0 0 .22em rgb(255 61 169 / .6));
+  }
+
+  body[data-theme="dark"] .game-header .game-mark[data-brand-grammar="jeo-parody"] {
+    animation: stage-neon-breathe 5.8s ease-in-out infinite;
+  }
+
+  body[data-theme="light"] .game-header {
+    background:
+      linear-gradient(90deg, rgb(255 255 255 / .06), transparent 17% 83%, rgb(255 255 255 / .06)),
+      repeating-linear-gradient(88deg, #5f2d16 0 7px, #7b4021 8px 14px, #4a2111 15px 18px, #8b4d2b 19px 27px);
+    border-bottom-color: #d7b06a;
+    box-shadow:
+      inset 0 -2px 0 #3e1c0d,
+      inset 0 2px 0 rgb(255 232 176 / .44),
+      0 7px 20px rgb(67 31 11 / .22);
+  }
+
+  body[data-theme="light"] .game-header::after {
+    content: "";
+    position: absolute;
+    inset: auto 7% 3px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e5c87e 18% 82%, transparent);
+    pointer-events: none;
+  }
+
+  body[data-theme="light"] .brand-mark[data-brand-grammar="jeo-parody"] .brand-heritage {
+    color: #173f9d;
+    text-shadow:
+      .02em .025em 0 #f5cf62,
+      .05em .065em 0 #071e62,
+      0 1px 0 #fff4cc;
+  }
+
+  body[data-theme="light"] .brand-mark[data-brand-grammar="jeo-parody"] .brand-parody {
+    color: #f0c35a;
+    -webkit-text-stroke: .015em #4d1f0d;
+    text-shadow:
+      .025em .035em 0 #fff4c5,
+      .055em .075em 0 #7b2d17,
+      .08em .1em 0 #321207;
+  }
+
+  body[data-theme="light"] .brand-mark[data-brand-grammar="jeo-parody"] .brand-bang {
+    color: #fff7d7;
+    text-shadow:
+      .03em .04em 0 #b87924,
+      0 0 .12em rgb(255 242 190 / .65);
+  }
+
+  .game-container [data-control-type] {
+    --control-skin-accent: var(--neon-yellow, #ffd84a);
+    position: relative;
+  }
+
+  .game-container [data-control-type][data-skin="bulb"] .toggle-track {
+    overflow: visible;
+  }
+
+  .game-container [data-control-type][data-skin="bulb"] .toggle-bulb {
+    transition:
+      transform 320ms cubic-bezier(.2,.9,.2,1.15),
+      filter 240ms ease,
+      box-shadow 240ms ease;
+  }
+
+  .game-container [data-control-type="theme"][aria-pressed="true"] .toggle-bulb,
+  body[data-theme="light"] .game-container [data-control-type="theme"] .toggle-bulb {
+    filter: brightness(1.2) saturate(1.15);
+    box-shadow:
+      0 0 6px #fff7c2,
+      0 0 14px #ffd94f,
+      0 0 25px rgb(255 139 42 / .45);
+    transform: translateY(1px) scale(1.06);
+  }
+
+  .game-container [data-control-type="theme"][data-skin="bulb"]::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    right: 10px;
+    top: calc(100% - 3px);
+    border-radius: 2px;
+    background: linear-gradient(#d7bd76, #5e4522);
+    transform-origin: top center;
+    opacity: .74;
+    pointer-events: none;
+  }
+
+  .game-container [data-control-type="theme"][data-skin="bulb"]:active::after {
+    animation: stage-chain-pull 420ms cubic-bezier(.2,.8,.2,1);
+  }
+
+  .game-container [data-control-type="sound"][data-skin="speaker"] .sound-icon {
+    transition: transform 160ms ease, filter 160ms ease;
+  }
+
+  .game-container [data-control-type="sound"][aria-pressed="false"]:active .sound-icon {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 7px var(--neon-cyan, #46efff));
+  }
+
+  .game-container [data-control-type="voice"][data-skin="microphone"] .voice-icon {
+    transition: transform 220ms ease, filter 220ms ease;
+  }
+
+  .game-container [data-control-type="voice"][aria-pressed="true"] .voice-icon {
+    transform: translateY(-1px) scale(1.08);
+    filter: drop-shadow(0 0 8px var(--neon-pink, #ff3dc8));
+  }
+
+  .game-container[data-lighting="blacklight"] .brand-parody,
+  .game-container[data-lighting="blacklight"] .brand-o,
+  .game-container[data-lighting="blacklight"] .brand-bang {
+    filter: saturate(1.35) brightness(1.15) drop-shadow(0 0 10px #b748ff);
+  }
+
+  @keyframes stage-chain-pull {
+    0% { height: 12px; transform: rotate(0); }
+    42% { height: 21px; transform: rotate(2deg); }
+    68% { height: 15px; transform: rotate(-4deg); }
+    100% { height: 12px; transform: rotate(0); }
+  }
+
+  @keyframes stage-neon-breathe {
+    0%, 7%, 9%, 100% { opacity: 1; }
+    8% { opacity: .72; }
+    55% { filter: brightness(1.06); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-theme="dark"] .game-header .game-mark[data-brand-grammar="jeo-parody"],
+  .game-container [data-control-type="theme"][data-skin="bulb"]:active::after {
+    animation: none;
+  }
+}
