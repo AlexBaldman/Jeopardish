@@ -85,6 +85,56 @@ For release-level work run `npm run verify` and, where the environment supports 
 
 For visual work, inspect representative viewports around 393x852, 430x932, 375x667, mobile landscape, tablet, desktop, and large desktop. Check overflow, keyboard opening, safe areas, orientation, reduced motion, clue readability, focus, and immersive transitions.
 
+## Mandatory next-pass browser loop for Stage Engine work
+
+When working on `codex/stage-engine-immersive-pass` or any direct successor branch, the next Codex/browser-capable pass MUST begin with real execution and visual inspection before adding more speculative architecture.
+
+Do this in order:
+
+1. Read `docs/NEXT_CODEX_PASS.md` completely.
+2. Run `npm run verify` and fix deterministic failures before visual polish.
+3. Launch the app with the repo dev server.
+4. Capture screenshots of the standalone game at approximately:
+   - 393x852 (primary iPhone target)
+   - 430x932
+   - 375x667
+   - mobile landscape
+   - tablet
+   - 1440px+ desktop
+5. Exercise at least these states at the primary iPhone size:
+   - clue / answering
+   - correct answer reaction
+   - incorrect answer reaction
+   - reveal answer
+   - immersive mode on/off
+   - day mode
+   - night mode
+   - game menu open
+   - software keyboard/input-focused state where tooling permits
+6. For each screenshot, explicitly critique:
+   - clue dominance and readability
+   - header height and density
+   - score visibility without clutter
+   - host size/occlusion
+   - camera framing during reactions
+   - answer field clipping or iOS zoom risk
+   - control tap targets
+   - safe-area handling
+   - horizontal/vertical overflow
+   - neon wordmark hierarchy
+   - day-mode teak/brass treatment
+   - whether skinned controls read as functional controls
+7. Iterate using the loop:
+
+   `run -> screenshot -> critique -> change -> rerun -> screenshot`
+
+   Repeat until the obvious visual defects are gone. Do not stop after a single CSS pass merely because the page technically renders.
+8. Keep game correctness separate from presentation. Do not change answer/scoring logic to solve visual issues.
+9. Prefer fixing layout rules and stage blocking over adding viewport-specific magic numbers.
+10. End with a concise visual QA report listing screenshots/viewports inspected, defects found, fixes made, tests run, and remaining visual risks.
+
+A Stage Engine visual task is NOT complete if screenshots were never inspected in an environment where browser tooling is available.
+
 ## Working style for Codex
 
 1. Inspect before editing.
