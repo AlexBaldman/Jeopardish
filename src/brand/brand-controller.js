@@ -11,21 +11,18 @@
     if (!documentRef || documentRef.documentElement?.dataset?.stageResources === 'loading') return;
     documentRef.documentElement.dataset.stageResources = 'loading';
 
-    if (!documentRef.querySelector('link[data-stage-engine-style]')) {
+    function loadStyle(href, marker) {
+      if (documentRef.querySelector(`link[${marker}]`)) return;
       const link = documentRef.createElement('link');
       link.rel = 'stylesheet';
-      link.href = 'styles/game/stage-engine.css?v=stage-engine-2';
-      link.dataset.stageEngineStyle = 'true';
+      link.href = href;
+      link.setAttribute(marker, 'true');
       documentRef.head?.append(link);
     }
 
-    if (!documentRef.querySelector('link[data-stage-runtime-style]')) {
-      const link = documentRef.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'styles/game/stage-runtime.css?v=stage-runtime-2';
-      link.dataset.stageRuntimeStyle = 'true';
-      documentRef.head?.append(link);
-    }
+    loadStyle('styles/game/stage-engine.css?v=stage-engine-2', 'data-stage-engine-style');
+    loadStyle('styles/game/stage-runtime.css?v=stage-runtime-2', 'data-stage-runtime-style');
+    loadStyle('styles/game/stage-brand-controls.css?v=stage-brand-1', 'data-stage-brand-style');
 
     function loadScript(src, marker, onload) {
       const existing = documentRef.querySelector(`script[${marker}]`);
