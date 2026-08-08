@@ -31,6 +31,13 @@
     return button;
   }
 
+  function decorateControl(element, type, skin) {
+    if (!element) return null;
+    element.dataset.controlType = type;
+    element.dataset.skin = skin;
+    return element;
+  }
+
   function boot() {
     const gameContainer = documentRef.getElementById('gameContainer');
     if (!gameContainer || gameContainer.dataset.stageRuntime === 'ready') return;
@@ -58,6 +65,15 @@
       if (element) stage.props.register(id, { element, kind, anchors });
     });
 
+    gameContainer.querySelectorAll('[data-theme-toggle]').forEach((element) => {
+      decorateControl(element, 'theme', 'bulb');
+    });
+    decorateControl(documentRef.getElementById('soundToggle'), 'sound', 'speaker');
+    decorateControl(documentRef.getElementById('voiceButton'), 'voice', 'microphone');
+    decorateControl(documentRef.getElementById('menuTheme'), 'theme', 'bulb');
+    decorateControl(documentRef.getElementById('menuSound'), 'sound', 'speaker');
+    decorateControl(documentRef.getElementById('menuVoice'), 'voice', 'microphone');
+
     const headerControls = gameContainer.querySelector('.header-controls');
     let immersiveButton = documentRef.getElementById('immersiveToggle');
     if (!immersiveButton && headerControls) {
@@ -69,6 +85,7 @@
       });
       headerControls.append(immersiveButton);
     }
+    decorateControl(immersiveButton, 'immersive', 'viewport');
 
     const settingsSection = documentRef.getElementById('menuSettingsTitle')?.closest('.menu-section');
     let menuImmersive = documentRef.getElementById('menuImmersive');
@@ -81,6 +98,7 @@
       });
       settingsSection.append(menuImmersive);
     }
+    decorateControl(menuImmersive, 'immersive', 'viewport');
 
     function syncButtons(state) {
       const active = Boolean(state.immersive);
@@ -88,6 +106,7 @@
         button.setAttribute('aria-pressed', String(active));
         button.setAttribute('aria-label', active ? 'Exit immersive game view' : 'Enter immersive game view');
         button.dataset.active = active ? 'true' : 'false';
+        button.dataset.controlState = active ? 'on' : 'off';
       });
       const label = immersiveButton?.querySelector('.toggle-label');
       if (label) label.textContent = active ? 'Exit' : 'Immersive';
@@ -104,7 +123,13 @@
 
     function syncLighting() {
       const theme = documentRef.body?.dataset?.theme;
-      stage.setLighting(theme === 'light' ? LightingModes.DAY : LightingModes.NIGHT);
+      const mode = theme === 'light' ? LightingModes.DAY : LightingModes.NIGHT;
+      stage.setLighting(mode);
+      gameContainer.querySelectorAll('[data-control-type="theme"]').forEach((element) => {
+        const isDay = mode === LightingModes.DAY;
+        element.dataset.controlState = isDay ? 'day' : 'night';
+        if (element.matches('button')) element.setAttribute('aria-pressed', String(isDay));
+      });
     }
 
     syncLighting();
