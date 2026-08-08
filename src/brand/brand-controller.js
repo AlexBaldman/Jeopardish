@@ -19,6 +19,14 @@
       documentRef.head?.append(link);
     }
 
+    if (!documentRef.querySelector('link[data-stage-runtime-style]')) {
+      const link = documentRef.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'styles/game/stage-runtime.css?v=stage-runtime-2';
+      link.dataset.stageRuntimeStyle = 'true';
+      documentRef.head?.append(link);
+    }
+
     function loadScript(src, marker, onload) {
       const existing = documentRef.querySelector(`script[${marker}]`);
       if (existing) {
@@ -41,7 +49,7 @@
     }
 
     loadScript('src/presentation/stage-engine.js?v=stage-engine-2', 'data-stage-engine-script', () => {
-      loadScript('src/presentation/stage-runtime.js?v=stage-runtime-1', 'data-stage-runtime-script');
+      loadScript('src/presentation/stage-runtime.js?v=stage-runtime-2', 'data-stage-runtime-script');
       documentRef.documentElement.dataset.stageResources = 'ready';
     });
   }
@@ -58,6 +66,31 @@
     eclipse: 'eclipse',
     disco: 'disco signal',
   });
+
+  function prepareWordmark(mark) {
+    const before = mark?.querySelector?.('.brand-base-before');
+    const after = mark?.querySelector?.('.brand-base-after');
+    if (!before || before.dataset.brandStructured === 'true') return mark;
+
+    const source = String(before.textContent || '').trim();
+    if (source.toUpperCase() !== 'JEOPAR') return mark;
+
+    before.textContent = '';
+    before.dataset.brandStructured = 'true';
+
+    const heritage = mark.ownerDocument.createElement('span');
+    heritage.className = 'brand-heritage';
+    heritage.textContent = 'jeo';
+
+    const parodyLead = mark.ownerDocument.createElement('span');
+    parodyLead.className = 'brand-parody brand-parody-before';
+    parodyLead.textContent = 'PAR';
+
+    before.append(heritage, parodyLead);
+    after?.classList?.add('brand-parody', 'brand-parody-after');
+    mark.dataset.brandGrammar = 'jeo-parody';
+    return mark;
+  }
 
   class BrandController {
     constructor({
@@ -77,6 +110,7 @@
     bind() {
       const marks = Array.from(this.document?.querySelectorAll?.('[data-brand-mark]') || []);
       marks.forEach((mark) => {
+        prepareWordmark(mark);
         const trigger = mark.querySelector?.('[data-brand-o]');
         trigger?.addEventListener?.('click', () => this.activate());
         trigger?.addEventListener?.('keydown', (event) => {
@@ -144,11 +178,11 @@
         if (element.hasAttribute?.('data-brand-o')) {
           element.setAttribute?.(
             'aria-label',
-            `The inserted O is dressed as a ${tokenLabel}. Activate to change it.`,
+            `The O in PARODY is dressed as a ${tokenLabel}. Activate to change it.`,
           );
           element.setAttribute?.(
             'title',
-            `The extra O between R and D is the ${tokenLabel}. Activate to change it.`,
+            `The O in PARODY is the ${tokenLabel}. Activate to change it.`,
           );
         }
       });
@@ -159,5 +193,6 @@
     BrandController,
     O_TOKENS,
     O_TOKEN_LABELS,
+    prepareWordmark,
   };
 }));
