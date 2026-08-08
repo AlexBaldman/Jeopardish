@@ -21,6 +21,15 @@ This repository is the canonical JeoPARODY runtime. Treat `master` as protected 
 - Night mode: neon, hot pink/orange/yellow, selective white-hot highlights, controlled flicker.
 - Day mode: premium yacht atmosphere, teak/brass/enamel, warm daylight.
 
+## Host character and lore
+
+- Read `docs/HOST_LORE.md` before adding host names, biography, lore, mentor references, long-form host dialogue, or lore-related presentation systems.
+- `Xander` is **not canon**. Do not introduce new hard-coded `Xander` references. Use a stable semantic host ID such as `primary_host` / `host` until the final public name is chosen.
+- The host is an original JeoPARODY character with an intentionally unreliable biography.
+- His claimed encounters with Norm Macdonald, Bob Saget, Larry David, and other real people are explicitly fantastical fictional mythology, not claims about real events.
+- Influences should affect broad comedic rhythm and character sensibility. Do not imitate specific routines, dialogue, plots, or copyrighted material.
+- Contradictory lore is a feature when deliberate. Keep it structured enough that future callbacks, lore cards, artifacts, and Easter eggs can reuse it.
+
 ## Stage architecture
 
 Use or extend these semantics where they genuinely reduce coupling:
