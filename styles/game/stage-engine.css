@@ -1,0 +1,235 @@
+:root {
+  --stage-motion-instant: 0ms;
+  --stage-motion-fast: 160ms;
+  --stage-motion-normal: 320ms;
+  --stage-motion-dramatic: 650ms;
+  --stage-ease-standard: cubic-bezier(.2,.8,.2,1);
+  --stage-ease-snap: cubic-bezier(.2,.9,.2,1.1);
+  --stage-safe-top: env(safe-area-inset-top, 0px);
+  --stage-safe-right: env(safe-area-inset-right, 0px);
+  --stage-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --stage-safe-left: env(safe-area-inset-left, 0px);
+}
+
+.game-container[data-stage-engine="ready"] {
+  position: relative;
+  min-height: min(100dvh, 100%);
+  isolation: isolate;
+  container-type: inline-size;
+  --stage-header-size: 76px;
+  --stage-controls-size: 154px;
+  --stage-gap: clamp(8px, 1.4vw, 18px);
+  --stage-host-scale: 1;
+  --stage-clue-scale: 1;
+  --stage-camera-scale: 1;
+  --stage-camera-x: 0%;
+  --stage-camera-y: 0%;
+}
+
+.game-container[data-stage-engine="ready"] .main-content {
+  transform-origin: center center;
+  transition:
+    transform var(--stage-motion-normal) var(--stage-ease-standard),
+    opacity var(--stage-motion-fast) linear;
+}
+
+.game-container[data-camera-shot="medium"] .main-content {
+  --stage-camera-scale: 1.035;
+}
+
+.game-container[data-camera-shot="close-up"] .main-content {
+  --stage-camera-scale: 1.12;
+}
+
+.game-container[data-camera-shot="extreme-close-up"] .main-content {
+  --stage-camera-scale: 1.28;
+}
+
+.game-container[data-camera-target="host"][data-camera-shot="close-up"] .main-content,
+.game-container[data-camera-target="host"][data-camera-shot="extreme-close-up"] .main-content {
+  --stage-camera-x: -14%;
+  --stage-camera-y: 4%;
+}
+
+.game-container[data-camera-shot="medium"] .main-content,
+.game-container[data-camera-shot="close-up"] .main-content,
+.game-container[data-camera-shot="extreme-close-up"] .main-content {
+  transform: translate(var(--stage-camera-x), var(--stage-camera-y)) scale(var(--stage-camera-scale));
+}
+
+.game-container[data-camera-shot="offscreen"] .host-stage {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.game-container[data-lighting="blacklight"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 22% 25%, rgb(127 72 255 / .10), transparent 34%),
+    radial-gradient(circle at 78% 35%, rgb(255 41 187 / .09), transparent 30%),
+    linear-gradient(rgb(18 0 45 / .16), rgb(2 5 22 / .08));
+}
+
+.game-container[data-lighting="blacklight"] .uv-secret {
+  opacity: 1;
+  visibility: visible;
+}
+
+.uv-secret {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--stage-motion-normal) ease;
+}
+
+.jeoparody-immersive {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.jeoparody-immersive .game-page-shell,
+.jeoparody-immersive #play {
+  min-height: 100dvh;
+  height: 100dvh;
+  padding: 0;
+  margin: 0;
+}
+
+.game-container[data-immersive="true"] {
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border-radius: 0;
+  padding-top: var(--stage-safe-top);
+  padding-right: var(--stage-safe-right);
+  padding-bottom: var(--stage-safe-bottom);
+  padding-left: var(--stage-safe-left);
+}
+
+.game-container[data-stage-layout="mobilePortrait"],
+.game-container[data-stage-layout="mobileImmersive"] {
+  --stage-header-size: 58px;
+  --stage-controls-size: 112px;
+  --stage-gap: 8px;
+  --stage-host-scale: .82;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .game-header,
+.game-container[data-stage-layout="mobileImmersive"] .game-header {
+  min-height: var(--stage-header-size);
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .brand-tagline,
+.game-container[data-stage-layout="mobileImmersive"] .brand-tagline,
+.game-container[data-stage-layout="mobilePortrait"] .header-controls .toggle-label,
+.game-container[data-stage-layout="mobileImmersive"] .header-controls .toggle-label {
+  display: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .main-content,
+.game-container[data-stage-layout="mobileImmersive"] .main-content {
+  min-height: 0;
+  align-items: stretch;
+  gap: var(--stage-gap);
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .speech-bubble,
+.game-container[data-stage-layout="mobileImmersive"] .speech-bubble {
+  min-height: 0;
+  max-height: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .dialogue-style-picker,
+.game-container[data-stage-layout="mobileImmersive"] .dialogue-style-picker {
+  transform: scale(.88);
+  transform-origin: top center;
+  margin-bottom: -4px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .clue-text,
+.game-container[data-stage-layout="mobileImmersive"] .clue-text {
+  font-size: clamp(1.12rem, 5.25vw, 1.72rem);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .host-stage,
+.game-container[data-stage-layout="mobileImmersive"] .host-stage {
+  position: absolute;
+  inset: auto auto calc(var(--stage-controls-size) - 4px) 4px;
+  width: min(34vw, 146px);
+  z-index: 6;
+  transform: scale(var(--stage-host-scale));
+  transform-origin: bottom left;
+  pointer-events: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .host-cycle,
+.game-container[data-stage-layout="mobileImmersive"] .host-cycle,
+.game-container[data-stage-layout="mobilePortrait"] .host-skin-label,
+.game-container[data-stage-layout="mobileImmersive"] .host-skin-label,
+.game-container[data-stage-layout="mobilePortrait"] .host-pack-index,
+.game-container[data-stage-layout="mobileImmersive"] .host-pack-index {
+  display: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .control-footer,
+.game-container[data-stage-layout="mobileImmersive"] .control-footer {
+  min-height: var(--stage-controls-size);
+  gap: 6px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .input-div,
+.game-container[data-stage-layout="mobileImmersive"] .input-div {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 6px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .button-div,
+.game-container[data-stage-layout="mobileImmersive"] .button-div {
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.game-container[data-stage-layout="mobileLandscape"] {
+  --stage-header-size: 48px;
+  --stage-controls-size: 88px;
+  --stage-host-scale: .7;
+}
+
+.game-container[data-stage-layout="mobileLandscape"] .brand-tagline,
+.game-container[data-stage-layout="mobileLandscape"] .dialogue-style-picker {
+  display: none;
+}
+
+.game-container[data-stage-layout="mobileLandscape"] .clue-text {
+  font-size: clamp(.95rem, 3.1vw, 1.45rem);
+}
+
+.game-container[data-stage-layout="desktopWide"] .main-content {
+  max-width: 1500px;
+  margin-inline: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-container[data-stage-engine="ready"] *,
+  .game-container[data-stage-engine="ready"] *::before,
+  .game-container[data-stage-engine="ready"] *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+
+  .game-container[data-camera-shot] .main-content {
+    transform: none !important;
+  }
+}

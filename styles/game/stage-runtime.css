@@ -1,0 +1,249 @@
+.stage-immersive-toggle {
+  min-width: 48px;
+  min-height: 44px;
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgb(255 255 255 / .22);
+  border-radius: 12px;
+  padding: 7px 10px;
+  color: var(--cream, #fff8dc);
+  background: rgb(5 10 35 / .66);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .2), 0 6px 16px rgb(0 0 0 / .18);
+  cursor: pointer;
+}
+
+.stage-immersive-toggle:hover,
+.stage-immersive-toggle:focus-visible,
+.stage-immersive-toggle[data-active="true"] {
+  border-color: var(--neon-yellow, #ffd740);
+  box-shadow: 0 0 0 2px rgb(255 215 64 / .15), 0 0 18px rgb(255 215 64 / .18);
+}
+
+.stage-control-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.stage-menu-immersive b {
+  min-width: 2rem;
+  text-align: center;
+}
+
+.game-container[data-camera-target="host"][data-camera-shot="close-up"] .speech-bubble,
+.game-container[data-camera-target="host"][data-camera-shot="extreme-close-up"] .speech-bubble {
+  opacity: .38;
+  filter: saturate(.72) brightness(.78);
+}
+
+.game-container[data-camera-target="host"][data-camera-shot="close-up"] .host-stage,
+.game-container[data-camera-target="host"][data-camera-shot="extreme-close-up"] .host-stage {
+  z-index: 12;
+  opacity: 1;
+}
+
+.game-container[data-camera-target="host"][data-camera-shot="extreme-close-up"] .host-stage {
+  transform: scale(1.34);
+  transform-origin: center 30%;
+}
+
+.game-container[data-immersive="true"] .standalone-game-link,
+.game-container[data-immersive="true"] ~ .standalone-game-link {
+  display: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"],
+.game-container[data-stage-layout="mobileImmersive"] {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  overflow: hidden;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .game-header,
+.game-container[data-stage-layout="mobileImmersive"] .game-header {
+  padding: 4px 8px;
+  gap: 6px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .title-div,
+.game-container[data-stage-layout="mobileImmersive"] .title-div {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .game-mark,
+.game-container[data-stage-layout="mobileImmersive"] .game-mark {
+  font-size: clamp(1.05rem, 5vw, 1.45rem);
+  white-space: nowrap;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .header-controls,
+.game-container[data-stage-layout="mobileImmersive"] .header-controls {
+  gap: 4px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .header-controls > button,
+.game-container[data-stage-layout="mobileImmersive"] .header-controls > button {
+  min-width: 42px;
+  min-height: 42px;
+  padding-inline: 6px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .language-toggle,
+.game-container[data-stage-layout="mobileImmersive"] .language-toggle,
+.game-container[data-stage-layout="mobilePortrait"] .sound-toggle,
+.game-container[data-stage-layout="mobileImmersive"] .sound-toggle {
+  display: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .score-drawer,
+.game-container[data-stage-layout="mobileImmersive"] .score-drawer {
+  min-height: 42px;
+  margin: 0 8px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .scoreboard-kicker,
+.game-container[data-stage-layout="mobileImmersive"] .scoreboard-kicker,
+.game-container[data-stage-layout="mobilePortrait"] .score-drawer-tab,
+.game-container[data-stage-layout="mobileImmersive"] .score-drawer-tab {
+  display: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .quick-score,
+.game-container[data-stage-layout="mobileImmersive"] .quick-score {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .hud-readout,
+.game-container[data-stage-layout="mobileImmersive"] .hud-readout {
+  min-width: 0;
+  padding: 3px 4px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .main-content,
+.game-container[data-stage-layout="mobileImmersive"] .main-content {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 6px 8px 0;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .speech-bubble,
+.game-container[data-stage-layout="mobileImmersive"] .speech-bubble {
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: clamp(10px, 2.5vw, 14px);
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .clue-header,
+.game-container[data-stage-layout="mobileImmersive"] .clue-header {
+  margin-bottom: 6px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .clue-category,
+.game-container[data-stage-layout="mobileImmersive"] .clue-category {
+  font-size: clamp(.92rem, 4.4vw, 1.2rem);
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .dialogue-style-picker,
+.game-container[data-stage-layout="mobileImmersive"] .dialogue-style-picker {
+  max-height: 29px;
+  opacity: .78;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .dialogue-style-readout small,
+.game-container[data-stage-layout="mobileImmersive"] .dialogue-style-readout small {
+  display: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .host-stage,
+.game-container[data-stage-layout="mobileImmersive"] .host-stage {
+  bottom: calc(var(--stage-controls-size) + var(--stage-safe-bottom));
+  left: 6px;
+  width: min(29vw, 118px);
+  opacity: .95;
+}
+
+.game-container[data-stage-layout="mobilePortrait"][data-camera-target="host"][data-camera-shot="close-up"] .host-stage,
+.game-container[data-stage-layout="mobileImmersive"][data-camera-target="host"][data-camera-shot="close-up"] .host-stage {
+  width: min(62vw, 260px);
+  left: 50%;
+  bottom: 18%;
+  transform: translateX(-50%) scale(1.08);
+  transform-origin: center bottom;
+  pointer-events: none;
+}
+
+.game-container[data-stage-layout="mobilePortrait"][data-camera-target="host"][data-camera-shot="extreme-close-up"] .host-stage,
+.game-container[data-stage-layout="mobileImmersive"][data-camera-target="host"][data-camera-shot="extreme-close-up"] .host-stage {
+  width: min(86vw, 360px);
+  left: 50%;
+  bottom: 10%;
+  transform: translateX(-50%) scale(1.24);
+  transform-origin: center center;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .control-footer,
+.game-container[data-stage-layout="mobileImmersive"] .control-footer {
+  margin: 0;
+  padding: 6px 8px calc(6px + var(--stage-safe-bottom));
+  background: linear-gradient(180deg, rgb(4 8 28 / .9), rgb(2 4 20 / .98));
+  backdrop-filter: blur(10px);
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .answer-field,
+.game-container[data-stage-layout="mobileImmersive"] .answer-field {
+  min-width: 0;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .answer-input,
+.game-container[data-stage-layout="mobileImmersive"] .answer-input {
+  width: 100%;
+  min-width: 0;
+  font-size: 16px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .cabinet-button,
+.game-container[data-stage-layout="mobileImmersive"] .cabinet-button,
+.game-container[data-stage-layout="mobilePortrait"] .voice-button,
+.game-container[data-stage-layout="mobileImmersive"] .voice-button {
+  min-height: 46px;
+}
+
+.game-container[data-stage-layout="mobilePortrait"] .key-hint,
+.game-container[data-stage-layout="mobileImmersive"] .key-hint,
+.game-container[data-stage-layout="mobilePortrait"] .control-copy small,
+.game-container[data-stage-layout="mobileImmersive"] .control-copy small {
+  display: none;
+}
+
+.game-container[data-stage-layout="mobileLandscape"] .stage-immersive-toggle .toggle-label {
+  display: none;
+}
+
+@media (max-width: 390px) {
+  .game-container[data-stage-layout="mobilePortrait"] .hud-best-readout,
+  .game-container[data-stage-layout="mobileImmersive"] .hud-best-readout {
+    display: none;
+  }
+
+  .game-container[data-stage-layout="mobilePortrait"] .quick-score,
+  .game-container[data-stage-layout="mobileImmersive"] .quick-score {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-container[data-camera-target="host"] .host-stage,
+  .game-container[data-camera-target="host"] .speech-bubble {
+    transform: none;
+    transition: none;
+  }
+}

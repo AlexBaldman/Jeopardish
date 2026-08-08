@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>JeoPARODY Stage Lab</title>
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/brand.css">
+  <link rel="stylesheet" href="styles/game/stage-engine.css">
+  <style>
+    html,body{margin:0;min-height:100%;background:#07091d;color:white;font-family:system-ui,sans-serif}
+    body{min-height:100dvh;display:grid;place-items:center;padding:16px;box-sizing:border-box}
+    .lab-shell{width:min(1180px,100%);height:min(820px,calc(100dvh - 32px));display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;border:2px solid #ffcf4a;border-radius:18px;background:linear-gradient(160deg,#10164b,#171028 62%,#071122);box-shadow:0 20px 70px rgb(0 0 0/.45)}
+    .lab-header,.lab-footer{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgb(5 8 30/.88);z-index:10}
+    .lab-header{justify-content:space-between}.lab-actions{display:flex;gap:8px;flex-wrap:wrap}.lab-actions button,.lab-footer button{min-height:44px;border:1px solid rgb(255 255 255/.25);border-radius:10px;background:#151a43;color:white;padding:8px 12px;font-weight:800;cursor:pointer}.lab-actions button:hover,.lab-footer button:hover{background:#22295f}
+    .lab-brand{font-weight:1000;letter-spacing:-.05em;font-size:clamp(1.25rem,4vw,2rem)}.lab-brand .quiet{font-size:.72em;color:#ffcf4a}.lab-brand .parody{color:#ff4db8;text-shadow:0 0 10px #ff4db8}.lab-brand .o{display:inline-grid;place-items:center;width:.88em;height:.88em;border-radius:50%;background:#ffb52d;color:#fff;font-size:.78em;vertical-align:.06em;box-shadow:0 0 13px #ff7a2d}
+    .lab-stage{position:relative;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,29%);gap:12px;padding:12px;align-items:stretch;overflow:hidden}.lab-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgb(255 64 190/.12),transparent 28%),radial-gradient(circle at 20% 70%,rgb(45 220 255/.12),transparent 32%);pointer-events:none}.lab-clue{position:relative;z-index:2;display:grid;place-items:center;text-align:center;padding:clamp(18px,4vw,58px);border:3px solid #ffcf4a;border-radius:14px;background:linear-gradient(160deg,rgb(9 27 78/.96),rgb(18 19 65/.94));box-shadow:inset 0 0 50px rgb(0 0 0/.28)}.lab-clue-inner{max-width:21ch}.lab-category{font-size:clamp(.8rem,2vw,1.1rem);letter-spacing:.08em;color:#ffdf6a;text-transform:uppercase}.lab-value{font-size:clamp(1rem,2vw,1.35rem);font-weight:1000;color:#ffc132}.lab-clue p{font-size:clamp(1.3rem,4.2vw,2.65rem);font-weight:900;line-height:1.08;margin:.65em 0}.lab-host{position:relative;z-index:3;display:flex;align-items:end;justify-content:center;min-width:0}.lab-host img{max-width:100%;max-height:100%;object-fit:contain;object-position:bottom;image-rendering:auto;filter:drop-shadow(0 15px 12px rgb(0 0 0/.4))}.lab-dialogue{position:absolute;right:18%;bottom:12%;z-index:6;max-width:min(300px,56%);padding:12px 14px;border-radius:18px 18px 4px 18px;background:white;color:#12152e;font-weight:900;box-shadow:0 10px 28px rgb(0 0 0/.35);transition:opacity 160ms ease,transform 320ms cubic-bezier(.2,.8,.2,1)}
+    .lab-footer{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto}.lab-footer input{min-width:0;min-height:44px;border-radius:10px;border:1px solid rgb(255 255 255/.28);padding:0 12px;font-size:16px;background:#080c25;color:white}.state-readout{font:700 11px/1.4 ui-monospace,monospace;color:#9de7ff;padding:4px 8px;white-space:nowrap}
+    [data-stage-layout="mobilePortrait"] .lab-stage,[data-stage-layout="mobileImmersive"] .lab-stage{grid-template-columns:1fr;padding:8px}.game-container[data-stage-layout="mobilePortrait"] .lab-host,.game-container[data-stage-layout="mobileImmersive"] .lab-host{display:flex;inset:auto 2px 106px auto;width:min(34vw,145px)}[data-stage-layout="mobilePortrait"] .lab-clue,[data-stage-layout="mobileImmersive"] .lab-clue{padding:18px 18px 86px}[data-stage-layout="mobilePortrait"] .lab-footer,[data-stage-layout="mobileImmersive"] .lab-footer{grid-template-columns:minmax(0,1fr) auto;gap:6px}[data-stage-layout="mobilePortrait"] .lab-footer .secondary,[data-stage-layout="mobileImmersive"] .lab-footer .secondary{display:none}[data-stage-layout="mobilePortrait"] .lab-dialogue,[data-stage-layout="mobileImmersive"] .lab-dialogue{right:8px;bottom:120px;max-width:68%;font-size:.85rem}
+    [data-camera-target="host"][data-camera-shot="close-up"] .lab-clue,[data-camera-target="host"][data-camera-shot="extreme-close-up"] .lab-clue{opacity:.35}[data-camera-target="host"][data-camera-shot="close-up"] .lab-host img{transform:scale(1.45);transform-origin:bottom center}[data-camera-target="host"][data-camera-shot="extreme-close-up"] .lab-host img{transform:scale(2.05);transform-origin:62% 28%}.lab-host img{transition:transform 320ms cubic-bezier(.2,.8,.2,1)}
+    @media(max-width:480px){body{padding:0}.lab-shell{width:100dvw;height:100dvh;border:0;border-radius:0}.lab-header{padding-top:max(8px,env(safe-area-inset-top))}.lab-actions button{padding:6px 9px}.state-readout{display:none}}
+  </style>
+</head>
+<body>
+  <main class="game-container lab-shell" id="gameContainer" aria-label="JeoPARODY stage engine lab">
+    <header class="lab-header">
+      <div class="lab-brand"><span class="quiet">jeo</span><span class="parody">PAR<span class="o">O</span>DY!</span></div>
+      <div class="lab-actions" aria-label="Stage lab controls">
+        <button type="button" id="wide">Wide</button>
+        <button type="button" id="close">Face</button>
+        <button type="button" id="blacklight">Blacklight</button>
+        <button type="button" id="immersive">⛶</button>
+      </div>
+    </header>
+    <section class="main-content lab-stage">
+      <article class="lab-clue">
+        <div class="lab-clue-inner">
+          <div class="lab-category">Rotten Geography</div>
+          <div class="lab-value">$600</div>
+          <p>In Shakespeare's Hamlet, Marcellus locates something rotten in this country.</p>
+        </div>
+        <span class="uv-secret" style="position:absolute;left:18px;bottom:12px;color:#79ff8d;font:900 12px ui-monospace">UV: XANDER OWES THE LIGHTING DEPT. $14</span>
+      </article>
+      <figure class="host-stage lab-host" id="hostStage">
+        <img src="assets/hosts/xander/v1/looks/question-pink.png" alt="Xander Trefleck, fictional JeoPARODY host">
+      </figure>
+      <div class="lab-dialogue" id="dialogue">A perfectly normal broadcast. Please ignore the extra O.</div>
+    </section>
+    <footer class="lab-footer">
+      <input aria-label="Answer" placeholder="Type your response…">
+      <button type="button">Lock It In</button>
+      <button class="secondary" type="button">New Clue</button>
+      <span class="state-readout" id="stateReadout"></span>
+    </footer>
+  </main>
+  <script src="src/presentation/stage-engine.js"></script>
+  <script>
+    const { StageEngine, CameraShots, LightingModes } = window.JeoPARODYStageEngine;
+    const stage = new StageEngine().bind(document.getElementById('gameContainer'));
+    stage.props.register('clueCard', { element: document.querySelector('.lab-clue'), kind: 'clue' });
+    stage.props.register('dialogueBubble', { element: document.getElementById('dialogue'), kind: 'dialogue', anchors: { topLeft: { x: 0, y: 0 }, tail: { x: 1, y: 1 } } });
+    stage.props.register('host', { element: document.getElementById('hostStage'), kind: 'actor' });
+    stage.subscribe((state) => {
+      document.getElementById('stateReadout').textContent = `${state.layout} · ${state.camera.shot} · ${state.lighting.mode}`;
+      document.getElementById('immersive').setAttribute('aria-pressed', String(state.immersive));
+    });
+    document.getElementById('wide').onclick = () => stage.cue('returnToClue', { camera: { shot: CameraShots.WIDE, target: 'stage' }, scene: 'clue' });
+    document.getElementById('close').onclick = () => stage.cue('ridiculousAnswer', { camera: { shot: CameraShots.EXTREME_CLOSE_UP, target: 'host', intensity: 1.25 }, scene: 'reaction' });
+    document.getElementById('blacklight').onclick = () => stage.setLighting(stage.getState().lighting.mode === LightingModes.BLACKLIGHT ? LightingModes.NIGHT : LightingModes.BLACKLIGHT);
+    document.getElementById('immersive').onclick = () => stage.toggleFullscreen();
+  </script>
+</body>
+</html>

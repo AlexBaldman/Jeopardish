@@ -3,6 +3,52 @@
     module.exports = factory();
   } else {
     root.JeoPARODYBrand = factory();
+    bootstrapStagePresentation(root);
+  }
+
+  function bootstrapStagePresentation(runtimeRoot) {
+    const documentRef = runtimeRoot?.document;
+    if (!documentRef || documentRef.documentElement?.dataset?.stageResources === 'loading') return;
+    documentRef.documentElement.dataset.stageResources = 'loading';
+
+    function loadStyle(href, marker) {
+      if (documentRef.querySelector(`link[${marker}]`)) return;
+      const link = documentRef.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.setAttribute(marker, 'true');
+      documentRef.head?.append(link);
+    }
+
+    loadStyle('styles/game/stage-engine.css?v=stage-engine-2', 'data-stage-engine-style');
+    loadStyle('styles/game/stage-runtime.css?v=stage-runtime-2', 'data-stage-runtime-style');
+    loadStyle('styles/game/stage-brand-controls.css?v=stage-brand-1', 'data-stage-brand-style');
+
+    function loadScript(src, marker, onload) {
+      const existing = documentRef.querySelector(`script[${marker}]`);
+      if (existing) {
+        if (onload) {
+          if (existing.dataset.loaded === 'true') onload();
+          else existing.addEventListener('load', onload, { once: true });
+        }
+        return existing;
+      }
+      const script = documentRef.createElement('script');
+      script.src = src;
+      script.defer = true;
+      script.setAttribute(marker, 'true');
+      script.addEventListener('load', () => {
+        script.dataset.loaded = 'true';
+        onload?.();
+      }, { once: true });
+      documentRef.head?.append(script);
+      return script;
+    }
+
+    loadScript('src/presentation/stage-engine.js?v=stage-engine-2', 'data-stage-engine-script', () => {
+      loadScript('src/presentation/stage-runtime.js?v=stage-runtime-2', 'data-stage-runtime-script');
+      documentRef.documentElement.dataset.stageResources = 'ready';
+    });
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this, function brandControllerFactory() {
   'use strict';
@@ -17,6 +63,31 @@
     eclipse: 'eclipse',
     disco: 'disco signal',
   });
+
+  function prepareWordmark(mark) {
+    const before = mark?.querySelector?.('.brand-base-before');
+    const after = mark?.querySelector?.('.brand-base-after');
+    if (!before || before.dataset.brandStructured === 'true') return mark;
+
+    const source = String(before.textContent || '').trim();
+    if (source.toUpperCase() !== 'JEOPAR') return mark;
+
+    before.textContent = '';
+    before.dataset.brandStructured = 'true';
+
+    const heritage = mark.ownerDocument.createElement('span');
+    heritage.className = 'brand-heritage';
+    heritage.textContent = 'jeo';
+
+    const parodyLead = mark.ownerDocument.createElement('span');
+    parodyLead.className = 'brand-parody brand-parody-before';
+    parodyLead.textContent = 'PAR';
+
+    before.append(heritage, parodyLead);
+    after?.classList?.add('brand-parody', 'brand-parody-after');
+    mark.dataset.brandGrammar = 'jeo-parody';
+    return mark;
+  }
 
   class BrandController {
     constructor({
@@ -36,6 +107,7 @@
     bind() {
       const marks = Array.from(this.document?.querySelectorAll?.('[data-brand-mark]') || []);
       marks.forEach((mark) => {
+        prepareWordmark(mark);
         const trigger = mark.querySelector?.('[data-brand-o]');
         trigger?.addEventListener?.('click', () => this.activate());
         trigger?.addEventListener?.('keydown', (event) => {
@@ -103,11 +175,11 @@
         if (element.hasAttribute?.('data-brand-o')) {
           element.setAttribute?.(
             'aria-label',
-            `The inserted O is dressed as a ${tokenLabel}. Activate to change it.`,
+            `The O in PARODY is dressed as a ${tokenLabel}. Activate to change it.`,
           );
           element.setAttribute?.(
             'title',
-            `The extra O between R and D is the ${tokenLabel}. Activate to change it.`,
+            `The O in PARODY is the ${tokenLabel}. Activate to change it.`,
           );
         }
       });
@@ -118,5 +190,6 @@
     BrandController,
     O_TOKENS,
     O_TOKEN_LABELS,
+    prepareWordmark,
   };
 }));
