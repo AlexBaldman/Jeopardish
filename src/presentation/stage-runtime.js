@@ -11,6 +11,15 @@
     StageEngine,
   } = module;
 
+  function ensureRuntimeStyles() {
+    if (documentRef.querySelector('link[data-stage-runtime-style]')) return;
+    const link = documentRef.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'styles/game/stage-runtime.css?v=stage-runtime-2';
+    link.dataset.stageRuntimeStyle = 'true';
+    documentRef.head?.append(link);
+  }
+
   function createButton({ id, className, label, text }) {
     const button = documentRef.createElement('button');
     button.id = id;
@@ -26,6 +35,7 @@
     const gameContainer = documentRef.getElementById('gameContainer');
     if (!gameContainer || gameContainer.dataset.stageRuntime === 'ready') return;
 
+    ensureRuntimeStyles();
     gameContainer.dataset.stageRuntime = 'ready';
     const stage = new StageEngine({
       windowRef: root,
@@ -98,7 +108,7 @@
     }
 
     syncLighting();
-    const bodyObserver = new MutationObserver(syncLighting);
+    const bodyObserver = new root.MutationObserver(syncLighting);
     bodyObserver.observe(documentRef.body, { attributes: true, attributeFilter: ['data-theme'] });
 
     function cueFromGameMoment() {
@@ -134,7 +144,7 @@
       }
     }
 
-    const gameObserver = new MutationObserver(cueFromGameMoment);
+    const gameObserver = new root.MutationObserver(cueFromGameMoment);
     gameObserver.observe(gameContainer, {
       attributes: true,
       attributeFilter: ['data-game-moment', 'data-round-phase'],
@@ -143,7 +153,7 @@
 
     const hostImage = documentRef.getElementById('hostImage');
     if (hostImage) {
-      const hostObserver = new MutationObserver(() => {
+      const hostObserver = new root.MutationObserver(() => {
         const expression = hostImage.dataset.expression || '';
         if (expression === 'incorrect') {
           stage.setCamera(CameraShots.CLOSE_UP, { target: 'host', intensity: 1.1 });
