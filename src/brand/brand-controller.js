@@ -3,6 +3,47 @@
     module.exports = factory();
   } else {
     root.JeoPARODYBrand = factory();
+    bootstrapStagePresentation(root);
+  }
+
+  function bootstrapStagePresentation(runtimeRoot) {
+    const documentRef = runtimeRoot?.document;
+    if (!documentRef || documentRef.documentElement?.dataset?.stageResources === 'loading') return;
+    documentRef.documentElement.dataset.stageResources = 'loading';
+
+    if (!documentRef.querySelector('link[data-stage-engine-style]')) {
+      const link = documentRef.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'styles/game/stage-engine.css?v=stage-engine-2';
+      link.dataset.stageEngineStyle = 'true';
+      documentRef.head?.append(link);
+    }
+
+    function loadScript(src, marker, onload) {
+      const existing = documentRef.querySelector(`script[${marker}]`);
+      if (existing) {
+        if (onload) {
+          if (existing.dataset.loaded === 'true') onload();
+          else existing.addEventListener('load', onload, { once: true });
+        }
+        return existing;
+      }
+      const script = documentRef.createElement('script');
+      script.src = src;
+      script.defer = true;
+      script.setAttribute(marker, 'true');
+      script.addEventListener('load', () => {
+        script.dataset.loaded = 'true';
+        onload?.();
+      }, { once: true });
+      documentRef.head?.append(script);
+      return script;
+    }
+
+    loadScript('src/presentation/stage-engine.js?v=stage-engine-2', 'data-stage-engine-script', () => {
+      loadScript('src/presentation/stage-runtime.js?v=stage-runtime-1', 'data-stage-runtime-script');
+      documentRef.documentElement.dataset.stageResources = 'ready';
+    });
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this, function brandControllerFactory() {
   'use strict';
