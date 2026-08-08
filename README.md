@@ -213,6 +213,11 @@ Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture future
 merge/cherry-pick/delete decisions. The latest completed pass is
 `docs/BRANCH_CONVERGENCE_2026-08-05.md`.
 
+
+## Additional Concept Document
+
+- [American Handball Video Game Plan (NYC Style)](docs/american-handball-game-plan.md)
+
 ## API and Data Sample
 
 ![Jservice](http://www.jService.io)
