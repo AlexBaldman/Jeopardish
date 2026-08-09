@@ -47,6 +47,28 @@ outrank older audits; historical reports never create work by themselves.
 - Long-term repository migration:
   [`handoff/JEOPARODY_CANONICAL_MIGRATION_STRATEGY_2026-08-08.md`](handoff/JEOPARODY_CANONICAL_MIGRATION_STRATEGY_2026-08-08.md)
 
+## Preserved Cross-Branch Research
+
+These documents were reviewed and promoted without their experimental runtime
+code. They inform later contracts; they do not create a second implementation.
+
+- Consolidated product blueprint:
+  [`handoff/JEOPARODY_CONSOLIDATED_BLUEPRINT_2026-08-08.md`](handoff/JEOPARODY_CONSOLIDATED_BLUEPRINT_2026-08-08.md)
+  (its repository-role labels are explicitly superseded by the migration
+  strategy and handoff README)
+- Donor deep mine:
+  [`convergence/DONOR_DEEP_MINE_2026-08-07.md`](convergence/DONOR_DEEP_MINE_2026-08-07.md)
+- Stage contracts:
+  [`architecture/STAGE_RUNTIME_SYSTEM.md`](architecture/STAGE_RUNTIME_SYSTEM.md)
+  and [`STAGE_ENGINE.md`](STAGE_ENGINE.md)
+- Host story research: [`HOST_LORE.md`](HOST_LORE.md)
+- uINVERSE platform thesis and architecture:
+  [`vision/UINVERSE_PLATFORM_THESIS_2026-08-08.md`](vision/UINVERSE_PLATFORM_THESIS_2026-08-08.md)
+  and
+  [`vision/UINVERSE_CANONICAL_ARCHITECTURE_2026-08-08.md`](vision/UINVERSE_CANONICAL_ARCHITECTURE_2026-08-08.md)
+- Sprite Foundry creator-tool specification:
+  [`../ICM/projects/sprite-foundry/README.md`](../ICM/projects/sprite-foundry/README.md)
+
 ## Historical Material
 
 Date-stamped audits and superseded plans remain useful for provenance. They are

@@ -212,6 +212,18 @@ Every mode must reuse the same truth and learning owners.
 - American handball remains a separately bounded mode or project, not trivia
   runtime code accidentally sharing state.
 
+### Cross-project platform direction
+
+- `uINVERSE` is a preserved umbrella thesis for projecting shared semantic
+  worlds through comic, 2D, 3D, audio, prose, and workbench lenses.
+- Its Stage layer renders a world model; it never becomes the owner of world,
+  game, learning, or project truth.
+- JeoPARODY remains a product with its own release gates. Shared platform work
+  must be extracted only after a concrete JeoPARODY contract proves reusable.
+- Sprite Foundry is preserved as a separately bounded creator-tool
+  specification for consistent character assets, poses, wardrobe, and stage
+  projections. It is not part of the player runtime yet.
+
 ## Current Executable Truth
 
 Features described as implemented may exist only in the current working tree
