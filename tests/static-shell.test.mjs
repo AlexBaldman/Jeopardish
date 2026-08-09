@@ -503,7 +503,7 @@ test('game headers use explicit flag artwork and current architecture styles', (
     assert.match(html, /styles\/game\/scoreboard\.css\?v=architecture-5/);
     assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-10/);
     assert.match(html, /styles\/game\/controls\.css\?v=architecture-7/);
-    assert.match(html, /styles\/game\/study\.css\?v=architecture-5/);
+    assert.match(html, /styles\/game\/study\.css\?v=architecture-6/);
   }
   assert.equal(
     Array.from(landingHtml.matchAll(/data-theme-toggle(?:\s|>)/g)).length,
