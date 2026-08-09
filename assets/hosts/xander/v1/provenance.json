@@ -1,0 +1,42 @@
+{
+  "schema": "jeoparody.asset-provenance",
+  "version": 1,
+  "packId": "xander-surf-v1",
+  "status": "prototype-review-required",
+  "generator": {
+    "family": "OpenAI image generation",
+    "workflow": "conversation-directed concept generation and selected-look extraction",
+    "promptVersion": "xander-surf-production-v1"
+  },
+  "lineage": {
+    "status": "partial",
+    "notes": "Source concept sheets and final runtime hashes are preserved. Exact crop, mask, alpha-cleanup, and export tool versions were not recorded and must be reconstructed before commercial approval."
+  },
+  "rights": {
+    "commercialUse": "hold",
+    "likenessReview": "required",
+    "humanApproval": "selected by project owner for prototype use",
+    "notes": "Fictional-host intent does not by itself clear resemblance or generated-output rights. Public release requires an asset-by-asset approval receipt."
+  },
+  "sources": [
+    { "path": "assets/character-concepts/xander-animation-key-poses-v1.png", "sha256": "3b1263da0b6df04aedfccbe3cf6eff4f699a4b93e449b07d5b867a8f2855ff04" },
+    { "path": "assets/character-concepts/xander-boardshort-catalog-v1.png", "sha256": "13d9ada8337dea1341579d1da903dcd823bc31540f3718a7159b744c3dde05ae" },
+    { "path": "assets/character-concepts/xander-core-surf-wardrobe-v1.png", "sha256": "14512a3ae5e999e90dd0626583af714a87440d7c87c035f551f3bf3bfe16a117" },
+    { "path": "assets/character-concepts/xander-premium-pixel-direction-v1.png", "sha256": "d356f9620148e255b5c4df8a4721143ad6e80ed99b2a10bae00aea615b7e2344" },
+    { "path": "assets/character-concepts/xander-special-wardrobe-v1.png", "sha256": "dfabceb311bfc1ee5ea53c95698298b5ba78bf39d3218141ce6ee6981cee9406" }
+  ],
+  "outputs": [
+    { "id": "broadcast-grid-black", "path": "assets/hosts/xander/v1/looks/broadcast-grid-black.png", "sha256": "a97ac9093abcf0fc114eea534da5718445d83a9e95363c447a376aaeca8cfdc9" },
+    { "id": "checker-lightning-coral", "path": "assets/hosts/xander/v1/looks/checker-lightning-coral.png", "sha256": "8048feb20559c417d514e188b1448e0f98f0359f117a47f88685ce728a1aaa23" },
+    { "id": "contour-purple", "path": "assets/hosts/xander/v1/looks/contour-purple.png", "sha256": "ea79a36035e3e7598d1e216f3a96cf380cc62992e1856b6e6ac3e7cbf262eb3c" },
+    { "id": "diagonal-orange", "path": "assets/hosts/xander/v1/looks/diagonal-orange.png", "sha256": "c961911ae98bab5e1f869b46c160cc5f9dfd33d6a4dbfdb693d48cc038020617" },
+    { "id": "exclamation-blue", "path": "assets/hosts/xander/v1/looks/exclamation-blue.png", "sha256": "9353b60845d0d2e28113de79c798385478df01ae1ea1a700c7adb86bb74391ff" },
+    { "id": "hibiscus-cream", "path": "assets/hosts/xander/v1/looks/hibiscus-cream.png", "sha256": "37650af9c381da736cb1bf58fc1a278ccbb1dbbb0b6885d561449e970ca3e716" },
+    { "id": "lightning-yellow", "path": "assets/hosts/xander/v1/looks/lightning-yellow.png", "sha256": "84a95e212fd46e842021e34a5feca0083e2f8e26f69f2e6ceec1a0002dade0ba" },
+    { "id": "neon-tropical-navy", "path": "assets/hosts/xander/v1/looks/neon-tropical-navy.png", "sha256": "5100a7806e18596feedf2b056fbf6c4e7f9bfdedc7f0796acd1382df60dfd8ab" },
+    { "id": "question-constellation", "path": "assets/hosts/xander/v1/looks/question-constellation.png", "sha256": "85a245ea1b775910b6636c70d299d1bd654ee710254b8b34b97a0a4753aea8ea" },
+    { "id": "question-pink", "path": "assets/hosts/xander/v1/looks/question-pink.png", "sha256": "0472447716082249897157045e1a68ca9fb33c5db94c63aed159282993968bf2" },
+    { "id": "sun-wave-turquoise", "path": "assets/hosts/xander/v1/looks/sun-wave-turquoise.png", "sha256": "16fdad5b37846b3c09985008d7e68e437b01c1059b97e0ea42ad9508dce19e37" },
+    { "id": "sunset-cyan", "path": "assets/hosts/xander/v1/looks/sunset-cyan.png", "sha256": "4e8b3649724051c4b06e1e4826d1bf2335234cd55e0fe7bc124664d7542ccc3c" }
+  ]
+}

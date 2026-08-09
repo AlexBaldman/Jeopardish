@@ -25,6 +25,13 @@ The MVP should pre-render every line it can. This produces better comic timing,
 lower latency, predictable cost, and fewer privacy surprises than attempting to
 synthesize the entire broadcast live.
 
+The runtime foundation now lives in `src/voice/voice-pack.js`. It validates
+bilingual styles, fallback order, provider capabilities, provenance, usage
+rights, and consent without embedding credentials or service endpoints. The
+current `VoiceController` consumes that metadata but deliberately executes only
+the proven browser speech adapter; local and neural descriptors remain disabled
+until real approved assets and adapters exist.
+
 ## Recommended Free Development Stack
 
 | Need | Recommended starting point | Why | Production caution |

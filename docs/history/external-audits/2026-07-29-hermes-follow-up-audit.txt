@@ -1,0 +1,185 @@
+Current headline
+I don’t see new commits since my last look: still on:
+
+/Users/alex/coding/jeoparody
+branch cleanup/production-readiness
+HEAD = 1f97c4d fix: restore AI fallback and runtime service guards
+branch is still ahead 3 of origin/main
+The situation is broadly the same as my previous report: the local branch is much healthier than the old Devin/ChatGPT audit implied, but the highest-risk product bugs are still present.
+
+Verification run now
+Passed:
+
+npm test -- --runInBand
+npm run lint
+npm run lint:css
+Results:
+
+Jest: 7 suites passed, 72 tests passed
+ESLint: passed
+Stylelint: passed
+Security audit still reports production dependency issues:
+
+npm audit --omit=dev --audit-level=moderate
+Result:
+
+6 vulnerabilities
+1 critical
+3 high
+2 moderate
+The vulnerable tree appears tied to packages in package.json:30–33:
+
+@google/genai
+@google/generative-ai
+firebase
+I searched source imports and did not find active JS imports of Google/Firebase packages in src/, which supports the prior recommendation: remove unused AI/Firebase dependencies before upgrading blindly.
+
+Working tree situation
+There are still many uncommitted changes:
+
+29 modified/deleted tracked files
+several untracked docs/assets/scripts/init files
+no staged files
+Tracked diff summary remains large:
+
+29 files changed
+3696 insertions
+1793 deletions
+Major changed areas:
+
+boot split from giant src/main.js into src/init/*
+runtime UI and splash/layout changes in index.html
+question loading / parser hardening in src/services/api/questionService.js
+scoring/validator convergence in src/core/GameEngine.js, src/utils/validators.js, tests
+heavy CSS changes in src/styles/app-fixes.css and src/styles/ux-pack.css
+PAO/Qwen image generation work
+docs/remediation/convergence plans
+What improved / looks good
+1. Tests/lint are now genuinely green
+This is not a “totally broken branch” anymore. The current local branch has a respectable baseline: 72 tests, JS lint, CSS lint all passing.
+
+2. Boot architecture is cleaner
+src/main.js has been reduced to a bootstrap file. Service init, preferences, UI bindings, and console conductor are split into src/init/*. This is a good direction and matches the “Carmack Rule” better than the older giant main file.
+
+3. Audio no longer appears to block boot
+src/init/services.js:24–31 starts soundManager.init() without awaiting it. That aligns with the previous P0 recommendation.
+
+4. Question service is more defensive
+src/services/api/questionService.js now has explicit data content-type recognition and HTML fallback detection. Tests cover rejecting HTML fallback pretending to be TSV/CSV in tests/services/questionService.test.js:92–99.
+
+That is exactly the kind of production hardening this project needed.
+
+5. Answer validation tests are stronger
+tests/core/validation.test.js and src/utils/validators.js now cover prompt-prefix cleanup, alternate answers, parentheticals, fuzzy matching, and explanations. This is moving toward the right “answer judge with reasons” product model.
+
+6. UI/accessibility improved in spots
+The new index.html adds:
+
+semantic header
+scoreboard region
+better button labels
+actual input/footer structure
+modal close button
+keyboard-focusable host click zones
+Not finished, but definitely better than inert div soup.
+
+Still-real blockers / risks
+P0: Reveal scoring is still not wired into the engine
+This remains the biggest correctness bug.
+
+Evidence:
+
+UI emits reveal: src/init/ui.js:594–598
+Engine scoring still hardcodes peekUsed: false: src/core/GameEngine.js:376–386
+Engine event handlers do not consume game:answer:revealed: src/core/GameEngine.js:592–603
+The scoring module supports peek/no-credit, but the active engine does not pass reveal state into it.
+
+So the current branch likely still allows:
+
+reveal answer → type answer → receive normal score
+
+That is the top fix.
+
+P0/P1: Browser secret ingestion still exists
+src/init/services.js:42–88 still reads these URL params:
+
+gemini_key
+claude_key
+key
+and stores them in localStorage at src/init/services.js:53–59.
+
+This is still a public-production security problem.
+
+P1: Unsafe innerHTML remains on data-bearing paths
+Some newer rendering is safe, but mixed rendering remains.
+
+Important instances:
+
+src/main.js:57 fatal error HTML includes error.message
+src/init/services.js:105–110 writes answer via innerHTML
+src/init/ui.js:154–160 also writes answer via innerHTML
+src/services/DialogManager.js has several message/question/answer innerHTML paths
+Controlled template innerHTML is less alarming, but data/archive/user/AI output should use textContent or safe DOM builders.
+
+P1: Fullboard/run modes are still not real game modes
+From src/init/ui.js:514–568:
+
+board cell click opens a clue preview modal
+run-category increments a progress bar / opacity
+These modes smoke-test as visible UI, but they are still not routed through the canonical engine answer/scoring/review flow. They should either be labeled beta/preview or integrated properly.
+
+P1: The GameEngine still runs a perpetual frame loop
+src/core/GameEngine.js:124–165 still starts requestAnimationFrame(this.gameLoop) and tracks FPS. The update loop now does less work, which is good, but for a mostly event-driven trivia app this remains unnecessary complexity and battery/CPU waste.
+
+Not a ship-stopper, but worth simplifying after truth/scoring/security.
+
+P1: Dependency risk remains
+npm audit --omit=dev still reports the 6 vulnerabilities. The source search suggests the production deps may not be used directly in src/. If true, deleting unused deps may collapse most of the audit surface.
+
+P1: No license file
+LICENSE still not present. The README/package can imply licensing, but there is no actual grant.
+
+P1: Build/deploy CI still incomplete
+Current CI runs lint/test/build and a permissive axe command, but it does not run the preview runtime smoke as a deployment gate. Since the historical problems were production-preview/runtime problems, CI should eventually run:
+
+npm run build
+npm run preview -- --host 127.0.0.1 --port 4174
+BASE_URL=http://127.0.0.1:4174 npm run test:runtime
+I did not run that now to avoid modifying generated artifacts/screenshots.
+
+My current report card
+Area	Current state
+Unit tests	Good: 72 passing
+JS lint	Passing
+CSS lint	Passing
+Build	Previously passed; not rerun now to avoid writes
+Runtime smoke	Previously passed dev/preview; not rerun now to avoid screenshot writes
+Boot/audio	Much improved
+Question data hardening	Improved
+Answer judging	Improved, but not fully product-complete
+Reveal scoring	Still broken / top priority
+Browser secret handling	Still unsafe for public
+XSS/data rendering	Still mixed-risk
+Modes	Visibly better, not product-complete
+Dependencies	Audit still bad
+License/provenance	Still unresolved
+Recommended next steps, still no code changes implied
+Fix reveal/no-credit in GameEngine first.
+
+This is the smallest high-leverage correctness fix.
+Remove or dev-gate URL API-key ingestion.
+
+No public build should persist API keys from query params.
+Replace data-bearing innerHTML.
+
+Start with answer reveal and dialog/AI surfaces.
+Remove unused Google/Firebase deps if confirmed unused.
+
+This likely reduces most production audit noise.
+Commit the current stabilization work in small chunks.
+
+The branch is too valuable and too large to keep as one giant dirty pile.
+Then add CI preview-runtime smoke.
+
+The project’s previous failures were exactly where build-only CI gives false confidence.
+Bottom line: current JeoPARODY is in a promising stabilization state, not a disaster state. The machine boots, tests pass, and the structure is improving. But the “truth loop” still has a hole big enough to drive a Daily Double truck through: revealed answers can still score unless the engine is fixed.

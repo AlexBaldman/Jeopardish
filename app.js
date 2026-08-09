@@ -547,6 +547,12 @@ function createCompositionOptions() {
         dialogueStyleId: DIALOGUE_STYLES.map((style) => style.id),
       },
     },
+    hostPerformanceOptions: {
+      motionPreference: 'system',
+      systemReducedMotion: Boolean(
+        globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches,
+      ),
+    },
     presentationOptions: {
       hostBeats: hostPackModule.HostBeats,
       getCopy,

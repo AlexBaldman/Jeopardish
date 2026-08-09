@@ -1,5 +1,9 @@
 # JeoPARODY Optimal Prime Roadmap
 
+> **Status note, 2026-08-08:** Active architecture and strategy reference.
+> Counts and implementation snapshots are historical; use `CURRENT_STATE.md`
+> and `ROADMAP.md` for present truth and work order.
+
 **Decision date:** 2026-07-26
 **Status reviewed:** 2026-07-27
 **Canonical branch:** `master`

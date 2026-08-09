@@ -116,12 +116,35 @@ test('VoiceController narrates with a matching localized voice and reports lifec
   assert.equal(controller.setEnabled(true), true);
   assert.equal(controller.speak('A pista está no ar.'), true);
   assert.equal(synthesis.spoken[0].lang, 'pt-BR');
+  assert.equal(synthesis.spoken[0].rate, 0.94);
+  assert.equal(synthesis.spoken[0].pitch, 0.96);
   assert.equal(synthesis.spoken[0].voice.name, 'Studio Portuguese');
   assert.equal(controller.state, VoiceStates.SPEAKING);
 
   synthesis.spoken[0].onend();
   assert.equal(controller.state, VoiceStates.IDLE);
   assert.deepEqual(states, [VoiceStates.IDLE, VoiceStates.SPEAKING, VoiceStates.IDLE]);
+});
+
+test('VoiceController resolves an offline VoicePack profile while executing browser speech', () => {
+  const synthesis = new FakeSynthesis();
+  const controller = new VoiceController({
+    speechSynthesisRef: synthesis,
+    UtteranceClass: FakeUtterance,
+    RecognitionClass: null,
+    language: 'en-US',
+  });
+  const profile = controller.getVoiceProfile({ styleId: 'warm', seed: 'welcome' });
+
+  assert.equal(controller.getVoicePack().id, 'offline-voice-foundation');
+  assert.equal(profile.style.id, 'warm');
+  assert.equal(profile.providerId, 'browser-system');
+  assert.deepEqual(profile.candidates, ['local-generic', 'browser-system']);
+
+  controller.setEnabled(true);
+  assert.equal(controller.speak('Welcome.', { styleId: 'warm' }), true);
+  assert.equal(synthesis.spoken[0].rate, 0.98);
+  assert.equal(synthesis.spoken[0].pitch, 1.02);
 });
 
 test('VoiceController ignores stale speech callbacks after an interruption', () => {

@@ -2,6 +2,7 @@
   if (typeof module === 'object' && module.exports) {
     module.exports = factory(
       require('../ui/focus-scope.js'),
+      require('../presentation/dialogue-anchor.js'),
       require('./outcome-view.js'),
       require('./clue-view.js'),
       require('./study-view.js'),
@@ -11,6 +12,7 @@
   } else {
     root.JeopardishRenderer = factory(
       root.JeoPARODYFocus,
+      root.JeoPARODYDialogueAnchor,
       root.JeoPARODYOutcomeView,
       root.JeoPARODYClueView,
       root.JeoPARODYStudyView,
@@ -20,6 +22,7 @@
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this, function rendererFactory(
   focusModule,
+  dialogueAnchorModule,
   outcomeModule,
   clueModule,
   studyModule,
@@ -30,6 +33,9 @@
 
   if (!focusModule?.FocusScope) {
     throw new Error('JeopardishRenderer requires JeoPARODYFocus.');
+  }
+  if (!dialogueAnchorModule?.computeDialogueAnchor) {
+    throw new Error('JeopardishRenderer requires JeoPARODYDialogueAnchor.');
   }
   if (!outcomeModule?.OutcomeView) {
     throw new Error('JeopardishRenderer requires JeoPARODYOutcomeView.');
@@ -130,21 +136,39 @@
   class Renderer {
     constructor({
       documentRef = globalThis.document,
+      windowRef = globalThis,
       random = Math.random,
       focusScope = null,
+      requestFrame = null,
+      cancelFrame = null,
+      ResizeObserverClass = null,
     } = {}) {
       if (!documentRef) {
         throw new Error('Renderer requires a document.');
       }
 
       this.document = documentRef;
+      this.window = windowRef;
       this.random = random;
+      this.requestFrame = requestFrame
+        || windowRef?.requestAnimationFrame?.bind?.(windowRef)
+        || null;
+      this.cancelFrame = cancelFrame
+        || windowRef?.cancelAnimationFrame?.bind?.(windowRef)
+        || null;
+      this.ResizeObserverClass = ResizeObserverClass || windowRef?.ResizeObserver || null;
       this.focusScope = focusScope || new focusModule.FocusScope({ documentRef });
       this.dom = {};
       this.copy = { ...DefaultCopy };
       this.lastMediaTrigger = null;
       this.onMediaFailure = () => {};
       this.onExitStudy = () => {};
+      this.dialogueAnchorFrame = null;
+      this.dialogueAnchorFramesRemaining = 0;
+      this.dialogueAnchorObserver = null;
+      this.dialogueAnchorBound = false;
+      this.hostDialogueAnchor = Object.freeze({ x: 0.5, y: 0.245 });
+      this.onDialogueAnchorResize = () => this.scheduleDialogueAnchorSync();
       this.outcomeView = new outcomeModule.OutcomeView({
         dom: this.dom,
         getCopy: () => this.copy,
@@ -313,6 +337,7 @@
       this.dom.studyReinforcementResult = this.document.getElementById('studyReinforcementResult');
       this.dom.hostImage?.addEventListener('load', () => {
         this.dom.hostImage.dataset.assetState = 'ready';
+        this.scheduleDialogueAnchorSync();
       });
       this.dom.hostImage?.addEventListener('error', () => {
         if (this.dom.hostImage.src.endsWith(DEFAULT_HOST_VISUAL)) {
@@ -323,6 +348,7 @@
         this.dom.hostImage.src = DEFAULT_HOST_VISUAL;
       });
       this.updateStaticText();
+      this.bindDialogueAnchorTracking();
       return this.dom;
     }
 
@@ -696,12 +722,14 @@
         return;
       }
       this.dom.speechBubble.dataset.dialogueStyle = style.id;
+      this.dom.speechBubble.dataset.dialogueSource = style.id === 'narration' ? 'narrator' : 'host';
       this.setText(this.dom.dialogueStyleLabel, style.label);
       this.setText(
         this.dom.dialogueStyleIndex,
         `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`,
       );
       this.dom.speechBubble.setAttribute('aria-label', `${style.label} dialogue panel`);
+      this.scheduleDialogueAnchorSync();
     }
 
     renderScenePicker(pack, index = 0, total = 1) {
@@ -911,6 +939,15 @@
         this.dom.hostAvatar.dataset.expression = activeState;
         this.dom.hostAvatar.dataset.eyewearEffect = performance?.eyewear?.effect || '';
         const lensAnchor = performance?.anchors?.lenses;
+        const mouthAnchor = performance?.anchors?.mouth;
+        if (mouthAnchor) {
+          const mouthX = Number(mouthAnchor.x);
+          const mouthY = Number(mouthAnchor.y);
+          this.hostDialogueAnchor = Object.freeze({
+            x: Number.isFinite(mouthX) ? mouthX : 0.5,
+            y: Number.isFinite(mouthY) ? mouthY : 0.245,
+          });
+        }
         if (lensAnchor && this.dom.hostAvatar.style?.setProperty) {
           this.dom.hostAvatar.style.setProperty('--host-lens-x', `${Number(lensAnchor.x) * 100}%`);
           this.dom.hostAvatar.style.setProperty('--host-lens-y', `${Number(lensAnchor.y) * 100}%`);
@@ -929,7 +966,9 @@
         this.dom.hostStage.dataset.hostPack = performance?.hostPackId || '';
         this.dom.hostStage.dataset.avatarPack = performance?.avatarPackId || '';
         this.dom.hostStage.dataset.lookId = activeSkin?.id || '';
-        this.applyHostMotion(performance?.motion);
+        if (!this.applyHostAnimation(performance?.animation)) {
+          this.applyHostMotion(performance?.motion);
+        }
       }
       if (this.dom.hostSkinLabel) {
         this.setText(this.dom.hostSkinLabel, activeSkin?.label || host.displayName || 'Host');
@@ -939,15 +978,124 @@
         const total = Number(performance?.skinCount || 1);
         this.setText(this.dom.hostPackIndex, `${String(position).padStart(2, '0')}/${String(total).padStart(2, '0')}`);
       }
+      this.trackDialogueAnchor(performance?.animation?.timeline?.durationMs || 0);
+    }
+
+    bindDialogueAnchorTracking() {
+      if (this.dialogueAnchorBound || !this.dom.speechBubble || !this.dom.hostAvatar) return false;
+      this.dialogueAnchorBound = true;
+      if (typeof this.ResizeObserverClass === 'function') {
+        this.dialogueAnchorObserver = new this.ResizeObserverClass(this.onDialogueAnchorResize);
+        this.dialogueAnchorObserver.observe(this.dom.speechBubble);
+        this.dialogueAnchorObserver.observe(this.dom.hostAvatar);
+      }
+      this.window?.addEventListener?.('resize', this.onDialogueAnchorResize);
+      this.scheduleDialogueAnchorSync();
+      return true;
+    }
+
+    syncDialogueAnchor() {
+      if (!this.dom.speechBubble?.getBoundingClientRect || !this.dom.hostAvatar?.getBoundingClientRect) {
+        return null;
+      }
+      const result = dialogueAnchorModule.computeDialogueAnchor(
+        this.dom.speechBubble.getBoundingClientRect(),
+        this.dom.hostAvatar.getBoundingClientRect(),
+        {
+          hostAnchor: this.hostDialogueAnchor,
+          reducedMotion: Boolean(this.window?.matchMedia?.('(prefers-reduced-motion: reduce)').matches),
+        },
+      );
+      if (!result.renderable) return result;
+      Object.entries(result.cssVariables).forEach(([property, value]) => {
+        this.dom.speechBubble.style?.setProperty?.(property, value);
+      });
+      this.dom.speechBubble.dataset.dialogueAnchorZone = result.region;
+      this.dom.speechBubble.dataset.dialogueAnchorState = result.valid ? 'tracked' : 'fallback';
+      return result;
+    }
+
+    scheduleDialogueAnchorSync() {
+      if (!this.requestFrame) return this.syncDialogueAnchor();
+      if (this.dialogueAnchorFrame !== null) return true;
+      this.dialogueAnchorFrame = this.requestFrame(() => {
+        this.dialogueAnchorFrame = null;
+        this.syncDialogueAnchor();
+      });
+      return true;
+    }
+
+    trackDialogueAnchor(durationMs = 0) {
+      this.dialogueAnchorFramesRemaining = Math.min(
+        90,
+        Math.max(1, Math.ceil(Math.max(0, Number(durationMs) || 0) / 16) + 2),
+      );
+      if (!this.requestFrame) return this.syncDialogueAnchor();
+      if (this.dialogueAnchorFrame !== null) this.cancelFrame?.(this.dialogueAnchorFrame);
+      const tick = () => {
+        this.dialogueAnchorFrame = null;
+        this.syncDialogueAnchor();
+        this.dialogueAnchorFramesRemaining -= 1;
+        if (this.dialogueAnchorFramesRemaining > 0) {
+          this.dialogueAnchorFrame = this.requestFrame(tick);
+        }
+      };
+      this.dialogueAnchorFrame = this.requestFrame(tick);
+      return true;
+    }
+
+    destroy() {
+      this.scoreboardView.destroy?.();
+      this.dialogueAnchorObserver?.disconnect?.();
+      this.dialogueAnchorObserver = null;
+      this.window?.removeEventListener?.('resize', this.onDialogueAnchorResize);
+      if (this.dialogueAnchorFrame !== null) this.cancelFrame?.(this.dialogueAnchorFrame);
+      this.dialogueAnchorFrame = null;
+      this.dialogueAnchorFramesRemaining = 0;
+      this.dialogueAnchorBound = false;
+      return true;
     }
 
     applyHostMotion(motion = null) {
       if (!this.dom.hostStage) return false;
       const primitive = motion?.primitive || '';
+      this.clearHostAnimation();
       this.dom.hostStage.dataset.motion = '';
       if (!primitive) return false;
       void this.dom.hostStage.offsetWidth;
       this.dom.hostStage.dataset.motion = primitive;
+      return true;
+    }
+
+    clearHostAnimation() {
+      if (!this.dom.hostStage) return;
+      this.dom.hostStage.dataset.animationPack = '';
+      this.dom.hostStage.dataset.animationPose = '';
+      this.dom.hostStage.dataset.animationClip = '';
+      this.dom.hostStage.dataset.animationVariant = '';
+      this.dom.hostStage.dataset.animationReduced = '';
+      this.dom.hostStage.style?.removeProperty?.('--host-animation-duration');
+    }
+
+    applyHostAnimation(animation = null) {
+      if (!this.dom.hostStage || !animation?.clip) return false;
+      const cssRenderer = animation.clip.renderers?.find?.(({ kind }) => kind === 'css');
+      if (!cssRenderer) return false;
+
+      this.dom.hostStage.dataset.motion = '';
+      this.clearHostAnimation();
+      void this.dom.hostStage.offsetWidth;
+      this.dom.hostStage.dataset.animationPack = animation.packId || '';
+      this.dom.hostStage.dataset.animationPose = animation.pose || 'idle';
+      this.dom.hostStage.dataset.animationClip = animation.clip.id || '';
+      this.dom.hostStage.dataset.animationVariant = animation.variant?.id || '';
+      this.dom.hostStage.dataset.animationReduced = animation.motion?.reducedMotion
+        ? animation.motion.mode || 'static'
+        : 'false';
+      this.dom.hostStage.style?.setProperty?.(
+        '--host-animation-duration',
+        `${Math.max(0, Number(animation.timeline?.durationMs) || 0)}ms`,
+      );
       return true;
     }
 

@@ -17,7 +17,18 @@ function createFakeElement(id) {
     children: [],
     style: {
       display: '',
+      properties: new Map(),
+      setProperty(name, value) {
+        this.properties.set(name, value);
+      },
+      removeProperty(name) {
+        this.properties.delete(name);
+      },
+      getPropertyValue(name) {
+        return this.properties.get(name) || '';
+      },
     },
+    rect: { left: 0, top: 0, width: 0, height: 0 },
     dataset: {},
     attributes: {},
     classList: {
@@ -68,6 +79,13 @@ function createFakeElement(id) {
     },
     select() {
       this.selected = true;
+    },
+    getBoundingClientRect() {
+      return {
+        ...this.rect,
+        right: this.rect.left + this.rect.width,
+        bottom: this.rect.top + this.rect.height,
+      };
     },
   };
 }
@@ -721,6 +739,72 @@ test('Renderer renders host visual state', () => {
   assert.equal(renderer.dom.hostImage.dataset.assetState, 'fallback');
   renderer.dom.hostImage.listeners.load();
   assert.equal(renderer.dom.hostImage.dataset.assetState, 'ready');
+});
+
+test('Renderer realizes a CSS animation selection and preserves semantic-motion fallback', () => {
+  const { renderer } = createRenderer();
+  const host = {
+    id: 'xander-trefleck',
+    displayName: 'Xander Trefleck',
+    visuals: { idle: 'host.png', correct: 'host.png' },
+  };
+  const skin = { id: 'question-pink', label: 'Questionable Pink' };
+
+  renderer.renderHost(host, 'correct', null, skin, {
+    state: 'correct',
+    visual: 'host.png',
+    skin,
+    animation: {
+      packId: 'xander-surf-motion-v1',
+      pose: 'correct',
+      clip: {
+        id: 'correct-pop',
+        renderers: [{ kind: 'css', animationName: 'host-correct-pop' }],
+      },
+      variant: { id: 'default' },
+      motion: { reducedMotion: false, mode: 'full' },
+      timeline: { durationMs: 460 },
+    },
+  });
+
+  assert.equal(renderer.dom.hostStage.dataset.animationPack, 'xander-surf-motion-v1');
+  assert.equal(renderer.dom.hostStage.dataset.animationPose, 'correct');
+  assert.equal(renderer.dom.hostStage.dataset.animationClip, 'correct-pop');
+  assert.equal(renderer.dom.hostStage.dataset.animationReduced, 'false');
+  assert.equal(renderer.dom.hostStage.dataset.motion, '');
+
+  renderer.applyHostMotion({ primitive: 'recover' });
+  assert.equal(renderer.dom.hostStage.dataset.animationClip, '');
+  assert.equal(renderer.dom.hostStage.dataset.motion, 'recover');
+});
+
+test('Renderer tracks the dialogue tail to the active host mouth anchor', () => {
+  const { renderer } = createRenderer();
+  renderer.dom.speechBubble.rect = { left: 100, top: 50, width: 600, height: 300 };
+  renderer.dom.hostAvatar.rect = { left: 130, top: 380, width: 200, height: 400 };
+  const host = {
+    id: 'xander-trefleck',
+    displayName: 'Xander Trefleck',
+    visuals: { idle: 'host.png' },
+  };
+  const skin = { id: 'question-pink', label: 'Questionable Pink' };
+
+  renderer.renderDialogueStyle({ id: 'speech', label: 'Speech Bubble' }, 1, 4);
+  renderer.renderHost(host, 'idle', null, skin, {
+    state: 'idle',
+    visual: 'host.png',
+    skin,
+    anchors: { mouth: { x: 0.5, y: 0.245 } },
+  });
+
+  assert.equal(renderer.dom.speechBubble.dataset.dialogueSource, 'host');
+  assert.equal(renderer.dom.speechBubble.dataset.dialogueAnchorZone, 'left');
+  assert.equal(renderer.dom.speechBubble.dataset.dialogueAnchorState, 'tracked');
+  assert.equal(renderer.dom.speechBubble.style.getPropertyValue('--dialogue-tail-x'), '21.667%');
+  assert.equal(renderer.dom.speechBubble.style.getPropertyValue('--dialogue-tail-reach'), '128px');
+
+  renderer.renderDialogueStyle({ id: 'narration', label: 'Narrator Box' }, 3, 4);
+  assert.equal(renderer.dom.speechBubble.dataset.dialogueSource, 'narrator');
 });
 
 test('Renderer applies dialogue skins and animates changed score tiles', () => {

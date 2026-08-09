@@ -1,0 +1,442 @@
+# Full project audit
+
+JeoPARODY has a strong, unusual product vision and a substantially improved local runtime, but it is not production-ready. The main obstacle is no longer “can the app boot?” It is that the executable truth still contradicts the interface and documentation in several critical places.
+
+The right strategy is convergence:
+
+- Preserve the current local work immediately.
+- Do not merge any historical branch wholesale.
+- Stabilize one honest, excellent classic episode.
+- Selectively port proven learning/runtime behavior from Jeopardish.
+- Keep JeoPARODY’s identity, host, theatre, and future architecture.
+- Delay additional modes and generative features until the truth loop is trustworthy.
+
+## Executive assessment
+
+| Area | Assessment | Verdict |
+|---|---|---|
+| Product vision | Distinctive retro comedy-learning world with a real point of view | Strong |
+| Classic happy path | Boots, loads local clues, accepts answers, and scores | Playable prototype |
+| Game integrity | Revealed answers can still receive full credit | Release blocker |
+| Full Board | Attractive board and clue preview, without a real answer/scoring lifecycle | Prototype presented as mode |
+| Practice / Daily Double | Both route into essentially the same classic flow | Not implemented as distinct modes |
+| Run Category | Static placeholders | Not implemented |
+| Learning loop | Review Misses and retrieval work remain mostly outside the active runtime | Missing core value |
+| Architecture | Simple active DOM path, but roughly half the JS tree is dormant | Conflicted |
+| Tests | 72 tests pass, but active runtime coverage and behavioral tests are weak | Misleadingly green |
+| Build | Compiles successfully | Artifact is unbounded |
+| Accessibility | Critical and serious automated violations | Release blocker |
+| Security | Unsafe content rendering, browser-key path, vulnerable unused dependencies | Release blocker |
+| Documentation | Rich, thoughtful, and historically useful | Contradictory and stale |
+| Legal/provenance | Jeopardy corpus, Trebek likeness/audio, no actual LICENSE | Public release blocker |
+
+The current worktree is much healthier than `origin/main`, but it should be treated as a recovery/integration line—not yet as a shipping baseline.
+
+## What I verified
+
+I fetched all refs, reviewed the branch and PR graph, inventoried Markdown across current and historical branches, read the canonical and branch-unique planning/audit documents, reviewed the previous project discussions available in Codex, inspected the active source graph, audited the question corpus, and exercised both development and production-preview runtimes.
+
+Current dirty worktree results:
+
+| Check | Result |
+|---|---|
+| Jest | Pass: 7 suites, 72 tests |
+| JavaScript lint | Pass |
+| CSS lint | Pass |
+| Vite build | Pass |
+| Development runtime smoke | Pass |
+| Production-preview runtime smoke | Pass |
+| Adversarial reveal/scoring flow | Fail |
+| Jest coverage | Fail |
+| Accessibility scan | Fail |
+| Full dependency audit | 15 vulnerabilities |
+| Production dependency audit | 6 vulnerabilities: 1 critical, 3 high, 2 moderate |
+| Built artifact | 273 MB |
+
+The build itself is small—approximately 104 KB JavaScript and 102 KB CSS—but the asset copy step makes `dist` enormous:
+
+- Questions: 234 MB
+- Audio: 16 MB
+- Images: 21 MB
+- Total: 273 MB
+
+The runtime smoke script is useful, but it mostly proves that screens become visible and a clue appears. It does not currently prove honest scoring, mode semantics, keyboard completion, focus behavior, request uniqueness, or production failure handling.
+
+## Critical findings
+
+### 1. Revealed answers still earn full points
+
+This is the most serious gameplay defect.
+
+The UI reveals the answer without updating engine state. The engine never listens for a reveal event and always calculates scoring with `peekUsed: false` in [GameEngine.js](/Users/alex/coding/jeoparody/src/core/GameEngine.js:376).
+
+I verified the exploit in the production preview:
+
+1. Load a clue.
+2. Reveal the answer.
+3. Enter that revealed answer.
+4. Press Enter.
+5. Score increases by 700 and streak increases.
+
+The engine’s `showingAnswer` state remained `false` throughout.
+
+Related problems:
+
+- The UI emits both `game:answer:submitted` and `answer:submit`, while the engine listens only to the latter in [GameEngine.js](/Users/alex/coding/jeoparody/src/core/GameEngine.js:592).
+- Correctness is later inferred from `scoreData.total > 0` in [GameEngine.js](/Users/alex/coding/jeoparody/src/core/GameEngine.js:428). That makes “correct but zero credit because revealed” indistinguishable from incorrect.
+- Reveal state is partly inferred from DOM visibility rather than engine state.
+
+Recommendation: make reveal an explicit engine transition. Answer evaluation should return separate values such as `isCorrect`, `creditEligible`, `reason`, and `scoreDelta`. A revealed answer can be correct for learning purposes while awarding zero credit and not increasing a competitive streak.
+
+### 2. Untrusted corpus content is rendered with `innerHTML`
+
+The active answer path writes corpus content through `innerHTML` in both [ui.js](/Users/alex/coding/jeoparody/src/init/ui.js:154) and [services.js](/Users/alex/coding/jeoparody/src/init/services.js:105).
+
+That matters because the archive contains:
+
+- 216,930 questions
+- 21,645 clue texts containing HTML-like markup
+- 884 repeated-question occurrences
+- 3,634 missing values, largely requiring Final Jeopardy/value-semantic handling
+
+Even if the current `answer` field appears cleaner than clue text, imported and generated content must be treated as untrusted.
+
+The fatal error renderer also interpolates `error.message` into HTML in [main.js](/Users/alex/coding/jeoparody/src/main.js:53).
+
+Recommendation: use `textContent` for all plain text. Media and intentional formatting should pass through an explicit structured renderer with an allowlist—not arbitrary markup.
+
+### 3. Public browser API-key handling is unsafe
+
+[services.js](/Users/alex/coding/jeoparody/src/init/services.js:42) accepts Gemini and Claude keys from URL query parameters and persists them to `localStorage`.
+
+Removing them with `history.replaceState` happens after page navigation, so it cannot undo exposure through copied URLs, logs, browser history, analytics, referrers, or screenshots.
+
+Recommendation: remove this path from production code. Remote AI should use a server/proxy boundary. Local experimental providers can use an explicitly enabled developer-only configuration that never travels in a URL.
+
+### 4. Visible modes overstate implemented behavior
+
+The mode selector advertises:
+
+- Full Board
+- Run Category
+- Practice
+- Daily Double
+
+But [ui.js](/Users/alex/coding/jeoparody/src/init/ui.js:469) sends Practice and Daily Double into the same new-question flow as Classic. Run Category contains static placeholder rows in [index.html](/Users/alex/coding/jeoparody/index.html:257).
+
+Full Board renders 30 clickable `div` elements in [ui.js](/Users/alex/coding/jeoparody/src/init/ui.js:970). In runtime testing:
+
+- Tiles were not keyboard-focusable.
+- Tiles had no button role.
+- Opening a clue did not mark it used.
+- There was no complete board-scoped answer, score, wager, or round lifecycle.
+
+The historical `FULL_BOARD_OVERHAUL.md` correctly described it: “It’s a question viewer, not a game.”
+
+Recommendation: show only Classic publicly. Mark incomplete modes as “Preview” with no implied completion, or hide them behind a developer flag until each reuses the canonical round kernel.
+
+### 5. The production artifact copies the entire archive
+
+[vite.config.js](/Users/alex/coding/jeoparody/vite.config.js:5) recursively copies:
+
+- All question representations
+- All audio
+- All Trebek images
+- The documentation cockpit
+
+This fixed the earlier missing-asset failure by swinging to the opposite extreme.
+
+The deployed question directory contains redundant JSON, TSV, CSV, index, and shard representations. The application does not need all of them.
+
+Recommendation: define an explicit production manifest. A Season Zero release should ship:
+
+- 10–50 curated clues
+- Only the shards reachable from that content
+- One original HostPack
+- Only referenced media and sounds
+- Provenance metadata
+
+I recommend a sub-5 MB initial payload and a sub-25 MB complete starter artifact until there is a demonstrated need for more.
+
+### 6. Dependency and security posture is worse than the green build suggests
+
+The three production dependencies are:
+
+- `@google/genai`
+- `@google/generative-ai`
+- `firebase`
+
+No active imports of any of them were found in source, tests, or scripts. They introduce six production audit findings, including a critical `websocket-driver` chain.
+
+Recommendation: remove unused production dependencies first. Then update and re-audit the remaining development toolchain, including Vite. This is much safer than applying an indiscriminate forced audit fix.
+
+Other release hardening:
+
+- Self-host the fonts and icons currently loaded from CDNs in [index.html](/Users/alex/coding/jeoparody/index.html:55), or define a deliberate CSP.
+- Remove unused compatibility and cloud scaffolding.
+- Do not put provider secrets in browser storage.
+- Add CSP and asset-origin tests when public hosting resumes.
+
+### 7. Accessibility currently fails release-level checks
+
+The live axe pass found:
+
+- Critical: zoom disabled through `user-scalable=0` in [index.html](/Users/alex/coding/jeoparody/index.html:5).
+- Serious: the logo is marked `role="img"` but contains a focusable button.
+- Critical in Full Board: unlabeled date input.
+- Critical in Full Board: year and month selects have no accessible names.
+- Moderate landmark containment failures.
+- Board cells are non-focusable `div`s.
+
+CI does not protect against this. Its axe command is malformed for the installed CLI and then unconditionally ignored with `|| true` in [ci.yml](/Users/alex/coding/jeoparody/.github/workflows/ci.yml:36).
+
+Recommendation: make accessibility a real preview-server gate. Require zero critical/serious violations on splash, classic, result, settings, and any mode declared playable.
+
+### 8. The active architecture and repository architecture are different systems
+
+[ARCHITECTURE.md](/Users/alex/coding/jeoparody/ARCHITECTURE.md:1) is presently the most accurate description: static DOM, `main.js`, `GameEngine`, event bus, and direct rendering.
+
+README still describes the dormant component/store architecture as active in [README.md](/Users/alex/coding/jeoparody/README.md:56).
+
+A static import traversal found:
+
+- 67 JavaScript modules
+- Approximately 33 reachable from `src/main.js`
+- Approximately 34 outside the active graph
+
+Dormant modules include much of `components/`, alternate core/controller/game paths, old animation services, storage/state pieces, and `src/services/api.js`. The latter is syntactically invalid, causing the coverage collector to fail.
+
+This is the exact scenario where “promote the better-looking architecture” is dangerous. Unused architecture is not automatically good architecture.
+
+Recommendation:
+
+1. Declare the direct DOM runtime canonical for the stabilization phase.
+2. Archive or delete dormant modules after an import/use ledger.
+3. Promote one behavior at a time only when it simplifies the live flow and has parity tests.
+4. Do not introduce a DI container, framework, universal component rewrite, or abstraction layer.
+
+### 9. Passing tests do not cover the product’s real risks
+
+Coverage fails at roughly:
+
+- 11.7% statements
+- 11.4% branches
+- 12% functions and lines
+
+`GameEngine` is only about 26% covered. Most active initialization, UI, host, and service behavior has no meaningful coverage.
+
+The project rule requiring pure `src/core` behavior to have Jest tests is not fully satisfied because several core paths are dormant, untested, or both.
+
+Recommendation: stop optimizing for a repository-wide percentage until the dead graph is removed. Require:
+
+- At least 80% branch coverage for the new round/truth kernel.
+- Behavioral tests for reveal, submit, timeout, near miss, zero-credit correctness, and duplicate requests.
+- Production-preview Playwright tests for the complete classic loop.
+- Separate tests for mode gating and accessibility.
+
+### 10. Visual design has personality but lacks hierarchy
+
+The current desktop classic screen is immediately recognizable and charming. The celestial/surf-arcade absurdity is working.
+
+However, visual inspection found:
+
+- Too many simultaneous focal points.
+- A clipped ticker.
+- The host is visually subordinate despite being central to the product concept.
+- Large decorative fields compete with clue readability.
+- On a fresh 390px mobile load, the hidden side menu remains partially visible—its “Help” row protrudes above the header.
+- The mobile header, scoreboard, controls, ticker, host arrows, and footer consume a very large fraction of the viewport.
+
+Screenshots:
+
+- [Desktop Classic](/Users/alex/coding/jeoparody/screenshots/runtime-check/desktop-classic.png)
+- [Desktop Full Board](/Users/alex/coding/jeoparody/screenshots/runtime-check/desktop-fullboard.png)
+
+The CSS passes lint partly because important protections are disabled in [.stylelintrc.cjs](/Users/alex/coding/jeoparody/.stylelintrc.cjs:5). There are currently approximately 77 `!important` declarations and 69 `z-index` declarations.
+
+Recommendation: freeze visual expansion. Establish one mobile and one desktop canonical composition, then remove overrides from the outside inward. Preserve the weirdness; simplify the hierarchy.
+
+## Documentation audit
+
+The documentation contains excellent thinking, but “active truth,” history, aspiration, and agent mythology are mixed together.
+
+Most trustworthy current documents:
+
+- [ARCHITECTURE.md](/Users/alex/coding/jeoparody/ARCHITECTURE.md)
+- [Production Remediation Plan](/Users/alex/coding/jeoparody/docs/PRODUCTION_REMEDIATION_PLAN_2026-05-26.md)
+- [Carmack Convergence Review](/Users/alex/coding/jeoparody/docs/CARMACK_CONVERGENCE_REVIEW.md)
+- [Source Material Index](/Users/alex/coding/jeoparody/docs/SOURCE_MATERIAL_INDEX.md)
+- [Salvage Register](/Users/alex/coding/jeoparody/docs/SALVAGE_REGISTER.md)
+
+Important drift:
+
+- The remediation plan reports 58 tests, broken runtime, missing production assets, and five moderate advisories. Current results are 72 tests, passing shallow runtime, overpackaged assets, and fifteen total advisories.
+- `docs/MASTER_PLAN.md` is deleted locally but still referenced as authoritative elsewhere.
+- The remediation plan’s source-audit relative path is incorrect.
+- README describes the component/store architecture as mounted when it is not.
+- README claims MIT licensing “by default,” but no `LICENSE` exists. Historical intent is not a valid license grant.
+- [coordination/active-work.md](/Users/alex/coding/jeoparody/coordination/active-work.md:1) contains broad, stale “Active” claims over `src/*` dating to May.
+- Fleet/Shipyard documents describe agents, rooms, and operational systems with more confidence than the repository evidence supports.
+- Older docs repeatedly mark partially wired features as completed.
+
+Recommendation: replace the current documentation hierarchy with four clearly labeled documents:
+
+1. `CURRENT_STATE.md` — commands and observed results.
+2. `PRODUCT_NORTH_STAR.md` — stable vision and non-negotiables.
+3. `ROADMAP.md` — prioritized gates.
+4. `ARCHIVE_INDEX.md` — historical plans and branch notes.
+
+Every other plan should be marked `Active`, `Historical`, or `Superseded` at the top.
+
+## Branch and PR disposition
+
+| Branch / PR | Recommendation |
+|---|---|
+| `cleanup/production-readiness` | Preserve the dirty worktree in coherent commits. This contains the best current JeoPARODY integration work. |
+| `cleanup/current-main-snapshot` | Keep as a recovery checkpoint, not a development base. |
+| `branch-merge-mvp-plan` | Mine runtime checks, selected a11y fixes, and safe UI work; much is already present. Retire after a ledger confirms that. |
+| `origin/main` | Stale October 2025 baseline. Do not overwrite current local progress with it. |
+| `origin/devin/1785112012-app-audit` / [PR #26](https://github.com/AlexBaldman/jeoPARODY/pull/26) | Keep the empirical findings, but revise the architectural conclusion. Dead component code should not automatically replace the working path. |
+| `origin/review/css-ui-fixes` | Mine individual interaction and layering fixes. Do not merge its broad CSS/document churn wholesale. |
+| `origin/mac-fixed-pushing-changes` | Historical architecture and visual reference only. Too divergent and intertwined with outdated assets/refactors. |
+| `origin/old-changes-from-mac` / [PR #25](https://github.com/AlexBaldman/jeoPARODY/pull/25) | Qwen image-edit donor only. Close after preserving any still-valuable algorithm/tests. |
+| AI provider branch | Mine provider-neutral prompt/persona ideas, not its runtime architecture. It is heavily behind. |
+| Splash and CSS-fix branches | Already merged, empty, or superseded; tag/archive and remove once recovery is confirmed. |
+| `gh-pages` | Treat as generated deployment history. Replace with one Actions-based deployment owner after release gates pass. |
+
+No historical code branch should be merged wholesale.
+
+## Product and architecture recommendation
+
+The discussions converge on a compelling product definition:
+
+> A fast retro comedy-learning show where the host and theatre can be absurd, but facts, validation, scoring, and learning history are boringly correct.
+
+The next release should be “Season Zero”: one polished 7–12 minute episode containing approximately ten excellent, curated clues.
+
+Each clue should have:
+
+- Stable ID
+- Original or licensed clue text
+- Canonical answer
+- Accepted alternatives
+- Explanation
+- Source/provenance
+- Value semantics
+- Optional translated form
+- Optional cleared media
+- Quality flags
+
+The runtime can remain simple:
+
+```mermaid
+flowchart LR
+    content["ContentRepository"] --> round["Round Kernel"]
+    round --> session["Session + Review Misses"]
+    round --> ui["Direct DOM renderer"]
+    round --> host["HostDirector"]
+    host --> ui
+    session --> content
+    ai["Optional AI gateway"] --> host
+```
+
+Key boundary: AI may write jokes, explanations, rewrites, or production drafts. It must never decide canonical correctness, scoring, or provenance.
+
+## Recommended execution order
+
+### Gate 0 — Preserve and simplify
+
+- Commit the current dirty work in coherent recovery slices.
+- Clear stale coordination claims.
+- Create a branch/feature salvage ledger.
+- Remove or archive syntactically invalid and unreachable source after verification.
+- Choose one deployment mechanism.
+
+### Gate 1 — Make the classic truth loop unbreakable
+
+- Engine-owned reveal state.
+- One canonical event vocabulary.
+- Explicit correctness versus credit eligibility.
+- One clue load per action.
+- No DOM-derived game state.
+- Integration tests for reveal, submit, timeout, empty answer, near miss, and next clue.
+- Stop the perpetual animation loop when no animation or timer requires it.
+
+Exit requirement: a revealed answer can never increase score or competitive streak.
+
+### Gate 2 — Establish a safe release artifact
+
+- Curated asset manifest instead of recursive directory copies.
+- Remove unused AI/Firebase production packages.
+- Remove URL key injection.
+- Replace content `innerHTML`.
+- Add preview-runtime, asset-contract, and real axe gates to CI.
+- Reinstate browser zoom and accessible names.
+- Add an actual license and provenance policy.
+
+Exit requirement: small deployable artifact, zero critical/serious accessibility violations, zero known production dependency vulnerabilities, and no uncleared required identity assets.
+
+### Gate 3 — Ship the learning value
+
+- Review Misses queue.
+- Revealed-clue review queue.
+- Stable clue-ID retrieval from shards.
+- Explain why an answer was accepted or rejected.
+- Local progress/session summary.
+- Adversarial answer-validation tests, especially tiny answers and substring abbreviations.
+
+This should precede AI explanations and social features.
+
+### Gate 4 — Establish the original show
+
+- Replace Trebek-required imagery and 524 audio clips with an original fictional HostPack.
+- Define structured `HostBeat` events such as `clue_open`, `near_miss`, `reveal`, `streak`, and `episode_close`.
+- Keep deterministic local performance as the baseline.
+- Track consent and provenance for every voice, image, font, sound, and clue.
+- Give the host more visual presence while reducing background competition.
+
+### Gate 5 — Add modes through the same kernel
+
+Implement in this order:
+
+1. Review Misses
+2. Daily Board
+3. Category Run
+4. Daily Double/wager
+5. Full Board
+6. PAO/memory tools
+7. Optional AI embellishment
+8. Multiplayer/social
+
+Each mode must reuse the same answer judge, reveal policy, scoring contract, content repository, and review system.
+
+## What I would explicitly avoid
+
+- Another clean-slate rewrite.
+- Merging dormant component/store architecture because it looks organized.
+- A dependency-injection framework.
+- React, Vue, or a universal component conversion.
+- A global BEM rewrite.
+- Storybook, A/B infrastructure, or a general animation framework right now.
+- More publicly visible unfinished modes.
+- AI-generated question publishing without human review and provenance.
+- Shipping the full historical Jeopardy corpus or Trebek identity as the product.
+- Treating lint/build success as gameplay verification.
+
+## Bottom line
+
+The project’s strongest asset is not its archive, architecture, or AI scaffolding. It is the combination of a genuinely memorable comic world and the idea of a rigorous learning engine hiding underneath it.
+
+The next milestone should therefore be very small and very demanding: one original, legally defensible, accessible, offline-first episode whose ten-clue loop cannot lie about reveal state, correctness, score, source, or progress. Once that exists, the eccentric host, Full Board, AI workshop, voices, translations, and social modes have a stable stage to perform on.
+
+I made no source edits during this audit. The browser diagnostics refreshed the existing untracked runtime screenshots.
+
+::code-comment{title="[P0] Revealed answers still receive full credit" body="The active engine never records reveal/peek state and always passes peekUsed: false. A production-preview test confirmed that revealing an answer and submitting it awarded +700 and increased the streak. Make reveal an engine transition and separate correctness from credit eligibility." file="/Users/alex/coding/jeoparody/src/core/GameEngine.js" start=376 end=385 priority=0}
+
+::code-comment{title="[P1] Corpus answer rendered as HTML" body="question.data.answer crosses directly into innerHTML. Treat imported and generated content as untrusted; use textContent or a narrowly allowlisted structured renderer." file="/Users/alex/coding/jeoparody/src/init/ui.js" start=154 end=160 priority=1}
+
+::code-comment{title="[P1] Browser secrets accepted through URL" body="API keys from query parameters are persisted to localStorage. Replacing the URL afterward cannot prevent prior history, referrer, log, or sharing exposure. Remove this from production and use a server/proxy boundary." file="/Users/alex/coding/jeoparody/src/init/services.js" start=42 end=59 priority=1}
+
+::code-comment{title="[P1] Build recursively ships the archive" body="The copy plugin packages every question representation, all audio, all host images, and the docs site, producing a 273 MB artifact. Replace this with a curated production manifest and a post-build asset contract." file="/Users/alex/coding/jeoparody/vite.config.js" start=5 end=19 priority=1}
+
+::code-comment{title="[P1] Accessibility gate is non-functional" body="The configured axe option is unsupported by the installed CLI, the target is a file rather than a served interactive runtime, and || true suppresses every failure. Run axe against the preview server and make critical/serious violations blocking." file="/Users/alex/coding/jeoparody/.github/workflows/ci.yml" start=36 end=37 priority=1}

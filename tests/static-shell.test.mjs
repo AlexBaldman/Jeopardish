@@ -205,13 +205,15 @@ test('both game shells load focused renderer views before the renderer facade', 
     const studyView = html.indexOf('src/render/study-view.js');
     const scoreboardView = html.indexOf('src/render/scoreboard-view.js');
     const finaleView = html.indexOf('src/render/finale-view.js');
+    const dialogueAnchor = html.indexOf('src/presentation/dialogue-anchor.js');
     const renderer = html.indexOf('src/render/renderer.js');
     assert.ok(outcomeView > 0, `${surface} is missing the outcome view`);
     assert.ok(clueView > outcomeView, `${surface} must load the clue view after the outcome view`);
     assert.ok(studyView > clueView, `${surface} must load the study view after the clue view`);
     assert.ok(scoreboardView > studyView, `${surface} must load the scoreboard view after the study view`);
     assert.ok(finaleView > scoreboardView, `${surface} must load the finale view after the scoreboard view`);
-    assert.ok(renderer > finaleView, `${surface} must load focused views before the renderer`);
+    assert.ok(dialogueAnchor > finaleView, `${surface} must load dialogue geometry after focused views`);
+    assert.ok(renderer > dialogueAnchor, `${surface} must load dialogue geometry before the renderer`);
   }
 });
 
@@ -245,7 +247,7 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(controlStyles, /\.control-symbol[\s\S]*border-radius:\s*10px/);
   assert.match(tokens, /--jp-surf-pink:\s*#f447a8/);
   assert.match(controlStyles, /repeating-linear-gradient\(115deg, var\(--jp-heather-line\)/);
-  assert.match(dialogueStyles, /--thought-fill:\s*#f1efe5/);
+  assert.match(dialogueStyles, /--thought-fill:\s*#f4f2ed/);
   assert.match(dialogueStyles, /body\[data-theme="light"\][\s\S]*--thought-fill:\s*#fff9e8/);
 });
 
@@ -322,6 +324,10 @@ test('both game shells load the authoritative round kernel', () => {
 
 test('both game shells load voice mode as an optional progressive enhancement', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    const voicePack = html.indexOf('src/voice/voice-pack.js');
+    const voiceController = html.indexOf('src/voice/voice-controller.js');
+    assert.ok(voicePack > 0, `${surface} is missing the VoicePack contract`);
+    assert.ok(voiceController > voicePack, `${surface} must load VoicePack before voice control`);
     assert.match(html, /src="src\/voice\/voice-controller\.js/, `${surface} is missing voice control`);
     assert.match(html, /id="voiceButton"/, `${surface} is missing push-to-talk`);
     assert.match(html, /id="menuVoice"/, `${surface} is missing the voice setting`);
@@ -333,13 +339,15 @@ test('both game shells load voice mode as an optional progressive enhancement', 
 test('both game shells load host packs and the performance director before composition', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const hostPack = html.indexOf('src/host/host-pack.js');
+    const hostAnimation = html.indexOf('src/host/host-animation.js');
     const director = html.indexOf('src/host/host-performance-director.js');
     const catalog = html.indexOf('src/presentation/ui-catalog.js');
     const presenter = html.indexOf('src/presentation/broadcast-presenter.js');
     const cabinet = html.indexOf('src/presentation/cabinet-presenter.js');
     const composition = html.indexOf('src/application/application-composition.js');
     assert.ok(hostPack > 0, `${surface} is missing the HostPack contract`);
-    assert.ok(director > hostPack, `${surface} must load HostPack before its director`);
+    assert.ok(hostAnimation > hostPack, `${surface} must load animation after HostPack`);
+    assert.ok(director > hostAnimation, `${surface} must load animation before its director`);
     assert.ok(catalog > director, `${surface} must load host performance before UI copy`);
     assert.ok(presenter > catalog, `${surface} must load UI copy before presentation`);
     assert.ok(cabinet > presenter, `${surface} must load broadcast before cabinet presentation`);
@@ -357,6 +365,18 @@ test('host presentation realizes semantic motion with a reduced-motion exit', ()
   assert.match(tokens, /--jp-ease-enter:/);
   assert.match(hostStyles, /prefers-reduced-motion: reduce/);
   assert.match(hostStyles, /\.host-stage \.host-stand/);
+  for (const clip of [
+    'idle-breathe',
+    'clue-lean-in',
+    'listening-hold',
+    'correct-pop',
+    'incorrect-pause',
+    'reveal-drop',
+    'study-nod',
+    'streak-celebrate',
+  ]) {
+    assert.match(hostStyles, new RegExp(`data-animation-clip="${clip}"`));
+  }
 });
 
 test('both game shells load the grounded study runtime and owned styles', () => {
@@ -479,9 +499,9 @@ test('game headers use explicit flag artwork and current architecture styles', (
     assert.match(html, /styles\/tokens\.css\?v=architecture-4/);
     assert.match(html, /styles\/game\/cabinet\.css\?v=architecture-5/);
     assert.match(html, /styles\/brand\.css\?v=architecture-10/);
-    assert.match(html, /styles\/game\/host\.css\?v=architecture-6/);
-    assert.match(html, /styles\/game\/scoreboard\.css\?v=architecture-4/);
-    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-8/);
+    assert.match(html, /styles\/game\/host\.css\?v=architecture-8/);
+    assert.match(html, /styles\/game\/scoreboard\.css\?v=architecture-5/);
+    assert.match(html, /styles\/game\/dialogue\.css\?v=architecture-10/);
     assert.match(html, /styles\/game\/controls\.css\?v=architecture-7/);
     assert.match(html, /styles\/game\/study\.css\?v=architecture-5/);
   }
@@ -539,16 +559,18 @@ test('landing keeps internal architecture material out of the player-facing page
   assert.match(siteStyles, /\.reveal\s*\{\s*opacity:\s*1;/);
 });
 
-test('dialogue skins use direct values instead of banknote background art', () => {
-  assert.match(dialogueStyles, /Dialogue system v2/);
+test('dialogue skins use direct values and position-aware host attribution', () => {
+  assert.match(dialogueStyles, /Dialogue system v3/);
   assert.doesNotMatch(dialogueStyles, /background-image:\s*url\(["']?assets\/images\/banknotes/);
-  assert.match(dialogueStyles, /--dialogue-tail-anchor:/);
+  assert.match(dialogueStyles, /--dialogue-tail-x:/);
+  assert.match(dialogueStyles, /--dialogue-tail-reach:/);
+  assert.match(dialogueStyles, /--dialogue-tail-angle:/);
   assert.match(dialogueStyles, /min-height:\s*clamp\(345px, 45vh, 430px\)/);
   assert.match(dialogueStyles, /\.dialogue-style-cycle:active\s*\{[\s\S]*?translateY\(2px\)/);
   assert.match(dialogueStyles, /@media \(min-width: 761px\) and \(max-width: 900px\)/);
-  assert.match(dialogueStyles, /--dialogue-tail-length:\s*clamp\(128px, 15vh, 154px\)/);
+  assert.match(dialogueStyles, /--dialogue-tail-reach:\s*clamp\(112px, 14vh, 142px\)/);
   assert.match(dialogueStyles, /height:\s*min\(252px, calc\(100svh - var\(--jp-header-height\) - var\(--footer-height\) - 1\.25rem\)\)/);
-  assert.match(dialogueStyles, /clip-path:\s*polygon\(36% 0, 100% 0, 0 100%\)/);
+  assert.match(dialogueStyles, /clip-path:\s*polygon\(6% 0, 94% 0, 66% 18%, 52% 100%, 38% 18%\)/);
   assert.match(dialogueStyles, /#questionBox\s*\{[\s\S]*?overflow-y:\s*auto;/);
   assert.match(
     dialogueStyles,

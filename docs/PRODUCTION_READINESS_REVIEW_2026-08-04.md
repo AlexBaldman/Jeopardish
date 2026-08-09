@@ -1,5 +1,8 @@
 # JeoPARODY Production Readiness Review
 
+> **Status note, 2026-08-08:** Release-gate reference. Measurements describe
+> the 2026-08-04 snapshot; use `CURRENT_STATE.md` for the current working tree.
+
 **Reviewed:** 2026-08-04  
 **Canonical branch:** `master`
 **Purpose:** identify the shortest honest path from a strong vertical slice to a product people can trust, return to, and eventually buy.

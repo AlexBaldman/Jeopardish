@@ -1,5 +1,10 @@
 # JeoPARODY Repository Realignment Runbook
 
+> **Superseded execution state, 2026-08-08:** Preservation, convergence, and
+> promotion were completed after this runbook was written. `master` in
+> `AlexBaldman/Jeopardish` is canonical. Retain this body as historical safety
+> evidence; do not restart its pre-promotion sequence.
+
 **Prepared:** 2026-07-28  
 **Status:** Private preservation and restore drill complete; promotion not approved
 **Governs:** Preservation, canonical branch promotion, deployment continuity,

@@ -5,6 +5,10 @@
 `creative-room.html` is an internal brand lab retained for the team. It is
 deliberately absent from player navigation and production builds.
 
+The compact source of current product truth and durable conversation decisions
+is [`docs/PROJECT_MEMORY.md`](docs/PROJECT_MEMORY.md). The complete document map
+is [`docs/README.md`](docs/README.md).
+
 The current executable roadmap is
 [`docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md`](docs/OPTIMAL_PRIME_ROADMAP_2026-07-26.md).
 The current private-alpha scorecard, public-launch gates, and paid-product domino
@@ -67,8 +71,10 @@ AI gateway rules live in
 The canonical visual identity and premium pixel-art production rules live in
 [`docs/CHARACTER_ART_DIRECTION.md`](docs/CHARACTER_ART_DIRECTION.md). Xander's
 first avatar pack now includes 12 transparent production looks, deterministic
-per-show wardrobe selection, manual cycling, semantic motion, lens reactions,
-and asset fallback. The future character creator and local-first AI boundaries
+per-show wardrobe selection, manual cycling, eight deterministic animation
+poses, lens reactions, reduced-motion output, and asset fallback. The voice
+runtime now consumes a bilingual, rights-aware VoicePack while retaining
+browser speech as its safe fallback. The future character creator and local-first AI boundaries
 are specified in
 [`docs/HOST_STUDIO_ARCHITECTURE.md`](docs/HOST_STUDIO_ARCHITECTURE.md).
 
@@ -97,14 +103,12 @@ aggregate learning counts only, not player responses or clue text.
 
 ## Overview
 
-A 'Jeopardish' question/answer (answer/question?) practice application.  MVP intended to function initially
-like a random flash card generator, and to serve as a sandbox for testing various ideas regarding trivia-type game development.
-
-Alex Trebek provided a comforting presence - and a moustache to lean on - to Jeopardy contestants for many years.
-
-Jeopardish can provide that same comforting presence to future potential contestants (if they don't end the show now that he's gone!).
-
-Users can practice for the show using the simple click of a button to randomly generate question/answer pairs from a database of questions from old episodes, like flash cards to help learn random facts from a plethora of historical categories from the show.
+JeoPARODY began as a flash-card practice experiment and has become a finite,
+comedic learning show. The current product combines authored episodes, resilient
+historical practice, deterministic answer judgment, bilingual presentation,
+media clues, a pausable Study mode, local learning memory, and a data-driven host
+performance system. The parody lives in the theatre; factual and learning truth
+stay inside explicit tested owners.
 
 ## Voice Mode
 
@@ -213,93 +217,9 @@ Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture future
 merge/cherry-pick/delete decisions. The latest completed pass is
 `docs/BRANCH_CONVERGENCE_2026-08-05.md`.
 
-## API and Data Sample
+## Historical Prototype
 
-![Jservice](http://www.jService.io)
-
-```JSON
-{
-  "id": 6995,
-  "answer": "liberty",
-  "question": "One-word term for an authorized leave from duty; to a sailor it means freedom for 48 hours or less",
-  "value": 200,
-  "airdate": "1990-01-23T12:00:00.000Z",
-  "created_at": "2014-02-11T22:50:54.251Z",
-  "updated_at": "2014-02-11T22:50:54.251Z",
-  "category_id": 914,
-  "game_id": null,
-  "invalid_count": null,
-  "category": {
-    "id": 914,
-    "title": "the navy",
-    "created_at": "2014-02-11T22:50:54.061Z",
-    "updated_at": "2014-02-11T22:50:54.061Z",
-    "clues_count": 5
-    }
-}
-
-```
-
-
-## MVP 
-
-- A simple one page application, with a layout having Alex Trebek in foreground, and the Jeopardy stage in the background
-- Pull random Jeopardy practice answer/question pairs - like flashcards for Jeopardy practice - from JService external API
-- Render API data on page into their own divs on the page
-- Various possibilities for styling.  Some ideas: styling a single div so that question and answer appear in a word-bubble coming from our inimitable host, styling actual flash cards that could be animated to flip over and reveal the answer, putting them on an actual Jeopardy screen with classic blue background, etc.
-- Create a button to trigger a new question & answer, and clear next question before populating next question when clicked again (possibly can divide into separate buttons with different functionality)
-
-## Post-MVP  
-
-Post MVP, "Jeopardish" may evolve in a number of ways:
-
-- At first, I'll be just displaying the question and answer together at the same time, but 
-- Perhaps the button evolves into a vector of a hand holding the buzzer from the show
-- Could add in background music, fancify styling, add transitions, @media queries for responsive design, etc.
-- Depending on how the simpler stuff goes, could also make it into more of a game that actually keeps score, takes input to anwer the questions, keeps track of how many questions have been done, etc.
-- May add box for more contextual information about each Question/Answer - i.e. category, question value, air-date of show it was asked on, etc.
-- The original idea "JeopOrDad", would allow the user to now receive EITHER a random Jeopardy question OR a random "Dad Joke" - because let's face it, Trebek is a corny dad joke kind of guy.  Original idea was a bit too ambitious so scaled back to focus on getting more comfortable with the fundamentals. That second API that I had in mind for the Dad jokes is [ICanHazDadJoke](icanhazdadjoke.com/api), so keeping in mind for future projects
-
-## Wireframe
-
-![Wireframe](https://res.cloudinary.com/alexbaldman/image/upload/v1591716508/Jeopardish/wireframe.png)
-
-## Priority Matrix
-
-![Jeopardish Priority Matrix](https://res.cloudinary.com/alexbaldman/image/upload/c_scale,w_832/v1591720490/Jeopardish/priority-matrix.png)
-## Project Schedule
-
-|  Day | Deliverable | Status |
-|---|---|---|
-| Day 1 | Project Prompt | Complete |
-| Day 2 | Wireframes / Priority Matrix / Timeframes | Complete |
-| Day 3 | Core App Structure (HTML, CSS, etc.) | Complete |
-| Day 4 | Initial Clickable Model  | Complete |
-| Day 5 | MVP | Complete |
-| Day 6 | Present | Complete |
-
-
-## Timeframes
-
-Estimated time for each area of development:
-
-| Component | Priority | Estimated Time | Time Invested | Actual Time |
-|---|---|---|---|---|
-| Pseudocode | L |  2hrs | 1.5hrs | 2hrs |
-| Basic HTML/CSS | M |  4hrs | 3.5hrs | 3.5hrs |
-| Working with API | H | 4hrs| 5hrs | 5hrs |
-| Customize Functionality w. Javascript | H | 5hrs| 6hrs | 6hrs |
-| Post-MVP Functionality & Beautification | L | 5hrs| 5hrs | 5hrs |
-| Total |---| 20hrs| 21.5hrs | 21.5hrs |
-
-## Code Highlights
-
-Repopoulat question & answerboxes from within API call function:
-
-```
-  questionBox.innerHTML += question;
-  answerBox.innerHTML += answer;
-
-```
-
- 
+The original 2020 JService flash-card brief, wireframe, schedule, and early code
+sample remain in Git history at commit `2c5731b` and earlier. They explain where
+the project began but no longer describe the product, runtime, security model,
+content pipeline, or public identity.

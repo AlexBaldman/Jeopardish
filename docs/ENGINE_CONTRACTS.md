@@ -44,9 +44,22 @@ Jeopardish is moving toward a host-agnostic arcade engine. This document records
 - `src/render/clue-view.js` owns sanitized clue content, category/value markup,
   translated source labels, translation loading state, and media-preview state.
   The renderer facade retains modal focus management and runtime failure routing.
+- `src/render/scoreboard-view.js` owns score, streak, best, episode-progress,
+  split-flap transition, peek, pin, and drawer-timer presentation. It receives
+  score facts and cannot calculate or persist them.
+- `src/render/finale-view.js` owns the completion receipt surface. It receives
+  approved episode results and cannot complete or restart an episode.
+- `src/presentation/dialogue-anchor.js` converts current card and host geometry
+  into bounded CSS connector variables without reading application state.
 - `src/host/host-manager.js` owns active host config, host visuals, and host quip selection.
+- `src/host/host-animation.js` owns versioned semantic poses, clip timelines,
+  renderer descriptors, and reduced-motion output.
+- `src/host/host-studio-project.js` owns the validated creator-project boundary
+  and export readiness for avatar, animation, personality, and voice packs.
 - `src/audio/audio-controller.js` owns deterministic synthesized game cues.
 - `src/voice/voice-controller.js` owns speech capability detection, narration, one-shot recognition, transcript normalization, and command parsing. It never judges an answer or mutates game state.
+- `src/voice/voice-pack.js` owns approved bilingual voice style, clip,
+  synthesis, pronunciation, consent, rights, and fallback metadata.
 - `src/presentation/ui-catalog.js` owns immutable bilingual interface and
   narration copy plus the stable dialogue-style catalog.
 - `src/presentation/cabinet-presenter.js` owns preference, scene, dialogue-skin,
@@ -139,14 +152,11 @@ owns the active phase and rejects a pause snapshot from an older round id.
 
 ## Next Extraction Targets
 
-1. Extract a focused scoreboard view from `Renderer`; it may own score-tile and
-   episode-progress presentation but cannot calculate score, persist progress,
-   or own drawer timing and focus.
-2. Extract the finale surface only after the scoreboard boundary is proven,
-   keeping finale facts and choreography in `BroadcastPresenter`.
-3. Continue with cabinet view owners only where the proven flows support a
+1. Keep the completed scoreboard and finale owners narrow while the renderer
+   remains the single DOM-binding facade.
+2. Continue with cabinet view owners only where the proven flows support a
    clean boundary, retaining one DOM binding lifecycle.
-4. Convert renderer updates to event subscriptions only where the event facts
+3. Convert renderer updates to event subscriptions only where the event facts
    are stable and doing so removes callback plumbing rather than hiding it.
 
 ## Behavior Preserved

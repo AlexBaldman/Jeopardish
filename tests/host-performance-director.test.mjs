@@ -32,10 +32,13 @@ test('HostPerformanceDirector emits one immutable deterministic presentation com
   assert.equal(first.schema, PERFORMANCE_SCHEMA);
   assert.equal(first.expression, 'clue');
   assert.equal(first.motion.primitive, 'enter');
+  assert.equal(first.animation.pose, 'clue');
+  assert.equal(first.animation.clip.id, 'clue-lean-in');
   assert.equal(first.dialogue.line, 'An approved authored line.');
   assert.equal(first.dialogue.source, 'authored');
   assert.deepEqual(first, second);
   assert.equal(Object.isFrozen(first), true);
+  assert.equal(Object.isFrozen(first.animation), true);
   assert.equal(JSON.stringify(first).includes('private player response'), false);
   const directed = events.find(({ type }) => type === GameEvents.HOST_PERFORMANCE_DIRECTED);
   assert.deepEqual(directed.payload, {
@@ -92,4 +95,20 @@ test('HostPerformanceDirector cycles packs and keeps Portuguese performance loca
   assert.equal(performance.dialogue.source, 'line-bank');
   assert.equal(performance.dialogue.line.includes('evidência'), true);
   assert.ok(events.some(({ type }) => type === GameEvents.HOST_PACK_CHANGED));
+});
+
+test('HostPerformanceDirector resolves study and reduced-motion animation without changing the beat', () => {
+  const director = new HostPerformanceDirector({
+    motionPreference: 'reduce',
+    systemReducedMotion: false,
+  });
+  const performance = director.direct(HostBeats.STUDY_ENTERED, {
+    facts: { clueId: 'study-clue' },
+  });
+
+  assert.equal(performance.beat, HostBeats.STUDY_ENTERED);
+  assert.equal(performance.animation.pose, 'study-coach');
+  assert.equal(performance.animation.motion.reducedMotion, true);
+  assert.equal(performance.animation.motion.mode, 'static');
+  assert.equal(performance.animation.timeline.durationMs, 0);
 });

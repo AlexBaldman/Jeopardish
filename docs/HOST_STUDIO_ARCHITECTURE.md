@@ -21,6 +21,10 @@ Xander's first production avatar pack proves the contract:
 - all 12 approved board-short patterns available in the runtime selector;
 - 6 preserved special-occasion looks in the approved inventory;
 - 8 approved performance poses in the production inventory;
+- a versioned `HostAnimationPack` that maps those poses to deterministic CSS or
+  future sprite clips, semantic timelines, and reduced-motion behavior;
+- a versioned bilingual `VoicePack` with style, fallback, provenance, rights,
+  and consent metadata while browser speech remains the executable fallback;
 - versioned style, anchor, asset, provenance, and rights metadata;
 - deterministic per-show selection that avoids the previous show look;
 - player-controlled cycling, local persistence, and a known-good fallback;
@@ -36,9 +40,11 @@ coupling the game to an editor framework.
 flowchart LR
     Studio["Host Studio"] --> Project["HostCreationProject"]
     Project --> Avatar["HostAvatarPack: art, layers, anchors, wardrobe"]
+    Project --> Motion["HostAnimationPack: poses, clips, timelines"]
     Project --> Persona["HostPack: voice, wit, pedagogy, boundaries"]
     Project --> Voice["VoicePack: clips, synthesis profile, consent"]
     Avatar --> Export["Validated host bundle"]
+    Motion --> Export
     Persona --> Export
     Voice --> Export
     Export --> Director["Host performance director"]
@@ -46,11 +52,12 @@ flowchart LR
     Director --> Renderer["Renderer and audio adapters"]
 ```
 
-The three pack types can evolve independently:
+The four pack types can evolve independently:
 
 | Pack | Owns | Must not own |
 | --- | --- | --- |
 | `HostAvatarPack` | identity art, looks, layers, expressions, anchors, effects | jokes, scoring, correct answers |
+| `HostAnimationPack` | semantic poses, clips, renderer descriptors, timelines, reduced-motion output | DOM state, audio, scoring |
 | `HostPack` | dialogue style, teaching style, line banks, comedy boundaries | image files, scoring authority |
 | `VoicePack` | approved clips, synthesis settings, actor consent, pronunciation | clue facts, progression |
 
@@ -152,6 +159,8 @@ the creator explicitly approves it.
 ### Phase 1: Runtime contract, complete
 
 - canonical `HostAvatarPack`;
+- canonical `HostAnimationPack` with eight semantic poses and CSS realization;
+- canonical `VoicePack` foundation with browser-safe bilingual fallback;
 - 12-look Xander wardrobe;
 - anchors, fallback, persistence, semantic motion, and tests.
 

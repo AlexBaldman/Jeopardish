@@ -2,22 +2,25 @@
   if (typeof module === 'object' && module.exports) {
     module.exports = factory(
       require('./host-pack.js'),
+      require('./host-animation.js'),
       require('../contracts/events.js'),
     );
   } else {
     root.JeoPARODYHostPerformance = factory(
       root.JeoPARODYHostPack,
+      root.JeoPARODYHostAnimation,
       root.JeopardishContracts,
     );
   }
 }(typeof globalThis !== 'undefined' ? globalThis : this, function hostPerformanceFactory(
   hostPackModule,
+  hostAnimationModule,
   contracts,
 ) {
   'use strict';
 
-  if (!hostPackModule || !contracts) {
-    throw new Error('HostPerformanceDirector requires host packs and event contracts.');
+  if (!hostPackModule || !hostAnimationModule || !contracts) {
+    throw new Error('HostPerformanceDirector requires host, animation, and event contracts.');
   }
 
   const {
@@ -25,6 +28,10 @@
     HostBeats,
     normalizeHostPack,
   } = hostPackModule;
+  const {
+    DefaultXanderHostAnimationPack,
+    selectHostAnimation,
+  } = hostAnimationModule;
   const { GameEvents } = contracts;
   const PERFORMANCE_SCHEMA = 'jeoparody.host-performance';
   const PERFORMANCE_VERSION = 1;
@@ -43,6 +50,22 @@
     [HostBeats.STUDY_EXITED]: Object.freeze({ expression: 'idle', motion: 'recover', intensity: 'low' }),
     [HostBeats.REINFORCEMENT_CORRECT]: Object.freeze({ expression: 'correct', motion: 'react', intensity: 'medium' }),
     [HostBeats.REINFORCEMENT_INCORRECT]: Object.freeze({ expression: 'clue', motion: 'recover', intensity: 'low' }),
+  });
+
+  const BeatAnimationPose = Object.freeze({
+    [HostBeats.IDLE]: 'idle',
+    [HostBeats.WELCOME]: 'idle',
+    [HostBeats.CLUE]: 'clue',
+    [HostBeats.EMPTY]: 'incorrect',
+    [HostBeats.CORRECT]: 'correct',
+    [HostBeats.INCORRECT]: 'incorrect',
+    [HostBeats.REVEAL]: 'reveal',
+    [HostBeats.STREAK]: 'streak',
+    [HostBeats.EPISODE_COMPLETE]: 'streak',
+    [HostBeats.STUDY_ENTERED]: 'study-coach',
+    [HostBeats.STUDY_EXITED]: 'study-coach',
+    [HostBeats.REINFORCEMENT_CORRECT]: 'study-coach',
+    [HostBeats.REINFORCEMENT_INCORRECT]: 'study-coach',
   });
 
   const RECEIPT_FACTS = Object.freeze([
@@ -99,6 +122,9 @@
     constructor({
       packs = DefaultHostPacks,
       activePackId = DefaultHostPacks[0]?.id,
+      animationPack = DefaultXanderHostAnimationPack,
+      motionPreference = 'system',
+      systemReducedMotion = false,
       eventBus = null,
     } = {}) {
       this.packs = new Map(packs.map((pack) => {
@@ -106,6 +132,9 @@
         return [normalized.id, normalized];
       }));
       this.activePack = this.packs.get(activePackId) || this.packs.values().next().value || null;
+      this.animationPack = animationPack;
+      this.motionPreference = motionPreference;
+      this.systemReducedMotion = Boolean(systemReducedMotion);
       this.eventBus = eventBus;
       if (!this.activePack) throw new Error('HostPerformanceDirector requires at least one HostPack.');
     }
@@ -165,6 +194,14 @@
       const selectedLine = lineBank[stableHash(seed) % lineBank.length] || '';
       const line = authoredAllowed ? authored : formatLine(selectedLine, facts);
       const presentation = BeatPresentation[normalizedBeat] || BeatPresentation[HostBeats.IDLE];
+      const animation = selectHostAnimation(this.animationPack, {
+        pose: BeatAnimationPose[normalizedBeat] || 'idle',
+        seed,
+        motion: {
+          preference: this.motionPreference,
+          systemReducedMotion: this.systemReducedMotion,
+        },
+      });
       const command = deepFreeze({
         schema: PERFORMANCE_SCHEMA,
         version: PERFORMANCE_VERSION,
@@ -180,6 +217,7 @@
           primitive: presentation.motion,
           intensity: presentation.intensity,
         },
+        animation,
         dialogue: {
           line,
           locale: normalizedLocale,
@@ -210,6 +248,7 @@
   }
 
   return {
+    BeatAnimationPose,
     BeatPresentation,
     HostPerformanceDirector,
     PERFORMANCE_SCHEMA,

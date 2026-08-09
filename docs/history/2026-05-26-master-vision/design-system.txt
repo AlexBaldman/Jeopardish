@@ -1,0 +1,53 @@
+SLIDE SIZE
+- 1280 x 720 px, landscape
+
+VISUAL LANGUAGE
+- "Midnight broadcast vault": deep midnight backgrounds, CRT-blue glows, suspicious currency green, evidence-file parchment, and a single hot-magenta interference accent.
+- Evoke late-20th-century televised spectacle and arcade energy without borrowing official brand chrome.
+
+TYPOGRAPHY
+- Display: Georgia Bold (editorial mystery / large claims)
+- Utility/body: Arial (clear and robust in export)
+- Pixel labels: Courier New Bold used sparingly for timestamps, kicker labels, and readouts
+- Cover claim 58-64 px; slide claims 34-42 px; body 17-21 px; labels 12-15 px; source footers 9-10 px.
+
+PALETTE
+- Night ink #090C1D / stage panel #111936
+- Paper #F4EEDC / cool copy #C7D1E8
+- Broadcast gold #F4D35E (claim/key metric only)
+- Counterfeit green #67D59A (evidence/learning/safe path)
+- Interference magenta #EA4B98 (mystery/risk/AI improvisation)
+- CRT cyan #45B8DB (architecture/data)
+- Warning coral #F06B54 (risks only)
+
+GRAMMAR
+- Kicker: 26px gold line + upper Courier label aligned on one centerline, consistently named.
+- Source footer: 10px muted Arial, bottom-left; page marker bottom-right.
+- Charts: direct labels; no legends where color can be named at the mark.
+- Diagrams: solid cyan connectors = deterministic flow; dotted magenta = generative/performance flow; gold line = player-visible progression.
+- Containers only for semantic lanes, gates, or evidence notes; not prose decoration.
+- Images: cinematic crops with a clean dark edge; generated fictional visuals and project-owned concept assets clearly distinguished.
+
+LAYOUT FAMILIES
+- cinematic hero with thesis rail
+- split premise transition
+- full-width evidence dashboard
+- editorial truth-bomb case file
+- layered platform pipeline
+- three-lane mode map
+- horizontal session timeline
+- split trust-boundary architecture
+- memory loop with evidence rail
+- character portrait plus state ladder
+- mechanic carousel / protocol
+- manifesto spark field
+- technical stack map
+- risk table
+- roadmap ribbon
+- closing covenant
+
+BANNED MOTIFS
+- official game-show logos or recognizable board imitations
+- repetitive rounded feature-card decks
+- invented user metrics, TAM, retention, or monetization numbers
+- real-person generated likenesses

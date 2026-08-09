@@ -276,6 +276,7 @@
       this.safeInvoke('product-telemetry-stop', () => S.productTelemetry.stop());
       this.safeInvoke('voice-controller-stop', () => S.voiceController.stop());
       this.safeInvoke('scene-service-destroy', () => S.sceneService?.destroy?.());
+      this.safeInvoke('renderer-destroy', () => S.renderer.destroy?.());
       this.safeInvoke('console-narrator-stop', () => S.consoleNarrator.stop());
       this.started = false;
       return true;

@@ -87,6 +87,46 @@
         animation: host-motion-exit var(--jp-motion-response) ease-in both;
     }
 
+    .game-container .host-stage[data-animation-clip="idle-breathe"] .host-stand {
+        animation: host-idle-breathe var(--host-animation-duration, 1800ms) ease-in-out infinite;
+    }
+
+    .game-container .host-stage[data-animation-clip="idle-glance"] .host-stand {
+        animation: host-idle-glance var(--host-animation-duration, 1400ms) ease-in-out infinite;
+    }
+
+    .game-container .host-stage[data-animation-clip="clue-lean-in"] .host-stand {
+        animation: host-clue-lean-in var(--host-animation-duration, 520ms) var(--jp-ease-enter) both;
+    }
+
+    .game-container .host-stage[data-animation-clip="listening-hold"] .host-stand {
+        animation: host-listening-hold var(--host-animation-duration, 900ms) ease-in-out infinite;
+    }
+
+    .game-container .host-stage[data-animation-clip="correct-pop"] .host-stand {
+        animation: host-correct-pop var(--host-animation-duration, 460ms) var(--jp-ease-react) both;
+    }
+
+    .game-container .host-stage[data-animation-clip="incorrect-pause"] .host-stand {
+        animation: host-incorrect-pause var(--host-animation-duration, 620ms) ease-out both;
+    }
+
+    .game-container .host-stage[data-animation-clip="reveal-drop"] .host-stand {
+        animation: host-reveal-drop var(--host-animation-duration, 560ms) var(--jp-ease-react) both;
+    }
+
+    .game-container .host-stage[data-animation-clip="study-nod"] .host-stand {
+        animation: host-study-nod var(--host-animation-duration, 480ms) ease-in-out both;
+    }
+
+    .game-container .host-stage[data-animation-clip="streak-celebrate"] .host-stand {
+        animation: host-streak-celebrate var(--host-animation-duration, 720ms) var(--jp-ease-react) both;
+    }
+
+    .game-container .host-stage[data-animation-reduced="static"] .host-stand {
+        animation: none;
+    }
+
     .game-container .trebek {
         position: relative;
         z-index: 31;
@@ -240,6 +280,58 @@
             opacity: 0;
             transform: translate3d(-8%, 6%, 0);
         }
+    }
+
+    @keyframes host-idle-breathe {
+        0%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+        50% { transform: translate3d(0, -1.5%, 0) rotate(0.2deg); }
+    }
+
+    @keyframes host-idle-glance {
+        0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.15deg); }
+        48% { transform: translate3d(1.4%, -0.6%, 0) rotate(0.55deg); }
+        62% { transform: translate3d(0.8%, -0.4%, 0) rotate(0.3deg); }
+    }
+
+    @keyframes host-clue-lean-in {
+        0% { transform: translate3d(-3%, 3%, 0) rotate(-0.8deg) scale(0.985); }
+        55% { transform: translate3d(1.8%, -1.4%, 0) rotate(0.45deg) scale(1.015); }
+        100% { transform: translate3d(0, 0, 0) rotate(0) scale(1); }
+    }
+
+    @keyframes host-listening-hold {
+        0%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+        50% { transform: translate3d(1%, -1%, 0) rotate(0.35deg); }
+    }
+
+    @keyframes host-correct-pop {
+        0% { transform: translate3d(0, 4%, 0) scale(0.97); }
+        56% { transform: translate3d(2%, -5%, 0) rotate(1.1deg) scale(1.035); }
+        100% { transform: translate3d(0, 0, 0) rotate(0) scale(1); }
+    }
+
+    @keyframes host-incorrect-pause {
+        0%, 100% { filter: saturate(1); transform: translate3d(0, 0, 0) rotate(0); }
+        46%, 72% { filter: saturate(0.7); transform: translate3d(-1.4%, 1.4%, 0) rotate(-0.45deg); }
+    }
+
+    @keyframes host-reveal-drop {
+        0% { filter: brightness(0.84); transform: translate3d(-4%, 2%, 0) scale(0.975); }
+        58% { filter: brightness(1.12); transform: translate3d(2%, -2%, 0) scale(1.025); }
+        100% { filter: brightness(1); transform: translate3d(0, 0, 0) scale(1); }
+    }
+
+    @keyframes host-study-nod {
+        0%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+        42% { transform: translate3d(0, 1.8%, 0) rotate(-0.35deg); }
+        70% { transform: translate3d(0, -0.8%, 0) rotate(0.2deg); }
+    }
+
+    @keyframes host-streak-celebrate {
+        0% { transform: translate3d(0, 6%, 0) rotate(-1deg) scale(0.96); }
+        44% { transform: translate3d(2%, -7%, 0) rotate(1.5deg) scale(1.055); }
+        72% { transform: translate3d(-1%, -3%, 0) rotate(-0.6deg) scale(1.02); }
+        100% { transform: translate3d(0, 0, 0) rotate(0) scale(1); }
     }
 
     .game-container .host-pack-index {

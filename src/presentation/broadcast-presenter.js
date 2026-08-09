@@ -65,6 +65,7 @@
             || this.hostPerformanceDirector.getActivePack()?.displayName
             || host.displayName,
           motion: directedPerformance?.motion || null,
+          animation: directedPerformance?.animation || null,
           intensity: directedPerformance?.motion?.intensity || performance.intensity,
           cue,
           accessibleLabel: cue,
@@ -78,6 +79,8 @@
         language: speech.locale || (this.getLocale() === 'pt-BR' ? 'pt-BR' : 'en-US'),
         rate: speech.rate,
         pitch: speech.pitch,
+        styleId: speech.styleId,
+        seed: speech.seed || message,
       }) || false;
     }
 

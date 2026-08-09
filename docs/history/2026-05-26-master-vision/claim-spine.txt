@@ -1,0 +1,47 @@
+THESIS
+Jeopardish should evolve from a random archival-flashcard prototype into an original comedy-learning game-show universe: deterministic factual play at its core, generative host performance around it, and a fictional broadcast mystery that creates retention without compromising truth.
+
+AUDIENCE
+Founder/designer-engineer deciding what to build next, and potential future collaborators.
+
+ARC
+The seed is unusually rich -> the current assumptions distort it -> a new platform architecture protects truth and unlocks delight -> the weirdest ideas become practical when sequenced correctly.
+
+SLIDE CLAIMS
+01 / COVER: Jeopardish can become an after-hours game-show universe that makes learning feel illicitly fun.
+     Proof: original cinematic hero visual + single-line platform thesis.
+02 / REFRAAMING: The breakthrough is leaving "spoof of one show" behind while retaining trivia as the spine.
+     Proof: two-world transition diagram (prototype to universe).
+03 / EVIDENCE: The existing corpus is already large, strange, and media-rich enough to justify a platform.
+     Proof: quantified corpus dashboard using local analysis.
+04 / TRUTH BOMB: A dollar amount is not always a clue value; one wrong semantic assumption breaks play.
+     Proof: round/value diagram plus verified $367 Daily Double example.
+05 / PRODUCT SYSTEM: One verified fact can power many game-show moments and one continuous story.
+     Proof: four-layer product architecture.
+06 / MODES: Three distinct experiences serve learning, comedy replay, and classic strategy without becoming mush.
+     Proof: mode comparison lanes and progression.
+07 / SESSION: A ten-minute arcade run should escalate from confidence to suspicion to revelation.
+     Proof: emotional beat timeline.
+08 / AI TRUST: The host may improvise performance; it may not invent facts or rule outcomes.
+     Proof: deterministic kernel / generative shell boundary.
+09 / LEARNING: Humor is the wrapper; retrieval, spacing, error review, and mastery are the product.
+     Proof: memory-loop diagram tied to cited research.
+10 / HOST IP: A fictional Malex creates a durable original world, not a reliance on memorial footage.
+     Proof: character-state arc with original concept visual.
+11 / MECHANICS: Nostalgic formats become reusable mechanic modules, not one-off gimmicks.
+     Proof: mechanic protocol + sample modules.
+12 / SPARKS: The product's rarest potential is an evolving broadcast that learns what the player remembers and what the host fears.
+     Proof: four outside-the-box concepts with player payoff.
+13 / ARCHITECTURE: Normalize content first, then build modes, story, AI, and media safely on top.
+     Proof: system architecture and content schema.
+14 / RISKS: Rights, fact fidelity, content semantics, cost, and tone are design constraints, not cleanup chores.
+     Proof: risk/control matrix.
+15 / ROADMAP: Build truth before theater, then build theater that creates retention.
+     Proof: phased delivery timeline.
+16 / NORTH STAR: Create the first comedy-learning game that feels like discovering a lost television network.
+     Proof: final product covenant and immediate decision list.
+
+OMISSION NOTES
+- No revenue projections or market-size claims: no market/user validation input yet.
+- No claim that archive records may be commercialized: terms point in the opposite direction and demand review.
+- No direct impersonation proposal: fictional host is intentionally original.

@@ -59,6 +59,7 @@ function createHarness() {
       this.events = eventsToBind;
       calls.push(['bind', 'renderer-events']);
     }
+    destroy() { calls.push(['destroy', 'renderer']); }
   }
 
   class ConsoleNarrator extends simpleConstructor('narrator') {
@@ -254,6 +255,7 @@ test('ApplicationComposition starts and destroys its lifecycle exactly once', ()
   assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'input'));
   assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'episode'));
   assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'scene'));
+  assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'renderer'));
   assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'voice'));
   assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'narrator'));
   assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'telemetry'));

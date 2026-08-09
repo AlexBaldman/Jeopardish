@@ -109,6 +109,12 @@
         display: none;
     }
 
+    /* Study repeats the active clue with grounded context; keep the host as the
+       coach and remove the redundant broadcast card from the stage behind it. */
+    .game-container:has(.study-panel:not([hidden])) .speech-bubble {
+        display: none;
+    }
+
     .game-container .study-header {
         display: flex;
         align-items: center;

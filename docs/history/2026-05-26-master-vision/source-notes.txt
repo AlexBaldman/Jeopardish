@@ -1,0 +1,22 @@
+LOCAL SOURCES
+- questions/jeopardy-questions.json: 216,930 clue records; analyzed locally by source-analysis.mjs. Used for corpus-size, round, media, answer-complexity, category, and semantic-risk figures.
+- questions/questions.json: byte-identical 55,554,625-byte duplicate of the active corpus. Used to support the sharding/deduplication recommendation.
+- docs/ENGINE_CONTRACTS.md and active src/: used to describe current architecture and boundary gaps.
+- docs/ASSET_AUDIT_2026-05-24.md and assets/: used for existing-art inventory. Existing Trebek imagery is shown only as internal/project reference, not proposed final identity.
+- assets/images/banknotes/trivia-note-officialish.png and trivia-note-questionable.png: previously generated original fictional UI currency; safe product-concept asset.
+
+EXTERNAL EVIDENCE
+- J! Archive show #6088, aired 2011-02-16: https://j-archive.com/showgame.php?game_id=3577
+  Use: evidence that the corpus value "$367" corresponds to a displayed Daily Double wager in at least one verified instance.
+- J! Archive Help / Terms of Use: https://www.j-archive.com/help.php
+  Use: risk gate. It states prohibitions against scraping, republication, and monetization of data collected or derived from J! Archive. This deck recommends counsel/provenance review and an original/licensed content path before public commercialization.
+- Dunlosky et al. (2013), Psychological Science in the Public Interest; PubMed record:
+  https://pubmed.ncbi.nlm.nih.gov/26173288/
+  Use: supports retrieval practice and distributed practice as educational design foundations.
+- U.S. Copyright Office Compendium, Chapter 700:
+  https://copyright.gov/comp3/chap700/ch700-literary-works.pdf
+  Use: design guidance only, not legal advice: game ideas/methods versus protectable expression require an original brand/art/copy/content strategy.
+
+GENERATED/CONCEPT ASSETS
+- Hero and supporting concept visuals generated for this deck depict a fictional host and fictional broadcast universe; they are not representations of Alex Trebek, Norm Macdonald, Jimmy Buffett, or any other real person.
+- No generated official logo, show mark, or third-party mascot is used.

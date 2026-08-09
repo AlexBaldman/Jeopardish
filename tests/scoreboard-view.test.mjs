@@ -35,6 +35,7 @@ function createView() {
     hudEpisodeLabel: createElement(),
   };
   const timers = [];
+  const clearedTimers = [];
   const view = new ScoreboardView({
     dom,
     getCopy: () => ({
@@ -45,13 +46,17 @@ function createView() {
     }),
     setText: (element, value) => { if (element) element.textContent = value; },
     setTimer: (callback, duration) => {
-      const timer = { callback, duration, unref() {} };
+      const timer = { callback, duration, cleared: false, unref() {} };
       timers.push(timer);
       return timer;
     },
-    clearTimer: () => {},
+    clearTimer: (timer) => {
+      if (!timer) return;
+      timer.cleared = true;
+      clearedTimers.push(timer);
+    },
   });
-  return { dom, timers, view };
+  return { clearedTimers, dom, timers, view };
 }
 
 test('ScoreboardView presents values and opens only when a fact changes', () => {
@@ -66,7 +71,18 @@ test('ScoreboardView presents values and opens only when a fact changes', () => 
   assert.equal(dom.hudBest.textContent, 'x1');
   assert.equal(dom.hudScoreLabel.textContent, 'Score');
   assert.equal(dom.scoreDrawer.classList.contains('active'), true);
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'peeking');
+  assert.equal(dom.scoreDrawer.attributes['aria-expanded'], 'true');
   assert.equal(dom.hudScore.classList.contains('score-flip'), true);
+  assert.equal(dom.hudScore.classList.contains('split-flap-changing'), true);
+  assert.equal(dom.hudScore.dataset.previousValue, '0');
+  assert.equal(dom.hudScore.dataset.nextValue, '$400');
+  assert.equal(dom.hudScore.dataset.changeKind, 'score');
+  assert.equal(dom.hudScore.dataset.changeDirection, 'up');
+
+  const timerCount = view.drawerTimerGeneration;
+  view.renderScore({ score: 400, currentStreak: 1, bestStreak: 1 });
+  assert.equal(view.drawerTimerGeneration, timerCount);
 });
 
 test('ScoreboardView owns progress animation and drawer pinning', () => {
@@ -83,12 +99,92 @@ test('ScoreboardView owns progress animation and drawer pinning', () => {
   dom.scoreDrawer.listeners.click();
   assert.equal(dom.scoreDrawer.dataset.pinned, 'true');
   assert.equal(dom.scoreDrawer.attributes['aria-pressed'], 'true');
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'pinned');
   view.hideDrawer();
   assert.equal(dom.scoreDrawer.classList.contains('active'), true);
 
+  dom.scoreDrawer.listeners.blur();
   dom.scoreDrawer.listeners.click();
   assert.equal(dom.scoreDrawer.dataset.pinned, 'false');
   assert.equal(dom.scoreDrawer.classList.contains('active'), false);
+  assert.equal(dom.scoreDrawer.attributes['aria-expanded'], 'false');
+});
+
+test('ScoreboardView safely replaces automatic peek timers', () => {
+  const { clearedTimers, dom, timers, view } = createView();
+
+  view.renderScore({ score: 0, currentStreak: 0, bestStreak: 0 });
+  view.renderScore({ score: 200, currentStreak: 1, bestStreak: 1 });
+  const firstDrawerTimer = timers.find((timer) => timer.duration === 2600);
+  view.renderScore({ score: 400, currentStreak: 2, bestStreak: 2 });
+  const drawerTimers = timers.filter((timer) => timer.duration === 2600);
+
+  assert.equal(drawerTimers.length, 2);
+  assert.ok(clearedTimers.includes(firstDrawerTimer));
+  firstDrawerTimer.callback();
+  assert.equal(dom.scoreDrawer.classList.contains('active'), true);
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'peeking');
+
+  drawerTimers[1].callback();
+  assert.equal(dom.scoreDrawer.classList.contains('active'), false);
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'hidden');
+});
+
+test('ScoreboardView keeps pointer, focus, and keyboard-owned expansion accessible', () => {
+  const { dom, view } = createView();
+  view.bindInteractions();
+
+  dom.scoreDrawer.listeners.pointerenter();
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'expanded');
+  dom.scoreDrawer.listeners.focus();
+  dom.scoreDrawer.listeners.pointerleave();
+  assert.equal(dom.scoreDrawer.classList.contains('active'), true);
+
+  dom.scoreDrawer.listeners.click();
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'pinned');
+  let prevented = false;
+  dom.scoreDrawer.listeners.keydown({
+    key: 'Escape',
+    preventDefault() { prevented = true; },
+    stopPropagation() {},
+  });
+  assert.equal(prevented, true);
+  assert.equal(dom.scoreDrawer.dataset.pinned, 'false');
+  assert.equal(dom.scoreDrawer.attributes['aria-pressed'], 'false');
+  assert.equal(dom.scoreDrawer.attributes['aria-expanded'], 'false');
+  assert.equal(dom.scoreDrawer.classList.contains('active'), false);
+});
+
+test('ScoreboardView does not let stale tile timers settle a newer transition', () => {
+  const { dom, timers, view } = createView();
+  view.renderScore({ score: 0, currentStreak: 0, bestStreak: 0 });
+  view.renderScore({ score: 200, currentStreak: 1, bestStreak: 1 });
+  const firstScoreTimer = timers.find((timer) => timer.duration === 720);
+  view.renderScore({ score: -200, currentStreak: 0, bestStreak: 1 });
+  const currentScoreTimer = view.tileTimers.get(dom.hudScore).timer;
+
+  assert.equal(dom.hudScore.dataset.changeDirection, 'down');
+  firstScoreTimer.callback();
+  assert.equal(dom.hudScore.dataset.transitionState, 'flipping');
+  assert.equal(dom.hudScore.classList.contains('split-flap-changing'), true);
+
+  currentScoreTimer.callback();
+  assert.equal(dom.hudScore.dataset.transitionState, 'settled');
+  assert.equal(dom.hudScore.classList.contains('split-flap-changing'), false);
+});
+
+test('ScoreboardView peeks for episode progress changes but not identical progress', () => {
+  const { dom, timers, view } = createView();
+  view.renderProgress({ current: 1, total: 10, complete: false });
+  const initialTimerCount = timers.length;
+  view.renderProgress({ current: 1, total: 10, complete: false });
+  assert.equal(timers.length, initialTimerCount);
+
+  view.renderProgress({ current: 2, total: 10, complete: false });
+  assert.equal(dom.hudEpisode.dataset.changeKind, 'episode-progress');
+  assert.equal(dom.hudEpisode.dataset.previousValue, '1/10');
+  assert.equal(dom.hudEpisode.dataset.nextValue, '2/10');
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'peeking');
 });
 
 test('ScoreboardView calls browser timer primitives with their global receiver', () => {
@@ -122,4 +218,17 @@ test('ScoreboardView calls browser timer primitives with their global receiver',
     globalThis.setTimeout = originalSetTimeout;
     globalThis.clearTimeout = originalClearTimeout;
   }
+});
+
+test('ScoreboardView clears pending drawer and split-flap work on destroy', () => {
+  const { clearedTimers, timers, view } = createView();
+  view.renderScore({ score: 0, currentStreak: 0, bestStreak: 0 });
+  view.renderScore({ score: 200, currentStreak: 1, bestStreak: 1 });
+
+  const pending = timers.filter((timer) => !timer.cleared);
+  assert.ok(pending.length >= 4);
+  assert.equal(view.destroy(), true);
+  assert.ok(pending.every((timer) => clearedTimers.includes(timer)));
+  assert.equal(view.drawerTimer, null);
+  assert.equal(view.activeTileTimers.size, 0);
 });

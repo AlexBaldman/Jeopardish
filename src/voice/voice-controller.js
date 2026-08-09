@@ -1,11 +1,24 @@
 (function initVoiceController(root, factory) {
   if (typeof module === 'object' && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require('./voice-pack.js'));
   } else {
-    root.JeoPARODYVoice = factory();
+    root.JeoPARODYVoice = factory(root.JeoPARODYVoicePack);
   }
-}(typeof globalThis !== 'undefined' ? globalThis : this, function voiceControllerFactory() {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function voiceControllerFactory(
+  voicePackModule,
+) {
   'use strict';
+
+  if (!voicePackModule) throw new Error('VoiceController requires the VoicePack contract.');
+
+  const {
+    DefaultVoicePack,
+    VoiceCapabilities,
+    VoiceProviderKinds,
+    normalizeVoicePack,
+    resolveVoiceProviders,
+    selectVoiceStyle,
+  } = voicePackModule;
 
   const VoiceStates = Object.freeze({
     OFF: 'off',
@@ -107,6 +120,9 @@
       onIntent = () => {},
       onError = () => {},
       language = 'en-US',
+      voicePack = DefaultVoicePack,
+      voiceStyleId = '',
+      allowNeural = false,
     } = {}) {
       this.synthesis = speechSynthesisRef || null;
       this.UtteranceClass = UtteranceClass || null;
@@ -116,6 +132,9 @@
       this.onIntent = onIntent;
       this.onError = onError;
       this.language = language;
+      this.voicePack = normalizeVoicePack(voicePack);
+      this.voiceStyleId = String(voiceStyleId || '');
+      this.allowNeural = Boolean(allowNeural);
       this.enabled = false;
       this.listening = false;
       this.speaking = false;
@@ -142,6 +161,32 @@
       return this.language;
     }
 
+    getVoicePack() {
+      return this.voicePack;
+    }
+
+    getVoiceProfile({
+      language = this.language,
+      styleId = this.voiceStyleId,
+      seed = '',
+    } = {}) {
+      const locale = String(language || '').toLowerCase().startsWith('pt') ? 'pt-BR' : 'en-US';
+      const style = selectVoiceStyle(this.voicePack, { locale, styleId, seed });
+      const providers = resolveVoiceProviders(this.voicePack, {
+        locale,
+        capability: VoiceCapabilities.NARRATION,
+        allowNeural: this.allowNeural,
+      });
+      const browserProvider = providers.find(({ kind }) => kind === VoiceProviderKinds.BROWSER);
+      return Object.freeze({
+        packId: this.voicePack.id,
+        locale,
+        style,
+        providerId: browserProvider?.id || '',
+        candidates: Object.freeze(providers.map(({ id }) => id)),
+      });
+    }
+
     setEnabled(enabled) {
       this.enabled = Boolean(enabled) && this.isAvailable();
       if (!this.enabled) {
@@ -157,22 +202,37 @@
       return this.setEnabled(!this.enabled);
     }
 
-    speak(text, { language = this.language, rate = 0.94, pitch = 0.92 } = {}) {
+    speak(text, {
+      language = this.language,
+      rate,
+      pitch,
+      styleId = this.voiceStyleId,
+      seed = '',
+    } = {}) {
       const message = String(text || '').replace(/\s+/g, ' ').trim();
       if (!this.enabled || !message || !this.getCapabilities().narration) return false;
+
+      const profile = this.getVoiceProfile({ language, styleId, seed });
+      const resolvedRate = Number.isFinite(Number(rate)) ? Number(rate) : profile.style?.rate || 0.94;
+      const resolvedPitch = Number.isFinite(Number(pitch)) ? Number(pitch) : profile.style?.pitch || 0.92;
 
       const token = ++this.speechGeneration;
       this.stopListening();
       this.synthesis.cancel?.();
       const utterance = new this.UtteranceClass(message);
-      utterance.lang = language;
-      utterance.rate = rate;
-      utterance.pitch = pitch;
-      utterance.voice = this.selectVoice(language);
+      utterance.lang = profile.locale;
+      utterance.rate = resolvedRate;
+      utterance.pitch = resolvedPitch;
+      utterance.voice = this.selectVoice(profile.locale);
       utterance.onstart = () => {
         if (token !== this.speechGeneration) return;
         this.speaking = true;
-        this.setState(VoiceStates.SPEAKING, { message });
+        this.setState(VoiceStates.SPEAKING, {
+          message,
+          voicePackId: profile.packId,
+          voiceStyleId: profile.style?.id || '',
+          voiceProviderId: profile.providerId,
+        });
       };
       utterance.onend = () => {
         if (token !== this.speechGeneration) return;
