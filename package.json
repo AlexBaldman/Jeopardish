@@ -1,10 +1,13 @@
 {
-  "dependencies": {
-    "openai": "^4.53.2"
-  },
+  "type": "module",
   "scripts": {
+    "start": "python3 -m http.server 4173",
+    "verify": "npm run check:js && npm test && npm run validate:questions",
+    "build:questions": "node scripts/shard-questions.mjs",
+    "agent:log": "node scripts/agent-log.mjs",
+    "agent:session": "node scripts/agent-session.mjs",
     "validate:questions": "node scripts/validate-questions.mjs",
-    "check:js": "node --check game-logic.js && node --check app.js",
+    "check:js": "node --check game-logic.js && node --check game-session.js && node --check question-bank.js && node --check view.js && node --check app.js && node --check scripts/agent-log.mjs && node --check scripts/agent-session.mjs && node --check scripts/shard-questions.mjs && node --check scripts/validate-questions.mjs",
     "triage:branches": "bash scripts/branch-triage-report.sh",
     "test": "node --test tests/*.test.mjs"
   }

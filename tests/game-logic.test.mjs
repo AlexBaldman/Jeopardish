@@ -1,35 +1,59 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createRequire } from 'node:module';
-
-const require = createRequire(import.meta.url);
-const logic = require('../game-logic.js');
+import { cleanAnswer, compareAnswers, compareAnswersDetailed, getAcceptedAnswers, parseClueValue } from '../game-logic.js';
 
 test('cleanAnswer strips common prefixes and punctuation', () => {
-  assert.equal(logic.cleanAnswer('What is The Eiffel Tower?'), 'eiffeltower');
-  assert.equal(logic.cleanAnswer('Who was an Apple?'), 'apple');
+  assert.equal(cleanAnswer('What is The Eiffel Tower?'), 'eiffeltower');
+  assert.equal(cleanAnswer('Who was an Apple?'), 'apple');
 });
 
 test('compareAnswers supports exact normalized match', () => {
-  assert.equal(logic.compareAnswers('What is Abraham Lincoln?', 'Abraham Lincoln'), true);
+  assert.equal(compareAnswers('What is Abraham Lincoln?', 'Abraham Lincoln'), true);
+});
+
+test('compareAnswersDetailed explains exact and fuzzy outcomes', () => {
+  assert.deepEqual(
+    compareAnswersDetailed('What is Abraham Lincoln?', 'Abraham Lincoln'),
+    {
+      isCorrect: true,
+      reason: 'exact',
+      userAnswer: 'abrahamlincoln',
+      correctAnswer: 'abrahamlincoln',
+      acceptedAnswers: ['abrahamlincoln'],
+      distance: 0,
+    },
+  );
+
+  const fuzzy = compareAnswersDetailed('washngton', 'Washington');
+  assert.equal(fuzzy.isCorrect, true);
+  assert.equal(fuzzy.reason, 'fuzzy');
+  assert.equal(fuzzy.distance, 1);
+});
+
+test('getAcceptedAnswers handles parenthetical alternate answers', () => {
+  assert.deepEqual(
+    getAcceptedAnswers('The Eiffel Tower (or La Tour Eiffel)'),
+    ['eiffeltower', 'latoureiffel'],
+  );
+  assert.equal(compareAnswers('La Tour Eiffel', 'The Eiffel Tower (or La Tour Eiffel)'), true);
 });
 
 test('compareAnswers supports fuzzy match with small typo', () => {
-  assert.equal(logic.compareAnswers('washngton', 'Washington'), true);
+  assert.equal(compareAnswers('washngton', 'Washington'), true);
 });
 
 test('compareAnswers does not accept tiny substring guesses', () => {
-  assert.equal(logic.compareAnswers('cop', 'Copernicus'), false);
-  assert.equal(logic.compareAnswers('a', 'Australia'), false);
+  assert.equal(compareAnswers('cop', 'Copernicus'), false);
+  assert.equal(compareAnswers('a', 'Australia'), false);
 });
 
 test('compareAnswers rejects empty values', () => {
-  assert.equal(logic.compareAnswers('', 'anything'), false);
-  assert.equal(logic.compareAnswers('something', ''), false);
+  assert.equal(compareAnswers('', 'anything'), false);
+  assert.equal(compareAnswers('something', ''), false);
 });
 
 test('parseClueValue handles numeric, currency strings, and fallback', () => {
-  assert.equal(logic.parseClueValue(400), 400);
-  assert.equal(logic.parseClueValue('$1,200'), 1200);
-  assert.equal(logic.parseClueValue('unknown', 100), 100);
+  assert.equal(parseClueValue(400), 400);
+  assert.equal(parseClueValue('$1,200'), 1200);
+  assert.equal(parseClueValue('unknown', 100), 100);
 });

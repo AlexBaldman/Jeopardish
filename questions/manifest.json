@@ -1,0 +1,5257 @@
+{
+  "generatedAt": "2026-05-01T02:23:34.041Z",
+  "source": "questions/jeopardy-questions.json",
+  "strategy": "fnv1a-id-hash",
+  "shardCount": 128,
+  "totalQuestions": 216930,
+  "shards": [
+    {
+      "id": 0,
+      "file": "shards/000.json",
+      "count": 1674,
+      "minValue": 100,
+      "maxValue": 9000,
+      "topCategories": [
+        {
+          "category": "3-LETTER WORDS",
+          "count": 7
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "ISLANDS",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 5
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "OPERA",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "file": "shards/001.json",
+      "count": 1691,
+      "minValue": 100,
+      "maxValue": 6200,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "TECHNOLOGY",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "file": "shards/002.json",
+      "count": 1746,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "BIOLOGY",
+          "count": 6
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "file": "shards/003.json",
+      "count": 1637,
+      "minValue": 100,
+      "maxValue": 9000,
+      "topCategories": [
+        {
+          "category": "THE BIBLE",
+          "count": 7
+        },
+        {
+          "category": "ANATOMY",
+          "count": 5
+        },
+        {
+          "category": "POETS & POETRY",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 4
+        },
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 4
+        },
+        {
+          "category": "ANIMALS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "file": "shards/004.json",
+      "count": 1694,
+      "minValue": 100,
+      "maxValue": 13800,
+      "topCategories": [
+        {
+          "category": "TRANSPORTATION",
+          "count": 6
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 5
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 4
+        },
+        {
+          "category": "SPORTS",
+          "count": 4
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 4
+        },
+        {
+          "category": "AT THE MOVIES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "file": "shards/005.json",
+      "count": 1641,
+      "minValue": 5,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 6
+        },
+        {
+          "category": "WHO PLAYED 'EM?",
+          "count": 5
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 5
+        },
+        {
+          "category": "THEATRE",
+          "count": 5
+        },
+        {
+          "category": "WORLD CITIES",
+          "count": 4
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 4
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 4
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "file": "shards/006.json",
+      "count": 1654,
+      "minValue": 100,
+      "maxValue": 6600,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 5
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "FAMOUS AMERICANS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "file": "shards/007.json",
+      "count": 1701,
+      "minValue": 100,
+      "maxValue": 13000,
+      "topCategories": [
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 7
+        },
+        {
+          "category": "TELEVISION",
+          "count": 7
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "COMPOSERS",
+          "count": 4
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 4
+        },
+        {
+          "category": "ANNUAL EVENTS",
+          "count": 4
+        },
+        {
+          "category": "FIRST LADIES",
+          "count": 4
+        },
+        {
+          "category": "MUSIC",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "file": "shards/008.json",
+      "count": 1706,
+      "minValue": 100,
+      "maxValue": 8917,
+      "topCategories": [
+        {
+          "category": "SHAKESPEARE",
+          "count": 5
+        },
+        {
+          "category": "POP CULTURE",
+          "count": 5
+        },
+        {
+          "category": "ARCHITECTURE",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "MEDICINE",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "ANNUAL EVENTS",
+          "count": 4
+        },
+        {
+          "category": "TRAVEL & TOURISM",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "file": "shards/009.json",
+      "count": 1644,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "POETS & POETRY",
+          "count": 6
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 6
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 6
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "OPERA",
+          "count": 5
+        },
+        {
+          "category": "FOOD & DRINK",
+          "count": 5
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "file": "shards/010.json",
+      "count": 1679,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "WORLD CAPITALS",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 6
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 5
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "AMERICANA",
+          "count": 5
+        },
+        {
+          "category": "INSECTS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "file": "shards/011.json",
+      "count": 1667,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "BALLET",
+          "count": 6
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 4
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 4
+        },
+        {
+          "category": "EUROPEAN HISTORY",
+          "count": 4
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "file": "shards/012.json",
+      "count": 1668,
+      "minValue": 100,
+      "maxValue": 13200,
+      "topCategories": [
+        {
+          "category": "RELIGION",
+          "count": 6
+        },
+        {
+          "category": "TELEVISION",
+          "count": 6
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "ISLANDS",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE & NATURE",
+          "count": 4
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "POETS & POETRY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "file": "shards/013.json",
+      "count": 1706,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "WORLD LEADERS",
+          "count": 6
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 6
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "POETRY",
+          "count": 4
+        },
+        {
+          "category": "SPORTS",
+          "count": 4
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "file": "shards/014.json",
+      "count": 1734,
+      "minValue": 100,
+      "maxValue": 8200,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 8
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 5
+        },
+        {
+          "category": "WORLD FACTS",
+          "count": 4
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        },
+        {
+          "category": "MUSICAL INSTRUMENTS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "file": "shards/015.json",
+      "count": 1625,
+      "minValue": 100,
+      "maxValue": 9500,
+      "topCategories": [
+        {
+          "category": "COMPOSERS",
+          "count": 4
+        },
+        {
+          "category": "AWARDS",
+          "count": 4
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 4
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 4
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 4
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 4
+        },
+        {
+          "category": "ANIMALS",
+          "count": 4
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "file": "shards/016.json",
+      "count": 1751,
+      "minValue": 5,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "POTPOURRI",
+          "count": 8
+        },
+        {
+          "category": "NONFICTION",
+          "count": 7
+        },
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 6
+        },
+        {
+          "category": "ART & ARTISTS",
+          "count": 5
+        },
+        {
+          "category": "PLAYS & PLAYWRIGHTS",
+          "count": 5
+        },
+        {
+          "category": "PEOPLE",
+          "count": 5
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "file": "shards/017.json",
+      "count": 1749,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 6
+        },
+        {
+          "category": "WORLD CITIES",
+          "count": 5
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 5
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "file": "shards/018.json",
+      "count": 1662,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "FAMOUS AMERICANS",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 4
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 4
+        },
+        {
+          "category": "RELIGION",
+          "count": 4
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 4
+        },
+        {
+          "category": "OPERA",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "file": "shards/019.json",
+      "count": 1660,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 5
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 5
+        },
+        {
+          "category": "ISLANDS",
+          "count": 5
+        },
+        {
+          "category": "TRANSPORTATION",
+          "count": 5
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 4
+        },
+        {
+          "category": "SCIENTISTS",
+          "count": 4
+        },
+        {
+          "category": "MYTHOLOGY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "file": "shards/020.json",
+      "count": 1744,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 8
+        },
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "AMERICANA",
+          "count": 6
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "4-LETTER WORDS",
+          "count": 5
+        },
+        {
+          "category": "U.S. STATES",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "file": "shards/021.json",
+      "count": 1694,
+      "minValue": 100,
+      "maxValue": 5600,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 7
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "CLASSICAL MUSIC",
+          "count": 4
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        },
+        {
+          "category": "MEDICINE",
+          "count": 4
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "file": "shards/022.json",
+      "count": 1732,
+      "minValue": 5,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "SHAKESPEARE",
+          "count": 6
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 5
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "THE BODY HUMAN",
+          "count": 4
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 4
+        },
+        {
+          "category": "FOOD",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "file": "shards/023.json",
+      "count": 1703,
+      "minValue": 5,
+      "maxValue": 9000,
+      "topCategories": [
+        {
+          "category": "PEOPLE",
+          "count": 6
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 6
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 6
+        },
+        {
+          "category": "ISLANDS",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE & NATURE",
+          "count": 5
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 5
+        },
+        {
+          "category": "MYTHOLOGY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "file": "shards/024.json",
+      "count": 1715,
+      "minValue": 100,
+      "maxValue": 10400,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 9
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 6
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "file": "shards/025.json",
+      "count": 1640,
+      "minValue": 100,
+      "maxValue": 7800,
+      "topCategories": [
+        {
+          "category": "ISLANDS",
+          "count": 6
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "ORGANIZATIONS",
+          "count": 5
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "file": "shards/026.json",
+      "count": 1729,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "GENERAL SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "OPERA",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "ASTRONOMY",
+          "count": 5
+        },
+        {
+          "category": "AWARDS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "file": "shards/027.json",
+      "count": 1654,
+      "minValue": 22,
+      "maxValue": 7800,
+      "topCategories": [
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 7
+        },
+        {
+          "category": "AMERICANA",
+          "count": 6
+        },
+        {
+          "category": "THE MOVIES",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "5-LETTER WORDS",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE & NATURE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "file": "shards/028.json",
+      "count": 1667,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 8
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 7
+        },
+        {
+          "category": "BALLET",
+          "count": 7
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 6
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "CLASSICAL MUSIC",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "file": "shards/029.json",
+      "count": 1751,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "HISTORIC NAMES",
+          "count": 6
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 6
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "POLITICIANS",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "TELEVISION",
+          "count": 4
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "file": "shards/030.json",
+      "count": 1703,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 5
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 4
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 4
+        },
+        {
+          "category": "TELEVISION",
+          "count": 4
+        },
+        {
+          "category": "QUOTES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "file": "shards/031.json",
+      "count": 1685,
+      "minValue": 100,
+      "maxValue": 7800,
+      "topCategories": [
+        {
+          "category": "U.S. CITIES",
+          "count": 7
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 7
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 6
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 6
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "TRANSPORTATION",
+          "count": 5
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "3-LETTER WORDS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "file": "shards/032.json",
+      "count": 1713,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 5
+        },
+        {
+          "category": "POTENT POTABLES",
+          "count": 4
+        },
+        {
+          "category": "FIRST LADIES",
+          "count": 4
+        },
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 4
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "file": "shards/033.json",
+      "count": 1647,
+      "minValue": 100,
+      "maxValue": 9000,
+      "topCategories": [
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "NONFICTION",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 4
+        },
+        {
+          "category": "ART",
+          "count": 4
+        },
+        {
+          "category": "SINGERS",
+          "count": 4
+        },
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 4
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 4
+        },
+        {
+          "category": "BALLET",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "file": "shards/034.json",
+      "count": 1680,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "HISTORY",
+          "count": 6
+        },
+        {
+          "category": "4-LETTER WORDS",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 4
+        },
+        {
+          "category": "WEBSITES",
+          "count": 4
+        },
+        {
+          "category": "PHYSICS",
+          "count": 4
+        },
+        {
+          "category": "IN THE DICTIONARY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "file": "shards/035.json",
+      "count": 1702,
+      "minValue": 100,
+      "maxValue": 5800,
+      "topCategories": [
+        {
+          "category": "U.S. CITIES",
+          "count": 7
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 6
+        },
+        {
+          "category": "ACTORS & ACTRESSES",
+          "count": 6
+        },
+        {
+          "category": "WORLD CITIES",
+          "count": 5
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 5
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "file": "shards/036.json",
+      "count": 1644,
+      "minValue": 5,
+      "maxValue": 11600,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 8
+        },
+        {
+          "category": "4-LETTER WORDS",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "POETS & POETRY",
+          "count": 5
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 5
+        },
+        {
+          "category": "MEDICINE",
+          "count": 4
+        },
+        {
+          "category": "EUROPEAN HISTORY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "file": "shards/037.json",
+      "count": 1703,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 5
+        },
+        {
+          "category": "IN THE DICTIONARY",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "FOOD & DRINK",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "file": "shards/038.json",
+      "count": 1640,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 9
+        },
+        {
+          "category": "SCIENCE",
+          "count": 8
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 8
+        },
+        {
+          "category": "POETS & POETRY",
+          "count": 6
+        },
+        {
+          "category": "THE MOVIES",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "FAMOUS AMERICANS",
+          "count": 4
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "file": "shards/039.json",
+      "count": 1669,
+      "minValue": 100,
+      "maxValue": 5000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 5
+        },
+        {
+          "category": "THE CIVIL WAR",
+          "count": 5
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "file": "shards/040.json",
+      "count": 1693,
+      "minValue": 100,
+      "maxValue": 11000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "ISLANDS",
+          "count": 5
+        },
+        {
+          "category": "PROVERBS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "file": "shards/041.json",
+      "count": 1660,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 4
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 4
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        },
+        {
+          "category": "TELEVISION",
+          "count": 4
+        },
+        {
+          "category": "MIDDLE NAMES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "file": "shards/042.json",
+      "count": 1708,
+      "minValue": 100,
+      "maxValue": 4400,
+      "topCategories": [
+        {
+          "category": "STUPID ANSWERS",
+          "count": 7
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 6
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 4
+        },
+        {
+          "category": "OPERA",
+          "count": 4
+        },
+        {
+          "category": "WORLD CITIES",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "file": "shards/043.json",
+      "count": 1762,
+      "minValue": 100,
+      "maxValue": 6200,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "ARTISTS",
+          "count": 5
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 5
+        },
+        {
+          "category": "FAMOUS NAMES",
+          "count": 4
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 4
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "file": "shards/044.json",
+      "count": 1709,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "ANIMALS",
+          "count": 5
+        },
+        {
+          "category": "ISLANDS",
+          "count": 5
+        },
+        {
+          "category": "THE BODY HUMAN",
+          "count": 5
+        },
+        {
+          "category": "THE CIVIL WAR",
+          "count": 4
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 4
+        },
+        {
+          "category": "NONFICTION",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "file": "shards/045.json",
+      "count": 1681,
+      "minValue": 100,
+      "maxValue": 7200,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 4
+        },
+        {
+          "category": "OPERA",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "file": "shards/046.json",
+      "count": 1652,
+      "minValue": 100,
+      "maxValue": 8200,
+      "topCategories": [
+        {
+          "category": "WORLD HISTORY",
+          "count": 9
+        },
+        {
+          "category": "FOOD",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "ART",
+          "count": 4
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "MOUNTAINS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "file": "shards/047.json",
+      "count": 1700,
+      "minValue": 100,
+      "maxValue": 6400,
+      "topCategories": [
+        {
+          "category": "WORD ORIGINS",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "OPERA",
+          "count": 5
+        },
+        {
+          "category": "FOOD & DRINK",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 4
+        },
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "file": "shards/048.json",
+      "count": 1702,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "ANIMALS",
+          "count": 5
+        },
+        {
+          "category": "FRUITS & VEGETABLES",
+          "count": 5
+        },
+        {
+          "category": "HISTORIC NAMES",
+          "count": 4
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 4
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 4
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 4
+        },
+        {
+          "category": "CLASSICAL MUSIC",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "file": "shards/049.json",
+      "count": 1731,
+      "minValue": 100,
+      "maxValue": 5000,
+      "topCategories": [
+        {
+          "category": "POETS & POETRY",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "ODDS & ENDS",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 5
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "file": "shards/050.json",
+      "count": 1706,
+      "minValue": 100,
+      "maxValue": 5000,
+      "topCategories": [
+        {
+          "category": "WORLD CAPITALS",
+          "count": 10
+        },
+        {
+          "category": "HISTORIC NAMES",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 6
+        },
+        {
+          "category": "ANIMALS",
+          "count": 5
+        },
+        {
+          "category": "EUROPEAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 5
+        },
+        {
+          "category": "BIOLOGY",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "file": "shards/051.json",
+      "count": 1668,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 8
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "ANNUAL EVENTS",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "POETS & POETRY",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "file": "shards/052.json",
+      "count": 1748,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 9
+        },
+        {
+          "category": "PEOPLE",
+          "count": 7
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 6
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE & NATURE",
+          "count": 5
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 5
+        },
+        {
+          "category": "POP MUSIC",
+          "count": 4
+        },
+        {
+          "category": "RELIGION",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "file": "shards/053.json",
+      "count": 1681,
+      "minValue": 100,
+      "maxValue": 6600,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 6
+        },
+        {
+          "category": "TELEVISION",
+          "count": 6
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 5
+        },
+        {
+          "category": "OPERA",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "file": "shards/054.json",
+      "count": 1683,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "OPERA",
+          "count": 6
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 4
+        },
+        {
+          "category": "CROSSWORD CLUES \"F\"",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "file": "shards/055.json",
+      "count": 1767,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 7
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE & NATURE",
+          "count": 5
+        },
+        {
+          "category": "NUMBER, PLEASE",
+          "count": 5
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "file": "shards/056.json",
+      "count": 1694,
+      "minValue": 5,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 7
+        },
+        {
+          "category": "AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "FOOD",
+          "count": 5
+        },
+        {
+          "category": "ORGANIZATIONS",
+          "count": 4
+        },
+        {
+          "category": "OPERA",
+          "count": 4
+        },
+        {
+          "category": "PEOPLE",
+          "count": 4
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 4
+        },
+        {
+          "category": "ART",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "file": "shards/057.json",
+      "count": 1679,
+      "minValue": 100,
+      "maxValue": 7600,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 8
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 6
+        },
+        {
+          "category": "HISTORY",
+          "count": 6
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "EUROPEAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "CLASSICAL MUSIC",
+          "count": 4
+        },
+        {
+          "category": "ISLANDS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "file": "shards/058.json",
+      "count": 1767,
+      "minValue": 100,
+      "maxValue": 7400,
+      "topCategories": [
+        {
+          "category": "TRANSPORTATION",
+          "count": 6
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 4
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 4
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 4
+        },
+        {
+          "category": "POTENT POTABLES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "file": "shards/059.json",
+      "count": 1651,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 6
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "AMERICANA",
+          "count": 4
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "POP CULTURE",
+          "count": 4
+        },
+        {
+          "category": "AUTHORS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "file": "shards/060.json",
+      "count": 1772,
+      "minValue": 100,
+      "maxValue": 6200,
+      "topCategories": [
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 4
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 4
+        },
+        {
+          "category": "MUSIC",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "file": "shards/061.json",
+      "count": 1644,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "WORLD CAPITALS",
+          "count": 7
+        },
+        {
+          "category": "TRANSPORTATION",
+          "count": 6
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 4
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 4
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 4
+        },
+        {
+          "category": "VOCABULARY",
+          "count": 4
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "file": "shards/062.json",
+      "count": 1722,
+      "minValue": 100,
+      "maxValue": 9800,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 10
+        },
+        {
+          "category": "ISLANDS",
+          "count": 7
+        },
+        {
+          "category": "HODGEPODGE",
+          "count": 6
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "HOMOPHONES",
+          "count": 5
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 4
+        },
+        {
+          "category": "AMERICAN LITERATURE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "file": "shards/063.json",
+      "count": 1557,
+      "minValue": 100,
+      "maxValue": 6800,
+      "topCategories": [
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 9
+        },
+        {
+          "category": "PEOPLE",
+          "count": 6
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 6
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "ISLANDS",
+          "count": 4
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "file": "shards/064.json",
+      "count": 1762,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "WORLD CAPITALS",
+          "count": 8
+        },
+        {
+          "category": "ANIMALS",
+          "count": 8
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 5
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 4
+        },
+        {
+          "category": "COUNTRIES OF THE WORLD",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "file": "shards/065.json",
+      "count": 1735,
+      "minValue": 100,
+      "maxValue": 8500,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "OPERA",
+          "count": 5
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "TRANSPORTATION",
+          "count": 4
+        },
+        {
+          "category": "BALLET",
+          "count": 4
+        },
+        {
+          "category": "SPORTS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "file": "shards/066.json",
+      "count": 1712,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "ISLANDS",
+          "count": 5
+        },
+        {
+          "category": "MYTHOLOGY",
+          "count": 5
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "MEDICINE",
+          "count": 5
+        },
+        {
+          "category": "AROUND THE WORLD",
+          "count": 5
+        },
+        {
+          "category": "HODGEPODGE",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "file": "shards/067.json",
+      "count": 1705,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 10
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 6
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 6
+        },
+        {
+          "category": "MUSIC",
+          "count": 5
+        },
+        {
+          "category": "ANIMALS",
+          "count": 5
+        },
+        {
+          "category": "TELEVISION",
+          "count": 4
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "file": "shards/068.json",
+      "count": 1664,
+      "minValue": 50,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 8
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 7
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 6
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "QUOTES",
+          "count": 5
+        },
+        {
+          "category": "CHEMISTRY",
+          "count": 5
+        },
+        {
+          "category": "SCIENTISTS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "file": "shards/069.json",
+      "count": 1725,
+      "minValue": 100,
+      "maxValue": 14200,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "TELEVISION",
+          "count": 6
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "QUOTATIONS",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 5
+        },
+        {
+          "category": "PEOPLE",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "file": "shards/070.json",
+      "count": 1729,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "ART & ARTISTS",
+          "count": 6
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 6
+        },
+        {
+          "category": "AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "QUOTATIONS",
+          "count": 5
+        },
+        {
+          "category": "OPERA",
+          "count": 4
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "file": "shards/071.json",
+      "count": 1747,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 7
+        },
+        {
+          "category": "BALLET",
+          "count": 7
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "ACTORS & ACTRESSES",
+          "count": 4
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 4
+        },
+        {
+          "category": "NONFICTION",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "file": "shards/072.json",
+      "count": 1661,
+      "minValue": 100,
+      "maxValue": 5000,
+      "topCategories": [
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 9
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 5
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 5
+        },
+        {
+          "category": "QUOTATIONS",
+          "count": 4
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 4
+        },
+        {
+          "category": "GENERAL SCIENCE",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "file": "shards/073.json",
+      "count": 1680,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 5
+        },
+        {
+          "category": "ART & ARTISTS",
+          "count": 4
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 4
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        },
+        {
+          "category": "RELIGION",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "file": "shards/074.json",
+      "count": 1733,
+      "minValue": 100,
+      "maxValue": 5800,
+      "topCategories": [
+        {
+          "category": "WORD ORIGINS",
+          "count": 7
+        },
+        {
+          "category": "HAIL TO THE CHIEF",
+          "count": 7
+        },
+        {
+          "category": "ODDS & ENDS",
+          "count": 6
+        },
+        {
+          "category": "OPERA",
+          "count": 6
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "MEDICINE",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "file": "shards/075.json",
+      "count": 1663,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "THE AMERICAN REVOLUTION",
+          "count": 6
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 5
+        },
+        {
+          "category": "PEOPLE",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "OCCUPATIONS",
+          "count": 4
+        },
+        {
+          "category": "SPORTS",
+          "count": 4
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "file": "shards/076.json",
+      "count": 1672,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "OPERA",
+          "count": 6
+        },
+        {
+          "category": "THE CIVIL WAR",
+          "count": 5
+        },
+        {
+          "category": "TRANSPORTATION",
+          "count": 5
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 5
+        },
+        {
+          "category": "BIOLOGY",
+          "count": 5
+        },
+        {
+          "category": "POTENT POTABLES",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "file": "shards/077.json",
+      "count": 1682,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "WORD ORIGINS",
+          "count": 8
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 8
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 6
+        },
+        {
+          "category": "ISLANDS",
+          "count": 6
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "file": "shards/078.json",
+      "count": 1699,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 6
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 5
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "ANIMALS",
+          "count": 5
+        },
+        {
+          "category": "OPERA",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "file": "shards/079.json",
+      "count": 1741,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "FOOD",
+          "count": 5
+        },
+        {
+          "category": "HISTORIC NAMES",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "AROUND THE WORLD",
+          "count": 5
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "POETRY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "file": "shards/080.json",
+      "count": 1664,
+      "minValue": 20,
+      "maxValue": 10800,
+      "topCategories": [
+        {
+          "category": "POTPOURRI",
+          "count": 7
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 6
+        },
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "FIRST LADIES",
+          "count": 5
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 5
+        },
+        {
+          "category": "FAMOUS NAMES",
+          "count": 4
+        },
+        {
+          "category": "MEDICINE",
+          "count": 4
+        },
+        {
+          "category": "NATURE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "file": "shards/081.json",
+      "count": 1687,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "MUSEUMS",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 5
+        },
+        {
+          "category": "FAMOUS NAMES",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "file": "shards/082.json",
+      "count": 1651,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "BALLET",
+          "count": 7
+        },
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 7
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 6
+        },
+        {
+          "category": "WORLD LEADERS",
+          "count": 5
+        },
+        {
+          "category": "SCULPTURE",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "file": "shards/083.json",
+      "count": 1714,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "WORLD CITIES",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "NONFICTION",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "MUSICAL INSTRUMENTS",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "file": "shards/084.json",
+      "count": 1653,
+      "minValue": 100,
+      "maxValue": 7400,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "RELIGION",
+          "count": 6
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "TELEVISION",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 5
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 5
+        },
+        {
+          "category": "FOOD",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "file": "shards/085.json",
+      "count": 1751,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 9
+        },
+        {
+          "category": "BALLET",
+          "count": 7
+        },
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 6
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 5
+        },
+        {
+          "category": "COLORS",
+          "count": 4
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "file": "shards/086.json",
+      "count": 1594,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 5
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 4
+        },
+        {
+          "category": "POP MUSIC",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "file": "shards/087.json",
+      "count": 1719,
+      "minValue": 100,
+      "maxValue": 8200,
+      "topCategories": [
+        {
+          "category": "POTPOURRI",
+          "count": 7
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 6
+        },
+        {
+          "category": "TRANSPORTATION",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 5
+        },
+        {
+          "category": "MEDICINE",
+          "count": 5
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "file": "shards/088.json",
+      "count": 1732,
+      "minValue": 100,
+      "maxValue": 18000,
+      "topCategories": [
+        {
+          "category": "WORD ORIGINS",
+          "count": 7
+        },
+        {
+          "category": "CLASSICAL MUSIC",
+          "count": 6
+        },
+        {
+          "category": "HAIL TO THE CHIEF",
+          "count": 6
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 5
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 5
+        },
+        {
+          "category": "LETTER PERFECT",
+          "count": 5
+        },
+        {
+          "category": "IN THE DICTIONARY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "file": "shards/089.json",
+      "count": 1730,
+      "minValue": 100,
+      "maxValue": 9000,
+      "topCategories": [
+        {
+          "category": "HISTORY",
+          "count": 6
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 6
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "AT THE MOVIES",
+          "count": 4
+        },
+        {
+          "category": "HERBS & SPICES",
+          "count": 4
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "file": "shards/090.json",
+      "count": 1698,
+      "minValue": 100,
+      "maxValue": 7800,
+      "topCategories": [
+        {
+          "category": "ISLANDS",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "ARTISTS",
+          "count": 5
+        },
+        {
+          "category": "WEIGHTS & MEASURES",
+          "count": 5
+        },
+        {
+          "category": "POLITICIANS",
+          "count": 5
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 4
+        },
+        {
+          "category": "HOMOPHONES",
+          "count": 4
+        },
+        {
+          "category": "POTENT POTABLES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "file": "shards/091.json",
+      "count": 1704,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "POTPOURRI",
+          "count": 7
+        },
+        {
+          "category": "TELEVISION",
+          "count": 7
+        },
+        {
+          "category": "ISLANDS",
+          "count": 7
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 7
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "file": "shards/092.json",
+      "count": 1689,
+      "minValue": 5,
+      "maxValue": 8600,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 7
+        },
+        {
+          "category": "FROM THE LATIN",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "GENERAL SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "AMERICANA",
+          "count": 4
+        },
+        {
+          "category": "ISLANDS",
+          "count": 4
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "file": "shards/093.json",
+      "count": 1734,
+      "minValue": 100,
+      "maxValue": 12000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 8
+        },
+        {
+          "category": "TELEVISION",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 4
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "AUTHORS",
+          "count": 4
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 4
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 4
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "file": "shards/094.json",
+      "count": 1703,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        },
+        {
+          "category": "THE MOVIES",
+          "count": 4
+        },
+        {
+          "category": "HISTORY",
+          "count": 4
+        },
+        {
+          "category": "SPORTS",
+          "count": 4
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "SAME FIRST & LAST LETTER",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "file": "shards/095.json",
+      "count": 1774,
+      "minValue": 100,
+      "maxValue": 8800,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 7
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "COMPOSERS",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 5
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "TELEVISION",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "file": "shards/096.json",
+      "count": 1742,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 8
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 6
+        },
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "TELEVISION",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "PEOPLE",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "file": "shards/097.json",
+      "count": 1665,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "LANGUAGES",
+          "count": 7
+        },
+        {
+          "category": "AROUND THE WORLD",
+          "count": 6
+        },
+        {
+          "category": "U.S. PRESIDENTS",
+          "count": 5
+        },
+        {
+          "category": "ANIMALS",
+          "count": 5
+        },
+        {
+          "category": "ANNUAL EVENTS",
+          "count": 5
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 4
+        },
+        {
+          "category": "MAGAZINES",
+          "count": 4
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "file": "shards/098.json",
+      "count": 1721,
+      "minValue": 100,
+      "maxValue": 13000,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 8
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 8
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 6
+        },
+        {
+          "category": "FAMOUS AMERICANS",
+          "count": 5
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 5
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "ART",
+          "count": 4
+        },
+        {
+          "category": "SPORTS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "file": "shards/099.json",
+      "count": 1674,
+      "minValue": 100,
+      "maxValue": 7800,
+      "topCategories": [
+        {
+          "category": "RHYME TIME",
+          "count": 6
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "ARCHITECTURE",
+          "count": 4
+        },
+        {
+          "category": "STOCK SYMBOLS",
+          "count": 4
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "POETS & POETRY",
+          "count": 4
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "file": "shards/100.json",
+      "count": 1642,
+      "minValue": 100,
+      "maxValue": 4000,
+      "topCategories": [
+        {
+          "category": "ISLANDS",
+          "count": 7
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 7
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "ANAGRAMS",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 4
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "file": "shards/101.json",
+      "count": 1691,
+      "minValue": 100,
+      "maxValue": 12400,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 10
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "MYTHOLOGY",
+          "count": 4
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "BODY LANGUAGE",
+          "count": 4
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "file": "shards/102.json",
+      "count": 1700,
+      "minValue": 100,
+      "maxValue": 11200,
+      "topCategories": [
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "MUSICAL INSTRUMENTS",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 4
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 4
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "ABBREV.",
+          "count": 4
+        },
+        {
+          "category": "CLASSICAL MUSIC",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "file": "shards/103.json",
+      "count": 1721,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "ART & ARTISTS",
+          "count": 6
+        },
+        {
+          "category": "NONFICTION",
+          "count": 5
+        },
+        {
+          "category": "MUSIC",
+          "count": 5
+        },
+        {
+          "category": "BUSINESS & INDUSTRY",
+          "count": 4
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "MUSEUMS",
+          "count": 4
+        },
+        {
+          "category": "FOOD",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "file": "shards/104.json",
+      "count": 1690,
+      "minValue": 5,
+      "maxValue": 14000,
+      "topCategories": [
+        {
+          "category": "THE BODY HUMAN",
+          "count": 7
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 7
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "TRANSPORTATION",
+          "count": 6
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 6
+        },
+        {
+          "category": "RELIGION",
+          "count": 6
+        },
+        {
+          "category": "TELEVISION",
+          "count": 4
+        },
+        {
+          "category": "QUOTATIONS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "file": "shards/105.json",
+      "count": 1678,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 4
+        },
+        {
+          "category": "RELIGION",
+          "count": 4
+        },
+        {
+          "category": "MUSICAL INSTRUMENTS",
+          "count": 4
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "file": "shards/106.json",
+      "count": 1720,
+      "minValue": 100,
+      "maxValue": 12000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "CHILDREN'S LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 5
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 5
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "file": "shards/107.json",
+      "count": 1752,
+      "minValue": 100,
+      "maxValue": 10800,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 8
+        },
+        {
+          "category": "AT THE MOVIES",
+          "count": 5
+        },
+        {
+          "category": "AMERICANA",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 4
+        },
+        {
+          "category": "SPORTS",
+          "count": 4
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "U.S. PRESIDENTS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "file": "shards/108.json",
+      "count": 1658,
+      "minValue": 100,
+      "maxValue": 8200,
+      "topCategories": [
+        {
+          "category": "ART & ARTISTS",
+          "count": 6
+        },
+        {
+          "category": "RHYME TIME",
+          "count": 5
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 4
+        },
+        {
+          "category": "PHYSICS",
+          "count": 4
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 4
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "file": "shards/109.json",
+      "count": 1706,
+      "minValue": 100,
+      "maxValue": 13000,
+      "topCategories": [
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 8
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 7
+        },
+        {
+          "category": "ORGANIZATIONS",
+          "count": 5
+        },
+        {
+          "category": "MOUNTAINS",
+          "count": 5
+        },
+        {
+          "category": "WORLD LEADERS",
+          "count": 5
+        },
+        {
+          "category": "ARCHITECTURE",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "file": "shards/110.json",
+      "count": 1666,
+      "minValue": 100,
+      "maxValue": 9000,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "CLASSICAL MUSIC",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE & NATURE",
+          "count": 4
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 4
+        },
+        {
+          "category": "QUOTATIONS",
+          "count": 4
+        },
+        {
+          "category": "THE MOVIES",
+          "count": 4
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "file": "shards/111.json",
+      "count": 1705,
+      "minValue": 100,
+      "maxValue": 6000,
+      "topCategories": [
+        {
+          "category": "WORD ORIGINS",
+          "count": 7
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 6
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "HISTORIC AMERICANS",
+          "count": 4
+        },
+        {
+          "category": "THE HUMAN BODY",
+          "count": 4
+        },
+        {
+          "category": "OPERA",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "file": "shards/112.json",
+      "count": 1674,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 8
+        },
+        {
+          "category": "ART",
+          "count": 5
+        },
+        {
+          "category": "THE 50 STATES",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "FAMOUS AMERICANS",
+          "count": 5
+        },
+        {
+          "category": "SPORTS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "file": "shards/113.json",
+      "count": 1748,
+      "minValue": 100,
+      "maxValue": 12000,
+      "topCategories": [
+        {
+          "category": "PEOPLE",
+          "count": 7
+        },
+        {
+          "category": "SCIENCE & NATURE",
+          "count": 7
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "LITERATURE",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "HOMOPHONES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "file": "shards/114.json",
+      "count": 1683,
+      "minValue": 100,
+      "maxValue": 7800,
+      "topCategories": [
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 7
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 6
+        },
+        {
+          "category": "QUOTATIONS",
+          "count": 5
+        },
+        {
+          "category": "OPERA",
+          "count": 5
+        },
+        {
+          "category": "U.S. CITIES",
+          "count": 5
+        },
+        {
+          "category": "LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "FOOD & DRINK",
+          "count": 4
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "file": "shards/115.json",
+      "count": 1694,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 5
+        },
+        {
+          "category": "CLASSICAL MUSIC",
+          "count": 5
+        },
+        {
+          "category": "ODDS & ENDS",
+          "count": 4
+        },
+        {
+          "category": "PEOPLE",
+          "count": 4
+        },
+        {
+          "category": "EUROPE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "file": "shards/116.json",
+      "count": 1745,
+      "minValue": 100,
+      "maxValue": 10800,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 8
+        },
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "AUTHORS",
+          "count": 4
+        },
+        {
+          "category": "POP CULTURE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "file": "shards/117.json",
+      "count": 1601,
+      "minValue": 100,
+      "maxValue": 10800,
+      "topCategories": [
+        {
+          "category": "ANIMALS",
+          "count": 5
+        },
+        {
+          "category": "U.S. PRESIDENTS",
+          "count": 4
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 4
+        },
+        {
+          "category": "MOUNTAINS",
+          "count": 4
+        },
+        {
+          "category": "AMERICAN LITERATURE",
+          "count": 4
+        },
+        {
+          "category": "VOCABULARY",
+          "count": 4
+        },
+        {
+          "category": "SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "ANATOMY",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "file": "shards/118.json",
+      "count": 1679,
+      "minValue": 100,
+      "maxValue": 8000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 11
+        },
+        {
+          "category": "SCIENCE",
+          "count": 9
+        },
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 6
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "THE BODY HUMAN",
+          "count": 6
+        },
+        {
+          "category": "RELIGION",
+          "count": 5
+        },
+        {
+          "category": "TRAVEL & TOURISM",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "file": "shards/119.json",
+      "count": 1635,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 8
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 5
+        },
+        {
+          "category": "OPERA",
+          "count": 4
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 4
+        },
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 4
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "file": "shards/120.json",
+      "count": 1712,
+      "minValue": 100,
+      "maxValue": 5400,
+      "topCategories": [
+        {
+          "category": "WORD ORIGINS",
+          "count": 8
+        },
+        {
+          "category": "WORLD CAPITALS",
+          "count": 7
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "POTPOURRI",
+          "count": 6
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 6
+        },
+        {
+          "category": "U.S. HISTORY",
+          "count": 6
+        },
+        {
+          "category": "MYTHOLOGY",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "file": "shards/121.json",
+      "count": 1698,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "BEFORE & AFTER",
+          "count": 7
+        },
+        {
+          "category": "SPORTS",
+          "count": 6
+        },
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "WORLD GEOGRAPHY",
+          "count": 5
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 5
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 5
+        },
+        {
+          "category": "SCIENCE CLASS",
+          "count": 4
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "file": "shards/122.json",
+      "count": 1687,
+      "minValue": 5,
+      "maxValue": 6400,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 6
+        },
+        {
+          "category": "MYTHOLOGY",
+          "count": 6
+        },
+        {
+          "category": "FAMOUS AMERICANS",
+          "count": 6
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 4
+        },
+        {
+          "category": "HOLIDAYS & OBSERVANCES",
+          "count": 4
+        },
+        {
+          "category": "TRAVEL & TOURISM",
+          "count": 4
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 4
+        },
+        {
+          "category": "ARCHITECTURE",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "file": "shards/123.json",
+      "count": 1663,
+      "minValue": 100,
+      "maxValue": 8400,
+      "topCategories": [
+        {
+          "category": "LITERATURE",
+          "count": 6
+        },
+        {
+          "category": "WORD ORIGINS",
+          "count": 5
+        },
+        {
+          "category": "NATURE",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "BOOKS & AUTHORS",
+          "count": 5
+        },
+        {
+          "category": "WORLD HISTORY",
+          "count": 5
+        },
+        {
+          "category": "HISTORY",
+          "count": 5
+        },
+        {
+          "category": "THE MOVIES",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "file": "shards/124.json",
+      "count": 1707,
+      "minValue": 100,
+      "maxValue": 8400,
+      "topCategories": [
+        {
+          "category": "COLLEGES & UNIVERSITIES",
+          "count": 7
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 6
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 5
+        },
+        {
+          "category": "GEOGRAPHY",
+          "count": 4
+        },
+        {
+          "category": "ASTRONOMY",
+          "count": 4
+        },
+        {
+          "category": "STUPID ANSWERS",
+          "count": 4
+        },
+        {
+          "category": "MEDICINE",
+          "count": 4
+        },
+        {
+          "category": "U.S. GEOGRAPHY",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "file": "shards/125.json",
+      "count": 1716,
+      "minValue": 100,
+      "maxValue": 7000,
+      "topCategories": [
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 7
+        },
+        {
+          "category": "ASTRONOMY",
+          "count": 7
+        },
+        {
+          "category": "LITERATURE",
+          "count": 7
+        },
+        {
+          "category": "BODIES OF WATER",
+          "count": 6
+        },
+        {
+          "category": "SHAKESPEARE",
+          "count": 5
+        },
+        {
+          "category": "GENERAL SCIENCE",
+          "count": 4
+        },
+        {
+          "category": "LANGUAGES",
+          "count": 4
+        },
+        {
+          "category": "4-LETTER WORDS",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "file": "shards/126.json",
+      "count": 1743,
+      "minValue": 100,
+      "maxValue": 10000,
+      "topCategories": [
+        {
+          "category": "SCIENCE",
+          "count": 7
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 6
+        },
+        {
+          "category": "IN THE DICTIONARY",
+          "count": 5
+        },
+        {
+          "category": "ANATOMY",
+          "count": 5
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 5
+        },
+        {
+          "category": "MUSIC",
+          "count": 5
+        },
+        {
+          "category": "COMMON BONDS",
+          "count": 5
+        },
+        {
+          "category": "BALLET",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "file": "shards/127.json",
+      "count": 1666,
+      "minValue": 100,
+      "maxValue": 10800,
+      "topCategories": [
+        {
+          "category": "FICTIONAL CHARACTERS",
+          "count": 6
+        },
+        {
+          "category": "ART & ARTISTS",
+          "count": 5
+        },
+        {
+          "category": "AMERICAN HISTORY",
+          "count": 5
+        },
+        {
+          "category": "BEFORE & AFTER",
+          "count": 5
+        },
+        {
+          "category": "AMERICANA",
+          "count": 4
+        },
+        {
+          "category": "STATE CAPITALS",
+          "count": 4
+        },
+        {
+          "category": "THE BODY HUMAN",
+          "count": 4
+        },
+        {
+          "category": "THE BIBLE",
+          "count": 4
+        }
+      ]
+    }
+  ]
+}

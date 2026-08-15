@@ -1,0 +1,209 @@
+.date-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.wheel {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #0f3460, #16213e);
+  border: 4px solid #e94560;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 0 20px rgba(233, 69, 96, 0.3),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.1s ease-out;
+}
+
+.wheel::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 2px dashed rgba(233, 69, 96, 0.5);
+  animation: rotateWheel 20s linear infinite;
+}
+
+@keyframes rotateWheel {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.wheel-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #e94560;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.wheel-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(233, 69, 96, 0.8);
+  font-family: 'Courier New', monospace;
+}
+
+.year-wheel {
+  background: linear-gradient(145deg, #1a1a2e, #0f3460);
+  border-color: #e94560;
+}
+
+.month-wheel {
+  background: linear-gradient(145deg, #16213e, #1a1a2e);
+  border-color: #0f3460;
+}
+
+.day-wheel {
+  background: linear-gradient(145deg, #0f3460, #16213e);
+  border-color: #1a1a2e;
+}
+
+.spin-button {
+  padding: 1rem 3rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #e94560, #c73659);
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+  transition: all 0.3s ease;
+}
+
+.spin-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
+}
+
+.spin-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.spin-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.selected-date {
+  font-size: 1.25rem;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+  background: rgba(233, 69, 96, 0.2);
+  border-radius: 0.5rem;
+  border: 2px solid #e94560;
+  min-width: 150px;
+}
+
+@media (max-width: 768px) {
+  .wheel {
+    width: 150px;
+    height: 150px;
+  }
+
+  .wheel::before {
+    width: 130px;
+    height: 130px;
+  }
+
+  .wheel-value {
+    font-size: 2rem;
+  }
+
+  .spin-button {
+    padding: 0.75rem 2rem;
+    font-size: 1.25rem;
+  }
+}
+
+.category-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 600px;
+}
+
+.category-selection h3 {
+  color: #e94560;
+  font-size: 1.5rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.category-button {
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #0f3460, #16213e);
+  border: 2px solid #e94560;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.category-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+  background: linear-gradient(135deg, #16213e, #0f3460);
+}
+
+.play-episode-button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #e94560, #c73659);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+
+.play-episode-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.6);
+}

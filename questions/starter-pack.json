@@ -1,0 +1,72 @@
+[
+  {
+    "id": "starter-1",
+    "category": "World Capitals",
+    "question": "This city is the capital of France and sits on the Seine.",
+    "answer": "Paris",
+    "value": "$200"
+  },
+  {
+    "id": "starter-2",
+    "category": "Science",
+    "question": "This element with atomic number 79 is often used in jewelry.",
+    "answer": "gold",
+    "value": "$200"
+  },
+  {
+    "id": "starter-3",
+    "category": "Books",
+    "question": "This author wrote 'Frankenstein' when she was still a teenager.",
+    "answer": "Mary Shelley",
+    "value": "$400"
+  },
+  {
+    "id": "starter-4",
+    "category": "Food",
+    "question": "This fermented Korean side dish is most famously made with cabbage.",
+    "answer": "kimchi",
+    "value": "$400"
+  },
+  {
+    "id": "starter-5",
+    "category": "Music",
+    "question": "This instrument has 88 keys on a standard modern version.",
+    "answer": "piano",
+    "value": "$200"
+  },
+  {
+    "id": "starter-6",
+    "category": "Space",
+    "question": "This is the largest planet in our solar system.",
+    "answer": "Jupiter",
+    "value": "$200"
+  },
+  {
+    "id": "starter-7",
+    "category": "Movies",
+    "question": "This 1993 dinosaur film was directed by Steven Spielberg.",
+    "answer": "Jurassic Park",
+    "value": "$400"
+  },
+  {
+    "id": "starter-8",
+    "category": "History",
+    "question": "This wall in Germany became a Cold War symbol before falling in 1989.",
+    "answer": "Berlin Wall",
+    "value": "$400"
+  },
+  {
+    "id": "starter-9",
+    "category": "Language",
+    "question": "This Spanish word for thanks is one of the first words many learners pick up.",
+    "answer": "gracias",
+    "value": "$100"
+  },
+  {
+    "id": "starter-10",
+    "category": "The Internet",
+    "question": "These three letters often begin a website address after the protocol.",
+    "answer": "www",
+    "value": "$100"
+  }
+]

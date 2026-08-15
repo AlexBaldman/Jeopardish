@@ -1,0 +1,9 @@
+# Live session
+timestamp: 20260501T050640Z
+agent: SmokeTest
+task: wrapper-test
+command: printf 'agent room live log ok\n'
+agent room live log ok
+
+
+# Session ended with code 0

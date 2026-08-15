@@ -6,67 +6,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeopardish!</title>
     <link rel="stylesheet" href="style.css" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="date-spinner.css" type="text/css">
+    <link rel="stylesheet" href="streak-mastery.css" type="text/css">
+    <link rel="stylesheet" href="category-spinner.css" type="text/css">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script defer src="game-logic.js"></script>
-    <script defer src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </head>
 
-<body lang="en">
-
-    <!-- GAME CONTAINER -->
-    <div class="game-container">
-
-        <!-- HEADER -->
-        <header class="header">
-            <div class="title-div">
-                <img class="title-image" src="https://res.cloudinary.com/alexbaldman/image/upload/c_scale,e_auto_saturation,h_72,q_65,w_373/v1592202698/Jeopardish/title_zldpdq.png" alt="Jeopardish!">
-            </div>
-            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
-                <i class="fas fa-bars"></i>
+<body>
+    <main class="game-shell" aria-labelledby="gameTitle">
+        <header class="topbar">
+            <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Toggle controls" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
+            <div class="brand-lockup">
+                <p class="eyebrow">Arcade trivia lab</p>
+                <h1 id="gameTitle">Jeopardish!</h1>
+            </div>
+            <div class="score-chip" id="scoreChip">$0</div>
         </header>
 
-        <!-- NAVIGATION MENU -->
-        <nav class="nav-menu" id="navMenu">
-            <div class="button-div">
-                <button id="questionButton" aria-label="Get a new question">New Question</button>
-                <button id="answerButton" aria-label="Show or hide the answer">Show/Hide Answer</button>
-            </div>
-            <!-- DATA DISPLAY BOX -->
-            <div id="dataBox" class="data-box">
-                <p id="currentStreak">Current Streak: 0</p>
-                <p id="bestStreak">Best Streak: 0</p>
-                <p id="score">Score: $0</p>
-            </div>
-        </nav>
+        <section class="ticker" aria-label="Host ticker">
+            <p id="tickerMessage">Warming up the clue cannon...</p>
+        </section>
 
-        <div class="main-content">
-            <!-- USER INPUT -->
-            <div class="input-div">
-                <input type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
-                <button id="checkButton" aria-label="Check answer">Check Answer</button>
-            </div>
+        <section class="stage">
+            <aside class="control-panel" id="controlPanel" aria-label="Game controls">
+                <div class="mode-tabs" role="group" aria-label="Game mode">
+                    <button class="mode-button active" id="quickModeButton" type="button">Quick Play</button>
+                    <button class="mode-button" id="reviewModeButton" type="button">Review Misses</button>
+                    <button class="mode-button" id="dailyModeButton" type="button">Daily Challenge</button>
+                    <button class="mode-button" id="lightningModeButton" type="button">⚡ Lightning</button>
+                    <button class="mode-button" id="rouletteModeButton" type="button">🎲 Roulette</button>
+                    <button class="mode-button" id="dateSpinModeButton" type="button">Date Spin</button>
+                </div>
 
-            <!-- SPEECH BUBBLE -->
-            <div class="speech-bubble">
-                <p id="statusMessage" class="status-message" aria-live="polite"></p>
-                <div id="categoryBox"></div>
-                <div id="questionBox"></div>
-                <div id="answerBox"></div>
-            </div>
+                <div class="button-grid">
+                    <button id="questionButton" type="button">New Clue</button>
+                    <button id="answerButton" type="button">Reveal</button>
+                    <button id="resetButton" type="button">Reset Run</button>
+                    <button id="soundToggle" type="button" aria-label="Toggle sound">🔊</button>
+                </div>
 
-            <!-- TREBEK DIV -->
-            <!-- original svg trebek -->
-            <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-vector.png">
+                <dl class="stats-grid" id="statsGrid">
+                    <div>
+                        <dt>Streak</dt>
+                        <dd id="currentStreak">0</dd>
+                    </div>
+                    <div>
+                        <dt>Best</dt>
+                        <dd id="bestStreak">0</dd>
+                    </div>
+                    <div>
+                        <dt>Accuracy</dt>
+                        <dd id="accuracy">0%</dd>
+                    </div>
+                    <div>
+                        <dt>Review</dt>
+                        <dd id="reviewCount">0</dd>
+                    </div>
+                </dl>
+                <div class="lightning-timer" id="lightningTimer" style="display: none;">
+                    <div class="timer-display">60</div>
+                    <div class="timer-bar"></div>
+                </div>
+                <div class="badges-section" id="badgesSection">
+                    <dt>Badges</dt>
+                    <div class="badge-display" id="badgeDisplay"></div>
+                </div>
+                <div class="heatmap-section" id="heatmapSection">
+                    <dt>Knowledge Heatmap</dt>
+                    <div class="heatmap-display" id="heatmapDisplay"></div>
+                </div>
+            </aside>
 
-            <!-- new pimped out trebek  -->
-            <!-- <img class="trebek" alt="Long Live Trebek!!!" src="assets/images/trebek-6.webp"> -->
-        </div>
+            <section class="clue-area" aria-live="polite">
+                <div class="date-spinner" id="dateSpinner" hidden></div>
+                <div class="category-spinner" id="categorySpinner" hidden></div>
+                <div class="clue-card" id="clueCard">
+                    <div class="clue-meta" id="clueMeta" hidden aria-hidden="true">
+                        <p id="categoryBox">Loading</p>
+                        <p id="valueBox">$0</p>
+                    </div>
+                    <p id="statusMessage" class="status-message">Initializing game...</p>
+                    <p id="questionBox" class="question-text">Loading questions...</p>
+                    <p id="answerBox" class="answer-text" hidden></p>
+                </div>
 
-    </div>
+                <form class="answer-form" id="answerForm">
+                    <input type="text" id="inputbox" placeholder="Type your response..." autocomplete="off" aria-label="Answer input">
+                    <button id="checkButton" type="submit">Check</button>
+                </form>
+            </section>
+
+            <aside class="host-panel" aria-label="Host and run status">
+                <img class="trebek" id="hostImage" alt="Jeopardish host" src="assets/images/trebek-vector.png">
+                <div class="run-card">
+                    <p class="run-label">Run Score</p>
+                    <p id="score">Score: $0</p>
+                    <p id="highScore">High: $0</p>
+                </div>
+            </aside>
+        </section>
+    </main>
 </body>
 
 </html>
