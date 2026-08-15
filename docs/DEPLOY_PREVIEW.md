@@ -15,7 +15,8 @@ This creates `dist/` with only runtime files:
 - app shell: the standalone cabinet at both `index.html` and `game.html`, plus
   `app.js` and `game-logic.js`
 - runtime modules: `src/`
-- active episode: `questions/episodes/season-zero-001.json`
+- Classic runtime bank: `questions/runtime-bank.json`
+- optional authored episode: `questions/episodes/season-zero-001.json`
 - transport fallback: the reviewed episode embedded in the runtime
 - active UI art: scene layers and current host-skin candidates
 - `.nojekyll` for GitHub Pages static serving
@@ -36,9 +37,12 @@ Open `http://127.0.0.1:4190/`, then check:
 - standalone game page loads at `/game.html`
 - `#play` loads the game stage
 - day/night toggle swaps scenes
-- host arrows cycle skins and persist after reload
-- clue loading starts the reviewed Season Zero episode and falls back to the
-  embedded reviewed emergency broadcast when the authored pack cannot load
+- the Operator Drawer cycles backgrounds, controls, question panels, host looks,
+  and host personalities in both directions
+- fullscreen fills the viewport and falls back to immersive mode when iPhone
+  Safari declines element fullscreen
+- Classic mode starts a non-repeating randomized session from the 10,000-clue
+  runtime bank; `?mode=episode` starts the reviewed Season Zero episode
 - no console/page errors
 - no horizontal overflow on mobile width
 

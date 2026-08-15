@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>JeoPARODY | Channel O Game Cabinet</title>
     <meta name="description" content="Play JeoPARODY in a dedicated full-window comedy-learning arcade cabinet.">
     <link rel="stylesheet" href="styles/order.css?v=architecture-3" type="text/css">
@@ -33,6 +33,7 @@
     <script defer src="src/media/media-preflight.js?v=media-1"></script>
     <script defer src="src/render/scene-service.js?v=scene-packs-5"></script>
     <script defer src="src/ui/focus-scope.js?v=accessibility-1"></script>
+    <script defer src="src/ui/fullscreen-controller.js?v=fullscreen-1"></script>
     <script defer src="src/render/outcome-view.js?v=outcome-view-1"></script>
     <script defer src="src/render/clue-view.js?v=clue-view-1"></script>
     <script defer src="src/render/study-view.js?v=study-view-1"></script>
@@ -100,8 +101,11 @@
                         <span class="toggle-label" id="soundToggleLabel">Sound</span>
                     </button>
                 </div>
-                <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open game menu" aria-expanded="false" aria-controls="navMenu" data-help="Open game menu">
-                    <span aria-hidden="true">☰</span>
+                <button class="fullscreen-toggle" id="fullscreenToggle" type="button" aria-label="Enter fullscreen" aria-pressed="false" data-help="Enter fullscreen" data-fullscreen-toggle>
+                    <span aria-hidden="true">⛶</span>
+                </button>
+                <button class="hamburger-menu" id="hamburgerMenu" type="button" aria-label="Open operator drawer" aria-expanded="false" aria-controls="navMenu" data-help="Open operator drawer">
+                    <span aria-hidden="true">⚙</span>
                 </button>
             </header>
 
@@ -122,57 +126,67 @@
                     </span>
                     <span class="hud-readout hud-episode-readout">
                         <span class="hud-label" id="hudEpisodeLabel">Clue</span>
-                        <strong id="hudEpisode">1/10</strong>
+                        <strong id="hudEpisode">#1</strong>
                     </span>
                 </span>
                 <span class="score-drawer-tab"><i aria-hidden="true"></i> Score <i aria-hidden="true"></i></span>
             </button>
 
-            <nav class="nav-menu" id="navMenu" aria-label="Game menu" aria-hidden="true" inert>
+            <nav class="nav-menu" id="navMenu" aria-label="Operator drawer" aria-hidden="true" inert>
                 <header class="menu-header">
-                    <div><small>Channel O</small><p class="nav-kicker">Game Menu</p></div>
-                    <button class="menu-close" id="menuClose" type="button" aria-label="Close game menu">×</button>
+                    <div><small>Channel O workshop</small><p class="nav-kicker">Operator Drawer</p></div>
+                    <button class="menu-close" id="menuClose" type="button" aria-label="Close operator drawer">×</button>
                 </header>
                 <section class="menu-section menu-action-grid" aria-labelledby="menuRoundTitle">
                     <h2 id="menuRoundTitle">Round</h2>
                     <button id="menuNewClue" type="button"><span>New clue</span><kbd>Q</kbd></button>
                     <button id="menuRevealAnswer" type="button"><span>Reveal answer</span><kbd>A</kbd></button>
                     <button id="menuDeepDive" type="button"><span id="menuDeepDiveLabel">Ask Host</span><kbd>D</kbd></button>
-                    <a class="archive-mode-link" id="menuArchiveMode" href="game.html?mode=archive" hidden>
-                        <span class="scene-menu-copy"><small>Local research mode</small><strong id="menuArchiveModeLabel">Archive Practice</strong></span>
-                        <b aria-hidden="true">10K</b>
+                    <a class="archive-mode-link" id="menuPlayMode" href="game.html?mode=episode">
+                        <span class="scene-menu-copy"><small id="menuPlayModeKicker">Authored broadcast</small><strong id="menuPlayModeLabel">Episode 001</strong></span>
+                        <b id="menuPlayModeCount" aria-hidden="true">10</b>
                     </a>
                 </section>
                 <section class="menu-section menu-action-grid" aria-labelledby="menuSettingsTitle">
-                    <h2 id="menuSettingsTitle">Settings</h2>
-                    <button id="menuScene" type="button">
-                        <span class="scene-menu-copy"><small>Background</small><strong id="menuSceneLabel">Long Beach '96</strong></span>
-                        <b id="menuSceneIndex" aria-hidden="true">01/05</b>
-                    </button>
+                    <h2 id="menuSettingsTitle">Studio skins</h2>
+                    <div class="operator-stepper" id="menuScene" role="group" aria-label="Background">
+                        <button id="menuScenePrev" type="button" aria-label="Previous background">‹</button>
+                        <span class="scene-menu-copy"><small>Background</small><strong id="menuSceneLabel">Long Beach '96</strong><span id="menuSceneIndex" aria-hidden="true">01/05</span></span>
+                        <button id="menuSceneNext" type="button" aria-label="Next background">›</button>
+                    </div>
+                    <div class="operator-stepper" id="menuControlSkin" role="group" aria-label="Control skin">
+                        <button id="menuControlSkinPrev" type="button" aria-label="Previous control skin">‹</button>
+                        <span class="scene-menu-copy"><small id="menuControlSkinKicker">Control skin</small><strong id="menuControlSkinLabel">Japanese Arcade</strong><span id="menuControlSkinIndex" aria-hidden="true">01/04</span></span>
+                        <button id="menuControlSkinNext" type="button" aria-label="Next control skin">›</button>
+                    </div>
+                    <div class="operator-stepper" id="menuDialogueStyle" role="group" aria-label="Question panel">
+                        <button id="dialogueStylePrev" type="button" aria-label="Previous dialogue style">‹</button>
+                        <span class="scene-menu-copy"><small>Question panel</small><strong id="dialogueStyleLabel">Clue Card</strong><span id="dialogueStyleIndex" aria-hidden="true">01/04</span></span>
+                        <button id="dialogueStyleNext" type="button" aria-label="Next dialogue style">›</button>
+                    </div>
+                    <div class="operator-stepper" id="menuHostSkin" role="group" aria-label="Host look">
+                        <button id="hostPrevButton" type="button" aria-label="Previous host look">‹</button>
+                        <span class="scene-menu-copy"><small>Host look</small><strong id="hostSkinLabel">Channel O Xander</strong><span id="hostPackIndex" aria-hidden="true">01/12</span></span>
+                        <button id="hostNextButton" type="button" aria-label="Next host look">›</button>
+                    </div>
+                    <div class="operator-stepper" id="menuHostPack" role="group" aria-label="Host personality">
+                        <button id="menuHostPackPrev" type="button" aria-label="Previous host personality">‹</button>
+                        <span class="scene-menu-copy"><small id="menuHostPackKicker">Host personality</small><strong id="menuHostPackLabel">Xander Trefleck</strong><span id="menuHostPackIndex" aria-hidden="true">01/03</span></span>
+                        <button id="menuHostPackNext" type="button" aria-label="Next host personality">›</button>
+                    </div>
+                    <h2>System</h2>
                     <button id="menuTheme" type="button"><span>Day / Night</span><b aria-hidden="true">☀</b></button>
                     <button id="menuLanguage" type="button"><span>English / Português</span><b aria-hidden="true">文</b></button>
                     <button id="menuSound" type="button"><span>Sound</span><b aria-hidden="true">♪</b></button>
                     <button id="menuVoice" type="button" aria-pressed="false">
                         <span id="menuVoiceLabel">Voice mode</span><b id="menuVoiceState" aria-hidden="true">OFF</b>
                     </button>
-                    <button id="menuHostPack" type="button">
-                        <span class="scene-menu-copy"><small id="menuHostPackKicker">Host personality</small><strong id="menuHostPackLabel">Xander Trefleck</strong></span>
-                        <b id="menuHostPackIndex" aria-hidden="true">01/03</b>
-                    </button>
+                    <button id="menuFullscreen" type="button" data-fullscreen-toggle><span>Fullscreen</span><b aria-hidden="true">⛶</b></button>
                 </section>
             </nav>
 
             <div class="main-content">
                 <div class="speech-bubble" id="speechBubble" data-dialogue-style="clue-card">
-                    <div class="dialogue-style-picker" aria-label="Dialogue panel style">
-                    <button class="dialogue-style-cycle" id="dialogueStylePrev" type="button" aria-label="Previous dialogue style" data-help="Previous panel style">‹</button>
-                        <span class="dialogue-style-readout">
-                            <small>Panel skin</small>
-                            <strong id="dialogueStyleLabel">Clue Card</strong>
-                            <span id="dialogueStyleIndex" aria-hidden="true">01/04</span>
-                        </span>
-                        <button class="dialogue-style-cycle" id="dialogueStyleNext" type="button" aria-label="Next dialogue style" data-help="Next panel style">›</button>
-                    </div>
                     <div class="translation-state" id="translationState" data-status="original" hidden>
                         <span class="translation-pulse" aria-hidden="true"></span>
                         <span id="translationStateLabel">PT</span>
@@ -203,17 +217,14 @@
                     <button class="review-queue-trigger" id="reviewQueueButton" type="button" hidden>Review saved clues</button>
                     <p class="review-queue-status visually-hidden" id="reviewQueueStatus" aria-live="polite"></p>
                 </div>
-                <div class="host-stage" id="hostStage" aria-label="Host visual selector">
-                    <button class="host-cycle host-cycle-prev" id="hostPrevButton" type="button" aria-label="Previous host look" data-help="Previous host look">‹</button>
+                <div class="host-stage" id="hostStage" aria-label="Current host">
                     <figure class="host-stand">
                         <div class="host-avatar" id="hostAvatar">
                             <img class="trebek" id="hostImage" alt="Xander Trefleck, the JeoPARODY host" src="assets/hosts/xander/v1/looks/question-pink.png" decoding="async" fetchpriority="high">
                             <span class="host-lens-signal" id="hostLensSignal" aria-hidden="true"><i>?</i><i>?</i></span>
                         </div>
-                        <figcaption class="host-skin-label" id="hostSkinLabel">Channel O Xander</figcaption>
-                        <span class="host-pack-index" id="hostPackIndex" aria-hidden="true">01/12</span>
+                        <figcaption class="visually-hidden">Channel O host</figcaption>
                     </figure>
-                    <button class="host-cycle host-cycle-next" id="hostNextButton" type="button" aria-label="Next host look" data-help="Next host look">›</button>
                 </div>
             </div>
 

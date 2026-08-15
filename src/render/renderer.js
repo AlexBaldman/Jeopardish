@@ -90,6 +90,7 @@
     score: 'Score',
     episode: 'Episode',
     clueProgress: 'Clue',
+    classicProgress: 'Random',
     episodeComplete: 'Broadcast Complete',
     replayEpisode: 'Replay Episode',
     emptyCategory: 'Host Advisory',
@@ -115,6 +116,7 @@
     questionButtonKicker: 'Board',
     answerButtonKicker: 'Clue',
     hostPersonality: 'Host personality',
+    controlSkin: 'Control skin',
     askHost: 'Ask Host',
     askHostAboutClue: 'Ask Host about this clue',
     returnToClue: 'Return to clue',
@@ -269,9 +271,19 @@
       this.dom.menuHostPackKicker = this.document.getElementById('menuHostPackKicker');
       this.dom.menuHostPackLabel = this.document.getElementById('menuHostPackLabel');
       this.dom.menuHostPackIndex = this.document.getElementById('menuHostPackIndex');
+      this.dom.menuHostPackPrev = this.document.getElementById('menuHostPackPrev');
+      this.dom.menuHostPackNext = this.document.getElementById('menuHostPackNext');
       this.dom.menuScene = this.document.getElementById('menuScene');
       this.dom.menuSceneLabel = this.document.getElementById('menuSceneLabel');
       this.dom.menuSceneIndex = this.document.getElementById('menuSceneIndex');
+      this.dom.menuScenePrev = this.document.getElementById('menuScenePrev');
+      this.dom.menuSceneNext = this.document.getElementById('menuSceneNext');
+      this.dom.menuControlSkin = this.document.getElementById('menuControlSkin');
+      this.dom.menuControlSkinKicker = this.document.getElementById('menuControlSkinKicker');
+      this.dom.menuControlSkinLabel = this.document.getElementById('menuControlSkinLabel');
+      this.dom.menuControlSkinIndex = this.document.getElementById('menuControlSkinIndex');
+      this.dom.menuControlSkinPrev = this.document.getElementById('menuControlSkinPrev');
+      this.dom.menuControlSkinNext = this.document.getElementById('menuControlSkinNext');
       this.dom.scoreDrawer = this.document.getElementById('scoreDrawer');
       this.dom.speechBubble = this.document.getElementById('speechBubble');
       this.dom.dialogueStylePrev = this.document.getElementById('dialogueStylePrev');
@@ -363,9 +375,16 @@
       onPreviousHostSkin = () => {},
       onNextHostSkin = () => {},
       onCycleHostPack = () => {},
+      onPreviousHostPack = onCycleHostPack,
+      onNextHostPack = onCycleHostPack,
       onPreviousDialogueStyle = () => {},
       onNextDialogueStyle = () => {},
       onCycleScene = () => {},
+      onPreviousScene = onCycleScene,
+      onNextScene = onCycleScene,
+      onCycleControlSkin = () => {},
+      onPreviousControlSkin = onCycleControlSkin,
+      onNextControlSkin = onCycleControlSkin,
       onEnterStudy = () => {},
       onReviewSavedClues = () => {},
       onStudyAction = () => {},
@@ -397,8 +416,12 @@
       this.dom.menuLanguage?.addEventListener('click', onToggleLanguage);
       this.dom.menuSound?.addEventListener('click', onToggleSound);
       this.dom.menuVoice?.addEventListener('click', () => onToggleVoice({ listen: false }));
-      this.dom.menuHostPack?.addEventListener('click', onCycleHostPack);
-      this.dom.menuScene?.addEventListener('click', onCycleScene);
+      this.dom.menuHostPackPrev?.addEventListener('click', onPreviousHostPack);
+      this.dom.menuHostPackNext?.addEventListener('click', onNextHostPack);
+      this.dom.menuScenePrev?.addEventListener('click', onPreviousScene);
+      this.dom.menuSceneNext?.addEventListener('click', onNextScene);
+      this.dom.menuControlSkinPrev?.addEventListener('click', onPreviousControlSkin);
+      this.dom.menuControlSkinNext?.addEventListener('click', onNextControlSkin);
       this.scoreboardView.bindInteractions();
 
       this.dom.answerButton.addEventListener('click', onToggleAnswer);
@@ -488,6 +511,7 @@
       this.setText(this.dom.studyTitle, this.copy.askHost);
       this.setText(this.dom.menuVoiceLabel, this.copy.voiceMode);
       this.setText(this.dom.menuHostPackKicker, this.copy.hostPersonality);
+      this.setText(this.dom.menuControlSkinKicker, this.copy.controlSkin);
       this.setText(this.dom.voiceHelp, this.copy.voiceHelp);
       this.setText(this.dom.outcomeFeedbackPrompt, this.copy.confidencePrompt);
       this.setText(this.dom.confidenceKnew, this.copy.confidenceKnew);
@@ -739,8 +763,22 @@
         this.dom.menuSceneIndex,
         `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`,
       );
-      this.dom.menuScene.setAttribute('aria-label', `Background: ${pack.label}. Activate to cycle.`);
+      this.dom.menuScene.setAttribute('aria-label', `Background: ${pack.label}. Use previous or next.`);
       this.dom.menuScene.dataset.scenePack = pack.id;
+    }
+
+    renderControlSkin(skin, index = 0, total = 1) {
+      if (!skin || !this.dom.menuControlSkin) return;
+      this.setText(this.dom.menuControlSkinLabel, skin.label);
+      this.setText(
+        this.dom.menuControlSkinIndex,
+        `${String(index + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`,
+      );
+      this.dom.menuControlSkin.dataset.controlSkin = skin.id;
+      this.dom.menuControlSkin.setAttribute(
+        'aria-label',
+        `${this.copy.controlSkin}: ${skin.label}. Use previous or next.`,
+      );
     }
 
     renderHostPack(pack, index = 0, total = 1) {
@@ -753,7 +791,7 @@
       this.dom.menuHostPack.dataset.hostPack = pack.id;
       this.dom.menuHostPack.setAttribute(
         'aria-label',
-        `${this.copy.hostPersonality}: ${pack.displayName}, ${pack.subtitle}. Activate to cycle.`,
+        `${this.copy.hostPersonality}: ${pack.displayName}, ${pack.subtitle}. Use previous or next.`,
       );
     }
 

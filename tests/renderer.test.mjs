@@ -140,9 +140,19 @@ function createFakeDocument() {
     'menuHostPackKicker',
     'menuHostPackLabel',
     'menuHostPackIndex',
+    'menuHostPackPrev',
+    'menuHostPackNext',
     'menuScene',
     'menuSceneLabel',
     'menuSceneIndex',
+    'menuScenePrev',
+    'menuSceneNext',
+    'menuControlSkin',
+    'menuControlSkinKicker',
+    'menuControlSkinLabel',
+    'menuControlSkinIndex',
+    'menuControlSkinPrev',
+    'menuControlSkinNext',
     'scoreDrawer',
     'speechBubble',
     'dialogueStylePrev',
@@ -388,10 +398,14 @@ test('Renderer binds UI events to callbacks', () => {
     onToggleVoice: ({ listen }) => calls.push(listen ? 'voice-listen' : 'voice-menu'),
     onPreviousHostSkin: () => calls.push('host-prev'),
     onNextHostSkin: () => calls.push('host-next'),
-    onCycleHostPack: () => calls.push('host-pack'),
+    onPreviousHostPack: () => calls.push('host-pack-prev'),
+    onNextHostPack: () => calls.push('host-pack-next'),
     onPreviousDialogueStyle: () => calls.push('dialogue-prev'),
     onNextDialogueStyle: () => calls.push('dialogue-next'),
-    onCycleScene: () => calls.push('scene'),
+    onPreviousScene: () => calls.push('scene-prev'),
+    onNextScene: () => calls.push('scene-next'),
+    onPreviousControlSkin: () => calls.push('control-skin-prev'),
+    onNextControlSkin: () => calls.push('control-skin-next'),
     onReviewSavedClues: () => calls.push('review'),
     onSubmitReinforcement: (answer) => calls.push(`reinforcement:${answer}`),
     onConfidence: (confidence) => calls.push(`confidence:${confidence}`),
@@ -408,10 +422,14 @@ test('Renderer binds UI events to callbacks', () => {
   renderer.dom.voiceButton.listeners.click();
   renderer.dom.hostPrevButton.listeners.click();
   renderer.dom.hostNextButton.listeners.click();
-  renderer.dom.menuHostPack.listeners.click();
+  renderer.dom.menuHostPackPrev.listeners.click();
+  renderer.dom.menuHostPackNext.listeners.click();
   renderer.dom.dialogueStylePrev.listeners.click();
   renderer.dom.dialogueStyleNext.listeners.click();
-  renderer.dom.menuScene.listeners.click();
+  renderer.dom.menuScenePrev.listeners.click();
+  renderer.dom.menuSceneNext.listeners.click();
+  renderer.dom.menuControlSkinPrev.listeners.click();
+  renderer.dom.menuControlSkinNext.listeners.click();
   renderer.dom.reviewQueueButton.listeners.click();
   renderer.dom.confidenceShaky.listeners.click();
   renderer.dom.disputeButton.listeners.click();
@@ -431,10 +449,14 @@ test('Renderer binds UI events to callbacks', () => {
     'voice-listen',
     'host-prev',
     'host-next',
-    'host-pack',
+    'host-pack-prev',
+    'host-pack-next',
     'dialogue-prev',
     'dialogue-next',
-    'scene',
+    'scene-prev',
+    'scene-next',
+    'control-skin-prev',
+    'control-skin-next',
     'review',
     'confidence:shaky',
     'dispute',

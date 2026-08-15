@@ -1,18 +1,9 @@
 'use strict';
 
-function isLocalContentHost(locationRef = globalThis.location) {
-  const hostname = String(locationRef?.hostname || '').toLowerCase();
-  return locationRef?.protocol === 'file:'
-    || hostname === 'localhost'
-    || hostname === '127.0.0.1'
-    || hostname === '[::1]';
-}
-
 const URL_PARAMETERS = new URLSearchParams(globalThis.location?.search || '');
-const IS_PRIVATE_PREVIEW = isLocalContentHost()
-  && globalThis.document?.body?.dataset?.releaseChannel !== 'production';
-const ARCHIVE_PRACTICE = IS_PRIVATE_PREVIEW && URL_PARAMETERS.get('mode') === 'archive';
-const QUESTION_SOURCE = ARCHIVE_PRACTICE
+const PLAY_MODE = URL_PARAMETERS.get('mode') === 'episode' ? 'episode' : 'classic';
+const CLASSIC_MODE = PLAY_MODE === 'classic';
+const QUESTION_SOURCE = CLASSIC_MODE
   ? './questions/runtime-bank.json'
   : './questions/episodes/season-zero-001.json';
 const FALLBACK_QUESTION_SOURCE = null;
@@ -39,12 +30,17 @@ const applicationCompositionModule = globalThis.JeoPARODYApplicationComposition 
 const hostPackModule = globalThis.JeoPARODYHostPack || null;
 const uiCatalogModule = globalThis.JeoPARODYUiCatalog || null;
 const emergencyEpisodeModule = globalThis.JeoPARODYEmergencyEpisode || null;
+const fullscreenModule = globalThis.JeopardishFullscreen || null;
 
-if (!contracts || !rendererModule || !voiceModule || !roundKernelModule || !inputControllerModule || !applicationCompositionModule || !hostPackModule || !uiCatalogModule) {
+if (!contracts || !rendererModule || !voiceModule || !roundKernelModule || !inputControllerModule || !applicationCompositionModule || !hostPackModule || !uiCatalogModule || !fullscreenModule) {
   throw new Error('Jeopardish engine modules failed to load. Ensure src modules are included before app.js.');
 }
 
-const { DialogueStyles: DIALOGUE_STYLES, UiCopy: UI_COPY } = uiCatalogModule;
+const {
+  ControlSkins: CONTROL_SKINS,
+  DialogueStyles: DIALOGUE_STYLES,
+  UiCopy: UI_COPY,
+} = uiCatalogModule;
 
 let applicationComposition;
 let eventBus;
@@ -63,6 +59,7 @@ let clueLocalization;
 let episodeController;
 let studyController;
 let inputController;
+let fullscreenController;
 
 function loadPersistedBestStreak() {
   try {
@@ -106,8 +103,12 @@ function cycleDialogueStyle(step) {
   return cabinetPresenter.cycleDialogueStyle(step);
 }
 
-function cycleScenePack() {
-  return cabinetPresenter.cycleScenePack();
+function cycleScenePack(step = 1) {
+  return cabinetPresenter.cycleScenePack(step);
+}
+
+function cycleControlSkin(step = 1) {
+  return cabinetPresenter.cycleControlSkin(step);
 }
 
 function toggleSound() {
@@ -231,8 +232,8 @@ function performHostBeat(beat, options = {}) {
   return broadcastPresenter.performHostBeat(beat, options);
 }
 
-function cycleHostPack() {
-  const pack = hostPerformanceDirector.cyclePack(1);
+function cycleHostPack(step = 1) {
+  const pack = hostPerformanceDirector.cyclePack(step);
   preferenceStore.set('hostPackId', pack.id);
   broadcastPresenter.clearCluePerformance();
   renderHostPackPicker(pack);
@@ -319,8 +320,8 @@ function presentEpisodeLoaded({
   const gameState = gameEngine.getState();
   state.bestStreak = Math.max(state.bestStreak, gameState.bestStreak || 0);
   renderer.setStatus(
-    ARCHIVE_PRACTICE
-      ? `Archive Practice loaded ${sourceCount || 0} historical clues. Original television wording is active in this local research mode.`
+    CLASSIC_MODE
+      ? `Classic mode loaded ${sourceCount || 0} clues. Each run draws a fresh, non-repeating random order from the archive.`
       : emergency
       ? `${getCopy().loadedClues(sourceCount || 0)} Question files are offline; reviewed emergency broadcast active.`
       : fallback
@@ -521,10 +522,11 @@ function createInputHandlers() {
     [InputCommands.DISABLE_VOICE]: () => setVoiceEnabled(false),
     [InputCommands.PREVIOUS_HOST]: () => cycleHostSkin(-1),
     [InputCommands.NEXT_HOST]: () => cycleHostSkin(1),
-    [InputCommands.CYCLE_HOST_PACK]: cycleHostPack,
+    [InputCommands.CYCLE_HOST_PACK]: ({ step = 1 } = {}) => cycleHostPack(step),
     [InputCommands.PREVIOUS_DIALOGUE]: () => cycleDialogueStyle(-1),
     [InputCommands.NEXT_DIALOGUE]: () => cycleDialogueStyle(1),
-    [InputCommands.CYCLE_SCENE]: cycleScenePack,
+    [InputCommands.CYCLE_SCENE]: ({ step = 1 } = {}) => cycleScenePack(step),
+    [InputCommands.CYCLE_CONTROL_SKIN]: ({ step = 1 } = {}) => cycleControlSkin(step),
     [InputCommands.ENTER_STUDY]: () => studyController.enter(),
     [InputCommands.REVIEW_SAVED_CLUES]: openSavedReview,
     [InputCommands.SELECT_STUDY_ACTION]: ({ actionId }) => (
@@ -545,6 +547,7 @@ function createCompositionOptions() {
     preferenceOptions: {
       allowedValues: {
         dialogueStyleId: DIALOGUE_STYLES.map((style) => style.id),
+        controlSkinId: CONTROL_SKINS.map((skin) => skin.id),
       },
     },
     hostPerformanceOptions: {
@@ -560,6 +563,7 @@ function createCompositionOptions() {
     cabinetOptions: {
       copyCatalog: UI_COPY,
       dialogueStyles: DIALOGUE_STYLES,
+      controlSkins: CONTROL_SKINS,
       documentRef: globalThis.document,
     },
     voiceOptions: {
@@ -616,9 +620,10 @@ function createCompositionOptions() {
       emergencySource: emergencyEpisodeModule?.EmergencyEpisode || null,
       timeoutMs: FETCH_TIMEOUT_MS,
       legacyEpisode: {
-        id: ARCHIVE_PRACTICE ? 'archive-practice-local' : 'season-zero-pilot',
-        title: ARCHIVE_PRACTICE ? 'Archive Practice: Historical Clues' : 'Season Zero: Pilot Broadcast',
-        episodeLength: ARCHIVE_PRACTICE ? 10000 : 10,
+        id: CLASSIC_MODE ? 'classic-random' : 'season-zero-pilot',
+        title: CLASSIC_MODE ? 'Classic Random' : 'Season Zero: Pilot Broadcast',
+        episodeLength: CLASSIC_MODE ? 10000 : 10,
+        sequenceMode: CLASSIC_MODE ? 'random-sample' : 'authored-order',
       },
       isBlocked: () => studyController?.isOpen() || false,
       getMedia: (clue) => getSourceClueContent(clue).media,
@@ -665,13 +670,19 @@ function createCompositionOptions() {
 }
 
 function initializeApplicationView() {
-  const archiveMenuItem = globalThis.document?.getElementById('menuArchiveMode');
-  const archiveMenuLabel = globalThis.document?.getElementById('menuArchiveModeLabel');
-  if (archiveMenuItem && IS_PRIVATE_PREVIEW) {
-    archiveMenuItem.hidden = false;
-    archiveMenuItem.href = ARCHIVE_PRACTICE ? 'game.html' : 'game.html?mode=archive';
-    if (archiveMenuLabel) {
-      archiveMenuLabel.textContent = ARCHIVE_PRACTICE ? 'Return to Season Zero' : 'Archive Practice';
+  globalThis.document?.body?.setAttribute('data-play-mode', PLAY_MODE);
+  const playModeItem = globalThis.document?.getElementById('menuPlayMode');
+  const playModeLabel = globalThis.document?.getElementById('menuPlayModeLabel');
+  const playModeCount = globalThis.document?.getElementById('menuPlayModeCount');
+  const playModeKicker = globalThis.document?.getElementById('menuPlayModeKicker');
+  if (playModeItem) {
+    playModeItem.href = CLASSIC_MODE ? 'game.html?mode=episode' : 'game.html';
+    if (playModeLabel) {
+      playModeLabel.textContent = CLASSIC_MODE ? 'Episode 001' : 'Classic Random';
+    }
+    if (playModeCount) playModeCount.textContent = CLASSIC_MODE ? '10' : '10K';
+    if (playModeKicker) {
+      playModeKicker.textContent = CLASSIC_MODE ? 'Authored broadcast' : 'Giant clue bank';
     }
   }
   applyPreferences();
@@ -684,6 +695,7 @@ function initializeApplicationView() {
 
 function destroyApplication(event) {
   if (event?.persisted) return;
+  fullscreenController?.destroy();
   applicationComposition?.destroy({ reason: 'pagehide' });
 }
 
@@ -691,6 +703,12 @@ function bootstrapApplication() {
   loadPersistedBestStreak();
   applicationComposition = new applicationCompositionModule.ApplicationComposition();
   assignApplicationServices(applicationComposition.create(createCompositionOptions()));
+  fullscreenController = new fullscreenModule.FullscreenController({
+    documentRef: globalThis.document,
+    windowRef: globalThis,
+    target: renderer.dom.gameContainer,
+  });
+  fullscreenController.start();
   applicationComposition.start({
     rendererEvents: {
       ...inputController.createRendererBindings(),

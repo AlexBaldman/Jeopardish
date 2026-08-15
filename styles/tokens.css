@@ -35,6 +35,10 @@
         /* Semantic component tokens */
         --jp-surface-header: rgba(8, 11, 26, 0.94);
         --jp-surface-menu: rgba(8, 10, 27, 0.99);
+        --jp-frame-edge: #354052;
+        --jp-frame-highlight: #7c8da2;
+        --jp-hardware-accent: #43e8f2;
+        --jp-hardware-accent-ink: #07151b;
         --jp-surface-control: linear-gradient(180deg, #42404f, #191923);
         --jp-score-face: #080a0e;
         --jp-score-digit: #92ffb1;
@@ -85,6 +89,21 @@
         --jp-glass-light: rgba(255, 255, 255, 0.56);
         --jp-heather-line: rgba(36, 28, 67, 0.09);
         color-scheme: light;
+    }
+
+    .game-container[data-control-skin="famicom"] {
+        --jp-hardware-accent: #a51e49;
+        --jp-hardware-accent-ink: #fff8df;
+    }
+
+    .game-container[data-control-skin="mega-drive"] {
+        --jp-hardware-accent: #4f7be3;
+        --jp-hardware-accent-ink: #f8fbff;
+    }
+
+    .game-container[data-control-skin="neon-keys"] {
+        --jp-hardware-accent: #66f3ff;
+        --jp-hardware-accent-ink: #031116;
     }
 
     @media (max-width: 760px) {

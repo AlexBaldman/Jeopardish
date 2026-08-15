@@ -63,7 +63,7 @@ async function startServer() {
 }
 
 async function gotoGame(page) {
-  const response = await page.goto(new URL('game.html', base).href, {
+  const response = await page.goto(new URL('game.html?mode=episode', base).href, {
     waitUntil: 'domcontentloaded',
     timeout: 30000,
   });
@@ -185,7 +185,7 @@ async function runEpisodeProof(browser, browserName) {
     const openingScore = await page.locator('#hudScore').innerText();
     await page.locator('#hamburgerMenu').click();
     assert.equal(await page.locator('#menuHostPackLabel').innerText(), 'Xander Trefleck');
-    await page.locator('#menuHostPack').click();
+    await page.locator('#menuHostPackNext').click();
     assert.equal(await page.locator('#menuHostPackLabel').innerText(), 'Vera Static');
     assert.equal(
       await page.evaluate((key) => localStorage.getItem(key), hostPackKey),

@@ -13,6 +13,7 @@
     hostSkinId: 'jeopardish.hostSkin',
     hostPackId: 'jeoparody.hostPack',
     dialogueStyleId: 'jeoparody.dialogueStyle',
+    controlSkinId: 'jeoparody.controlSkin',
     scenePackId: 'jeoparody.scenePack',
     muted: 'jeoparody.muted',
     voiceEnabled: 'jeoparody.voiceEnabled',
@@ -24,6 +25,7 @@
     hostSkinId: '',
     hostPackId: 'xander-trefleck',
     dialogueStyleId: 'clue-card',
+    controlSkinId: 'arcade',
     scenePackId: 'long-beach-96',
     muted: false,
     voiceEnabled: false,
@@ -118,7 +120,7 @@
       if (name === 'muted' || name === 'voiceEnabled') return typeof value === 'boolean';
       if (name === 'hostSkinId') return typeof value === 'string';
       if (name === 'hostPackId') return typeof value === 'string' && value.length > 0;
-      if (name === 'dialogueStyleId' || name === 'scenePackId') {
+      if (name === 'dialogueStyleId' || name === 'controlSkinId' || name === 'scenePackId') {
         return typeof value === 'string' && value.length > 0;
       }
       return false;

@@ -11,11 +11,15 @@ const runtimeBank = JSON.parse(
 
 test('runtime question bank is a bounded, playable browser payload', () => {
   assert.equal(runtimeBank.length, 10_000);
+  const visibleClues = new Set();
   for (const clue of runtimeBank) {
     assert.ok(clue.category?.trim());
     assert.ok(clue.question?.trim());
     assert.ok(clue.answer?.trim());
     assert.doesNotMatch(JSON.stringify(clue), /http:\/\/[^"'<>\\\s]+/i);
+    const visibleKey = `${clue.question.trim().toLowerCase()}\u0000${clue.answer.trim().toLowerCase()}`;
+    assert.equal(visibleClues.has(visibleKey), false, 'runtime bank contains a visible duplicate clue');
+    visibleClues.add(visibleKey);
   }
 });
 

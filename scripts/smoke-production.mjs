@@ -134,6 +134,12 @@ async function auditRoute(browser, browserName, route) {
       );
       await page.locator('#hamburgerMenu').click();
       await page.waitForFunction(() => document.getElementById('navMenu')?.getAttribute('aria-hidden') === 'false');
+      const originalControlSkin = await page.locator('#gameContainer').getAttribute('data-control-skin');
+      await page.locator('#menuControlSkinNext').click();
+      await page.waitForFunction(
+        (skin) => document.getElementById('gameContainer')?.dataset.controlSkin !== skin,
+        originalControlSkin,
+      );
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => document.getElementById('navMenu')?.getAttribute('aria-hidden') === 'true');
 
@@ -203,41 +209,65 @@ async function auditEmergencyBroadcast(browser, browserName) {
   return failures.map((failure) => `${browserName}/emergency: ${failure}`);
 }
 
-async function auditPrivateContentBoundary(browser, browserName) {
+async function auditClassicAndEpisodeModes(browser, browserName) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   const failures = [];
-  const archiveRequests = [];
+  const classicRequests = [];
+  const episodeRequests = [];
   page.on('request', (request) => {
-    if (request.url().includes('runtime-bank.json')) archiveRequests.push(request.url());
+    if (request.url().includes('runtime-bank.json')) classicRequests.push(request.url());
+    if (request.url().includes('season-zero-001.json')) episodeRequests.push(request.url());
   });
   page.on('pageerror', (error) => failures.push(`page error: ${error.message}`));
 
   try {
-    await gotoWithRetry(page, new URL('game.html?mode=archive', base).href);
+    await gotoWithRetry(page, new URL('game.html', base).href);
     await page.waitForSelector('#gameContainer', { timeout: 15000 });
     await page.waitForFunction(() => (
       document.getElementById('gameContainer')?.dataset.gameMoment === 'clue'
+      && document.getElementById('gameContainer')?.dataset.roundPhase === 'answering'
     ), null, { timeout: 30000 });
 
-    if (await page.locator('#menuArchiveMode').isVisible()) {
-      failures.push('local archive control became visible in the production artifact');
+    if (classicRequests.length !== 1) {
+      failures.push(`classic mode requested the runtime bank ${classicRequests.length} times`);
     }
-    if (archiveRequests.length) {
-      failures.push('production artifact requested the private historical archive');
+    if (episodeRequests.length) {
+      failures.push('classic mode requested the authored episode');
     }
-    if (await page.locator('body').getAttribute('data-release-channel') !== 'production') {
-      failures.push('production release marker is missing');
+
+    const clues = [];
+    for (let index = 0; index < 6; index += 1) {
+      clues.push(await page.locator('#clueText').innerText());
+      await page.locator('#questionButton').click();
+      await page.waitForFunction((previous) => (
+        document.getElementById('clueText')?.textContent !== previous
+        && document.getElementById('gameContainer')?.dataset.roundPhase === 'answering'
+      ), clues.at(-1));
+    }
+    if (new Set(clues).size !== clues.length) {
+      failures.push('classic mode repeated a clue during a six-clue sample');
+    }
+    if (await page.locator('#hudEpisode').innerText() !== '#7') {
+      failures.push('classic progress did not advance as an open random run');
+    }
+
+    await gotoWithRetry(page, new URL('game.html?mode=episode', base).href);
+    await page.waitForFunction(() => (
+      document.getElementById('gameContainer')?.dataset.gameMoment === 'clue'
+    ), null, { timeout: 30000 });
+    if (episodeRequests.length !== 1) {
+      failures.push(`episode mode requested its authored pack ${episodeRequests.length} times`);
     }
 
     console.log(
-      `${browserName.padEnd(8)} ${'private-boundary'.padEnd(14)} `
-      + 'archive query remained on the reviewed public episode',
+      `${browserName.padEnd(8)} ${'play-modes'.padEnd(14)} `
+      + 'classic served varied archive clues; episode remained explicit',
     );
   } finally {
     await page.close();
   }
 
-  return failures.map((failure) => `${browserName}/private-boundary: ${failure}`);
+  return failures.map((failure) => `${browserName}/play-modes: ${failure}`);
 }
 
 await startServer();
@@ -252,7 +282,7 @@ try {
         failures.push(...await auditRoute(browser, browserName, route));
       }
       failures.push(...await auditEmergencyBroadcast(browser, browserName));
-      failures.push(...await auditPrivateContentBoundary(browser, browserName));
+      failures.push(...await auditClassicAndEpisodeModes(browser, browserName));
     } finally {
       await browser.close();
     }

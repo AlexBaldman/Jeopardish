@@ -415,6 +415,76 @@
             }
         }
     }
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        .game-container .study-panel {
+            width: min(52cqw, 440px);
+        }
+
+        .game-container .study-header {
+            padding: 0.38rem 0.65rem;
+            border-bottom-width: 2px;
+        }
+
+        .game-container .study-header small {
+            font-size: 0.46rem;
+        }
+
+        .game-container .study-header h2 {
+            margin-top: 0.08rem;
+            font-size: 1.25rem;
+        }
+
+        .game-container .study-header button {
+            width: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .game-container .study-panel.reinforcement-active .study-scroll {
+            padding: 0.38rem;
+        }
+
+        .game-container .study-reinforcement {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.28rem 0.45rem;
+            margin-top: 0;
+            padding: 0.38rem;
+            border-width: 2px;
+            border-radius: 8px;
+        }
+
+        .game-container .study-reinforcement small {
+            grid-column: 1 / -1;
+            font-size: 0.46rem;
+        }
+
+        .game-container #studyReinforcementResult {
+            grid-column: 1 / -1;
+        }
+
+        .game-container .study-reinforcement p {
+            font-size: 0.7rem;
+            line-height: 1.18;
+        }
+
+        .game-container .study-reinforcement form {
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 0.28rem;
+        }
+
+        .game-container .study-reinforcement :is(input, button) {
+            min-height: 2rem;
+            padding: 0.3rem 0.4rem;
+            font-size: 0.72rem;
+        }
+
+        .game-container .study-resume {
+            margin: 0.3rem 0.65rem 0.4rem;
+            padding: 0.4rem;
+            border-width: 2px;
+            font-size: 0.72rem;
+        }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

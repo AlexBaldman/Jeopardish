@@ -14,6 +14,13 @@
     Object.freeze({ id: 'narration', label: Object.freeze({ en: 'Narration Box', 'pt-BR': 'Caixa do Narrador' }) }),
   ]);
 
+  const ControlSkins = Object.freeze([
+    Object.freeze({ id: 'arcade', label: Object.freeze({ en: 'Japanese Arcade', 'pt-BR': 'Arcade Japonês' }) }),
+    Object.freeze({ id: 'famicom', label: Object.freeze({ en: 'Famicom', 'pt-BR': 'Famicom' }) }),
+    Object.freeze({ id: 'mega-drive', label: Object.freeze({ en: 'Mega Drive', 'pt-BR': 'Mega Drive' }) }),
+    Object.freeze({ id: 'neon-keys', label: Object.freeze({ en: 'Neon Keys', 'pt-BR': 'Teclas Neon' }) }),
+  ]);
+
   const UiCopy = Object.freeze({
     en: Object.freeze({
       lang: 'en',
@@ -47,6 +54,8 @@
       voiceHelp: 'Push to talk. Say an answer, next clue, reveal the answer, repeat the clue, open menu, or ask the host.',
       voiceWelcome: 'Voice mode online. Tap the microphone to answer or give me a command.',
       hostPersonality: 'Host personality',
+      controlSkin: 'Control skin',
+      classicProgress: 'Random',
       nextClueReady: 'NEXT CLUE READY',
       themeNight: 'Night',
       themeDay: 'Day',
@@ -137,6 +146,8 @@
       voiceHelp: 'Toque para falar. Diga uma resposta, próxima pista, mostre a resposta, repita a pista, abra o menu ou pergunte ao host.',
       voiceWelcome: 'Modo de voz ativado. Toque no microfone para responder ou dar um comando.',
       hostPersonality: 'Personalidade do host',
+      controlSkin: 'Estilo dos controles',
+      classicProgress: 'Aleatório',
       nextClueReady: 'PRÓXIMA PISTA',
       themeNight: 'Noite',
       themeDay: 'Dia',
@@ -202,6 +213,7 @@
   }
 
   return {
+    ControlSkins,
     DialogueStyles,
     UiCopy,
     getUiCopy,

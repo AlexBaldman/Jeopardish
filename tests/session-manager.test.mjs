@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const {
   AUTHORED_SEQUENCE_MODE,
+  RANDOM_SEQUENCE_MODE,
   ConfidenceRatings,
   DEFAULT_STORAGE_KEY,
   SESSION_VERSION,
@@ -44,6 +45,25 @@ test('SessionManager creates a deterministic ten-clue episode', () => {
     first.getCandidates(10).map(({ clue }) => getClueId(clue)),
     second.getCandidates(10).map(({ clue }) => getClueId(clue)),
   );
+});
+
+test('SessionManager shuffles classic clues without repeats', () => {
+  const bank = createBank(12);
+  const manager = new SessionManager({
+    storage: createStorage(),
+    episodeLength: 12,
+    random: () => 0,
+  });
+
+  manager.start(bank, {
+    id: 'classic-random',
+    sequenceMode: RANDOM_SEQUENCE_MODE,
+    episodeLength: 12,
+  });
+
+  assert.equal(manager.getProgress().sequenceMode, RANDOM_SEQUENCE_MODE);
+  assert.equal(new Set(manager.session.clueIds).size, 12);
+  assert.notDeepEqual(manager.session.clueIds, bank.map(({ id }) => id));
 });
 
 test('SessionManager persists outcomes and resumes score and cursor', () => {

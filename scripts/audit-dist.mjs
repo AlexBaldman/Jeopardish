@@ -60,12 +60,14 @@ const relativeFiles = new Set(files.map((file) => path.relative(distRoot, file).
 const forbidden = [...relativeFiles].filter((file) => (
   file.split('/').some((segment) => forbiddenSegments.has(segment))
   || file === 'questions/jeopardy-questions.json'
-  || file === 'questions/runtime-bank.json'
   || file.startsWith('visual-fixtures.')
 ));
 
 for (const page of productionPageEntries) {
   if (!relativeFiles.has(page)) missing.push(`${page} (production entry)`);
+}
+if (!relativeFiles.has('questions/runtime-bank.json')) {
+  missing.push('questions/runtime-bank.json (classic question bank)');
 }
 
 const [rootPage, cabinetPage] = await Promise.all([
@@ -98,6 +100,6 @@ if (forbidden.length || missing.length) {
 } else {
   console.log(
     `Production artifact audit passed: ${relativeFiles.size} files, `
-    + `${new Set(references).size} local page/style references, no archive leakage.`,
+    + `${new Set(references).size} local page/style references, no source-archive leakage.`,
   );
 }

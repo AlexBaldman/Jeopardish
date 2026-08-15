@@ -15,6 +15,7 @@
   const EPISODE_SEQUENCE_MODES = Object.freeze({
     AUTHORED_ORDER: 'authored-order',
     DETERMINISTIC_SAMPLE: 'deterministic-sample',
+    RANDOM_SAMPLE: 'random-sample',
   });
   const MEDIA_TYPES = new Set(['image', 'video', 'audio']);
 
@@ -159,6 +160,7 @@
     title = 'Season Zero: Pilot Broadcast',
     episodeLength = 10,
     locale = 'en',
+    sequenceMode = EPISODE_SEQUENCE_MODES.DETERMINISTIC_SAMPLE,
   } = {}) {
     if (!Array.isArray(questionBank) || questionBank.length === 0) {
       throw new EpisodeContractError(['legacy question bank must be a non-empty array']);
@@ -200,7 +202,7 @@
       title,
       locale,
       kind: EPISODE_KINDS.LEGACY_ADAPTER,
-      sequenceMode: EPISODE_SEQUENCE_MODES.DETERMINISTIC_SAMPLE,
+      sequenceMode,
       contentRevision: 1,
       episodeLength: Math.min(Math.max(1, episodeLength), clues.length),
       description: 'Compatibility episode adapted from the historical research archive.',

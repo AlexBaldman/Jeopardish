@@ -18,6 +18,7 @@
   const DEFAULT_STORAGE_KEY = 'jeoparody.session.season-zero';
   const DEFAULT_SEQUENCE_MODE = 'deterministic-sample';
   const AUTHORED_SEQUENCE_MODE = 'authored-order';
+  const RANDOM_SEQUENCE_MODE = 'random-sample';
   const ConfidenceRatings = Object.freeze({
     KNEW_IT: 'knew-it',
     SHAKY: 'shaky',
@@ -52,6 +53,7 @@
       sequenceMode = DEFAULT_SEQUENCE_MODE,
       contentRevision = 1,
       now = () => new Date().toISOString(),
+      random = Math.random,
     } = {}) {
       this.eventBus = eventBus;
       this.storage = storage;
@@ -62,6 +64,7 @@
       this.sequenceMode = sequenceMode;
       this.contentRevision = contentRevision;
       this.now = now;
+      this.random = random;
       this.entries = [];
       this.entryById = new Map();
       this.session = null;
@@ -75,7 +78,9 @@
           return { clue, index, id, rank: stableHash(`${this.episodeId}|${id}`) };
         })
         .filter(({ clue, id }) => id && clue?.question && clue?.answer);
-      if (this.sequenceMode !== AUTHORED_SEQUENCE_MODE) {
+      if (this.sequenceMode === RANDOM_SEQUENCE_MODE) {
+        this.shuffleEntries();
+      } else if (this.sequenceMode !== AUTHORED_SEQUENCE_MODE) {
         this.entries.sort((left, right) => left.rank - right.rank || left.index - right.index);
       }
       this.entryById = new Map(this.entries.map((entry) => [entry.id, entry]));
@@ -106,7 +111,7 @@
       if (Number.isInteger(episodeLength) && episodeLength > 0) {
         this.episodeLength = episodeLength;
       }
-      if ([DEFAULT_SEQUENCE_MODE, AUTHORED_SEQUENCE_MODE].includes(sequenceMode)) {
+      if ([DEFAULT_SEQUENCE_MODE, AUTHORED_SEQUENCE_MODE, RANDOM_SEQUENCE_MODE].includes(sequenceMode)) {
         this.sequenceMode = sequenceMode;
       }
       if (Number.isInteger(contentRevision) && contentRevision > 0) {
@@ -128,6 +133,13 @@
         startedAt: timestamp,
         updatedAt: timestamp,
       };
+    }
+
+    shuffleEntries() {
+      for (let index = this.entries.length - 1; index > 0; index -= 1) {
+        const target = Math.floor(this.random() * (index + 1));
+        [this.entries[index], this.entries[target]] = [this.entries[target], this.entries[index]];
+      }
     }
 
     isRestorable(candidate) {
@@ -410,6 +422,7 @@
     DEFAULT_SEQUENCE_MODE,
     DEFAULT_STORAGE_KEY,
     AUTHORED_SEQUENCE_MODE,
+    RANDOM_SEQUENCE_MODE,
     ConfidenceRatings,
     SESSION_VERSION,
     SessionManager,

@@ -29,6 +29,16 @@ function sampleEvenly(items, count) {
   });
 }
 
+function dedupeByClue(items) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = `${item.question.trim().toLowerCase()}\u0000${item.answer.trim().toLowerCase()}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 const archive = JSON.parse(await fs.readFile(sourcePath, 'utf8'));
 if (!Array.isArray(archive)) {
   throw new Error('Historical question archive must be an array.');
@@ -37,7 +47,7 @@ if (!Number.isInteger(requestedCount) || requestedCount < 100) {
   throw new Error('Runtime question count must be an integer of at least 100.');
 }
 
-const playable = archive.filter(isPlayableQuestion);
+const playable = dedupeByClue(archive.filter(isPlayableQuestion));
 const runtimeBank = sampleEvenly(playable, requestedCount);
 await fs.writeFile(outputPath, `${JSON.stringify(runtimeBank)}\n`);
 

@@ -1,13 +1,12 @@
 @layer components {
     .game-container .host-stage {
+        --host-size: clamp(148px, calc(14vw + 6vh), 245px);
         position: absolute;
         left: clamp(0.35rem, 1vw, 0.9rem);
         bottom: -0.32rem;
-        z-index: 34;
-        display: grid;
-        grid-template-columns: 40px minmax(148px, clamp(148px, calc(14vw + 6vh), 245px)) 40px;
-        align-items: end;
-        gap: 0.3rem;
+        z-index: 31;
+        display: block;
+        width: var(--host-size);
         pointer-events: none;
     }
 
@@ -17,7 +16,7 @@
         left: 50%;
         bottom: 1.5rem;
         z-index: 0;
-        width: clamp(150px, 19vw, 255px);
+        width: calc(var(--host-size) * 1.04);
         aspect-ratio: 1;
         border: 2px solid rgba(50, 246, 255, 0.2);
         border-radius: 50%;
@@ -62,7 +61,7 @@
         --host-lens-width: 25.5%;
         position: relative;
         z-index: 31;
-        width: clamp(148px, calc(14vw + 6vh), 245px);
+        width: var(--host-size);
         isolation: isolate;
         transform-origin: center bottom;
     }
@@ -334,102 +333,6 @@
         100% { transform: translate3d(0, 0, 0) rotate(0) scale(1); }
     }
 
-    .game-container .host-pack-index {
-        position: absolute;
-        right: 0.05rem;
-        bottom: 0.4rem;
-        z-index: 47;
-        padding: 0.16rem 0.22rem 0.12rem;
-        border: 2px solid var(--ink);
-        border-radius: 4px;
-        color: var(--neon-cyan);
-        background: rgba(5, 7, 15, 0.88);
-        font: 700 clamp(0.28rem, 0.56vw, 0.4rem)/1.3 var(--pixel-font);
-    }
-
-    .game-container .host-skin-label {
-        position: relative;
-        z-index: 45;
-        order: -1;
-        max-width: 10.5rem;
-        margin-bottom: -0.1rem;
-        padding: 0.22rem 0.34rem 0.17rem;
-        border: 2px solid var(--ink);
-        border-radius: 7px;
-        color: #fff8df;
-        background:
-            linear-gradient(180deg, rgba(15, 15, 24, 0.9), rgba(6, 7, 14, 0.96)),
-            repeating-linear-gradient(90deg, rgba(50, 246, 255, 0.14) 0 2px, transparent 2px 9px);
-        box-shadow: 0 3px 10px rgba(3, 6, 18, 0.38);
-        font: 700 clamp(0.32rem, 0.65vw, 0.43rem)/1.45 var(--pixel-font);
-        text-align: center;
-        text-transform: uppercase;
-    }
-
-    .game-container .host-cycle {
-        position: relative;
-        z-index: 45;
-        align-self: end;
-        width: 38px;
-        min-width: 38px;
-        height: 38px;
-        min-height: 38px;
-        margin-bottom: 1rem;
-        padding: 0 0 0.12rem;
-        border: 2px solid #080b14;
-        border-radius: 9px;
-        color: #0a101b;
-        background:
-            linear-gradient(145deg, rgba(255, 255, 255, 0.62), transparent 24%),
-            linear-gradient(155deg, var(--host-cycle-accent), color-mix(in srgb, var(--host-cycle-accent) 48%, #0a101b));
-        box-shadow:
-            0 5px 0 var(--jp-keycap-base),
-            0 7px 12px var(--jp-keycap-shadow),
-            inset 0 1px 0 var(--jp-keycap-highlight);
-        cursor: pointer;
-        font: 900 1.15rem/1 var(--utility-font);
-        pointer-events: auto;
-        transition: transform 120ms ease, box-shadow 120ms ease, filter 160ms ease;
-    }
-
-    .game-container .host-cycle-prev {
-        --host-cycle-accent: #74efff;
-    }
-
-    .game-container .host-cycle-next {
-        --host-cycle-accent: #ff82d7;
-    }
-
-    .game-container .host-cycle:hover,
-    .game-container .host-cycle:focus-visible {
-        color: #0c111e;
-        filter: brightness(1.12) saturate(1.08);
-        box-shadow:
-            0 7px 0 var(--jp-keycap-base),
-            0 0 14px color-mix(in srgb, var(--host-cycle-accent) 52%, transparent),
-            inset 0 1px 0 var(--jp-keycap-highlight);
-        transform: translateY(-2px);
-    }
-
-    .game-container .host-cycle:active {
-        transform: translateY(4px);
-        box-shadow:
-            0 1px 0 #05060b,
-            inset 0 3px 7px rgba(0, 0, 0, 0.3);
-    }
-
-    body[data-theme="light"] .game-container .host-skin-label {
-        color: #171317;
-        background:
-            linear-gradient(180deg, rgba(255, 248, 223, 0.94), rgba(255, 222, 246, 0.96)),
-            repeating-linear-gradient(90deg, rgba(255, 61, 200, 0.11) 0 2px, transparent 2px 9px);
-    }
-
-    body[data-theme="light"] .game-container .host-pack-index {
-        color: #17345f;
-        background: rgba(255, 248, 223, 0.92);
-    }
-
     @keyframes host-idle {
         from { transform: translateY(0) rotate(-0.2deg); }
         to { transform: translateY(-3px) rotate(0.25deg); }
@@ -488,71 +391,37 @@
 @layer responsive {
     @container cabinet (max-width: 760px) {
         .game-container .host-stage {
-            left: 0.15rem;
-            bottom: -0.25rem;
-            z-index: 33;
-            grid-template-columns: 36px minmax(132px, 148px) 36px;
+            --host-size: clamp(42px, min(28cqw, calc(36svh - 208px)), 132px);
+            left: clamp(0.2rem, 2cqw, 0.6rem);
+            bottom: 0;
+            z-index: 31;
             opacity: 1;
         }
 
         .game-container .host-avatar {
-            width: clamp(132px, 38cqw, 148px);
+            width: var(--host-size);
         }
 
         .game-container .trebek {
             height: auto;
-            max-height: 185px;
+            max-height: min(165px, 22svh);
         }
 
-        .game-container :is(.host-skin-label, .host-pack-index) {
+        .game-container .host-stage::before {
+            bottom: 0.7rem;
+            width: calc(var(--host-size) * 1.02);
+        }
+    }
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        .game-container .host-stage {
             display: none;
-        }
-
-        .game-container .host-cycle {
-            width: 36px;
-            min-width: 36px;
-            height: 36px;
-            min-height: 36px;
-            margin-bottom: 0.8rem;
-            padding: 0;
-            font-size: 1.15rem;
         }
     }
 
     @media (max-height: 620px) {
         @container cabinet (max-width: 420px) {
             .game-container .host-stage {
-                left: 0.55rem;
-                bottom: 0.15rem;
-                display: block;
-                width: 74px;
-                pointer-events: none;
-            }
-
-            .game-container .host-stand {
-                width: 74px;
-                height: 74px;
-                overflow: hidden;
-                border: 3px solid #080914;
-                border-radius: 50%;
-                background: radial-gradient(circle at 50% 35%, #4e2e7c, #11152b 72%);
-                box-shadow: 4px 5px 0 #080914, 0 0 14px rgba(56, 233, 255, 0.32);
-            }
-
-            .game-container .host-avatar {
-                width: 92px;
-                margin-left: -9px;
-            }
-
-            .game-container .trebek {
-                width: 100%;
-                max-width: none;
-                max-height: none;
-                object-fit: cover;
-                object-position: top center;
-            }
-
-            .game-container .host-cycle {
                 display: none;
             }
         }

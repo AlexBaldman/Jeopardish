@@ -13,34 +13,26 @@
         min-height: 0;
         margin: 0 auto;
         overflow: clip;
-        background:
-            radial-gradient(circle at 80% 18%, rgba(56, 233, 255, 0.2), transparent 22rem),
-            radial-gradient(circle at 13% 88%, rgba(255, 91, 110, 0.22), transparent 24rem),
-            linear-gradient(145deg, #121a42 0%, #172d5a 52%, #301a50 100%);
+        background: #0a1022;
         border: 5px solid var(--cabinet-ink);
         box-shadow:
-            0 0 0 4px var(--cabinet-gold),
+            0 0 0 3px var(--jp-frame-edge),
+            0 0 0 4px rgba(124, 141, 162, 0.34),
             0 18px 60px rgba(0, 0, 0, 0.44);
     }
 
     body[data-theme="light"] .game-container {
-        background:
-            radial-gradient(circle at 82% 17%, rgba(255, 216, 77, 0.78), transparent 16rem),
-            radial-gradient(circle at 16% 82%, rgba(255, 91, 110, 0.46), transparent 21rem),
-            linear-gradient(155deg, #67ddff 0%, #8bb7ff 48%, #ffb9dd 100%);
+        background: #dbe9f2;
     }
 
     body.game-only {
         min-height: 100svh;
         overflow: hidden;
-        background:
-            radial-gradient(circle at 15% 12%, rgba(255, 61, 200, 0.34), transparent 24rem),
-            radial-gradient(circle at 84% 18%, rgba(50, 246, 255, 0.26), transparent 24rem),
-            linear-gradient(135deg, #070915 0%, #151329 48%, #092f38 100%);
+        background: #05070e;
     }
 
     body.game-only::before {
-        opacity: 0.82;
+        display: none;
     }
 
     .game-page-shell {
@@ -59,6 +51,36 @@
         min-height: 540px;
         max-height: none;
         border-radius: clamp(12px, 1.8vw, 22px);
+    }
+
+    body[data-immersive="true"] {
+        width: 100vw;
+        height: 100dvh;
+        overflow: hidden;
+        overscroll-behavior: none;
+        background: #05070e;
+    }
+
+    body[data-immersive="true"] .game-page-shell {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        min-height: 0;
+        height: 100dvh;
+        padding: 0;
+    }
+
+    .game-container[data-immersive="true"],
+    .game-container:fullscreen {
+        --jp-header-height: calc(62px + env(safe-area-inset-top));
+        width: 100vw;
+        max-width: none;
+        height: 100dvh;
+        min-height: 0;
+        max-height: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
     }
 
     .play-section .game-container {
@@ -125,17 +147,19 @@
         }
 
         body.game-only .game-page-shell {
-            padding: 0.25rem;
+            padding: 0;
         }
 
         body.game-only .game-container {
-            height: calc(100svh - 0.7rem);
+            height: 100dvh;
             min-height: 0;
+            border-radius: 0;
         }
 
         .game-container .main-content {
             height: 100%;
             align-content: start;
+            padding-top: 6.15rem;
             padding-right: clamp(0.35rem, 1.8vw, 0.55rem);
             padding-left: clamp(0.35rem, 1.8vw, 0.55rem);
         }
@@ -165,34 +189,20 @@
         }
     }
 
+    @media (max-height: 620px) {
+        @container cabinet (max-width: 420px) {
+            .game-container .main-content {
+                padding-top: 0.35rem;
+            }
+        }
+    }
+
     @media (min-width: 1180px) and (min-height: 760px) {
         .game-page-shell {
             padding:
                 clamp(1.5rem, 2.4vh, 2.3rem)
                 clamp(2.4rem, 4vw, 4.5rem)
                 clamp(2rem, 3.2vh, 3rem);
-        }
-
-        .game-page-shell::before {
-            content: "";
-            position: absolute;
-            inset:
-                clamp(0.55rem, 1vh, 0.9rem)
-                max(1.4rem, calc((100% - 1570px) / 2))
-                clamp(0.45rem, 0.8vh, 0.75rem);
-            z-index: 0;
-            border: clamp(18px, 1.8vw, 28px) solid #15131d;
-            border-radius: 34px 34px 58px 58px;
-            background:
-                radial-gradient(circle at 16px 16px, #87909d 0 3px, #11131a 4px 7px, transparent 8px),
-                linear-gradient(90deg, #252936, #0b0d13 16%, #252936 50%, #0b0d13 84%, #252936);
-            box-shadow:
-                0 0 0 5px #05060a,
-                0 24px 60px rgba(0, 0, 0, 0.68),
-                inset 0 0 0 4px rgba(255, 216, 77, 0.24),
-                inset 0 0 42px rgba(56, 233, 255, 0.12);
-            clip-path: polygon(2% 0, 98% 0, 100% 92%, 96% 100%, 4% 100%, 0 92%);
-            pointer-events: none;
         }
 
         .game-container-standalone {
@@ -202,7 +212,7 @@
             border-radius: 18px 18px 30px 30px;
             box-shadow:
                 0 0 0 5px #05060a,
-                0 0 0 9px rgba(255, 216, 77, 0.24),
+                0 0 0 9px var(--jp-frame-edge),
                 0 18px 45px rgba(0, 0, 0, 0.58),
                 inset 0 0 0 3px rgba(255, 255, 255, 0.08);
         }

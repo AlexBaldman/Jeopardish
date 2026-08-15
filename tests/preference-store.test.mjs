@@ -30,12 +30,16 @@ test('PreferenceStore loads valid persisted values and preserves defaults', () =
     [STORAGE_KEYS.hostSkinId]: 'dope-03',
     [STORAGE_KEYS.hostPackId]: 'vera-static',
     [STORAGE_KEYS.dialogueStyleId]: 'thought',
+    [STORAGE_KEYS.controlSkinId]: 'neon-keys',
     [STORAGE_KEYS.scenePackId]: 'beach-broadcast',
     [STORAGE_KEYS.muted]: 'true',
   });
   const store = new PreferenceStore({
     storage,
-    allowedValues: { dialogueStyleId: ['clue-card', 'thought'] },
+    allowedValues: {
+      dialogueStyleId: ['clue-card', 'thought'],
+      controlSkinId: ['arcade', 'neon-keys'],
+    },
   });
 
   assert.deepEqual(store.load(), {
@@ -45,6 +49,7 @@ test('PreferenceStore loads valid persisted values and preserves defaults', () =
     hostSkinId: 'dope-03',
     hostPackId: 'vera-static',
     dialogueStyleId: 'thought',
+    controlSkinId: 'neon-keys',
     scenePackId: 'beach-broadcast',
     muted: true,
   });

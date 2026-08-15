@@ -30,6 +30,7 @@ const cabinetContractIds = [
   'gameContainer',
   'sceneStage',
   'hamburgerMenu',
+  'fullscreenToggle',
   'scoreDrawer',
   'hudScore',
   'hudStreak',
@@ -37,6 +38,12 @@ const cabinetContractIds = [
   'hudEpisode',
   'navMenu',
   'menuScene',
+  'menuScenePrev',
+  'menuSceneNext',
+  'menuControlSkin',
+  'menuControlSkinPrev',
+  'menuControlSkinNext',
+  'menuFullscreen',
   'speechBubble',
   'categoryBox',
   'questionBox',
@@ -78,8 +85,8 @@ const cabinetContractIds = [
   'confidenceShaky',
   'confidenceLearned',
   'disputeButton',
-  'menuArchiveMode',
-  'menuArchiveModeLabel',
+  'menuPlayMode',
+  'menuPlayModeLabel',
 ];
 
 const mediaContractIds = [
@@ -122,15 +129,15 @@ test('internal Creative Room cannot leak into the public product artifact', () =
   assert.doesNotMatch(smokeScript, /creative-room/);
 });
 
-test('archive practice is an explicit local-only research mode', () => {
+test('classic random is the public default and Episode 001 is an explicit alternate mode', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
-    assert.match(html, /id="menuArchiveMode"[^>]*href="game\.html\?mode=archive"[^>]*hidden/,
-      `${surface} must keep archive practice hidden until local runtime approval`);
-    assert.match(html, /id="menuArchiveModeLabel">Archive Practice</,
-      `${surface} is missing the archive practice label`);
+    assert.match(html, /id="menuPlayMode"[^>]*href="game\.html\?mode=episode"/,
+      `${surface} must expose the authored episode as an alternate mode`);
+    assert.match(html, /id="menuPlayModeLabel">Episode 001</,
+      `${surface} is missing the authored episode label`);
   }
-  assert.ok(!runtimeEntries.includes('questions/runtime-bank.json'),
-    'the historical archive must not ship in the public runtime');
+  assert.ok(runtimeEntries.includes('questions/runtime-bank.json'),
+    'the classic question bank must ship in the public runtime');
   assert.ok(!runtimeEntries.includes('creative-room.html'),
     'the internal room must not ship in the public runtime');
 });
@@ -143,11 +150,10 @@ test('landing theme control owns a high-contrast skin instead of browser default
   );
 });
 
-test('open scoreboard removes covered dialogue controls from interaction', () => {
-  assert.match(
-    scoreboardStyles,
-    /\.score-drawer\.active ~ \.main-content \.dialogue-style-picker[\s\S]*visibility: hidden;[\s\S]*pointer-events: none;/,
-  );
+test('scoreboard motion has one interaction owner and no stage customization collision', () => {
+  assert.doesNotMatch(scoreboardStyles, /\.score-drawer:hover/);
+  assert.doesNotMatch(scoreboardStyles, /\.dialogue-style-picker/);
+  assert.match(scoreboardStyles, /\.score-drawer\.active/);
 });
 
 test('scoreboard uses readable LED bays without a line through its digits', () => {
@@ -234,7 +240,7 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(dialogueStyles, /@keyframes clue-card-arrive/);
   assert.match(mediaStyles, /^@layer components/);
   assert.match(mediaStyles, /@keyframes media-pop-in/);
-  assert.match(hostStyles, /@container cabinet \(max-width: 420px\)/);
+  assert.match(hostStyles, /--host-size:\s*clamp\(42px, min\(28cqw, calc\(36svh - 208px\)\), 132px\)/);
   assert.match(hostStyles, /@keyframes host-streak/);
   assert.doesNotMatch(controlStyles, /\.host-cycle/,
     'host selectors belong to host.css, not controls.css');
@@ -244,7 +250,7 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(controlStyles, /translateY\(calc\(var\(--jp-keycap-travel\) - 1px\)\)/);
   assert.match(controlStyles, /--control-face:\s*rgba\(67, 232, 242, 0\.96\)/);
   assert.match(controlStyles, /0 var\(--jp-keycap-travel\) 0 var\(--control-edge\)/);
-  assert.match(controlStyles, /\.control-symbol[\s\S]*border-radius:\s*10px/);
+  assert.match(controlStyles, /\.control-symbol[\s\S]*border-radius:\s*50%/);
   assert.match(tokens, /--jp-surf-pink:\s*#f447a8/);
   assert.match(controlStyles, /repeating-linear-gradient\(115deg, var\(--jp-heather-line\)/);
   assert.match(dialogueStyles, /--thought-fill:\s*#f4f2ed/);
@@ -441,6 +447,17 @@ test('both game shells load focus management and keep the closed menu inert', ()
   }
 });
 
+test('both game shells expose edge-to-edge fullscreen and one operator drawer', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    assert.match(html, /viewport-fit=cover/, `${surface} must opt into iPhone safe-area geometry`);
+    assert.match(html, /src\/ui\/fullscreen-controller\.js/, `${surface} is missing fullscreen control`);
+    assert.match(html, /Operator Drawer/, `${surface} is missing the customization drawer`);
+    assert.match(html, /class="operator-stepper" id="menuHostSkin"/, `${surface} is missing host look controls`);
+    assert.doesNotMatch(html, /class="host-cycle/, `${surface} still exposes host arrows on stage`);
+    assert.doesNotMatch(html, /class="dialogue-style-picker/, `${surface} still exposes panel arrows on the clue`);
+  }
+});
+
 test('HTML entry points contain no duplicate ids', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     const ids = getIds(html);
@@ -565,8 +582,9 @@ test('dialogue skins use direct values and position-aware host attribution', () 
   assert.match(dialogueStyles, /--dialogue-tail-x:/);
   assert.match(dialogueStyles, /--dialogue-tail-reach:/);
   assert.match(dialogueStyles, /--dialogue-tail-angle:/);
-  assert.match(dialogueStyles, /min-height:\s*clamp\(345px, 45vh, 430px\)/);
-  assert.match(dialogueStyles, /\.dialogue-style-cycle:active\s*\{[\s\S]*?translateY\(2px\)/);
+  assert.match(dialogueStyles, /min-height:\s*min\(clamp\(280px, 45dvh, 410px\), calc\(100% - 0\.35rem\)\)/);
+  assert.doesNotMatch(dialogueStyles, /\.dialogue-style-cycle/);
+  assert.match(menuStyles, /\.operator-stepper > button:active\s*\{[\s\S]*?translateY\(3px\)/);
   assert.match(dialogueStyles, /@media \(min-width: 761px\) and \(max-width: 900px\)/);
   assert.match(dialogueStyles, /--dialogue-tail-reach:\s*clamp\(112px, 14vh, 142px\)/);
   assert.match(dialogueStyles, /height:\s*min\(252px, calc\(100svh - var\(--jp-header-height\) - var\(--footer-height\) - 1\.25rem\)\)/);
@@ -576,7 +594,14 @@ test('dialogue skins use direct values and position-aware host attribution', () 
     dialogueStyles,
     /@media \(max-height: 620px\)[\s\S]*?speech-bubble\[data-dialogue-style\]::after\s*\{[\s\S]*?display:\s*none;/,
   );
-  assert.match(hostStyles, /@media \(max-height: 620px\)[\s\S]*?\.host-stand\s*\{[\s\S]*?border-radius:\s*50%/);
+  assert.match(
+    hostStyles,
+    /@media \(orientation: landscape\) and \(max-height: 560px\)[\s\S]*?\.host-stage\s*\{[\s\S]*?display:\s*none/,
+  );
+  assert.match(
+    hostStyles,
+    /@media \(max-height: 620px\)[\s\S]*?@container cabinet \(max-width: 420px\)[\s\S]*?\.host-stage\s*\{[\s\S]*?display:\s*none/,
+  );
   assert.match(menuStyles, /\.archive-mode-link/);
   assert.match(menuStyles, /\.archive-mode-link\[hidden\]\s*\{[\s\S]*?display:\s*none/);
 });

@@ -17,13 +17,14 @@
       hostPerformanceDirector,
       copyCatalog,
       dialogueStyles,
+      controlSkins,
       documentRef = typeof document !== 'undefined' ? document : null,
     } = {}) {
       if (!renderer || !preferenceStore || !audioController || !voiceController) {
         throw new Error('CabinetPresenter requires renderer, preferences, audio, and voice.');
       }
-      if (!hostPerformanceDirector || !copyCatalog || !Array.isArray(dialogueStyles)) {
-        throw new Error('CabinetPresenter requires host performance, copy, and dialogue styles.');
+      if (!hostPerformanceDirector || !copyCatalog || !Array.isArray(dialogueStyles) || !Array.isArray(controlSkins)) {
+        throw new Error('CabinetPresenter requires host performance, copy, dialogue styles, and control skins.');
       }
       this.renderer = renderer;
       this.preferenceStore = preferenceStore;
@@ -33,6 +34,7 @@
       this.hostPerformanceDirector = hostPerformanceDirector;
       this.copyCatalog = copyCatalog;
       this.dialogueStyles = dialogueStyles;
+      this.controlSkins = controlSkins;
       this.document = documentRef;
       this.sceneActivated = false;
     }
@@ -88,6 +90,7 @@
         capabilities: this.voiceController.getCapabilities(),
       });
       this.renderDialogueStyle();
+      this.renderControlSkin();
       this.renderHostPackPicker(activeHostPack);
       return Object.freeze({
         copy,
@@ -126,6 +129,28 @@
       return this.renderDialogueStyle();
     }
 
+    renderControlSkin() {
+      const selectedId = this.preferenceStore.get('controlSkinId');
+      const language = this.preferenceStore.get('language');
+      const index = Math.max(0, this.controlSkins.findIndex((skin) => skin.id === selectedId));
+      const skin = this.controlSkins[index];
+      const gameContainer = this.document?.getElementById?.('gameContainer');
+      gameContainer?.setAttribute?.('data-control-skin', skin.id);
+      this.renderer.renderControlSkin({
+        ...skin,
+        label: skin.label[language] || skin.label.en,
+      }, index, this.controlSkins.length);
+      return skin;
+    }
+
+    cycleControlSkin(step = 1) {
+      const selectedId = this.preferenceStore.get('controlSkinId');
+      const currentIndex = Math.max(0, this.controlSkins.findIndex((skin) => skin.id === selectedId));
+      const nextIndex = (currentIndex + step + this.controlSkins.length) % this.controlSkins.length;
+      this.preferenceStore.set('controlSkinId', this.controlSkins[nextIndex].id);
+      return this.renderControlSkin();
+    }
+
     renderScenePicker(pack = this.sceneService?.getActivePack()) {
       if (!pack || !this.sceneService) return null;
       const packs = this.sceneService.getPacks();
@@ -139,8 +164,8 @@
       return this.renderScenePicker(this.applyScenePreferences());
     }
 
-    cycleScenePack() {
-      const pack = this.sceneService?.cyclePack(1);
+    cycleScenePack(step = 1) {
+      const pack = this.sceneService?.cyclePack(step);
       if (!pack) return null;
       this.sceneActivated = true;
       this.preferenceStore.set('scenePackId', pack.id);

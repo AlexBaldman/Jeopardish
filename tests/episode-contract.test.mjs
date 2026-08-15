@@ -154,4 +154,10 @@ test('EpisodeContract adapts the historical bank without pretending it is review
     first.clues.find(({ answer }) => answer === 'Chicago').id,
     second.clues.find(({ answer }) => answer === 'Chicago').id,
   );
+
+  const random = adaptLegacyQuestionBank(source, {
+    episodeLength: 2,
+    sequenceMode: 'random-sample',
+  });
+  assert.equal(random.sequenceMode, 'random-sample');
 });

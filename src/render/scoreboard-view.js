@@ -24,6 +24,8 @@
       this.setTimer = setTimer;
       this.clearTimer = clearTimer;
       this.drawerTimer = null;
+      this.drawerCloseTimer = null;
+      this.drawerTransitionTimer = null;
       this.drawerTimerGeneration = 0;
       this.tileTimers = new WeakMap();
       this.activeTileTimers = new Set();
@@ -43,13 +45,14 @@
       this.syncDrawerState(
         this.dom.scoreDrawer.classList.contains('active') ? 'expanded' : 'hidden',
       );
-      this.dom.scoreDrawer.addEventListener('pointerenter', () => {
+      this.dom.scoreDrawer.addEventListener('pointerenter', (event) => {
+        if (!this.shouldOpenForPointer(event)) return;
         this.pointerInside = true;
         this.showDrawer(0);
       });
       this.dom.scoreDrawer.addEventListener('pointerleave', () => {
         this.pointerInside = false;
-        this.hideDrawer();
+        this.scheduleHideDrawer();
       });
       this.dom.scoreDrawer.addEventListener('focus', () => {
         this.focusInside = true;
@@ -73,12 +76,42 @@
         this.setPinned(false);
         this.hideDrawer(true);
       });
+      this.dom.scoreDrawer.addEventListener('transitionend', (event) => {
+        if (event.propertyName !== 'transform' || this.dom.scoreDrawer.classList.contains('active')) {
+          return;
+        }
+        this.clearTransitionTimer();
+        this.syncDrawerState('hidden');
+      });
+      return true;
+    }
+
+    shouldOpenForPointer(event) {
+      const state = this.dom.scoreDrawer?.dataset?.drawerState;
+      if (state !== 'closing' && state !== 'hidden') return true;
+      const tab = this.dom.scoreDrawer?.querySelector?.('.score-drawer-tab');
+      const bounds = tab?.getBoundingClientRect?.();
+      const x = Number(event?.clientX);
+      const y = Number(event?.clientY);
+      if (!bounds || !Number.isFinite(x) || !Number.isFinite(y)) return true;
+      return x >= bounds.left && x <= bounds.right && y >= bounds.top && y <= bounds.bottom;
+    }
+
+    scheduleHideDrawer(delay = 140) {
+      this.clearCloseTimer();
+      this.drawerCloseTimer = this.setTimer(() => {
+        this.drawerCloseTimer = null;
+        this.hideDrawer();
+      }, delay);
+      this.drawerCloseTimer?.unref?.();
       return true;
     }
 
     showDrawer(duration = 2600) {
       if (!this.dom.scoreDrawer) return false;
       this.clearDrawerTimer();
+      this.clearCloseTimer();
+      this.clearTransitionTimer();
       this.dom.scoreDrawer.classList.add('active');
       this.dom.scoreDrawer.setAttribute('aria-expanded', 'true');
 
@@ -110,7 +143,14 @@
       }
       this.dom.scoreDrawer.classList.remove('active');
       this.dom.scoreDrawer.setAttribute('aria-expanded', 'false');
-      this.syncDrawerState('hidden');
+      this.syncDrawerState(force ? 'hidden' : 'closing');
+      if (!force) {
+        this.drawerTransitionTimer = this.setTimer(() => {
+          this.drawerTransitionTimer = null;
+          if (!this.dom.scoreDrawer.classList.contains('active')) this.syncDrawerState('hidden');
+        }, 520);
+        this.drawerTransitionTimer?.unref?.();
+      }
       return true;
     }
 
@@ -119,6 +159,20 @@
       if (this.drawerTimer !== null) {
         this.clearTimer(this.drawerTimer);
         this.drawerTimer = null;
+      }
+    }
+
+    clearCloseTimer() {
+      if (this.drawerCloseTimer !== null) {
+        this.clearTimer(this.drawerCloseTimer);
+        this.drawerCloseTimer = null;
+      }
+    }
+
+    clearTransitionTimer() {
+      if (this.drawerTransitionTimer !== null) {
+        this.clearTimer(this.drawerTransitionTimer);
+        this.drawerTransitionTimer = null;
       }
     }
 
@@ -138,7 +192,7 @@
       const drawer = this.dom.scoreDrawer;
       if (!drawer) return;
       drawer.dataset.drawerState = state;
-      ['peeking', 'expanded', 'pinned'].forEach((name) => {
+      ['peeking', 'expanded', 'pinned', 'closing'].forEach((name) => {
         const method = name === state ? 'add' : 'remove';
         drawer.classList[method](`score-drawer--${name}`);
       });
@@ -213,11 +267,15 @@
       const current = progress.complete
         ? total
         : Number.isFinite(progress.current) ? progress.current : 0;
-      const value = `${current}/${total}`;
+      const isClassicRandom = progress.sequenceMode === 'random-sample';
+      const value = isClassicRandom ? `#${current}` : `${current}/${total}`;
       const episodeChanged = this.lastEpisodeValue !== null && this.lastEpisodeValue !== value;
 
       this.setText(this.dom.hudEpisode, value);
-      this.setText(this.dom.hudEpisodeLabel, this.getCopy().clueProgress);
+      this.setText(
+        this.dom.hudEpisodeLabel,
+        isClassicRandom ? this.getCopy().classicProgress : this.getCopy().clueProgress,
+      );
       if (this.dom.hudEpisode) {
         this.dom.hudEpisode.dataset.value = value;
         if (episodeChanged) {
@@ -241,6 +299,8 @@
 
     destroy() {
       this.clearDrawerTimer();
+      this.clearCloseTimer();
+      this.clearTransitionTimer();
       this.activeTileTimers.forEach((record) => this.clearTimer(record.timer));
       this.activeTileTimers.clear();
       return true;

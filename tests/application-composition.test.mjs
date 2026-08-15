@@ -322,11 +322,11 @@ test('app.js delegates episode ownership without retaining shadow lifecycle stat
   assert.doesNotMatch(appSource, /state\.current(?:Source|Display)Clue/);
 });
 
-test('app.js gates historical archive practice behind a local non-production release boundary', () => {
-  assert.match(appSource, /const IS_PRIVATE_PREVIEW = isLocalContentHost\(\)/);
-  assert.match(appSource, /dataset\?\.releaseChannel !== 'production'/);
-  assert.match(appSource, /const ARCHIVE_PRACTICE = IS_PRIVATE_PREVIEW/);
-  assert.match(appSource, /URL_PARAMETERS\.get\('mode'\) === 'archive'/);
-  assert.match(appSource, /ARCHIVE_PRACTICE[\s\S]*?questions\/runtime-bank\.json/);
-  assert.match(appSource, /archiveMenuItem\.hidden = false/);
+test('app.js defaults production to classic random and keeps authored episodes explicit', () => {
+  assert.match(appSource, /URL_PARAMETERS\.get\('mode'\) === 'episode'/);
+  assert.match(appSource, /const CLASSIC_MODE = PLAY_MODE === 'classic'/);
+  assert.match(appSource, /CLASSIC_MODE[\s\S]*?questions\/runtime-bank\.json/);
+  assert.match(appSource, /questions\/episodes\/season-zero-001\.json/);
+  assert.match(appSource, /sequenceMode: CLASSIC_MODE \? 'random-sample'/);
+  assert.match(appSource, /playModeItem\.href = CLASSIC_MODE/);
 });

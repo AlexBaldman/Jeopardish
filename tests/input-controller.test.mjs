@@ -55,6 +55,7 @@ test('InputController maps renderer callbacks into one command vocabulary', asyn
   await bindings.onPreviousHostSkin();
   await bindings.onCycleHostPack();
   await bindings.onNextDialogueStyle();
+  await bindings.onCycleControlSkin();
   await bindings.onReviewSavedClues();
   await bindings.onStudyAction('why');
   await bindings.onSubmitReinforcement('three');
@@ -71,6 +72,7 @@ test('InputController maps renderer callbacks into one command vocabulary', asyn
       InputCommands.PREVIOUS_HOST,
       InputCommands.CYCLE_HOST_PACK,
       InputCommands.NEXT_DIALOGUE,
+      InputCommands.CYCLE_CONTROL_SKIN,
       InputCommands.REVIEW_SAVED_CLUES,
       InputCommands.SELECT_STUDY_ACTION,
       InputCommands.SUBMIT_REINFORCEMENT,

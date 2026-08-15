@@ -9,6 +9,7 @@ export const runtimeEntries = Object.freeze([
   'src',
 
   // Question delivery.
+  'questions/runtime-bank.json',
   'questions/episodes',
   'assets/episodes',
 

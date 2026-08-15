@@ -127,6 +127,8 @@ test('ScoreboardView safely replaces automatic peek timers', () => {
 
   drawerTimers[1].callback();
   assert.equal(dom.scoreDrawer.classList.contains('active'), false);
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'closing');
+  timers.find((timer) => timer.duration === 520).callback();
   assert.equal(dom.scoreDrawer.dataset.drawerState, 'hidden');
 });
 
@@ -153,6 +155,23 @@ test('ScoreboardView keeps pointer, focus, and keyboard-owned expansion accessib
   assert.equal(dom.scoreDrawer.attributes['aria-pressed'], 'false');
   assert.equal(dom.scoreDrawer.attributes['aria-expanded'], 'false');
   assert.equal(dom.scoreDrawer.classList.contains('active'), false);
+});
+
+test('ScoreboardView ignores the moving panel crossing a stationary pointer while closing', () => {
+  const { dom, view } = createView();
+  dom.scoreDrawer.querySelector = () => ({
+    getBoundingClientRect: () => ({ left: 20, right: 120, top: 10, bottom: 40 }),
+  });
+  view.bindInteractions();
+  view.syncDrawerState('closing');
+
+  dom.scoreDrawer.listeners.pointerenter({ clientX: 70, clientY: 90 });
+  assert.equal(dom.scoreDrawer.classList.contains('active'), false);
+  assert.equal(view.pointerInside, false);
+
+  dom.scoreDrawer.listeners.pointerenter({ clientX: 70, clientY: 24 });
+  assert.equal(dom.scoreDrawer.classList.contains('active'), true);
+  assert.equal(dom.scoreDrawer.dataset.drawerState, 'expanded');
 });
 
 test('ScoreboardView does not let stale tile timers settle a newer transition', () => {

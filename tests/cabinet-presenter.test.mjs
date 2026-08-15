@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const { CabinetPresenter } = require('../src/presentation/cabinet-presenter.js');
-const { DialogueStyles, UiCopy } = require('../src/presentation/ui-catalog.js');
+const { ControlSkins, DialogueStyles, UiCopy } = require('../src/presentation/ui-catalog.js');
 
 function createHarness({ appMode = 'game' } = {}) {
   const calls = [];
@@ -14,6 +14,7 @@ function createHarness({ appMode = 'game' } = {}) {
     scenePackId: 'beach',
     hostPackId: 'xander-trefleck',
     dialogueStyleId: 'clue-card',
+    controlSkinId: 'arcade',
     muted: true,
   };
   const preferenceStore = {
@@ -74,6 +75,10 @@ function createHarness({ appMode = 'game' } = {}) {
       return hostPack;
     },
   };
+  const gameContainer = {
+    attributes: {},
+    setAttribute(name, value) { this.attributes[name] = value; },
+  };
   const body = {
     dataset: { appMode },
     attributes: {},
@@ -90,18 +95,23 @@ function createHarness({ appMode = 'game' } = {}) {
     hostPerformanceDirector,
     copyCatalog: UiCopy,
     dialogueStyles: DialogueStyles,
-    documentRef: { body },
+    controlSkins: ControlSkins,
+    documentRef: {
+      body,
+      getElementById: (id) => id === 'gameContainer' ? gameContainer : null,
+    },
   });
-  return { body, calls, presenter, values };
+  return { body, calls, gameContainer, presenter, values };
 }
 
 test('CabinetPresenter applies one coherent preference snapshot', () => {
-  const { body, calls, presenter } = createHarness();
+  const { body, calls, gameContainer, presenter } = createHarness();
   const snapshot = presenter.applyPreferences();
 
   assert.equal(snapshot.copy, UiCopy.en);
   assert.equal(body.attributes['data-theme'], 'dark');
   assert.equal(body.attributes['data-language'], 'en');
+  assert.equal(gameContainer.attributes['data-control-skin'], 'arcade');
   assert.ok(calls.some(([name, detail]) => name === 'setCopy' && detail === UiCopy.en));
   assert.ok(calls.some(([name, detail]) => (
     name === 'setToggleStates' && detail.theme === 'dark' && detail.language === 'en'
@@ -117,12 +127,14 @@ test('CabinetPresenter cycles presentation preferences without touching game sta
 
   presenter.cycleDialogueStyle(1);
   presenter.cycleScenePack();
+  presenter.cycleControlSkin();
   presenter.toggleTheme();
   presenter.toggleLanguage();
   const muted = presenter.toggleSound();
 
   assert.equal(values.dialogueStyleId, 'speech');
   assert.equal(values.scenePackId, 'studio');
+  assert.equal(values.controlSkinId, 'famicom');
   assert.equal(values.theme, 'light');
   assert.equal(values.language, 'pt-BR');
   assert.equal(muted, false);

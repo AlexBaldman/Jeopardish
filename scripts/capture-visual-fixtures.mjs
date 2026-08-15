@@ -30,6 +30,7 @@ const themes = ['dark', 'light'];
 const viewports = [
   ['phone-320', 320, 568],
   ['phone-390', 390, 844],
+  ['phone-landscape', 844, 390],
   ['tablet', 768, 1024],
   ['landscape', 1024, 768],
   ['desktop', 1440, 900],
@@ -192,7 +193,7 @@ try {
         });
 
         const cabinet = geometry.rects.cabinet;
-        const hostIsVisible = width > 420 || height > 620;
+        const hostIsVisible = (width > 420 || height > 620) && !(width > height && height <= 560);
         const cabinetBoundNames = new Set([
           'header',
           'scoreboard',

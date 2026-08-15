@@ -5,8 +5,8 @@
         --score-frame-top: #33465a;
         --score-frame-bottom: #101620;
         --score-metal: #6f8394;
-        --score-marquee-top: #ffef9b;
-        --score-marquee-bottom: #e9a82f;
+        --score-marquee-top: #d9e6e8;
+        --score-marquee-bottom: color-mix(in srgb, var(--jp-hardware-accent) 62%, #455565);
         --score-paper: #fff5cf;
         --score-tab-height: 27px;
         appearance: none;
@@ -25,12 +25,11 @@
         transform: translate(-50%, calc(-100% + var(--score-tab-height)));
         transform-origin: 50% 0;
         transition:
-            transform var(--jp-motion-panel) cubic-bezier(0.16, 0.84, 0.22, 1.04),
+            transform var(--jp-motion-panel) var(--jp-ease-recover),
             filter var(--jp-motion-fast) ease;
         -webkit-tap-highlight-color: transparent;
     }
 
-    .game-container .score-drawer:hover,
     .game-container .score-drawer.active,
     .game-container .score-drawer[data-pinned="true"] {
         transform: translate(-50%, 0);
@@ -38,8 +37,6 @@
     }
 
     .game-container .score-drawer:focus-visible {
-        transform: translate(-50%, 0);
-        filter: drop-shadow(0 15px 15px rgba(3, 5, 15, 0.48));
         outline: 3px solid var(--jp-focus-ring);
         outline-offset: 4px;
     }
@@ -57,7 +54,7 @@
         border: 4px solid var(--score-ink);
         border-bottom: 0;
         border-radius: 13px 13px 0 0;
-        color: #20100f;
+        color: #071319;
         background:
             linear-gradient(90deg, transparent 49.5%, rgba(72, 33, 18, 0.12) 50%, transparent 50.5%),
             repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0 1px, transparent 1px 8px),
@@ -65,7 +62,7 @@
         box-shadow:
             inset 0 2px 0 rgba(255, 255, 255, 0.64),
             inset 0 -3px 0 rgba(98, 42, 11, 0.24),
-            inset 0 0 0 2px rgba(255, 104, 58, 0.22);
+            inset 0 0 0 2px color-mix(in srgb, var(--jp-hardware-accent) 32%, transparent);
         font: 700 clamp(0.31rem, 0.6cqw, 0.43rem)/1.35 var(--pixel-font);
         letter-spacing: 0.12em;
         text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.34);
@@ -79,10 +76,10 @@
         height: 0.48rem;
         border: 2px solid rgba(5, 7, 12, 0.78);
         border-radius: 50%;
-        background: #ff4f72;
+        background: var(--jp-hardware-accent);
         box-shadow:
             inset 0 1px 0 rgba(255, 255, 255, 0.68),
-            0 0 9px rgba(255, 79, 114, 0.9);
+            0 0 9px color-mix(in srgb, var(--jp-hardware-accent) 82%, transparent);
     }
 
     .game-container .score-drawer .quick-score {
@@ -96,7 +93,6 @@
         border-radius: 0 0 17px 17px;
         color: var(--score-paper);
         background:
-            radial-gradient(circle at 50% -20%, rgba(69, 231, 255, 0.24), transparent 44%),
             repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.026) 0 1px, transparent 1px 10px),
             linear-gradient(180deg, var(--score-frame-top), var(--score-frame-bottom) 72%);
         box-shadow:
@@ -245,11 +241,11 @@
         border: 3px solid var(--score-ink);
         border-top: 0;
         border-radius: 0 0 11px 11px;
-        color: #1b1115;
+        color: var(--jp-hardware-accent-ink);
         background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.52), transparent 27%),
-            repeating-linear-gradient(90deg, transparent 0 7px, rgba(111, 54, 13, 0.05) 7px 8px),
-            linear-gradient(180deg, var(--score-marquee-top), var(--score-marquee-bottom));
+            linear-gradient(180deg, rgba(255, 255, 255, 0.48), transparent 24%),
+            repeating-linear-gradient(90deg, transparent 0 7px, rgba(2, 12, 18, 0.08) 7px 8px),
+            var(--jp-hardware-accent);
         box-shadow:
             0 4px 0 var(--score-ink),
             inset 0 -2px 0 rgba(114, 46, 10, 0.2);
@@ -269,11 +265,6 @@
 }
 
 @layer states {
-    .game-container .score-drawer.active ~ .main-content .dialogue-style-picker {
-        visibility: hidden;
-        pointer-events: none;
-    }
-
     .game-container .score-drawer .hud-readout strong.score-flip {
         animation: scoreboard-digit-change 560ms cubic-bezier(0.18, 0.86, 0.2, 1.08);
         transform-origin: 50% 50%;
@@ -381,6 +372,62 @@
         .game-container .score-drawer .hud-readout strong {
             min-height: 1.7rem;
             font-size: clamp(0.58rem, 3.8cqw, 0.78rem);
+        }
+    }
+
+    @media (orientation: landscape) and (max-height: 560px) {
+        .game-container .score-drawer {
+            --score-tab-height: 21px;
+            top: calc(var(--jp-header-height) - 3px);
+            right: 0.55rem;
+            left: auto;
+            width: min(35cqw, 310px);
+            transform: translateY(calc(-100% + var(--score-tab-height)));
+        }
+
+        .game-container .score-drawer.active,
+        .game-container .score-drawer[data-pinned="true"] {
+            transform: translateY(0);
+        }
+
+        .game-container .scoreboard-kicker { display: none; }
+
+        .game-container .score-drawer .quick-score {
+            gap: 0.12rem;
+            padding: 0.24rem;
+            border-width: 3px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .game-container .score-drawer .quick-score::before,
+        .game-container .score-drawer .quick-score::after { display: none; }
+
+        .game-container .score-drawer .hud-readout {
+            grid-template-rows: auto minmax(1.45rem, 1fr);
+            gap: 0.1rem;
+            padding: 0.12rem;
+            border-width: 1px;
+        }
+
+        .game-container .score-drawer .hud-label {
+            padding: 0.12rem 0.25rem 0.1rem 0.12rem;
+            font-size: 0.2rem;
+            letter-spacing: 0;
+        }
+
+        .game-container .score-drawer .hud-readout strong {
+            min-height: 1.45rem;
+            padding: 0.1rem 0.03rem;
+            border-width: 1px;
+            font-size: clamp(0.58rem, 1.7cqw, 0.72rem);
+            letter-spacing: 0;
+        }
+
+        .game-container .score-drawer-tab {
+            min-width: 96px;
+            min-height: var(--score-tab-height);
+            padding: 0.18rem 0.4rem 0.12rem;
+            font-size: 0.26rem;
         }
     }
 
