@@ -47,6 +47,7 @@ const browser = await chromium.launch({
   args: [
     '--enable-webgl',
     '--enable-unsafe-swiftshader',
+    '--use-gl=angle',
     '--use-angle=swiftshader-webgl',
   ],
 });
