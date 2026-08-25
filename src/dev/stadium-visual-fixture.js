@@ -94,6 +94,11 @@ function createPerformer() {
   const bones = [hips, spine, head, upperLeft, foreLeft, handLeft, targetLeft, upperRight, foreRight, handRight, targetRight, thighLeft, shinLeft, thighRight, shinRight];
   const solverMesh = new THREE.SkinnedMesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial());
   solverMesh.name = 'VisualStadiumTrombonist';
+  // This mesh carries the skeleton for AnimationMixer + CCD IK only. Visible body
+  // geometry hangs from its bones, so keep the carrier traversable without asking
+  // Three.js to render or frustum-test an intentionally empty BufferGeometry.
+  solverMesh.frustumCulled = false;
+  solverMesh.material.visible = false;
   solverMesh.add(hips);
   solverMesh.bind(new THREE.Skeleton(bones));
 
