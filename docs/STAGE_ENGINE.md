@@ -1,5 +1,11 @@
 # JeoPARODY Stage Engine
 
+**Implementation status:** the versioned semantic Stage cue and lifecycle slice
+is implemented in `src/presentation/stage-director.js` and
+`src/presentation/stage-engine.js`. Earlier branch experiments involving DOM
+polling, duplicate fullscreen/theme ownership, and unmanaged choreography remain
+reference material rather than the production path.
+
 ## Purpose
 
 JeoPARODY should behave like an interactive game-show stage rather than a webpage full of independent widgets. This document defines the shared mental model and implementation seams for that evolution.

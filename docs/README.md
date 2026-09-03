@@ -1,14 +1,14 @@
 # JeoPARODY Documentation Map
 
-**Updated:** 2026-08-08  
+**Updated:** 2026-09-03
 **Rule:** implementation evidence outranks an old plan; newer decision records
 outrank older audits; historical reports never create work by themselves.
 
 ## Start Here
 
-1. [`handoff/README.md`](handoff/README.md) defines the current repository
-   direction: Jeopardish is the proving ground and jeoPARODY is the long-term
-   destination after parity.
+1. [`handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md`](handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md)
+   defines the current repository direction: Jeopardish is canonical and
+   jeoPARODY is the donor being mined toward retirement.
 2. [`PROJECT_MEMORY.md`](PROJECT_MEMORY.md) is the compact record of product
    intent, conversation decisions, current truth, and deferred promises.
 3. [`CURRENT_STATE.md`](CURRENT_STATE.md) records committed, working-tree,
@@ -20,7 +20,9 @@ outrank older audits; historical reports never create work by themselves.
    explains the execution order and architecture boundaries.
 7. [`convergence/registry.json`](convergence/registry.json) is the validated
    queue for donor work. It prevents two systems from owning the same truth.
-8. [`EXTERNAL_AUDIT_RECONCILIATION_2026-08-08.md`](EXTERNAL_AUDIT_RECONCILIATION_2026-08-08.md)
+8. [`convergence/DONOR_RETIREMENT_LEDGER_2026-09-03.md`](convergence/DONOR_RETIREMENT_LEDGER_2026-09-03.md)
+   classifies the donor's post-August-7 additions and final retirement gates.
+9. [`EXTERNAL_AUDIT_RECONCILIATION_2026-08-08.md`](EXTERNAL_AUDIT_RECONCILIATION_2026-08-08.md)
    records which outside recommendations remain useful and which are obsolete.
 
 ## Active Contracts
@@ -44,7 +46,7 @@ outrank older audits; historical reports never create work by themselves.
 - Preservation evidence: [`REPOSITORY_PRESERVATION_REPORT_2026-07-28.md`](REPOSITORY_PRESERVATION_REPORT_2026-07-28.md)
 - Donor feature ledger: [`CONVERGENCE_DONOR_LEDGER_2026-07-26.md`](CONVERGENCE_DONOR_LEDGER_2026-07-26.md)
 - Control deck: [`CONTROL_DECK_DESIGN_DECISION.md`](CONTROL_DECK_DESIGN_DECISION.md)
-- Long-term repository migration:
+- Superseded long-term repository migration history:
   [`handoff/JEOPARODY_CANONICAL_MIGRATION_STRATEGY_2026-08-08.md`](handoff/JEOPARODY_CANONICAL_MIGRATION_STRATEGY_2026-08-08.md)
 
 ## Preserved Cross-Branch Research

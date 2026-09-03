@@ -1,22 +1,22 @@
 # JeoPARODY Active Roadmap
 
-**Updated:** 2026-08-08  
+**Updated:** 2026-09-03
 **Rule:** this is the short active work order. Dated plans explain history and
 architecture but do not outrank this sequence.
 
-## 1. Secure The Current Batch
+## 1. Consolidate The Donor Safely
 
-- complete multi-size, light/dark browser review;
-- run every code, content, CSS, asset, host, build, smoke, accessibility,
-  episode, and visual-fixture gate;
-- review the diff, commit one coherent checkpoint, push, and verify deployment.
+- use the September 3 donor retirement ledger and machine-readable registry;
+- land one bounded PORT / REBUILD slice at a time through canonical owners;
+- begin with Stage semantic cues, then Head-to-Head domain/privacy contracts,
+  then Needle Drop's pure reducer/content/session contracts;
+- preserve branch-unique assets and provenance before any donor retirement.
 
 ## 2. Original-IP And Asset Provenance
 
-In parallel, repair the long-term jeoPARODY destination's boot chain and add a
-blocking browser parity harness. Do not forward-port broad features until it has
-one game-state owner, one component contract, bounded content loading, complete
-asset packaging, and no browser credential path.
+In parallel, classify both repositories' production assets before consolidation
+or renaming. The canonical runtime keeps one game-state owner, bounded content,
+complete asset packaging, and no browser credential path.
 
 - create a machine-readable rights manifest for every production asset;
 - record source hash, transformation lineage, model/workflow metadata, actor or
@@ -62,7 +62,7 @@ asset packaging, and no browser credential path.
 
 ## Migration Rule
 
-Every Jeopardish subsystem intended for the long-term product receives one
-explicit disposition: `PORT`, `REBUILD`, `REFERENCE`, or `RETIRE`. Migrate by
-vertical slice with parity tests; do not let the two repositories implement the
-same speculative system independently.
+Every jeoPARODY donor subsystem receives one explicit disposition: `PORT`,
+`REBUILD`, `ARCHIVE`, or `RETIRE`. Migrate into Jeopardish by vertical slice with
+parity tests; do not let the repositories implement the same speculative system
+independently. Repository renaming follows the retirement gate.

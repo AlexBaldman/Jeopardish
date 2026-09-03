@@ -1,10 +1,11 @@
 # Branch Convergence Audit - 2026-08-05
 
-> **Repository-role update, 2026-08-08:** This audit remains authoritative for
-> Jeopardish branch disposition. Its description of Jeopardish as the permanent
-> product destination is superseded by
-> `docs/handoff/JEOPARODY_CANONICAL_MIGRATION_STRATEGY_2026-08-08.md`:
-> Jeopardish is the stable proving ground while jeoPARODY earns long-term parity.
+> **Repository-role update, 2026-09-03:** This audit remains useful for its
+> historical branch disposition. Its repository-direction language is superseded
+> by
+> [`handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md`](handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md):
+> `Jeopardish` is the canonical executable and `jeoPARODY` is the donor being
+> mined toward retirement.
 
 ## Executive Decision
 

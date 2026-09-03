@@ -2,6 +2,11 @@
 
 > Formerly developed under the working title **Jeopardish**. The public creative direction is now **JeoPARODY**, where one unauthorized O turns game-show prestige into a comedy-learning universe.
 
+`AlexBaldman/Jeopardish` `master` is the canonical executable. The similarly
+named `AlexBaldman/jeoPARODY` repository is being mined as a donor toward
+eventual retirement; the current decision and deletion gates are in
+[`docs/handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md`](docs/handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md).
+
 `creative-room.html` is an internal brand lab retained for the team. It is
 deliberately absent from player navigation and production builds.
 

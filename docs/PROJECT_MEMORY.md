@@ -1,9 +1,9 @@
 # JeoPARODY Project Memory
 
-**Status:** Canonical conversation and decision synthesis  
-**Updated:** 2026-08-08  
-**Current executable proving ground:** `AlexBaldman/Jeopardish`, branch `master`  
-**Long-term product destination:** `AlexBaldman/jeoPARODY` after it earns parity  
+**Status:** Canonical conversation and decision synthesis
+**Updated:** 2026-09-03
+**Canonical executable and consolidation target:** `AlexBaldman/Jeopardish`, branch `master`
+**Donor slated for eventual retirement:** `AlexBaldman/jeoPARODY`, branch `main`
 **Product name:** JeoPARODY
 
 This document captures durable decisions from the long design and development
@@ -26,20 +26,18 @@ Every mode must reuse the same truth and learning owners.
 
 ### Repository and architecture
 
-- Keep the Jeopardish proving ground playable and improve it when that is the
-  safest way to prove behavior. Do not start over here.
-- Repair the newer jeoPARODY architecture as the long-term destination. It
-  becomes operationally canonical only after clean boot, gameplay, assets,
-  security, accessibility, and parity evidence.
-- Forward-port behavior, tests, fixtures, and ideas through explicit contracts.
+- Keep Jeopardish playable as the canonical executable and improve it in place.
+- Mine the newer jeoPARODY work as a donor, then retire it only after the
+  September 3 retirement gate is complete.
+- Port behavior, tests, fixtures, assets, and ideas through explicit contracts.
   Never merge either runtime or styling system wholesale into the other.
 - `RoundKernel` owns legal phases and makes reveal a one-way transition.
   `GameEngine` owns score and judgment. `EpisodeController` and
   `SessionManager` record correctness and credit eligibility as explicit
   outcome facts. The renderer presents; it does not invent game truth.
 - AI, DOM state, voice, and animation may never decide correctness or score.
-- `master` is the sole active Jeopardish branch. Old Jeopardish branches are
-  read-only sources; migration work belongs in coordinated jeoPARODY slices.
+- `master` is the canonical Jeopardish branch. Migration work uses focused
+  branches and lands through canonical owners; old branches remain read-only sources.
 
 ### Game-first product surface
 

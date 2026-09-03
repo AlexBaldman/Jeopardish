@@ -1,5 +1,10 @@
 # uINVERSE Cross-Chat Ledger Pointer
 
+> **Repository-role update, 2026-09-03:** The locations below are historical
+> provenance pointers, not current repository authority. Follow
+> [`../handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md`](../handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md)
+> for the binding repository direction.
+
 **Date:** 2026-08-09
 
 Jeopardish remains a proving ground and preservation mirror for the uINVERSE platform thesis.
