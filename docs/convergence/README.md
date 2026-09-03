@@ -3,9 +3,9 @@
 This directory is the operational answer to “how do we combine the best parts
 without making another tangled rebuild?”
 
-The canonical product is **JeoPARODY**. The canonical executable is the current
-`convergence/jeoparody-v3` runtime. Everything else is a donor, reference,
-fixture source, or historical record.
+The canonical product is **JeoPARODY**. The canonical executable is
+`AlexBaldman/Jeopardish` `master`. `AlexBaldman/jeoPARODY` is the donor being
+mined toward retirement; the September 3 consolidation decision is authoritative.
 
 ## Working Rule
 
@@ -53,13 +53,14 @@ Statuses mean:
 
 The registry is ordered by leverage and dependency:
 
-1. `SEC-001`: sanitize the donor credential path and scan all refs.
-2. `OPS-001`: turn preserved dirty work into reviewable thematic evidence.
-3. `CORE-001`: finish focused presentation ownership in the canonical runtime.
-4. `ASSET-001`: establish a rights-reviewed production asset manifest.
-5. `PAO-001`, `FORMAT-001`, and `AI-001`: integrate bounded product systems
+1. `STAGE-001`: land the privacy-safe semantic Stage cue slice.
+2. `MULTI-001`: port Head-to-Head domain/privacy contracts before transport.
+3. `NEEDLE-001`: port Needle Drop's pure domain before audio/presentation.
+4. `SEC-001` / `OPS-001`: finish all-ref security and branch preservation.
+5. `ASSET-001`: establish a rights-reviewed production asset manifest.
+6. `PAO-001`, `FORMAT-001`, and `AI-001`: integrate bounded product systems
    through canonical contracts.
-6. `CONTENT-001`: mine only missing historical content-pipeline fixtures.
+7. `CONTENT-001`: mine only missing historical content-pipeline fixtures.
 
 Priority does not override dependencies. A visually exciting candidate stays
 captured until the systems it depends on are verified.

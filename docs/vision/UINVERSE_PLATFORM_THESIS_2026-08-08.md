@@ -1,5 +1,12 @@
 # uINVERSE Platform Thesis
 
+> **Repository-role update, 2026-09-03:** This concept paper is preserved, but
+> its repository-direction language is historical. The current binding decision
+> is
+> [`../handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md`](../handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md):
+> `Jeopardish` is canonical and `jeoPARODY` is the donor being mined toward
+> retirement.
+
 **Date:** 2026-08-08
 **Status:** preserved concept / architecture thesis
 **Relationship to current work:** Jeopardish is the short-term proving ground; jeoPARODY is the intended long-term canonical destination once its refactor earns parity. The Stage work developed in Jeopardish is now understood as a possible seed of a broader reusable platform.

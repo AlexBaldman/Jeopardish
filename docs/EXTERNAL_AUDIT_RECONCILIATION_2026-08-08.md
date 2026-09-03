@@ -1,5 +1,10 @@
 # External Audit Reconciliation
 
+> **Repository-role update, 2026-09-03:** Preserve this dated audit as evidence,
+> but treat any direction naming `jeoPARODY` as the future canonical repository
+> as superseded by
+> [`handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md`](handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md).
+
 **Updated:** 2026-08-08  
 **Purpose:** preserve outside reviews without allowing stale donor-repo findings
 to become the current backlog.

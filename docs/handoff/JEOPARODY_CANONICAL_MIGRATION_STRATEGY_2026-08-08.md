@@ -1,5 +1,9 @@
 # JeoPARODY Canonical Migration Strategy
 
+> **SUPERSEDED REPOSITORY DIRECTION.** Preserved as historical evidence. The
+> current decision is [`JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md`](JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md): Jeopardish is canonical;
+> jeoPARODY is the donor being mined toward retirement.
+
 **Updated:** 2026-08-08
 
 ## Decision

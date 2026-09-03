@@ -18,6 +18,8 @@
     'ConsoleNarrator',
     'HostManager',
     'HostPerformanceDirector',
+    'StageEngine',
+    'StageDirector',
     'BroadcastPresenter',
     'CabinetPresenter',
     'BrandController',
@@ -47,6 +49,8 @@
       ConsoleNarrator: scope?.JeopardishConsoleNarrator?.ConsoleNarrator,
       HostManager: scope?.JeopardishHost?.HostManager,
       HostPerformanceDirector: scope?.JeoPARODYHostPerformance?.HostPerformanceDirector,
+      StageEngine: scope?.JeoPARODYStageEngine?.StageEngine,
+      StageDirector: scope?.JeoPARODYStageDirector?.StageDirector,
       BroadcastPresenter: scope?.JeoPARODYBroadcastPresenter?.BroadcastPresenter,
       CabinetPresenter: scope?.JeoPARODYCabinetPresenter?.CabinetPresenter,
       BrandController: scope?.JeoPARODYBrand?.BrandController,
@@ -93,6 +97,8 @@
       preferenceOptions = {},
       learningOptions = {},
       hostPerformanceOptions = {},
+      stageOptions = {},
+      stageDirectorOptions = {},
       presentationOptions = {},
       cabinetOptions = {},
       voiceOptions = {},
@@ -124,6 +130,12 @@
       const hostPerformanceDirector = new M.HostPerformanceDirector({
         eventBus,
         ...hostPerformanceOptions,
+      });
+      const stageEngine = new M.StageEngine(stageOptions);
+      const stageDirector = new M.StageDirector({
+        eventBus,
+        stage: stageEngine,
+        ...stageDirectorOptions,
       });
       const brandController = new M.BrandController();
       const translationService = new M.TranslationService();
@@ -202,6 +214,8 @@
         consoleNarrator,
         hostManager,
         hostPerformanceDirector,
+        stageEngine,
+        stageDirector,
         broadcastPresenter,
         cabinetPresenter,
         brandController,
@@ -240,6 +254,8 @@
       const S = this.services;
       try {
         S.renderer.bindDom();
+        S.stageEngine.bind();
+        S.stageDirector.start();
         S.brandController.bind();
         S.hostManager.setActiveSkin(S.preferenceStore.get('hostSkinId'));
         S.hostPerformanceDirector.setActivePack(S.preferenceStore.get('hostPackId'));
@@ -273,6 +289,8 @@
       this.safeInvoke('clue-localization-cancel', () => S.clueLocalization.cancel());
       this.safeInvoke('round-kernel-cancel', () => S.roundKernel.cancel(undefined, reason));
       this.safeInvoke('input-controller-destroy', () => S.inputController.destroy());
+      this.safeInvoke('stage-director-stop', () => S.stageDirector.stop());
+      this.safeInvoke('stage-engine-destroy', () => S.stageEngine.destroy());
       this.safeInvoke('product-telemetry-stop', () => S.productTelemetry.stop());
       this.safeInvoke('voice-controller-stop', () => S.voiceController.stop());
       this.safeInvoke('scene-service-destroy', () => S.sceneService?.destroy?.());

@@ -2,43 +2,37 @@
 
 ## Current repository direction
 
-The authoritative repository-role decision is:
+The authoritative repository-role decision is now:
 
-**`AlexBaldman/jeoPARODY` is the intended long-term canonical product repository.**
+**`AlexBaldman/Jeopardish` `master` is the canonical executable and long-term consolidation target.**
 
-**`AlexBaldman/Jeopardish` is the short-term stable proving ground, bug-fix/reference implementation, and source of proven systems to forward-port deliberately into jeoPARODY.**
+**`AlexBaldman/jeoPARODY` `main` is the donor/R&D repository to mine comprehensively and eventually retire.**
 
-Read [`JEOPARODY_CANONICAL_MIGRATION_STRATEGY_2026-08-08.md`](JEOPARODY_CANONICAL_MIGRATION_STRATEGY_2026-08-08.md) before any other handoff document.
+Read [`JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md`](JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md) before any other handoff document.
 
 ### Supersession warning
 
-`JEOPARODY_CONSOLIDATED_BLUEPRINT_2026-08-08.md` was generated immediately before the latest Devin migration context was reconciled. Its product, Stage, host, content, and roadmap material remains useful, **but its statements describing Jeopardish as permanently canonical and jeoPARODY as merely donor/R&D are superseded by the migration-strategy document above.**
+The August 8 migration strategy and its reversed repository roles are historical. Its product, Stage, host, content, and roadmap material remains useful, but its direction is superseded by the September 3 consolidation decision.
 
-Do not use those older repository-role labels to reverse the migration.
+Do not use older repository-role labels to reverse the migration again.
 
 ## Operating model
 
 ```text
-Jeopardish
-working + tested proving ground
+jeoPARODY donor
+       ↓ mine behavior/contracts/fixtures/assets/provenance
+PORT / REBUILD / ARCHIVE / RETIRE
        ↓
-extract proven behavior/contracts/fixtures
-       ↓
-PORT / REBUILD deliberately
-       ↓
-jeoPARODY
-repair architectural foundation
-       ↓
-earn parity + release evidence
-       ↓
-long-term canonical product
+Jeopardish canonical executable
+       ↓ retirement gate
+final JeoPARODY repository rename
 ```
 
 ## For Devin / coding agents
 
-1. Read the migration strategy first.
-2. In `jeoPARODY`, read Devin's `docs/AUDIT_2026.md` and `docs/AUDIT_2026-07_REVIEW.md` work/review branches.
-3. Repair jeoPARODY's P0 boot/runtime failures before broad feature migration.
-4. Treat Jeopardish as a behavioral oracle and proving ground, not the permanent destination.
-5. Port by vertical slice with explicit parity tests; do not wholesale-merge either repository.
-6. Current Jeopardish Stage/host/episode work is valuable migration source material after it is proven.
+1. Read the September 3 consolidation decision first.
+2. Treat Jeopardish owners and tests as canonical.
+3. Use the convergence registry and donor retirement ledger for every donor family.
+4. Port one bounded vertical slice with explicit parity/privacy tests.
+5. Do not wholesale-merge either repository or create parallel owners.
+6. Do not delete the donor until its full retirement gate passes and Alex approves the destructive step.

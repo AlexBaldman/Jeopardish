@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-08-04",
+  "updated": "2026-09-03",
   "canonical": {
     "product": "JeoPARODY",
     "repository": "AlexBaldman/Jeopardish",
@@ -112,7 +112,7 @@
       "title": "Finish focused presentation ownership in the canonical runtime",
       "kind": "canonical-refactor",
       "priority": "P1",
-      "status": "implementing",
+      "status": "verified",
       "disposition": "port",
       "source": [
         {
@@ -149,7 +149,7 @@
       ],
       "rightsRisk": "none",
       "supersededAction": "Remove each extracted presentation responsibility from app.js or the renderer facade in the same verified change.",
-      "nextAction": "Keep the Renderer facade stable and extract the next proven command/presentation workflow from the 651-line app coordinator without delaying original-IP and bilingual-content work."
+      "nextAction": "Keep the verified focused owners stable; route new presentation behavior through them rather than reopening a broad coordinator refactor."
     },
     {
       "id": "UI-001",
@@ -416,6 +416,232 @@
       "rightsRisk": "archive provenance remains non-production",
       "supersededAction": "Archive the historical loader and shard format after any genuinely missing fixtures are represented in canonical tests.",
       "nextAction": "Compare test cases after historical work is curated."
+    },
+    {
+      "id": "STAGE-001",
+      "title": "Port a privacy-safe semantic Stage cue slice",
+      "kind": "behavior-port",
+      "priority": "P1",
+      "status": "implementing",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "c96e85cc8a848e308a8af07e7b633547522791be",
+          "paths": [
+            "src/modes/needle-drop/core/showEvents.js",
+            "src/modes/needle-drop/presentation/showDirector.js",
+            "src/services/HostStageActor.js"
+          ]
+        },
+        {
+          "repositoryRole": "canonical-runtime",
+          "revision": "379ba9d1f9413d8b7283bd5f13cbd1bb11d19197",
+          "paths": [
+            "src/contracts/events.js",
+            "src/host/host-performance-director.js",
+            "src/application/application-composition.js",
+            "docs/architecture/STAGE_RUNTIME_SYSTEM.md"
+          ]
+        }
+      ],
+      "canonicalOwner": "StageDirector plus StageEngine downstream of canonical event and host-performance owners",
+      "targetPaths": [
+        "src/presentation/stage-director.js",
+        "src/presentation/stage-engine.js",
+        "src/application/application-composition.js",
+        "tests/stage-director.test.mjs"
+      ],
+      "dependencies": [
+        "CORE-001"
+      ],
+      "decision": "Preserve the donor's deterministic semantic Show Director pattern while rebuilding it on canonical events, allowlisted receipts, explicit HostPerformanceDirector output, and lifecycle-owned subscriptions.",
+      "acceptance": [
+        "INTRO, CLUE, CORRECT, WRONG, ROUND_TRANSITION, and WINNER map to deterministic versioned cues.",
+        "Stage receipts exclude raw player answers, correct answers, clue text, and arbitrary payload objects.",
+        "Host stage state arrives through HOST_PERFORMANCE_DIRECTED instead of a second host-performance owner.",
+        "Application startup and teardown bind and release the Stage owners exactly once."
+      ],
+      "evidence": [
+        "tests/stage-director.test.mjs",
+        "tests/application-composition.test.mjs",
+        "node --test tests/stage-director.test.mjs tests/application-composition.test.mjs"
+      ],
+      "rightsRisk": "none",
+      "supersededAction": "Retain donor ShowDirector copy/audio and HostStageActor DOM choreography as references; do not port their global DOM, random, or unmanaged-listener behavior.",
+      "nextAction": "Add camera/actor visual realization through deterministic fixtures after this contract passes the complete release wall."
+    },
+    {
+      "id": "MULTI-001",
+      "title": "Port Head-to-Head domain and privacy contracts before transport",
+      "kind": "mode-port",
+      "priority": "P1",
+      "status": "approved",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "c96e85cc8a848e308a8af07e7b633547522791be",
+          "paths": [
+            "src/modes/head-to-head/",
+            "src/services/multiplayer/",
+            "tests/multiplayer/",
+            "firestore.rules",
+            "firestore.indexes.json",
+            "scripts/head-to-head-runtime-check.mjs",
+            "scripts/firestore-rules-check.mjs"
+          ]
+        }
+      ],
+      "canonicalOwner": "isolated Head-to-Head match domain with replaceable room gateway and authority adapters",
+      "targetPaths": [
+        "src/modes/head-to-head/",
+        "src/services/multiplayer/",
+        "tests/head-to-head/"
+      ],
+      "dependencies": [
+        "CORE-001"
+      ],
+      "decision": "Preserve the proven public/private match boundary, serializable commands, idempotence, reconnect recovery, anonymous guest flow, and executable rule tests without routing multiplayer through solo game state.",
+      "acceptance": [
+        "The pure match kernel proves lobby, readiness, five-round progression, ties, scoring, and duplicate-command safety.",
+        "Public state contains no raw answers or private correctness before atomic reveal.",
+        "Host/browser authority remains a replaceable adapter and is documented as casual-play only.",
+        "Firebase and local gateways arrive only after the domain contract passes in the canonical harness."
+      ],
+      "evidence": [],
+      "rightsRisk": "question/content provenance remains required",
+      "supersededAction": "Archive donor mode/runtime files after canonical domain, transport, security, and reconnect evidence reaches parity.",
+      "nextAction": "Port and adapt the pure match kernel plus privacy fixtures; defer Firebase wiring to the following slice."
+    },
+    {
+      "id": "NEEDLE-001",
+      "title": "Port Needle Drop as an isolated rights-gated mode",
+      "kind": "mode-port",
+      "priority": "P1",
+      "status": "approved",
+      "disposition": "port",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "c96e85cc8a848e308a8af07e7b633547522791be",
+          "paths": [
+            "src/modes/needle-drop/",
+            "tests/needle-drop/",
+            "scripts/validate-needle-drop-content.mjs",
+            "scripts/needle-drop-runtime-check.mjs",
+            "needle-drop.html"
+          ]
+        }
+      ],
+      "canonicalOwner": "isolated Needle Drop reducer/content/session domain with canonical Stage and adapter boundaries",
+      "targetPaths": [
+        "src/modes/needle-drop/",
+        "tests/needle-drop/"
+      ],
+      "dependencies": [
+        "CORE-001",
+        "STAGE-001"
+      ],
+      "decision": "The donor proves a distinct playable mode with deterministic truth, sanitized show events, procedural public-domain arrangements, party steals, and optional persistence. Port the pure domain first, then adapt presentation and audio.",
+      "acceptance": [
+        "Reducer, content validation, deterministic sessions, party rules, and show-event sanitization pass without DOM or network dependencies.",
+        "Every demo clue has provenance, authored choices, and an original-performance/public-domain rights basis.",
+        "Audio and UI failures cannot corrupt round truth or block restart.",
+        "The mode stays isolated and does not create parallel canonical trivia owners."
+      ],
+      "evidence": [],
+      "rightsRisk": "commercial recordings require explicit interactive-game rights; demo recognition needs blind testing",
+      "supersededAction": "Archive donor mode files only after canonical behavior, rights validation, browser proof, and first-play clarity reach parity.",
+      "nextAction": "Port the pure core and its tests before bringing over audio, CSS, or Vite composition code."
+    },
+    {
+      "id": "OPS-002",
+      "title": "Reconcile donor CI deployment and project proof guarantees",
+      "kind": "proof-reconciliation",
+      "priority": "P2",
+      "status": "evaluating",
+      "disposition": "reinterpret",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "c96e85cc8a848e308a8af07e7b633547522791be",
+          "paths": [
+            ".github/workflows/ci.yml",
+            ".github/workflows/deploy-pages.yml",
+            "scripts/check-docs-contract.mjs",
+            "scripts/check-deployment-contract.mjs",
+            "scripts/check-security-contract.mjs",
+            "scripts/audit-source-reachability.mjs",
+            "scripts/runtime-state-check.mjs"
+          ]
+        }
+      ],
+      "canonicalOwner": "canonical verify and verify:release proof wall plus the single Pages publisher",
+      "targetPaths": [
+        "package.json",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "dependencies": [],
+      "decision": "Compare guarantees assertion by assertion. Port missing protections such as exact-live-SHA or source reachability only when they fit the canonical static-build and release architecture.",
+      "acceptance": [
+        "One matrix records donor guarantee, canonical equivalent, gap, disposition, and proof.",
+        "No second Pages publisher, unnecessary framework migration, or duplicate check owner is introduced.",
+        "Any accepted check fails on a deliberate negative fixture and passes the canonical release build."
+      ],
+      "evidence": [],
+      "rightsRisk": "none",
+      "supersededAction": "Archive donor workflow implementation after every unique guarantee is represented or deliberately rejected.",
+      "nextAction": "Build the guarantee matrix after the two mode-domain ports have stable build requirements."
+    },
+    {
+      "id": "RETIRE-001",
+      "title": "Certify the jeoPARODY donor repository for retirement",
+      "kind": "repository-retirement-gate",
+      "priority": "P1",
+      "status": "evaluating",
+      "disposition": "archive",
+      "source": [
+        {
+          "repositoryRole": "jeoparody-donor",
+          "revision": "c96e85cc8a848e308a8af07e7b633547522791be",
+          "paths": [
+            "./"
+          ]
+        }
+      ],
+      "canonicalOwner": "repository consolidation decision and donor retirement ledger",
+      "targetPaths": [
+        "docs/handoff/JEOPARODY_REPOSITORY_CONSOLIDATION_2026-09-03.md",
+        "docs/convergence/DONOR_RETIREMENT_LEDGER_2026-09-03.md",
+        "docs/convergence/registry.json"
+      ],
+      "dependencies": [
+        "SEC-001",
+        "OPS-001",
+        "ASSET-001",
+        "PAO-001",
+        "FORMAT-001",
+        "AI-001",
+        "CONTENT-001",
+        "STAGE-001",
+        "MULTI-001",
+        "NEEDLE-001",
+        "OPS-002"
+      ],
+      "decision": "Repository retirement is earned only after all main and branch-unique value, configuration, security, assets, links, and restoration evidence have explicit outcomes.",
+      "acceptance": [
+        "Every tracked donor main file family and non-main branch has a final disposition.",
+        "Unique behavior is represented by canonical evidence or an explicit archival rationale.",
+        "Assets, credentials, external configuration, deployments, and inbound links are resolved.",
+        "An immutable private preservation bundle passes a restore drill.",
+        "Alex separately approves the destructive repository retirement action."
+      ],
+      "evidence": [],
+      "rightsRisk": "mixed donor assets and likeness-dependent archives require final classification",
+      "supersededAction": "Archive or delete the donor only after this gate is verified; then execute the separately tested canonical repository rename.",
+      "nextAction": "Resolve upstream candidates and inventory every non-main branch before proposing deletion."
     }
   ]
 }

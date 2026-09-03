@@ -10,6 +10,16 @@ JeoPARODY should behave as a programmable game-show studio, not merely a trivia 
 
 This document is intended to be readable by another AI implementation agent as the architectural target.
 
+## Current implementation
+
+The first canonical contract slice lives in
+`src/presentation/stage-director.js` and `src/presentation/stage-engine.js`.
+It maps `INTRO`, `CLUE`, `CORRECT`, `WRONG`, `ROUND_TRANSITION`, and `WINNER`
+from canonical events into versioned cues, strips raw clue/answer content from
+receipts, consumes host state through `HOST_PERFORMANCE_DIRECTED`, and releases
+all subscriptions on teardown. Camera visuals, actor blocking, audio, FX, and
+environmental comedy remain later adapters behind this contract.
+
 ## Core topology
 
 ```text

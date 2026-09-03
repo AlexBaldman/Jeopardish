@@ -75,6 +75,16 @@ function createHarness() {
     setActivePack(id) { calls.push(['host-pack', id]); }
   }
 
+  class StageEngine extends simpleConstructor('stage-engine') {
+    bind() { calls.push(['bind', 'stage-engine']); }
+    destroy() { calls.push(['destroy', 'stage-engine']); }
+  }
+
+  class StageDirector extends simpleConstructor('stage-director') {
+    start() { calls.push(['start', 'stage-director']); }
+    stop() { calls.push(['stop', 'stage-director']); }
+  }
+
   class BrandController extends simpleConstructor('brand') {
     bind() { calls.push(['bind', 'brand']); }
   }
@@ -142,6 +152,8 @@ function createHarness() {
     ConsoleNarrator,
     HostManager,
     HostPerformanceDirector,
+    StageEngine,
+    StageDirector,
     BroadcastPresenter: simpleConstructor('broadcast-presenter'),
     CabinetPresenter: simpleConstructor('cabinet-presenter'),
     BrandController,
@@ -188,6 +200,8 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(services.roundKernel.options.eventBus, services.eventBus);
   assert.equal(services.roundKernel.options.reducedMotion, true);
   assert.equal(services.hostPerformanceDirector.options.eventBus, services.eventBus);
+  assert.equal(services.stageDirector.options.eventBus, services.eventBus);
+  assert.equal(services.stageDirector.options.stage, services.stageEngine);
   assert.equal(services.broadcastPresenter.options.renderer, services.renderer);
   assert.equal(services.broadcastPresenter.options.hostManager, services.hostManager);
   assert.equal(
@@ -220,7 +234,7 @@ test('ApplicationComposition constructs the service graph once with explicit dep
   assert.equal(calls.filter(([action]) => action === 'load').length, 1);
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_COMPOSED
-    && event.payload.serviceCount === 25
+    && event.payload.serviceCount === 27
   )));
 });
 
@@ -238,6 +252,7 @@ test('ApplicationComposition starts and destroys its lifecycle exactly once', ()
   assert.equal(calls.filter((call) => call[1] === 'renderer-dom').length, 1);
   assert.equal(calls.filter((call) => call[1] === 'keyboard').length, 1);
   assert.equal(calls.filter((call) => call[0] === 'start' && call[1] === 'telemetry').length, 1);
+  assert.equal(calls.filter((call) => call[0] === 'start' && call[1] === 'stage-director').length, 1);
   assert.ok(calls.some((call) => call[0] === 'host-pack' && call[1] === 'vera-static'));
   assert.ok(events.some((event) => (
     event.type === GameEvents.APPLICATION_STARTED
@@ -256,6 +271,8 @@ test('ApplicationComposition starts and destroys its lifecycle exactly once', ()
   assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'episode'));
   assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'scene'));
   assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'renderer'));
+  assert.ok(calls.some((call) => call[0] === 'destroy' && call[1] === 'stage-engine'));
+  assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'stage-director'));
   assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'voice'));
   assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'narrator'));
   assert.ok(calls.some((call) => call[0] === 'stop' && call[1] === 'telemetry'));
@@ -285,6 +302,8 @@ test('ApplicationComposition rolls back owned work when startup fails', () => {
 test('ApplicationComposition rejects incomplete service registries', () => {
   assert.equal(REQUIRED_CONSTRUCTORS.includes('GameEngine'), true);
   assert.equal(REQUIRED_CONSTRUCTORS.includes('HostPerformanceDirector'), true);
+  assert.equal(REQUIRED_CONSTRUCTORS.includes('StageEngine'), true);
+  assert.equal(REQUIRED_CONSTRUCTORS.includes('StageDirector'), true);
   assert.equal(REQUIRED_CONSTRUCTORS.includes('BroadcastPresenter'), true);
   assert.equal(REQUIRED_CONSTRUCTORS.includes('CabinetPresenter'), true);
   assert.equal(REQUIRED_CONSTRUCTORS.includes('ClueLocalization'), true);

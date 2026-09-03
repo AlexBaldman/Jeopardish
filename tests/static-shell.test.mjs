@@ -436,6 +436,17 @@ test('both game shells load privacy-safe telemetry before the composition root',
   }
 });
 
+test('both game shells load semantic Stage owners before the composition root', () => {
+  for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
+    const engine = html.indexOf('src/presentation/stage-engine.js');
+    const director = html.indexOf('src/presentation/stage-director.js');
+    const composition = html.indexOf('src/application/application-composition.js');
+    assert.ok(engine > 0, `${surface} is missing StageEngine`);
+    assert.ok(director > engine, `${surface} must load StageDirector after StageEngine`);
+    assert.ok(composition > director, `${surface} must load Stage owners before composition`);
+  }
+});
+
 test('both game shells load focus management and keep the closed menu inert', () => {
   for (const [surface, html] of [['index.html', landingHtml], ['game.html', gameHtml]]) {
     assert.match(html, /src="src\/ui\/focus-scope\.js/, `${surface} is missing focus management`);

@@ -108,6 +108,18 @@ async function auditRoute(browser, browserName, route) {
         document.getElementById('gameContainer')?.dataset.gameMoment === 'clue'
         && document.getElementById('questionButton')?.disabled === false
       ), null, { timeout: 30000 });
+      const initialStage = await page.locator('#gameContainer').evaluate((element) => ({
+        runtime: element.dataset.stageRuntime,
+        scene: element.dataset.stageScene,
+        camera: element.dataset.cameraShot,
+      }));
+      if (
+        initialStage.runtime !== 'ready'
+        || initialStage.scene !== 'clue'
+        || initialStage.camera !== 'medium'
+      ) {
+        failures.push(`semantic Stage did not reach clue state: ${JSON.stringify(initialStage)}`);
+      }
     }
     await page.waitForTimeout(350);
 
@@ -149,6 +161,10 @@ async function auditRoute(browser, browserName, route) {
       await page.waitForFunction(
         () => document.getElementById('gameContainer')?.dataset.roundPhase === 'advance-ready',
       );
+      const resultStage = await page.locator('#gameContainer').getAttribute('data-stage-scene');
+      if (resultStage !== 'correct') {
+        failures.push(`semantic Stage did not retain correct result state: ${resultStage}`);
+      }
       const score = Number((await page.locator('#hudScore').innerText()).replace(/[^\d.-]/g, ''));
       if (!(score > 0)) failures.push('correct-answer flow did not increase score');
 
