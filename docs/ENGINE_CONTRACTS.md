@@ -13,6 +13,12 @@ Jeopardish is moving toward a host-agnostic arcade engine. This document records
   the historical archive.
 - `src/core/round-kernel.js` is the sole owner of legal round phases,
   presentation transactions, round identity, cancellation, and pause/resume.
+- `src/modes/head-to-head/match.js` owns isolated two-player public match truth,
+  its versioned command vocabulary, readiness, round progression, revealed
+  outcomes, mode-local scoring, and deterministic winners. It never stores room
+  discovery, transport configuration, correct-answer secrets, or raw submitted
+  answers, and it does not route competitive state through the solo
+  `GameEngine`.
 - `src/application/preference-store.js` owns validated UI preference state and
   persistence for theme, language, host, dialogue, scene, sound, and voice.
 - `src/application/clue-pipeline.js` owns the cancellable transaction from
@@ -109,6 +115,17 @@ round.
 scene, audio, voice, and host-performance boundaries. It may cycle presentation
 preferences through `PreferenceStore`, but it cannot read or mutate round,
 episode, answer, or score state.
+
+The Head-to-Head match kernel consumes serializable `JOIN`, `SET_READY`,
+`START`, `SUBMIT_ANSWER`, and `NEXT_ROUND` commands. Round-bound commands carry
+the expected round index so durable replay cannot affect a later clue. Private
+answer text exists only in the submitted command and is excluded from public
+command receipts and match state. The authority adapter must privately judge
+answers and supply a complete reveal only with the second submission; the
+kernel then publishes both outcomes, the approved answer, and kernel-calculated
+points in one state transition. Browser-host authority is acceptable only for
+casual proving play. Rankings, prizes, or adversarial competition require a
+trusted server authority behind the same command boundary.
 
 `ClueLocalization` may receive canonical clue content, but it only prepares or
 commits a display variant through the `EpisodeController` callback. Its

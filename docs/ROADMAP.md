@@ -1,6 +1,6 @@
 # JeoPARODY Active Roadmap
 
-**Updated:** 2026-09-03
+**Updated:** 2026-09-04
 **Rule:** this is the short active work order. Dated plans explain history and
 architecture but do not outrank this sequence.
 
@@ -8,8 +8,11 @@ architecture but do not outrank this sequence.
 
 - use the September 3 donor retirement ledger and machine-readable registry;
 - land one bounded PORT / REBUILD slice at a time through canonical owners;
-- begin with Stage semantic cues, then Head-to-Head domain/privacy contracts,
-  then Needle Drop's pure reducer/content/session contracts;
+- complete browser release proof for the implemented Stage semantic cues;
+- keep the verified Head-to-Head domain/privacy kernel transport-neutral while
+  the next slice proves one replaceable host-authority adapter;
+- proceed to Needle Drop's pure reducer/content/session contracts only after
+  the active convergence slot is deliberately reassigned;
 - preserve branch-unique assets and provenance before any donor retirement.
 
 ## 2. Original-IP And Asset Provenance

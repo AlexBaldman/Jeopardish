@@ -1,7 +1,7 @@
 # JeoPARODY Project Memory
 
 **Status:** Canonical conversation and decision synthesis
-**Updated:** 2026-09-03
+**Updated:** 2026-09-04
 **Canonical executable and consolidation target:** `AlexBaldman/Jeopardish`, branch `master`
 **Donor slated for eventual retirement:** `AlexBaldman/jeoPARODY`, branch `main`
 **Product name:** JeoPARODY
@@ -38,6 +38,14 @@ Every mode must reuse the same truth and learning owners.
 - AI, DOM state, voice, and animation may never decide correctness or score.
 - `master` is the canonical Jeopardish branch. Migration work uses focused
   branches and lands through canonical owners; old branches remain read-only sources.
+- Head-to-Head owns separate deterministic match truth because two-player
+  readiness, atomic reveal, and competitive scoring are different rules from
+  solo `GameEngine` play. Its public state excludes transport discovery, raw
+  answers, and private correctness; room gateways and host/server authority
+  remain replaceable adapters.
+- Head-to-Head uses round-bound serializable commands so stale durable intent
+  cannot mutate a later clue. Browser-host authority is limited to casual
+  proving play; rankings or prizes require trusted server adjudication.
 
 ### Game-first product surface
 

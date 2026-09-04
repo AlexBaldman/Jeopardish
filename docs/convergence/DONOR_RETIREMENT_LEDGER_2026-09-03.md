@@ -1,6 +1,7 @@
 # jeoPARODY Donor Retirement Ledger
 
 **Status:** CURRENT REFERENCE REGISTER
+**Updated:** 2026-09-04
 **Donor revision:** `AlexBaldman/jeoPARODY@c96e85cc8a848e308a8af07e7b633547522791be`
 **Canonical baseline:** `AlexBaldman/Jeopardish@379ba9d1f9413d8b7283bd5f13cbd1bb11d19197`
 
@@ -18,7 +19,7 @@ The machine-enforced work queue is [`registry.json`](registry.json). This docume
 | `HostStageActor` and responsive Stage motion | **REBUILD** | Preserve movement, tail tracking, reduced-motion, and stage-rail behaviors. Reject global DOM access, unmanaged listeners, `Math.random`, and direct game-event choreography. Route through Stage and HostPerformanceDirector contracts. |
 | Needle Drop pure domain (`core/content`, `round`, `session`, `party`, `showEvents`) | **PORT** | Strong isolated mode candidate. Start with reducer, immutable rights-gated content, deterministic seed/session behavior, and privacy-safe semantic events. |
 | Needle Drop audio, presentation, persistence, recorder, stings, runtime/browser proof | **PORT / REBUILD** | Port adapters after the pure domain. Retain checksum validation, exact sample windows, procedural public-domain demo strategy, escaped markup, optional persistence, redacted receipts, and browser evidence. Adapt build/UI to canonical owners. |
-| Head-to-Head match kernel and host authority | **PORT / REBUILD** | Preserve serializable commands, private adjudication until atomic reveal, idempotence, deterministic public state, ties, and reconnect behavior. Keep mode scoring separate from canonical solo scoring. |
+| Head-to-Head match kernel and host authority | **PARTLY PORTED / REBUILD** | The canonical pure kernel now preserves versioned serializable commands, private adjudication until atomic reveal, semantic replay safety, immutable public state, ties, and mode-local scoring. Host authority and reconnect remain later adapters. |
 | Local/Firebase room gateways, lifecycle, session recovery, Firestore rules/indexes | **PORT / REBUILD** | Port behind a canonical room/input adapter after the pure match contract. Preserve anonymous guest entry, room-code discovery, per-command durability, host secret recovery, 12-hour lifecycle, executable rules, and two-context reconnect proof. |
 | Exact-live-SHA Pages deployment and cloud certification | **REINTERPRET** | Add guarantees that fit canonical deployment. Do not introduce a second publisher or force a Vite/Firebase migration merely to copy workflow shape. |
 | Node 24 CI, doctrine/security/docs checks, source reachability, runtime evidence | **REINTERPRET** | Compare each assertion with canonical `verify` / `verify:release`; port only missing guarantees. Preserve the donor's one-owner documentation registry and append-safe handoff ideas where they reduce ambiguity. |
@@ -36,7 +37,7 @@ The machine-enforced work queue is [`registry.json`](registry.json). This docume
 
 ## Port queue
 
-### 1. Stage semantic contract — first slice implemented
+### 1. Stage semantic contract — implemented, browser proof blocked
 
 Canonical files:
 
@@ -44,11 +45,11 @@ Canonical files:
 - `src/presentation/stage-director.js`
 - `tests/stage-director.test.mjs`
 
-The slice covers `INTRO`, `CLUE`, `CORRECT`, `WRONG`, `ROUND_TRANSITION`, and `WINNER`; emits versioned deterministic cues; allowlists receipt facts; excludes clue/answer content; consumes HostPerformanceDirector events; and owns subscription teardown. Camera visuals, actor blocking, audio, FX, and comedy remain later presentation adapters.
+The slice covers `INTRO`, `CLUE`, `CORRECT`, `WRONG`, `ROUND_TRANSITION`, and `WINNER`; emits versioned deterministic cues; allowlists receipt facts; excludes clue/answer content; consumes HostPerformanceDirector events; and owns subscription teardown. Non-browser verification passes. Browser smoke, accessibility, and visual proof remain blocked in the current workspace because no Chromium executable is available and the Playwright download timed out. Camera visuals, actor blocking, audio, FX, and comedy remain later presentation adapters.
 
-### 2. Head-to-Head domain before transport
+### 2. Head-to-Head domain before transport — verified
 
-First preserve and adapt `core/match.js`, command vocabulary, privacy assertions, host-authority seam, and deterministic tests. Firebase arrives after the domain contract passes inside the canonical harness.
+`src/modes/head-to-head/match.js` now owns the transport-neutral public match, versioned command vocabulary, five-round progression, mode-local scoring, semantic replay safety, and atomic reveal contract. Eleven focused tests prove privacy, authority boundaries, malformed input rejection, ties, and stale-round protection. The canonical port intentionally removes donor room IDs and join codes from gameplay truth, drops arbitrary clue fields, ignores authority-supplied point totals, and publishes no second submission without a complete private reveal. Host authority and gateways remain later adapters; Firebase still waits.
 
 ### 3. Needle Drop domain before spectacle
 
