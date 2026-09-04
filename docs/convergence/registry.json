@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-09-03",
+  "updated": "2026-09-04",
   "canonical": {
     "product": "JeoPARODY",
     "repository": "AlexBaldman/Jeopardish",
@@ -422,7 +422,7 @@
       "title": "Port a privacy-safe semantic Stage cue slice",
       "kind": "behavior-port",
       "priority": "P1",
-      "status": "implementing",
+      "status": "blocked",
       "disposition": "reinterpret",
       "source": [
         {
@@ -465,18 +465,19 @@
       "evidence": [
         "tests/stage-director.test.mjs",
         "tests/application-composition.test.mjs",
-        "node --test tests/stage-director.test.mjs tests/application-composition.test.mjs"
+        "node --test tests/stage-director.test.mjs tests/application-composition.test.mjs",
+        "npm run verify (285 tests and all non-browser audits passed on 2026-09-04)"
       ],
       "rightsRisk": "none",
       "supersededAction": "Retain donor ShowDirector copy/audio and HostStageActor DOM choreography as references; do not port their global DOM, random, or unmanaged-listener behavior.",
-      "nextAction": "Add camera/actor visual realization through deterministic fixtures after this contract passes the complete release wall."
+      "nextAction": "Run npm run verify:release in a browser-capable environment; the local Playwright Chromium download timed out before smoke proof. Promote only after that evidence, then add camera/actor visual realization through deterministic fixtures."
     },
     {
       "id": "MULTI-001",
       "title": "Port Head-to-Head domain and privacy contracts before transport",
       "kind": "mode-port",
       "priority": "P1",
-      "status": "approved",
+      "status": "verified",
       "disposition": "reinterpret",
       "source": [
         {
@@ -495,9 +496,9 @@
       ],
       "canonicalOwner": "isolated Head-to-Head match domain with replaceable room gateway and authority adapters",
       "targetPaths": [
-        "src/modes/head-to-head/",
-        "src/services/multiplayer/",
-        "tests/head-to-head/"
+        "src/modes/head-to-head/match.js",
+        "tests/head-to-head-match.test.mjs",
+        "docs/ENGINE_CONTRACTS.md"
       ],
       "dependencies": [
         "CORE-001"
@@ -509,10 +510,15 @@
         "Host/browser authority remains a replaceable adapter and is documented as casual-play only.",
         "Firebase and local gateways arrive only after the domain contract passes in the canonical harness."
       ],
-      "evidence": [],
+      "evidence": [
+        "src/modes/head-to-head/match.js",
+        "tests/head-to-head-match.test.mjs",
+        "node --test tests/head-to-head-match.test.mjs",
+        "npm run verify"
+      ],
       "rightsRisk": "question/content provenance remains required",
       "supersededAction": "Archive donor mode/runtime files after canonical domain, transport, security, and reconnect evidence reaches parity.",
-      "nextAction": "Port and adapt the pure match kernel plus privacy fixtures; defer Firebase wiring to the following slice."
+      "nextAction": "Add a replaceable host-authority adapter against the proven command/reveal seam, then prove a local room gateway before considering Firebase wiring."
     },
     {
       "id": "NEEDLE-001",

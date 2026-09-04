@@ -1,6 +1,6 @@
 # JeoPARODY Current State
 
-**Snapshot date:** 2026-09-03
+**Snapshot date:** 2026-09-04
 **Canonical branch:** `AlexBaldman/Jeopardish` `master`
 **Donor:** `AlexBaldman/jeoPARODY` `main`, mined toward eventual retirement
 **Canonical baseline for this batch:** `379ba9d`
@@ -33,7 +33,7 @@ Additional committed capabilities include:
 - canonical project memory, active roadmap, document authority map, and
   verbatim preservation/reconciliation of five unique outside audits.
 
-### Added on the current focused branch
+### Added on the current focused branch stack
 
 - the September 3 repository consolidation decision and refreshed donor
   retirement ledger;
@@ -41,12 +41,20 @@ Additional committed capabilities include:
   ROUND_TRANSITION, and WINNER;
 - a privacy-safe StageDirector that consumes canonical semantic events and the
   existing HostPerformanceDirector event path;
-- deterministic Stage tests and composition lifecycle coverage.
+- deterministic Stage tests and composition lifecycle coverage;
+- a transport-neutral Head-to-Head match kernel with versioned serializable
+  commands, immutable public state, mode-local scoring, round-bound replay
+  protection, and atomic reveal;
+- privacy fixtures proving raw answers, correct-answer secrets, arbitrary clue
+  fields, and premature correctness never enter public match state.
 
 ### Not yet deployed or production-complete
 
-- this working batch still requires complete release verification, review,
-  commit, push, and deployed observation;
+- the Stage branch still requires browser smoke, accessibility, and visual
+  proof; this workspace has no Chromium executable and the Playwright download
+  timed out before browser verification could begin;
+- the Head-to-Head domain deliberately has no room gateway, browser host,
+  Firebase wiring, UI, reconnect behavior, or deployment claim yet;
 - the current generated host artwork still needs asset-by-asset provenance,
   transformation hashes, likeness review, and commercial-rights approval;
 - custom neural voice and frame-authored sprite animation remain future assets;
@@ -59,8 +67,12 @@ Additional committed capabilities include:
 
 ## Verification
 
-The pre-batch canonical unit baseline on 2026-09-03 passes 280 tests. The last
-documented complete release proof from 2026-08-08 also passed:
+The pre-batch canonical unit baseline on 2026-09-03 passed 280 tests. On
+2026-09-04, the stacked branch passes 296 tests plus convergence, CSS, asset,
+host-production, content, static-build, and production-artifact audits. The
+complete release command stops at browser smoke because the local Playwright
+Chromium binary is unavailable. The last documented complete release proof
+from 2026-08-08 passed:
 
 - 275 automated tests with zero failures at that checkpoint;
 - convergence, CSS, asset, host-production, question, build, and production

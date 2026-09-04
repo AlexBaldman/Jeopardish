@@ -53,9 +53,12 @@ Statuses mean:
 
 The registry is ordered by leverage and dependency:
 
-1. `STAGE-001`: land the privacy-safe semantic Stage cue slice.
-2. `MULTI-001`: port Head-to-Head domain/privacy contracts before transport.
-3. `NEEDLE-001`: port Needle Drop's pure domain before audio/presentation.
+1. `STAGE-001`: complete browser proof for the implemented privacy-safe Stage
+   cue slice; it is blocked only by the current workspace's missing Chromium.
+2. `MULTI-001`: keep the verified Head-to-Head domain/privacy contract stable;
+   the next multiplayer candidate should prove host authority before transport.
+3. `NEEDLE-001`: port Needle Drop's pure domain before audio/presentation after
+   explicitly assigning the active implementation slot.
 4. `SEC-001` / `OPS-001`: finish all-ref security and branch preservation.
 5. `ASSET-001`: establish a rights-reviewed production asset manifest.
 6. `PAO-001`, `FORMAT-001`, and `AI-001`: integrate bounded product systems
