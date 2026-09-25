@@ -92,13 +92,18 @@ function createPerformer() {
   const shinRight = bone('Shin_R', thighRight, [0, -0.48, 0]);
 
   const bones = [hips, spine, head, upperLeft, foreLeft, handLeft, targetLeft, upperRight, foreRight, handRight, targetRight, thighLeft, shinLeft, thighRight, shinRight];
-  const solverMesh = new THREE.SkinnedMesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial());
+  // SkinnedMesh.computeBoundingSphere() still evaluates the carrier geometry even
+  // when its material is invisible. Give the skeleton carrier one valid skinned
+  // vertex so current Three.js can traverse it safely while all visible geometry
+  // continues to hang from the bones below.
+  const solverGeometry = new THREE.BufferGeometry();
+  solverGeometry.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0], 3));
+  solverGeometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute([0, 0, 0, 0], 4));
+  solverGeometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute([1, 0, 0, 0], 4));
+  const solverMaterial = new THREE.MeshBasicMaterial();
+  solverMaterial.visible = false;
+  const solverMesh = new THREE.SkinnedMesh(solverGeometry, solverMaterial);
   solverMesh.name = 'VisualStadiumTrombonist';
-  // This mesh carries the skeleton for AnimationMixer + CCD IK only. Visible body
-  // geometry hangs from its bones, so keep the carrier traversable without asking
-  // Three.js to render or frustum-test an intentionally empty BufferGeometry.
-  solverMesh.frustumCulled = false;
-  solverMesh.material.visible = false;
   solverMesh.add(hips);
   solverMesh.bind(new THREE.Skeleton(bones));
 
