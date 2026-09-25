@@ -28,6 +28,8 @@ jobs:
         run: npm run verify
       - name: Install smoke-test browsers
         run: npx --no-install playwright install --with-deps chromium webkit
+      - name: Prove Stadium marching trombonist fixture
+        run: npm run smoke:stadium
       - name: Smoke-test the exact dist artifact
         run: npm run smoke:dist
         env:
@@ -47,7 +49,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: visual-state-failures
-          path: screenshots/visual-fixtures
+          path: |
+            screenshots/visual-fixtures
+            screenshots/stadium-visual
           retention-days: 5
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'
