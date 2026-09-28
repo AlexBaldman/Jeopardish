@@ -41,7 +41,39 @@ for (let x = -8; x <= 8; x += 2) {
   scene.add(stripe);
 }
 
-const assetUrl = new URL('../../assets/stadium/marching-trombonist.gltf', import.meta.url);
+// Exercise the same engine-neutral inputs as consumers of the Stadium adapter.
+const genome = window.UinverseCharacterGenome.normalizeCharacterGenome({
+  id: 'stadium-trombonist',
+  displayName: 'Stadium Trombonist',
+  morphology: { kind: 'humanoid', species: 'human' },
+  rig: { family: 'humanoid-v1', attachments: {
+    'left-hand': { bone: 'Hand_L' },
+    'right-hand': { bone: 'Hand_R' },
+  } },
+  animation: { locomotionSet: 'march-standard', performanceSets: ['trombone-performance'] },
+  embodiments: [{ id: 'stadium-3d', kind: 'game-3d', renderer: 'three',
+    representationAssetId: 'model.stadium-trombonist', rigProfile: 'humanoid-v1' }],
+});
+const { normalizePerformanceCommand } = window.UinversePerformanceCommand;
+const locomotion = normalizePerformanceCommand({
+  kind: 'locomotion', action: 'march', loop: true, modifiers: { speed: 0.6 },
+});
+const performance = normalizePerformanceCommand({
+  kind: 'action', action: 'play-instrument', loop: true, blend: 'upper-body',
+  modifiers: { speed: 0.5 },
+  attachments: [
+    { target: 'left-hand', itemId: 'instrument.trombone', grip: 'brace' },
+    { target: 'right-hand', itemId: 'instrument.trombone', grip: 'slide' },
+  ],
+});
+const plan = window.UinverseStadiumPerformerAdapter.buildStadiumPerformerPlan({
+  genome, locomotion, performance,
+});
+const contractsBeforeMount = JSON.stringify({ genome, locomotion, performance, plan });
+
+const modelAssets = { 'model.stadium-trombonist': '../../assets/stadium/marching-trombonist.gltf' };
+if (!modelAssets[plan.modelAssetId]) throw new Error(`Unknown fixture model: ${plan.modelAssetId}`);
+const assetUrl = new URL(modelAssets[plan.modelAssetId], import.meta.url);
 let performer;
 try {
   const gltf = await new GLTFLoader().loadAsync(assetUrl.href);
@@ -65,7 +97,7 @@ try {
     return clip;
   });
   model.traverse((node) => { if (node.isMesh) node.castShadow = true; });
-  performer = { model, solverMesh, slide: required('TromboneSlide'),
+  performer = { model, solverMesh, trombone: required('Trombone'), slide: required('TromboneSlide'),
     targetLeft: required('IK_Target_L'), targetRight: required('IK_Target_R'),
     handLeft: required('Hand_L'), handRight: required('Hand_R'),
     upperLeft: required('UpperArm_L'), foreLeft: required('ForeArm_L'),
@@ -77,31 +109,25 @@ try {
   throw error;
 }
 
-const plan = {
-  schema: 'uinverse.stadium-performer-plan',
-  characterId: 'stadium-trombonist',
-  layers: [
-    { id: 'base-locomotion', action: 'march', loop: true, modifiers: { speed: 0.6 } },
-    { id: 'upper-body-performance', action: 'play-instrument', loop: true, blend: 'upper-body', modifiers: { speed: 0.5 } },
-  ],
-  constraints: [
-    { target: 'left-hand', bone: 'Hand_L', itemId: 'instrument.trombone' },
-    { target: 'right-hand', bone: 'Hand_R', itemId: 'instrument.trombone' },
-  ],
-};
-
 const skeleton = performer.solverMesh.skeleton;
 const indexOf = (value) => skeleton.bones.indexOf(value);
 const runtime = new ThreeStadiumRuntime({
   THREE,
   CCDIKSolver,
   upperBodyBones: ['Spine', 'UpperArm_L', 'ForeArm_L', 'Hand_L', 'UpperArm_R', 'ForeArm_R', 'Hand_R'],
-  ikResolver: () => ({
+  ikResolver: ({ constraints }) => ({
     mesh: performer.solverMesh,
-    iks: [
-      { target: indexOf(performer.targetLeft), effector: indexOf(performer.handLeft), links: [{ index: indexOf(performer.foreLeft) }, { index: indexOf(performer.upperLeft) }], iteration: 3 },
-      { target: indexOf(performer.targetRight), effector: indexOf(performer.handRight), links: [{ index: indexOf(performer.foreRight) }, { index: indexOf(performer.upperRight) }], iteration: 3 },
-    ],
+    iks: constraints.map((constraint) => {
+      const side = { 'left-hand': 'L', 'right-hand': 'R' }[constraint.target];
+      if (!side || constraint.itemId !== 'instrument.trombone') throw new Error('Unsupported fixture constraint');
+      const namedIndex = (name) => {
+        const index = indexOf(skeleton.getBoneByName(name));
+        if (index < 0) throw new Error(`Missing constraint bone: ${name}`);
+        return index;
+      };
+      return { target: namedIndex(`IK_Target_${side}`), effector: namedIndex(constraint.bone),
+        links: [{ index: namedIndex(`ForeArm_${side}`) }, { index: namedIndex(`UpperArm_${side}`) }], iteration: 3 };
+    }),
   }),
 });
 runtime.mount({ plan, model: performer.solverMesh });
@@ -139,6 +165,16 @@ function animate() {
     renderer: renderer.constructor.name,
     characterId: plan.characterId,
     asset: assetUrl.pathname,
+    contracts: {
+      before: JSON.parse(contractsBeforeMount),
+      after: { genome, locomotion, performance, plan: runtime.plan },
+      samePlan: runtime.plan === plan,
+      frozen: [genome, locomotion, performance, plan].every(Object.isFrozen),
+      prop: { itemId: plan.props[0].itemId, node: performer.trombone.name },
+      ikBindings: runtime.ikSolver.iks.map(({ target, effector }) => ({
+        target: skeleton.bones[target].name, effector: skeleton.bones[effector].name,
+      })),
+    },
     clips: performer.solverMesh.animations.map(({ name }) => name),
     bones: skeleton.bones.map(({ name }) => name),
     upperTracks: runtime.actions[1].getClip().tracks.map(({ name }) => name),
@@ -162,4 +198,5 @@ function animate() {
   requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
+
 

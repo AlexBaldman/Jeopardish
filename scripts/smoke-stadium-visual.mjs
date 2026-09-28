@@ -1,4 +1,5 @@
 import { createReadStream } from 'node:fs';
+import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import http from 'node:http';
 import path from 'node:path';
@@ -117,6 +118,30 @@ try {
   if (!state.canvas || state.canvas.width < 1000 || state.canvas.height < 600) throw new Error('stadium canvas is not visibly sized');
 
   const initial = state.metrics;
+  function assertContracts(metrics) {
+    const { before, after, samePlan, frozen, prop, ikBindings } = metrics.contracts;
+    assert.deepEqual(after, before, 'renderer must preserve serialized contracts');
+    assert.equal(samePlan, true, 'runtime must consume the adapter plan itself');
+    assert.equal(frozen, true, 'canonical inputs and plan remain immutable');
+    assert.equal(before.genome.schema, 'uinverse.character-genome');
+    for (const command of [before.locomotion, before.performance]) {
+      assert.equal(command.schema, 'uinverse.character-performance');
+    }
+    assert.equal(after.plan.schema, 'uinverse.stadium-performer-plan');
+    assert.equal(after.plan.version, 1);
+    assert.equal(after.plan.characterId, before.genome.id);
+    assert.equal(after.plan.modelAssetId, before.genome.embodiments[0].representationAssetId);
+    assert.deepEqual(after.plan.layers.map(layer => [layer.action, layer.modifiers.speed]),
+      [['march', 0.6], ['play-instrument', 0.5]]);
+    assert.deepEqual(after.plan.constraints.map(c => [c.target, c.bone, c.grip]),
+      [['left-hand', 'Hand_L', 'brace'], ['right-hand', 'Hand_R', 'slide']]);
+    assert.deepEqual(prop, { itemId: 'instrument.trombone', node: 'Trombone' });
+    assert.deepEqual(ikBindings, [
+      { target: 'IK_Target_L', effector: 'Hand_L' },
+      { target: 'IK_Target_R', effector: 'Hand_R' },
+    ]);
+  }
+  assertContracts(initial);
   if (initial.asset !== '/assets/stadium/marching-trombonist.gltf') throw new Error('authored GLTF was not loaded');
   if (JSON.stringify(initial.clips) !== JSON.stringify(['march', 'play-instrument'])) throw new Error('authored clips missing');
   if (initial.bones.length !== 15 || !['Hand_L', 'Hand_R', 'IK_Target_L', 'IK_Target_R'].every(name => initial.bones.includes(name))) throw new Error('semantic skeleton missing');
@@ -130,6 +155,7 @@ try {
   // Bound inherited solver error; this is not a claim of exact prop contact.
   if (![...initial.handErrors, ...later.handErrors].every(error => Number.isFinite(error) && error < 0.3)) throw new Error(`hand IK contact drift: ${later.handErrors}`);
   if (errors.length) throw new Error(`browser errors: ${errors.join('\n')}`);
+  assertContracts(later);
   state.motionSample = later;
 
   await page.screenshot({ path: path.join(outputDir, 'marching-trombonist.png'), fullPage: true });
@@ -148,4 +174,5 @@ try {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));
 }
+
 

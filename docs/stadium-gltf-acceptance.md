@@ -68,5 +68,35 @@ The smoke writes `screenshots/stadium-visual/marching-trombonist.png` and
 CI now uploads `stadium-fixture-evidence` after the Stadium step on both success
 and failure, independent of later unrelated checks. Record the follow-up commit
 SHA, Actions run URL, Stadium step result and artifact when CI finishes.
-Follow-up GitHub-hosted browser/CI acceptance remains pending until that run;
-local success is not a claim that the full repository suite or CI passed.
+PR #66 at `d4099e67870690933546907e179bdffdd3341d2d` has now completed
+[GitHub run 36369691271](https://github.com/AlexBaldman/Jeopardish/actions/runs/36369691271).
+The Stadium smoke and `stadium-fixture-evidence` upload both passed. The later
+production-artifact smoke failed, as on the baseline; the full workflow is not green.
+
+## Contract-path follow-up (2026-09-28)
+
+Continues PR #66's existing asset swap. The GLTF is unchanged. The browser lab
+now loads the canonical genome/command/plan APIs and builds the plan with
+`buildStadiumPerformerPlan` instead of using a handwritten plan. The fixture maps
+`plan.modelAssetId` to the existing asset and resolves the two IK effectors from
+`plan.constraints`, retaining the same target bones and chain links. No upstream
+contract or ThreeStadiumRuntime source changes are needed.
+
+The smoke asserts normalized schema/version, character/model identity, command
+speeds, semantic grips, the trombone prop and the actual IK bone bindings. It
+compares the complete JSON contracts before mounting and after multiple rendered
+frames, and checks frozen inputs plus runtime plan identity. `metrics.json`
+records both contract snapshots alongside the existing animation/IK samples.
+This establishes the genome -> commands -> plan -> loaded model -> renderer path.
+It does not add a mouth constraint or claim precise hand/prop contact.
+
+Validation for this follow-up:
+- PASS: all 12 existing focused adapter/runtime/real-Three tests.
+- PASS: expanded Playwright smoke, including missing-asset failure, with locked
+  Three.js 0.185.1 / Playwright 1.61.1 and Chromium 153.0.8010.0 + SwiftShader.
+  The standard browser download again returned invalid archives; a temporary
+  runner substituted only the executable path and launch arguments.
+- PASS: screenshot inspected and changed JavaScript syntax checked.
+- GitHub CI for the contract-path follow-up is pending at the time of this entry.
+  Prior asset-swap CI results above must not be attributed to the new change.
+
