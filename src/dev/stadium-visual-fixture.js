@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { CCDIKSolver } from 'three/addons/animation/CCDIKSolver.js';
 
 const canvas = document.getElementById('stage');
@@ -40,139 +41,41 @@ for (let x = -8; x <= 8; x += 2) {
   scene.add(stripe);
 }
 
-function bone(name, parent = null, position = [0, 0, 0]) {
-  const value = new THREE.Bone();
-  value.name = name;
-  value.position.set(...position);
-  if (parent) parent.add(value);
-  return value;
+const assetUrl = new URL('../../assets/stadium/marching-trombonist.gltf', import.meta.url);
+let performer;
+try {
+  const gltf = await new GLTFLoader().loadAsync(assetUrl.href);
+  const model = gltf.scene;
+  const solverMesh = model.getObjectByName('VisualStadiumTrombonist');
+  if (!solverMesh?.isSkinnedMesh) throw new Error('fixture requires a visible skinned performer');
+  const required = (name) => {
+    const node = model.getObjectByName(name);
+    if (!node) throw new Error(`fixture missing node: ${name}`);
+    return node;
+  };
+  // Keep GLTF naming conversion here; the injected runtime contract stays unchanged.
+  solverMesh.animations = gltf.animations.map((source) => {
+    const clip = source.clone();
+    for (const track of clip.tracks) {
+      const binding = THREE.PropertyBinding.parseTrackName(track.name);
+      const bone = solverMesh.skeleton.getBoneByName(binding.nodeName);
+      if (!bone) throw new Error(`fixture animation targets unknown bone: ${track.name}`);
+      track.name = `.bones[${bone.name}].${binding.propertyName}`;
+    }
+    return clip;
+  });
+  model.traverse((node) => { if (node.isMesh) node.castShadow = true; });
+  performer = { model, solverMesh, slide: required('TromboneSlide'),
+    targetLeft: required('IK_Target_L'), targetRight: required('IK_Target_R'),
+    handLeft: required('Hand_L'), handRight: required('Hand_R'),
+    upperLeft: required('UpperArm_L'), foreLeft: required('ForeArm_L'),
+    upperRight: required('UpperArm_R'), foreRight: required('ForeArm_R') };
+  scene.add(model);
+} catch (error) {
+  window.__stadiumFixtureError = `GLTF fixture: ${error.message}`;
+  status.textContent = window.__stadiumFixtureError;
+  throw error;
 }
-
-function attachBox(parent, size, position, material, rotation = [0, 0, 0]) {
-  const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), material);
-  mesh.position.set(...position);
-  mesh.rotation.set(...rotation);
-  mesh.castShadow = true;
-  parent.add(mesh);
-  return mesh;
-}
-
-function attachSphere(parent, radius, position, material) {
-  const mesh = new THREE.Mesh(new THREE.SphereGeometry(radius, 18, 12), material);
-  mesh.position.set(...position);
-  mesh.castShadow = true;
-  parent.add(mesh);
-  return mesh;
-}
-
-function createPerformer() {
-  const uniform = new THREE.MeshStandardMaterial({ color: 0x8f2434, roughness: 0.7 });
-  const trousers = new THREE.MeshStandardMaterial({ color: 0xe8e5dc, roughness: 0.75 });
-  const skin = new THREE.MeshStandardMaterial({ color: 0xd7a27f, roughness: 0.8 });
-  const dark = new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.65 });
-
-  const hips = bone('Hips');
-  hips.position.y = 0.95;
-  const spine = bone('Spine', hips, [0, 0.58, 0]);
-  const head = bone('Head', spine, [0, 0.62, 0]);
-
-  const upperLeft = bone('UpperArm_L', spine, [0.23, 0.38, 0]);
-  const foreLeft = bone('ForeArm_L', upperLeft, [0.34, 0, 0]);
-  const handLeft = bone('Hand_L', foreLeft, [0.3, 0, 0]);
-  const targetLeft = bone('IK_Target_L', hips, [0.32, 0.93, 0.42]);
-
-  const upperRight = bone('UpperArm_R', spine, [-0.23, 0.38, 0]);
-  const foreRight = bone('ForeArm_R', upperRight, [-0.34, 0, 0]);
-  const handRight = bone('Hand_R', foreRight, [-0.3, 0, 0]);
-  const targetRight = bone('IK_Target_R', hips, [-0.24, 0.9, 0.58]);
-
-  const thighLeft = bone('Thigh_L', hips, [0.16, -0.04, 0]);
-  const shinLeft = bone('Shin_L', thighLeft, [0, -0.48, 0]);
-  const thighRight = bone('Thigh_R', hips, [-0.16, -0.04, 0]);
-  const shinRight = bone('Shin_R', thighRight, [0, -0.48, 0]);
-
-  const bones = [hips, spine, head, upperLeft, foreLeft, handLeft, targetLeft, upperRight, foreRight, handRight, targetRight, thighLeft, shinLeft, thighRight, shinRight];
-  // SkinnedMesh.computeBoundingSphere() still evaluates the carrier geometry even
-  // when its material is invisible. Give the skeleton carrier one valid skinned
-  // vertex so current Three.js can traverse it safely while all visible geometry
-  // continues to hang from the bones below.
-  const solverGeometry = new THREE.BufferGeometry();
-  solverGeometry.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0], 3));
-  solverGeometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute([0, 0, 0, 0], 4));
-  solverGeometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute([1, 0, 0, 0], 4));
-  const solverMaterial = new THREE.MeshBasicMaterial();
-  solverMaterial.visible = false;
-  const solverMesh = new THREE.SkinnedMesh(solverGeometry, solverMaterial);
-  solverMesh.name = 'VisualStadiumTrombonist';
-  solverMesh.add(hips);
-  solverMesh.bind(new THREE.Skeleton(bones));
-
-  attachBox(hips, [0.55, 0.28, 0.3], [0, 0.03, 0], trousers);
-  attachBox(spine, [0.62, 0.78, 0.34], [0, 0.22, 0], uniform);
-  attachSphere(head, 0.22, [0, 0.16, 0], skin);
-  attachBox(head, [0.48, 0.11, 0.48], [0, 0.37, 0], dark);
-
-  attachBox(upperLeft, [0.36, 0.15, 0.15], [0.18, 0, 0], uniform);
-  attachBox(foreLeft, [0.32, 0.13, 0.13], [0.16, 0, 0], skin);
-  attachSphere(handLeft, 0.09, [0.03, 0, 0], skin);
-  attachBox(upperRight, [0.36, 0.15, 0.15], [-0.18, 0, 0], uniform);
-  attachBox(foreRight, [0.32, 0.13, 0.13], [-0.16, 0, 0], skin);
-  attachSphere(handRight, 0.09, [-0.03, 0, 0], skin);
-
-  attachBox(thighLeft, [0.17, 0.48, 0.19], [0, -0.24, 0], trousers);
-  attachBox(shinLeft, [0.15, 0.48, 0.17], [0, -0.24, 0], trousers);
-  attachBox(shinLeft, [0.2, 0.1, 0.38], [0, -0.51, 0.08], dark);
-  attachBox(thighRight, [0.17, 0.48, 0.19], [0, -0.24, 0], trousers);
-  attachBox(shinRight, [0.15, 0.48, 0.17], [0, -0.24, 0], trousers);
-  attachBox(shinRight, [0.2, 0.1, 0.38], [0, -0.51, 0.08], dark);
-
-  const identity = [0, 0, 0, 1];
-  const legForward = new THREE.Quaternion().setFromEuler(new THREE.Euler(0.38, 0, 0)).toArray();
-  const legBack = new THREE.Quaternion().setFromEuler(new THREE.Euler(-0.38, 0, 0)).toArray();
-  const armLiftL = new THREE.Quaternion().setFromEuler(new THREE.Euler(-0.3, 0.2, -0.45)).toArray();
-  const armLiftR = new THREE.Quaternion().setFromEuler(new THREE.Euler(-0.3, -0.2, 0.45)).toArray();
-
-  solverMesh.animations = [
-    new THREE.AnimationClip('march', 1, [
-      new THREE.VectorKeyframeTrack('.bones[Hips].position', [0, 0.25, 0.5, 0.75, 1], [0,0.95,0, 0,1.01,0, 0,0.95,0, 0,1.01,0, 0,0.95,0]),
-      new THREE.QuaternionKeyframeTrack('.bones[Thigh_L].quaternion', [0, 0.5, 1], [...legForward, ...legBack, ...legForward]),
-      new THREE.QuaternionKeyframeTrack('.bones[Thigh_R].quaternion', [0, 0.5, 1], [...legBack, ...legForward, ...legBack]),
-    ]),
-    new THREE.AnimationClip('play-instrument', 1, [
-      new THREE.QuaternionKeyframeTrack('.bones[Spine].quaternion', [0, 1], [...identity, ...identity]),
-      new THREE.QuaternionKeyframeTrack('.bones[UpperArm_L].quaternion', [0, 1], [...armLiftL, ...armLiftL]),
-      new THREE.QuaternionKeyframeTrack('.bones[ForeArm_L].quaternion', [0, 1], [...identity, ...identity]),
-      new THREE.QuaternionKeyframeTrack('.bones[Hand_L].quaternion', [0, 1], [...identity, ...identity]),
-      new THREE.QuaternionKeyframeTrack('.bones[UpperArm_R].quaternion', [0, 1], [...armLiftR, ...armLiftR]),
-      new THREE.QuaternionKeyframeTrack('.bones[ForeArm_R].quaternion', [0, 1], [...identity, ...identity]),
-      new THREE.QuaternionKeyframeTrack('.bones[Hand_R].quaternion', [0, 1], [...identity, ...identity]),
-    ]),
-  ];
-
-  const brass = new THREE.MeshStandardMaterial({ color: 0xd5a62e, metalness: 0.82, roughness: 0.28 });
-  const trombone = new THREE.Group();
-  trombone.name = 'Trombone';
-  const bell = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.07, 0.34, 24, 1, true), brass);
-  bell.rotation.x = Math.PI / 2;
-  bell.position.z = 0.05;
-  trombone.add(bell);
-  const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1.1, 12), brass);
-  tube.rotation.x = Math.PI / 2;
-  tube.position.z = 0.62;
-  trombone.add(tube);
-  const slide = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.85, 10), brass);
-  slide.rotation.x = Math.PI / 2;
-  slide.position.set(-0.22, -0.08, 0.85);
-  trombone.add(slide);
-  trombone.position.set(0, 1.78, 0.34);
-  solverMesh.add(trombone);
-
-  solverMesh.updateMatrixWorld(true);
-  return { solverMesh, trombone, slide, targetLeft, targetRight, handLeft, handRight, upperLeft, foreLeft, upperRight, foreRight };
-}
-
-const performer = createPerformer();
-scene.add(performer.solverMesh);
 
 const plan = {
   schema: 'uinverse.stadium-performer-plan',
@@ -223,21 +126,35 @@ function animate() {
   const slidePhase = (Math.sin(elapsed * 2.2) + 1) * 0.5;
   performer.targetRight.position.z = 0.48 + slidePhase * 0.34;
   performer.slide.position.z = 0.83 + slidePhase * 0.2;
-  performer.solverMesh.position.x = Math.sin(elapsed * 0.45) * 1.4;
+  performer.model.position.x = Math.sin(elapsed * 0.45) * 1.4;
 
-  performer.solverMesh.updateMatrixWorld(true);
+  performer.model.updateMatrixWorld(true);
   runtime.update(delta);
   renderer.render(scene, camera);
 
   frameCount += 1;
+  window.__stadiumFixtureMetrics = {
+    actions: runtime.actions.length,
+    ikChains: runtime.ikSolver.iks.length,
+    renderer: renderer.constructor.name,
+    characterId: plan.characterId,
+    asset: assetUrl.pathname,
+    clips: performer.solverMesh.animations.map(({ name }) => name),
+    bones: skeleton.bones.map(({ name }) => name),
+    upperTracks: runtime.actions[1].getClip().tracks.map(({ name }) => name),
+    skinnedVertices: performer.solverMesh.geometry.attributes.position.count,
+    triangles: renderer.info.render.triangles,
+    frameCount,
+    marchTime: runtime.actions[0].time,
+    thigh: skeleton.getBoneByName('Thigh_L').quaternion.toArray(),
+    slideZ: performer.slide.position.z,
+    targetZ: performer.targetRight.position.z,
+    handErrors: [performer.handLeft, performer.handRight].map((hand, i) =>
+      hand.getWorldPosition(new THREE.Vector3()).distanceTo(
+        [performer.targetLeft, performer.targetRight][i].getWorldPosition(new THREE.Vector3()))),
+  };
   if (frameCount === 8) {
     window.__stadiumFixtureReady = true;
-    window.__stadiumFixtureMetrics = {
-      actions: runtime.actions.length,
-      ikChains: runtime.ikSolver?.iks?.length || 2,
-      renderer: renderer.constructor.name,
-      characterId: plan.characterId,
-    };
     status.textContent = 'ready · march + upper-body instrument layer + two-hand CCD IK';
     status.dataset.ready = 'true';
     document.body.dataset.stadiumReady = 'true';
@@ -245,3 +162,4 @@ function animate() {
   requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
+

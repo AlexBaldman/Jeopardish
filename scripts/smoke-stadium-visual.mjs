@@ -12,6 +12,7 @@ const contentTypes = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
+  '.gltf': 'model/gltf+json',
   '.json': 'application/json',
   '.mjs': 'text/javascript; charset=utf-8',
   '.png': 'image/png',
@@ -115,8 +116,30 @@ try {
   if (state.metrics?.characterId !== 'stadium-trombonist') throw new Error(`unexpected character id: ${state.metrics?.characterId}`);
   if (!state.canvas || state.canvas.width < 1000 || state.canvas.height < 600) throw new Error('stadium canvas is not visibly sized');
 
+  const initial = state.metrics;
+  if (initial.asset !== '/assets/stadium/marching-trombonist.gltf') throw new Error('authored GLTF was not loaded');
+  if (JSON.stringify(initial.clips) !== JSON.stringify(['march', 'play-instrument'])) throw new Error('authored clips missing');
+  if (initial.bones.length !== 15 || !['Hand_L', 'Hand_R', 'IK_Target_L', 'IK_Target_R'].every(name => initial.bones.includes(name))) throw new Error('semantic skeleton missing');
+  if (initial.upperTracks.length !== 7 || initial.upperTracks.some(name => /Hips|Thigh|Shin/.test(name))) throw new Error('upper-body mask changed');
+  if (initial.skinnedVertices < 100 || initial.triangles < 100) throw new Error('performer geometry missing');
+  await page.waitForFunction((frame) => window.__stadiumFixtureMetrics.frameCount >= frame + 20, initial.frameCount);
+  const later = await page.evaluate(() => window.__stadiumFixtureMetrics);
+  if (later.marchTime === initial.marchTime || JSON.stringify(later.thigh) === JSON.stringify(initial.thigh)) throw new Error('march animation is stationary');
+  if (Math.abs(later.slideZ - initial.slideZ) < 0.0001 || Math.abs(later.targetZ - initial.targetZ) < 0.0001) throw new Error('slide/IK target is stationary');
+  // The original right target extends beyond the 0.64-unit arm at full slide.
+  // Bound inherited solver error; this is not a claim of exact prop contact.
+  if (![...initial.handErrors, ...later.handErrors].every(error => Number.isFinite(error) && error < 0.3)) throw new Error(`hand IK contact drift: ${later.handErrors}`);
+  if (errors.length) throw new Error(`browser errors: ${errors.join('\n')}`);
+  state.motionSample = later;
+
   await page.screenshot({ path: path.join(outputDir, 'marching-trombonist.png'), fullPage: true });
   await fs.writeFile(path.join(outputDir, 'metrics.json'), `${JSON.stringify(state, null, 2)}\n`);
+  const missingAssetPage = await browser.newPage();
+  await missingAssetPage.route('**/assets/stadium/marching-trombonist.gltf', route => route.fulfill({ status: 404, body: 'missing fixture' }));
+  await missingAssetPage.goto(`${baseUrl}/stadium-lab.html`);
+  await missingAssetPage.waitForFunction(() => Boolean(window.__stadiumFixtureError));
+  if (await missingAssetPage.evaluate(() => window.__stadiumFixtureReady === true)) throw new Error('missing asset incorrectly reported ready');
+  await missingAssetPage.close();
   console.log(`Stadium visual smoke PASS: ${state.metrics.actions} actions, ${state.metrics.ikChains} IK chains.`);
 } catch (error) {
   await captureDiagnostics('smoke-failure', { thrown: error.stack || error.message });
@@ -125,3 +148,4 @@ try {
   await browser.close();
   await new Promise((resolve) => server.close(resolve));
 }
+
