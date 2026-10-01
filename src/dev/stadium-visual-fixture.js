@@ -145,6 +145,11 @@ resize();
 const clock = new THREE.Clock();
 let elapsed = 0;
 let frameCount = 0;
+/**
+ * Advance and render one fixture frame, publish smoke metrics, and schedule the next.
+ * Hand-target distances expose the inherited bounded-IK error, not exact prop contact.
+ * @returns {void}
+ */
 function animate() {
   const delta = Math.min(clock.getDelta(), 0.05);
   elapsed += delta;

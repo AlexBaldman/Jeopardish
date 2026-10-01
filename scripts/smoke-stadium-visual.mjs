@@ -118,6 +118,12 @@ try {
   if (!state.canvas || state.canvas.width < 1000 || state.canvas.height < 600) throw new Error('stadium canvas is not visibly sized');
 
   const initial = state.metrics;
+  /**
+   * Verify canonical contracts and fixture prop/IK bindings survive the renderer boundary.
+   * @param {object} metrics - Fixture metrics containing before/after contract snapshots.
+   * @returns {void}
+   * @throws {assert.AssertionError} If a contract or binding differs from the fixture expectations.
+   */
   function assertContracts(metrics) {
     const { before, after, samePlan, frozen, prop, ikBindings } = metrics.contracts;
     assert.deepEqual(after, before, 'renderer must preserve serialized contracts');
