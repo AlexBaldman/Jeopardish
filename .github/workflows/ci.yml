@@ -30,6 +30,14 @@ jobs:
         run: npx --no-install playwright install --with-deps chromium webkit
       - name: Prove Stadium marching trombonist fixture
         run: npm run smoke:stadium
+      - name: Upload Stadium fixture acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stadium-fixture-evidence
+          path: screenshots/stadium-visual
+          if-no-files-found: warn
+          retention-days: 14
       - name: Smoke-test the exact dist artifact
         run: npm run smoke:dist
         env:
@@ -100,3 +108,4 @@ jobs:
         env:
           BASE_URL: ${{ needs.deploy.outputs.page_url }}
           SMOKE_BROWSERS: chromium,webkit
+
