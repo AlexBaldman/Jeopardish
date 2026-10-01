@@ -68,10 +68,11 @@ The smoke writes `screenshots/stadium-visual/marching-trombonist.png` and
 CI now uploads `stadium-fixture-evidence` after the Stadium step on both success
 and failure, independent of later unrelated checks. Record the follow-up commit
 SHA, Actions run URL, Stadium step result and artifact when CI finishes.
-PR #66 at `d4099e67870690933546907e179bdffdd3341d2d` has now completed
+PR #66 at `d4099e67870690933546907e179bdffdd3341d2d` completed
 [GitHub run 36369691271](https://github.com/AlexBaldman/Jeopardish/actions/runs/36369691271).
 The Stadium smoke and `stadium-fixture-evidence` upload both passed. The later
-production-artifact smoke failed, as on the baseline; the full workflow is not green.
+production-artifact smoke failed, as on the baseline; that historical workflow
+was not green and must not be presented as end-to-end acceptance for that commit.
 
 ## Contract-path follow-up (2026-09-28)
 
@@ -97,6 +98,14 @@ Validation for this follow-up:
   The standard browser download again returned invalid archives; a temporary
   runner substituted only the executable path and launch arguments.
 - PASS: screenshot inspected and changed JavaScript syntax checked.
-- GitHub CI for the contract-path follow-up is pending at the time of this entry.
-  Prior asset-swap CI results above must not be attributed to the new change.
+- PASS: contract-path head `c818d2f15dc60d014cac1eb951a25109787daf32`
+  completed [GitHub run 36424315628](https://github.com/AlexBaldman/Jeopardish/actions/runs/36424315628)
+  successfully. Production-artifact verification, Stadium smoke,
+  `stadium-fixture-evidence` upload, the exact dist-artifact smoke, Season Zero,
+  accessibility, and gameplay visual-state validation passed. Deploy/canary jobs
+  were skipped for the pull-request run rather than failing.
+- REVIEW: CodeRabbit's September 30, 2026 review through `c818d2f` reported no
+  actionable comments. Its path filters excluded the checked-in `.gltf` file,
+  so this review result supplements rather than replaces the runtime smoke and
+  artifact evidence above.
 
