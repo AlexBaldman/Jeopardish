@@ -3,7 +3,7 @@
         --host-size: clamp(148px, calc(14vw + 6vh), 245px);
         position: absolute;
         left: clamp(0.35rem, 1vw, 0.9rem);
-        bottom: -0.32rem;
+        bottom: 0;
         z-index: 31;
         display: block;
         width: var(--host-size);
@@ -391,7 +391,7 @@
 @layer responsive {
     @container cabinet (max-width: 760px) {
         .game-container .host-stage {
-            --host-size: clamp(42px, min(28cqw, calc(36svh - 208px)), 132px);
+            --host-size: clamp(112px, 34cqw, 148px);
             left: clamp(0.2rem, 2cqw, 0.6rem);
             bottom: 0;
             z-index: 31;
@@ -404,7 +404,7 @@
 
         .game-container .trebek {
             height: auto;
-            max-height: min(165px, 22svh);
+            max-height: 185px;
         }
 
         .game-container .host-stage::before {
@@ -415,13 +415,21 @@
 
     @media (orientation: landscape) and (max-height: 560px) {
         .game-container .host-stage {
-            display: none;
+            --host-size: clamp(112px, 17cqw, 164px);
+            left: auto;
+            right: 3cqw;
+            bottom: 0;
         }
     }
 
     @media (max-height: 620px) {
         @container cabinet (max-width: 420px) {
             .game-container .host-stage {
+                --host-size: 88px;
+            }
+
+            .game-container .main-content:has(.outcome-feedback:not([hidden])) .host-stage,
+            .game-container .main-content:has(.clue-original:not([hidden])) .host-stage {
                 display: none;
             }
         }

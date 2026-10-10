@@ -30,6 +30,8 @@ test('dialogue anchor computes a deterministic card-bottom attachment and CSS va
     '--dialogue-tail-x': '66.667%',
     '--dialogue-tail-reach': '160px',
     '--dialogue-tail-angle': '0deg',
+    '--dialogue-tail-origin-x': '400px',
+    '--dialogue-tail-origin-y': '300px',
     '--dialogue-tail-anchor-px': '400px',
     '--dialogue-tail-target-x': '400px',
     '--dialogue-tail-target-y': '460px',
@@ -134,4 +136,28 @@ test('host feature anchors drive a bounded connector angle and reach', () => {
   assert.equal(result.cssVariables['--dialogue-tail-x'], '21.667%');
   assert.equal(result.cssVariables['--dialogue-tail-reach'], '128px');
   assert.equal(result.cssVariables['--dialogue-tail-angle'], '0deg');
+});
+
+test('rendered connector reaches an off-card mouth without reversing rotation or truncating distance', () => {
+  const dialogue = { x: 100, y: 50, width: 600, height: 300 };
+  for (const host of [
+    { x: 0, y: 400, width: 100, height: 100 },
+    { x: 760, y: 380, width: 100, height: 100 },
+    { x: 300, y: 800, width: 100, height: 100 },
+    { x: 760, y: 160, width: 100, height: 100 },
+  ]) {
+    const result = computeDialogueAnchor(dialogue, host, { borderLeftPx: 4, borderTopPx: 4 });
+    const angle = parseFloat(result.cssVariables['--dialogue-tail-angle']) * Math.PI / 180;
+    const reach = parseFloat(result.cssVariables['--dialogue-tail-reach']);
+    assert.ok(result.tailVisible);
+    assert.ok(Math.abs(result.attachment.x - Math.sin(angle) * reach - result.target.x) < 0.01);
+    assert.ok(Math.abs(result.attachment.y + Math.cos(angle) * reach - result.target.y) < 0.01);
+    assert.equal(parseFloat(result.cssVariables['--dialogue-tail-origin-x']), result.attachment.localX - 4);
+  }
+});
+
+test('hidden hosts and hosts above the card do not leave a dangling tail', () => {
+  const dialogue = { x: 0, y: 0, width: 400, height: 300 };
+  assert.equal(computeDialogueAnchor(dialogue, { x: 0, y: 0, width: 0, height: 0 }).tailVisible, false);
+  assert.equal(computeDialogueAnchor(dialogue, { x: 100, y: 30, width: 80, height: 100 }).tailVisible, false);
 });

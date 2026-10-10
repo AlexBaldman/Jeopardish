@@ -15,6 +15,8 @@
       this.buttons = [];
       this.fallbackActive = false;
       this.started = false;
+      this.pending = false;
+      this.restoreScroll = null;
       this.onToggle = () => this.toggle();
       this.onFullscreenChange = () => this.sync();
       this.onKeydown = (event) => {
@@ -45,18 +47,29 @@
     async enter() {
       if (!this.target) return false;
       const request = this.target.requestFullscreen || this.target.webkitRequestFullscreen;
-      if (typeof request === 'function') {
+      const enabled = this.target.requestFullscreen
+        ? this.document?.fullscreenEnabled
+        : this.document?.webkitFullscreenEnabled;
+      if (typeof request === 'function' && enabled !== false) {
         try {
-          await request.call(this.target, { navigationUI: 'hide' });
-          this.sync();
-          return true;
+          if (this.target.requestFullscreen) {
+            await request.call(this.target, { navigationUI: 'hide' });
+          } else {
+            await request.call(this.target);
+          }
+          if (this.getNativeElement()) {
+            this.sync();
+            return true;
+          }
         } catch (_error) {
           // iPhone browsers may expose the API while declining element fullscreen.
         }
       }
+      this.restoreScroll = [this.window?.scrollX || 0, this.window?.scrollY || 0];
       this.fallbackActive = true;
       this.sync();
       this.window?.scrollTo?.(0, 0);
+      this.announce('Game expanded to fit the browser. This browser keeps its address bar visible. Use Exit expanded view to return.');
       return true;
     }
 
@@ -72,23 +85,45 @@
       }
       this.fallbackActive = false;
       this.sync();
+      if (this.restoreScroll) this.window?.scrollTo?.(...this.restoreScroll);
+      this.restoreScroll = null;
+      this.announce(this.getNativeElement() ? 'Use your browser’s fullscreen exit control to return.' : 'Returned to normal view.');
       return true;
     }
 
-    toggle() {
-      return this.isActive() ? this.exit() : this.enter();
+    async toggle() {
+      if (this.pending) return false;
+      this.pending = true;
+      this.sync();
+      try {
+        return await (this.isActive() ? this.exit() : this.enter());
+      } finally {
+        this.pending = false;
+        this.sync();
+      }
+    }
+
+    announce(message) {
+      const status = this.document?.getElementById?.('fullscreenStatus');
+      if (status) status.textContent = message;
     }
 
     sync() {
       const active = this.isActive();
+      const mode = this.getNativeElement() ? 'native' : this.fallbackActive ? 'expanded' : 'normal';
       if (this.document?.body) {
         this.document.body.dataset.immersive = String(active);
       }
       if (this.target) {
         this.target.dataset.immersive = String(active);
+        this.target.dataset.fullscreenMode = mode;
       }
       this.buttons.forEach((button) => {
-        const label = active ? 'Exit fullscreen' : 'Enter fullscreen';
+        const supported = typeof (this.target?.requestFullscreen || this.target?.webkitRequestFullscreen) === 'function'
+          && (this.target?.requestFullscreen ? this.document?.fullscreenEnabled : this.document?.webkitFullscreenEnabled) !== false;
+        const label = mode === 'expanded' ? 'Exit expanded view'
+          : active ? 'Exit fullscreen' : supported ? 'Enter fullscreen' : 'Expand game';
+        button.disabled = this.pending;
         button.setAttribute('aria-pressed', String(active));
         button.setAttribute('aria-label', label);
         button.dataset.help = label;

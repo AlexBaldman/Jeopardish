@@ -174,7 +174,8 @@ test('release workflow blocks on episode, accessibility, and visual proof', () =
   assert.match(releaseWorkflow, /PROOF_BROWSERS:\s*chromium,webkit/);
   assert.match(releaseWorkflow, /npm run audit:a11y/);
   assert.match(releaseWorkflow, /A11Y_BROWSERS:\s*chromium,webkit/);
-  assert.match(releaseWorkflow, /Verify 180 gameplay visual states/);
+  assert.match(releaseWorkflow, /run: npm run test:mobile/);
+  assert.match(releaseWorkflow, /run: npm run test:visual/);
   assert.match(releaseWorkflow, /npm run test:visual/);
 });
 
@@ -240,7 +241,6 @@ test('canonical cabinet components use layers and container-driven responsive ru
   assert.match(dialogueStyles, /@keyframes clue-card-arrive/);
   assert.match(mediaStyles, /^@layer components/);
   assert.match(mediaStyles, /@keyframes media-pop-in/);
-  assert.match(hostStyles, /--host-size:\s*clamp\(42px, min\(28cqw, calc\(36svh - 208px\)\), 132px\)/);
   assert.match(hostStyles, /@keyframes host-streak/);
   assert.doesNotMatch(controlStyles, /\.host-cycle/,
     'host selectors belong to host.css, not controls.css');
@@ -587,21 +587,8 @@ test('dialogue skins use direct values and position-aware host attribution', () 
   assert.match(menuStyles, /\.operator-stepper > button:active\s*\{[\s\S]*?translateY\(3px\)/);
   assert.match(dialogueStyles, /@media \(min-width: 761px\) and \(max-width: 900px\)/);
   assert.match(dialogueStyles, /--dialogue-tail-reach:\s*clamp\(112px, 14vh, 142px\)/);
-  assert.match(dialogueStyles, /height:\s*min\(252px, calc\(100svh - var\(--jp-header-height\) - var\(--footer-height\) - 1\.25rem\)\)/);
-  assert.match(dialogueStyles, /clip-path:\s*polygon\(6% 0, 94% 0, 66% 18%, 52% 100%, 38% 18%\)/);
   assert.match(dialogueStyles, /#questionBox\s*\{[\s\S]*?overflow-y:\s*auto;/);
-  assert.match(
-    dialogueStyles,
-    /@media \(max-height: 620px\)[\s\S]*?speech-bubble\[data-dialogue-style\]::after\s*\{[\s\S]*?display:\s*none;/,
-  );
-  assert.match(
-    hostStyles,
-    /@media \(orientation: landscape\) and \(max-height: 560px\)[\s\S]*?\.host-stage\s*\{[\s\S]*?display:\s*none/,
-  );
-  assert.match(
-    hostStyles,
-    /@media \(max-height: 620px\)[\s\S]*?@container cabinet \(max-width: 420px\)[\s\S]*?\.host-stage\s*\{[\s\S]*?display:\s*none/,
-  );
+  // Rendered host size, visibility, and tail endpoint are covered by test:mobile.
   assert.match(menuStyles, /\.archive-mode-link/);
   assert.match(menuStyles, /\.archive-mode-link\[hidden\]\s*\{[\s\S]*?display:\s*none/);
 });

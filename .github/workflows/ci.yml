@@ -40,14 +40,18 @@ jobs:
         run: npm run audit:a11y
         env:
           A11Y_BROWSERS: chromium,webkit
-      - name: Verify 180 gameplay visual states
+      - name: Verify mobile host anchoring and fullscreen fallbacks
+        run: npm run test:mobile
+      - name: Verify 210 gameplay visual states
         run: npm run test:visual
       - name: Upload visual evidence on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: visual-state-failures
-          path: screenshots/visual-fixtures
+          path: |
+            screenshots/visual-fixtures
+            screenshots/mobile-presentation
           retention-days: 5
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'

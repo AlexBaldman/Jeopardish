@@ -131,32 +131,35 @@
     const unclampedLocalX = target.x - dialogue.left;
     const localX = clamp(unclampedLocalX, edgeInset, dialogue.width - edgeInset);
     const ratio = dialogue.width > 0 ? localX / dialogue.width : 0.5;
+    const side = target.y < dialogue.bottom && target.x > dialogue.right ? 'right'
+      : target.y < dialogue.bottom && target.x < dialogue.left ? 'left' : 'bottom';
+    const sideY = clamp(target.y - dialogue.top, Math.min(edgeInset, dialogue.height / 2),
+      dialogue.height - Math.min(edgeInset, dialogue.height / 2));
     const attachment = {
-      x: round(dialogue.left + localX),
-      y: dialogue.bottom,
-      localX: round(localX),
-      localY: dialogue.height,
+      x: side === 'bottom' ? round(dialogue.left + localX) : side === 'right' ? dialogue.right : dialogue.left,
+      y: side === 'bottom' ? dialogue.bottom : round(dialogue.top + sideY),
+      localX: side === 'bottom' ? round(localX) : side === 'right' ? dialogue.width : 0,
+      localY: side === 'bottom' ? dialogue.height : round(sideY),
       ratio: round(ratio),
       clamped: round(localX) !== round(unclampedLocalX),
     };
     const targetDeltaX = target.x - attachment.x;
-    const targetDeltaY = Math.max(1, target.y - attachment.y);
+    const targetDeltaY = target.y - attachment.y;
     const tailReach = clamp(
       Math.hypot(targetDeltaX, targetDeltaY),
-      finiteNumber(config.minimumReachPx, 48),
-      finiteNumber(config.maximumReachPx, 180),
+      finiteNumber(config.minimumReachPx, 0),
+      finiteNumber(config.maximumReachPx, Number.MAX_SAFE_INTEGER),
     );
-    const tailAngle = clamp(
-      Math.atan2(targetDeltaX, targetDeltaY) * (180 / Math.PI),
-      -28,
-      28,
-    );
+    // CSS rotates a downward vector toward the left for a positive angle.
+    const tailAngle = -Math.atan2(targetDeltaX, targetDeltaY) * (180 / Math.PI);
 
     return deepFreeze({
       schema: DIALOGUE_ANCHOR_SCHEMA,
       version: DIALOGUE_ANCHOR_VERSION,
       valid: host.valid,
       renderable: true,
+      tailVisible: host.valid && (side !== 'bottom' || targetDeltaY > 0),
+      side,
       fallback: host.valid ? '' : 'invalid-host',
       region: classifyRegion(ratio),
       dialogue,
@@ -169,6 +172,8 @@
         '--dialogue-tail-x': formatPercent(ratio * 100),
         '--dialogue-tail-reach': formatPx(tailReach),
         '--dialogue-tail-angle': formatDegrees(tailAngle),
+        '--dialogue-tail-origin-x': formatPx(attachment.localX - finiteNumber(config.borderLeftPx)),
+        '--dialogue-tail-origin-y': formatPx(attachment.localY - finiteNumber(config.borderTopPx)),
         '--dialogue-tail-anchor-px': formatPx(localX),
         '--dialogue-tail-target-x': formatPx(target.x - dialogue.left),
         '--dialogue-tail-target-y': formatPx(target.y - dialogue.top),
