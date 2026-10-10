@@ -18,7 +18,15 @@
       this.pending = false;
       this.restoreScroll = null;
       this.onToggle = () => this.toggle();
-      this.onFullscreenChange = () => this.sync();
+      this.onFullscreenChange = () => {
+        if (this.getNativeElement()) {
+          // Prefixed requests may return before the native change event arrives.
+          this.fallbackActive = false;
+          this.restoreScroll = null;
+          this.announce('');
+        }
+        this.sync();
+      };
       this.onKeydown = (event) => {
         if (event.key === 'Escape' && this.fallbackActive) this.exit();
       };
@@ -69,7 +77,7 @@
       this.fallbackActive = true;
       this.sync();
       this.window?.scrollTo?.(0, 0);
-      this.announce('Game expanded to fit the browser. This browser keeps its address bar visible. Use Exit expanded view to return.');
+      this.announce('Expanded view: this browser keeps its address bar visible.');
       return true;
     }
 

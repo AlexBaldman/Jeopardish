@@ -664,6 +664,18 @@
         .game-container .button-div .cabinet-button .button-tooltip { font-size: 0.59rem; }
     }
 
+    @media (max-height: 620px) and (orientation: portrait) {
+        @container cabinet (max-width: 420px) {
+            .game-container .control-footer {
+                min-height: 164px;
+            }
+
+            .game-container :is(.answer-input, .cabinet-button, .voice-button) {
+                min-height: 44px;
+            }
+        }
+    }
+
 }
 
 @media (prefers-reduced-motion: reduce) {

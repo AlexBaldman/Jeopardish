@@ -95,9 +95,10 @@
         display: none;
         position: absolute;
         right: 0.8rem;
-        bottom: calc(var(--footer-height) + 0.8rem);
+        bottom: 0.6rem;
         z-index: 60;
         max-width: min(58%, 24rem);
+        margin: 0;
         padding: 0.6rem;
         border-radius: 8px;
         color: #fff8df;
@@ -209,6 +210,11 @@
 
         .game-container .main-content {
             padding: 0.35rem 0.65rem 0.2rem;
+        }
+
+        .game-container .fullscreen-status {
+            max-width: min(32%, 18rem);
+            font-size: 0.7rem;
         }
     }
 

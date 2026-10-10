@@ -160,3 +160,19 @@ test('rapid toggles do not issue overlapping native requests', async () => {
   await entering;
   assert.equal(button.disabled, false);
 });
+
+test('a late prefixed native event clears expansion so browser exit returns to normal', async () => {
+  const target = { dataset: {}, webkitRequestFullscreen() {} };
+  const documentRef = createDocument(target, [createButton()]);
+  const controller = new fullscreenModule.FullscreenController({ documentRef, target, windowRef: {} });
+  controller.start();
+  await controller.toggle();
+  assert.equal(target.dataset.fullscreenMode, 'expanded');
+  documentRef.webkitFullscreenElement = target;
+  documentRef.listeners.webkitfullscreenchange();
+  assert.equal(controller.fallbackActive, false);
+  assert.equal(target.dataset.fullscreenMode, 'native');
+  documentRef.webkitFullscreenElement = null;
+  documentRef.listeners.webkitfullscreenchange();
+  assert.equal(target.dataset.fullscreenMode, 'normal');
+});

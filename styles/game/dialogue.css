@@ -734,6 +734,11 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-value
     body .game-container .speech-bubble[data-dialogue-style] .clue-value-amount {
         font-size: 0.52rem;
     }
+
+    body .game-container .deep-dive-trigger {
+        top: calc(100% + 0.8rem);
+        bottom: auto;
+    }
 }
 
 @media (orientation: landscape) and (max-height: 560px) {
@@ -748,7 +753,7 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-value
         margin-right: auto;
         margin-left: 0;
         padding: 2.35rem 1rem 0.65rem;
-        overflow: hidden;
+        overflow: visible;
     }
 
     body .game-container .speech-bubble[data-dialogue-style] #questionBox {
@@ -764,6 +769,13 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-value
         font-size: clamp(0.92rem, 2.8vw, 1.28rem);
         line-height: 1.08;
     }
+
+    body .game-container .deep-dive-trigger {
+        top: auto;
+        right: auto;
+        bottom: 0.65rem;
+        left: calc(100% + 0.8rem);
+    }
 }
 
 @media (min-width: 761px) and (max-width: 900px) and (min-height: 561px) {
@@ -777,7 +789,7 @@ body .game-container .speech-bubble[data-dialogue-style="narration"] .clue-value
 @media (max-height: 620px) {
     @container cabinet (max-width: 420px) {
         body .game-container .speech-bubble[data-dialogue-style] {
-            padding: 1.5rem 0.72rem 0.7rem;
+            padding: 0.8rem 0.72rem 0.4rem;
         }
 
         body .game-container .speech-bubble[data-dialogue-style] .clue-category {

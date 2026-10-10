@@ -34,7 +34,7 @@ interpret “two commits ahead” as safe integration or a complete history audi
   merge-base delta, nor the current two-tree delta. Its exact historical baseline
   is not supplied and cannot be authenticated from the summary.
 - **234 passing tests:** current untouched master has **280 passing tests**.
-  Repair branch has **286**, adding connector/fullscreen regression cases.
+  Repair branch has **287**, adding connector/fullscreen regression cases.
 - **699-line app / 1,027-line renderer:** describes the older docs branch, not
   current master: **723 / 1,213** before this repair. Line count is not a reason
   to undo later behavior.
@@ -74,6 +74,9 @@ Portrait layout reserves space for a 112–148px host; 320×568 uses 88px. Lands
 places the host beside the card, above the controls. On short phones, detailed
 translation and outcome-review panels temporarily use that space for content.
 The host does not cover clue text or answer controls.
+The shortest portrait layout keeps 44px control targets to leave room for the
+complete standard clue. Ask Host sits outside the clue text; landscape allows
+the connector to extend beyond the card instead of clipping it.
 
 Native fullscreen reproduced successfully in desktop Chromium and WebKit on
 the baseline. Unsupported/rejected element fullscreen uses a viewport-filling
@@ -82,6 +85,8 @@ including the embedded source cabinet, adds a visible limitation explanation,
 and uses “Expand game” / “Exit expanded view” labels. It handles capability flags,
 prefixed WebKit requests, ignored/rejected requests, rapid clicks, browser exit
 events, Escape, and restoration of the prior scroll position.
+The short expansion notice sits inside the scene, above the answer controls,
+and is checked against both clue and control bounds.
 
 Arbitrary-element fullscreen depends on browser capability and permission;
 JavaScript cannot promise to remove iPhone browser chrome. See the
@@ -107,7 +112,7 @@ Matching clue fixture, host artwork, viewport, and disabled animation:
 
 ## Verification
 
-- `npm run verify`: 286 unit tests, JavaScript syntax, convergence, CSS ownership,
+- `npm run verify`: 287 unit tests, JavaScript syntax, convergence, CSS ownership,
   assets, 12 host looks, questions, production build and artifact audit pass.
 - Production smoke: Chromium + WebKit, both built routes, emergency transport
   fallback, six non-repeating classic clues, and explicit episode mode pass.
@@ -120,7 +125,8 @@ Matching clue fixture, host artwork, viewport, and disabled animation:
 - Existing visual harness: 210 state captures with no geometry failures.
 - `npm run test:mobile`: 112 presentation states, seven viewports, both engines,
   four skins, both themes; checks minimum host size, clue/control overlap, cabinet
-  bounds, and rendered connector endpoint within 2px of the measured mouth.
+  bounds, complete standard-clue containment, unclipped tails, Ask Host placement,
+  and rendered connector endpoint within 2px of the measured mouth.
   Native browser exit and missing/rejected fullscreen are checked separately,
   including portrait, landscape, and desktop expansion and both toggle buttons.
 - The new mobile gate is in `verify:release` and PR CI. Evidence is uploaded on
@@ -128,9 +134,10 @@ Matching clue fixture, host artwork, viewport, and disabled animation:
 
 ## Rollback and next improvements
 
-Use the focused repair commit as the reversible unit. If its presentation causes
-an unforeseen regression, revert that commit in a new branch/PR; keep the audit
-and subsequent unrelated work. Reverting `379ba9d` wholesale would also remove
+Use the focused runtime repair commits as the reversible unit. If their
+presentation causes an unforeseen regression, revert those code commits newest
+first in a new branch/PR; retain the audit and subsequent unrelated work.
+The separate audit commit is `5989d99`. Reverting `379ba9d` wholesale would also remove
 classic random play and good controls, so it is not recommended. A deployment
 or merge requires separate approval.
 

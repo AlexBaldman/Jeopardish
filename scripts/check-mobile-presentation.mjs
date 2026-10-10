@@ -76,18 +76,21 @@ try {
                 x: card.x + parseFloat(css.borderLeftWidth) + parseFloat(tail.left) + parseFloat(tail.width) / 2 + matrix.e + matrix.c * reach,
                 y: card.y + parseFloat(css.borderTopWidth) + parseFloat(tail.top) + matrix.f + matrix.d * reach,
               };
-              return { host: rect('#hostAvatar'), card: rect('#speechBubble'), clue: rect('#clueText'), footer: rect('.control-footer'), cabinet: rect('#gameContainer'), target, tip, tailDisplay: tail.display, tailVisible: bubble.dataset.dialogueTailVisible };
+              return { host: rect('#hostAvatar'), card: rect('#speechBubble'), clue: rect('#clueText'), study: rect('#deepDiveButton'), footer: rect('.control-footer'), cabinet: rect('#gameContainer'), target, tip, tailDisplay: tail.display, tailVisible: bubble.dataset.dialogueTailVisible, overflow: css.overflow };
             });
             const id = `${engine}-${width}x${height}-${theme}-${dialogue}`;
             assert.ok(geometry.host.width >= (height <= 620 && width < 421 ? 87 : 111), `${id}: host too small`);
             assert.ok(!overlaps(geometry.host, geometry.clue), `${id}: host covers clue`);
             assert.ok(!overlaps(geometry.host, geometry.footer), `${id}: host covers controls`);
+            assert.ok(!overlaps(geometry.study, geometry.clue), `${id}: Ask Host covers clue`);
+            assert.ok(geometry.clue.y >= geometry.card.y && geometry.clue.bottom <= geometry.card.bottom, `${id}: standard clue is clipped`);
             assert.ok(geometry.host.y >= geometry.cabinet.y - 1 && geometry.host.bottom <= geometry.cabinet.bottom + 1, `${id}: host leaves cabinet`);
             if (dialogue === 'narration') {
               assert.equal(geometry.tailDisplay, 'none', `${id}: narration must not attribute speech`);
             } else {
               assert.equal(geometry.tailDisplay, 'block', `${id}: missing tail`);
               assert.equal(geometry.tailVisible, 'true', `${id}: hidden tail`);
+              assert.equal(geometry.overflow, 'visible', `${id}: card clips the tail`);
               assert.ok(Math.hypot(geometry.tip.x - geometry.target.x, geometry.tip.y - geometry.target.y) < 2, `${id}: tail misses host mouth ${JSON.stringify(geometry)}`);
             }
             assert.deepEqual(errors, [], `${id}: browser errors`);
@@ -126,6 +129,12 @@ try {
         assert.match(await page.locator('#fullscreenStatus').innerText(), /address bar visible/);
         const size = await page.locator('#gameContainer').boundingBox();
         assert.ok(Math.abs(size.width - page.viewportSize().width) < 1 && Math.abs(size.height - page.viewportSize().height) < 1);
+        const announcement = await page.evaluate(() => {
+          const rect = selector => document.querySelector(selector).getBoundingClientRect().toJSON();
+          return { status: rect('#fullscreenStatus'), footer: rect('.control-footer'), clue: rect('#clueText') };
+        });
+        assert.ok(!overlaps(announcement.status, announcement.footer), `${engine}-${failure}-${width}: fullscreen status covers controls`);
+        assert.ok(!overlaps(announcement.status, announcement.clue), `${engine}-${failure}-${width}: fullscreen status covers clue`);
         await page.screenshot({ path: path.join(outputDir, `${engine}-fullscreen-${failure}-${width}x${height}.png`) });
         await page.click('#fullscreenToggle');
         await page.waitForFunction(() => document.body.dataset.immersive === 'false');
