@@ -29,12 +29,17 @@ The live, validated queue for incorporating donor behavior without creating
 competing systems is
 [`docs/convergence/README.md`](docs/convergence/README.md).
 Earlier plans remain useful historical design material, but these documents
-govern new product work.
+provide context for new product work. Channel O branding and episode-centric
+organization remain explorations, not locked product canon. Current runtime
+facts and the October 10 branch/deployment audit are recorded in
+[`docs/reviews/MOBILE_REPAIR_2026-10-10.md`](docs/reviews/MOBILE_REPAIR_2026-10-10.md).
 
 ## Current Playable Slice
 
-The flagship path now runs the reviewed ten-clue episode **The Extra O Is Not
-an Accident** from `questions/episodes/season-zero-001.json`:
+The default game runs Classic Random from the 10,000-clue runtime bank.
+The operator drawer's episode link opens `game.html?mode=episode`, which runs
+the reviewed ten-clue episode **The Extra O Is Not an Accident** from
+`questions/episodes/season-zero-001.json`:
 
 - ten clues in a deliberate three-act order, including one local-media clue;
 - reviewed explanations, institutional sources, accepted aliases, backstory,
@@ -45,7 +50,7 @@ an Accident** from `questions/episodes/season-zero-001.json`:
 - bilingual memory rematches backed by a private local learning ledger;
 - a finale artifact decoded from the clue order;
 - automatic fallback to a compact reviewed emergency episode when transport
-  fails; the historical bank is available only in local Archive Practice.
+  fails. Classic Random also falls back to reviewed emergency content.
 
 The content format and editorial workflow are documented in
 [`docs/CONTENT_AUTHORING.md`](docs/CONTENT_AUTHORING.md), with the broader
@@ -207,11 +212,11 @@ This repo now includes lightweight operations scripts so you can execute the bra
   PROOF_BROWSERS=chromium,webkit npm run test:episode
   ```
 
-`questions/jeopardy-questions.json` is the complete research archive. The
-browser loads the reviewed Season Zero episode. Production ships reviewed
-episode packs and a small embedded emergency broadcast, not the historical
-archive or `questions/runtime-bank.json`. The runtime bank remains a local
-research and migration fixture and should be regenerated rather than hand-edited.
+`questions/jeopardy-questions.json` is the complete research archive and is
+excluded from production. Production ships the 10,000-clue runtime bank for
+default Classic Random play, reviewed episode packs for explicit episode mode,
+and a small embedded emergency broadcast. Regenerate the runtime bank rather
+than hand-editing it.
 
 Use `docs/BRANCH_DECISIONS_TEMPLATE.md` to capture future
 merge/cherry-pick/delete decisions. The latest completed pass is

@@ -11,6 +11,13 @@ conversation. It is not a transcript. Repeated requests are consolidated into
 one decision, implementation is separated from aspiration, and older audit
 claims are reconciled against the current executable.
 
+**2026-10-10 clarification:** Channel O branding and episode-centric
+organization are exploratory, not locked canon. Descriptions below record
+prior design directions rather than approval of those product decisions.
+Current production defaults to Classic Random, with explicit episode mode.
+See [the current repository/deployment audit](reviews/MOBILE_REPAIR_2026-10-10.md)
+before using this August synthesis as evidence of current runtime behavior.
+
 ## North Star
 
 JeoPARODY is a fast, funny comedy-learning show in which presentation can be

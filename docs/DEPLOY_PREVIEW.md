@@ -69,7 +69,8 @@ npm run verify:release
 
 This runs all non-browser checks, builds and audits `dist/`, exercises the
 production artifact in Chromium, audits critical accessibility states, and
-captures the 180-state responsive visual matrix. To match the full cross-engine
+checks mobile host/tail geometry and fullscreen fallback behavior in Chromium
+and WebKit, and captures the 210-state responsive visual matrix. To match the full cross-engine
 browser matrix, run:
 
 ```bash
