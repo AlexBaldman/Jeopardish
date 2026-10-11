@@ -34,6 +34,7 @@ jobs:
         run: npm run smoke:dist
         env:
           SMOKE_BROWSERS: chromium,webkit
+          DEBUG: pw:browser
       - name: Prove the complete Season Zero episode
         run: npm run proof:episode
         env:
@@ -100,3 +101,4 @@ jobs:
         env:
           BASE_URL: ${{ needs.deploy.outputs.page_url }}
           SMOKE_BROWSERS: chromium,webkit
+          DEBUG: pw:browser
