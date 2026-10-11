@@ -134,13 +134,16 @@ Matching clue fixture, host artwork, viewport, and disabled animation:
   and rendered connector endpoint within 2px of the measured mouth.
   Native browser exit and missing/rejected fullscreen are checked separately,
   including portrait, landscape, and desktop expansion and both toggle buttons.
+  Fullscreen cases use fresh browser processes and disabled motion, isolating
+  interactions from the screenshot batch's raster resources. Native and fallback
+  checks still use actual button clicks and browser exit events.
 - The new mobile gate is in `verify:release` and PR CI. Evidence is uploaded on
   failure. Production still deploys only through the existing non-PR workflow.
 
 ## Rollback and next improvements
 
-Use the focused runtime repair commits as the reversible unit. If their
-presentation causes an unforeseen regression, revert those code commits newest
+Use the focused repair and regression-test commits as the reversible unit. If their
+presentation causes an unforeseen regression, revert those commits newest
 first in a new branch/PR; retain the audit and subsequent unrelated work.
 The separate audit commit is `5989d99`. Reverting `379ba9d` wholesale would also remove
 classic random play and good controls, so it is not recommended. A deployment

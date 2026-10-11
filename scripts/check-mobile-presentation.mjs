@@ -40,7 +40,7 @@ function overlaps(a, b) {
 
 try {
   for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
-    const browser = await browserType.launch();
+    let browser = await browserType.launch();
     try {
       for (const [width, height] of viewports) {
         const page = await browser.newPage({
@@ -112,8 +112,12 @@ try {
       }
 
       // Real native API, including the browser's own exit event.
-      const native = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      // Release raster resources from the screenshot matrix before interactions.
+      await browser.close();
+      browser = await browserType.launch();
+      const native = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
       await ready(native);
+      await native.addStyleTag({ content: '*,*::before,*::after { animation:none!important; transition:none!important; }' });
       await native.click('#fullscreenToggle');
       await native.waitForFunction(() => !!document.fullscreenElement || !!document.webkitFullscreenElement);
       assert.equal(await native.locator('#fullscreenToggle').getAttribute('aria-label'), 'Exit fullscreen');
@@ -123,7 +127,11 @@ try {
 
       // Capability emulation is separate from physical iPhone verification.
       for (const [failure, width, height] of [['missing',390,844], ['rejected',390,844], ['missing',844,390], ['missing',1440,900]]) {
-        const page = await browser.newPage({ ...(width < 500 || height < 500 ? devices['iPhone 13'] : {}), viewport: { width, height } });
+        await browser.close();
+        browser = await browserType.launch();
+        const page = await browser.newPage({ ...(width < 500 || height < 500 ? devices['iPhone 13'] : {}), viewport: { width, height }, reducedMotion: 'reduce' });
+        console.log(`${engine}: checking ${failure} fullscreen at ${width}x${height}.`);
+        page.on('crash', () => console.error(`${engine}: page crashed during ${failure} fullscreen at ${width}x${height}.`));
         await page.addInitScript(failure => {
           Object.defineProperty(Element.prototype, 'requestFullscreen', {
             configurable: true,
@@ -133,6 +141,7 @@ try {
           Object.defineProperty(document, 'fullscreenEnabled', { configurable: true, value: failure !== 'missing' });
         }, failure);
         await ready(page);
+        await page.addStyleTag({ content: '*,*::before,*::after { animation:none!important; transition:none!important; }' });
         await page.click('#fullscreenToggle');
         await page.waitForFunction(() => document.getElementById('gameContainer').dataset.fullscreenMode === 'expanded');
         assert.equal(await page.locator('#fullscreenToggle').getAttribute('aria-label'), 'Exit expanded view');
