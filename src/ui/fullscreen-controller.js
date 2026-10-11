@@ -20,10 +20,15 @@
       this.onToggle = () => this.toggle();
       this.onFullscreenChange = () => {
         if (this.getNativeElement()) {
-          // Prefixed requests may return before the native change event arrives.
+          // A late WebKit native-entry event replaces expansion, but its scroll
+          // position must survive until the browser exits fullscreen.
           this.fallbackActive = false;
-          this.restoreScroll = null;
           this.announce('');
+        } else if (!this.fallbackActive && this.restoreScroll) {
+          // Browser-owned exit controls bypass exit(), so restore here as well.
+          this.window?.scrollTo?.(...this.restoreScroll);
+          this.restoreScroll = null;
+          this.announce('Returned to normal view.');
         }
         this.sync();
       };

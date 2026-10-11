@@ -176,3 +176,29 @@ test('a late prefixed native event clears expansion so browser exit returns to n
   documentRef.listeners.webkitfullscreenchange();
   assert.equal(target.dataset.fullscreenMode, 'normal');
 });
+
+test('late WebKit native entry restores the original scroll on browser-controlled exit', async () => {
+  const target = { dataset: {}, webkitRequestFullscreen() {} };
+  const documentRef = createDocument(target, [createButton()]);
+  const scrollCalls = [];
+  const controller = new fullscreenModule.FullscreenController({
+    documentRef, target,
+    windowRef: { scrollX: 12, scrollY: 230, scrollTo: (...args) => scrollCalls.push(args) },
+  });
+  controller.start();
+  await controller.toggle();
+  assert.equal(target.dataset.fullscreenMode, 'expanded');
+  assert.deepEqual(scrollCalls, [[0, 0]]);
+
+  documentRef.webkitFullscreenElement = target;
+  documentRef.listeners.webkitfullscreenchange();
+  assert.equal(target.dataset.fullscreenMode, 'native');
+  assert.deepEqual(controller.restoreScroll, [12, 230]);
+  assert.deepEqual(scrollCalls, [[0, 0]]);
+
+  documentRef.webkitFullscreenElement = null;
+  documentRef.listeners.webkitfullscreenchange();
+  assert.equal(target.dataset.fullscreenMode, 'normal');
+  assert.deepEqual(scrollCalls, [[0, 0], [12, 230]]);
+  assert.equal(controller.restoreScroll, null);
+});

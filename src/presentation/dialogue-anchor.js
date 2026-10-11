@@ -145,11 +145,20 @@
     };
     const targetDeltaX = target.x - attachment.x;
     const targetDeltaY = target.y - attachment.y;
+    const mouthDistance = Math.hypot(targetDeltaX, targetDeltaY);
+    // Aim toward the mouth but leave the host's illustrated head unobstructed.
+    // Its approximate silhouette radius scales with the avatar, plus room for
+    // the connector's outlined drop-shadow.
+    const headClearancePx = host.valid ? Math.min(mouthDistance, host.width * 0.27 + 4) : 0;
     const tailReach = clamp(
-      Math.hypot(targetDeltaX, targetDeltaY),
-      finiteNumber(config.minimumReachPx, 0),
+      Math.max(0, mouthDistance - headClearancePx),
+      0,
       finiteNumber(config.maximumReachPx, Number.MAX_SAFE_INTEGER),
     );
+    const tip = {
+      x: round(attachment.x + (mouthDistance ? targetDeltaX * tailReach / mouthDistance : 0)),
+      y: round(attachment.y + (mouthDistance ? targetDeltaY * tailReach / mouthDistance : 0)),
+    };
     // CSS rotates a downward vector toward the left for a positive angle.
     const tailAngle = -Math.atan2(targetDeltaX, targetDeltaY) * (180 / Math.PI);
 
@@ -158,13 +167,15 @@
       version: DIALOGUE_ANCHOR_VERSION,
       valid: host.valid,
       renderable: true,
-      tailVisible: host.valid && (side !== 'bottom' || targetDeltaY > 0),
+      tailVisible: host.valid && tailReach > 0 && (side !== 'bottom' || targetDeltaY > 0),
       side,
       fallback: host.valid ? '' : 'invalid-host',
       region: classifyRegion(ratio),
       dialogue,
       host,
       target,
+      tip,
+      headClearancePx: round(headClearancePx),
       attachment,
       motion: { reduced: config.reducedMotion === true, transitionMs },
       cssVariables: {

@@ -79,18 +79,39 @@ try {
               const css = getComputedStyle(bubble);
               const tail = getComputedStyle(bubble, '::after');
               const matrix = new DOMMatrix(tail.transform === 'none' ? undefined : tail.transform);
-              const target = {
-                x: card.x + parseFloat(css.getPropertyValue('--dialogue-tail-target-x')),
-                y: card.y + parseFloat(css.getPropertyValue('--dialogue-tail-target-y')),
+              const host = rect('#hostAvatar');
+              // The fixture's canonical mouth anchor is independent of the
+              // dialogue controller's CSS target variables.
+              const mouth = { x: host.x + host.width * 0.5, y: host.y + host.height * 0.245 };
+              const origin = {
+                x: card.x + parseFloat(css.borderLeftWidth) + parseFloat(tail.left) + parseFloat(tail.width) / 2 + matrix.e,
+                y: card.y + parseFloat(css.borderTopWidth) + parseFloat(tail.top) + matrix.f,
+              };
+              const mouthDistance = Math.hypot(mouth.x - origin.x, mouth.y - origin.y);
+              const clearance = Math.min(mouthDistance, host.width * 0.27 + 4);
+              const expectedReach = Math.max(0, mouthDistance - clearance);
+              const expectedTip = {
+                x: origin.x + (mouthDistance ? (mouth.x - origin.x) * expectedReach / mouthDistance : 0),
+                y: origin.y + (mouthDistance ? (mouth.y - origin.y) * expectedReach / mouthDistance : 0),
               };
               const reach = parseFloat(css.getPropertyValue('--dialogue-tail-reach'));
               const tip = {
-                x: card.x + parseFloat(css.borderLeftWidth) + parseFloat(tail.left) + parseFloat(tail.width) / 2 + matrix.e + matrix.c * reach,
-                y: card.y + parseFloat(css.borderTopWidth) + parseFloat(tail.top) + matrix.f + matrix.d * reach,
+                x: origin.x + matrix.c * reach,
+                y: origin.y + matrix.d * reach,
               };
-              return { host: rect('#hostAvatar'), card: rect('#speechBubble'), clue: rect('#clueText'), study: rect('#deepDiveButton'), footer: rect('.control-footer'), cabinet: rect('#gameContainer'), target, tip, tailDisplay: tail.display, tailVisible: bubble.dataset.dialogueTailVisible, overflow: css.overflow };
+              const image = document.getElementById('hostImage');
+              const rendered = element => {
+                for (let node = element; node; node = node.parentElement) {
+                  const style = getComputedStyle(node);
+                  if (style.display === 'none' || style.visibility !== 'visible' || Number(style.opacity) <= 0.01) return false;
+                }
+                return true;
+              };
+              const hostVisible = rendered(image) && image.complete && image.naturalWidth > 0;
+              return { host, card: rect('#speechBubble'), clue: rect('#clueText'), study: rect('#deepDiveButton'), footer: rect('.control-footer'), cabinet: rect('#gameContainer'), mouth, expectedTip, tip, hostVisible, tailDisplay: tail.display, tailVisible: bubble.dataset.dialogueTailVisible, overflow: css.overflow };
             });
             assert.ok(geometry.host.width >= (height <= 620 && width < 421 ? 87 : 111), `${id}: host too small`);
+            assert.ok(geometry.hostVisible, `${id}: host is not visibly rendered`);
             assert.ok(!overlaps(geometry.host, geometry.clue), `${id}: host covers clue`);
             assert.ok(!overlaps(geometry.host, geometry.footer), `${id}: host covers controls`);
             assert.ok(!overlaps(geometry.study, geometry.clue), `${id}: Ask Host covers clue`);
@@ -102,7 +123,7 @@ try {
               assert.equal(geometry.tailDisplay, 'block', `${id}: missing tail`);
               assert.equal(geometry.tailVisible, 'true', `${id}: hidden tail`);
               assert.equal(geometry.overflow, 'visible', `${id}: card clips the tail`);
-              assert.ok(Math.hypot(geometry.tip.x - geometry.target.x, geometry.tip.y - geometry.target.y) < 2, `${id}: tail misses host mouth ${JSON.stringify(geometry)}`);
+              assert.ok(Math.hypot(geometry.tip.x - geometry.expectedTip.x, geometry.tip.y - geometry.expectedTip.y) < 2, `${id}: tail misses head clearance ${JSON.stringify(geometry)}`);
             }
             assert.deepEqual(errors, [], `${id}: browser errors`);
             report.push({ id, geometry });
