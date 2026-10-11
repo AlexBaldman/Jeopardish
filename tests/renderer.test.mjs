@@ -800,7 +800,7 @@ test('Renderer realizes a CSS animation selection and preserves semantic-motion 
   assert.equal(renderer.dom.hostStage.dataset.motion, 'recover');
 });
 
-test('Renderer tracks the dialogue tail to the active host mouth anchor', () => {
+test('Renderer aims at the host mouth but keeps the tail clear of the head', () => {
   const { renderer } = createRenderer();
   renderer.dom.speechBubble.rect = { left: 100, top: 50, width: 600, height: 300 };
   renderer.dom.hostAvatar.rect = { left: 130, top: 380, width: 200, height: 400 };
@@ -823,7 +823,7 @@ test('Renderer tracks the dialogue tail to the active host mouth anchor', () => 
   assert.equal(renderer.dom.speechBubble.dataset.dialogueAnchorZone, 'left');
   assert.equal(renderer.dom.speechBubble.dataset.dialogueAnchorState, 'tracked');
   assert.equal(renderer.dom.speechBubble.style.getPropertyValue('--dialogue-tail-x'), '21.667%');
-  assert.equal(renderer.dom.speechBubble.style.getPropertyValue('--dialogue-tail-reach'), '128px');
+  assert.equal(renderer.dom.speechBubble.style.getPropertyValue('--dialogue-tail-reach'), '70px');
 
   renderer.renderDialogueStyle({ id: 'narration', label: 'Narrator Box' }, 3, 4);
   assert.equal(renderer.dom.speechBubble.dataset.dialogueSource, 'narrator');
@@ -851,7 +851,8 @@ test('Renderer uses border metrics from the committed layout after a dialogue sk
     const reach = parseFloat(bubble.style.getPropertyValue('--dialogue-tail-reach'));
     const tipX = bubble.rect.left + nextBorder + parseFloat(bubble.style.getPropertyValue('--dialogue-tail-origin-x')) - Math.sin(angle) * reach;
     const tipY = bubble.rect.top + nextBorder + parseFloat(bubble.style.getPropertyValue('--dialogue-tail-origin-y')) + Math.cos(angle) * reach;
-    assert.ok(Math.hypot(tipX - result.target.x, tipY - result.target.y) < 0.01);
+    assert.ok(Math.hypot(tipX - result.tip.x, tipY - result.tip.y) < 0.01);
+    assert.ok(Math.hypot(tipX - result.target.x, tipY - result.target.y) >= result.headClearancePx - 0.01);
   }
 });
 
