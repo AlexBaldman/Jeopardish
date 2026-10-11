@@ -70,9 +70,12 @@
         padding: 0;
     }
 
-    .game-container[data-immersive="true"],
+    body[data-immersive="true"] .game-container[data-immersive="true"],
     .game-container:fullscreen {
         --jp-header-height: calc(62px + env(safe-area-inset-top));
+        position: fixed;
+        inset: 0;
+        z-index: 999;
         width: 100vw;
         max-width: none;
         height: 100dvh;
@@ -86,6 +89,25 @@
     .play-section .game-container {
         height: min(820px, calc(100svh - 6.5rem));
         min-height: 610px;
+    }
+
+    .game-container .fullscreen-status {
+        display: none;
+        position: absolute;
+        right: 0.8rem;
+        bottom: 0.6rem;
+        z-index: 60;
+        max-width: min(58%, 24rem);
+        margin: 0;
+        padding: 0.6rem;
+        border-radius: 8px;
+        color: #fff8df;
+        background: #0a1022;
+        font: 600 0.8rem/1.35 var(--utility-font);
+    }
+
+    .game-container[data-fullscreen-mode="expanded"] .fullscreen-status:not(:empty) {
+        display: block;
     }
 
     .game-container .main-content {
@@ -158,10 +180,12 @@
 
         .game-container .main-content {
             height: 100%;
+            grid-template-rows: minmax(0, 1fr);
             align-content: start;
-            padding-top: 6.15rem;
+            padding-top: 2.2rem;
             padding-right: clamp(0.35rem, 1.8vw, 0.55rem);
             padding-left: clamp(0.35rem, 1.8vw, 0.55rem);
+            padding-bottom: calc(clamp(112px, 34cqw, 148px) * 1.25 + 0.5rem);
         }
     }
 
@@ -187,12 +211,23 @@
         .game-container .main-content {
             padding: 0.35rem 0.65rem 0.2rem;
         }
+
+        .game-container .fullscreen-status {
+            max-width: min(32%, 18rem);
+            font-size: 0.7rem;
+        }
     }
 
     @media (max-height: 620px) {
         @container cabinet (max-width: 420px) {
             .game-container .main-content {
-                padding-top: 0.35rem;
+                padding-top: 2rem;
+                padding-bottom: 118px;
+            }
+
+            .game-container .main-content:has(.outcome-feedback:not([hidden])),
+            .game-container .main-content:has(.clue-original:not([hidden])) {
+                padding-bottom: 0.5rem;
             }
         }
     }

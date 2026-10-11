@@ -1036,11 +1036,18 @@
       if (!this.dom.speechBubble?.getBoundingClientRect || !this.dom.hostAvatar?.getBoundingClientRect) {
         return null;
       }
+      // Resolve container layout before reading styles; WebKit can otherwise
+      // return the previous skin's border width after a style change.
+      const dialogueRect = this.dom.speechBubble.getBoundingClientRect();
+      const hostRect = this.dom.hostAvatar.getBoundingClientRect();
+      const bubbleStyle = this.window?.getComputedStyle?.(this.dom.speechBubble);
       const result = dialogueAnchorModule.computeDialogueAnchor(
-        this.dom.speechBubble.getBoundingClientRect(),
-        this.dom.hostAvatar.getBoundingClientRect(),
+        dialogueRect,
+        hostRect,
         {
           hostAnchor: this.hostDialogueAnchor,
+          borderLeftPx: parseFloat(bubbleStyle?.borderLeftWidth) || 0,
+          borderTopPx: parseFloat(bubbleStyle?.borderTopWidth) || 0,
           reducedMotion: Boolean(this.window?.matchMedia?.('(prefers-reduced-motion: reduce)').matches),
         },
       );
@@ -1050,6 +1057,7 @@
       });
       this.dom.speechBubble.dataset.dialogueAnchorZone = result.region;
       this.dom.speechBubble.dataset.dialogueAnchorState = result.valid ? 'tracked' : 'fallback';
+      this.dom.speechBubble.dataset.dialogueTailVisible = String(result.tailVisible === true);
       return result;
     }
 

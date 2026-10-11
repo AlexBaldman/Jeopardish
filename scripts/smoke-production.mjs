@@ -134,8 +134,15 @@ async function auditRoute(browser, browserName, route) {
       );
       await page.locator('#hamburgerMenu').click();
       await page.waitForFunction(() => document.getElementById('navMenu')?.getAttribute('aria-hidden') === 'false');
+      // Wait for the settings drawer to finish moving before WebKit tries to
+      // scroll and hit-test a control inside it. Keep a real pointer click here.
+      await page.locator('#navMenu').evaluate(async (menu) => {
+        await Promise.all(menu.getAnimations().map((animation) => animation.finished.catch(() => {})));
+      });
+      const controlSkinNext = page.locator('#menuControlSkinNext');
+      await controlSkinNext.scrollIntoViewIfNeeded();
       const originalControlSkin = await page.locator('#gameContainer').getAttribute('data-control-skin');
-      await page.locator('#menuControlSkinNext').click();
+      await controlSkinNext.click();
       await page.waitForFunction(
         (skin) => document.getElementById('gameContainer')?.dataset.controlSkin !== skin,
         originalControlSkin,
@@ -272,20 +279,25 @@ async function auditClassicAndEpisodeModes(browser, browserName) {
 
 await startServer();
 const failures = [];
+async function isolatedBrowserAudit(browserType, audit) {
+  const browser = await browserType.launch({ headless: true });
+  try {
+    return await audit(browser);
+  } finally {
+    await browser.close();
+  }
+}
 try {
   for (const browserName of browserNames) {
     const browserType = browsers[browserName];
     if (!browserType) throw new Error(`Unsupported smoke browser: ${browserName}`);
-    const browser = await browserType.launch({ headless: true });
-    try {
-      for (const route of routes) {
-        failures.push(...await auditRoute(browser, browserName, route));
-      }
-      failures.push(...await auditEmergencyBroadcast(browser, browserName));
-      failures.push(...await auditClassicAndEpisodeModes(browser, browserName));
-    } finally {
-      await browser.close();
+    // Each route is an independent cold-start audit; release its raster/cache
+    // resources before the next flow. The six-clue session remains continuous.
+    for (const route of routes) {
+      failures.push(...await isolatedBrowserAudit(browserType, browser => auditRoute(browser, browserName, route)));
     }
+    failures.push(...await isolatedBrowserAudit(browserType, browser => auditEmergencyBroadcast(browser, browserName)));
+    failures.push(...await isolatedBrowserAudit(browserType, browser => auditClassicAndEpisodeModes(browser, browserName)));
   }
 } finally {
   if (server) await new Promise((resolve) => server.close(resolve));

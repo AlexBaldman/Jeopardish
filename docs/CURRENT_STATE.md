@@ -1,5 +1,12 @@
 # JeoPARODY Current State
 
+**October 10 correction:** this August snapshot is historical. GitHub `master`
+and the latest successful Pages deployment are at `379ba9d` (August 15).
+The runtime systems described below as uncommitted are now committed. Classic
+Random is the default public mode; authored episodes are explicit choices.
+Channel O and episode-centric organization remain exploratory. See the
+[current audit and repair evidence](reviews/MOBILE_REPAIR_2026-10-10.md).
+
 **Snapshot date:** 2026-08-08  
 **Current proving-ground branch:** `master`  
 **Long-term destination:** `AlexBaldman/jeoPARODY` after parity gates  

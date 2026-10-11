@@ -28,10 +28,13 @@ jobs:
         run: npm run verify
       - name: Install smoke-test browsers
         run: npx --no-install playwright install --with-deps chromium webkit
+      - name: Verify mobile host anchoring and fullscreen fallbacks
+        run: npm run test:mobile
       - name: Smoke-test the exact dist artifact
         run: npm run smoke:dist
         env:
           SMOKE_BROWSERS: chromium,webkit
+          DEBUG: pw:browser
       - name: Prove the complete Season Zero episode
         run: npm run proof:episode
         env:
@@ -40,14 +43,16 @@ jobs:
         run: npm run audit:a11y
         env:
           A11Y_BROWSERS: chromium,webkit
-      - name: Verify 180 gameplay visual states
+      - name: Verify 210 gameplay visual states
         run: npm run test:visual
       - name: Upload visual evidence on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: visual-state-failures
-          path: screenshots/visual-fixtures
+          path: |
+            screenshots/visual-fixtures
+            screenshots/mobile-presentation
           retention-days: 5
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'
@@ -96,3 +101,4 @@ jobs:
         env:
           BASE_URL: ${{ needs.deploy.outputs.page_url }}
           SMOKE_BROWSERS: chromium,webkit
+          DEBUG: pw:browser
