@@ -134,8 +134,15 @@ async function auditRoute(browser, browserName, route) {
       );
       await page.locator('#hamburgerMenu').click();
       await page.waitForFunction(() => document.getElementById('navMenu')?.getAttribute('aria-hidden') === 'false');
+      // Wait for the settings drawer to finish moving before WebKit tries to
+      // scroll and hit-test a control inside it. Keep a real pointer click here.
+      await page.locator('#navMenu').evaluate(async (menu) => {
+        await Promise.all(menu.getAnimations().map((animation) => animation.finished.catch(() => {})));
+      });
+      const controlSkinNext = page.locator('#menuControlSkinNext');
+      await controlSkinNext.scrollIntoViewIfNeeded();
       const originalControlSkin = await page.locator('#gameContainer').getAttribute('data-control-skin');
-      await page.locator('#menuControlSkinNext').click();
+      await controlSkinNext.click();
       await page.waitForFunction(
         (skin) => document.getElementById('gameContainer')?.dataset.controlSkin !== skin,
         originalControlSkin,
