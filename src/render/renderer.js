@@ -1036,10 +1036,14 @@
       if (!this.dom.speechBubble?.getBoundingClientRect || !this.dom.hostAvatar?.getBoundingClientRect) {
         return null;
       }
+      // Resolve container layout before reading styles; WebKit can otherwise
+      // return the previous skin's border width after a style change.
+      const dialogueRect = this.dom.speechBubble.getBoundingClientRect();
+      const hostRect = this.dom.hostAvatar.getBoundingClientRect();
       const bubbleStyle = this.window?.getComputedStyle?.(this.dom.speechBubble);
       const result = dialogueAnchorModule.computeDialogueAnchor(
-        this.dom.speechBubble.getBoundingClientRect(),
-        this.dom.hostAvatar.getBoundingClientRect(),
+        dialogueRect,
+        hostRect,
         {
           hostAnchor: this.hostDialogueAnchor,
           borderLeftPx: parseFloat(bubbleStyle?.borderLeftWidth) || 0,

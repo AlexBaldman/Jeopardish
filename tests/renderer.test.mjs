@@ -829,6 +829,32 @@ test('Renderer tracks the dialogue tail to the active host mouth anchor', () => 
   assert.equal(renderer.dom.speechBubble.dataset.dialogueSource, 'narrator');
 });
 
+test('Renderer uses border metrics from the committed layout after a dialogue skin change', () => {
+  const { renderer } = createRenderer();
+  const bubble = renderer.dom.speechBubble;
+  bubble.rect = { left: 100, top: 50, width: 600, height: 300 };
+  renderer.dom.hostAvatar.rect = { left: 130, top: 380, width: 200, height: 400 };
+  let committedBorder = 4;
+  let nextBorder = 6;
+  const measure = bubble.getBoundingClientRect.bind(bubble);
+  bubble.getBoundingClientRect = () => {
+    committedBorder = nextBorder;
+    return measure();
+  };
+  // WebKit can return the previous container style until layout is resolved.
+  renderer.window = {
+    getComputedStyle: () => ({ borderLeftWidth: `${committedBorder}px`, borderTopWidth: `${committedBorder}px` }),
+  };
+  for (nextBorder of [6, 3, 4]) {
+    const result = renderer.syncDialogueAnchor();
+    const angle = parseFloat(bubble.style.getPropertyValue('--dialogue-tail-angle')) * Math.PI / 180;
+    const reach = parseFloat(bubble.style.getPropertyValue('--dialogue-tail-reach'));
+    const tipX = bubble.rect.left + nextBorder + parseFloat(bubble.style.getPropertyValue('--dialogue-tail-origin-x')) - Math.sin(angle) * reach;
+    const tipY = bubble.rect.top + nextBorder + parseFloat(bubble.style.getPropertyValue('--dialogue-tail-origin-y')) + Math.cos(angle) * reach;
+    assert.ok(Math.hypot(tipX - result.target.x, tipY - result.target.y) < 0.01);
+  }
+});
+
 test('Renderer applies dialogue skins and animates changed score tiles', () => {
   const { renderer } = createRenderer();
 
