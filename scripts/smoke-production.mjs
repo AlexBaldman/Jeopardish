@@ -272,20 +272,25 @@ async function auditClassicAndEpisodeModes(browser, browserName) {
 
 await startServer();
 const failures = [];
+async function isolatedBrowserAudit(browserType, audit) {
+  const browser = await browserType.launch({ headless: true });
+  try {
+    return await audit(browser);
+  } finally {
+    await browser.close();
+  }
+}
 try {
   for (const browserName of browserNames) {
     const browserType = browsers[browserName];
     if (!browserType) throw new Error(`Unsupported smoke browser: ${browserName}`);
-    const browser = await browserType.launch({ headless: true });
-    try {
-      for (const route of routes) {
-        failures.push(...await auditRoute(browser, browserName, route));
-      }
-      failures.push(...await auditEmergencyBroadcast(browser, browserName));
-      failures.push(...await auditClassicAndEpisodeModes(browser, browserName));
-    } finally {
-      await browser.close();
+    // Each route is an independent cold-start audit; release its raster/cache
+    // resources before the next flow. The six-clue session remains continuous.
+    for (const route of routes) {
+      failures.push(...await isolatedBrowserAudit(browserType, browser => auditRoute(browser, browserName, route)));
     }
+    failures.push(...await isolatedBrowserAudit(browserType, browser => auditEmergencyBroadcast(browser, browserName)));
+    failures.push(...await isolatedBrowserAudit(browserType, browser => auditClassicAndEpisodeModes(browser, browserName)));
   }
 } finally {
   if (server) await new Promise((resolve) => server.close(resolve));

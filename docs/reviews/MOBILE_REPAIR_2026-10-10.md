@@ -121,6 +121,9 @@ Matching clue fixture, host artwork, viewport, and disabled animation:
   assets, 12 host looks, questions, production build and artifact audit pass.
 - Production smoke: Chromium + WebKit, both built routes, emergency transport
   fallback, six non-repeating classic clues, and explicit episode mode pass.
+  Independent route/flow audits now use separate browser processes. Normal
+  motion and the continuous six-clue session remain covered; no checks or
+  browsers were skipped and no forced clicks were introduced.
 - Live baseline smoke: same checks pass in both engines. The historical WebKit
   canary failure did not recur; its original cause remains unproven. No blind
   retry or suppression was added to the gate.
