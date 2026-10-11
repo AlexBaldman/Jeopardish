@@ -59,14 +59,26 @@ try {
               window.dispatchEvent(new Event('resize'));
             }, { theme, dialogue });
             await page.evaluate(() => document.fonts.ready);
-            await page.waitForTimeout(150);
+            const settling = await page.evaluate(() => new Promise((resolve, reject) => {
+              const bubble = document.getElementById('speechBubble');
+              const before = bubble.style.getPropertyValue('--dialogue-tail-origin-x');
+              const started = performance.now();
+              const timeout = setTimeout(() => reject(new Error('Browser did not complete the layout frames')), 10000);
+              requestAnimationFrame(() => requestAnimationFrame(() => {
+                clearTimeout(timeout);
+                resolve({ before, after: bubble.style.getPropertyValue('--dialogue-tail-origin-x'), elapsedMs: performance.now() - started });
+              }));
+            }));
+            if (settling.before !== settling.after) console.log(`${engine}-${width}x${height}-${dialogue}: tail synchronized after ${Math.round(settling.elapsedMs)}ms (${settling.before} → ${settling.after}).`);
+            const id = `${engine}-${width}x${height}-${theme}-${dialogue}`;
+            await page.screenshot({ path: path.join(outputDir, `${id}.png`) });
             const geometry = await page.evaluate(() => {
               const rect = selector => document.querySelector(selector).getBoundingClientRect().toJSON();
               const bubble = document.getElementById('speechBubble');
+              const card = bubble.getBoundingClientRect();
               const css = getComputedStyle(bubble);
               const tail = getComputedStyle(bubble, '::after');
               const matrix = new DOMMatrix(tail.transform === 'none' ? undefined : tail.transform);
-              const card = bubble.getBoundingClientRect();
               const target = {
                 x: card.x + parseFloat(css.getPropertyValue('--dialogue-tail-target-x')),
                 y: card.y + parseFloat(css.getPropertyValue('--dialogue-tail-target-y')),
@@ -78,7 +90,6 @@ try {
               };
               return { host: rect('#hostAvatar'), card: rect('#speechBubble'), clue: rect('#clueText'), study: rect('#deepDiveButton'), footer: rect('.control-footer'), cabinet: rect('#gameContainer'), target, tip, tailDisplay: tail.display, tailVisible: bubble.dataset.dialogueTailVisible, overflow: css.overflow };
             });
-            const id = `${engine}-${width}x${height}-${theme}-${dialogue}`;
             assert.ok(geometry.host.width >= (height <= 620 && width < 421 ? 87 : 111), `${id}: host too small`);
             assert.ok(!overlaps(geometry.host, geometry.clue), `${id}: host covers clue`);
             assert.ok(!overlaps(geometry.host, geometry.footer), `${id}: host covers controls`);
@@ -94,7 +105,6 @@ try {
               assert.ok(Math.hypot(geometry.tip.x - geometry.target.x, geometry.tip.y - geometry.target.y) < 2, `${id}: tail misses host mouth ${JSON.stringify(geometry)}`);
             }
             assert.deepEqual(errors, [], `${id}: browser errors`);
-            await page.screenshot({ path: path.join(outputDir, `${id}.png`) });
             report.push({ id, geometry });
           }
         }

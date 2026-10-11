@@ -69,10 +69,11 @@ with a jagged fixed polygon. A far-away mouth or a host beside the card could
 not be reached accurately. The repair uses the measured card and avatar, border
 offsets, an exact distance/rotation, and an appropriate bottom or side attachment.
 Narration has no host tail; hidden hosts leave no dangling tail.
-The first Linux CI run also caught WebKit reading a previous skin's border width
-before container layout settled. Anchor measurement now resolves layout before
-reading border styles. A regression case fails before this correction and passes
-after it; the browser endpoint limit remains 2px.
+Linux CI also caught a 2.8px miss after a bubble-skin change. Anchor measurement
+now resolves layout before reading border styles; a regression case fails before
+that correction and passes after it. Browser checks wait for completed animation
+frames and a painted screenshot before measuring the endpoint, with synchronization
+timing recorded. The endpoint limit remains 2px.
 
 Portrait layout reserves space for a 112–148px host; 320×568 uses 88px. Landscape
 places the host beside the card, above the controls. On short phones, detailed

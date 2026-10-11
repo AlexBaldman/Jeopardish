@@ -28,6 +28,8 @@ jobs:
         run: npm run verify
       - name: Install smoke-test browsers
         run: npx --no-install playwright install --with-deps chromium webkit
+      - name: Verify mobile host anchoring and fullscreen fallbacks
+        run: npm run test:mobile
       - name: Smoke-test the exact dist artifact
         run: npm run smoke:dist
         env:
@@ -40,8 +42,6 @@ jobs:
         run: npm run audit:a11y
         env:
           A11Y_BROWSERS: chromium,webkit
-      - name: Verify mobile host anchoring and fullscreen fallbacks
-        run: npm run test:mobile
       - name: Verify 210 gameplay visual states
         run: npm run test:visual
       - name: Upload visual evidence on failure
