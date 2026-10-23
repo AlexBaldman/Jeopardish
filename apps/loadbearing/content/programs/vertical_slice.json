@@ -1,0 +1,16 @@
+{
+  "id": "vertical_slice_bench_01",
+  "name": "Bench Calibration",
+  "exercise_id": "bench_press",
+  "rep_range": [
+    4,
+    6
+  ],
+  "default_sets": 3,
+  "default_target_rir": [
+    1,
+    2
+  ],
+  "load_increment": 5,
+  "unit": "lb"
+}

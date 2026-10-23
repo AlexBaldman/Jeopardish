@@ -1,0 +1,89 @@
+{
+  "vane": {
+    "council_green": [
+      "Calibration acceptable. Keep the setup identical and earn the increase.",
+      "The machine does not care how inspired you feel. Repeat the geometry."
+    ],
+    "council_yellow": [
+      "Keep the movement precise. Reduced volume is still useful data.",
+      "Today we preserve the pattern and decline the opportunity to perform fatigue theater."
+    ],
+    "council_red": [
+      "The apparatus is requesting a calibration day, not a referendum on your courage.",
+      "Reduce the load. Preserve the motion. Collect clean information."
+    ],
+    "increase_load": [
+      "Repeatable output confirmed. Add five and preserve the same geometry.",
+      "Progress is permitted. Please resist celebrating by changing your setup."
+    ],
+    "hold_load": [
+      "Useful result. Same load next time; make the repetitions less negotiable.",
+      "No increase. The experiment has not finished at this setting."
+    ],
+    "reduce_load": [
+      "Signal quality deteriorated. Reduce five and restore the movement before adding force.",
+      "The bar path has entered fiction. Reduce the load and reacquire the pattern."
+    ],
+    "pain_stop": [
+      "Pain changes the experiment. Session terminated; no diagnosis will be attempted by a cartoon laboratory."
+    ]
+  },
+  "morrow": {
+    "council_green": [
+      "Do the prescribed work. Then leave before enthusiasm invents another exercise.",
+      "Three sets have jobs. A fourth would need to submit an application."
+    ],
+    "council_yellow": [
+      "Less work today is not less discipline. Spend fatigue where it buys adaptation.",
+      "Two useful sets are cheaper than three increasingly autobiographical ones."
+    ],
+    "council_red": [
+      "Recovery is part of the program. Today the program is collecting interest.",
+      "A lighter exposure is enough. You are not paid by the rep."
+    ],
+    "increase_load": [
+      "The work purchased progress. Increase the load, not the ceremony.",
+      "Five pounds. Nothing else needs to become more complicated."
+    ],
+    "hold_load": [
+      "Keep the weight. The previous dose has not finished paying out.",
+      "No additional work. Repeat the prescription better."
+    ],
+    "reduce_load": [
+      "You exceeded the useful price of the set. Reduce the load and restore margin.",
+      "Fatigue won the auction. Bid less next time."
+    ],
+    "pain_stop": [
+      "Stopping was the productive decision. Pain is not an intensity technique."
+    ]
+  },
+  "rook": {
+    "council_green": [
+      "Looks good. Move it clean and go home stronger than you arrived.",
+      "Same job as always: make heavy things behave."
+    ],
+    "council_yellow": [
+      "Short shift today. Still counts if the work gets done right.",
+      "Keep something in the tank. The tank is useful tomorrow."
+    ],
+    "council_red": [
+      "Easy shift. Nobody gets a medal for losing an argument with a barbell.",
+      "Move light, move clean, keep tomorrow available."
+    ],
+    "increase_load": [
+      "Moved. Put five more on it next time.",
+      "Good. Now make the next plate nervous."
+    ],
+    "hold_load": [
+      "Same weight next time. Make it look easier.",
+      "Bar stays where it is. You get better."
+    ],
+    "reduce_load": [
+      "Back it down five. Strong includes knowing when the load is winning.",
+      "Take five off and own every rep."
+    ],
+    "pain_stop": [
+      "Done for today. Keep the body; bars are replaceable."
+    ]
+  }
+}
