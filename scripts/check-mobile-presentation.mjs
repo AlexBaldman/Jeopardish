@@ -50,6 +50,14 @@ try {
         const errors = [];
         page.on('pageerror', error => errors.push(error.message));
         await ready(page);
+        if (width < 500 || height < 500) {
+          const input = await page.locator('#inputbox').evaluate(element => ({
+            fontSize: parseFloat(getComputedStyle(element).fontSize),
+            focused: document.activeElement === element,
+          }));
+          assert.ok(input.fontSize >= 16, `${engine}-${width}x${height}: answer text is smaller than 16px`);
+          assert.equal(input.focused, false, `${engine}-${width}x${height}: new clue opened the touch keyboard`);
+        }
         await page.addScriptTag({ path: path.join(root, 'src/dev/visual-fixture-state.js') });
         await page.addStyleTag({ content: '*,*::before,*::after { animation:none!important; transition:none!important; }' });
         for (const theme of ['dark', 'light']) {
