@@ -25,6 +25,18 @@ workflow remains enabled. CI results and release SHA belong to the associated
 PR/run; no local pass is claimed because the computer connection became
 unavailable during this session.
 
+The PR's first substantive check passed all 289 unit tests, build and the
+112-state Chromium/WebKit mobile gate including the new font/focus assertions.
+The Linux normal-motion smoke then closed during Ask Host; that follows the
+pre-existing live timeout in the same flow. Keep the browser assertions and
+normal motion intact, and run validation/canary on macOS rather than the Linux
+GTK/EGL backend that reports graphics-driver initialization failures.
+
+This is a runner change, not a proven diagnosis of the original timeout.
+[Playwright recommends macOS WebKit for the closest Safari behavior](https://playwright.dev/docs/browsers#webkit).
+Deployment itself still uses the existing Ubuntu Pages job. The complete
+production, episode, accessibility and visual gates remain blocking.
+
 The October 11 run already passed validation and deployed #67. Its WebKit
 post-deploy Ask Host timeout reproduced on October 31 when only failed jobs
 were rerun. That is an unresolved canary defect, not proof that deployment
