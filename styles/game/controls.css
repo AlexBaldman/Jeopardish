@@ -646,7 +646,7 @@
         .game-container .voice-button { grid-area: voice; }
         .game-container .lock-button { grid-area: lock; }
         .game-container :is(.answer-input, .cabinet-button, .voice-button) { min-height: 52px; }
-        .game-container .answer-input { padding-top: 1.2rem; font-size: clamp(0.52rem, 2.6cqw, 0.7rem); }
+        .game-container .answer-input { padding-top: 1.2rem; font-size: max(16px, 1rem); }
         .game-container .answer-field-label { top: 0.37rem; font-size: 0.27rem; }
         .game-container .voice-state { display: none; }
         .game-container .voice-icon { transform: scale(0.82); }

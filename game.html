@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="styles/game/host.css?v=architecture-8" type="text/css">
     <link rel="stylesheet" href="styles/game/dialogue.css?v=architecture-10" type="text/css">
     <link rel="stylesheet" href="styles/game/media.css?v=architecture-5" type="text/css">
-    <link rel="stylesheet" href="styles/game/controls.css?v=architecture-7" type="text/css">
+    <link rel="stylesheet" href="styles/game/controls.css?v=architecture-8" type="text/css">
     <link rel="stylesheet" href="styles/game/study.css?v=architecture-6" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bree+Serif&family=Press+Start+2P&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/brand/channel-o-mark.svg">
@@ -40,7 +40,7 @@
     <script defer src="src/render/scoreboard-view.js?v=scoreboard-view-2"></script>
     <script defer src="src/render/finale-view.js?v=finale-view-1"></script>
     <script defer src="src/presentation/dialogue-anchor.js?v=dialogue-anchor-1"></script>
-    <script defer src="src/render/renderer.js?v=dialogue-6"></script>
+    <script defer src="src/render/renderer.js?v=dialogue-7"></script>
     <script defer src="src/render/console-narrator.js?v=optimal-prime-1"></script>
     <script defer src="src/host/host-pack.js?v=host-performance-1"></script>
     <script defer src="src/host/host-avatar.js?v=avatar-pack-1"></script>
@@ -260,7 +260,7 @@
                 <div class="input-div">
                     <label class="answer-field" for="inputbox">
                         <span class="answer-field-label" id="answerFieldLabel">Your response</span>
-                        <input class="answer-input" type="text" id="inputbox" placeholder="Enter answer" aria-label="Answer input">
+                        <input class="answer-input" type="text" id="inputbox" enterkeyhint="done" autocapitalize="none" spellcheck="false" placeholder="Enter answer" aria-label="Answer input">
                     </label>
                     <button id="voiceButton" class="voice-button" type="button" aria-label="Enable voice mode" aria-pressed="false" aria-describedby="voiceHelp">
                         <span class="voice-icon" aria-hidden="true"></span>

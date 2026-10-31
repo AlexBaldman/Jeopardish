@@ -920,6 +920,8 @@
     }
 
     focusUserAnswer() {
+      // A new clue must not summon the software keyboard on touch devices.
+      if (this.window.matchMedia?.('(hover: none), (pointer: coarse)').matches) return;
       try {
         this.dom.userInput.focus({ preventScroll: true });
       } catch (error) {
