@@ -15,7 +15,9 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    # Exercise WebKit on its native macOS platform; Linux GTK/EGL hung or closed
+    # at Ask Host in repeated runs. Keep both browsers and all assertions.
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -83,7 +85,7 @@ jobs:
   canary:
     if: github.event_name != 'pull_request'
     needs: deploy
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
