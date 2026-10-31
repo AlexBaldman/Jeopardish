@@ -84,7 +84,7 @@
             repeating-linear-gradient(0deg, rgba(126, 255, 163, 0.025) 0 2px, transparent 2px 5px),
             linear-gradient(180deg, #101917, #060907);
         box-shadow: 0 4px 0 #05060b, inset 0 0 0 2px rgba(126, 255, 163, 0.14), inset 0 0 22px rgba(126, 255, 163, 0.08);
-        font: 700 clamp(0.66rem, 1.25cqw, 0.88rem)/1.3 var(--pixel-font);
+        font: 700 max(16px, 1rem)/1.3 var(--pixel-font);
         letter-spacing: 0.025em;
         text-align: left;
         caret-color: #8cffaa;
