@@ -46,7 +46,19 @@ jobs:
         env:
           A11Y_BROWSERS: chromium,webkit
       - name: Verify 210 gameplay visual states
+        id: visual_matrix
         run: npm run test:visual
+      - name: Verify cabinet visual Run Contract
+        if: success() || steps.visual_matrix.outcome == 'failure'
+        run: node scripts/verify-visual-contract.mjs contracts/visual-cabinet.v1.json
+      - name: Upload visual Run Contract evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-run-contract
+          path: screenshots/visual-fixtures/run-contract-evidence.json
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Upload visual evidence on failure
         if: failure()
         uses: actions/upload-artifact@v4
