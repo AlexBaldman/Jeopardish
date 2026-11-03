@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "jeopardish.visual-cabinet",
+  "authority": "verify-only",
+  "goal": "Preserve the proven Jeopardish game cabinet across 210 visual states, themes, and viewports",
+  "expectedCaseCount": 210,
+  "states": ["clue", "reveal", "correct", "incorrect", "outcome", "translated", "media", "media-modal", "complete", "menu", "scoreboard", "study", "reinforcement", "voice-listening", "voice-speaking"],
+  "themes": ["dark", "light"],
+  "viewports": [
+    { "id": "phone-320", "width": 320, "height": 568 },
+    { "id": "phone-390", "width": 390, "height": 844 },
+    { "id": "phone-landscape", "width": 844, "height": 390 },
+    { "id": "tablet", "width": 768, "height": 1024 },
+    { "id": "landscape", "width": 1024, "height": 768 },
+    { "id": "desktop", "width": 1440, "height": 900 },
+    { "id": "tall-cabinet", "width": 807, "height": 1189 }
+  ],
+  "recovery": { "automaticRetries": 0, "onFailure": "Inspect exact state screenshot and geometry finding, repair the owner, rerun original visual tests" }
+}
